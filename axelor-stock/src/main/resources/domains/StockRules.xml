@@ -9,7 +9,7 @@
   
   	<string name="name" title="Name"/>
 	
-	<many-to-one name="location" ref="com.axelor.apps.stock.db.Location" title="Stock Location" required="true"/>
+	<many-to-many name="locationSet" ref="com.axelor.apps.stock.db.Location" title="Stock locations" required="true"/>
   	<many-to-one name="product" ref="com.axelor.apps.base.db.Product" title="Product" required="true"/>
   	<decimal name="minQty" title="Min. Qty" required="true"/>
   	<decimal name="idealQty" title="Ideal Qty" required="false"/>

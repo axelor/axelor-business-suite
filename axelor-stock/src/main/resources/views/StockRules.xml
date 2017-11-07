@@ -7,7 +7,7 @@
         <toolbar>
         <button name="checkDuplicate" title="Check Duplicate" onClick="action-base-method-show-duplicate"/>
         </toolbar>
-        <field name="location" form-view="location-form" grid-view="location-grid"/>
+        <field name="locationSet" form-view="location-form" grid-view="location-stock-rules-grid"/>
         <field name="product.code" form-view="product-form" grid-view="product-grid"/>
         <field name="product.name" form-view="product-form" grid-view="product-grid"/>
         <field name="minQty" aggregate="min"/>
@@ -22,7 +22,7 @@
     <form name="stock-rules-form" title="Stock rules" model="com.axelor.apps.stock.db.StockRules"
     	onNew="action-stock-rules-record-new" width="large">
     	<panel name="main" >
-	        <field name="location" form-view="location-form" grid-view="location-grid"/>
+	        <field name="locationSet" form-view="location-form" grid-view="location-grid" canNew="false" canEdit="false" colSpan="12" />
 			<field name="useCaseSelect" colSpan="3"/>
 			<field name="typeSelect" colSpan="3" showIf="useCaseSelect == 2"/>
 	        <field name="product" domain="self.productTypeSelect = 'storable'" form-view="product-form" grid-view="product-grid"/>

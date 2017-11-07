@@ -191,6 +191,7 @@
 		<view type="grid" name="stock-rules-grid" />
 		<view type="form" name="stock-rules-form" />
 		<context name="searchFields" expr="location;product"/>
+		<context name="searchCollectionFields" expr="location:locationSet"/>
 	</action-view>
 	
 	<menuitem name="stock-root-conf-stock-tracking-numbers" parent="stock-root-conf"

@@ -165,9 +165,9 @@ public class StockRulesServiceImpl implements StockRulesService  {
 	public StockRules getStockRules(Product product, Location location, int type, int useCase)  {
 
 		if (useCase == StockRulesRepository.USE_CASE_USED_FOR_MRP) {
-			return stockRuleRepo.all().filter("self.product = ?1 AND self.location = ?2 AND self.useCaseSelect = ?3", product, location, useCase).fetchOne();
+			return stockRuleRepo.all().filter("self.product = ?1 AND ?2 MEMBER OF self.locationSet AND self.useCaseSelect = ?3", product, location, useCase).fetchOne();
 		} else if (useCase == StockRulesRepository.USE_CASE_STOCK_CONTROL) {
-			return stockRuleRepo.all().filter("self.product = ?1 AND self.location = ?2 AND self.useCaseSelect = ?3 AND self.typeSelect = ?4", product, location, useCase, type).fetchOne();
+			return stockRuleRepo.all().filter("self.product = ?1 AND ?2 MEMBER OF self.locationSet AND self.useCaseSelect = ?3 AND self.typeSelect = ?4", product, location, useCase, type).fetchOne();
 		} else {
 			return null;
 		}

@@ -15,7 +15,11 @@
         <field name="typeSelect"/>
         <field name="isDefaultLocation"/>
     </grid>
-    
+
+	<grid name="location-stock-rules-grid" title="Stock Locations" model="com.axelor.apps.stock.db.Location">
+        <field name="name"/>
+	</grid>
+
 	<form name="location-form" title="Stock Location" model="com.axelor.apps.stock.db.Location" onNew="action-location-record-new" width="large">
 		<toolbar>
 			<button name="createInventory" title="Create inventory" onClick="action-location-view-create-inventory"/>

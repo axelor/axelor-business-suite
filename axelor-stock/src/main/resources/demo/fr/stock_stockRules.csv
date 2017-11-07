@@ -1,4 +1,4 @@
-"name";"location.importId";"product.importId";"minQty";"idealQty";"maxQty";"reOrderQty";"useIdealQty";"useMaxQty";"useCaseSelect";"orderAlertSelect"
+"name";"locationSet_importId";"product.importId";"minQty";"idealQty";"maxQty";"reOrderQty";"useIdealQty";"useMaxQty";"useCaseSelect";"orderAlertSelect"
 "Serveur classique";1;110;5;5;1000;15;"true";"true";1;3
 "Serveur haute performance";1;111;1;1;1000;5;"true";"true";1;3
 "Imprimante Jet d'encre";1;120;10;10;1000;20;"true";"true";1;2

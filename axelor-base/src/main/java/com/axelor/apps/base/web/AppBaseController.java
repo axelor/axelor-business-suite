@@ -100,12 +100,20 @@ public class AppBaseController {
 		
 		String model = (String)request.getContext().get("object");
 		List<String> fields = new ArrayList<String>();
-		
+		Map<String, String> collectionFields = new HashMap<>();
+
 		if(model == null){
 			model = request.getModel();
 			String searchFields = (String)request.getContext().get("searchFields");
 			if(searchFields != null){
-				fields.addAll(Arrays.asList(searchFields.split(";")));
+				fields.addAll(Arrays.asList(searchFields.split("\\s*;\\s*")));
+			}
+			String searchCollectionFields = (String) request.getContext().get("searchCollectionFields");
+			if (searchCollectionFields != null) {
+				for (String pair : searchCollectionFields.split("\\s*;\\s*")) {
+					String[] items = pair.split("\\s*:\\s*");
+					collectionFields.put(items[0], items[1]);
+				}
 			}
 		}else{
 			List<HashMap<String,Object>> fieldsSet = (List<HashMap<String,Object>>)request.getContext().get("fieldsSet");
@@ -120,8 +128,8 @@ public class AppBaseController {
 		LOG.debug("Duplicate record model: {}",model);
 		
 		if(fields.size() > 0){
-			LOG.debug("Duplicate record joinList: {}", fields);
-			String ids = findDuplicateRecords(fields,model);
+			LOG.debug("Duplicate record joinList: {}, {}", fields, collectionFields);
+			String ids = findDuplicateRecords(fields, collectionFields, model);
 			if(ids.isEmpty())
 				response.setFlash(I18n.get(IExceptionMessage.GENERAL_1));
 			else{
@@ -154,10 +162,10 @@ public class AppBaseController {
 		}
 	}
 	
-	private String findDuplicateRecords(List<String> fieldList,String object){
+	private String findDuplicateRecords(List<String> fieldList, Map<String, String> collectionFieldMap, String object) {
 		
 		
-		List<List<String>> allRecords = getAllRecords(fieldList, object);
+		List<List<String>> allRecords = getAllRecords(fieldList, collectionFieldMap, object);
 		
 		Map<String, List<String>> recordMap = new HashMap<String, List<String>>();
 		
@@ -185,15 +193,27 @@ public class AppBaseController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<List<String>> getAllRecords(List<String> fieldList,String object){
-		
-		String query = "SELECT new List( CAST ( m.id AS string )";
+	private List<List<String>> getAllRecords(List<String> fieldList, Map<String, String> collectionFieldMap,
+			String object) {
+
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT new List(CAST(m.id AS string)");
 		
 		for(String field : fieldList) {
-			query += ", m." + field;
+			if (!collectionFieldMap.containsKey(field)) {
+				queryBuilder.append(String.format(", m.%s", field));
+			} else {
+				queryBuilder.append(String.format(", %s", field));
+			}
 		}
-		
-		List<List<Object>> resultList = JPA.em().createQuery(query + ") FROM " + object + " m").getResultList();
+
+		queryBuilder.append(String.format(") FROM %s m", object));
+
+		for (Map.Entry<String, String> entry : collectionFieldMap.entrySet()) {
+			queryBuilder.append(String.format(" LEFT JOIN m.%s %s", entry.getValue(), entry.getKey()));
+		}
+
+		List<List<Object>> resultList = JPA.em().createQuery(queryBuilder.toString()).getResultList();
 		
 		List<List<String>> records = new ArrayList<List<String>>();
 		

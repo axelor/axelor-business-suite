@@ -5,7 +5,9 @@
 	
 	<input file="stock_location.csv" separator=";" type="com.axelor.apps.stock.db.Location" search="self.importId = :importId" />
 	
-	<input file="stock_stockRules.csv" separator=";" type="com.axelor.apps.stock.db.StockRules"/>
+	<input file="stock_stockRules.csv" separator=";" type="com.axelor.apps.stock.db.StockRules">
+		<bind column="locationSet_importId" to="locationSet" search="self.importId IN :locationSet_importId" eval="locationSet_importId.split('\\|') as List" />
+	</input>
 
 	<input file="base_sequence.csv" separator=";" type="com.axelor.apps.base.db.Sequence" search="self.importId = :importId"/>
 
