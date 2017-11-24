@@ -125,7 +125,8 @@
 	      		<panel name="costs" title="Costs" colSpan="6">
 			        <field name="costPrice" colSpan="6" onChange="action-product-record-compute-sale-price"/>
 			        <field name="costTypeSelect" colSpan="6" onChange="action-product-group-cost-type-select-onchange"/>
-			        <field name="managPriceCoef" colSpan="12" onChange="action-product-record-compute-sale-price"/>
+			        <field name="managPriceCoef" colSpan="6" onChange="action-product-record-compute-sale-price"/>
+					<spacer colSpan="6"/>
 					<field name="shippingCoef" showIf="!defShipCoefByPartner"/>
 					<field name="defShipCoefByPartner" onChange="action-product-method-supplier-catalog-coeff"/>
 	      		</panel>
@@ -350,7 +351,7 @@
 	</action-attrs>
 
 	<action-attrs name="action-product-attrs-set-cost-type-select">
-		<attribute for="costTypeSelect" name="selection-in" expr="[1,2]"/>
+		<attribute for="costTypeSelect" name="selection-in" expr="[1,3]"/>
         <attribute for="costTypeSelect" name="selection-in" expr="[1,2,3]" if="__config__.app.isApp('supplychain')"/>
 		<attribute for="costTypeSelect" name="selection-in" expr="[1,2,3,4]" if="__config__.app.isApp('production')"/>
 	</action-attrs>

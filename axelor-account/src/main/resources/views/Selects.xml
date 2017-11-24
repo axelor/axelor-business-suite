@@ -278,6 +278,7 @@
         <option value="2">Invoicing blocking</option>
         <option value="3">Reimbursement blocking</option>
         <option value="4">Debit blocking</option>
+		<option value="5">Sale order blocking</option>
     </selection>
     
 	<selection name="account.interbankcode.type.select">

@@ -1306,6 +1306,7 @@
 "Sale Invoices","Factures de vente",,
 "Sale Invoices Details","Détails factures de vente",,
 "Sale account","Compte comptable à la vente",,
+"Sale order blocking","Blocage commande client",,
 "SaleInvoicesDetails-","DétailsFacturesVente",,
 "SaleInvoicesDetails.invoiced","Facturé",,
 "SaleInvoicesDetails.ordered","Commandé",,

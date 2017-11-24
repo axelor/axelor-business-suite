@@ -19,12 +19,13 @@
 		  onLoad="action-accounting-situation-group-form-onload"
 		  onNew="action-accounting-situation-group-form-onnew" width="large">
 		<panel name="main">
-			<field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid" onChange="action-supplychain-method-compute-used-credit"/>
-			<field name="companyInBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-inbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
-			<field name="companyOutBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-outbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
-			<field name="customerAccount" form-view="account-form" grid-view="account-grid"/>
-			<field name="supplierAccount" form-view="account-form" grid-view="account-grid"/>
-			<field name="employeeAccount" form-view="account-form" grid-view="account-grid"/>
+			<field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid" onChange="action-supplychain-method-compute-used-credit" colSpan="6"/>
+			<spacer colSpan="6"/>
+			<field name="companyInBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-inbd-domain" form-view="bank-details-form" grid-view="bank-details-grid" colSpan="6"/>
+			<field name="companyOutBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-outbd-domain" form-view="bank-details-form" grid-view="bank-details-grid" colSpan="6"/>
+			<field name="customerAccount" form-view="account-form" grid-view="account-grid" hidden="true"/>
+			<field name="supplierAccount" form-view="account-form" grid-view="account-grid" hidden="true"/>
+			<field name="employeeAccount" form-view="account-form" grid-view="account-grid" hidden="true"/>
 		</panel>
 		<panel name="customerBalance" title="Customer balance" itemSpan="4">
 			<field name="balanceCustAccount"/>
@@ -53,9 +54,9 @@
     <grid name="accounting-situation-grid" title="Accounting situations" model="com.axelor.apps.account.db.AccountingSituation">
     	<field name="company" form-view="company-form" grid-view="company-grid"/>
     	<field name="partner" form-view="partner-form" grid-view="partner-grid"/>
-    	<field name="customerAccount" form-view="account-form" grid-view="account-grid"/>
-       	<field name="supplierAccount" form-view="account-form" grid-view="account-grid"/>
-       	<field name="employeeAccount" form-view="account-form" grid-view="account-grid"/>
+		<field name="customerAccount" form-view="account-form" grid-view="account-grid"/>
+		<field name="supplierAccount" form-view="account-form" grid-view="account-grid"/>
+		<field name="employeeAccount" form-view="account-form" grid-view="account-grid"/>
         <field name="balanceCustAccount"/>
         <field name="balanceDueCustAccount"/>
         <field name="balanceDueDebtRecoveryCustAccount"/>
@@ -67,13 +68,13 @@
 	     onLoad="action-account-accounting-situation-method-update-customer-account"  
 	     onNew="action-account-accounting-situation-default-set" >
 		<panel name="main" >
-			<field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid"/>
-			<field name="partner" form-view="partner-form" grid-view="partner-grid"/>
-			<field name="customerAccount" form-view="account-form" grid-view="account-grid"/>
-       		<field name="supplierAccount" form-view="account-form" grid-view="account-grid"/>
-       		<field name="employeeAccount" form-view="account-form" grid-view="account-grid"/>
-			<field name="companyInBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-inbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
-			<field name="companyOutBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-outbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
+			<field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid" colSpan="6"/>
+			<field name="partner" form-view="partner-form" grid-view="partner-grid" colSpan="6"/>
+			<field name="companyInBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-inbd-domain" form-view="bank-details-form" grid-view="bank-details-grid" colSpan="6"/>
+			<field name="companyOutBankDetails" widget="SuggestBox" onSelect="action-account-accounting-situation-set-outbd-domain" form-view="bank-details-form" grid-view="bank-details-grid" colSpan="6"/>
+			<field name="customerAccount" form-view="account-form" grid-view="account-grid" colSpan="4"/>
+			<field name="supplierAccount" form-view="account-form" grid-view="account-grid" colSpan="4"/>
+			<field name="employeeAccount" form-view="account-form" grid-view="account-grid" colSpan="4"/>
 		</panel>
 	    	
 		<panel name="customerBalance" title="Customer balance"  itemSpan="4" >

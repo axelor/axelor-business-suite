@@ -1,6 +1,6 @@
 "importId";"partnerTypeSelect";"isContact";"isCustomer";"isSupplier";"isEmployee";"name";"firstName";"fullName";"titleSelect";"languageSelect";"address";"email";"fixedPhone";"mobilePhone";"invoiceSendingFormatSelect";"paymentMode.importId";"paymentCondition.importId";"partnerCategory.code";"currency.code";"blockingList.importId";"rejectCounter";"companySet_importId";"customerAccount_code";"supplierAccount_code";"mainPartner_importId";"customerTypeSelect";"supplierTypeSelect";"industrySector.importId";"user.importId";"team.importId";"source.id";"fiscalPosition.importId";"picture_fileName";"invoicesCopySelect"
-8001;1;"false";"false";"false";"false";"TNT";;"TNT";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
-8002;1;"false";"false";"false";"false";"La Poste";;"La Poste";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
-8003;1;"false";"false";"false";"false";"Mondial Relay";;"Mondial Relay";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
-8004;1;"false";"false";"false";"false";"UPS";;"UPS";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
-8005;1;"false";"false";"false";"false";"UPS";;"UPS";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
+8000;1;"false";"false";"false";"false";"TNT";;"TNT";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
+8001;1;"false";"false";"false";"false";"La Poste";;"La Poste";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
+8002;1;"false";"false";"false";"false";"Mondial Relay";;"Mondial Relay";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
+8003;1;"false";"false";"false";"false";"UPS";;"UPS";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;
+8004;1;"false";"false";"false";"false";"FedEx";;"FedEx";;"fr";;;;;;;;;;;;1;;;;;;;;;;;;

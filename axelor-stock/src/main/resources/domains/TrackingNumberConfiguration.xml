@@ -8,6 +8,11 @@
   <entity name="TrackingNumberConfiguration" lang="java">
 
 	<integer name="importId"/>
+
+	<string name="name"/>
+	<string name="code"/>
+	<string name="fullName" namecolumn="true"/>
+
 	<boolean name="isPurchaseTrackingManaged" title="Manage purchase tracking Nbr. ?"/>
 	<boolean name="isProductionTrackingManaged"  title="Manage production tracking Nbr. ?"/>
 	<boolean name="isSaleTrackingManaged"  title="Manage sale tracking Nbr. ?"/>

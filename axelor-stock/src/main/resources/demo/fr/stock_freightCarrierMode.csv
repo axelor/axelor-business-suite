@@ -1,7 +1,7 @@
 "importId";"name";"freightCarrier.importId";"shipmentMode.importId"
-1;"Colissimo";8002;1
-2;"Chronopost";8004;2
-3;"TNT Express";8001;2
-4;"FedEx Home International";8005;3
-5;"La poste Business international solution";8002;3
-6;"Relais colis";8003;4
+1;"Colissimo";8001;1
+2;"Chronopost";8001;2
+3;"TNT Express";8000;2
+4;"FedEx Home International";8004;3
+5;"La poste Business international solution";8001;3
+6;"Relais colis";8002;4

@@ -136,12 +136,12 @@
                     <button name="$balance" title="Balance" colSpan="12" icon="fa-balance-scale" onClick="action-partner-view-show-move-lines" widget="info-button"/>
                 </panel>
                 <panel hideIf="isContact" colOffset="9" colSpan="3">
-                    <field name="isProspect" hideIf="$readonly()" onChange="action-partner-attrs-unset-customer,action-partner-record-unset-factor"/>
-                    <field name="isEmployee" showIf="!$readonly() &amp;&amp; !isCustomer &amp;&amp; !isSupplier &amp;&amp; partnerTypeSelect== 2" onChange="action-partner-account-attrs-hide-employee-account,action-partner-record-unset-factor"/>
-                    <field name="isCustomer" hideIf="$readonly() || isEmployee" onChange="action-partner-record-invoices-copy-default-value,action-partner-account-attrs-hide-customer-account,action-partner-attrs-unset-prospect,action-partner-record-unset-factor"/>
+                    <field name="isProspect" hideIf="$readonly() || isEmployee" onChange="action-partner-attrs-unset-customer,action-partner-attrs-unset-employee,action-partner-record-unset-factor"/>
+                    <field name="isEmployee" hideIf="$readonly() || isCustomer || isSupplier || isProspect || partnerTypeSelect != 2" onChange="action-partner-attrs-unset-prospect,action-partner-account-attrs-hide-employee-account,action-partner-record-unset-factor"/>
+                    <field name="isCustomer" hideIf="$readonly() || isEmployee" onChange="action-partner-record-invoices-copy-default-value,action-partner-attrs-unset-prospect,action-partner-account-attrs-hide-customer-account,action-partner-attrs-unset-prospect,action-partner-record-unset-factor"/>
                     <field name="isSupplier" hideIf="$readonly() || isEmployee" onChange="action-partner-account-attrs-hide-supplier-account,action-partner-record-unset-factor"/>
 					<field name="isCarrier" hideIf="$readonly() || isEmployee" if="__config__.app.isApp('stock')" onChange="action-partner-record-unset-factor" />
-                    <field name="isFactor" hideIf="$readonly() || isEmployee" if="__config__.app.getApp('account')?.manageFactors" onChange="action-partner-record-set-factor" />
+					<field name="isFactor" hideIf="$readonly() || isEmployee" if="__config__.app.getApp('account')?.manageFactors" onChange="action-partner-record-set-factor" />
                     <field name="$viewerPartnerType" showTitle="false" hideIf="!$readonly()" colSpan="12">
                         <viewer depends="isProspect,isEmployee,isCustomer,isSupplier,isFactor,isCarrier">
                             <![CDATA[
@@ -245,7 +245,7 @@
                 <panel-include if-module="axelor-account" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageDirectDebitPayment()"  view="incl-sepa-direct-debit-partner-form" from="axelor-account"/>
             </panel>
             <panel-related if-module="axelor-account" if="__config__.app.isApp('account')" field="accountingSituationList" title="Accounting situation" hideIf="isContact" colSpan="12" grid-view="accounting-situation-partner-grid" form-view="accounting-situation-partner-form" onSelect="action-account-accounting-situation-method-update-customer-account"/>
-            <panel-include if-module="axelor-account" view="incl-blocking-partner-form" from="axelor-account"  if="__config__.app.isApp('account')" />
+			<panel-include if-module="axelor-account" view="incl-blocking-partner-form" from="axelor-account"  if="__config__.app.isApp('account')"/>
             <panel name="activities" title="Activities" showIf="id != null" if-module="axelor-crm" onTabSelect="action-partner-method-view-emails" hideIf="isEmployee" if="__config__.app.isApp('crm')">
                 <panel-include view="incl-activities-partner-form" from="axelor-crm" />
                 <panel-include if-module="axelor-supplychain" view="incl-sales-partner-form" from="axelor-supplychain" if="__config__.app.isApp('supplychain')" />
@@ -267,10 +267,12 @@
                 <field name="purchaseOrderInformation"/>
                 <field name="purchasePriceList" canNew="true" domain="self.typeSelect = 2" if-module="axelor-account"  if="__config__.app.isApp('account') ||  __config__.app.isApp('purchase')" form-view="purchase-price-list-form" grid-view="price-list-grid"/>
                 <field name="supplierCatalogList" colSpan="12" form-view="supplier-catalog-partner-form" grid-view="supplier-catalog-partner-grid" if-module="axelor-purchase" if="__config__.app.isApp('purchase')"/>
-                <field name="supplierQualityRatingSelect" widget="ImageSelect" x-labels="false" colSpan="3"/>
-				<field name="supplierArrivalProductQty" colSpan="3"/>
-				<spacer/>
-				<field name="partnerProductQualityRatingList" colSpan="12" grid-view="partner-product-quality-rating-grid" form-view="partner-product-quality-rating-form"/>
+                <panel title="Quality" readonly="true" colSpan="12">
+					<field name="supplierQualityRatingSelect" widget="ImageSelect" x-labels="false" colSpan="3"/>
+					<field name="supplierArrivalProductQty" colSpan="3"/>
+					<spacer/>
+					<field name="partnerProductQualityRatingList" colSpan="12" grid-view="partner-product-quality-rating-grid" form-view="partner-product-quality-rating-form"/>
+				</panel>
             </panel>
 			<panel name="carrier" title="Carrier" showIf="isCarrier">
 				<field name="freightCarrierModeList" title="Freight Carrier Mode" form-view="freight-carrier-mode-freight-carrier-form" grid-view="freight-carrier-mode-freight-carrier-grid" colSpan="12"/>
@@ -663,14 +665,18 @@
 	<action-attrs name="action-partner-attrs-hide-contact-partner">
         <attribute name="hidden" for="contactPartner" expr="#{clientPartner != null &amp;&amp; clientPartner.partnerTypeSelect == 2}" />
     </action-attrs>
-    
+
     <action-attrs name="action-partner-attrs-unset-prospect">
-    	<attribute name="value" for="isProspect" expr="eval:false" if="isCustomer"/>
+    	<attribute name="value" for="isProspect" expr="eval:false" if="isCustomer || isEmployee"/>
     </action-attrs>
     
     <action-attrs name="action-partner-attrs-unset-customer">
     	<attribute name="value" for="isCustomer" expr="eval:false" if="isProspect"/>
     </action-attrs>
+
+	<action-attrs name="action-partner-attrs-unset-employee">
+		<attribute name="value" for="isEmployee" expr="eval:false" if="isProspect"/>
+	</action-attrs>
 
     <action-attrs name="action-partner-attrs-name-balance">
         <attribute name="title" for="$balance" expr="eval: com.axelor.i18n.I18n.get('Debit Balance')" if="$balance &gt; 0"/>
