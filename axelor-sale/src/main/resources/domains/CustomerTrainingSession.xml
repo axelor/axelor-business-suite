@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
+
+  <module name="sale" package="com.axelor.apps.sale.db"/>
+
+  <entity name="CustomerTrainingSession" lang="java">
+  	
+  	<string name="name" title="Session name" />
+  	<many-to-one name="trainer" ref="com.axelor.apps.base.db.Partner" title="Trainer" />
+  	<many-to-many name="participantsSet" ref="com.axelor.apps.base.db.Partner" title="Participants" />
+  	<datetime name="startDateT" title="Start date/time" />
+  	<datetime name="endDateT" title="End date/time" />
+  	<many-to-one name="saleOrder" ref="SaleOrder" />
+  	
+  </entity>
+
+</domain-models>

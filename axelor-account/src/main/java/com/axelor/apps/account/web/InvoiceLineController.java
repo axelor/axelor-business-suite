@@ -19,7 +19,6 @@ package com.axelor.apps.account.web;
 
 import java.math.BigDecimal;
 import java.util.Map;
-
 import com.axelor.apps.account.db.Account;
 import com.axelor.apps.account.db.AccountManagement;
 import com.axelor.apps.account.db.Invoice;
@@ -27,6 +26,7 @@ import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.account.db.Tax;
 import com.axelor.apps.account.db.TaxEquiv;
 import com.axelor.apps.account.db.TaxLine;
+import com.axelor.apps.account.db.repo.InvoiceLineRepository;
 import com.axelor.apps.account.service.AccountManagementAccountService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.invoice.InvoiceLineService;
@@ -47,7 +47,7 @@ public class InvoiceLineController {
 
 	private InvoiceLineService invoiceLineService;
 	private AccountManagementAccountService accountManagementService;
-
+	
 	@Inject
 	public InvoiceLineController(InvoiceLineService invoiceLineService, AccountManagementAccountService accountManagementService) {
 		this.invoiceLineService = invoiceLineService;
@@ -72,8 +72,13 @@ public class InvoiceLineController {
 	public void computeAnalyticDistribution(ActionRequest request, ActionResponse response) throws AxelorException{
 		InvoiceLine invoiceLine = request.getContext().asType(InvoiceLine.class);
 		Invoice invoice = invoiceLine.getInvoice();
+		Context context = request.getContext();
+		
 		if(invoice == null){
-			invoice = request.getContext().getParentContext().asType(Invoice.class);
+			if(context.getParent().getContextClass() == InvoiceLine.class) {
+				context = request.getContext().getParent();
+			}
+			invoice = context.getParent().asType(Invoice.class);
 			invoiceLine.setInvoice(invoice);
 		}
 		if(Beans.get(AppAccountService.class).getAppAccount().getManageAnalyticAccounting()){
@@ -85,9 +90,12 @@ public class InvoiceLineController {
 	public void compute(ActionRequest request, ActionResponse response) throws AxelorException {
 
 		Context context = request.getContext();
-		
 		InvoiceLine invoiceLine = context.asType(InvoiceLine.class);
-
+		
+		if(context.getParent().getContextClass() == InvoiceLine.class) {
+			context = request.getContext().getParent();
+		}
+		
 		Invoice invoice = this.getInvoice(context);
 		
 		if(invoice == null || invoiceLine.getProduct() == null || invoiceLine.getPrice() == null || invoiceLine.getQty() == null)  {  return;  }
@@ -130,11 +138,13 @@ public class InvoiceLineController {
 	public void getProductInformation(ActionRequest request, ActionResponse response) throws AxelorException {
 
 		Context context = request.getContext();
-		
 		InvoiceLine invoiceLine = context.asType(InvoiceLine.class);
-
-		Invoice invoice = this.getInvoice(context);
 		
+		if(context.getParent().getContextClass() == InvoiceLine.class) {
+			context = request.getContext().getParent();
+		}
+		
+		Invoice invoice = this.getInvoice(context);
 		Product product = invoiceLine.getProduct();
 
 		if(invoice == null || product == null) { 
@@ -205,8 +215,10 @@ public class InvoiceLineController {
 	public void getDiscount(ActionRequest request, ActionResponse response) throws AxelorException {
 
 		Context context = request.getContext();
-		
 		InvoiceLine invoiceLine = context.asType(InvoiceLine.class);
+		if(context.getParent().getContextClass() == InvoiceLine.class) {
+			context = request.getContext().getParent();
+		}
 
 		Invoice invoice = this.getInvoice(context);
 		
@@ -234,8 +246,10 @@ public class InvoiceLineController {
 	public void convertUnitPrice(ActionRequest request, ActionResponse response) {
 
 		Context context = request.getContext();
-		
 		InvoiceLine invoiceLine = context.asType(InvoiceLine.class);
+		if(context.getParent().getContextClass() == InvoiceLine.class) {
+			context = request.getContext().getParent();
+		}
 
 		Invoice invoice = this.getInvoice(context);
 		
@@ -266,16 +280,15 @@ public class InvoiceLineController {
 	
 	public void emptyLine(ActionRequest request, ActionResponse response){
 		InvoiceLine invoiceLine = request.getContext().asType(InvoiceLine.class);
-		if(invoiceLine.getIsTitleLine()){
-			InvoiceLine newInvoiceLine = new InvoiceLine();
-			newInvoiceLine.setIsTitleLine(true);
-			newInvoiceLine.setQty(BigDecimal.ZERO);
-			newInvoiceLine.setId(invoiceLine.getId());
-			newInvoiceLine.setVersion(invoiceLine.getVersion());
-			response.setValues(Mapper.toMap(newInvoiceLine));
+		if(invoiceLine.getTypeSelect() != InvoiceLineRepository.TYPE_NORMAL){
+			Map<String,Object> newInvoiceLine =  Mapper.toMap(new InvoiceLine());
+			newInvoiceLine.put("qty", BigDecimal.ZERO);
+			newInvoiceLine.put("id", invoiceLine.getId());
+			newInvoiceLine.put("version", invoiceLine.getVersion());
+			newInvoiceLine.put("typeSelect", invoiceLine.getTypeSelect());
+			response.setValues(newInvoiceLine);
 		}
 	}
-	
 	
 	public Invoice getInvoice(Context context)  {
 		
@@ -292,5 +305,4 @@ public class InvoiceLineController {
 		
 		return invoice;
 	}
-
 }

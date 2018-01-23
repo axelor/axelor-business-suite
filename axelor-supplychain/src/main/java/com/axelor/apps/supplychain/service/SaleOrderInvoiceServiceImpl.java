@@ -258,7 +258,7 @@ public class SaleOrderInvoiceServiceImpl implements SaleOrderInvoiceService {
 								taxLine, InvoiceLineGenerator.DEFAULT_SEQUENCE,
 								BigDecimal.ZERO,
 								IPriceListLine.AMOUNT_TYPE_NONE,
-								lineAmountToInvoice, null, false)  {
+								lineAmountToInvoice, null, false, false)  {
 							@Override
 							public List<InvoiceLine> creates() throws AxelorException {
 
@@ -503,10 +503,10 @@ public class SaleOrderInvoiceServiceImpl implements SaleOrderInvoiceService {
 											   BigDecimal qtyToInvoice) throws AxelorException  {
 
 		Product product = saleOrderLine.getProduct();
-
+		
 		InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGeneratorSupplyChain(invoice, product, saleOrderLine.getProductName(), 
 				saleOrderLine.getDescription(), qtyToInvoice, saleOrderLine.getUnit(),
-				saleOrderLine.getSequence(), false, saleOrderLine, null, null)  {
+				saleOrderLine.getSequence(), false, saleOrderLine, null, null, saleOrderLine.getIsSubLine())  {
 
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {
@@ -530,7 +530,7 @@ public class SaleOrderInvoiceServiceImpl implements SaleOrderInvoiceService {
 
 		InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGeneratorSupplyChain(invoice, product, saleOrderLine.getProductName()+"("+saleOrderLine.getPeriodicity()+" "+I18n.get("month(s)")+")",
 				saleOrderLine.getDescription(), saleOrderLine.getQty(), saleOrderLine.getUnit(),
-				sequence, false, saleOrderLine, null, null, subscription)  {
+				sequence, false, saleOrderLine, null, null, subscription, null, saleOrderLine.getIsSubLine(), saleOrderLine.getPackPriceSelect())  {
 
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {

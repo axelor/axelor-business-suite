@@ -489,7 +489,7 @@ public class SaleOrderController {
         }
     }
 
-	/**
+    /**
 	 * Called from sale order form view on partner change.
 	 * Get the default price list for the sale order.
 	 * Call {@link PartnerPriceListService#getDefaultPriceList(Partner, int)}.
@@ -516,4 +516,13 @@ public class SaleOrderController {
 	    response.setAttr("priceList", "domain", domain);
 	}
 
+    public void removeSubLines(ActionRequest request, ActionResponse response) {
+        try {
+            SaleOrder saleOrder = request.getContext().asType(SaleOrder.class);
+            response.setValue("saleOrderLineList",  saleOrderService.removeSubLines(saleOrder.getSaleOrderLineList()));
+        } catch (Exception e) {
+            TraceBackService.trace(response, e);
+            response.setReload(true);
+        }
+    }
 }

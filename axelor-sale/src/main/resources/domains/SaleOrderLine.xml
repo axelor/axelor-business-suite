@@ -27,6 +27,7 @@
   	<integer name="sequence" title="Seq."/>
   	<many-to-one name="product" ref="com.axelor.apps.base.db.Product" title="Product"/>
   	<decimal name="qty" title="Qty" default="1"/>
+  	<decimal name="oldQty" hidden="true"/>
   	<boolean name="isToPrintLineSubTotal" title="Print subtotal / line"/>
   	<string name="productName" title="Displayed Product name" required="true" translatable="true"/>
   	<decimal name="price" title="Unit price" precision="20" scale="10"/>
@@ -57,6 +58,7 @@
 
 <!--   	Champ technique non affiché, utilisé pour les reportings -->
   	<decimal name="companyExTaxTotal" title="Total W.T. in company currency" hidden="true"/>
+  	<boolean name="isSubLine" title="Sub line" readonly="true"/>
   	<decimal name="companyCostPrice" title="Unit cost price in company currency" hidden="true"/>
   	<decimal name="companyInTaxTotal" title="Total A.T.I. in company currency" hidden="true"/>
   	<decimal name="companyCostTotal" title="Total cost in company currency" hidden="true"/>
@@ -65,7 +67,8 @@
 	<many-to-one name="parentLine" ref="com.axelor.apps.sale.db.SaleOrderLine" />
   	<one-to-many name="subLineList" ref="com.axelor.apps.sale.db.SaleOrderLine" mappedBy="parentLine" title="Pack lines"/>
   	<decimal name="totalPack" title="Total pack"/>
-
+	<integer name="packPriceSelect" title="Pack price select" selection="product.pack.price.select"/>
+	
 	<finder-method name="findAllBySaleOrder" using="saleOrder" all="true"/>
 
 	<extra-code>
@@ -73,6 +76,10 @@
 			public static final int TYPE_NORMAL = 0;
 			public static final int TYPE_TITLE = 1;
 			public static final int TYPE_PACK = 2;
+			
+			public static final int PACK_PRICE_ONLY = 0;
+			public static final int SUBLINE_PRICE_ONLY = 1;
+			
 	  	]]>
 	</extra-code>
   	

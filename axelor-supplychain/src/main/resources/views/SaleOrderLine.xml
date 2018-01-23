@@ -6,7 +6,7 @@
     <form name="sale-order-line-form" id="supplychain-sale-order-line-form" title="SO line"
         model="com.axelor.apps.sale.db.SaleOrderLine" onLoad="action-group-sale-saleorderline-onload,action-sale-order-line-attrs-hidden-fields-for-client"
         onNew="action-group-sale-saleorderline-onnew"
-        readonlyIf="saleOrder.statusSelect == 3 &amp;&amp; (!saleOrder.orderBeingEdited || deliveryState > 1) || saleOrder.statusSelect == 4"
+        readonlyIf="saleOrder.statusSelect == 3 &amp;&amp; (!saleOrder.orderBeingEdited || deliveryState > 1) || saleOrder.statusSelect == 4 || $isReadOnly"
         width="large">
         <panel-include view="sale-order-line-form" from="axelor-sale" />
     </form>

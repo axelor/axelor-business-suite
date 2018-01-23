@@ -10,6 +10,7 @@
     <boolean name="isFromConfigurator" title="Is pack" />
   	<one-to-many name="packLines" title="Pack lines" ref="com.axelor.apps.sale.db.PackLine" />
     <one-to-one name="configurator" ref="com.axelor.apps.sale.db.Configurator" orphanRemoval="true" mappedBy="product"/>
+  	<integer name="packPriceSelect" title="Pack price select" selection="product.pack.price.select"/>
   	
   </entity>
 

@@ -137,7 +137,7 @@ public class PurchaseOrderInvoiceServiceImpl implements PurchaseOrderInvoiceServ
 
 		InvoiceLineGeneratorSupplyChain invoiceLineGenerator = new InvoiceLineGeneratorSupplyChain(invoice, product, purchaseOrderLine.getProductName(),
 				purchaseOrderLine.getDescription(), purchaseOrderLine.getQty(), purchaseOrderLine.getUnit(),
-				purchaseOrderLine.getSequence(), false, null, purchaseOrderLine, null)  {
+				purchaseOrderLine.getSequence(), false, null, purchaseOrderLine, null, false)  {
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {
 

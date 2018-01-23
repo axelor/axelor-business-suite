@@ -38,6 +38,7 @@ import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.PaymentCondition;
 import com.axelor.apps.account.db.PaymentMode;
+import com.axelor.apps.account.db.repo.InvoiceLineRepository;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
@@ -240,7 +241,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 	@Transactional(rollbackOn = {AxelorException.class, Exception.class})
 	public void ventilate( Invoice invoice ) throws AxelorException {
 		for (InvoiceLine invoiceLine : invoice.getInvoiceLineList()) {
-			if (!invoiceLine.getIsTitleLine() && invoiceLine.getAccount() == null) {
+			if (invoiceLine.getTypeSelect() != InvoiceLineRepository.TYPE_TITLE && invoiceLine.getAccount() == null) {
 				throw new AxelorException(invoice, IException.MISSING_FIELD, I18n.get(IExceptionMessage.VENTILATE_STATE_6), invoiceLine.getProductName());
 			}
 		}

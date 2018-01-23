@@ -1219,7 +1219,7 @@ WHERE Invoice.id IN (@INJECTID)]]></xml-property>
             </list-property>
             <xml-property name="queryText"><![CDATA[select Invoice.id as inv_id, InvoiceLine.product_name, InvoiceLine.description, TaxLine.value as "TaxValue",
 InvoiceLine.qty,Unit.label_to_printing as "unitName", InvoiceLine.price, InvoiceLine.ex_tax_total, 
-Currency.code as "currencyCode", InvoiceLine.sequence as "sequence" , InvoiceLine.is_title_line
+Currency.code as "currencyCode", InvoiceLine.sequence as "sequence" , InvoiceLine.type_select = 1 as "is_title_line"
 from account_invoice_line as InvoiceLine
 inner join account_invoice as Invoice on (InvoiceLine.invoice = Invoice.id)
 left outer join account_tax_line as TaxLine on (InvoiceLine.tax_line = TaxLine.id)

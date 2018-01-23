@@ -12,6 +12,8 @@
 	<many-to-one name="product" ref="com.axelor.apps.base.db.Product" title="Product"/>    
 	<decimal name="qty" title="Expected Qty"/>
 	<decimal name="realQty" title="Real Qty"/>
+	<decimal name="oldQty" hidden="true"/>
+	<boolean name="isSubLine" title="Sub line" readonly="true"/>
     <many-to-one name="unit" ref="com.axelor.apps.base.db.Unit" title="Unit"/>
     <decimal name="netWeight" title="Net weight"/>
     <decimal name="totalNetWeight" title="Total net weight"/>
@@ -37,14 +39,22 @@
     
     <many-to-one name="customsCodeNomenclature" ref="com.axelor.apps.stock.db.CustomsCodeNomenclature"/>
     <string name="customsCode"/>
-
     <one-to-many name="logisticalFormLineList" ref="com.axelor.apps.stock.db.LogisticalFormLine" mappedBy="stockMoveLine" title="Logistical form lines" />
+    <integer name="lineTypeSelect" title="Type" selection="sale.order.line.type.select"/>
+    <integer name="packPriceSelect" title="Pack price select" selection="product.pack.price.select"/>
 
     <extra-code><![CDATA[
         // CONFORMITY SELECT
         public static final int CONFORMITY_NONE = 1;
         public static final int CONFORMITY_COMPLIANT = 2;
         public static final int CONFORMITY_NON_COMPLIANT = 3;
+        
+        public static final int TYPE_NORMAL = 0;
+		public static final int TYPE_TITLE = 1;
+		public static final int TYPE_PACK = 2;
+		
+		public static final int PACK_PRICE_ONLY = 0;
+		public static final int SUBLINE_PRICE_ONLY = 1;
     ]]></extra-code>
   </entity>
 </domain-models>

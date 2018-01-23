@@ -39,7 +39,6 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.IPriceListLine;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.Product;
-import com.axelor.apps.base.db.repo.PartnerPriceListRepository;
 import com.axelor.apps.base.db.repo.PriceListRepository;
 import com.axelor.apps.base.service.PartnerPriceListService;
 import com.axelor.apps.base.service.PartnerService;
@@ -56,7 +55,6 @@ import com.axelor.apps.hr.service.expense.ExpenseService;
 import com.axelor.apps.hr.service.timesheet.TimesheetServiceImpl;
 import com.axelor.apps.project.db.Project;
 import com.axelor.apps.project.db.repo.ProjectRepository;
-import com.axelor.apps.project.service.ProjectService;
 import com.axelor.apps.project.service.ProjectServiceImpl;
 import com.axelor.apps.purchase.db.PurchaseOrderLine;
 import com.axelor.apps.purchase.db.repo.PurchaseOrderLineRepository;
@@ -187,7 +185,7 @@ public class InvoicingProjectService {
 
 		InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGeneratorSupplyChain(invoice, product, saleOrderLine.getProductName(),
 				saleOrderLine.getDescription(), saleOrderLine.getQty(), saleOrderLine.getUnit(),
-				priority, false, saleOrderLine, null, null)  {
+				priority, false, saleOrderLine, null, null, false)  {
 
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {
@@ -222,7 +220,7 @@ public class InvoicingProjectService {
 
 		InvoiceLineGeneratorSupplyChain invoiceLineGenerator = new InvoiceLineGeneratorSupplyChain(invoice, product, purchaseOrderLine.getProductName(),
 				purchaseOrderLine.getDescription(), purchaseOrderLine.getQty(), purchaseOrderLine.getUnit(),
-				priority, false, null, purchaseOrderLine, null)  {
+				priority, false, null, purchaseOrderLine, null, false)  {
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {
 
@@ -264,7 +262,7 @@ public class InvoicingProjectService {
 
 		InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGenerator(invoice, product, project.getName(), project.getPrice(),
 					project.getPrice(), null, project.getQty(), project.getUnit(), null, priority, BigDecimal.ZERO, IPriceListLine.AMOUNT_TYPE_NONE,
-					project.getPrice().multiply(project.getQty()), null,false)  {
+					project.getPrice().multiply(project.getQty()), null,false, false)  {
 
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {

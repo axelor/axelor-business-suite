@@ -144,6 +144,17 @@
 		</filter>
 	</search-filters>
 	
+	<menuitem title="Training sessions" name="sc-root-customer-training-sessions" parent="sc-root-sale" order="36"
+		if="__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getCustomerTraining()"
+		action="sc.root.customer.training.sessions"/>
+	
+	<action-view name="sc.root.customer.training.sessions" model="com.axelor.apps.sale.db.CustomerTrainingSession"
+		 title="Training sessions">
+		<view name="customer-training-session-calendar" type="calendar"/>
+		<view name="customer-training-session-grid" type="grid"/>
+		<view name="customer-training-session-form" type="form"/>
+	</action-view>
+	
 	<menuitem name="sc-root-sale-report" parent="sc-root-sale"
 		title="Reportings"  order="40"/>
 		

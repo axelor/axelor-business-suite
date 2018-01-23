@@ -99,6 +99,10 @@
 	<boolean name="orderBeingEdited" />
 
     <many-to-one name="opportunity" ref="com.axelor.apps.crm.db.Opportunity" />
+    
+    <string name="trainingName" title="Training name"/>
+  	<string name="trainingDescription" title="Description" large="true" />
+  	<one-to-many name="customerTrainingSessionList" ref="CustomerTrainingSession" title="Sessions" mappedBy="saleOrder"/>
 
  	<unique-constraint columns="saleOrderSeq,company"/>
 

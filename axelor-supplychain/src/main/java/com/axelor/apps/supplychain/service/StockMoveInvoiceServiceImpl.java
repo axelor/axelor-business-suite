@@ -655,7 +655,7 @@ public class StockMoveInvoiceServiceImpl implements StockMoveInvoiceService {
 		
 		InvoiceLineGenerator invoiceLineGenerator = new InvoiceLineGeneratorSupplyChain(invoice, product, stockMoveLine.getProductName(),
 				stockMoveLine.getDescription(), stockMoveLine.getRealQty(), stockMoveLine.getUnit(),
-				sequence, false, stockMoveLine.getSaleOrderLine(), stockMoveLine.getPurchaseOrderLine(), stockMoveLine)  {
+				sequence, false, stockMoveLine.getSaleOrderLine(), stockMoveLine.getPurchaseOrderLine(), stockMoveLine, false)  {
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {
 

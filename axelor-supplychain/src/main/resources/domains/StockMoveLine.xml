@@ -11,6 +11,9 @@
     <many-to-one name="purchaseOrderLine" ref="com.axelor.apps.purchase.db.PurchaseOrderLine" title="Purchase order line"/>
 
     <decimal name="reservedQty" title="Reserved Qty"/>
+    
+    <many-to-one name="parentLine" ref="com.axelor.apps.stock.db.StockMoveLine" />
+	<one-to-many name="subLineList" ref="com.axelor.apps.stock.db.StockMoveLine" mappedBy="parentLine" title="Pack lines"/>
 
     <finder-method name="findAllBySaleOrder"
                    using="com.axelor.apps.sale.db.SaleOrder:saleOrder" all="true"
@@ -19,5 +22,6 @@
     <finder-method name="findAllBySaleOrderAndStatusSelect"
                    using="com.axelor.apps.sale.db.SaleOrder:saleOrder,Integer:statusSelect" all="true"
                    filter="self.stockMove.saleOrder = :saleOrder AND self.stockMove.statusSelect = :statusSelect"/>
+                   
   </entity>
 </domain-models>

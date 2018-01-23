@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
     
-    <grid name="stock-move-line-grid" title="Stock move lines" model="com.axelor.apps.stock.db.StockMoveLine" editable="true">
+    <grid name="stock-move-line-grid" title="Stock move lines" model="com.axelor.apps.stock.db.StockMoveLine" editable="true" onNew="action-stock-move-line-attrs-sub-line">
+       	<hilite strong="true" color="default" if="lineTypeSelect != 0"/>
+       	<field name="lineTypeSelect" hidden="true"/>
         <field name="productName" required="true" />
         <field name="product" onChange="action-group-stock-stockmoveline-product-onchange" onSelect="action-stock-move-line-product-domain" form-view="product-form" grid-view="product-grid"/>
         <field name="productModel" domain="self.isModel = true" form-view="product-form" grid-view="product-grid" if="__config__.app.getApp('base').getManageProductVariants()"/>
@@ -15,18 +17,23 @@
         <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
         <field name="trackingNumber" form-view="tracking-number-stock-move-line-form" grid-view="tracking-number-grid"/>
         <field name="conformitySelect"/>
+        <field name="isSubLine" hidden="true"/>
     </grid>
     
-    <form name="stock-move-line-form" title="Stock move line" model="com.axelor.apps.stock.db.StockMoveLine"
-    	onNew="action-stock-move-line-record-new" onLoad="action-stock-move-line-group-onload" width="large">
+    <form name="stock-move-line-form" title="Stock move line" model="com.axelor.apps.stock.db.StockMoveLine" readonlyIf="$isReadOnly"
+    	onNew="action-group-stock-move-line-on-new" onLoad="action-stock-move-line-group-onload" width="large">
         <panel name="main" >
+        	<field name="lineTypeSelect" hideIf="isSubLine" onChange="action-stock-move-line-method-empty-line" selection-in="[0,1]" if="!(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" />
+		    <field name="lineTypeSelect" hideIf="isSubLine" onChange="action-stock-move-line-method-empty-line" selection-in="[0,1,2]" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" />
+        	<field name="packPriceSelect" showIf="lineTypeSelect == 2" onChange="action-record-stock-move-line-reset-price-on-select-sub-line, action-stock-move-line-price-attrs-readonly, action-stock-move-subline-method-reset-data-on-select-pack-line"/>	
             <field name="productName" />
 	        <field name="product" canEdit="false" domain="self.expense = false" onChange="action-stock-move-line-tracking-number-attrs,action-group-stock-stockmoveline-product-onchange" onSelect="action-stock-move-line-product-domain" form-view="product-form" grid-view="product-grid"/>
 	        <field name="productModel" canEdit="false" domain="self.isModel = true" form-view="product-form" grid-view="product-grid" if="__config__.app.getApp('base').getManageProductVariants()"/>
-	        <field name="qty" onChange="action-stock-move-line-record-qty, action-stock-move-line-compute-price" colSpan="3"/>
-	        <field name="realQty" colSpan="3"/>
+	        <field name="qty" onChange="action-group-stock-move-line-qty-onChange" colSpan="3"/>
+	        <field name="realQty" colSpan="3" onChange="action-stock-move-subline-method-update-real-qty"/>
+	        <field name="oldQty"/>
 			<field name="reservedQty" onChange="action-supplychain-attrs-sale-order-line-max-reserved-qty" if-module="axelor-supplychain" if="__config__.app.getApp('supplychain').getManageStockReservation()" colSpan="3"/>
-	        <field name="unitPriceUntaxed"/>
+	        <field name="unitPriceUntaxed" />
         	<field name="unitPriceTaxed" hidden="true"/>
 	        <field name="unit" canEdit="false" colSpan="3" form-view="unit-form" grid-view="unit-grid"/>
     	    <field name="netWeight" readonly="true" showIf="netWeight != 0"/>
@@ -34,7 +41,12 @@
 	        <field name="trackingNumber" canNew="true" onChange="action-stock-move-line-record-product" form-view="tracking-number-stock-move-line-form" grid-view="tracking-number-grid"/>
 	        <field name="conformitySelect" onChange="action-stock-move-attrs-change-conformity"/>
 	        <field name="businessProject" if-module="axelor-business-project" domain="self.businessProject = true AND self.typeSelect = 'project'" form-view="project-form" grid-view="project-grid" if="__config__.app.isApp('business-project')"  />
+	        <field name="isSubLine" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
+	        <field name="$isReadOnly" hidden="true"/>
 	        <field name="description" colSpan="12" widget="html" />
+	        <panel name="pack" colSpan="12" showIf="lineTypeSelect == 2">
+				<panel-related field="subLineList" colSpan="12" form-view="stock-move-line-form" grid-view="stock-move-line-grid"/>
+			</panel>
         </panel>
     </form>
 
@@ -165,6 +177,10 @@
     	<call class="com.axelor.apps.stock.web.StockMoveLineController" method="compute"/>
     </action-method>
     
+    <action-method name="action-stock-move-line-method-empty-line">
+		<call class="com.axelor.apps.stock.web.StockMoveLineController" method="emptyLine"/>
+	</action-method>
+    
     <action-attrs name="action-stock-move-line-attrs-show-unit-price-taxed" if-module="axelor-supplychain" >
     	<attribute name="hidden" for="unitPriceUntaxed" expr="eval: stockMove?.saleOrder?.inAti" if="stockMove != null"/>
     	<attribute name="hidden" for="unitPriceUntaxed" expr="eval: _parent?.saleOrder?.inAti" if="stockMove == null"/>
@@ -174,12 +190,15 @@
     <action-attrs name="action-stock-move-attrs-change-conformity">
     	<attribute name="value" for="stockMove.conformitySelect" expr="eval: conformitySelect"  if="conformitySelect == 3"/>
     </action-attrs>
-
+    
     <action-group name="action-stock-move-line-group-onload">
+    	<action name="action-stock-move-sub-line-record-form-isReadOnly" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
 		<action name="action-stock-move-line-attrs-scale-and-precision"/>
         <action name="action-inventory-line-attrs-tracking-number"/>
         <action name="action-stock-move-line-attrs-show-unit-price-taxed"/>
 		<action name="action-stock-move-line-tracking-number-attrs"/>
+		<action name="action-stock-move-line-price-attrs-readonly" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
+		<action name="action-stock-move-subline-price-attrs-readonly" if="isSubLine &amp;&amp; (__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
 	</action-group>
 
     <action-group name="action-group-stock-stockmoveline-product-onchange">
@@ -187,12 +206,25 @@
     	<action name="action-stock-move-line-set-product-info"/>
     	<action name="action-stock-move-line-compute-price"/>
     	<action name="action-stock-move-line-store-product-type"/>
+    	<action name="action-stock-move-line-method-get-product-price" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
+    </action-group>
+    
+    <action-group name="action-group-stock-move-line-on-new">
+    	<action name="action-stock-move-line-record-new"/>
+    	<action name="action-stock-move-subline-price-attrs-readonly" if="isSubLine &amp;&amp; (__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
     </action-group>
     
     <action-group name="action-group-stock-stockmoveline-production-onnew">
     	<action name="action-stock-move-line-attrs-scale-and-precision"/>
     	<action name="action-stock-move-line-record-new"/>
     	<action name="stock-move-line-production-record-default"/>
+    </action-group>
+    
+    <action-group name="action-group-stock-move-line-qty-onChange">
+    	<action name="action-stock-move-line-record-qty"/>
+ 		<action name="action-stock-move-line-compute-price"/>
+ 		<action name="action-stock-move-subline-method-update-qty" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
+ 		<action name="action-stock-move-line-method-get-product-price" if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())"/>
     </action-group>
 
 	<action-attrs name="action-stock-move-line-tracking-number-attrs">
@@ -226,6 +258,10 @@
 	<action-record name="action-stock-move-line-store-product-type" model="com.axelor.apps.stock.db.StockMoveLine">
 		<field name="productTypeSelect" expr="eval: product?.productTypeSelect"/>
 	</action-record>
+	
+	<action-record name="action-stock-move-sub-line-record-form-isReadOnly" model="com.axelor.apps.stock.db.StockMoveLine">
+    	<field name="$isReadOnly" expr="eval: true" if="_parent?._model == 'com.axelor.apps.stock.db.StockMove' &amp;&amp; isSubLine"/>
+    </action-record>
 
 	<action-attrs name="action-stock-move-line-product-domain">
 		<attribute name="domain" for="product" expr="eval:&quot;self.isModel = false AND self.isShippingCostsProduct = false AND self.parentProduct.id = ${productModel.id}&quot;" if="productModel"/>
@@ -249,6 +285,44 @@
 		<view type="form" name="stock-move-line-all-form"/>
 		<domain>self.stockMove.statusSelect = 3 and (self.stockMove.fromLocation.typeSelect = 1 or self.stockMove.toLocation.typeSelect = 1) and self.product.id = :_id</domain>
 	</action-view>	
+	
+	<action-method name="action-stock-move-line-method-get-product-price">
+		<call class="com.axelor.apps.supplychain.web.StockMoveLineController" method="getProductPrice"/>
+	</action-method>
+	
+	<action-method name="action-stock-move-subline-method-update-qty">
+		<call class="com.axelor.apps.supplychain.web.StockMoveLineController" method="updateSubLineQty"/>	
+	</action-method>
 		
+	<action-method name="action-stock-move-subline-method-update-real-qty">
+		<call class="com.axelor.apps.supplychain.web.StockMoveLineController" method="updateSubLineRealQty"/>
+	</action-method>	
+	
+	<action-record name="action-record-stock-move-line-reset-price-on-select-sub-line" model="com.axelor.apps.sale.db.SaleOrderLine">
+		<field name="unitPriceUntaxed" expr="eval: 0.00" if="packPriceSelect == 1 &amp;&amp; !isSubLine" />
+		<field name="unitPriceTaxed" expr="eval: 0.00" if="packPriceSelect == 1 &amp;&amp; !isSubLine" />
+	</action-record>
+	
+	<action-attrs name="action-stock-move-line-attrs-sub-line">
+	  <attribute if="eval: __parent__.lineTypeSelect == 2" name="value" expr="eval: true" for="isSubLine"/>
+	</action-attrs>
+	
+	<action-attrs name="action-stock-move-line-price-attrs-readonly">
+		<attribute if="packPriceSelect == 1 &amp;&amp; !isSubLine" name="readonly" expr="eval: true" for="unitPriceUntaxed"/>
+		<attribute if="packPriceSelect == 0 &amp;&amp; !isSubLine" name="readonly" expr="eval: false" for="unitPriceUntaxed"/>
+		<attribute if="packPriceSelect == 1 &amp;&amp; !isSubLine" name="readonly" expr="eval: true" for="unitPriceTaxed"/>
+		<attribute if="packPriceSelect == 0 &amp;&amp; !isSubLine" name="readonly" expr="eval: false" for="unitPriceTaxed"/>
+	</action-attrs>
+	
+	<action-attrs name="action-stock-move-subline-price-attrs-readonly">
+		<attribute if="eval: __parent__.packPriceSelect == 1" name="readonly" expr="eval: false" for="unitPriceUntaxed"/>
+		<attribute if="eval: __parent__.packPriceSelect == 0" name="readonly" expr="eval: true" for="unitPriceUntaxed"/>
+		<attribute if="eval: __parent__.packPriceSelect == 1" name="readonly" expr="eval: false" for="unitPriceTaxed"/>
+		<attribute if="eval: __parent__.packPriceSelect == 0" name="readonly" expr="eval: true" for="unitPriceTaxed"/>
+	</action-attrs>
+	
+	<action-method name="action-stock-move-subline-method-reset-data-on-select-pack-line">
+		<call class="com.axelor.apps.supplychain.web.StockMoveLineController" method="resetSubLines"/>
+	</action-method>
 	
 </object-views>

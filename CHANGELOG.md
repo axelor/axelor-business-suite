@@ -6,6 +6,8 @@
 - Multiple Project Gantt View with User and Project.
 - Label "hours" on Project and Task with the field totalPlannedHrs.
 - Add a version management on Production process
+- Pack Price Select and Qty update from packLine to subLine.
+- Implement PackLine and SubLine for InvoiceLine and StockMoveLine.
 
 ## Improvements
 - Added 'sale blocking' in Partner

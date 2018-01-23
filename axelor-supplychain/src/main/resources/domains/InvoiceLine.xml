@@ -11,6 +11,9 @@
 	<many-to-one name="incomingStockMove" ref="com.axelor.apps.stock.db.StockMove" title="Supplier arrival"/>
   	<many-to-one name="saleOrder" ref="com.axelor.apps.sale.db.SaleOrder" title="Sale order" />
   	
+  	<many-to-one name="parentLine" ref="com.axelor.apps.account.db.InvoiceLine" />
+   	<one-to-many name="subLineList" ref="com.axelor.apps.account.db.InvoiceLine" mappedBy="parentLine" title="Pack lines"/>
+  	
   </entity>
   
 </domain-models>

@@ -3,18 +3,6 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.6.0.v201606072122</property>
     <list-property name="propertyBindings">
         <structure>
-            <property name="name">queryText</property>
-            <property name="id">3421</property>
-        </structure>
-        <structure>
-            <property name="name">queryTimeOut</property>
-            <property name="id">3421</property>
-        </structure>
-        <structure>
-            <property name="name">rowFetchSize</property>
-            <property name="id">3421</property>
-        </structure>
-        <structure>
             <property name="name">odaURL</property>
             <property name="id">209</property>
             <expression name="value" type="javascript">params["DBName"].value</expression>
@@ -158,9 +146,7 @@
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">org.postgresql.Driver</property>
-            <property name="odaURL">jdbc:postgresql://localhost:5432/axelor-business-suite-wip-7950</property>
-            <property name="odaUser">axelor</property>
-            <encrypted-property name="odaPassword" encryptionID="base64">bG1kcGRsYWE=</encrypted-property>
+            <property name="odaURL">jdbc:postgresql://localhost:5432/abs-wip</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
@@ -623,6 +609,7 @@ left outer join base_bank as Bank on (BankDetail.bank = Bank.id)
 where Invoice.id in (@INJECTID)]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="InvoiceLineDS" id="3421">
+            <property name="nullsOrdering">nulls lowest</property>
             <list-property name="computedColumns">
                 <structure>
                     <property name="name">discount</property>
@@ -635,78 +622,103 @@ where Invoice.id in (@INJECTID)]]></xml-property>
                     <property name="columnName">inv_id</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">inv_id</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">inv_id</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">product_name</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">product_name</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">product_name</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">description</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">description</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">description</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">TaxValue</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">TaxValue</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">TaxValue</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">qty</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">qty</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">qty</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">unitName</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">unitName</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">unitName</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">price</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">price</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">price</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">ex_tax_total</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">ex_tax_total</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">ex_tax_total</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">currencyCode</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">currencyCode</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">currencyCode</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">sequence</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">sequence</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">sequence</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">is_title_line</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">is_title_line</text-property>
-                    <property name="onColumnLayout">false</property>
                     <text-property name="heading">is_title_line</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">parent_pack_price_select</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">parent_pack_price_select</text-property>
+                    <text-property name="heading">parent_pack_price_select</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">pack_price_select</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">pack_price_select</text-property>
+                    <text-property name="heading">pack_price_select</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">is_pack_line</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">is_pack_line</text-property>
+                    <text-property name="heading">is_pack_line</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">is_sub_line</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">is_sub_line</text-property>
+                    <text-property name="heading">is_sub_line</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">total_pack</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">total_pack</text-property>
+                    <text-property name="heading">total_pack</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">productCode</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">productCode</text-property>
+                    <text-property name="heading">productCode</text-property>
                 </structure>
             </list-property>
             <list-property name="filter"/>
@@ -770,6 +782,36 @@ where Invoice.id in (@INJECTID)]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">12</property>
+                        <property name="name">parent_pack_price_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">pack_price_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">is_pack_line</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">is_sub_line</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">total_pack</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">productCode</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
                         <property name="name">discount</property>
                         <property name="dataType">decimal</property>
                     </structure>
@@ -855,12 +897,60 @@ where Invoice.id in (@INJECTID)]]></xml-property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">-7</property>
                 </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">parent_pack_price_select</property>
+                    <property name="nativeName">parent_pack_price_select</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">pack_price_select</property>
+                    <property name="nativeName">pack_price_select</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">is_pack_line</property>
+                    <property name="nativeName">is_pack_line</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">is_sub_line</property>
+                    <property name="nativeName">is_sub_line</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">total_pack</property>
+                    <property name="nativeName">total_pack</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">productCode</property>
+                    <property name="nativeName">productCode</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select Invoice.id as inv_id, InvoiceLine.product_name, InvoiceLine.description, TaxLine.value as "TaxValue",
 InvoiceLine.qty,Unit.label_to_printing as "unitName", InvoiceLine.price, InvoiceLine.ex_tax_total, 
-Currency.code as "currencyCode", InvoiceLine.sequence as "sequence" , InvoiceLine.is_title_line, 
+Currency.code as "currencyCode", InvoiceLine.sequence as "sequence" , InvoiceLine.type_select = 1 as "is_title_line",
+ParentInvoiceLine.pack_price_select = 1 as "parent_pack_price_select",
+InvoiceLine.pack_price_select as "pack_price_select",
+InvoiceLine.type_select = 2 as "is_pack_line",
+InvoiceLine.is_sub_line as "is_sub_line",
+InvoiceLine.total_pack as "total_pack",
 InvoiceLine.product_code as "productCode"
 from account_invoice_line as InvoiceLine
+left outer join account_invoice_line as ParentInvoiceLine on (ParentInvoiceLine.id = InvoiceLine.parent_line)
 inner join account_invoice as Invoice on (InvoiceLine.invoice = Invoice.id)
 left outer join account_tax_line as TaxLine on (InvoiceLine.tax_line = TaxLine.id)
 left outer join base_product as Product on (InvoiceLine.product = Product.id)
@@ -2867,6 +2957,36 @@ row["partnerFirstName"]
                                                 <property name="dataType">string</property>
                                                 <property name="allowExport">true</property>
                                             </structure>
+                                            <structure>
+                                                <property name="name">is_sub_line</property>
+                                                <text-property name="displayName">is_sub_line</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["is_sub_line"]</expression>
+                                                <property name="dataType">integer</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">is_pack_line</property>
+                                                <text-property name="displayName">is_pack_line</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["is_pack_line"]</expression>
+                                                <property name="dataType">integer</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">parent_pack_price_select</property>
+                                                <text-property name="displayName">parent_pack_price_select</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["parent_pack_price_select"]</expression>
+                                                <property name="dataType">integer</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">pack_price_select</property>
+                                                <text-property name="displayName">pack_price_select</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["pack_price_select"]</expression>
+                                                <property name="dataType">integer</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">total_pack</property>
+                                                <text-property name="displayName">total_pack</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["total_pack"]</expression>
+                                                <property name="dataType">decimal</property>
+                                            </structure>
                                         </list-property>
                                         <list-property name="sort">
                                             <structure>
@@ -3235,7 +3355,9 @@ row["partnerFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF>row["productCode"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF>if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["productCode"]}</VALUE-OF>
+<I><FONT size="9pt"><VALUE-OF>if(row["is_sub_line"]) {row["productCode"]}</VALUE-OF></FONT></I>
+<B><VALUE-OF>if(row["is_pack_line"]) {row["productCode"]}</VALUE-OF></B>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="3435">
@@ -3251,20 +3373,7 @@ row["partnerFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF>row["product_name"]</VALUE-OF><br>
-<SUB><I><VALUE-OF format="HTML">if(row["description"] != null ) row["description"].replace(/\<p|\<P/g, '<p style="margin-top: 0; margin-bottom:0.1em;" ').replace(/<!--\w+-->/gi,"")</VALUE-OF></I></SUB><br>]]></text-property>
-                                                    </text>
-                                                    <text id="4005">
-                                                        <property name="fontWeight">bold</property>
-                                                        <list-property name="visibility">
-                                                            <structure>
-                                                                <property name="format">all</property>
-                                                                <expression name="valueExpr" type="javascript">!row["is_title_line"]</expression>
-                                                            </structure>
-                                                        </list-property>
-                                                        <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF>row["product_name"]</VALUE-OF><br>
-<SUB><I><VALUE-OF format="HTML">if(row["description"] != null ) row["description"].replace(/\<p|\<P/g, '<p style="margin-top: 0; margin-bottom:0.1em;" ').replace(/<!--\w+-->/gi,"")</VALUE-OF></I></SUB><br>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF>if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["product_name"]}</VALUE-OF><I><FONT size="9pt"><VALUE-OF>if(row["is_sub_line"]) {row["product_name"]}</VALUE-OF></FONT></I><B><VALUE-OF>if(row["is_pack_line"]) {row["product_name"]}</VALUE-OF></B><br><SUB><I><VALUE-OF format="HTML">if(row["description"] != null ) row["description"].replace(/\<p|\<P/g, '<p style="margin-top: 0; margin-bottom:0.1em;" ').replace(/<!--\w+-->/gi,"")</VALUE-OF></I></SUB><br>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="3436">
@@ -3277,7 +3386,7 @@ row["partnerFirstName"]
                                                     <text id="3458">
                                                         <property name="textAlign">center</property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">row["TaxValue"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["TaxValue"]}</VALUE-OF><I><FONT size="9pt"><VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">if(row["is_sub_line"]) {row["TaxValue"]}</VALUE-OF></FONT></I><B><VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">if(row["is_pack_line"]) {row["TaxValue"]}</VALUE-OF></B>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="3437">
@@ -3295,7 +3404,7 @@ row["partnerFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">row["qty"]</VALUE-OF> <VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>row["unitName"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["qty"]}</VALUE-OF> <VALUE-OF format="^">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {"  "}</VALUE-OF><VALUE-OF>if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["unitName"]}</VALUE-OF><I><FONT size="9pt"><VALUE-OF format="#,##0.00">if(row["is_sub_line"]) {row["qty"]}</VALUE-OF> <VALUE-OF format="^">if(row["is_sub_line"]) {"  "}</VALUE-OF><VALUE-OF>if(row["is_sub_line"]) {row["unitName"]}</VALUE-OF></FONT></I><B><VALUE-OF format="#,##0.00">if(row["is_pack_line"]) {row["qty"]}</VALUE-OF> <VALUE-OF format="^">if(row["is_pack_line"]) {"  "}</VALUE-OF><VALUE-OF>if(row["is_pack_line"]) {row["unitName"]}</VALUE-OF></B>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="3438">
@@ -3314,7 +3423,9 @@ row["partnerFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,###.00">row["price"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,###.00">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"] &amp;&amp; row["price"] != 0) {row["price"]}</VALUE-OF>
+<I><VALUE-OF format="#,###.00">if(row["is_sub_line"] &amp;&amp; row["parent_pack_price_select"] == 1  &amp;&amp; row["price"] != 0) {row["price"]}</VALUE-OF></I>
+<B><VALUE-OF format="#,###.00">if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 0  &amp;&amp; row["price"] != 0) {row["price"]}</VALUE-OF></B>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="3991">
@@ -3332,7 +3443,9 @@ row["partnerFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,###.00">row["discount"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,###.00">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["discount"]}</VALUE-OF>
+<I><VALUE-OF format="#,###.00">if(row["is_sub_line"] &amp;&amp; row["parent_pack_price_select"] == 1) {row["discount"]}</VALUE-OF></I>
+<B><VALUE-OF format="#,###.00">if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 0) {row["discount"]}</VALUE-OF></B>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="3439">
@@ -3350,7 +3463,10 @@ row["partnerFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,###.00">row["ex_tax_total"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="#,###.00">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"] &amp;&amp; row["ex_tax_total"] != 0) {row["ex_tax_total"]}</VALUE-OF>
+<I><VALUE-OF format="#,###.00">if(row["is_sub_line"] &amp;&amp; row["parent_pack_price_select"] == 1 &amp;&amp; row["ex_tax_total"] != 0)  {row["ex_tax_total"]}</VALUE-OF></I>
+<B><VALUE-OF format="#,###.00">if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 1 &amp;&amp; row["total_pack"] != 0) {row["total_pack"]}</VALUE-OF></B>
+<B><VALUE-OF format="#,###.00">if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 0 &amp;&amp; row["ex_tax_total"] != 0) {row["ex_tax_total"]}</VALUE-OF></B>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="3664">
@@ -3368,7 +3484,11 @@ row["partnerFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[ <VALUE-OF>row["currencyCode"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF>if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"] &amp;&amp; row["ex_tax_total"] != 0) {row["currencyCode"]}</VALUE-OF>
+<I><VALUE-OF>if(row["is_sub_line"] &amp;&amp; row["parent_pack_price_select"] == 1 &amp;&amp; row["ex_tax_total"] != 0) {row["currencyCode"]}</VALUE-OF></I>
+<B><VALUE-OF>if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 1 &amp;&amp; row["total_pack"] != 0) {row["currencyCode"]}</VALUE-OF></B>
+<B><VALUE-OF>if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 0 &amp;&amp; row["ex_tax_total"] != 0) {row["currencyCode"]}</VALUE-OF></B>
+]]></text-property>
                                                     </text>
                                                 </cell>
                                             </row>

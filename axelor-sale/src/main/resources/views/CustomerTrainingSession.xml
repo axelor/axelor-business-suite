@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+    
+    <grid name="customer-training-session-grid" title="Sessions" model="com.axelor.apps.sale.db.CustomerTrainingSession">
+		<field name="saleOrder" />    	
+    	<field name="saleOrder.trainingName" />
+    	<field name="trainer" />
+    	<field name="name" />
+    	<field name="startDateT" />
+    	<field name="endDateT" />
+    </grid>
+    
+    <form name="customer-training-session-form" title="Session" model="com.axelor.apps.sale.db.CustomerTrainingSession">
+    	<panel>
+    		<field name="saleOrder" />
+    		<field name="saleOrder.trainingName"/>
+	    	<field name="trainer" domain="self.isContact = true" />
+	    	<panel-related field="participantsSet" domain="self.isContact = true and self.isEmployee != true" colSpan="12" />
+	    	<field name="name" />
+	    	<spacer/>
+	    	<field name="startDateT" />
+	    	<field name="endDateT" />
+    	</panel>
+    </form>
+    
+    <form name="customer-training-session-so-form" title="Session" model="com.axelor.apps.sale.db.CustomerTrainingSession">
+    	<panel>
+	    	<field name="trainer" domain="self.isContact = true" />
+	    	<panel-related field="participantsSet" domain="self.isContact = true and self.isEmployee != true" colSpan="12" />
+	    	<field name="name" />
+	    	<spacer/>
+	    	<field name="startDateT" />
+	    	<field name="endDateT" />
+    	</panel>
+    </form>
+    
+    <calendar name="customer-training-session-calendar" title="Sessions" mode="month" colorBy="trainer"
+    	eventStart="startDateT" eventStop="endDateT" eventLength="1" model="com.axelor.apps.sale.db.CustomerTrainingSession">
+    	<field name="name" />
+ 	</calendar>
+	
+</object-views>

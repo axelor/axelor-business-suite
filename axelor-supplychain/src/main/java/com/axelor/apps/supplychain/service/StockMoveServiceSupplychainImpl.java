@@ -20,11 +20,15 @@ package com.axelor.apps.supplychain.service;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.base.db.AppSupplychain;
 import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.app.AppBaseService;
@@ -50,7 +54,7 @@ import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 
-public class StockMoveServiceSupplychainImpl extends StockMoveServiceImpl  {
+public class StockMoveServiceSupplychainImpl extends StockMoveServiceImpl implements StockMoveServiceSupplychain {
 
 	private static final Logger LOG = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
 	
@@ -181,5 +185,55 @@ public class StockMoveServiceSupplychainImpl extends StockMoveServiceImpl  {
 			}
 		}
 	}
+	
+	@Override
+	public List<StockMoveLine> addSubLines(List<StockMoveLine> moveLines) {
+		
+		if (moveLines == null) {
+            return moveLines;
+        }
+        
+        List<StockMoveLine> lines = new ArrayList<StockMoveLine>();
+        lines.addAll(moveLines);
+        for (StockMoveLine line : lines) {
+            if (line.getSubLineList() == null) {
+                continue;
+            }
+            for (StockMoveLine subLine : line.getSubLineList()) {
+                if (subLine.getStockMove() == null) {
+                	moveLines.add(subLine);
+                }
+            }
+        }
+		return moveLines;
+	}
 
+	@Override
+	public List<StockMoveLine> removeSubLines(List<StockMoveLine> moveLines) {
+		
+		if (moveLines == null) {
+	        return moveLines;
+	    }
+	    
+	    
+	    List<StockMoveLine> subLines = new ArrayList<StockMoveLine>();
+	    for (StockMoveLine packLine : moveLines) {
+	        if (packLine.getLineTypeSelect() == 2 && packLine.getSubLineList() != null) {
+	            packLine.getSubLineList().removeIf(it->it.getId() != null && !moveLines.contains(it));
+	            subLines.addAll(packLine.getSubLineList());
+	        }
+	    }
+	    Iterator<StockMoveLine> lines = moveLines.iterator();
+
+	    while (lines.hasNext()) {
+	    	StockMoveLine subLine = lines.next();
+	        if (subLine.getId() != null 
+	                && subLine.getParentLine() != null
+	                && !subLines.contains(subLine)) {
+	                lines.remove();
+	        }
+	    }
+
+	    return moveLines;
+	}
 }

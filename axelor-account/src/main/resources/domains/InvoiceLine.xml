@@ -19,6 +19,7 @@
         <decimal name="priceDiscounted" title="Unit price discounted" precision="20" scale="10"/>
         <many-to-one name="unit" ref="com.axelor.apps.base.db.Unit" title="Unit"/>
         <decimal name="qty" title="Qty" precision="20" scale="2"/>
+        <decimal name="oldQty" hidden="true"/>
         <decimal name="exTaxTotal" title="Total W.T." precision="20" scale="2" readonly="true"/>
         <decimal name="inTaxTotal" title="Total A.T.I."/>
         <many-to-one name="taxLine" ref="com.axelor.apps.account.db.TaxLine" title="Tax"/>
@@ -44,11 +45,13 @@
 
         <many-to-one name="account" ref="com.axelor.apps.account.db.Account" title="Account"/>
 
-        <boolean name="isTitleLine" title="Title Line"/>
+        <integer name="typeSelect" title="Type" selection="sale.order.line.type.select"/>
+        <boolean name="isSubLine" title="Sub line" readonly="true"/>
+        <integer name="packPriceSelect" title="Pack price select" selection="product.pack.price.select"/>
+        <decimal name="totalPack" title="Total pack"/>
 
         <decimal name="taxRate" scale="3" precision="20" readonly="true"/>
         <string name="taxCode" readonly="true"/>
-
         <string name="name" title="Name" search="invoice,productName">
             <![CDATA[
    	    	String name = "";
@@ -65,7 +68,16 @@
 	  		return name;
 	    ]]>
         </string>
-
+        
+        <extra-code><![CDATA[
+		public static final int TYPE_NORMAL = 0;
+		public static final int TYPE_TITLE = 1;
+		public static final int TYPE_PACK = 2;
+		
+		public static final int PACK_PRICE_ONLY = 0;
+		public static final int SUBLINE_PRICE_ONLY = 1;
+        ]]></extra-code>
+        
     </entity>
 
 </domain-models>

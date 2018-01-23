@@ -10,6 +10,7 @@
 		<boolean name="productPackMgt" title="Product Pack Management" />
 		<boolean name="enableConfigurator" title="Enable business configurator"/>
 		<boolean name="allowPendingOrderModification" />
+		<boolean name="customerTraining" title="Customer training" />
 	</entity>
 
 </domain-models>

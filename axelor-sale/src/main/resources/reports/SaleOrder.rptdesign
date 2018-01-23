@@ -1240,11 +1240,35 @@ where SaleOrder.id = ?]]></xml-property>
                     <text-property name="heading">product_type_select</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">parent_pack_price_select</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">parent_pack_price_select</text-property>
+                    <text-property name="heading">parent_pack_price_select</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">pack_price_select</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">pack_price_select</text-property>
+                    <text-property name="heading">pack_price_select</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">is_title_line</property>
                     <property name="alias">is_title_line</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">is_title_line</text-property>
                     <text-property name="heading">is_title_line</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">is_pack_line</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">is_pack_line</text-property>
+                    <text-property name="heading">is_pack_line</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">is_sub_line</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">is_sub_line</text-property>
+                    <text-property name="heading">is_sub_line</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -1353,7 +1377,27 @@ where SaleOrder.id = ?]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">19</property>
+                        <property name="name">parent_pack_price_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">pack_price_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
                         <property name="name">is_title_line</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">is_pack_line</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">is_sub_line</property>
                         <property name="dataType">integer</property>
                     </structure>
                 </list-property>
@@ -1488,8 +1532,36 @@ where SaleOrder.id = ?]]></xml-property>
                 </structure>
                 <structure>
                     <property name="position">19</property>
+                    <property name="name">parent_pack_price_select</property>
+                    <property name="nativeName">parent_pack_price_select</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">pack_price_select</property>
+                    <property name="nativeName">pack_price_select</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
                     <property name="name">is_title_line</property>
                     <property name="nativeName">is_title_line</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">is_pack_line</property>
+                    <property name="nativeName">is_pack_line</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">is_sub_line</property>
+                    <property name="nativeName">is_sub_line</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">-7</property>
                 </structure>
@@ -1512,9 +1584,14 @@ where SaleOrder.id = ?]]></xml-property>
 	Subscription.from_period_date,
 	Subscription.to_period_date,
 	Product.product_type_select,
-	SOLine.type_select != 0 as is_title_line
+	ParentSOLine.pack_price_select as "parent_pack_price_select",
+	SOLine.pack_price_select as "pack_price_select",
+	SOLine.type_select = 1 as "is_title_line",
+	SOLine.type_select = 2 as "is_pack_line",
+	SOLine.is_sub_line
 from sale_sale_order as SaleOrder
 left outer join sale_sale_order_line as SOLine on (SOLine.sale_order = SaleOrder.id)
+left outer join sale_sale_order_line as ParentSOLine on (ParentSOLine.id = SOLine.parent_line)
 left outer join supplychain_subscription as Subscription on (Subscription.sale_order_line = SOLine.id)
 left outer join base_product as Product on (SOLine.product = Product.id)
 left outer join base_unit as Unit on (SOLine.unit = Unit.id)
@@ -3466,6 +3543,30 @@ else row["Column Binding_tot_sub"]</expression>
                                 <expression name="expression" type="javascript">dataSetRow["total_pack"]</expression>
                                 <property name="dataType">decimal</property>
                             </structure>
+                            <structure>
+                                <property name="name">is_sub_line</property>
+                                <text-property name="displayName">is_sub_line</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["is_sub_line"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">is_pack_line</property>
+                                <text-property name="displayName">is_pack_line</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["is_pack_line"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">pack_price_select</property>
+                                <text-property name="displayName">pack_price_select</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["pack_price_select"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">parent_pack_price_select</property>
+                                <text-property name="displayName">parent_pack_price_select</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["parent_pack_price_select"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
                         </list-property>
                         <column id="3713">
                             <list-property name="visibility">
@@ -3820,26 +3921,10 @@ else row["Column Binding_tot_sub"]</expression>
                                         <property name="borderRightWidth">thin</property>
                                         <text id="4149">
                                             <property name="fontSize">8pt</property>
-                                            <list-property name="visibility">
-                                                <structure>
-                                                    <property name="format">all</property>
-                                                    <expression name="valueExpr" type="javascript">row["is_title_line"]  == true</expression>
-                                                </structure>
-                                            </list-property>
+                                            <property name="display">inline</property>
+                                            <structure name="toc"/>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>row["productCode"]</VALUE-OF>]]></text-property>
-                                        </text>
-                                        <text id="4303">
-                                            <property name="fontSize">8pt</property>
-                                            <property name="fontWeight">bold</property>
-                                            <list-property name="visibility">
-                                                <structure>
-                                                    <property name="format">all</property>
-                                                    <expression name="valueExpr" type="javascript">row["is_title_line"]  != true</expression>
-                                                </structure>
-                                            </list-property>
-                                            <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>row["productCode"]</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF>if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]){row["productCode"]}</VALUE-OF><I><FONT size="7pt"><VALUE-OF>if(row["is_sub_line"] &amp;&amp; !row["is_pack_line"]){row["productCode"]}</VALUE-OF></FONT></I><B><VALUE-OF>if(row["is_pack_line"]){row["productCode"]}</VALUE-OF></B>]]></text-property>
                                         </text>
                                     </cell>
                                     <cell id="4148">
@@ -3879,51 +3964,7 @@ else row["Column Binding_tot_sub"]</expression>
                                                 </structure>
                                             </list-property>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>if(row["translation"] != null) {
-	row["translation"]
-} else {
-	row._outer["ProductName"]
-}</VALUE-OF>]]></text-property>
-                                        </text>
-                                        <text id="4302">
-                                            <property name="fontSize">8pt</property>
-                                            <property name="fontWeight">bold</property>
-                                            <property name="dataSet">TranslateDS</property>
-                                            <list-property name="visibility">
-                                                <structure>
-                                                    <property name="format">all</property>
-                                                    <expression name="valueExpr" type="javascript">row["is_title_line"] != true</expression>
-                                                </structure>
-                                            </list-property>
-                                            <list-property name="paramBindings">
-                                                <structure>
-                                                    <property name="paramName">param_1</property>
-                                                    <simple-property-list name="expression">
-                                                        <value type="javascript">row["ProductName"]</value>
-                                                    </simple-property-list>
-                                                </structure>
-                                            </list-property>
-                                            <list-property name="boundDataColumns">
-                                                <structure>
-                                                    <property name="name">message_key</property>
-                                                    <text-property name="displayName">message_key</text-property>
-                                                    <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
-                                                    <property name="dataType">string</property>
-                                                </structure>
-                                                <structure>
-                                                    <property name="name">translation</property>
-                                                    <text-property name="displayName">translation</text-property>
-                                                    <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
-                                                    <property name="dataType">string</property>
-                                                </structure>
-                                            </list-property>
-                                            <structure name="toc"/>
-                                            <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>if(row["translation"] != null) {
-	row["translation"]
-} else {
-	row._outer["ProductName"]
-}</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF>if(!row._outer["is_sub_line"] &amp;&amp; !row._outer["is_pack_line"]){if(row["translation"] != null) {row["translation"]} else {row._outer["ProductName"]}}</VALUE-OF><I><FONT size="7pt"><VALUE-OF>if(row._outer["is_sub_line"]) {if(row["translation"] != null) {	row["translation"]} else {	row._outer["ProductName"]}}</VALUE-OF></FONT></I><B><VALUE-OF>if(row._outer["is_pack_line"]) {if(row["translation"] != null) {	row["translation"]} else {	row._outer["ProductName"]}}</VALUE-OF></B>]]></text-property>
                                         </text>
                                         <text id="3779">
                                             <property name="fontSize">8pt</property>
@@ -3981,7 +4022,7 @@ else 'Subscriptions'</value>
                                                 </structure>
                                             </list-property>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">row["tax_line"]</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["tax_line"]}</VALUE-OF><I><FONT size="7pt"><VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">if(row["is_sub_line"]) {	row["tax_line"]}</VALUE-OF></FONT></I><B><VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">if(row["is_pack_line"]) {row["tax_line"]}</VALUE-OF></B>]]></text-property>
                                         </text>
                                     </cell>
                                     <cell id="3696">
@@ -3992,14 +4033,9 @@ else 'Subscriptions'</value>
                                         <text id="3459">
                                             <property name="fontSize">8pt</property>
                                             <property name="textAlign">center</property>
-                                            <list-property name="visibility">
-                                                <structure>
-                                                    <property name="format">all</property>
-                                                    <expression name="valueExpr" type="javascript">row["is_title_line"]</expression>
-                                                </structure>
-                                            </list-property>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">row["quantity"]</VALUE-OF> <VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>row["UnitCode"]</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["quantity"]}</VALUE-OF> <VALUE-OF format="^">if(row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {"  "}</VALUE-OF><VALUE-OF>if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["UnitCode"]}</VALUE-OF>
+<I><FONT size="7pt"><VALUE-OF format="#,##0.00">if(row["is_sub_line"]) {row["quantity"]}</VALUE-OF> <VALUE-OF format="^">if(row["is_sub_line"]) {"  "}</VALUE-OF><VALUE-OF>if(row["is_sub_line"]) {row["UnitCode"]}</VALUE-OF></FONT></I><B><VALUE-OF format="#,##0.00">if(row["is_pack_line"]) {row["quantity"]}</VALUE-OF> <VALUE-OF format="^">if(row["is_pack_line"]) {"  "}</VALUE-OF><VALUE-OF>if(row["is_pack_line"]) {row["UnitCode"]}</VALUE-OF></B>]]></text-property>
                                         </text>
                                         <text id="4182">
                                             <property name="fontSize">8pt</property>
@@ -4038,7 +4074,9 @@ else 'Subscriptions'</value>
                                                 </structure>
                                             </list-property>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>Formatter.format(row._outer["unit_price"], "#,##0." + "0".repeat(row["nb_decimal_digit_for_unit_price"]))</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF>if(!row._outer["is_sub_line"] &amp;&amp; !row._outer["is_pack_line"]) {Formatter.format(row._outer["unit_price"], "#,##0." + "0".repeat(row["nb_decimal_digit_for_unit_price"]))}</VALUE-OF>
+<I><VALUE-OF>if(row._outer["is_sub_line"] &amp;&amp; row._outer["parent_pack_price_select"] == 1){Formatter.format(row._outer["unit_price"], "#,##0." + "0".repeat(row["nb_decimal_digit_for_unit_price"]))}</VALUE-OF></I>
+<B><VALUE-OF>if(row._outer["is_pack_line"] &amp;&amp; row._outer["pack_price_select"] == 0) {Formatter.format(row._outer["unit_price"], "#,##0." + "0".repeat(row["nb_decimal_digit_for_unit_price"]))}</VALUE-OF></B>]]></text-property>
                                         </text>
                                     </cell>
                                     <cell id="4152">
@@ -4056,7 +4094,9 @@ else 'Subscriptions'</value>
                                                 </structure>
                                             </list-property>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">row["totalDiscountAmount"]</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["totalDiscountAmount"]}</VALUE-OF>
+<I><VALUE-OF format="#,##0.00">if(row["is_sub_line"] == 1 &amp;&amp; row["parent_pack_price_select"] == 1) {row["totalDiscountAmount"]}</VALUE-OF></I>
+<B><VALUE-OF format="#,##0.00">if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 0){row["totalDiscountAmount"]}</VALUE-OF></B>]]></text-property>
                                         </text>
                                         <data id="4282">
                                             <property name="fontSize">8pt</property>
@@ -4087,7 +4127,10 @@ else 'Subscriptions'</value>
                                                 </structure>
                                             </list-property>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">row["ex_tax_total"]</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF format="#,##0.00">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["ex_tax_total"]}</VALUE-OF>
+<I><VALUE-OF format="#,##0.00">if(row["is_sub_line"] &amp;&amp; row["parent_pack_price_select"] == 1) {row["ex_tax_total"]}</VALUE-OF></I>
+<B><VALUE-OF format="#,##0.00">if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 0){row["ex_tax_total"]}</VALUE-OF></B>
+<B><VALUE-OF format="#,##0.00">if(row["is_pack_line"] &amp;&amp; row["pack_price_select"] == 1){row["total_pack"]}</VALUE-OF></B>]]></text-property>
                                         </text>
                                         <data id="4304">
                                             <property name="fontSize">8pt</property>
@@ -4132,20 +4175,7 @@ else 'Subscriptions'</value>
                                                 </structure>
                                             </list-property>
                                             <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>row["CurrencyCode"]</VALUE-OF>]]></text-property>
-                                        </text>
-                                        <text id="3668">
-                                            <property name="fontSize">8pt</property>
-                                            <property name="fontWeight">bold</property>
-                                            <property name="textAlign">left</property>
-                                            <list-property name="visibility">
-                                                <structure>
-                                                    <property name="format">all</property>
-                                                    <expression name="valueExpr" type="javascript">row["is_title_line"] != true</expression>
-                                                </structure>
-                                            </list-property>
-                                            <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>row["CurrencyCode"]</VALUE-OF>]]></text-property>
+                                            <text-property name="content"><![CDATA[<VALUE-OF>if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"]) {row["CurrencyCode"]}</VALUE-OF><I><VALUE-OF>if(row["is_sub_line"] == 1 &amp;&amp; row["parent_pack_price_select"] == 1) {row["CurrencyCode"]}</VALUE-OF></I><B><VALUE-OF>if(row["is_pack_line"]){row["CurrencyCode"]}</VALUE-OF></B>]]></text-property>
                                         </text>
                                     </cell>
                                 </row>

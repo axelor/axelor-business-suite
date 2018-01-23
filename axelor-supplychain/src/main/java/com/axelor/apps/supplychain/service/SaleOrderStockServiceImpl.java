@@ -225,7 +225,11 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService  {
 	            stockMoveLine.setReservedQty(saleOrderLine.getReservedQty());
 	            stockMove.addStockMoveLineListItem(stockMoveLine);
 			}
-
+			
+			stockMoveLine.setLineTypeSelect(saleOrderLine.getTypeSelect());
+			stockMoveLine.setPackPriceSelect(saleOrderLine.getPackPriceSelect());
+			stockMoveLine.setIsSubLine(saleOrderLine.getIsSubLine());
+			
 			return stockMoveLine;
 		}
 		else if(saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_PACK){

@@ -751,6 +751,9 @@
 	</action-group>
 
 	<action-group name="action-invoice-group-invoice-line-onchange">
+		<action name="action-invoice-method-remove-subline"/> 
+		<action name="save" if="invoiceLineList.find{it->it.typeSelect == 2 &amp;&amp; (it.version != null || it.id == null)} != null" />
+		<action name="action-invoice-method-add-subline"/>
 		<action name="action-invoice-method-compute"/>
 		<action name="save"/>
 	</action-group>
@@ -952,6 +955,14 @@
 
 	<action-method name="action-invoice-method-create-refund">
 		<call class="com.axelor.apps.account.web.InvoiceController" method="createRefund"/>
+	</action-method>
+	
+	<action-method name="action-invoice-method-add-subline">
+		<call class="com.axelor.apps.supplychain.web.InvoiceController" method="addSubLines"/>
+	</action-method>
+	
+	<action-method name="action-invoice-method-remove-subline">
+		<call class="com.axelor.apps.supplychain.web.InvoiceController" method="removeSubLines"/>
 	</action-method>
 
 	<action-method name="action-invoice-method-compute">

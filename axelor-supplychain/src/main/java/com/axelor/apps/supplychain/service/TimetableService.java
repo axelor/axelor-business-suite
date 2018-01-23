@@ -118,7 +118,7 @@ public class TimetableService {
 				timetable.getAmount(), timetable.getAmount(), timetable.getComments(), timetable.getQty(),
 				timetable.getUnit(), null, 1, BigDecimal.ZERO, IPriceListLine.AMOUNT_TYPE_NONE,
 				timetable.getAmount().multiply(timetable.getQty()),null, false,
-				this.findFirstSaleOrderLine(timetable), this.findFirstPurchaseOrderLine(timetable), null) {
+				this.findFirstSaleOrderLine(timetable), this.findFirstPurchaseOrderLine(timetable), null, false) {
 
 			@Override
 			public List<InvoiceLine> creates() throws AxelorException {

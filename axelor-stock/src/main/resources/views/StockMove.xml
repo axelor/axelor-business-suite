@@ -112,7 +112,7 @@
 	    </panel>
 	  </panel>
 	  <panel-tabs>
-	    <panel-related name="stockMoveLineListPanel" title="Stock move line" field="stockMoveLineList" onChange="action-stock-move-method-compute, action-stock-move-line-method-change-conformity" readonlyIf="statusSelect == 3" form-view="stock-move-line-form" grid-view="stock-move-line-grid"/>
+	    <panel-related name="stockMoveLineListPanel" title="Stock move line" field="stockMoveLineList" onChange="action-stock-move-line-change-group" readonlyIf="statusSelect == 3" form-view="stock-move-line-form" grid-view="stock-move-line-grid"/>
 	    <panel-dashlet action="action-stock-move-view-logistical-forms" showIf="id &amp;&amp; typeSelect == 2" title="Logistical forms" />
         <panel name="configuration" title="Configuration"  if-module="axelor-supplychain" if="__config__.app.isApp('supplychain')" >
 	      <field name="saleOrder" onChange="action-stock-move-attrs-typeselect-change" readonlyIf="statusSelect == 3 || statusSelect == 4" form-view="sale-order-form" grid-view="sale-order-grid"/>
@@ -192,6 +192,13 @@
         </panel>
     </form>
     
+    <action-method name="action-stock-move-method-add-subline">
+    	<call class="com.axelor.apps.supplychain.web.StockMoveController" method="addSubLines"/>
+    </action-method>
+    
+    <action-method name="action-stock-move-method-remove-subline">
+    	<call class="com.axelor.apps.supplychain.web.StockMoveController" method="removeSubLines"/>
+    </action-method>
     
     <action-method name="action-stock-move-method-compute">
     	<call class="com.axelor.apps.stock.web.StockMoveController" method="compute"/>
@@ -216,6 +223,14 @@
     	<action name="action-stock-move-record-new"/>
     	<action name="action-stock-move-attrs-typeselect-change"/>
 		<action name="action-stock-move-hide-reserved-qty"/>
+    </action-group>
+    
+    <action-group name="action-stock-move-line-change-group">
+    	<action name="action-stock-move-method-remove-subline"/>
+    	<action name="save" if="stockMoveLineList.find{it->it.lineTypeSelect == 2 &amp;&amp; (it.version != null || it.id == null)} != null" />
+    	<action name="action-stock-move-method-add-subline"/>
+    	<action name="action-stock-move-method-compute"/>
+    	<action name="action-stock-move-line-method-change-conformity"/>
     </action-group>
     
 	<action-group name="action-group-stock-stockmove-plan-click">

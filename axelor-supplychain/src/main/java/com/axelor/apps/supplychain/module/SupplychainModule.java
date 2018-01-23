@@ -86,6 +86,7 @@ import com.axelor.apps.supplychain.service.SaleOrderStockServiceImpl;
 import com.axelor.apps.supplychain.service.StockMoveInvoiceService;
 import com.axelor.apps.supplychain.service.StockMoveInvoiceServiceImpl;
 import com.axelor.apps.supplychain.service.StockMoveLineSupplychainServiceImpl;
+import com.axelor.apps.supplychain.service.StockMoveServiceSupplychain;
 import com.axelor.apps.supplychain.service.StockMoveServiceSupplychainImpl;
 import com.axelor.apps.supplychain.service.StockRulesServiceSupplychainImpl;
 import com.axelor.apps.supplychain.service.SubscriptionService;
@@ -97,6 +98,7 @@ import com.axelor.apps.supplychain.service.app.AppSupplychainServiceImpl;
 import com.axelor.apps.supplychain.service.config.StockConfigSupplychainService;
 import com.axelor.apps.supplychain.service.config.SupplyChainConfigService;
 import com.axelor.apps.supplychain.service.config.SupplyChainConfigServiceImpl;
+import com.axelor.apps.supplychain.service.invoice.InvoiceServiceSupplychain;
 import com.axelor.apps.supplychain.service.invoice.InvoiceServiceSupplychainImpl;
 import com.axelor.apps.supplychain.service.workflow.WorkflowCancelServiceSupplychainImpl;
 import com.axelor.apps.supplychain.service.workflow.WorkflowValidationServiceSupplychainImpl;
@@ -152,5 +154,7 @@ public class SupplychainModule extends AxelorModule {
         bind(SaleOrderLineServiceSupplyChain.class).to(SaleOrderLineServiceSupplyChainImpl.class);
         bind(SupplyChainConfigService.class).to(SupplyChainConfigServiceImpl.class);
         bind(SupplychainBatchRepository.class).to(SupplychainBatchSupplychainRepository.class);
+        bind(InvoiceServiceSupplychain.class).to(InvoiceServiceSupplychainImpl.class);
+        bind(StockMoveServiceSupplychain.class).to(StockMoveServiceSupplychainImpl.class);
     }
 }

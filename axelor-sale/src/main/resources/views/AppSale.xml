@@ -10,6 +10,7 @@
 			<field name="productPackMgt" widget="boolean-switch"/>
 			<field name="enableConfigurator" widget="boolean-switch"/>
 			<field name="allowPendingOrderModification" widget="boolean-switch"/>
+			<field name="customerTraining" widget="boolean-switch"/>
 		</panel>
 		<panel>
 			<button name="generateSaleConfigurations" colSpan="4" title="Generate sale configurations" onClick="save,com.axelor.apps.sale.web.AppSaleController:generateSaleConfigurations"/>

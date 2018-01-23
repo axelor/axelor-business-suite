@@ -305,6 +305,16 @@
             <field name="hideDiscount"/>
             <field name="specificNotes" colSpan="12" readonly="true"/>
         </panel>
+        <panel name="customerTraining" title="Customer training" if="__config__.app.getApp('sale').getCustomerTraining()">
+        	<field name="trainingName" />
+        	<field name="trainingDescription" colSpan="12"/>
+        	<panel-related field="customerTrainingSessionList" colSpan="12" form-view="customer-training-session-so-form">
+        		<field name="trainer" />
+		    	<field name="name" />
+		    	<field name="startDateT" />
+		    	<field name="endDateT" />
+        	</panel-related>
+        </panel>
 	  </panel-tabs>
 
 	  <panel>
@@ -817,10 +827,10 @@
     </action-group>
 
     <action-group name="action-sale-order-line-change-group">
-    	<action name="save" if="saleOrderLineList.find{it->it.subLineList.find{t->t.saleOrder == null} != null} != null" />
+    	<action name="action-sale-order-method-remove-subline"/>
+    	<action name="save" if="saleOrderLineList.find{it->it.typeSelect == 2 &amp;&amp; (it.version != null || it.id == null)} != null" />
     	<action name="action-sale-order-method-compute"/>
     	<action name="action-sale-order-method-compute-margin"/>
-    	<action name="save" if="saleOrderLineList.find{it->it.subLineList.find{t->t.saleOrder == null} != null} != null" />
     </action-group>
 
 	<action-group name="action-sale-order-group-client-partner-change">
@@ -998,6 +1008,10 @@
     <action-method name="action-sale-order-record-compute-end-of-validity-date">
 		<call class="com.axelor.apps.sale.web.SaleOrderController" method="computeEndOfValidityDate"/>
     </action-method>
+    
+    <action-method name="action-sale-order-method-remove-subline">
+        <call class="com.axelor.apps.sale.web.SaleOrderController" method="removeSubLines"/>
+	</action-method>
 
     <action-method name="action-sale-order-method-compute">
         <call class="com.axelor.apps.sale.web.SaleOrderController" method="compute"/>
