@@ -39,6 +39,7 @@ import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.IException;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.MetaFiles;
@@ -322,5 +323,22 @@ public class PartnerController {
 				"hidden",
 				!partnerService.isThereDuplicatePartner(partner));
 	}
+
+    public void setDefaultsIfSingle(ActionRequest request, ActionResponse response) {
+        try {
+            Partner partner = request.getContext().asType(Partner.class);
+
+            if (partnerService.setDefaultPartnerAdressIfSingle(partner)) {
+                response.setValue("partnerAddressList", partner.getPartnerAddressList());
+            }
+
+            if (partnerService.setDefaultBankDetailsIfSingle(partner)) {
+                response.setValue("bankDetailsList", partner.getBankDetailsList());
+            }
+        } catch (Exception e) {
+            TraceBackService.trace(response, e);
+
+        }
+    }
 
 }

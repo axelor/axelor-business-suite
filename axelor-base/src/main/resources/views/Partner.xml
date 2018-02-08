@@ -93,7 +93,7 @@
 	<form name="partner-form"  title="Partner" model="com.axelor.apps.base.db.Partner"
 		  onNew="action-group-base-partner-onnew"
 		  onLoad="action-group-partner-onload"
-		  onSave="action-partner-iban-check-on-save" width="large">
+		  onSave="action-group-partner-onsave" width="large">
 		<menubar>
 			<menu title="Reports" icon="img/16px/create_16px.png" showTitle="true">
 				<item title="Print Informations" action="save,action-partner-method-show-partner-info" readonlyIf="id == null"/>
@@ -635,6 +635,11 @@
 		<action name="action-partner-attrs-partner-seq-editable"/>
 	</action-group>
 
+    <action-group name="action-group-partner-onsave">
+        <action name="action-partner-iban-check-on-save" />
+        <action name="action-partner-method-defaults-if-single" />
+    </action-group>
+
 	<action-group name="action-group-base-partner-contact-name-onchange">
 		<action name="action-partner-record-full-name"/>
 	</action-group>
@@ -833,6 +838,10 @@
         <field name="isSupplier" expr="eval: false" />
         <field name="isCarrier" expr="eval: false" />
     </action-record>
+
+    <action-method name="action-partner-method-defaults-if-single">
+        <call class="com.axelor.apps.base.web.PartnerController" method="setDefaultsIfSingle" />
+    </action-method>
 
 	<search-filters name="partner-filters" model="com.axelor.apps.base.db.Partner" title="Partner filters">
 		<filter title="All Enterprises">

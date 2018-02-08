@@ -17,6 +17,13 @@
  */
 package com.axelor.apps.base.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.axelor.apps.base.db.Address;
 import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Currency;
@@ -36,16 +43,10 @@ import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.IException;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class PartnerService {
 
@@ -222,6 +223,10 @@ public class PartnerService {
 	private Address getAddress(Partner partner, String querySpecific, String queryComman){
 
 		if(partner != null){
+		    if (partner.getPartnerAddressList() != null && partner.getPartnerAddressList().size() == 1) {
+		        return partner.getPartnerAddressList().get(0).getAddress();
+		    }
+
 			PartnerAddressRepository partnerAddressRepo = Beans.get(PartnerAddressRepository.class);
 			List<PartnerAddress> partnerAddressList = partnerAddressRepo.all().filter(querySpecific, partner.getId()).fetch();
 			if(partnerAddressList.isEmpty()){
@@ -364,4 +369,48 @@ public class PartnerService {
 			return null;
 		}
 	}
+
+    /**
+     * If there is only one partner address, set it as default invoicing and delivery address.
+     * 
+     * @param partner
+     * @return whether the record was changed.
+     */
+    public boolean setDefaultPartnerAdressIfSingle(Partner partner) {
+        Preconditions.checkNotNull(partner);
+
+        if (partner.getPartnerAddressList() == null || partner.getPartnerAddressList().isEmpty()
+                || partner.getPartnerAddressList().size() > 1) {
+            return false;
+        }
+
+        PartnerAddress partnerAddress = partner.getPartnerAddressList().get(0);
+
+        partnerAddress.setIsDefaultAddr(true);
+        partnerAddress.setIsInvoicingAddr(true);
+        partnerAddress.setIsDeliveryAddr(true);
+
+        return true;
+    }
+
+    /**
+     * If there is only one bank details item, set it as default.
+     * 
+     * @param partner
+     * @return
+     */
+    public boolean setDefaultBankDetailsIfSingle(Partner partner) {
+        Preconditions.checkNotNull(partner);
+
+        if (partner.getBankDetailsList() == null || partner.getBankDetailsList().isEmpty()
+                || partner.getBankDetailsList().size() > 1) {
+            return false;
+        }
+
+        BankDetails bankDetails = partner.getBankDetailsList().get(0);
+        bankDetails.setIsDefault(true);
+
+        return true;
+    }
+
 }
