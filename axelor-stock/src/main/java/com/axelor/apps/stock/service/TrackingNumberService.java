@@ -52,7 +52,7 @@ public class TrackingNumberService {
 			trackingNumber = trackingNumberRepo.save(this.createTrackingNumber(product, company, date));
 		}
 
-		trackingNumber.setCounter(trackingNumber.getCounter().add(sizeOfLot));
+		trackingNumber.setLotSize(trackingNumber.getLotSize().add(sizeOfLot));
 
 		return trackingNumber;
 
@@ -94,7 +94,7 @@ public class TrackingNumberService {
 		}
 
 		trackingNumber.setProduct(product);
-		trackingNumber.setCounter(BigDecimal.ZERO);
+		trackingNumber.setLotSize(BigDecimal.ZERO);
 
 		TrackingNumberConfiguration trackingNumberConfiguration = product.getTrackingNumberConfiguration();
 

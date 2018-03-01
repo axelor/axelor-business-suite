@@ -9,29 +9,30 @@
 		<hilite if="$moment(perishableExpirationDate).isAfter($moment(_datePlusTwoMonths)) || $moment(warrantyExpirationDate).isAfter($moment(_datePlusTwoMonths))" color="success" />
     	<field name="trackingNumberSeq"/>
     	<field name="product" form-view="product-form" grid-view="product-grid"/>
+        <field name="lotSize"/>
         <field name="warrantyExpirationDate"/>
         <field name="perishableExpirationDate"/>
     </grid>
     
     <form name="tracking-number-form" title="Tracking Number" model="com.axelor.apps.stock.db.TrackingNumber"
-    	onLoad="action-tracking-number-attrs-hide-fields" >
+          onLoad="action-tracking-number-attrs-hide-fields">
     	<panel name="main">
 	    	<field name="trackingNumberSeq"/>
 	        <field name="product" hidden="true" onChange="action-tracking-number-attrs-hide-fields" form-view="product-form" grid-view="product-grid"/>
 	        <field name="warrantyExpirationDate"/>
 	        <field name="perishableExpirationDate"/>
-	        <field name="counter"/>
+	        <field name="lotSize"/>
         </panel>
     </form>
 
 	<form name="tracking-number-stock-move-line-form" title="Tracking Number" model="com.axelor.apps.stock.db.TrackingNumber"
-		  onLoad="action-tracking-number-attrs-hide-fields" onNew="action-tracking-number-attrs-product-stock-move-line" >
+		  onLoad="action-tracking-number-attrs-hide-fields" onNew="action-tracking-number-attrs-product-stock-move-line">
 		<panel name="main">
 			<field name="trackingNumberSeq"/>
 			<field name="product" onChange="action-tracking-number-attrs-hide-fields" form-view="product-form" grid-view="product-grid"/>
 			<field name="warrantyExpirationDate"/>
 			<field name="perishableExpirationDate"/>
-			<field name="counter"/>
+			<field name="lotSize"/>
 		</panel>
 	</form>
 

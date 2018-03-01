@@ -11,7 +11,7 @@
 	<date name="warrantyExpirationDate" title="Warranty expiration date" readonly="true"/>
 	<date name="perishableExpirationDate" title="Perishable expiration date" readonly="true"/>
 	<string name="trackingNumberSeq" namecolumn="true" title="Tracking Nbr." required="true" unique="true"/>
-	<decimal name="counter" title="Counter"/>
+	<decimal name="lotSize" title="Lot Size"/>
 	
 	<finder-method name="findBySeq" using="trackingNumberSeq"/>
 	
