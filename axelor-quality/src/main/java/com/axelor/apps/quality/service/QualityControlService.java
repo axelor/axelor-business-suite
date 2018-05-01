@@ -18,12 +18,11 @@
 package com.axelor.apps.quality.service;
 
 import com.axelor.apps.quality.db.QualityControl;
-import com.axelor.exception.AxelorException;
 import com.google.inject.persist.Transactional;
 
 public interface QualityControlService {
-	
+
 	@Transactional
-	public void preFillOperations(QualityControl control) throws AxelorException;
+	public void preFillOperations(QualityControl control);
 
 }

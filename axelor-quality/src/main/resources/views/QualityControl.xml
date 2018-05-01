@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
-	
+
 	<grid name="quality-control-grid" title="Quality controls" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="reference"/>
 		<field name="product"/>
@@ -9,20 +9,23 @@
 		<field name="team"/>
 		<field name="responsible"/>
 	</grid>
-	
-	<calendar name="quality-control-calendar" title="Quality control calendar" mode="month" colorBy="statusSelect" 
-    	eventStart="startDate" eventStop="endDate" eventLength="1" model="com.axelor.apps.quality.db.QualityControl">
-    	<field name="fullName"/>
- 	</calendar>
-	
-	<form name="quality-control-form" title="Quality controls" model="com.axelor.apps.quality.db.QualityControl" onNew="action-quality-control-record-default,action-quality-control-attrs-hide-quality-control-on-grid" onLoad="action-quality-control-attrs-hide-quality-control-on-grid">
+
+	<calendar name="quality-control-calendar" title="Quality control calendar" mode="month" colorBy="statusSelect" eventStart="startDate" eventStop="endDate" eventLength="1" model="com.axelor.apps.quality.db.QualityControl">
+		<field name="fullName"/>
+	</calendar>
+
+	<form name="quality-control-form" title="Quality controls" model="com.axelor.apps.quality.db.QualityControl"
+	      onNew="action-quality-control-record-default,action-quality-control-attrs-hide-quality-control-on-grid,action-attrs-quality-control-load"
+	      onLoad="action-quality-control-attrs-hide-quality-control-on-grid,,action-attrs-quality-control-load">
 		<panel title="Status">
-			<field name="statusSelect" showTitle="false" widget="NavSelect" colSpan="12" />
+			<field name="$_allowPerControlControlPoints" hidden="true"/>
+			<field name="qualityProcess.product" hidden="true"/>
+			<field name="statusSelect" showTitle="false" widget="NavSelect" colSpan="12"/>
 		</panel>
 		<panel>
 			<field name="reference"/>
-			<field name="product"/>
-			<field name="qualityProcess"/>
+			<field name="product" readonlyIf="qualityProcess.product != null"/>
+			<field name="qualityProcess" onChange="action-quality-control-record-process-dependencies"/>
 			<field name="team" domain="self.typeSelect = 'quality'"/>
 			<field name="responsible"/>
 			<field name="startDate"/>
@@ -36,69 +39,75 @@
 			<button name="finish" title="Finish" showIf="statusSelect == 4" onClick="action-quality-control-record-status-finish,save"/>
 			<button name="cancel" title="Cancel" showIf="statusSelect == 1 || statusSelect == 3 || statusSelect == 4" onClick="action-quality-control-record-status-canceled,save"/>
 		</panel>
-		<panel name="control-point">
-			<panel-related field="controlPointList" colSpan="12" grid-view="control-point-grid" form-view="control-point-form" onNew="save"/>
+		<panel>
+			<panel-related field="controlPointList" colSpan="12" grid-view="control-point-grid" form-view="control-point-form" onNew="save" canNew="$_allowPerControlControlPoints" canRemove="$_allowPerControlControlPoints" canSelect="false"/>
 		</panel>
 		<panel sidebar="true">
-			<button name="preFillControlPoints" title="Pre-fill control points" onClick="save,action-quality-control-method-pre-fill-operations" showIf="statusSelect == 1"/>
+			<button name="preFillControlPoints" title="Pre-fill control points" onClick="save,action-quality-control-method-pre-fill-operations" showIf="statusSelect == 1 &amp;&amp; $_allowPerControlControlPoints"/>
 			<button name="editControlPoints" title="Edit control points" onClick="action-quality-control-method-open-control-points"/>
 		</panel>
 		<panel-mail>
-		  <mail-messages />
-	   	</panel-mail>
-	</form>	
-	
-	<kanban columnBy="statusSelect" sequenceBy="sequence"
-	 name="quality-control-kanban" title="Quality control" model="com.axelor.apps.quality.db.QualityControl">
+			<mail-messages/>
+		</panel-mail>
+	</form>
+
+	<kanban columnBy="statusSelect" sequenceBy="sequence" name="quality-control-kanban" title="Quality control" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="fullName"/>
 		<field name="team"/>
 		<field name="responsible"/>
 		<template>
-            <![CDATA[
-            <h4>{{fullName}}</h4>
-            <div class="card-body">{{team.name}}</div>
-            <div class="card-body">{{responsible.name}}</div>
-    		]]>
-        </template>
-
+			<![CDATA[
+			<h4>{{fullName}}</h4>
+			<div class="card-body">{{team.name}}</div>
+			<div class="card-body">{{responsible.name}}</div>
+			]]>
+		</template>
 	</kanban>
-    
-    <action-attrs name="action-quality-control-attrs-hide-quality-control-on-grid">
+
+	<action-attrs name="action-quality-control-attrs-hide-quality-control-on-grid">
 		<attribute name="hidden" for="controlPointList.qualityControl" expr="true"/>
 	</action-attrs>
-    
+
+	<action-attrs name="action-attrs-quality-control-load">
+		<attribute name="value" for="$_allowPerControlControlPoints" expr="eval: __config__.app.getApp('quality').getAllowPerControlControlPoints()"/>
+	</action-attrs>
+
 	<action-record name="action-quality-control-record-default" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="statusSelect" expr="eval: 1"/>
 	</action-record>
-	
+
 	<action-record name="action-quality-control-record-status-planned" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="statusSelect" expr="eval: 3"/>
 	</action-record>
-	
+
 	<action-record name="action-quality-control-record-status-canceled" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="statusSelect" expr="eval: 2"/>
 	</action-record>
-	
+
 	<action-record name="action-quality-control-record-status-in-progress" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="statusSelect" expr="eval: 4"/>
 	</action-record>
-	
+
 	<action-record name="action-quality-control-record-status-pause" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="statusSelect" expr="eval: 5"/>
 	</action-record>
-	
+
 	<action-record name="action-quality-control-record-status-finish" model="com.axelor.apps.quality.db.QualityControl">
 		<field name="statusSelect" expr="eval: 6"/>
 	</action-record>
-	
+
+	<action-record name="action-quality-control-record-process-dependencies" model="com.axelor.apps.quality.db.QualityControl">
+		<field name="product" expr="__repo__(QualityProcess).find(qualityProcess.id).getProduct()"/>
+	</action-record>
+
 	<action-method name="action-quality-control-method-open-control-points">
-    	<call class="com.axelor.apps.quality.web.QualityControlController" method="openControlPoints"/>
-    </action-method>
-    
-    <action-method name="action-quality-control-method-pre-fill-operations">
-    	<call class="com.axelor.apps.quality.web.QualityControlController" method="preFillOperations"/>
-    </action-method>
-	
+		<call class="com.axelor.apps.quality.web.QualityControlController" method="openControlPoints"/>
+	</action-method>
+
+	<action-method name="action-quality-control-method-pre-fill-operations">
+		<call class="com.axelor.apps.quality.web.QualityControlController" method="preFillOperations"/>
+	</action-method>
+
 	<search-filters name="quality-control-filters" model="com.axelor.apps.quality.db.QualityControl" title="Quality control filters">
 		<filter title="My quality controls">
 			<domain>self.responsible.user.id = :_userId</domain>
@@ -107,5 +116,5 @@
 			<domain>self.team.id = :_myActiveTeamId</domain>
 		</filter>
 	</search-filters>
-	
+
 </object-views>

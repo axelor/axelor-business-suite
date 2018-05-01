@@ -5,6 +5,7 @@
 	<module name="base" package="com.axelor.apps.base.db"/>
 
 	<entity name="AppQuality" lang="java" cachable="true" extends="App">
+		<boolean name="allowPerControlControlPoints" default="true" title="Allow per quality control control points" help="If set to false, when creating a quality control is created, it will be automatically prefilled with process' control points and none can be added nor removed"/>
 	</entity>
 
 </domain-models>
