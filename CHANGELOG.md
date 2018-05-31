@@ -65,6 +65,7 @@
 - Fix the opportunity field of a sale order being readonly
 - Product : reset value of productVariantValue field when we change value of associated productVariantAttr field.
 - Sale order: fix unremovable sale order line and editable invoiced sale order line.
+- Target : now we can create target manually(without using batch) and also can be directly created from target configuration.
 
 ## [5.0.0-rc2] - 2018-05-09
 ## Improvements

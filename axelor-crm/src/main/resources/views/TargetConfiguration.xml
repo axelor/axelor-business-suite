@@ -53,6 +53,9 @@
 <!-- 	    </group> -->
 <!-- 	</form> -->
     <form name="target-configuration-form" title="Target configuration" model="com.axelor.apps.crm.db.TargetConfiguration" width="large">
+      <toolbar>
+      	<button name="generateTarget" onClick="action-crm-target-configuration-method-generate-target" title="Generate target"/>
+      </toolbar>
 	  <panel name="main" >
 	    <field name="name"/>
 	    <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
@@ -80,4 +83,8 @@
 	    </panel>
 	  </panel>
 	</form>
+	
+	<action-method name="action-crm-target-configuration-method-generate-target">
+		<call class="com.axelor.apps.crm.web.TargetConfigurationController" method="generateTarget"/>
+	</action-method>
 </object-views>

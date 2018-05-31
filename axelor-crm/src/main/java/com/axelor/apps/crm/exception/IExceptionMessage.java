@@ -30,6 +30,7 @@ public interface IExceptionMessage {
 	 * Target service
 	 */
 	static final String TARGET_1 = /*$$(*/ "Objective %s is in contradiction with objective's configuration %s" /*)*/;
+	static final String TARGET_GENERATE = /*$$(*/ "Target generated." /*)*/;
 
 	/**
 	 * Batch event reminder

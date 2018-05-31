@@ -134,9 +134,16 @@ public class TargetService {
 		LocalDate fromDate = target.getFromDate();
 		LocalDate toDate = target.getToDate();
 		
-		LocalDateTime fromDateTime = fromDate.atStartOfDay();
-		LocalDateTime toDateTime = toDate.atTime(23, 59);
+		LocalDateTime fromDateTime = null;
+		LocalDateTime toDateTime = null;
+		if (fromDate != null) {
+			fromDateTime = fromDate.atStartOfDay();
+		}
 		
+		if (toDate != null) {
+			toDateTime = toDate.atTime(23, 59);
+		}
+
 		if(user != null)  {
 			Query q = JPA.em().createQuery("select SUM(op.amount) FROM Opportunity as op WHERE op.user = ?1 AND op.salesStageSelect = ?2 AND op.createdOn >= ?3 AND op.createdOn <= ?4 ");
 			q.setParameter(1, user);
