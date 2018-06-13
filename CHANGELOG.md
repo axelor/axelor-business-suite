@@ -9,6 +9,7 @@
 - General data protection regulation: data export and anonymize feature added.
 - Use general configurations to determine the number of digits displayed in purchase order, invoice and product catalog reports.
 - Add sequence to sort stock move lines.
+- Add a panel dashlet to display all subversions linked to a Bill of material
 
 ## Bug Fixes
 - Leave Request : reset Leave Line after changing User

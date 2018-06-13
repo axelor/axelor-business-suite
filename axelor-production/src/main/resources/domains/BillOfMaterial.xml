@@ -29,6 +29,6 @@
 	<many-to-one name="originalBillOfMaterial" ref="com.axelor.apps.production.db.BillOfMaterial" title="Original bill of material" />
 	<one-to-many name="bomChildTreeList" ref="TempBomTree" mappedBy="parentBom"/>
 	<one-to-many name="bomTreeList" ref="TempBomTree" mappedBy="bom"/>
-     	
+    <finder-method name="findVersions" using="id" filter="self.originalBillOfMaterial.id = :id" all="true"/>
   </entity>
 </domain-models>

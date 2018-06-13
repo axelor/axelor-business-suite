@@ -11,10 +11,10 @@
         <field name="prodProcess" grid-view="prod-process-grid" form-view="prod-process-form"/>
     </grid>
 
-	<form name="bill-of-material-form" title="Bill of material" model="com.axelor.apps.production.db.BillOfMaterial" width="large"
-          onSave="save,action-bill-of-material-record-name,action-bill-of-material-method-validate-prod-process"
-          onNew="action-bill-of-material-default-record,action-bill-of-material-attrs-price-and-qty-digits,action-bill-of-material-record-count-number-of-components"
-          onLoad="action-bill-of-material-attrs-price-and-qty-digits,action-bill-of-material-record-count-number-of-components">
+	<form name="bill-of-material-form" title="Bill of material"
+		model="com.axelor.apps.production.db.BillOfMaterial" onSave="save,action-bill-of-material-record-name,action-bill-of-material-method-validate-prod-process"
+		onNew="action-bill-of-material-default-record,action-bill-of-material-attrs-price-and-qty-digits,action-bill-of-material-record-count-number-of-components" onLoad="action-bill-of-material-attrs-price-and-qty-digits,action-bill-of-material-record-count-number-of-components,action-bill-of-material-attrs-subversions" width="large">
+
 		<toolbar>
 			<button name="newVersion" title="Generate new version"  if="__config__.app.getApp('production').manageBillOfMaterialVersion" onClick="action-bill-of-material-check-other-version,action-bill-of-material-generate-new-version"/>
 		</toolbar>
@@ -64,6 +64,7 @@
 				<field name="originalBillOfMaterial" grid-view="bill-of-material-grid" form-view="bill-of-material-form" colSpan="3" readonly="true"/>
 			</panel>
 		</panel-tabs>
+		<panel-dashlet name="subVersions" title="Sub versions" colSpan="12" height="200" action="action-bill-of-material-sub-versions" if="__config__.app.getApp('production')?.manageBillOfMaterialVersion"/>
 	</form>
     
     
@@ -101,6 +102,12 @@
 		</panel-tabs>
 	</form>
 	
+	<action-view name="action-bill-of-material-sub-versions" title="subVersions" model="com.axelor.apps.production.db.BillOfMaterial">
+		<view type="grid" name="bill-of-material-grid"/>
+		<view type="form" name="bill-of-material-form"/>
+		<domain>self.originalBillOfMaterial.id = :id</domain>
+	</action-view>
+
 	<action-view name="action-bill-of-material-line-view" title="Bills of material" model="com.axelor.apps.production.db.BillOfMaterial">
     	<view type="form" name="bill-of-material-line-form"/>
         <view-param name="popup" value="reload"/>
@@ -180,6 +187,10 @@
     
 	<action-attrs name="action-bill-of-material-attrs-product-def-sub-bom">
         <attribute name="hidden" for="defineSubBillOfMaterial" expr="eval: product.productSubTypeSelect == 3" if="product"/>
+	</action-attrs>
+
+	<action-attrs name="action-bill-of-material-attrs-subversions">
+		<attribute name="hidden" for="subVersions" expr="eval: __repo__(BillOfMaterial).findVersions(id).count() == 0"/>
 	</action-attrs>
 	
 	
