@@ -22,9 +22,11 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.inject.Beans;
+import com.google.inject.Singleton;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Singleton
 public class BlockingService {
 
   /**

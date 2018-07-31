@@ -19,7 +19,9 @@ package com.axelor.apps.account.service.invoice.workflow.validate;
 
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.exception.AxelorException;
+import com.google.inject.Singleton;
 
+@Singleton
 public class WorkflowValidationServiceImpl implements WorkflowValidationService {
 
   @Override

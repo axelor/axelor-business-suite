@@ -22,7 +22,9 @@ import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidat
 import com.axelor.apps.supplychain.service.IntercoService;
 import com.axelor.exception.AxelorException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class WorkflowValidationServiceSupplychainImpl extends WorkflowValidationServiceImpl {
 
   protected IntercoService intercoService;

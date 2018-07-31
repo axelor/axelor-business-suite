@@ -66,7 +66,7 @@ public class MoveToolService {
 
   public boolean isMinus(Invoice invoice) {
     // Si le montant est négatif, alors on doit inverser le signe du montant
-    if (invoice.getInTaxTotal().compareTo(BigDecimal.ZERO) == -1) {
+    if (invoice.getInTaxTotal().signum() == -1) {
       return true;
     } else {
       return false;

@@ -36,15 +36,25 @@ import java.util.List;
 @Singleton
 public class AppAccountServiceImpl extends AppBaseServiceImpl implements AppAccountService {
 
-  @Inject private AppAccountRepository appAccountRepo;
+  private AppAccountRepository appAccountRepo;
+  private AppBudgetRepository appBudgetRepo;
+  private AppInvoiceRepository appInvoiceRepo;
+  private AccountConfigRepository accountConfigRepo;
+  private CompanyRepository companyRepo;
 
-  @Inject private AppBudgetRepository appBudgetRepo;
-
-  @Inject private AppInvoiceRepository appInvoiceRepo;
-
-  @Inject private AccountConfigRepository accountConfigRepo;
-
-  @Inject private CompanyRepository companyRepo;
+  @Inject
+  public AppAccountServiceImpl(
+      AppAccountRepository appAccountRepo,
+      AppBudgetRepository appBudgetRepo,
+      AppInvoiceRepository appInvoiceRepo,
+      AccountConfigRepository accountConfigRepo,
+      CompanyRepository companyRepo) {
+    this.appAccountRepo = appAccountRepo;
+    this.appBudgetRepo = appBudgetRepo;
+    this.appInvoiceRepo = appInvoiceRepo;
+    this.accountConfigRepo = accountConfigRepo;
+    this.companyRepo = companyRepo;
+  }
 
   @Override
   public AppAccount getAppAccount() {

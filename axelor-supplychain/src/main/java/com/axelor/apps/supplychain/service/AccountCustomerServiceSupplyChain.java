@@ -24,8 +24,10 @@ import com.axelor.apps.account.service.AccountingSituationService;
 import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.exception.AxelorException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 
+@Singleton
 public class AccountCustomerServiceSupplyChain extends AccountCustomerService {
 
   @Inject
