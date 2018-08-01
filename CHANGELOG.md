@@ -50,6 +50,7 @@
 - Project: Fix multiple bugs and improve views.
 - Bill of material: remove duplicate toolbar button of 'Generate new version'.
 - Event: Fix fill the "Guest" using email address when fill the partner or contact or lead.
+- Human Ressource: for period, fix close period when click on button
 
 ## [Unreleased 5.0.5]
 ## Improvements

@@ -24,9 +24,15 @@
 		</panel>
 		<panel>
 			<panel colSpan="6">
-				<button name="close" title="Close period" colSpan="6" onClick="action-period-record-status-close,save" showIf="statusSelect == 1 &amp;&amp; !$popup()"/>
-				<button name="reopen" title="Reopen period" colSpan="6" onClick="action-period-record-status-open,save" showIf="statusSelect == 2 &amp;&amp; !$popup()"/>
-			</panel>
+                <panel itemSpan="12">
+                    <button name="close" title="Close period" colSpan="12"
+                        onClick="save,action-method-period-close,save"
+                        showIf="statusSelect == 1 &amp;&amp; !$popup()"/>
+                    <button name="reopen" title="Reopen period" colSpan="12"
+                        onClick="save,action-period-record-status-open,save"
+                        showIf="statusSelect == 2 &amp;&amp; !$popup()"/>
+                </panel>
+            </panel>
 			<field name="statusSelect"/>
 			<field name="closureDateTime" showIf="statusSelect == 2"/>
 		</panel>
@@ -44,9 +50,15 @@
 		</panel>
 		<panel readonly="true">
 			<panel colSpan="6">
-				<button name="close" title="Close period" colSpan="6" onClick="action-period-record-status-close,save" showIf="statusSelect == 1 &amp;&amp; !$popup()"/>
-				<button name="reopen" title="Reopen period" colSpan="6" onClick="action-period-record-status-open,save" showIf="statusSelect == 2 &amp;&amp; !$popup()"/>
-			</panel>
+                <panel itemSpan="12">
+                    <button name="close" title="Close period" colSpan="12"
+                        onClick="save,action-method-period-close,save"
+                        showIf="statusSelect == 1 &amp;&amp; !$popup()"/>
+                    <button name="reopen" title="Reopen period" colSpan="12"
+                        onClick="save,action-period-record-status-open,save"
+                        showIf="statusSelect == 2 &amp;&amp; !$popup()"/>
+                </panel>
+            </panel>
 			<field name="statusSelect"/>
 			<field name="closureDateTime" showIf="statusSelect == 2"/>
 		</panel>
