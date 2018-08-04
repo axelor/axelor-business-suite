@@ -26,8 +26,8 @@ import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.InvoiceLineService;
 import com.axelor.apps.account.service.invoice.InvoiceServiceImpl;
-import com.axelor.apps.account.service.invoice.factory.CancelFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
+import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelService;
 import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
@@ -58,7 +58,6 @@ public class InvoiceServiceSupplychainImpl extends InvoiceServiceImpl
   @Inject
   public InvoiceServiceSupplychainImpl(
       VentilateFactory ventilateFactory,
-      CancelFactory cancelFactory,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
@@ -66,10 +65,10 @@ public class InvoiceServiceSupplychainImpl extends InvoiceServiceImpl
       InvoiceLineService invoiceLineService,
       BlockingService blockingService,
       UserService userService,
-      WorkflowValidationService workflowValidationService) {
+      WorkflowValidationService workflowValidationService,
+      WorkflowCancelService workflowCancelService) {
     super(
         ventilateFactory,
-        cancelFactory,
         alarmEngineService,
         invoiceRepo,
         appAccountService,
@@ -77,7 +76,8 @@ public class InvoiceServiceSupplychainImpl extends InvoiceServiceImpl
         invoiceLineService,
         blockingService,
         userService,
-        workflowValidationService);
+        workflowValidationService,
+        workflowCancelService);
   }
 
   @Override

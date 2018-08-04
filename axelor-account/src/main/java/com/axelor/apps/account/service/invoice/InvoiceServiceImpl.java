@@ -36,12 +36,13 @@ import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountingSituationService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
-import com.axelor.apps.account.service.invoice.factory.CancelFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
 import com.axelor.apps.account.service.invoice.generator.invoice.RefundInvoice;
 import com.axelor.apps.account.service.invoice.print.InvoicePrintService;
+import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelService;
 import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
+import com.axelor.apps.account.service.move.MoveCancelService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentToolService;
 import com.axelor.apps.base.db.Alarm;
 import com.axelor.apps.base.db.BankDetails;
@@ -68,6 +69,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -77,10 +83,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** InvoiceService est une classe implémentant l'ensemble des services de facturation. */
 public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceService {
@@ -88,7 +90,6 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   protected VentilateFactory ventilateFactory;
-  protected CancelFactory cancelFactory;
   protected AlarmEngineService<Invoice> alarmEngineService;
   protected InvoiceRepository invoiceRepo;
   protected AppAccountService appAccountService;
@@ -97,11 +98,11 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   protected BlockingService blockingService;
   protected UserService userService;
   protected WorkflowValidationService workflowValidationService;
+  protected WorkflowCancelService workflowCancelService;
 
   @Inject
   public InvoiceServiceImpl(
       VentilateFactory ventilateFactory,
-      CancelFactory cancelFactory,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
@@ -109,9 +110,9 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       InvoiceLineService invoiceLineService,
       BlockingService blockingService,
       UserService userService,
-      WorkflowValidationService workflowValidationService) {
+      WorkflowValidationService workflowValidationService,
+      WorkflowCancelService workflowCancelService) {
     this.ventilateFactory = ventilateFactory;
-    this.cancelFactory = cancelFactory;
     this.alarmEngineService = alarmEngineService;
     this.invoiceRepo = invoiceRepo;
     this.appAccountService = appAccountService;
@@ -120,6 +121,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     this.blockingService = blockingService;
     this.userService = userService;
     this.workflowValidationService = workflowValidationService;
+    this.workflowCancelService = workflowCancelService;
   }
 
   // WKF
@@ -362,11 +364,35 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void cancel(Invoice invoice) throws AxelorException {
 
-    log.debug("Annulation de la facture {}", invoice.getInvoiceId());
+    if (invoice.getStatusSelect() == InvoiceRepository.STATUS_VENTILATED
+        && invoice.getCompany().getAccountConfig().getAllowCancelVentilatedInvoice() == false) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.INVOICE_CANCEL_2));
+    }
 
-    cancelFactory.getCanceller(invoice).process();
+    if (log.isDebugEnabled()) {
+      log.debug("Canceling invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
+    }
 
-    invoiceRepo.save(invoice);
+    workflowCancelService.beforeCancel(invoice);
+
+    if (invoice.getStatusSelect() == InvoiceRepository.STATUS_VENTILATED
+        && invoice.getOldMove() != null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.INVOICE_CANCEL_1));
+    }
+
+    Move move = invoice.getMove();
+    if (move != null) {
+      invoice.setMove(null);
+      Beans.get(MoveCancelService.class).cancel(move);
+    }
+
+    invoice.setStatusSelect(InvoiceRepository.STATUS_CANCELED);
+
+    workflowCancelService.afterCancel(invoice);
   }
 
   /**

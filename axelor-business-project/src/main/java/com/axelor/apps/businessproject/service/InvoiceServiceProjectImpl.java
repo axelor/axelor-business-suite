@@ -25,6 +25,8 @@ import com.axelor.apps.account.service.invoice.InvoiceLineService;
 import com.axelor.apps.account.service.invoice.factory.CancelFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.base.service.PartnerService;
+import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
+import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelService;
 import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
 import com.axelor.apps.base.service.BlockingService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
@@ -46,7 +48,6 @@ public class InvoiceServiceProjectImpl extends InvoiceServiceSupplychainImpl {
   @Inject
   public InvoiceServiceProjectImpl(
       VentilateFactory ventilateFactory,
-      CancelFactory cancelFactory,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
@@ -54,10 +55,10 @@ public class InvoiceServiceProjectImpl extends InvoiceServiceSupplychainImpl {
       InvoiceLineService invoiceLineService,
       BlockingService blockingService,
       UserService userService,
-      WorkflowValidationService workflowValidationService) {
+      WorkflowValidationService workflowValidationService,
+      WorkflowCancelService workflowCancelService) {
     super(
         ventilateFactory,
-        cancelFactory,
         alarmEngineService,
         invoiceRepo,
         appAccountService,
@@ -65,7 +66,8 @@ public class InvoiceServiceProjectImpl extends InvoiceServiceSupplychainImpl {
         invoiceLineService,
         blockingService,
         userService,
-        workflowValidationService);
+        workflowValidationService,
+        workflowCancelService);
   }
 
   public List<String> editInvoiceAnnex(Invoice invoice, String invoiceIds, boolean toAttach)
