@@ -23,51 +23,57 @@ import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.invoice.InvoiceLineService;
 import com.axelor.apps.account.service.invoice.factory.CancelFactory;
-import com.axelor.apps.account.service.invoice.factory.ValidateFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.base.service.PartnerService;
+import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
+import com.axelor.apps.base.service.BlockingService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
+import com.axelor.apps.base.service.user.UserService;
 import com.axelor.apps.businessproject.report.IReport;
 import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.apps.supplychain.service.invoice.InvoiceServiceSupplychainImpl;
-import com.axelor.auth.AuthUtils;
+import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.i18n.I18n;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.List;
 
+@Singleton
 public class InvoiceServiceProjectImpl extends InvoiceServiceSupplychainImpl {
 
   @Inject
   public InvoiceServiceProjectImpl(
-      ValidateFactory validateFactory,
       VentilateFactory ventilateFactory,
       CancelFactory cancelFactory,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
       PartnerService partnerService,
-      InvoiceLineService invoiceLineService) {
+      InvoiceLineService invoiceLineService,
+      BlockingService blockingService,
+      UserService userService,
+      WorkflowValidationService workflowValidationService) {
     super(
-        validateFactory,
         ventilateFactory,
         cancelFactory,
         alarmEngineService,
         invoiceRepo,
         appAccountService,
         partnerService,
-        invoiceLineService);
+        invoiceLineService,
+        blockingService,
+        userService,
+        workflowValidationService);
   }
 
   public List<String> editInvoiceAnnex(Invoice invoice, String invoiceIds, boolean toAttach)
       throws AxelorException {
+    User user = userService.getUser();
 
-    if (!AuthUtils.getUser().getActiveCompany().getAccountConfig().getDisplayTimesheetOnPrinting()
-        && !AuthUtils.getUser()
-            .getActiveCompany()
-            .getAccountConfig()
-            .getDisplayExpenseOnPrinting()) {
+    if (!user.getActiveCompany().getAccountConfig().getDisplayTimesheetOnPrinting()
+        && !user.getActiveCompany().getAccountConfig().getDisplayExpenseOnPrinting()) {
       return null;
     }
 

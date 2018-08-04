@@ -37,10 +37,11 @@ import com.axelor.apps.account.service.AccountingSituationService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.factory.CancelFactory;
-import com.axelor.apps.account.service.invoice.factory.ValidateFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
 import com.axelor.apps.account.service.invoice.generator.invoice.RefundInvoice;
+import com.axelor.apps.account.service.invoice.print.InvoicePrintService;
+import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentToolService;
 import com.axelor.apps.base.db.Alarm;
 import com.axelor.apps.base.db.BankDetails;
@@ -49,10 +50,13 @@ import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PriceList;
 import com.axelor.apps.base.db.repo.BankDetailsRepository;
+import com.axelor.apps.base.db.repo.BlockingRepository;
 import com.axelor.apps.base.db.repo.PriceListRepository;
+import com.axelor.apps.base.service.BlockingService;
 import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
+import com.axelor.apps.base.service.user.UserService;
 import com.axelor.apps.tool.ModelTool;
 import com.axelor.apps.tool.StringTool;
 import com.axelor.apps.tool.ThrowConsumer;
@@ -83,7 +87,6 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  protected ValidateFactory validateFactory;
   protected VentilateFactory ventilateFactory;
   protected CancelFactory cancelFactory;
   protected AlarmEngineService<Invoice> alarmEngineService;
@@ -91,19 +94,22 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   protected AppAccountService appAccountService;
   protected PartnerService partnerService;
   protected InvoiceLineService invoiceLineService;
+  protected BlockingService blockingService;
+  protected UserService userService;
+  protected WorkflowValidationService workflowValidationService;
 
   @Inject
   public InvoiceServiceImpl(
-      ValidateFactory validateFactory,
       VentilateFactory ventilateFactory,
       CancelFactory cancelFactory,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
       PartnerService partnerService,
-      InvoiceLineService invoiceLineService) {
-
-    this.validateFactory = validateFactory;
+      InvoiceLineService invoiceLineService,
+      BlockingService blockingService,
+      UserService userService,
+      WorkflowValidationService workflowValidationService) {
     this.ventilateFactory = ventilateFactory;
     this.cancelFactory = cancelFactory;
     this.alarmEngineService = alarmEngineService;
@@ -111,6 +117,9 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     this.appAccountService = appAccountService;
     this.partnerService = partnerService;
     this.invoiceLineService = invoiceLineService;
+    this.blockingService = blockingService;
+    this.userService = userService;
+    this.workflowValidationService = workflowValidationService;
   }
 
   // WKF
@@ -218,9 +227,9 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
           }
         };
 
-    Invoice invoice1 = invoiceGenerator.generate();
-    invoice1.setAdvancePaymentInvoiceSet(this.getDefaultAdvancePaymentInvoice(invoice1));
-    return invoice1;
+    invoiceGenerator.generate();
+    invoice.setAdvancePaymentInvoiceSet(this.getDefaultAdvancePaymentInvoice(invoice));
+    return invoice;
   }
 
   @Override
@@ -240,20 +249,48 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void validate(Invoice invoice) throws AxelorException {
 
-    log.debug("Validation de la facture");
+    if (log.isDebugEnabled()) {
+      log.debug("Validating invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
+    }
 
     compute(invoice);
 
-    validateFactory.getValidator(invoice).process();
+    if (InvoiceToolService.isOutPayment(invoice)
+        != (invoice.getPaymentMode().getInOutSelect() == PaymentModeRepository.OUT)) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_INCONSISTENCY,
+          I18n.get(IExceptionMessage.INVOICE_VALIDATE_1));
+    }
+
+    if (blockingService.isBlocked(
+        invoice.getPartner(), invoice.getCompany(), BlockingRepository.INVOICING_BLOCKING)) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_INCONSISTENCY,
+          I18n.get(IExceptionMessage.INVOICE_VALIDATE_BLOCKING));
+    }
+    invoice.setStatusSelect(InvoiceRepository.STATUS_VALIDATED);
+    invoice.setValidatedByUser(userService.getUser());
+    invoice.setValidatedDate(appAccountService.getTodayDate());
+
+    if (invoice.getPartnerAccount() == null) {
+      invoice.setPartnerAccount(getPartnerAccount(invoice));
+    }
+    if (invoice.getJournal() == null) {
+      invoice.setJournal(getJournal(invoice));
+    }
+
     if (appAccountService.isApp("budget")
         && !appAccountService.getAppBudget().getManageMultiBudget()) {
       this.generateBudgetDistribution(invoice);
     }
+
     // if the invoice is an advance payment invoice, we also "ventilate" it
     // without creating the move
     if (invoice.getOperationSubTypeSelect() == InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE) {
       ventilate(invoice);
     }
+
+    workflowValidationService.afterValidation(invoice);
   }
 
   @Override

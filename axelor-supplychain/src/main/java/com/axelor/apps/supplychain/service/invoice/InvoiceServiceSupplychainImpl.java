@@ -27,12 +27,14 @@ import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.InvoiceLineService;
 import com.axelor.apps.account.service.invoice.InvoiceServiceImpl;
 import com.axelor.apps.account.service.invoice.factory.CancelFactory;
-import com.axelor.apps.account.service.invoice.factory.ValidateFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
+import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.service.PartnerService;
+import com.axelor.apps.base.service.BlockingService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
+import com.axelor.apps.base.service.user.UserService;
 import com.axelor.apps.sale.db.AdvancePayment;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.db.Query;
@@ -40,6 +42,7 @@ import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import java.math.BigDecimal;
+import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -48,28 +51,33 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Singleton
 public class InvoiceServiceSupplychainImpl extends InvoiceServiceImpl
     implements InvoiceServiceSupplychain {
 
   @Inject
   public InvoiceServiceSupplychainImpl(
-      ValidateFactory validateFactory,
       VentilateFactory ventilateFactory,
       CancelFactory cancelFactory,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
       PartnerService partnerService,
-      InvoiceLineService invoiceLineService) {
+      InvoiceLineService invoiceLineService,
+      BlockingService blockingService,
+      UserService userService,
+      WorkflowValidationService workflowValidationService) {
     super(
-        validateFactory,
         ventilateFactory,
         cancelFactory,
         alarmEngineService,
         invoiceRepo,
         appAccountService,
         partnerService,
-        invoiceLineService);
+        invoiceLineService,
+        blockingService,
+        userService,
+        workflowValidationService);
   }
 
   @Override
