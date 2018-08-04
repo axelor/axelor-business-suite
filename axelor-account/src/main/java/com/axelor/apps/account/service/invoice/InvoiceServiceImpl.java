@@ -73,6 +73,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -705,7 +706,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
   private Pair<Integer, Integer> massProcess(
       Collection<? extends Number> invoiceIds, ThrowConsumer<Invoice> consumer, int statusSelect) {
-    IntCounter doneCounter = new IntCounter();
+    MutableInt doneCounter = new MutableInt();
 
     int errorCount =
         ModelTool.apply(
@@ -722,35 +723,6 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
             });
 
     return Pair.of(doneCounter.intValue(), errorCount);
-  }
-
-  private static class IntCounter extends Number {
-    private static final long serialVersionUID = -5434353935712805399L;
-    private int count = 0;
-
-    public void increment() {
-      ++count;
-    }
-
-    @Override
-    public int intValue() {
-      return count;
-    }
-
-    @Override
-    public long longValue() {
-      return Long.valueOf(count);
-    }
-
-    @Override
-    public float floatValue() {
-      return Float.valueOf(count);
-    }
-
-    @Override
-    public double doubleValue() {
-      return Double.valueOf(count);
-    }
   }
 
   @Override
