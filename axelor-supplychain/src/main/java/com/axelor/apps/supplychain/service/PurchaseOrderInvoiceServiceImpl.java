@@ -222,10 +222,13 @@ public class PurchaseOrderInvoiceServiceImpl implements PurchaseOrderInvoiceServ
       invoicedAmount = purchaseOrder.getExTaxTotal().multiply(rate);
     }
 
-    log.debug(
-        "Compute the invoiced amount ({}) of the purchase order : {}",
-        invoicedAmount,
-        purchaseOrder.getPurchaseOrderSeq());
+    if (log.isDebugEnabled()) {
+      log.debug(
+          "Computed invoiced amount for the purchase order #{} (ref. {}): {}",
+          purchaseOrder.getId(),
+          purchaseOrder.getPurchaseOrderSeq(),
+          invoicedAmount);
+    }
 
     return invoicedAmount;
   }

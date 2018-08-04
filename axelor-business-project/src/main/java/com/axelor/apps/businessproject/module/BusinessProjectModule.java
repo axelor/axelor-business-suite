@@ -44,7 +44,6 @@ import com.axelor.apps.businessproject.service.TeamTaskBusinessService;
 import com.axelor.apps.businessproject.service.TeamTaskBusinessServiceImpl;
 import com.axelor.apps.businessproject.service.TimesheetLineProjectServiceImpl;
 import com.axelor.apps.businessproject.service.TimesheetProjectServiceImpl;
-import com.axelor.apps.businessproject.service.WorkflowVentilationProjectServiceImpl;
 import com.axelor.apps.businessproject.service.app.AppBusinessProjectService;
 import com.axelor.apps.businessproject.service.app.AppBusinessProjectServiceImpl;
 import com.axelor.apps.hr.service.expense.ExpenseServiceImpl;
@@ -60,7 +59,6 @@ import com.axelor.apps.supplychain.service.SaleOrderInvoiceServiceImpl;
 import com.axelor.apps.supplychain.service.SaleOrderPurchaseServiceImpl;
 import com.axelor.apps.supplychain.service.StockMoveInvoiceServiceImpl;
 import com.axelor.apps.supplychain.service.invoice.InvoiceServiceSupplychainImpl;
-import com.axelor.apps.supplychain.service.workflow.WorkflowVentilationServiceSupplychainImpl;
 
 public class BusinessProjectModule extends AxelorModule {
 
@@ -89,7 +87,5 @@ public class BusinessProjectModule extends AxelorModule {
     bind(ExpenseLineProjectService.class).to(ExpenseLineProjectServiceImpl.class);
     bind(InvoiceLineProjectService.class).to(InvoiceLineProjectServiceImpl.class);
     bind(InvoiceSupplychainRepository.class).to(InvoiceProjectRepository.class);
-    bind(WorkflowVentilationServiceSupplychainImpl.class)
-        .to(WorkflowVentilationProjectServiceImpl.class);
   }
 }

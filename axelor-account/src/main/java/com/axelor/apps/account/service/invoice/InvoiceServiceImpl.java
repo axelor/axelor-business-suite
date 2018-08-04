@@ -29,6 +29,7 @@ import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.PaymentCondition;
 import com.axelor.apps.account.db.PaymentMode;
 import com.axelor.apps.account.db.repo.InvoiceLineRepository;
+import com.axelor.apps.account.db.repo.InvoicePaymentRepository;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.db.repo.PaymentModeRepository;
@@ -38,12 +39,9 @@ import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
 import com.axelor.apps.account.service.invoice.generator.invoice.RefundInvoice;
-import com.axelor.apps.account.service.invoice.print.InvoicePrintService;
-import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelService;
-import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
-import com.axelor.apps.account.service.invoice.workflow.ventilate.WorkflowVentilationService;
 import com.axelor.apps.account.service.move.MoveCancelService;
 import com.axelor.apps.account.service.move.MoveService;
+import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentCreateService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentToolService;
 import com.axelor.apps.base.db.Alarm;
 import com.axelor.apps.base.db.BankDetails;
@@ -60,6 +58,7 @@ import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
 import com.axelor.apps.base.service.user.UserService;
+import com.axelor.apps.message.service.TemplateMessageService;
 import com.axelor.apps.tool.ModelTool;
 import com.axelor.apps.tool.StringTool;
 import com.axelor.apps.tool.ThrowConsumer;
@@ -95,16 +94,14 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   protected AlarmEngineService<Invoice> alarmEngineService;
   protected InvoiceRepository invoiceRepo;
   protected AppAccountService appAccountService;
-  protected PartnerService partnerService;
   protected InvoiceLineService invoiceLineService;
   protected BlockingService blockingService;
   protected UserService userService;
-  protected WorkflowValidationService workflowValidationService;
-  protected WorkflowVentilationService workflowVentilationService;
-  protected WorkflowCancelService workflowCancelService;
   protected SequenceService sequenceService;
   protected AccountConfigService accountConfigService;
   protected MoveService moveService;
+  protected InvoicePaymentRepository invoicePaymentRepository;
+  protected InvoicePaymentCreateService invoicePaymentCreateService;
 
   @Inject
   public InvoiceServiceImpl(
@@ -112,13 +109,9 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
-      PartnerService partnerService,
       InvoiceLineService invoiceLineService,
       BlockingService blockingService,
       UserService userService,
-      WorkflowValidationService workflowValidationService,
-      WorkflowVentilationService workflowVentilationService,
-      WorkflowCancelService workflowCancelService,
       SequenceService sequenceService,
       AccountConfigService accountConfigService,
       MoveService moveService) {
@@ -130,9 +123,6 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     this.invoiceLineService = invoiceLineService;
     this.blockingService = blockingService;
     this.userService = userService;
-    this.workflowValidationService = workflowValidationService;
-    this.workflowVentilationService = workflowVentilationService;
-    this.workflowCancelService = workflowCancelService;
     this.sequenceService = sequenceService;
     this.accountConfigService = accountConfigService;
     this.moveService = moveService;
@@ -264,10 +254,11 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   @Override
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void validate(Invoice invoice) throws AxelorException {
-
     if (log.isDebugEnabled()) {
       log.debug("Validating invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
     }
+
+    beforeValidation(invoice);
 
     compute(invoice);
 
@@ -300,13 +291,13 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       this.generateBudgetDistribution(invoice);
     }
 
+    afterValidation(invoice);
+
     // if the invoice is an advance payment invoice, we also "ventilate" it
     // without creating the move
     if (invoice.getOperationSubTypeSelect() == InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE) {
       ventilate(invoice);
     }
-
-    workflowValidationService.afterValidation(invoice);
   }
 
   @Override
@@ -344,6 +335,8 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
           I18n.get(IExceptionMessage.INVOICE_GENERATOR_4),
           I18n.get(com.axelor.apps.base.exceptions.IExceptionMessage.EXCEPTION));
     }
+
+    beforeVentilation(invoice);
 
     for (InvoiceLine invoiceLine : invoice.getInvoiceLineList()) {
       if (invoiceLine.getAccount() == null
@@ -384,7 +377,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     //      Beans.get(InvoicePrintService.class).printAndSave(invoice);
     //    }
 
-    workflowVentilationService.afterVentilation(invoice);
+    afterVentilation(invoice);
   }
 
   private void setVentilationDate(final Invoice invoice) throws AxelorException {
@@ -527,7 +520,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       log.debug("Canceling invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
     }
 
-    workflowCancelService.beforeCancel(invoice);
+    beforeCancelation(invoice);
 
     if (invoice.getStatusSelect() == InvoiceRepository.STATUS_VENTILATED
         && invoice.getOldMove() != null) {
@@ -544,7 +537,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
     invoice.setStatusSelect(InvoiceRepository.STATUS_CANCELED);
 
-    workflowCancelService.afterCancel(invoice);
+    afterCancelation(invoice);
   }
 
   /**
@@ -962,5 +955,77 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     }
 
     return true;
+  }
+
+  protected void beforeValidation(Invoice invoice) throws AxelorException {}
+
+  protected void afterValidation(Invoice invoice) throws AxelorException {}
+
+  protected void beforeCancelation(Invoice invoice) throws AxelorException {}
+
+  protected void afterCancelation(Invoice invoice) throws AxelorException {}
+
+  protected void beforeVentilation(Invoice invoice) throws AxelorException {}
+
+  protected void afterVentilation(Invoice invoice) throws AxelorException {
+    Company company = invoice.getCompany();
+
+    // Is called if we do not create a move for invoice payments.
+    if (!accountConfigService.getAccountConfig(company).getGenerateMoveForInvoicePayment()) {
+
+      Set<Invoice> advancePaymentInvoiceSet = invoice.getAdvancePaymentInvoiceSet();
+      if (advancePaymentInvoiceSet == null) {
+        return;
+      }
+      for (Invoice advancePaymentInvoice : advancePaymentInvoiceSet) {
+
+        List<InvoicePayment> advancePayments = advancePaymentInvoice.getInvoicePaymentList();
+        if (advancePayments == null) {
+          continue;
+        }
+        for (InvoicePayment advancePayment : advancePayments) {
+
+          // FIXME should handle PaymentVoucher
+          InvoicePayment imputationPayment =
+              invoicePaymentCreateService.createInvoicePayment(
+                  invoice,
+                  advancePayment.getAmount(),
+                  advancePayment.getPaymentDate(),
+                  advancePayment.getCurrency(),
+                  advancePayment.getPaymentMode(),
+                  InvoicePaymentRepository.TYPE_ADV_PAYMENT_IMPUTATION);
+          advancePayment.setImputedBy(imputationPayment);
+          imputationPayment.setCompanyBankDetails(advancePayment.getCompanyBankDetails());
+          invoice.addInvoicePaymentListItem(imputationPayment);
+          invoicePaymentRepository.save(imputationPayment);
+        }
+      }
+
+      // if the sum of amounts in advance payment is greater than the amount
+      // of the invoice, then we cancel the ventilation.
+      List<InvoicePayment> invoicePayments = invoice.getInvoicePaymentList();
+      if (invoicePayments == null || invoicePayments.isEmpty()) {
+        return;
+      }
+      BigDecimal totalPayments =
+          invoicePayments.stream().map(InvoicePayment::getAmount).reduce(BigDecimal::add).get();
+      if (totalPayments.compareTo(invoice.getInTaxTotal()) > 0) {
+        throw new AxelorException(
+            invoice,
+            TraceBackRepository.TYPE_FUNCTIONNAL,
+            I18n.get(IExceptionMessage.AMOUNT_ADVANCE_PAYMENTS_TOO_HIGH));
+      }
+    }
+
+    // send message
+    if (invoice.getInvoiceAutomaticMail()) {
+      try {
+        Beans.get(TemplateMessageService.class)
+            .generateAndSendMessage(invoice, invoice.getInvoiceMessageTemplate());
+      } catch (Exception e) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR, e.getMessage(), invoice);
+      }
+    }
   }
 }

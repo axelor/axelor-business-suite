@@ -25,9 +25,6 @@ import com.axelor.apps.account.service.AccountingSituationServiceImpl;
 import com.axelor.apps.account.service.BudgetService;
 import com.axelor.apps.account.service.invoice.InvoiceLineServiceImpl;
 import com.axelor.apps.account.service.invoice.InvoiceServiceImpl;
-import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelServiceImpl;
-import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationServiceImpl;
-import com.axelor.apps.account.service.invoice.workflow.ventilate.WorkflowVentilationServiceImpl;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentToolServiceImpl;
 import com.axelor.apps.purchase.db.repo.PurchaseOrderManagementRepository;
 import com.axelor.apps.purchase.service.PurchaseOrderLineService;
@@ -125,9 +122,6 @@ import com.axelor.apps.supplychain.service.invoice.InvoiceServiceSupplychain;
 import com.axelor.apps.supplychain.service.invoice.InvoiceServiceSupplychainImpl;
 import com.axelor.apps.supplychain.service.invoice.SubscriptionInvoiceService;
 import com.axelor.apps.supplychain.service.invoice.SubscriptionInvoiceServiceImpl;
-import com.axelor.apps.supplychain.service.workflow.WorkflowCancelServiceSupplychainImpl;
-import com.axelor.apps.supplychain.service.workflow.WorkflowValidationServiceSupplychainImpl;
-import com.axelor.apps.supplychain.service.workflow.WorkflowVentilationServiceSupplychainImpl;
 
 public class SupplychainModule extends AxelorModule {
 
@@ -169,9 +163,6 @@ public class SupplychainModule extends AxelorModule {
     bind(StockLocationLineServiceImpl.class).to(StockLocationLineServiceSupplychainImpl.class);
     bind(InvoiceServiceImpl.class).to(InvoiceServiceSupplychainImpl.class);
     bind(InvoicePaymentToolServiceImpl.class).to(InvoicePaymentToolServiceSupplychainImpl.class);
-    bind(WorkflowVentilationServiceImpl.class).to(WorkflowVentilationServiceSupplychainImpl.class);
-    bind(WorkflowCancelServiceImpl.class).to(WorkflowCancelServiceSupplychainImpl.class);
-    bind(WorkflowValidationServiceImpl.class).to(WorkflowValidationServiceSupplychainImpl.class);
     bind(IntercoService.class).to(IntercoServiceImpl.class);
     bind(LogisticalFormServiceImpl.class).to(LogisticalFormSupplychainServiceImpl.class);
     bind(LogisticalFormSupplychainService.class).to(LogisticalFormSupplychainServiceImpl.class);

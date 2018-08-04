@@ -21,27 +21,34 @@ import com.axelor.apps.ReportFactory;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.service.app.AppAccountService;
-import com.axelor.apps.account.service.invoice.InvoiceLineService;
-import com.axelor.apps.account.service.invoice.factory.CancelFactory;
-import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
-import com.axelor.apps.base.service.PartnerService;
-import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.config.AccountConfigService;
-import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelService;
-import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
-import com.axelor.apps.account.service.invoice.workflow.ventilate.WorkflowVentilationService;
+import com.axelor.apps.account.service.invoice.InvoiceLineService;
 import com.axelor.apps.account.service.move.MoveService;
 import com.axelor.apps.base.service.BlockingService;
 import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
 import com.axelor.apps.base.service.user.UserService;
+import com.axelor.apps.businessproject.db.InvoicingProject;
+import com.axelor.apps.businessproject.db.repo.InvoicingProjectRepository;
 import com.axelor.apps.businessproject.report.IReport;
+import com.axelor.apps.hr.db.ExpenseLine;
+import com.axelor.apps.hr.db.TimesheetLine;
+import com.axelor.apps.project.db.Project;
+import com.axelor.apps.purchase.db.PurchaseOrderLine;
+import com.axelor.apps.purchase.db.repo.PurchaseOrderRepository;
 import com.axelor.apps.report.engine.ReportSettings;
+import com.axelor.apps.sale.db.SaleOrderLine;
+import com.axelor.apps.sale.db.repo.SaleOrderRepository;
+import com.axelor.apps.supplychain.service.AccountingSituationSupplychainService;
+import com.axelor.apps.supplychain.service.IntercoService;
+import com.axelor.apps.supplychain.service.PurchaseOrderInvoiceService;
+import com.axelor.apps.supplychain.service.SaleOrderInvoiceService;
 import com.axelor.apps.supplychain.service.invoice.InvoiceServiceSupplychainImpl;
 import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.i18n.I18n;
+import com.axelor.team.db.TeamTask;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Arrays;
@@ -49,37 +56,46 @@ import java.util.List;
 
 @Singleton
 public class InvoiceServiceProjectImpl extends InvoiceServiceSupplychainImpl {
+  private InvoicingProjectRepository invoicingProjectRepo;
+
   @Inject
   public InvoiceServiceProjectImpl(
       PartnerService partnerService,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
-      PartnerService partnerService,
       InvoiceLineService invoiceLineService,
       BlockingService blockingService,
       UserService userService,
-      WorkflowValidationService workflowValidationService,
-      WorkflowVentilationService workflowVentilationService,
-      WorkflowCancelService workflowCancelService,
       SequenceService sequenceService,
       AccountConfigService accountConfigService,
-      MoveService moveService) {
+      MoveService moveService,
+      PurchaseOrderInvoiceService purchaseOrderInvoiceService,
+      PurchaseOrderRepository purchaseOrderRepository,
+      SaleOrderInvoiceService saleOrderInvoiceService,
+      SaleOrderRepository saleOrderRepository,
+      AccountingSituationSupplychainService accountingSituationSupplychainService,
+      IntercoService intercoService,
+      InvoicingProjectRepository invoicingProjectRepo) {
     super(
         partnerService,
         alarmEngineService,
         invoiceRepo,
         appAccountService,
-        partnerService,
         invoiceLineService,
         blockingService,
         userService,
-        workflowValidationService,
-        workflowVentilationService,
-        workflowCancelService,
         sequenceService,
         accountConfigService,
-        moveService);
+        moveService,
+        purchaseOrderInvoiceService,
+        purchaseOrderRepository,
+        saleOrderInvoiceService,
+        saleOrderRepository,
+        accountingSituationSupplychainService,
+        intercoService);
+
+    this.invoicingProjectRepo = invoicingProjectRepo;
   }
 
   public List<String> editInvoiceAnnex(Invoice invoice, String invoiceIds, boolean toAttach)
@@ -117,5 +133,33 @@ public class InvoiceServiceProjectImpl extends InvoiceServiceSupplychainImpl {
     List<String> res = Arrays.asList(title, fileLink);
 
     return res;
+  }
+
+  @Override
+  protected void afterVentilation(Invoice invoice) throws AxelorException {
+    super.afterVentilation(invoice);
+    InvoicingProject invoicingProject =
+        invoicingProjectRepo.all().filter("self.invoice.id = ?", invoice.getId()).fetchOne();
+
+    if (invoicingProject != null) {
+      for (SaleOrderLine saleOrderLine : invoicingProject.getSaleOrderLineSet()) {
+        saleOrderLine.setInvoiced(true);
+      }
+      for (PurchaseOrderLine purchaseOrderLine : invoicingProject.getPurchaseOrderLineSet()) {
+        purchaseOrderLine.setInvoiced(true);
+      }
+      for (TimesheetLine timesheetLine : invoicingProject.getLogTimesSet()) {
+        timesheetLine.setInvoiced(true);
+      }
+      for (ExpenseLine expenseLine : invoicingProject.getExpenseLineSet()) {
+        expenseLine.setInvoiced(true);
+      }
+      for (TeamTask teamTask : invoicingProject.getTeamTaskSet()) {
+        teamTask.setInvoiced(true);
+      }
+      for (Project project : invoicingProject.getProjectSet()) {
+        project.setInvoiced(true);
+      }
+    }
   }
 }
