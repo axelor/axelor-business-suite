@@ -41,6 +41,7 @@ import com.axelor.i18n.I18n;
 import com.axelor.meta.MetaFiles;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,6 +60,7 @@ import java.util.List;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.jdom.JDOMException;
 
+@Singleton
 public class EbicsService {
 
   @Inject private EbicsUserRepository userRepo;

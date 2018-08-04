@@ -60,6 +60,7 @@ import com.axelor.meta.MetaFiles;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.meta.schema.actions.ActionView.ActionViewBuilder;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
@@ -77,6 +78,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class BankOrderServiceImpl implements BankOrderService {
 
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

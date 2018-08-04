@@ -25,10 +25,12 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.exception.AxelorException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Singleton
 public class MoveCustAccountService {
 
   protected AccountCustomerService accountCustomerService;

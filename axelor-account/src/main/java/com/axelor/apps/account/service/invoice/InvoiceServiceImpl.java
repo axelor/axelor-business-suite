@@ -68,6 +68,7 @@ import com.axelor.inject.Beans;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
@@ -84,7 +85,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/** InvoiceService est une classe implémentant l'ensemble des services de facturation. */
+@Singleton
 public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceService {
 
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

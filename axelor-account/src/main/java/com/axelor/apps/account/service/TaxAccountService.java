@@ -21,7 +21,9 @@ import com.axelor.apps.account.db.Account;
 import com.axelor.apps.account.db.AccountManagement;
 import com.axelor.apps.account.db.Tax;
 import com.axelor.apps.base.db.Company;
+import com.google.inject.Singleton;
 
+@Singleton
 public class TaxAccountService {
 
   public Account getAccount(Tax tax, Company company, boolean isPurchase, boolean isFixedAssets) {
