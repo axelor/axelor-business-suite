@@ -36,13 +36,14 @@ import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountingSituationService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
-import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
 import com.axelor.apps.account.service.invoice.generator.invoice.RefundInvoice;
 import com.axelor.apps.account.service.invoice.print.InvoicePrintService;
 import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelService;
 import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
+import com.axelor.apps.account.service.invoice.workflow.ventilate.WorkflowVentilationService;
 import com.axelor.apps.account.service.move.MoveCancelService;
+import com.axelor.apps.account.service.move.MoveService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentToolService;
 import com.axelor.apps.base.db.Alarm;
 import com.axelor.apps.base.db.BankDetails;
@@ -50,6 +51,7 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PriceList;
+import com.axelor.apps.base.db.Sequence;
 import com.axelor.apps.base.db.repo.BankDetailsRepository;
 import com.axelor.apps.base.db.repo.BlockingRepository;
 import com.axelor.apps.base.db.repo.PriceListRepository;
@@ -87,10 +89,9 @@ import java.util.Set;
 
 @Singleton
 public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceService {
-
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  protected VentilateFactory ventilateFactory;
+  protected PartnerService partnerService;
   protected AlarmEngineService<Invoice> alarmEngineService;
   protected InvoiceRepository invoiceRepo;
   protected AppAccountService appAccountService;
@@ -99,11 +100,15 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   protected BlockingService blockingService;
   protected UserService userService;
   protected WorkflowValidationService workflowValidationService;
+  protected WorkflowVentilationService workflowVentilationService;
   protected WorkflowCancelService workflowCancelService;
+  protected SequenceService sequenceService;
+  protected AccountConfigService accountConfigService;
+  protected MoveService moveService;
 
   @Inject
   public InvoiceServiceImpl(
-      VentilateFactory ventilateFactory,
+      PartnerService partnerService,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
@@ -112,8 +117,12 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       BlockingService blockingService,
       UserService userService,
       WorkflowValidationService workflowValidationService,
-      WorkflowCancelService workflowCancelService) {
-    this.ventilateFactory = ventilateFactory;
+      WorkflowVentilationService workflowVentilationService,
+      WorkflowCancelService workflowCancelService,
+      SequenceService sequenceService,
+      AccountConfigService accountConfigService,
+      MoveService moveService) {
+    this.partnerService = partnerService;
     this.alarmEngineService = alarmEngineService;
     this.invoiceRepo = invoiceRepo;
     this.appAccountService = appAccountService;
@@ -122,7 +131,11 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     this.blockingService = blockingService;
     this.userService = userService;
     this.workflowValidationService = workflowValidationService;
+    this.workflowVentilationService = workflowVentilationService;
     this.workflowCancelService = workflowCancelService;
+    this.sequenceService = sequenceService;
+    this.accountConfigService = accountConfigService;
+    this.moveService = moveService;
   }
 
   // WKF
@@ -344,15 +357,150 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       }
     }
 
-    log.debug("Ventilation de la facture {}", invoice.getInvoiceId());
+    if (log.isDebugEnabled()) {
+      log.debug("Ventilating invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
+    }
 
-    ventilateFactory.getVentilator(invoice).process();
+    setVentilationDate(invoice);
+    if (invoice.getJournal() == null) invoice.setJournal(getJournal(invoice));
+    if (invoice.getPartnerAccount() == null) invoice.setPartnerAccount(getPartnerAccount(invoice));
+    setInvoiceSequenceNumber(invoice);
+    if (invoice.getPaymentSchedule() != null)
+      invoice.getPaymentSchedule().addInvoiceSetItem(invoice);
+    // Advance payment invoices does not get ventilated per se, only their payments are
+    if (invoice.getOperationSubTypeSelect() != InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE) {
+      if (invoice.getInTaxTotal().signum() != 0) {
+        moveService.createMove(invoice);
+        // There used to be an if(createdMove != null) but createMove never returns null
+        moveService.createMoveUseExcessPaymentOrDue(invoice);
+      }
+      invoice.setStatusSelect(InvoiceRepository.STATUS_VENTILATED);
+      invoice.setVentilatedDate(appAccountService.getTodayDate());
+      invoice.setVentilatedByUser(userService.getUser());
+    }
 
-    invoiceRepo.save(invoice);
     // FIXME: Disabled temporary due to RM#14505
     //    if (appAccountService.getAppAccount().getPrintReportOnVentilation()) {
     //      Beans.get(InvoicePrintService.class).printAndSave(invoice);
     //    }
+
+    workflowVentilationService.afterVentilation(invoice);
+  }
+
+  private void setVentilationDate(final Invoice invoice) throws AxelorException {
+    if (invoice.getInvoiceDate() == null) {
+      invoice.setInvoiceDate(appAccountService.getTodayDate());
+    } else if (invoice.getInvoiceDate().isAfter(appAccountService.getTodayDate())) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_FUTURE_DATE));
+    }
+
+    if (!invoice.getPaymentCondition().getIsFree() || invoice.getDueDate() == null) {
+      invoice.setDueDate(
+          InvoiceToolService.getDueDate(invoice.getPaymentCondition(), invoice.getInvoiceDate()));
+    }
+  }
+
+  private void setInvoiceSequenceNumber(final Invoice invoice) throws AxelorException {
+    if (!sequenceService.isEmptyOrDraftSequenceNumber(invoice.getInvoiceId())) {
+      return;
+    }
+
+    Sequence sequence = getInvoiceSequence(invoice);
+
+    // FIXME We should store sequence in the invoice to be able to check if when a canceled invoice
+    // switches to validated/ventilated
+    checkSequenceDateConsistency(invoice, sequence);
+
+    invoice.setInvoiceId(sequenceService.getSequenceNumber(sequence, invoice.getInvoiceDate()));
+
+    if (invoice.getInvoiceId() != null) {
+      return;
+    }
+
+    throw new AxelorException(
+        invoice,
+        TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+        I18n.get(IExceptionMessage.VENTILATE_STATE_4),
+        invoice.getCompany().getName());
+  }
+
+  private Sequence getInvoiceSequence(Invoice invoice) throws AxelorException {
+
+    AccountConfig accountConfig = accountConfigService.getAccountConfig(invoice.getCompany());
+
+    switch (invoice.getOperationTypeSelect()) {
+      case InvoiceRepository.OPERATION_TYPE_SUPPLIER_PURCHASE:
+        return accountConfigService.getSuppInvSequence(accountConfig);
+
+      case InvoiceRepository.OPERATION_TYPE_SUPPLIER_REFUND:
+        return accountConfigService.getSuppRefSequence(accountConfig);
+
+      case InvoiceRepository.OPERATION_TYPE_CLIENT_SALE:
+        return accountConfigService.getCustInvSequence(accountConfig);
+
+      case InvoiceRepository.OPERATION_TYPE_CLIENT_REFUND:
+        return accountConfigService.getCustRefSequence(accountConfig);
+
+      default:
+        throw new AxelorException(
+            invoice,
+            TraceBackRepository.CATEGORY_MISSING_FIELD,
+            I18n.get(IExceptionMessage.JOURNAL_1),
+            invoice.getInvoiceId());
+    }
+  }
+
+  /**
+   * Checks that there is no invoice with an invoicing date greater than the one of the provided
+   * invoice, absolutely if sequence has no reset, on the same year if the sequence has yearly
+   * reset, on the same yearMonth if the sequence if reset monthly.
+   *
+   * @param invoice Invoice to check, only sale invoices are subject to checking.
+   * @param sequence Sequence used to generate the invoice's sequence number.
+   * @throws AxelorException If a more recent invoice exists within the same "sequence space"
+   */
+  void checkSequenceDateConsistency(Invoice invoice, Sequence sequence) throws AxelorException {
+    if (InvoiceToolService.isPurchase(invoice)) return;
+
+    String query =
+        "self.statusSelect = ? AND self.invoiceDate > ? AND self.operationTypeSelect = ? ";
+    List<Object> params = new ArrayList<>(5);
+    params.add(InvoiceRepository.STATUS_VENTILATED);
+    params.add(invoice.getInvoiceDate());
+    params.add(invoice.getOperationTypeSelect());
+
+    if (sequence.getMonthlyResetOk()) {
+
+      query += "AND EXTRACT (month from self.invoiceDate) = ? ";
+      params.add(invoice.getInvoiceDate().getMonthValue());
+    }
+
+    if (sequence.getYearlyResetOk()) {
+
+      query += "AND EXTRACT (year from self.invoiceDate) = ? ";
+      params.add(invoice.getInvoiceDate().getYear());
+    }
+
+    if (invoiceRepo.all().filter(query, params.toArray()).count() > 0) {
+      if (sequence.getMonthlyResetOk()) {
+        throw new AxelorException(
+            sequence,
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.VENTILATE_STATE_2));
+      }
+      if (sequence.getYearlyResetOk()) {
+        throw new AxelorException(
+            sequence,
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.VENTILATE_STATE_3));
+      }
+      throw new AxelorException(
+          sequence,
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_1));
+    }
   }
 
   /**
@@ -366,7 +514,10 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   public void cancel(Invoice invoice) throws AxelorException {
 
     if (invoice.getStatusSelect() == InvoiceRepository.STATUS_VENTILATED
-        && invoice.getCompany().getAccountConfig().getAllowCancelVentilatedInvoice() == false) {
+        && accountConfigService
+                .getAccountConfig(invoice.getCompany())
+                .getAllowCancelVentilatedInvoice()
+            == false) {
       throw new AxelorException(
           TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
           I18n.get(IExceptionMessage.INVOICE_CANCEL_2));

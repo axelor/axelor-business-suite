@@ -26,13 +26,16 @@ import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.InvoiceLineService;
 import com.axelor.apps.account.service.invoice.InvoiceServiceImpl;
-import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.invoice.workflow.cancel.WorkflowCancelService;
 import com.axelor.apps.account.service.invoice.workflow.validate.WorkflowValidationService;
+import com.axelor.apps.account.service.invoice.workflow.ventilate.WorkflowVentilationService;
+import com.axelor.apps.account.service.move.MoveService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.BlockingService;
+import com.axelor.apps.base.service.PartnerService;
+import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
 import com.axelor.apps.base.service.user.UserService;
 import com.axelor.apps.sale.db.AdvancePayment;
@@ -57,7 +60,7 @@ public class InvoiceServiceSupplychainImpl extends InvoiceServiceImpl
 
   @Inject
   public InvoiceServiceSupplychainImpl(
-      VentilateFactory ventilateFactory,
+      PartnerService partnerService,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
@@ -66,9 +69,13 @@ public class InvoiceServiceSupplychainImpl extends InvoiceServiceImpl
       BlockingService blockingService,
       UserService userService,
       WorkflowValidationService workflowValidationService,
-      WorkflowCancelService workflowCancelService) {
+      WorkflowVentilationService workflowVentilationService,
+      WorkflowCancelService workflowCancelService,
+      SequenceService sequenceService,
+      AccountConfigService accountConfigService,
+      MoveService moveService) {
     super(
-        ventilateFactory,
+        partnerService,
         alarmEngineService,
         invoiceRepo,
         appAccountService,
@@ -77,7 +84,11 @@ public class InvoiceServiceSupplychainImpl extends InvoiceServiceImpl
         blockingService,
         userService,
         workflowValidationService,
-        workflowCancelService);
+        workflowVentilationService,
+        workflowCancelService,
+        sequenceService,
+        accountConfigService,
+        moveService);
   }
 
   @Override
