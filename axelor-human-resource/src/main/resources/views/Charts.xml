@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<chart name="chart.total.hours.per.day" title="" stacked="true">
+	<chart name="chart.total.hours.per.day.timesheet.imputed.on.project" title="" stacked="true">
 		<dataset type="jpql"><![CDATA[
 		SELECT
 			SUM(self.duration) AS _duration,
@@ -21,6 +21,26 @@
 		]]></dataset>
 		<category key="_day" type="text" title="Day" />
 		<series key="_duration" type="bar" title="Total" groupBy="_project" />
+	</chart>
+
+	<chart name="chart.total.hours.per.day.timesheet.imputed.on.manufacturing.order" title="" stacked="true">
+		<dataset type="jpql"><![CDATA[
+			SELECT
+				SUM(self.duration) AS _duration,
+				self.manufOrder.manufOrderSeq AS _manuf_order,
+				self.date AS _day
+			FROM
+				TimesheetLine self
+			WHERE
+				self.timesheet.id= :timesheet_id
+			GROUP BY
+				self.date,
+				self.manufOrder.manufOrderSeq
+			ORDER BY 
+				self.date
+		]]></dataset>
+		<category key="_day" type="text" title="Day"/>
+		<series key="_duration" groupBy="_manuf_order" type="bar" title="Total"/>
 	</chart>
 
 	<chart name="chart.leave.per.employee" title="Leave Per Employee" stacked="true">

@@ -113,7 +113,8 @@
 			<field name="periodTotal" readonly="true"/>
 			<field name="$periodTotalConvert" type="decimal" readonly="true" hidden="true"/>
 		</panel>
-		<panel-dashlet name="panelDashboard" title="Total Hours per Day" hidden="true" showIf="id &amp;&amp; user.employee.timesheetImputationSelect != 2" action="action-timesheet-view-total-hours-per-day"/>
+		<panel-dashlet name="panelDashboard" title="Total Hours per Day" hidden="true" showIf="id &amp;&amp; user.employee.timesheetImputationSelect == 1" action="action-timesheet-view-total-hours-per-day-timesheet-imputed-on-project"/>
+		<panel-dashlet name="panelDashboard" title="Total Hours per Day" hidden="true" showIf="id &amp;&amp; user.employee.timesheetImputationSelect == 2" action="action-timesheet-view-total-hours-per-day-timesheet-imputed-on-manufacturing-order"/>
 		<panel showIf="sentDate != null">
 		 	<field name="sentDate"/>
 			<field name="validatedBy" canEdit="false" form-view="user-form" grid-view="user-grid" showIf="validatedBy != null"/>
@@ -393,8 +394,13 @@
     	<call class="com.axelor.apps.hr.web.timesheet.TimesheetController" method="openTimesheetEditor"/>
     </action-method>
 
-	<action-view name="action-timesheet-view-total-hours-per-day" title="">
-  		<view name="chart.total.hours.per.day" type="chart"/>
+	<action-view name="action-timesheet-view-total-hours-per-day-timesheet-imputed-on-project" title="">
+  		<view name="chart.total.hours.per.day.timesheet.imputed.on.project" type="chart"/>
+    	<context name="timesheet_id" expr="eval: __self__.id"/>
+	</action-view>
+
+	<action-view name="action-timesheet-view-total-hours-per-day-timesheet-imputed-on-manufacturing-order" title="">
+  		<view name="chart.total.hours.per.day.timesheet.imputed.on.manufacturing.order" type="chart"/>
     	<context name="timesheet_id" expr="eval: __self__.id"/>
 	</action-view>
 	
