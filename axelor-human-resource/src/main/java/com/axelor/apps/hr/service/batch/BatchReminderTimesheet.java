@@ -73,7 +73,7 @@ public class BatchReminderTimesheet extends AbstractBatch {
     Company company = batch.getMailBatch().getCompany();
     Template template = batch.getMailBatch().getTemplate();
     List<Timesheet> timesheetList = null;
-    if (Beans.get(CompanyRepository.class).all().fetch().size() > 1) {
+    if (company != null) {
       timesheetList =
           Beans.get(TimesheetRepository.class)
               .all()
@@ -108,7 +108,7 @@ public class BatchReminderTimesheet extends AbstractBatch {
   public void generateEmail() {
     Company company = batch.getMailBatch().getCompany();
     List<Timesheet> timesheetList = null;
-    if (Beans.get(CompanyRepository.class).all().fetch().size() > 1) {
+    if (company != null) {
       timesheetList =
           Beans.get(TimesheetRepository.class)
               .all()
@@ -153,11 +153,12 @@ public class BatchReminderTimesheet extends AbstractBatch {
 
   public void generateAllEmailTemplate() {
 
+    Company company = batch.getMailBatch().getCompany();
     Template template = batch.getMailBatch().getTemplate();
     List<Employee> employeeList = null;
-    if (Beans.get(CompanyRepository.class).all().fetch().size() > 1) {
+    if (company != null) {
       employeeList =
-          Beans.get(EmployeeRepository.class).all().filter("self.timesheetReminder = true").fetch();
+          Beans.get(EmployeeRepository.class).all().filter("self.user.activeCompany.id = ?1 AND self.timesheetReminder = true", company.getId()).fetch();
     } else {
       employeeList =
           Beans.get(EmployeeRepository.class).all().filter("self.timesheetReminder = true").fetch();
@@ -180,9 +181,9 @@ public class BatchReminderTimesheet extends AbstractBatch {
   public void generateAllEmail() {
     Company company = batch.getMailBatch().getCompany();
     List<Employee> employeeList = null;
-    if (Beans.get(CompanyRepository.class).all().fetch().size() > 1) {
+    if (company != null) {
       employeeList =
-          Beans.get(EmployeeRepository.class).all().filter("self.timesheetReminder = true").fetch();
+          Beans.get(EmployeeRepository.class).all().filter("self.user.activeCompany.id = ?1 AND self.timesheetReminder = true", company.getId()).fetch();
     } else {
       employeeList =
           Beans.get(EmployeeRepository.class).all().filter("self.timesheetReminder = true").fetch();
