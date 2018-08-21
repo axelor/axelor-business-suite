@@ -40,6 +40,7 @@
 			</panel>
 			<field name="exportTypeSelect" readonlyIf="exported" />
 			<button name="export" title="Export payroll preparation" hidden="true" showIf="id != null &amp;&amp; !exported" onClick="save,action-payroll-preparation-method-export" />
+			<button name="reexport" title="Reexport" showIf="exported" onClick="action-payroll-preparation-record-reexport" />
 			<field name="exported" />
 			<field name="exportDate" hidden="true" showIf="exported" />
 		</panel>
@@ -84,6 +85,10 @@
 	
 	<action-record name="action-payroll-preparation-record-total" model="com.axelor.apps.hr.db.PayrollPreparation">
 		<field name="total" expr="netSalary + expenseAmount"/>
+	</action-record>
+	
+	<action-record name="action-payroll-preparation-record-reexport" model="com.axelor.apps.hr.db.PayrollPreparation">
+		<field name="exported" expr="false"/>
 	</action-record>
 	
 	<action-method name="action-payroll-preparation-method-export" >
