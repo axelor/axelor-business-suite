@@ -6,7 +6,7 @@
 
 ### Bug Fixes
 - Fix NPE in BankOrder generation on missing bank name.
-
+- Remove strange code from the BatchReminderTimesheet.
 
 ## [4.2.4] - 2018-07-12
 ### Improvements
