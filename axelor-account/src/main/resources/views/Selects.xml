@@ -322,6 +322,11 @@
 		<option value="2">Monthly payments</option>
 	</selection>
 
+	<selection name="iaccount.payment.schedule.invoice.type.select">
+		<option value="1">Purchase</option>
+		<option value="3">Sale</option>
+	</selection>
+
 	<selection name="message.related.to.select" id="account.message.related.to.select">
 		<option value="com.axelor.apps.account.db.DebtRecoveryHistory">Debt Recovery History</option>
 		<option value="com.axelor.apps.account.db.Invoice">Invoice</option>

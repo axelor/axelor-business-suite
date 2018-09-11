@@ -24,6 +24,7 @@
 		
 		<panel name="main">
 		    <field name="statusSelect" widget="NavSelect" colSpan="12" />
+		    <field name="invoiceTypeSelect" />
 		    <field name="paymentScheduleSeq" />
 			<field name="typeSelect" readonlyIf="statusSelect != 1" />
 			<field name="creationDate" readonlyIf="statusSelect != 1" />
@@ -43,7 +44,7 @@
 		</panel>
 		
 		<panel-related title="Invoices" field="invoiceSet" grid-view="invoice-account-grid" form-view="invoice-form" 
-			domain="self.partner = :partner and self.schedulePaymentOk = 'f' and self.company=:company and self.statusSelect = 3 and self.companyInTaxTotalRemaining > 0.0 AND self.currency = :currency AND self.operationTypeSelect = 3"
+			domain="self.partner = :partner and self.schedulePaymentOk = 'f' and self.company=:company and self.statusSelect = 3 and self.companyInTaxTotalRemaining > 0.0 AND self.currency = :currency AND self.operationTypeSelect = :invoiceTypeSelect"
 			readonlyIf="statusSelect != 1" onChange="action-payment-schedule-record-in-tax-amount" hideIf="typeSelect == 2" canNew="false" />
 			
 		<panel-related title="Payment schedule lines" field="paymentScheduleLineList" editable="true" grid-view="payment-schedule-line-payment-schedule-grid" form-view="payment-schedule-line-payment-schedule-form"
