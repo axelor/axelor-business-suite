@@ -23,26 +23,30 @@
     <form model="com.axelor.apps.stock.db.LogisticalForm" title="Logistical form" name="logistical-form-form"
         width="large" onNew="action-logistical-form-new" onSave="action-logistical-form-save">
         <toolbar>
-            <button name="carrierValidatedBtn" title="Carrier validated" showIf="statusSelect == 1" readonlyIf="!logisticalFormLineList.length"
-                onClick="action-logistical-form-carrier-validated" icon="fa-check" />
-            <button name="collectedBtn" title="Collected" showIf="statusSelect == 2" readonlyIf="!logisticalFormLineList.length"
-                onClick="action-logistical-form-process-collected" icon="fa-truck" />
-            <button name="packagingListBtn" title="Print packaging list" readonlyIf="!logisticalFormLineList.length"
+            <button name="packagingListBtn" title="Print packaging list" hideIf="!logisticalFormLineList.length"
                 onClick="action-logistical-form-print-packaging-list" icon="fa-print" if="__config__.app.isApp('supplychain')" />
-            <button name="backToProvisionBtn" title="Back to provision" showIf="statusSelect > 1" icon="fa-cubes" onClick="action-logistical-form-back-to-provision" />
         </toolbar>
-        <panel colSpan="12" readonlyIf="statusSelect > 1">
-            <field name="deliveryNumber" />
-            <field name="collectionDate" />
-            <field name="company" onChange="action-logistical-form-company-change" form-view="company-form"
-                grid-view="company-grid" canEdit="false" />
-            <field name="deliverToCustomerPartner" domain="self.isCustomer = TRUE AND :company MEMBER OF self.companySet"
-                onChange="action-logistical-form-partner-change" form-view="partner-customer-form" grid-view="partner-customer-grid"
-                canEdit="false" />
+        <panel name="main">
+	        <panel colSpan="8" readonlyIf="statusSelect > 1">
+	            <field name="statusSelect" colSpan="12" widget="NavSelect" />
+	            <field name="deliveryNumber" />
+	            <field name="collectionDate" />
+	            <field name="company" onChange="action-logistical-form-company-change" form-view="company-form"
+	                grid-view="company-grid" canEdit="false" />
+	            <field name="deliverToCustomerPartner" domain="self.isCustomer = TRUE AND :company MEMBER OF self.companySet"
+	                onChange="action-logistical-form-partner-change" form-view="partner-customer-form" grid-view="partner-customer-grid"
+	                canEdit="false" />
+	        </panel>
+	        <panel name="actions" title="Actions" colSpan="4">
+	        	<button name="carrierValidatedBtn" title="Carrier validated" showIf="statusSelect == 1" readonlyIf="!logisticalFormLineList.length"
+	                onClick="action-logistical-form-carrier-validated" icon="fa-check" colSpan="12"/>
+	            <button name="collectedBtn" title="Collected" showIf="statusSelect == 2" readonlyIf="!logisticalFormLineList.length"
+	                onClick="action-logistical-form-process-collected" icon="fa-truck" colSpan="12"/>
+	            <button name="backToProvisionBtn" title="Back to provision" showIf="statusSelect > 1" icon="fa-cubes" onClick="action-logistical-form-back-to-provision" colSpan="12"/>
+	        </panel>
         </panel>
         <panel-tabs colSpan="12" readonlyIf="statusSelect > 1">
             <panel title="General">
-                <field name="statusSelect" colSpan="12" widget="NavSelect" />
                 <field name="carrierPartner"
                     domain="self.isCarrier = TRUE AND (self.companySet IS EMPTY OR :company MEMBER OF self.companySet)"
                     form-view="partner-form" grid-view="partner-grid" canEdit="false"
