@@ -300,10 +300,13 @@
 			</panel>
 		</panel>
 	    <panel if="__config__.app.isApp('supplychain') &amp;&amp; __config__.app.getApp('supplychain').getAllowTimetableInvoicing()" if-module="axelor-supplychain" name="timetable" title="Timetable">
-	      <field name="expectedRealisationDate" colSpan="12" width="50%"/>
-	      <label title="OR"/>
-	      <field name="amountToBeSpreadOverTheTimetable" colSpan="12"/>
-	      <panel-related if-module="axelor-supplychain" colSpan="12" field="timetableList" form-view="timetable-form" grid-view="timetable-grid" onChange="action-sale-order-method-update-amount-to-be-spread-over-the-timetable,action-supplychain-sale-order-validate-check-amount-timetable"/>
+	      <field name="dueDateTypeSelect" colSpan="6" selection-in="[1]" if="__config__.app.getApp('supplychain').getManagedInvoicedAmountByLine()"/>
+	      <field name="dueDateTypeSelect" colSpan="6" selection-in="[1,2]" if="!__config__.app.getApp('supplychain').getManagedInvoicedAmountByLine()"/>
+	      <field name="expectedRealisationDate" colSpan="12" width="50%" showIf="dueDateTypeSelect == 1"/>
+	      <panel colSpan="12" showIf="dueDateTypeSelect == 2">
+	        <field name="amountToBeSpreadOverTheTimetable" colSpan="12"/>
+	        <panel-related if-module="axelor-supplychain" colSpan="12" field="timetableList" form-view="timetable-form" grid-view="timetable-grid" onChange="action-sale-order-method-update-amount-to-be-spread-over-the-timetable,action-supplychain-sale-order-validate-check-amount-timetable"/>
+	      </panel>
 	    </panel>
 	    <panel-related if="__config__.app.isApp('supplychain') &amp;&amp; !__config__.app.getApp('account').getManageAdvancePaymentInvoice()" if-module="axelor-supplychain" readonly="true" colSpan="12" field="advancePaymentList" form-view="advance-payment-form" grid-view="advance-payment-grid"/>
 	    <panel if="__config__.app.getApp('sale').getPrintingConfigPerSaleOrder()" name="printing" title="Printing">

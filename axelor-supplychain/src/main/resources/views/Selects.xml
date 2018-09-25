@@ -73,6 +73,11 @@
 		<option value="1">Standard</option>
 		<option value="2">Subscription</option>
 	</selection>
+
+	<selection name="supplychain.sale.order.due.date.type.select">
+		<option value="1">Expected realisation date</option>
+		<option value="2">Timetable</option>
+	</selection>
 	
 	<selection name='iinvoice.operation.sub.type.select' id="supplychain.iinvoice.operation.sub.type.select">
 		<option value="6">Subscription</option>

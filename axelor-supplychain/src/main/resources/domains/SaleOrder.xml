@@ -17,6 +17,7 @@
         <decimal name="amountInvoiced" title="Amount invoiced W.T." readonly="true"/>
         <integer name="saleOrderTypeSelect" title="Type" required="true" default="1" selection="supplychain.sale.order.type.select"/>
         <!-- 	Onglet échéancier -->
+        <integer name="dueDateTypeSelect" title="Due date type" default="1" selection="supplychain.sale.order.due.date.type.select"/>
         <one-to-many name="saleOrderScheduleLineList" ref="com.axelor.apps.sale.db.SaleOrderScheduleLine" mappedBy="saleOrder" title="Schedule line list"/>
         <one-to-many name="timetableList" ref="com.axelor.apps.supplychain.db.Timetable" title="Timetable" mappedBy="saleOrder"/>
         <boolean name="interco" title="Interco"/>
