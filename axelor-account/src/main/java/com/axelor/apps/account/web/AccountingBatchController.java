@@ -180,9 +180,13 @@ public class AccountingBatchController {
    */
   public void run(ActionRequest request, ActionResponse response) throws AxelorException {
 
-    Batch batch = accountingBatchService.run((String) request.getContext().get("code"));
-    Map<String, Object> mapData = new HashMap<String, Object>();
-    mapData.put("anomaly", batch.getAnomaly());
-    response.setData(mapData);
+    try {
+      Batch batch = accountingBatchService.run((String) request.getContext().get("code"));
+      Map<String, Object> mapData = new HashMap<>();
+      mapData.put("anomaly", batch.getAnomaly());
+      response.setData(mapData);
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
   }
 }

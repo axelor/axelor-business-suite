@@ -527,15 +527,6 @@
 	<menuitem name="admin-root-batch" parent="admin-root" if="__config__.app.isApp('base')"
 		title="Batches" order="35" />
 
-	<menuitem name="admin-root-batch-base" parent="admin-root-batch"
-		title="Base batches" action="admin.root.batch.base" />
-
-	<action-view name="admin.root.batch.base" title="Base batches"
-		model="com.axelor.apps.base.db.BaseBatch" >
-		<view type="grid" name="base-batch-grid"/>
-		<view type="form" name="base-batch-form"/>
-	</action-view>
-	
 	<menuitem name="admin-root-batch-mail" parent="admin-root-batch"
 		title="Mail batches" action="admin.root.batch.mail" />
 

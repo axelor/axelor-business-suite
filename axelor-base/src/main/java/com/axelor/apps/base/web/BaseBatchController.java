@@ -65,4 +65,29 @@ public class BaseBatchController {
       response.setReload(true);
     }
   }
+
+  /**
+   * Lancer le batch des objectifs
+   *
+   * @param request
+   * @param response
+   */
+  public void actionTarget(ActionRequest request, ActionResponse response) {
+    try {
+      BaseBatch baseBatch = request.getContext().asType(BaseBatch.class);
+      BaseBatchRepository baseBatchRepo = new BaseBatchRepository();
+
+      Batch batch = null;
+
+      batch = baseBatchService.run(baseBatchRepo.find(baseBatch.getId()));
+
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
+      response.setReload(true);
+
+    } catch (AxelorException e) {
+      TraceBackService.trace(response, e);
+    }
+  }
 }

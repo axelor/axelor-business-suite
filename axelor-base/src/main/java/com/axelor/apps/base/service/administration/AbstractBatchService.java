@@ -68,8 +68,13 @@ public abstract class AbstractBatchService {
    *
    * @param code
    * @return
+   * @throws AxelorException
    */
-  public Model findModelByCode(String code) {
+  public Model findModelByCode(String code) throws AxelorException {
+    if (code == null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_NO_VALUE, I18n.get("Code cannot be null."));
+    }
     return Query.of(getModelClass()).filter("self.code = :code").bind("code", code).fetchOne();
   }
 }

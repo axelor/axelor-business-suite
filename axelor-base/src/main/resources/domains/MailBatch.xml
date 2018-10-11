@@ -8,7 +8,7 @@
   <entity name="MailBatch" lang="java">
   	
   	<!-- HEADER -->
-  	<string name="code" title="Code" namecolumn="true" unique="true"/>
+    <string name="code" title="Code" namecolumn="true" unique="true"/>
     <integer name="actionSelect" title="Action" required="true" selection="base.batch.action.select" default="1"/>
     <many-to-one name="company" ref="com.axelor.apps.base.db.Company" required="true" title="Company" />
     <many-to-one name="template" ref="com.axelor.apps.message.db.Template" title="Template"/>

@@ -69,7 +69,12 @@ public class BatchJob implements Job {
     }
 
     AbstractBatchService batchService = Beans.get(batchServiceClass);
-    Model batchModel = batchService.findModelByCode(batchCode);
+    Model batchModel;
+    try {
+      batchModel = batchService.findModelByCode(batchCode);
+    } catch (AxelorException e) {
+      throw new JobExecutionException(e);
+    }
 
     if (batchModel == null) {
       String msg =

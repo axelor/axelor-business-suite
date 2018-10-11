@@ -356,6 +356,7 @@
 "Closure date","Date de clôture",,
 "Cluster",,,
 "Code","Code",,
+"Code cannot be null.","Le code ne peut pas être nul.",,
 "Code length should be greater than 2.",,,
 "Coeff",,,
 "Coeff.","Coeff.",,
