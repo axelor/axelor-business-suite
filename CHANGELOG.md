@@ -114,6 +114,7 @@ Moreover, the amount_remaining calculation on move line was wrong. Now we comput
 - INVOICE : fix total decimal amount format on report
 - Event : Fill correct partner when generate event from Customer. 
 - Base : Removed invoice binding in ClientSituation report for allowing all different invoices to show in report.
+- SALE ORDER : generate stock move from a sale order in foreign currency
 
 ## [5.0.6] - 2018-10-06
 ## Features

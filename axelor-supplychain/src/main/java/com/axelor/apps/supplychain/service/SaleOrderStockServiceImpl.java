@@ -254,17 +254,25 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
     if (this.isStockMoveProduct(saleOrderLine)) {
 
       Unit unit = saleOrderLine.getProduct().getUnit();
-      BigDecimal priceDiscounted = saleOrderLine.getPriceDiscounted();
       BigDecimal companyUnitPriceUntaxed = saleOrderLine.getProduct().getCostPrice();
+      BigDecimal unitPrice =
+          saleOrderLine.getQty() != BigDecimal.ZERO
+              ? saleOrderLine
+                  .getCompanyExTaxTotal()
+                  .divide(
+                      qty,
+                      Beans.get(AppBaseService.class).getNbDecimalDigitForUnitPrice(),
+                      RoundingMode.HALF_EVEN)
+              : saleOrderLine.getProduct().getCostPrice();
       if (unit != null && !unit.equals(saleOrderLine.getUnit())) {
         qty =
             unitConversionService.convert(
                 saleOrderLine.getUnit(), unit, qty, qty.scale(), saleOrderLine.getProduct());
-        priceDiscounted =
+        unitPrice =
             unitConversionService.convert(
                 unit,
                 saleOrderLine.getUnit(),
-                priceDiscounted,
+                unitPrice,
                 appBaseService.getNbDecimalDigitForUnitPrice(),
                 saleOrderLine.getProduct());
       }
@@ -290,7 +298,7 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
               saleOrderLine.getProductName(),
               saleOrderLine.getDescription(),
               qty,
-              priceDiscounted,
+              unitPrice,
               companyUnitPriceUntaxed,
               unit,
               stockMove,
