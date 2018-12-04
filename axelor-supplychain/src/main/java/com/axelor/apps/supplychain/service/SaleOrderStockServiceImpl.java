@@ -110,12 +110,17 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
     StockMove stockMove = this.createStockMove(saleOrder, saleOrder.getCompany());
 
     for (SaleOrderLine saleOrderLine : saleOrder.getSaleOrderLineList()) {
-      if (saleOrderLine.getProduct() != null
-          || saleOrderLine.getTypeSelect().equals(SaleOrderLineRepository.TYPE_PACK)) {
-        BigDecimal qty = saleOrderLineServiceSupplyChain.computeUndeliveredQty(saleOrderLine);
 
-        if (qty.signum() > 0) {
-          createStockMoveLine(stockMove, saleOrderLine, qty);
+      if (saleOrderLine.getTypeSelect().equals(SaleOrderLineRepository.TYPE_TITLE)) {
+        createStockMoveLine(stockMove, saleOrderLine);
+      } else {
+        if (saleOrderLine.getProduct() != null
+            || saleOrderLine.getTypeSelect().equals(SaleOrderLineRepository.TYPE_PACK)) {
+          BigDecimal qty = saleOrderLineServiceSupplyChain.computeUndeliveredQty(saleOrderLine);
+
+          if (qty.signum() > 0) {
+            createStockMoveLine(stockMove, saleOrderLine, qty);
+          }
         }
       }
     }
@@ -308,7 +313,8 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
       }
 
       return stockMoveLine;
-    } else if (saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_PACK) {
+    } else if (saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_PACK
+        || saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_TITLE) {
       StockMoveLine stockMoveLine =
           stockMoveLineService.createStockMoveLine(
               null,
@@ -325,7 +331,9 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
 
       saleOrderLine.setDeliveryState(SaleOrderLineRepository.DELIVERY_STATE_NOT_DELIVERED);
       stockMoveLine.setSaleOrderLine(saleOrderLine);
-
+      if (saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_TITLE) {
+        stockMoveLine.setIsTitleLine(true);
+      }
       return stockMoveLine;
     }
     return null;

@@ -286,8 +286,10 @@ public class StockMoveLineServiceImpl implements StockMoveLineService {
 
     if (stockMove != null) {
       stockMove.addStockMoveLineListItem(stockMoveLine);
-      stockMoveLine.setNetWeight(
-          this.computeNetWeight(stockMove, stockMoveLine, stockMove.getCompany()));
+      if (product != null) {
+        stockMoveLine.setNetWeight(
+            this.computeNetWeight(stockMove, stockMoveLine, stockMove.getCompany()));
+      }
     } else {
       stockMoveLine.setNetWeight(this.computeNetWeight(stockMove, stockMoveLine, null));
     }

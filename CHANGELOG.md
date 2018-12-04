@@ -124,6 +124,7 @@ Moreover, the amount_remaining calculation on move line was wrong. Now we comput
 - Schedulers: fix missing traceback.
 - Debt recovery batch: fix error recovery.
 - Sale : fix Null Pointer error.
+- Invoice Line : Fix Missing Title-lines when generating an invoice from a stock move
 
 ## [5.0.6] - 2018-10-06
 ## Features

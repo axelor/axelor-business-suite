@@ -716,7 +716,8 @@ public class StockMoveInvoiceServiceImpl implements StockMoveInvoiceService {
     PurchaseOrderLine purchaseOrderLine = stockMoveLine.getPurchaseOrderLine();
 
     if (saleOrderLine != null) {
-      if (saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_PACK) {
+      if (saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_PACK
+          || saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_TITLE) {
         isTitleLine = true;
       }
       sequence = saleOrderLine.getSequence();
@@ -725,6 +726,8 @@ public class StockMoveInvoiceServiceImpl implements StockMoveInvoiceService {
         isTitleLine = true;
       }
       sequence = purchaseOrderLine.getSequence();
+    } else {
+      isTitleLine = stockMoveLine.getIsTitleLine();
     }
 
     if (stockMoveLine.getRealQty().compareTo(BigDecimal.ZERO) == 0 && !isTitleLine) {
@@ -752,9 +755,7 @@ public class StockMoveInvoiceServiceImpl implements StockMoveInvoiceService {
             stockMoveLine) {
           @Override
           public List<InvoiceLine> creates() throws AxelorException {
-
             InvoiceLine invoiceLine = this.createInvoiceLine();
-
             List<InvoiceLine> invoiceLines = new ArrayList<InvoiceLine>();
             invoiceLines.add(invoiceLine);
 
@@ -772,22 +773,32 @@ public class StockMoveInvoiceServiceImpl implements StockMoveInvoiceService {
    * @return
    * @throws AxelorException
    */
+  @SuppressWarnings("unused")
   private List<StockMoveLine> getConsolidatedStockMoveLineList(
       List<StockMoveLine> stockMoveLineList) throws AxelorException {
     Map<Product, List<StockMoveLine>> stockMoveLineMap = new LinkedHashMap<>();
-
+    List<StockMoveLine> stockMoveLinesWithoutProduct = new ArrayList<>();
     for (StockMoveLine stockMoveLine : stockMoveLineList) {
-      List<StockMoveLine> list = stockMoveLineMap.get(stockMoveLine.getProduct());
-      if (list == null) {
-        list = new ArrayList<>();
-        stockMoveLineMap.put(stockMoveLine.getProduct(), list);
+      if (stockMoveLine.getProduct() != null) {
+        List<StockMoveLine> list = stockMoveLineMap.get(stockMoveLine.getProduct());
+        if (list == null) {
+          list = new ArrayList<>();
+          stockMoveLineMap.put(stockMoveLine.getProduct(), list);
+        }
+        list.add(stockMoveLine);
+      } else {
+        stockMoveLinesWithoutProduct.add(stockMoveLine);
       }
-      list.add(stockMoveLine);
     }
-
     List<StockMoveLine> mergedStockMoveLineList = new ArrayList<>();
+
     for (List<StockMoveLine> stockMoveLines : stockMoveLineMap.values()) {
       mergedStockMoveLineList.add(stockMoveLineService.getMergedStockMoveLine(stockMoveLines));
+    }
+
+    if (!stockMoveLinesWithoutProduct.isEmpty()) {
+      mergedStockMoveLineList.addAll(stockMoveLinesWithoutProduct);
+      return mergedStockMoveLineList;
     }
     return mergedStockMoveLineList;
   }

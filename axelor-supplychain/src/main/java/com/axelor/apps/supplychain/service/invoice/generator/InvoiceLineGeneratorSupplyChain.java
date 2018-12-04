@@ -133,7 +133,8 @@ public abstract class InvoiceLineGeneratorSupplyChain extends InvoiceLineGenerat
       this.priceDiscounted = saleOrderLine.getPriceDiscounted();
       this.taxLine = saleOrderLine.getTaxLine();
       this.discountTypeSelect = saleOrderLine.getDiscountTypeSelect();
-      this.isTitleLine = saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_PACK;
+      this.isTitleLine = saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_PACK || 
+    		  saleOrderLine.getTypeSelect() == SaleOrderLineRepository.TYPE_TITLE;
     } else if (purchaseOrderLine != null) {
       this.isTitleLine = purchaseOrderLine.getIsTitleLine();
       this.discountAmount = purchaseOrderLine.getDiscountAmount();
@@ -149,23 +150,26 @@ public abstract class InvoiceLineGeneratorSupplyChain extends InvoiceLineGenerat
       this.taxLine = purchaseOrderLine.getTaxLine();
       this.discountTypeSelect = purchaseOrderLine.getDiscountTypeSelect();
     } else if (stockMoveLine != null) {
+      this.isTitleLine=stockMoveLine.getIsTitleLine();
       this.priceDiscounted = stockMoveLine.getUnitPriceUntaxed();
-      Unit saleOrPurchaseUnit = this.getSaleOrPurchaseUnit();
+      if (!stockMoveLine.getIsTitleLine()) {
+        Unit saleOrPurchaseUnit = this.getSaleOrPurchaseUnit();
 
-      if (saleOrPurchaseUnit != null
-          && this.unit != null
-          && !this.unit.equals(saleOrPurchaseUnit)) {
-        this.qty =
-            unitConversionService.convert(
-                this.unit, saleOrPurchaseUnit, qty, qty.scale(), stockMoveLine.getProduct());
-        this.priceDiscounted =
-            unitConversionService.convert(
-                this.unit,
-                saleOrPurchaseUnit,
-                this.priceDiscounted,
-                appBaseService.getNbDecimalDigitForUnitPrice(),
-                product);
-        this.unit = saleOrPurchaseUnit;
+        if (saleOrPurchaseUnit != null
+            && this.unit != null
+            && !this.unit.equals(saleOrPurchaseUnit)) {
+          this.qty =
+              unitConversionService.convert(
+                  this.unit, saleOrPurchaseUnit, qty, qty.scale(), stockMoveLine.getProduct());
+          this.priceDiscounted =
+              unitConversionService.convert(
+                  this.unit,
+                  saleOrPurchaseUnit,
+                  this.priceDiscounted,
+                  appBaseService.getNbDecimalDigitForUnitPrice(),
+                  product);
+          this.unit = saleOrPurchaseUnit;
+        }
       }
     }
   }
@@ -194,6 +198,9 @@ public abstract class InvoiceLineGeneratorSupplyChain extends InvoiceLineGenerat
       invoiceLine.setBudget(purchaseOrderLine.getBudget());
     } else if (stockMoveLine != null) {
 
+      if (stockMoveLine.getIsTitleLine()) {
+    	  return invoiceLine;
+      }
       InvoiceLineService invoiceLineService = Beans.get(InvoiceLineService.class);
       UnitConversionService unitConversionService = Beans.get(UnitConversionService.class);
 

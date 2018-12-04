@@ -24,9 +24,9 @@
 <!--     TODO a deplacer dans Supplier management -->
     <decimal name="shippedQty" title="Shipped qty"/>
     <date name="shippedDate" title="Shipped date"/>
-    
     <many-to-one name="productModel" ref="com.axelor.apps.base.db.Product" title="Product model"/>
     
+    <boolean name="isTitleLine" title="Title Line" default="false"/>
     <string name="productName" title="Title" required="true" namecolumn="true" />
     <string name="description" title="Description" large="true"/>
     

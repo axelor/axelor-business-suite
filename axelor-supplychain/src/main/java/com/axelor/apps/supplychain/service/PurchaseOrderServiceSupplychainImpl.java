@@ -302,6 +302,7 @@ public class PurchaseOrderServiceSupplychainImpl extends PurchaseOrderServiceImp
                       null);
           if (stockMoveLine != null) {
             stockMoveLine.setPurchaseOrderLine(purchaseOrderLine);
+            stockMoveLine.setIsTitleLine(true);
           }
         }
       }
