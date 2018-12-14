@@ -71,8 +71,8 @@
             </panel>
 		</panel>
 		
-		<panel-related name="moveLineListPanel"   field="moveLineList" editable="true" showIf="(statusSelect &lt; 3) &amp;&amp; journal &amp;&amp; company &amp;&amp; date &amp;&amp; period" canNew="true" canRemove="true" grid-view="move-line-move-grid" form-view="move-line-move-form"/>
-		<panel-related name="moveLineListPanel"  field="moveLineList" editable="false" showIf="statusSelect &gt; 2 &amp;&amp; journal &amp;&amp; company &amp;&amp; date &amp;&amp; period" canNew="false" canRemove="false" grid-view="move-line-move-grid" form-view="move-line-move-form"/>
+		<panel-related name="moveLineList1Panel"   field="moveLineList" editable="true" showIf="(statusSelect &lt; 3) &amp;&amp; journal &amp;&amp; company &amp;&amp; date &amp;&amp; period" canNew="true" canRemove="true" grid-view="move-line-move-grid" form-view="move-line-move-form"/>
+		<panel-related name="moveLineList2Panel"  field="moveLineList" editable="false" showIf="statusSelect &gt; 2 &amp;&amp; journal &amp;&amp; company &amp;&amp; date &amp;&amp; period" canNew="false" canRemove="false" grid-view="move-line-move-grid" form-view="move-line-move-form"/>
 
         <panel-tabs name="mainPanelTab">
             <panel name="relatedToPanel" title="Related to" readonly="true">

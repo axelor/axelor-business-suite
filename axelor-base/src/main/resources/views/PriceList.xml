@@ -35,12 +35,12 @@
 		<panel name="priceListLinePanel" title="Price list lines" >
 			<field name="generalDiscount"/>
 			<label name="orLabel" title="Or" colSpan="12"/>
-			<panel-related name="historizedPriceListPanel" field="priceListLineList" grid-view="price-list-line-grid" form-view="price-list-line-form" colSpan="12"/>
+			<panel-related name="priceListLineListPanel" field="priceListLineList" grid-view="price-list-line-grid" form-view="price-list-line-form" colSpan="12"/>
 		 </panel>
 		<panel name="commentsPanel" title="Comments">
 			<field name="comments" colSpan="12" height="3"/>    					
 		</panel>
-		<panel colSpan="12" name="historizedPriceListPanel">
+		<panel colSpan="12" name="historizedPriceListDetailPanel">
 			<panel-related name="historizedPriceListPanel" field="historizedPriceList" colSpan="12" readonly="true" form-view="price-list-form" grid-view="price-list-hist-grid"/>
 			<button name="historizePriceListBtn" hideIf="!id || $popup()" title="Historize Price List" onClick="save,com.axelor.apps.base.web.PriceListController:historizePriceList"/>
 		</panel>
