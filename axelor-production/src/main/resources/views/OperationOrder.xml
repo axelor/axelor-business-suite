@@ -133,7 +133,7 @@
 		
 		<panel-related name="operationOrderDurationListPanel" field="operationOrderDurationList" canNew="false" canEdit="false" canRemove="false" sidebar="true" showIf="id" if="!__config__.app.getApp('production') || !__config__.app.getApp('production').getEnableTimesheetOnManufOrder()"/>
 
-		<panel-related name="operationOrderDurationListPanel" field="timesheetLineList" grid-view="timesheet-line-timesheet-operation-order-grid" form-view="timesheet-line-timesheet-manuf-order-form" colSpan="12" canNew="false" canEdit="false" canRemove="false" if-module="axelor-business-production" if="__config__.app.getApp('production')?.getEnableTimesheetOnManufOrder()"/>
+		<panel-related name="timesheetLineListPanel" field="timesheetLineList" grid-view="timesheet-line-timesheet-operation-order-grid" form-view="timesheet-line-timesheet-manuf-order-form" colSpan="12" canNew="false" canEdit="false" canRemove="false" if-module="axelor-business-production" if="__config__.app.getApp('production')?.getEnableTimesheetOnManufOrder()"/>
 	</form>
 	
 	<action-attrs name="action-operation-order-attrs-domain-machine">

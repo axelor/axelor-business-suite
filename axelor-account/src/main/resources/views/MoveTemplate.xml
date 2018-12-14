@@ -21,8 +21,8 @@
    		    <field name="moveTemplateType.typeSelect"/>
    		    <field name="endOfValidityDate"/>
 	 	</panel>
-    	<panel-related name="moveTemplateLineListPanel" field="moveTemplateLineList" colSpan="12" form-view="move-template-line-in-amount-form" grid-view="move-template-line-in-amount-grid" action="action-move-template-record-is-not-valid,action-move-template-method-set-is-valid" showIf="moveTemplateType.typeSelect == 2" hidden="true"/>
-    	<panel-related name="moveTemplateLineListPanel" field="moveTemplateLineList" colSpan="12" form-view="move-template-line-in-percentage-form" grid-view="move-template-line-in-percentage-grid" action="action-move-template-record-is-not-valid,action-move-template-method-set-is-valid" showIf="moveTemplateType.typeSelect == 1" hidden="true"/>
+    	<panel-related name="moveTemplateLineList1Panel" field="moveTemplateLineList" colSpan="12" form-view="move-template-line-in-amount-form" grid-view="move-template-line-in-amount-grid" action="action-move-template-record-is-not-valid,action-move-template-method-set-is-valid" showIf="moveTemplateType.typeSelect == 2" hidden="true"/>
+    	<panel-related name="moveTemplateLineList2Panel" field="moveTemplateLineList" colSpan="12" form-view="move-template-line-in-percentage-form" grid-view="move-template-line-in-percentage-grid" action="action-move-template-record-is-not-valid,action-move-template-method-set-is-valid" showIf="moveTemplateType.typeSelect == 1" hidden="true"/>
      	<panel sidebar="true" name="actionsPanel" title="Actions">
     		<field name="isValid" readonlyIf="!isValid" onChange="action-move-template-method-set-is-valid" colSpan="12"/>
     		<button name="checkValidityBtn" title="Check validity" readonlyIf="isValid" onClick="save,action-move-template-method-check-validity" colSpan="12"/>

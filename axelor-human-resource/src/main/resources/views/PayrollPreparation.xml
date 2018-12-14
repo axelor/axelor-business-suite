@@ -24,7 +24,7 @@
 			 <panel-related name="expenseListPanel" field="expenseList" 		     colSpan="12" canEdit="false" canNew="false" grid-view="expense-payroll-preparation-grid"/>
 			 <panel-related name="employeeBonusMgtLineListPanel" field="employeeBonusMgtLineList" colSpan="12" canEdit="false" canNew="false" grid-view="employee-bonus-mgt-line-employee-grid"/>
 			 <panel-related name="lunchVoucherMgtLineListPanel" field="lunchVoucherMgtLineList"  colSpan="12" canEdit="false" canNew="false" grid-view="lunch-voucher-mgt-line-payroll-grid" form-view="lunch-voucher-mgt-line-form"/>
-			 <panel-related name="otherCostsEmployeeSetsPanel" field="otherCostsEmployeeSet"    colSpan="12" canEdit="false"/>
+			 <panel-related name="otherCostsEmployeeSetPanel" field="otherCostsEmployeeSet"    colSpan="12" canEdit="false"/>
 			 <field name="expenseAmount"/>
 			 <field name="employeeBonusAmount"/>
 			 <field name="lunchVoucherNumber"/>

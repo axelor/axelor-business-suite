@@ -71,7 +71,7 @@
                     <button name="addStockMoveBtn" title="Add" onClick="action-logistical-form-add-stock-move"
                         colSpan="2" readonlyIf="!$stockMove" />
                 </panel>
-                <panel-related name="logisticalFormLineList" field="logisticalFormLineList" grid-view="logistical-form-line-grid"
+                <panel-related name="logisticalFormLineListPanel" field="logisticalFormLineList" grid-view="logistical-form-line-grid"
                     form-view="logistical-form-line-form" colSpan="12" canMove="true" orderBy="sequence" editable="true"
                     height="17" />
             </panel>

@@ -3,6 +3,7 @@
 ## [Unreleased 5.1.1]
 ## Improvements
 ## Bug Fixes
+-Fix wrong panel names
 
 
 ## [5.1.0] - 2018-12-13
