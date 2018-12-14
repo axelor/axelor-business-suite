@@ -4,6 +4,7 @@
 ## Features
 - Subrogation Release : add change tracking on status and add new fields.
 - MO printing : new design
+- MRP : set timeout for Calculation Process from App SupplyChain.when the process take more time that allowed, stop it and update MRP status to "Time limit exceeded"
 
 ## Improvements
 - FINANCIAL ACCOUNT : New boolean 'Analytic Distribution Authorized' added to make Analytic fields required on Invoice Line.

@@ -20,10 +20,13 @@ package com.axelor.apps.supplychain.service;
 import com.axelor.apps.supplychain.db.Mrp;
 import com.axelor.exception.AxelorException;
 import java.time.LocalDate;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public interface MrpService {
 
-  public void runCalculation(Mrp mrp) throws AxelorException;
+  public void runCalculation(Mrp mrp, boolean isManualRun)
+      throws AxelorException, InterruptedException, ExecutionException, TimeoutException;
 
   public void generateProposals(Mrp mrp) throws AxelorException;
 
@@ -37,4 +40,8 @@ public interface MrpService {
    * @return the mrp end date
    */
   public LocalDate findMrpEndDate(Mrp mrp);
+
+  public void setStatusSelect(Mrp mrp, int statusSelect);
+
+  public void setError(Mrp mrp, String errorLog);
 }

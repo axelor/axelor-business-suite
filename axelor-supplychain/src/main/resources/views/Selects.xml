@@ -21,6 +21,8 @@
 	    <option value="0">Draft</option>
 	    <option value="1">Calculation started</option>
   	    <option value="2">Calculation ended</option>
+  	    <option value="3">Time limit exceeded</option>
+  	    <option value="4">Error</option>
 	</selection>
 	
 	<selection name="supplychain.mrp.line.element.select">

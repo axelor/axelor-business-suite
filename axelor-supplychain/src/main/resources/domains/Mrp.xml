@@ -13,6 +13,7 @@
       <many-to-many name="mrpForecastSet" ref="com.axelor.apps.supplychain.db.MrpForecast" title="Forecasts"/>
       <date name="endDate" title="End date"/>
       <integer name="statusSelect" title="Status" selection="supplychain.mrp.status.select" default="0"/>
+      <string name="errorLog" title="Error Log" readonly="true"/>
       
       <extra-code><![CDATA[
 	
@@ -20,7 +21,9 @@
 		public static final int STATUS_DRAFT = 0;
 		public static final int STATUS_CALCULATION_STARTED = 1;
 		public static final int STATUS_CALCULATION_ENDED = 2;
-	
+		public static final int STATUS_TIME_LIMIT_EXCEEDED = 3;
+		public static final int STATUS_ERROR = 4;
+		
 	]]></extra-code>
       
   </entity>

@@ -17,6 +17,7 @@
  */
 package com.axelor.apps.supplychain.service;
 
+import com.axelor.apps.base.db.AppSupplychain;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.db.Unit;
@@ -51,18 +52,24 @@ import com.axelor.apps.supplychain.db.repo.MrpLineRepository;
 import com.axelor.apps.supplychain.db.repo.MrpLineTypeRepository;
 import com.axelor.apps.supplychain.db.repo.MrpRepository;
 import com.axelor.apps.supplychain.exception.IExceptionMessage;
+import com.axelor.apps.supplychain.service.app.AppSupplychainService;
 import com.axelor.apps.tool.StringTool;
 import com.axelor.db.JPA;
 import com.axelor.db.Model;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.SimpleTimeLimiter;
+import com.google.common.util.concurrent.TimeLimiter;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import com.google.inject.servlet.RequestScoper;
+import com.google.inject.servlet.ServletScopes;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -71,6 +78,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,14 +144,44 @@ public class MrpServiceImpl implements MrpService {
   }
 
   @Override
-  public void runCalculation(Mrp mrp) throws AxelorException {
+  @Transactional(rollbackOn = {AxelorException.class, Exception.class})
+  public void runCalculation(Mrp mrp, boolean isManualRun)
+      throws AxelorException, InterruptedException, ExecutionException, TimeoutException {
 
-    this.reset(mrp);
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    TimeLimiter timeLimiter = SimpleTimeLimiter.create(executorService);
+    final RequestScoper scoper = ServletScopes.transferRequest();
 
-    this.startMrp(mrpRepository.find(mrp.getId()));
-    this.completeMrp(mrpRepository.find(mrp.getId()));
-    this.doCalulation(mrpRepository.find(mrp.getId()));
-    this.finish(mrpRepository.find(mrp.getId()));
+    Runnable runnable =
+        new Runnable() {
+          @Override
+          public void run() {
+
+            RequestScoper.CloseableScope scope = scoper.open();
+            
+            try {
+              reset(mrpRepository.find(mrp.getId()));
+              startMrp(mrpRepository.find(mrp.getId()));
+              completeMrp(mrpRepository.find(mrp.getId()));
+              doCalulation(mrpRepository.find(mrp.getId()));
+              finish(mrpRepository.find(mrp.getId()));
+            } catch (AxelorException e) {
+              setError(mrpRepository.find(mrp.getId()), e.getMessage());
+              TraceBackService.trace(e);
+            } finally {
+              scope.close();
+            }
+          }
+        };
+
+    AppSupplychain appSupplychain = Beans.get(AppSupplychainService.class).getAppSupplychain();
+    Long timeout =
+        isManualRun ? appSupplychain.getTimeoutManualRun() : appSupplychain.getTimeoutScheduleRun();
+
+    if (timeout == 0) {
+      timeout = Long.MAX_VALUE;
+    }
+    timeLimiter.runWithTimeout(runnable, timeout, TimeUnit.SECONDS);
   }
 
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
@@ -1042,5 +1084,19 @@ public class MrpServiceImpl implements MrpService {
     }
 
     return today;
+  }
+
+  @Override
+  @Transactional(rollbackOn = {AxelorException.class, Exception.class})
+  public void setStatusSelect(Mrp mrp, int statusSelect) {
+    mrp.setStatusSelect(statusSelect);
+    mrpRepository.save(mrp);
+  }
+
+  @Override
+  @Transactional(rollbackOn = {AxelorException.class, Exception.class})
+  public void setError(Mrp mrp, String errorLog) {
+    mrp.setErrorLog(errorLog);
+    setStatusSelect(mrp, MrpRepository.STATUS_ERROR);
   }
 }

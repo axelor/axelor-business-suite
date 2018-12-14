@@ -34,6 +34,8 @@
 			<field name="intercoPurchaseCreatingStatusSelect" selection-in="[2,3]"/>
 			<field name="intercoSaleCreatingStatusSelect" selection-in="[2,3]"/>
 			<field name="intercoFromInvoice" widget="boolean-switch"/>
+			<field name="timeoutManualRun" widget="duration"/>
+			<field name="timeoutScheduleRun" widget="duration"/>
 		</panel>
 		<panel name="actionPanel">
 			<button name="generateSupplychainConfigurationsBtn" colSpan="4" title="Generate supply chain configurations" onClick="save,com.axelor.apps.supplychain.web.AppSupplychainController:generateSupplychainConfigurations"/>

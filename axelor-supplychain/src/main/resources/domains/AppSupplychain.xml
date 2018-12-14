@@ -39,6 +39,10 @@
 				 selection="sale.order.status.select"/>
 		<boolean name="manageStockReservation" title="Manage stock reservation"/>
 		<many-to-one name="cancelReasonOnChangingSaleOrder" ref="com.axelor.apps.base.db.CancelReason"/>
+		
+		<long name="timeoutManualRun" title="Timeout for manual run"/>
+		<long name="timeoutScheduleRun" title="Timeout for scheduled run"/>
+		
 	</entity>
 
 </domain-models>

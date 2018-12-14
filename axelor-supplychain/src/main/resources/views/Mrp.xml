@@ -29,6 +29,7 @@
 	        <field name="endDate" colSpan="6"/>
 	        <field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="6" domain="self.typeSelect != 3"/>
 	        <field name="stockLocation.company"/>
+	        <field name="errorLog" showIf="statusSelect == 4"/>
 	        <panel-related name="productSetPanel" field="productSet" canEdit="false" form-view="product-form" grid-view="product-grid" canNew="false" colSpan="12" domain="self.productTypeSelect = 'storable' AND self.excludeFromMrp = false AND self.stockManaged = true"/>
 	        <panel-related name="productCategorySetPanel" field="productCategorySet" canEdit="false" form-view="product-category-form" grid-view="product-category-grid" canNew="false" colSpan="12"/>
 	        <panel-related name="productFamilySetPanel" field="productFamilySet" canEdit="false" form-view="product-family-form" grid-view="product-family-grid" canNew="false" colSpan="12"/>

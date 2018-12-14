@@ -32,6 +32,7 @@ import com.axelor.rpc.ActionResponse;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.concurrent.TimeoutException;
 
 @Singleton
 public class MrpController {
@@ -46,8 +47,12 @@ public class MrpController {
     MrpService mrpService = mrpServiceProvider.get();
     MrpRepository mrpRepository = mrpRepositoryProvider.get();
     try {
-
-      mrpService.runCalculation(mrpRepository.find(mrp.getId()));
+      mrpService.runCalculation(mrpRepository.find(mrp.getId()), true);
+    } catch (TimeoutException e) {
+      TraceBackService.trace(response, e);
+      mrpService.reset(mrpRepository.find(mrp.getId()));
+      mrpService.setStatusSelect(
+          mrpRepository.find(mrp.getId()), MrpRepository.STATUS_TIME_LIMIT_EXCEEDED);
     } catch (Exception e) {
       TraceBackService.trace(response, e);
       mrpService.reset(mrpRepository.find(mrp.getId()));
