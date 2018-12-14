@@ -40,7 +40,10 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -572,5 +575,48 @@ public class StockLocationLineServiceImpl implements StockLocationLineService {
       stockLocationLine.setUnit(product.getUnit());
     }
     return stockLocationLine;
+  }
+
+  @Override
+  public Map<String, Object> updateQty(StockLocationLine stockLocationLine, Unit endUnit)
+      throws AxelorException {
+    Map<String, Object> values = new HashMap<>();
+
+    Unit oldUnit = stockLocationLine.getUnit();
+    BigDecimal currentQty = stockLocationLine.getCurrentQty();
+    BigDecimal futureQty = stockLocationLine.getFutureQty();
+    BigDecimal avgPrice = stockLocationLine.getAvgPrice();
+
+    if (endUnit != null && !endUnit.equals(oldUnit)) {
+      UnitConversionService unitConversionService = Beans.get(UnitConversionService.class);
+      currentQty =
+          unitConversionService.convert(
+              oldUnit,
+              endUnit,
+              stockLocationLine.getCurrentQty(),
+              stockLocationLine.getCurrentQty().scale(),
+              stockLocationLine.getProduct());
+
+      futureQty =
+          unitConversionService.convert(
+              oldUnit,
+              endUnit,
+              stockLocationLine.getFutureQty(),
+              stockLocationLine.getFutureQty().scale(),
+              stockLocationLine.getProduct());
+
+      avgPrice =
+          unitConversionService.convert(
+              oldUnit,
+              endUnit,
+              stockLocationLine.getAvgPrice(),
+              stockLocationLine.getAvgPrice().scale(),
+              stockLocationLine.getProduct());
+    }
+    values.put("currentQty", currentQty);
+    values.put("futureQty", futureQty);
+    values.put("avgPrice", avgPrice);
+
+    return values;
   }
 }

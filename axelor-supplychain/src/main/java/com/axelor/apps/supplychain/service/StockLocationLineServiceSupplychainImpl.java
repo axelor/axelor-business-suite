@@ -32,6 +32,7 @@ import com.axelor.inject.Beans;
 import com.google.inject.servlet.RequestScoped;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Map;
 
 @RequestScoped
 public class StockLocationLineServiceSupplychainImpl extends StockLocationLineServiceImpl {
@@ -156,5 +157,28 @@ public class StockLocationLineServiceSupplychainImpl extends StockLocationLineSe
     }
 
     return super.updateLocationFromProduct(stockLocationLine, product);
+  }
+
+  @Override
+  public Map<String, Object> updateQty(StockLocationLine stockLocationLine, Unit endUnit)
+      throws AxelorException {
+    Map<String, Object> values = super.updateQty(stockLocationLine, endUnit);
+
+    Unit oldUnit = stockLocationLine.getUnit();
+    BigDecimal reservedQty = stockLocationLine.getReservedQty();
+
+    if (endUnit != null && !endUnit.equals(oldUnit)) {
+      UnitConversionService unitConversionService = Beans.get(UnitConversionService.class);
+      reservedQty =
+          unitConversionService.convert(
+              oldUnit,
+              endUnit,
+              stockLocationLine.getReservedQty(),
+              stockLocationLine.getReservedQty().scale(),
+              stockLocationLine.getProduct());
+    }
+    values.put("reservedQty", reservedQty);
+
+    return values;
   }
 }

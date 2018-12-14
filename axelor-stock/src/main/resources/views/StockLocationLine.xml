@@ -18,7 +18,7 @@
     <form name="stock-location-line-form" title="Stock Location content" model="com.axelor.apps.stock.db.StockLocationLine" width="large" onLoad="action-stock-location-line-group-onload">
     	<panel name="mainPanel">
 	        <field name="product" canEdit="false" form-view="product-form" grid-view="product-grid"/>
-	        <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
+	        <field name="unit" form-view="unit-form" grid-view="unit-grid" onChange="action-stock-location-line-method-update-qty"/>
             <field name="avgPrice"/>
             <field name="rack"/>
         </panel>
@@ -72,7 +72,7 @@
 		<panel name="mainPanel">
 	        <field name="product" form-view="product-form" grid-view="product-grid"/>
 	        <field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid"/>
-	        <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
+	        <field name="unit" form-view="unit-form" grid-view="unit-grid" onChange="action-stock-location-line-method-update-qty"/>
             <field name="avgPrice"/>
 	        <field name="lastFutureStockMoveDate"/>
             <field name="rack"/>
@@ -115,7 +115,7 @@
 	        <field name="product" canEdit="false" form-view="product-form" grid-view="product-grid"/>
 	        <field name="currentQty"/>
 	        <field name="futureQty"/>
-	        <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
+	        <field name="unit" form-view="unit-form" grid-view="unit-grid" onChange="action-stock-location-line-method-update-qty"/>
             <field name="avgPrice"/>
             <field name="reservedQty" if-module="axelor-supplychain" if="__config__.app.getApp('supplychain').getManageStockReservation()"/>
 	        <field name="trackingNumber" domain="self.product = :product"/>
@@ -169,9 +169,9 @@
     </action-attrs>
     
     <action-record name="action-stock-location-line-record-total-quantities" model="com.axelor.apps.stock.db.StockLocationLine">
-    	<field name="$realQtyBtn" expr="call:com.axelor.apps.stock.service.StockLocationService:getRealQty(product.id, stockLocation.id)"/>
-        <field name="$futureQtyBtn" expr="call:com.axelor.apps.stock.service.StockLocationService:getFutureQty(product.id, stockLocation.id)"/>
-        <field name="$reservedQtyBtn" expr="call:com.axelor.apps.supplychain.service.StockLocationServiceSupplychain:getReservedQty(product.id, stockLocation.id)" if="__config__.app.isApp('supplychain')" />
+    	<field name="$realQtyBtn" expr="eval: currentQty"/>
+        <field name="$futureQtyBtn" expr="eval: futureQty"/>
+        <field name="$reservedQtyBtn" expr="eval: reservedQty" if="__config__.app.isApp('supplychain')" />
     </action-record>
     
     <action-view name="action-stock-location-line-view-stock-rule" title="Stock Rules" model="com.axelor.apps.stock.db.StockRules">
@@ -181,5 +181,9 @@
     	<context name="productId" expr="eval: product?.id"/> 
     	<context name="locationId" expr="eval: stockLocation?.id "/>
     </action-view>
+    
+    <action-method name="action-stock-location-line-method-update-qty">
+    	<call class="com.axelor.apps.stock.web.StockLocationLineController" method="updateQty"/>
+    </action-method>
     
 </object-views>

@@ -27,6 +27,7 @@ import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface StockLocationLineService {
 
@@ -194,4 +195,7 @@ public interface StockLocationLineService {
    * @return
    */
   public BigDecimal getAvailableQty(StockLocation stockLocation, Product product);
+
+  public Map<String, Object> updateQty(StockLocationLine stockLocationLine, Unit endUnit)
+      throws AxelorException;
 }

@@ -515,7 +515,7 @@ LEFT OUTER JOIN
 LEFT JOIN 
 	base_product AS Product ON (Product.id = StockLocationLine.product)	
 LEFT JOIN
-	base_unit AS Unit ON (Unit.id = Product.unit)
+	base_unit AS Unit ON (Unit.id = StockLocationLine.unit)
 LEFT JOIN 
 	base_company AS Company ON (Company.id = Location.company)
 LEFT JOIN 
