@@ -148,7 +148,7 @@
 						]]></viewer>
 					</field>
                     <field name="$tags" showTitle="false" colSpan="6" readonly="true" showIf="$readonly()">
-                        <viewer depends="typeSelect,conformitySelect">
+                        <viewer depends="typeSelect,conformitySelect,isPassedForPayment">
                             <![CDATA[
                                 <h4 class="text-right">
                                     <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.typeSelect == 1" x-translate>Internal move</span>
@@ -157,11 +157,13 @@
 
                                     <span class="label label-success" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.conformitySelect == 2" x-translate>Compliant</span>
                                     <span class="label label-important" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.conformitySelect == 3" x-translate>Non-compliant</span>
+                                  
+                                    <span class="label label-success" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.isPassedForPayment" x-translate>Passed for payment</span>
                                 </h4>
                             ]]>
                         </viewer>
                     </field>
-
+                    <field name="isPassedForPayment" />
                     <field name="typeSelect" title="Type" showIf="!$readonly()" onChange="action-stock-move-set-default-stock-locations,action-stock-move-attrs-typeselect-change" readonlyIf="statusSelect != 1"/>
                     <field name="conformitySelect" showIf="statusSelect == 2" onChange="action-stock-move-method-change-conformity" />
 

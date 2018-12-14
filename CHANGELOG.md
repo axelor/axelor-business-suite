@@ -4,6 +4,7 @@
 ## Features
 - Subrogation Release : add change tracking on status and add new fields.
 - MO printing : new design
+- Stock Move & Invoice : Add new boolean field - 'Passed for payment'.
 
 ## Improvements
 - FINANCIAL ACCOUNT : New boolean 'Analytic Distribution Authorized' added to make Analytic fields required on Invoice Line.

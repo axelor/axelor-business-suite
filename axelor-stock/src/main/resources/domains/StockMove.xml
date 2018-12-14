@@ -81,6 +81,8 @@
   
     <boolean name="filterOnAvailableProducts" title="Filter on available products" default="true" transient="true"/>
 
+    <boolean name="isPassedForPayment" title="Passed for payment"/>
+
     <unique-constraint columns="stockMoveSeq,company"/>
     
     <extra-code><![CDATA[

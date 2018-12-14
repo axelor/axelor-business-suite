@@ -140,7 +140,7 @@
                 <field name="statusSelect" widget="NavSelect" showIf="operationSubTypeSelect != 2" showTitle="false"/>
                 <field name="statusSelect" widget="NavSelect" showIf="operationSubTypeSelect == 2" showTitle="false" selection-in="[1,2,4]"/>
             </panel>
-            <field name="$viewerTags" showTitle="false" readonly="true" showIf="$readonly()" colSpan="5">
+            <field name="$viewerTags" showTitle="false" readonly="true" showIf="$readonly()" colSpan="5" depends="isPassedForPayment">
                 <viewer>
                     <![CDATA[
                         <h4 class="text-right">
@@ -155,6 +155,8 @@
                             <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.operationSubTypeSelect == 4 && (record.operationTypeSelect == 1 || record.operationTypeSelect == 3)">Contract invoice</span>
                             <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.operationSubTypeSelect == 5 && (record.operationTypeSelect == 1 || record.operationTypeSelect == 3)">Contract closing invoice</span>
                             <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.operationSubTypeSelect == 6 && (record.operationTypeSelect == 1 || record.operationTypeSelect == 3)">Subscription</span>
+                        
+                            <span class="label label-success" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.isPassedForPayment">Passed for payment</span>
                         </h4>
                     ]]>
                 </viewer>
@@ -179,6 +181,7 @@
             <field name="tradingName" canEdit="false" grid-view="trading-name-grid" form-view="trading-name-form" if="__config__.app.getApp('base').enableTradingNamesManagement" readonlyIf="statusSelect != 1" domain=":company MEMBER OF self.companySet" onChange="action-invoice-method-printing-settings-default-values"/>
             <field name="companyBankDetails" canEdit="false" onSelect="com.axelor.apps.base.web.CompanyBankDetailsController:fillCompanyBankDetailsDomain" form-view="bank-details-form" grid-view="bank-details-grid" onChange="action-invoice-record-specific-note-on-invoice"/>
             <field name="currency" canEdit="false" onChange="action-invoice-group-currency-onchange" readonlyIf="statusSelect != 1 || (invoiceLineList &amp;&amp; invoiceLineList.length != 0)" form-view="currency-form" grid-view="currency-grid"/>
+            <field name="isPassedForPayment" />
             <field name="interco"/>
             <field name="inAti" onChange="action-invoice-attrs-in-ati" readonlyIf="statusSelect != 1 || invoiceLineList.length > 0"/>
         </panel>

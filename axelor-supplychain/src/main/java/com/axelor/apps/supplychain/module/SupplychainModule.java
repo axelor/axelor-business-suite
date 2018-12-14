@@ -45,6 +45,7 @@ import com.axelor.apps.sale.service.saleorder.SaleOrderCreateServiceImpl;
 import com.axelor.apps.sale.service.saleorder.SaleOrderLineServiceImpl;
 import com.axelor.apps.sale.service.saleorder.SaleOrderServiceImpl;
 import com.axelor.apps.sale.service.saleorder.SaleOrderWorkflowServiceImpl;
+import com.axelor.apps.stock.db.repo.StockMoveManagementRepository;
 import com.axelor.apps.stock.service.LogisticalFormServiceImpl;
 import com.axelor.apps.stock.service.StockLocationLineServiceImpl;
 import com.axelor.apps.stock.service.StockLocationServiceImpl;
@@ -58,6 +59,7 @@ import com.axelor.apps.supplychain.db.repo.AnalyticMoveLineSupplychainRepository
 import com.axelor.apps.supplychain.db.repo.InvoiceSupplychainRepository;
 import com.axelor.apps.supplychain.db.repo.PurchaseOrderSupplychainRepository;
 import com.axelor.apps.supplychain.db.repo.SaleOrderSupplychainRepository;
+import com.axelor.apps.supplychain.db.repo.StockMoveSupplyChainRepository;
 import com.axelor.apps.supplychain.db.repo.SupplychainBatchRepository;
 import com.axelor.apps.supplychain.db.repo.SupplychainBatchSupplychainRepository;
 import com.axelor.apps.supplychain.service.AccountCustomerServiceSupplyChain;
@@ -189,5 +191,6 @@ public class SupplychainModule extends AxelorModule {
     bind(PurchaseOrderStockService.class).to(PurchaseOrderStockServiceImpl.class);
     bind(AccountingCutOffService.class).to(AccountingCutOffServiceImpl.class);
     bind(DeclarationOfExchangesService.class).to(DeclarationOfExchangesServiceImpl.class);
+    bind(StockMoveManagementRepository.class).to(StockMoveSupplyChainRepository.class);
   }
 }
