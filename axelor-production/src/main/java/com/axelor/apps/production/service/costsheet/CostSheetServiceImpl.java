@@ -31,6 +31,8 @@ import com.axelor.apps.production.db.repo.ManufOrderRepository;
 import com.axelor.apps.production.service.app.AppProductionService;
 import com.axelor.apps.production.service.manuforder.ManufOrderService;
 import com.axelor.apps.stock.db.StockMoveLine;
+import com.axelor.apps.stock.db.repo.StockMoveRepository;
+import com.axelor.apps.tool.date.DurationTool;
 import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
@@ -38,8 +40,11 @@ import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,21 +125,43 @@ public class CostSheetServiceImpl implements CostSheetService {
       throws AxelorException {
     this.init();
 
+    List<CostSheet> costSheetList = manufOrder.getCostSheetList();
+    LocalDate previousCostSheetDate = null;
+    for (CostSheet costSheet : costSheetList) {
+      if ((costSheet.getCalculationTypeSelect() == CostSheetRepository.CALCULATION_END_OF_PRODUCTION
+              || costSheet.getCalculationTypeSelect()
+                  == CostSheetRepository.CALCULATION_PARTIAL_END_OF_PRODUCTION)
+          && costSheet.getCalculationDate() != null) {
+        if (previousCostSheetDate == null) {
+          previousCostSheetDate = costSheet.getCalculationDate();
+        } else if (costSheet.getCalculationDate().isAfter(previousCostSheetDate)) {
+          previousCostSheetDate = costSheet.getCalculationDate();
+        }
+      }
+    }
+
+    costSheet.setCalculationTypeSelect(calculationTypeSelect);
+    costSheet.setCalculationDate(
+        calculationDate != null ? calculationDate : Beans.get(AppBaseService.class).getTodayDate());
     BigDecimal producedQuantity =
-        Beans.get(ManufOrderService.class).getProducedQuantity(manufOrder);
+        Beans.get(ManufOrderService.class)
+            .getProducedQuantity(
+                manufOrder,
+                calculationTypeSelect == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS
+                    ? costSheet.getCalculationDate()
+                    : previousCostSheetDate,
+                calculationTypeSelect);
     CostSheetLine producedCostSheetLine =
         costSheetLineService.createProducedProductCostSheetLine(
             manufOrder.getProduct(), manufOrder.getBillOfMaterial().getUnit(), producedQuantity);
     costSheet.addCostSheetLineListItem(producedCostSheetLine);
-    costSheet.setCalculationTypeSelect(calculationTypeSelect);
-    costSheet.setCalculationDate(
-        calculationDate != null ? calculationDate : Beans.get(AppBaseService.class).getTodayDate());
+
     Company company = manufOrder.getCompany();
     if (company != null && company.getCurrency() != null) {
       costSheet.setCurrency(company.getCurrency());
     }
 
-    this.computeRealCostPrice(manufOrder, 0, producedCostSheetLine);
+    this.computeRealCostPrice(manufOrder, 0, producedCostSheetLine, previousCostSheetDate);
 
     this.computeRealResidualProduct(manufOrder);
 
@@ -432,32 +459,67 @@ public class CostSheetServiceImpl implements CostSheetService {
   }
 
   protected void computeRealCostPrice(
-      ManufOrder manufOrder, int bomLevel, CostSheetLine parentCostSheetLine)
+      ManufOrder manufOrder,
+      int bomLevel,
+      CostSheetLine parentCostSheetLine,
+      LocalDate previousCostSheetDate)
       throws AxelorException {
 
     bomLevel++;
 
     this.computeConsumedProduct(manufOrder, bomLevel, parentCostSheetLine);
-    BigDecimal producedQty = Beans.get(ManufOrderService.class).getProducedQuantity(manufOrder);
+    BigDecimal producedQty =
+        Beans.get(ManufOrderService.class).getProducedQuantity(manufOrder, null, 0);
     this.computeRealProcess(
         manufOrder.getOperationOrderList(),
         manufOrder.getProduct().getUnit(),
         producedQty,
         bomLevel,
-        parentCostSheetLine);
+        parentCostSheetLine,
+        previousCostSheetDate);
   }
 
   protected void computeConsumedProduct(
       ManufOrder manufOrder, int bomLevel, CostSheetLine parentCostSheetLine)
       throws AxelorException {
 
+    BigDecimal qty = BigDecimal.ZERO;
+    BigDecimal consumedQuantity = null;
+    BigDecimal producedQuantity = null;
+    BigDecimal ratio = null;
+
+    if (parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+            == CostSheetRepository.CALCULATION_END_OF_PRODUCTION
+        || parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+            == CostSheetRepository.CALCULATION_PARTIAL_END_OF_PRODUCTION) {
+      qty =
+          this.computeQty(
+              manufOrder.getProduct(),
+              parentCostSheetLine.getCostSheet().getCalculationDate(),
+              manufOrder.getConsumedStockMoveLineList(),
+              StockMoveRepository.STATUS_REALIZED,
+              true);
+    } else if (parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+        == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS) {
+      producedQuantity =
+          this.computeQty(
+              manufOrder.getProduct(),
+              parentCostSheetLine.getCostSheet().getCalculationDate(),
+              manufOrder.getProducedStockMoveLineList(),
+              StockMoveRepository.STATUS_REALIZED,
+              false);
+      if (producedQuantity.compareTo(BigDecimal.ZERO) == 0) {
+        return;
+      }
+      ratio = producedQuantity.divide(manufOrder.getQty());
+    }
     if (manufOrder.getIsConsProOnOperation()) {
       for (OperationOrder operation : manufOrder.getOperationOrderList()) {
         if (operation.getConsumedStockMoveLineList() == null) {
           continue;
         }
         for (StockMoveLine stockMoveLine : operation.getConsumedStockMoveLineList()) {
-          if (stockMoveLine.getProduct() == null) {
+          if (stockMoveLine.getProduct() == null || qty.compareTo(BigDecimal.ZERO) == 0) {
             continue;
           }
           costSheetLineService.createConsumedProductCostSheetLine(
@@ -465,20 +527,60 @@ public class CostSheetServiceImpl implements CostSheetService {
               stockMoveLine.getUnit(),
               bomLevel,
               parentCostSheetLine,
-              stockMoveLine.getRealQty());
+              qty);
         }
       }
     } else {
       for (StockMoveLine stockMoveLine : manufOrder.getConsumedStockMoveLineList()) {
-        if (stockMoveLine.getProduct() == null) {
+        if (parentCostSheetLine.getCostSheetLineList() != null
+            && parentCostSheetLine
+                    .getCostSheet()
+                    .getCostSheetLineList()
+                    .stream()
+                    .filter(
+                        costSheetLine ->
+                            costSheetLine.getProduct().equals(stockMoveLine.getProduct())
+                                && costSheetLine.getUnit().equals(stockMoveLine.getUnit()))
+                    .findFirst()
+                != null) {
           continue;
         }
+        if (stockMoveLine.getProduct() == null
+            || (stockMoveLine.getStockMove() == null
+                || (stockMoveLine.getStockMove() != null
+                    && stockMoveLine.getStockMove().getStatusSelect()
+                        != StockMoveRepository.STATUS_REALIZED))) {
+          continue;
+        }
+        consumedQuantity =
+            this.computeQty(
+                stockMoveLine.getProduct(),
+                parentCostSheetLine.getCostSheet().getCalculationDate(),
+                manufOrder.getConsumedStockMoveLineList(),
+                StockMoveRepository.STATUS_REALIZED,
+                false);
+        for (ProdProduct prodProduct : manufOrder.getToConsumeProdProductList()) {
+          if (parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+                  == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS
+              && stockMoveLine.getProduct().equals(prodProduct.getProduct())
+              && prodProduct.getQty().multiply(ratio).compareTo(consumedQuantity) != 0
+              && prodProduct.getRealQty().compareTo(stockMoveLine.getRealQty()) != 0) {
+            qty = prodProduct.getQty().multiply(ratio).subtract(stockMoveLine.getQty()).abs();
+          }
+        }
+        if (qty.compareTo(BigDecimal.ZERO) == 0
+            || (parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+                    == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS
+                && qty == stockMoveLine.getRealQty())) {
+          continue;
+        }
+
         costSheetLineService.createConsumedProductCostSheetLine(
             stockMoveLine.getProduct(),
             stockMoveLine.getUnit(),
             bomLevel,
             parentCostSheetLine,
-            stockMoveLine.getRealQty());
+            qty);
       }
     }
   }
@@ -488,7 +590,8 @@ public class CostSheetServiceImpl implements CostSheetService {
       Unit pieceUnit,
       BigDecimal producedQty,
       int bomLevel,
-      CostSheetLine parentCostSheetLine)
+      CostSheetLine parentCostSheetLine,
+      LocalDate previousCostSheetDate)
       throws AxelorException {
     for (OperationOrder operationOrder : operationOrders) {
 
@@ -504,21 +607,74 @@ public class CostSheetServiceImpl implements CostSheetService {
           || workCenterTypeSelect == IWorkCenter.WORK_CENTER_BOTH) {
 
         this.computeRealHumanResourceCost(
-            operationOrder, operationOrder.getPriority(), bomLevel, parentCostSheetLine);
+            operationOrder,
+            operationOrder.getPriority(),
+            bomLevel,
+            parentCostSheetLine,
+            previousCostSheetDate);
       }
       if (workCenterTypeSelect == IWorkCenter.WORK_CENTER_MACHINE
           || workCenterTypeSelect == IWorkCenter.WORK_CENTER_BOTH) {
 
         this.computeRealMachineCost(
-            operationOrder, workCenter, producedQty, pieceUnit, bomLevel, parentCostSheetLine);
+            operationOrder,
+            workCenter,
+            producedQty,
+            pieceUnit,
+            bomLevel,
+            parentCostSheetLine,
+            previousCostSheetDate);
       }
     }
   }
 
   protected void computeRealHumanResourceCost(
-      OperationOrder operationOrder, int priority, int bomLevel, CostSheetLine parentCostSheetLine)
+      OperationOrder operationOrder,
+      int priority,
+      int bomLevel,
+      CostSheetLine parentCostSheetLine,
+      LocalDate previousCostSheetDate)
       throws AxelorException {
     if (operationOrder.getProdHumanResourceList() != null) {
+      Long duration = 0L;
+      if (parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+              == CostSheetRepository.CALCULATION_END_OF_PRODUCTION
+          || parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+              == CostSheetRepository.CALCULATION_PARTIAL_END_OF_PRODUCTION) {
+        Period period =
+            previousCostSheetDate != null
+                ? Period.between(
+                    parentCostSheetLine.getCostSheet().getCalculationDate(), previousCostSheetDate)
+                : null;
+        duration =
+            period != null ? Long.valueOf(period.getDays() * 24) : operationOrder.getRealDuration();
+      } else if (parentCostSheetLine.getCostSheet().getCalculationTypeSelect()
+          == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS) {
+        BigDecimal producedQuantity =
+            this.computeQty(
+                operationOrder.getManufOrder().getProduct(),
+                parentCostSheetLine.getCostSheet().getCalculationDate(),
+                operationOrder.getManufOrder().getProducedStockMoveLineList(),
+                StockMoveRepository.STATUS_REALIZED,
+                false);
+        if (producedQuantity.compareTo(BigDecimal.ZERO) == 0) {
+          return;
+        }
+        BigDecimal ratio = producedQuantity.divide(operationOrder.getManufOrder().getQty());
+        Long plannedDuration =
+            DurationTool.getSecondsDuration(
+                    Duration.between(
+                        operationOrder.getPlannedStartDateT(), operationOrder.getPlannedEndDateT()))
+                * ratio.longValue();
+        Long totalPlannedDuration = 0L;
+        for (OperationOrder manufOperationOrder :
+            operationOrder.getManufOrder().getOperationOrderList()) {
+          if (manufOperationOrder.getId() == operationOrder.getId()) {
+            totalPlannedDuration += manufOperationOrder.getPlannedDuration();
+          }
+        }
+        duration = Math.abs(totalPlannedDuration - plannedDuration);
+      }
       for (ProdHumanResource prodHumanResource : operationOrder.getProdHumanResourceList()) {
         this.computeRealHumanResourceCost(
             prodHumanResource,
@@ -526,7 +682,7 @@ public class CostSheetServiceImpl implements CostSheetService {
             priority,
             bomLevel,
             parentCostSheetLine,
-            operationOrder.getRealDuration());
+            duration);
       }
     }
   }
@@ -574,7 +730,8 @@ public class CostSheetServiceImpl implements CostSheetService {
       BigDecimal producedQty,
       Unit pieceUnit,
       int bomLevel,
-      CostSheetLine parentCostSheetLine) {
+      CostSheetLine parentCostSheetLine,
+      LocalDate previousCostSheetDate) {
     int costType = workCenter.getCostTypeSelect();
 
     if (costType == IWorkCenter.COST_PER_CYCLE) {
@@ -645,5 +802,44 @@ public class CostSheetServiceImpl implements CostSheetService {
           costPrice,
           pieceUnit);
     }
+  }
+
+  protected BigDecimal computeQty(
+      Product product,
+      LocalDate calculationDate,
+      List<StockMoveLine> stockMoveLineList,
+      int stockMoveStatus,
+      boolean isAfterCalculationDate) {
+    BigDecimal qty = BigDecimal.ZERO;
+    stockMoveLineList =
+        stockMoveLineList
+            .stream()
+            .filter(
+                stockMoveLine ->
+                    product.equals(stockMoveLine.getProduct())
+                        && stockMoveLine.getStockMove().getStatusSelect() == stockMoveStatus)
+            .collect(Collectors.toList());
+    if (isAfterCalculationDate && calculationDate != null) {
+      qty =
+          stockMoveLineList
+              .stream()
+              .filter(
+                  stockMoveLine ->
+                      stockMoveLine.getStockMove().getRealDate().isAfter(calculationDate))
+              .map(StockMoveLine::getRealQty)
+              .reduce(BigDecimal::add)
+              .orElse(BigDecimal.ZERO);
+    } else if (!isAfterCalculationDate && calculationDate != null) {
+      qty =
+          stockMoveLineList
+              .stream()
+              .filter(
+                  stockMoveLine ->
+                      !stockMoveLine.getStockMove().getRealDate().isAfter(calculationDate))
+              .map(StockMoveLine::getRealQty)
+              .reduce(BigDecimal::add)
+              .orElse(BigDecimal.ZERO);
+    }
+    return qty;
   }
 }

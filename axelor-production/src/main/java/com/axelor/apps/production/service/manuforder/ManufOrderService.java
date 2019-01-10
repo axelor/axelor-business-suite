@@ -27,6 +27,7 @@ import com.axelor.apps.stock.db.StockMoveLine;
 import com.axelor.exception.AxelorException;
 import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -99,7 +100,8 @@ public interface ManufOrderService {
 
   public boolean isManagedConsumedProduct(BillOfMaterial billOfMaterial);
 
-  public BigDecimal getProducedQuantity(ManufOrder manufOrder);
+  public BigDecimal getProducedQuantity(
+      ManufOrder manufOrder, LocalDate previousCostSheetDate, int calculationTypeSelect);
 
   /**
    * Generate waste stock move.
