@@ -33,6 +33,7 @@ import com.axelor.apps.production.db.ProdProcessLine;
 import com.axelor.apps.production.db.ProdProduct;
 import com.axelor.apps.production.db.ProdResidualProduct;
 import com.axelor.apps.production.db.ProductionConfig;
+import com.axelor.apps.production.db.repo.CostSheetRepository;
 import com.axelor.apps.production.db.repo.ManufOrderRepository;
 import com.axelor.apps.production.db.repo.ProdProductRepository;
 import com.axelor.apps.production.exceptions.IExceptionMessage;
@@ -58,6 +59,7 @@ import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -396,14 +398,65 @@ public class ManufOrderServiceImpl implements ManufOrderService {
 
   /** Returns the quantity produced by a manufacturing order. */
   @Override
-  public BigDecimal getProducedQuantity(ManufOrder manufOrder) {
-    return manufOrder
-        .getProducedStockMoveLineList()
-        .stream()
-        .filter(stockMoveLine -> manufOrder.getProduct().equals(stockMoveLine.getProduct()))
-        .map(StockMoveLine::getRealQty)
-        .reduce(BigDecimal::add)
-        .orElse(BigDecimal.ZERO);
+  public BigDecimal getProducedQuantity(
+      ManufOrder manufOrder, LocalDate previousCostSheetDate, int calculationTypeSelect) {
+    BigDecimal producedQuantity = null;
+    List<StockMoveLine> producedStockMoveLineList =
+        manufOrder
+            .getProducedStockMoveLineList()
+            .stream()
+            .filter(stockMoveLine -> manufOrder.getProduct().equals(stockMoveLine.getProduct()))
+            .collect(Collectors.toList());
+
+    if (calculationTypeSelect == CostSheetRepository.CALCULATION_END_OF_PRODUCTION
+        || calculationTypeSelect == CostSheetRepository.CALCULATION_PARTIAL_END_OF_PRODUCTION) {
+      if (previousCostSheetDate != null) {
+        producedQuantity =
+            producedStockMoveLineList
+                .stream()
+                .filter(
+                    stockMoveLine ->
+                        stockMoveLine.getStockMove() != null
+                            && stockMoveLine.getStockMove().getRealDate() != null
+                            && !stockMoveLine
+                                .getStockMove()
+                                .getRealDate()
+                                .isBefore(previousCostSheetDate)
+                            && stockMoveLine
+                                .getStockMove()
+                                .getStatusSelect()
+                                .equals(StockMoveRepository.STATUS_REALIZED))
+                .map(StockMoveLine::getRealQty)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO);
+      } else {
+        producedQuantity =
+            producedStockMoveLineList
+                .stream()
+                .map(StockMoveLine::getRealQty)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO);
+      }
+    } else if (calculationTypeSelect == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS) {
+      producedQuantity =
+          producedStockMoveLineList
+              .stream()
+              .filter(
+                  stockMoveLine ->
+                      stockMoveLine.getStockMove().getStatusSelect()
+                              == StockMoveRepository.STATUS_PLANNED
+                          && (stockMoveLine.getStockMove().getRealDate() == null
+                              || (previousCostSheetDate != null
+                                  ? stockMoveLine
+                                      .getStockMove()
+                                      .getRealDate()
+                                      .isAfter(previousCostSheetDate)
+                                  : true)))
+              .map(StockMoveLine::getRealQty)
+              .reduce(BigDecimal::add)
+              .orElse(BigDecimal.ZERO);
+    }
+    return producedQuantity;
   }
 
   @Override
