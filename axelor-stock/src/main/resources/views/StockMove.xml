@@ -298,6 +298,7 @@
             <panel name="linksPanel" title="Links" if-module="axelor-supplychain" if="__config__.app.isApp('supplychain')" showIf="id">
             	<field name="originTypeSelect" title="Origin" widget="RefSelect" x-related="originId" readonly="true"/>
                 <field name="invoice" readonlyIf="statusSelect != 1" grid-view="invoice-grid" form-view="invoice-form" canEdit="false"/>
+				<field name="stockCorrectionReason" showIf="stockCorrectionReason"/>
                 <panel-dashlet name="viewAccountMovesPanel" action="action-stock-move-view-account-moves" colSpan="12" title="Moves" if-module="axelor-supplychain"/>
             </panel>
             <panel name="configPanel" title="Configuration">
@@ -307,9 +308,7 @@
                 <field name="$reservedQtyChanged" type="boolean" hidden="true"/>
             </panel>
         </panel-tabs>
-        <panel name="stockCorrectionReasonPanel" sidebar="true" showIf="stockCorrectionReason">
-			<field name="stockCorrectionReason"/>
-        </panel>
+
         <panel-mail name="mailPanel">
 	    	<mail-messages limit="4"/>
 	    	<mail-followers/>
