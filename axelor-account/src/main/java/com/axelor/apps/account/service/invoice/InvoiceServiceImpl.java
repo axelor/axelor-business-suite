@@ -36,6 +36,7 @@ import com.axelor.apps.account.db.repo.PaymentModeRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountingSituationService;
 import com.axelor.apps.account.service.FiscalPositionAccountService;
+import com.axelor.apps.account.service.FixedAssetService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
@@ -103,6 +104,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   protected MoveService moveService;
   protected InvoicePaymentRepository invoicePaymentRepository;
   protected InvoicePaymentCreateService invoicePaymentCreateService;
+  protected FixedAssetService fixedAssetService;
 
   @Inject
   public InvoiceServiceImpl(
@@ -376,8 +378,9 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       invoice.setPartnerAccount(partnerAccount);
     }
     setInvoiceSequenceNumber(invoice);
-    if (invoice.getPaymentSchedule() != null)
+    if (invoice.getPaymentSchedule() != null) {
       invoice.getPaymentSchedule().addInvoiceSetItem(invoice);
+    }
     // Advance payment invoices does not get ventilated per se, only their payments are
     if (invoice.getOperationSubTypeSelect() != InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE) {
       if (invoice.getInTaxTotal().signum() != 0) {
@@ -388,6 +391,10 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       invoice.setStatusSelect(InvoiceRepository.STATUS_VENTILATED);
       invoice.setVentilatedDate(appAccountService.getTodayDate());
       invoice.setVentilatedByUser(userService.getUser());
+
+      if (invoice.getInTaxTotal().compareTo(BigDecimal.ZERO) != 0) {
+        fixedAssetService.createFixedAsset(invoice);
+      }
     }
 
     // FIXME: Disabled temporary due to RM#14505
