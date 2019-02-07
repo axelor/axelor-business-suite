@@ -71,11 +71,6 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
-import org.apache.commons.lang3.mutable.MutableInt;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -85,6 +80,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceService {
@@ -262,11 +261,13 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
     compute(invoice);
 
-    if (InvoiceToolService.isOutPayment(invoice)
-        != (invoice.getPaymentMode().getInOutSelect() == PaymentModeRepository.OUT)) {
-      throw new AxelorException(
-          TraceBackRepository.CATEGORY_INCONSISTENCY,
-          I18n.get(IExceptionMessage.INVOICE_VALIDATE_1));
+    if (invoice.getPaymentMode() != null) {
+      if (InvoiceToolService.isOutPayment(invoice)
+          != (invoice.getPaymentMode().getInOutSelect() == PaymentModeRepository.OUT)) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_INCONSISTENCY,
+            I18n.get(IExceptionMessage.INVOICE_VALIDATE_1));
+      }
     }
 
     if (blockingService.isBlocked(
@@ -389,7 +390,9 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
           I18n.get(IExceptionMessage.VENTILATE_STATE_FUTURE_DATE));
     }
 
-    if (!invoice.getPaymentCondition().getIsFree() || invoice.getDueDate() == null) {
+    if ((invoice.getPaymentCondition() != null
+            && invoice.getPaymentCondition().getIsFree() == false)
+        || invoice.getDueDate() == null) {
       invoice.setDueDate(
           InvoiceToolService.getDueDate(invoice.getPaymentCondition(), invoice.getInvoiceDate()));
     }
@@ -752,6 +755,14 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     }
   }
 
+  /**
+   * Indicates if the provided advance payment is suitable to be bound to the given invoice.
+   *
+   * @param invoice Invoice to which the advance payment could be bound.
+   * @param candidateAdvancePayment Advance payment to check
+   * @return true if the candidate total amount is less or equals to the invoice's total amount
+   * @throws AxelorException
+   */
   protected boolean removeBecauseOfTotalAmount(Invoice invoice, Invoice candidateAdvancePayment)
       throws AxelorException {
     if (Beans.get(AccountConfigService.class)
