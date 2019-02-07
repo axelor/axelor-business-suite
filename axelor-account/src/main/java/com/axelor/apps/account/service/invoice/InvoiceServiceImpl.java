@@ -74,6 +74,7 @@ import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -398,19 +399,35 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   }
 
   private void setVentilationDate(final Invoice invoice) throws AxelorException {
+    LocalDate todayDate = appAccountService.getTodayDate();
+
     if (invoice.getInvoiceDate() == null) {
-      invoice.setInvoiceDate(appAccountService.getTodayDate());
-    } else if (invoice.getInvoiceDate().isAfter(appAccountService.getTodayDate())) {
+      invoice.setInvoiceDate(todayDate);
+    } else if (invoice.getInvoiceDate().isAfter(todayDate)) {
       throw new AxelorException(
           TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
           I18n.get(IExceptionMessage.VENTILATE_STATE_FUTURE_DATE));
+    }
+
+    boolean isPurchase = InvoiceToolService.isPurchase(invoice);
+    if (isPurchase && invoice.getOriginDate() == null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_MISSING_ORIGIN_DATE));
+    }
+    if (isPurchase && invoice.getOriginDate().isAfter(todayDate)) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_FUTURE_ORIGIN_DATE));
     }
 
     if ((invoice.getPaymentCondition() != null
             && invoice.getPaymentCondition().getIsFree() == false)
         || invoice.getDueDate() == null) {
       invoice.setDueDate(
-          InvoiceToolService.getDueDate(invoice.getPaymentCondition(), invoice.getInvoiceDate()));
+          InvoiceToolService.getDueDate(
+              invoice.getPaymentCondition(),
+              isPurchase ? invoice.getOriginDate() : invoice.getInvoiceDate()));
     }
   }
 
