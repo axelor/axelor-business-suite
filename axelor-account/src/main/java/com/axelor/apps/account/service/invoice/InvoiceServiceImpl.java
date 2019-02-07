@@ -35,6 +35,7 @@ import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.db.repo.PaymentModeRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountingSituationService;
+import com.axelor.apps.account.service.FiscalPositionAccountService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
@@ -357,7 +358,22 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
     setVentilationDate(invoice);
     if (invoice.getJournal() == null) invoice.setJournal(getJournal(invoice));
-    if (invoice.getPartnerAccount() == null) invoice.setPartnerAccount(getPartnerAccount(invoice));
+    if (invoice.getPartnerAccount() == null) {
+      Account partnerAccount = getPartnerAccount(invoice);
+      if (partnerAccount == null) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.VENTILATE_STATE_5));
+      }
+
+      // Apply fiscal position specificities. Note that original code contains an useless
+      // check for partner being null. This is useless as in this case partnerAccount
+      // nullity check would have thrown an exception.
+      partnerAccount =
+          Beans.get(FiscalPositionAccountService.class)
+              .getAccount(invoice.getPartner().getFiscalPosition(), partnerAccount);
+      invoice.setPartnerAccount(partnerAccount);
+    }
     setInvoiceSequenceNumber(invoice);
     if (invoice.getPaymentSchedule() != null)
       invoice.getPaymentSchedule().addInvoiceSetItem(invoice);
