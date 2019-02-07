@@ -29,9 +29,11 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.exception.AxelorException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
 
+@Singleton
 public class MoveAdjustementService {
 
   protected MoveLineService moveLineService;

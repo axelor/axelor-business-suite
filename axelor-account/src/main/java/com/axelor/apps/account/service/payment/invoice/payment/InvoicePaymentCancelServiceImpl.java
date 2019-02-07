@@ -29,11 +29,13 @@ import com.axelor.apps.account.service.move.MoveCancelService;
 import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class InvoicePaymentCancelServiceImpl implements InvoicePaymentCancelService {
 
   protected AccountConfigService accountConfigService;

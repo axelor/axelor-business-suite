@@ -22,9 +22,11 @@ import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.repo.MoveLineRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.List;
 
+@Singleton
 public class MoveRemoveService {
 
   protected MoveRepository moveRepo;

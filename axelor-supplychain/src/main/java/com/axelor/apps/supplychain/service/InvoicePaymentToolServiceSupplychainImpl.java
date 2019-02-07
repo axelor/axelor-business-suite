@@ -26,8 +26,10 @@ import com.axelor.apps.sale.service.saleorder.SaleOrderComputeService;
 import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 
+@Singleton
 public class InvoicePaymentToolServiceSupplychainImpl extends InvoicePaymentToolServiceImpl {
 
   @Inject

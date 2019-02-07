@@ -60,11 +60,13 @@ import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
+@Singleton
 public class IntercoServiceImpl implements IntercoService {
 
   @Override

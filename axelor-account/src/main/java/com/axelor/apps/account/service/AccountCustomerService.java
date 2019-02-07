@@ -34,17 +34,20 @@ import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Singleton
 public class AccountCustomerService {
 
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());

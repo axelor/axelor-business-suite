@@ -29,7 +29,9 @@ import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class ReconcileSequenceService {
 
   protected SequenceService sequenceService;

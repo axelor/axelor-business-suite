@@ -35,6 +35,7 @@ import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
@@ -42,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 public class EmployeeServiceImpl extends UserServiceImpl implements EmployeeService {
 
   @Inject protected WeeklyPlanningService weeklyPlanningService;

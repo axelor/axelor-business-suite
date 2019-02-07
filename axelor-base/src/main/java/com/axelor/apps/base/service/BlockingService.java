@@ -22,11 +22,24 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.inject.Beans;
+import com.google.inject.Singleton;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Singleton
 public class BlockingService {
-
+  /**
+   * Indicates if {@code partner} is blocked for the specified {@code blockingType}?
+   *
+   * @param partner Partner to check
+   * @param company Company on which blocking should be checked
+   * @param blockingType Type of blocking to chek for
+   * @return true is the partner is affected by the given blocking type on the give company.
+   * @see com.axelor.apps.base.db.repo.BlockingRepository
+   */
+  public boolean isBlocked(Partner partner, Company company, int blockingType) {
+    return getBlocking(partner, company, blockingType) != null;
+  }
   /**
    * Checks if {@code partner} is blocked for the {@code blockingType}
    *

@@ -590,6 +590,9 @@ public interface IExceptionMessage {
   static final String INVOICE_CANCEL_1 = /*$$(*/
       "Invoice is passed in doubfult debit, and can't be canceled" /*)*/;
 
+  static final String INVOICE_CANCEL_2 = /*$$(*/
+      "Accounting configuration does not allow ventilated invoices cancelation" /*)*/;
+
   static final String INVOICE_PAYMENT_CANCEL = /*$$(*/
       "The bank order linked to this invoice payment has already been carried out/rejected, and thus can't be canceled" /*)*/;
 

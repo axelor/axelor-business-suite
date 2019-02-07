@@ -29,18 +29,21 @@ import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.PaymentCondition;
 import com.axelor.apps.account.db.PaymentMode;
 import com.axelor.apps.account.db.repo.InvoiceLineRepository;
+import com.axelor.apps.account.db.repo.InvoicePaymentRepository;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.db.repo.PaymentModeRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountingSituationService;
+import com.axelor.apps.account.service.FiscalPositionAccountService;
+import com.axelor.apps.account.service.FixedAssetService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
-import com.axelor.apps.account.service.invoice.factory.CancelFactory;
-import com.axelor.apps.account.service.invoice.factory.ValidateFactory;
-import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
 import com.axelor.apps.account.service.invoice.generator.invoice.RefundInvoice;
+import com.axelor.apps.account.service.move.MoveCancelService;
+import com.axelor.apps.account.service.move.MoveService;
+import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentCreateService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentToolService;
 import com.axelor.apps.base.db.Alarm;
 import com.axelor.apps.base.db.BankDetails;
@@ -48,11 +51,16 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PriceList;
+import com.axelor.apps.base.db.Sequence;
 import com.axelor.apps.base.db.repo.BankDetailsRepository;
+import com.axelor.apps.base.db.repo.BlockingRepository;
 import com.axelor.apps.base.db.repo.PriceListRepository;
+import com.axelor.apps.base.service.BlockingService;
 import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
+import com.axelor.apps.base.service.user.UserService;
+import com.axelor.apps.message.service.TemplateMessageService;
 import com.axelor.apps.tool.ModelTool;
 import com.axelor.apps.tool.StringTool;
 import com.axelor.apps.tool.ThrowConsumer;
@@ -63,9 +71,11 @@ import com.axelor.inject.Beans;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -73,43 +83,52 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** InvoiceService est une classe implémentant l'ensemble des services de facturation. */
+@Singleton
 public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceService {
-
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  protected ValidateFactory validateFactory;
-  protected VentilateFactory ventilateFactory;
-  protected CancelFactory cancelFactory;
+  protected PartnerService partnerService;
   protected AlarmEngineService<Invoice> alarmEngineService;
   protected InvoiceRepository invoiceRepo;
   protected AppAccountService appAccountService;
-  protected PartnerService partnerService;
   protected InvoiceLineService invoiceLineService;
+  protected BlockingService blockingService;
+  protected UserService userService;
+  protected SequenceService sequenceService;
+  protected AccountConfigService accountConfigService;
+  protected MoveService moveService;
+  protected InvoicePaymentRepository invoicePaymentRepository;
+  protected InvoicePaymentCreateService invoicePaymentCreateService;
+  protected FixedAssetService fixedAssetService;
 
   @Inject
   public InvoiceServiceImpl(
-      ValidateFactory validateFactory,
-      VentilateFactory ventilateFactory,
-      CancelFactory cancelFactory,
+      PartnerService partnerService,
       AlarmEngineService<Invoice> alarmEngineService,
       InvoiceRepository invoiceRepo,
       AppAccountService appAccountService,
-      PartnerService partnerService,
-      InvoiceLineService invoiceLineService) {
-
-    this.validateFactory = validateFactory;
-    this.ventilateFactory = ventilateFactory;
-    this.cancelFactory = cancelFactory;
+      InvoiceLineService invoiceLineService,
+      BlockingService blockingService,
+      UserService userService,
+      SequenceService sequenceService,
+      AccountConfigService accountConfigService,
+      MoveService moveService) {
+    this.partnerService = partnerService;
     this.alarmEngineService = alarmEngineService;
     this.invoiceRepo = invoiceRepo;
     this.appAccountService = appAccountService;
     this.partnerService = partnerService;
     this.invoiceLineService = invoiceLineService;
+    this.blockingService = blockingService;
+    this.userService = userService;
+    this.sequenceService = sequenceService;
+    this.accountConfigService = accountConfigService;
+    this.moveService = moveService;
   }
 
   // WKF
@@ -217,9 +236,9 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
           }
         };
 
-    Invoice invoice1 = invoiceGenerator.generate();
-    invoice1.setAdvancePaymentInvoiceSet(this.getDefaultAdvancePaymentInvoice(invoice1));
-    return invoice1;
+    invoiceGenerator.generate();
+    invoice.setAdvancePaymentInvoiceSet(this.getDefaultAdvancePaymentInvoice(invoice));
+    return invoice;
   }
 
   @Override
@@ -238,16 +257,47 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   @Override
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void validate(Invoice invoice) throws AxelorException {
+    if (log.isDebugEnabled()) {
+      log.debug("Validating invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
+    }
 
-    log.debug("Validation de la facture");
+    beforeValidation(invoice);
 
     compute(invoice);
 
-    validateFactory.getValidator(invoice).process();
+    if (invoice.getPaymentMode() != null) {
+      if (InvoiceToolService.isOutPayment(invoice)
+          != (invoice.getPaymentMode().getInOutSelect() == PaymentModeRepository.OUT)) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_INCONSISTENCY,
+            I18n.get(IExceptionMessage.INVOICE_VALIDATE_1));
+      }
+    }
+
+    if (blockingService.isBlocked(
+        invoice.getPartner(), invoice.getCompany(), BlockingRepository.INVOICING_BLOCKING)) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_INCONSISTENCY,
+          I18n.get(IExceptionMessage.INVOICE_VALIDATE_BLOCKING));
+    }
+    invoice.setStatusSelect(InvoiceRepository.STATUS_VALIDATED);
+    invoice.setValidatedByUser(userService.getUser());
+    invoice.setValidatedDate(appAccountService.getTodayDate());
+
+    if (invoice.getPartnerAccount() == null) {
+      invoice.setPartnerAccount(getPartnerAccount(invoice));
+    }
+    if (invoice.getJournal() == null) {
+      invoice.setJournal(getJournal(invoice));
+    }
+
     if (appAccountService.isApp("budget")
         && !appAccountService.getAppBudget().getManageMultiBudget()) {
       this.generateBudgetDistribution(invoice);
     }
+
+    afterValidation(invoice);
+
     // if the invoice is an advance payment invoice, we also "ventilate" it
     // without creating the move
     if (invoice.getOperationSubTypeSelect() == InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE) {
@@ -291,6 +341,8 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
           I18n.get(com.axelor.apps.base.exceptions.IExceptionMessage.EXCEPTION));
     }
 
+    beforeVentilation(invoice);
+
     for (InvoiceLine invoiceLine : invoice.getInvoiceLineList()) {
       if (invoiceLine.getAccount() == null
           && (invoiceLine.getTypeSelect() == InvoiceLineRepository.TYPE_NORMAL)
@@ -303,15 +355,188 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       }
     }
 
-    log.debug("Ventilation de la facture {}", invoice.getInvoiceId());
+    if (log.isDebugEnabled()) {
+      log.debug("Ventilating invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
+    }
 
-    ventilateFactory.getVentilator(invoice).process();
+    setVentilationDate(invoice);
+    if (invoice.getJournal() == null) invoice.setJournal(getJournal(invoice));
+    if (invoice.getPartnerAccount() == null) {
+      Account partnerAccount = getPartnerAccount(invoice);
+      if (partnerAccount == null) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.VENTILATE_STATE_5));
+      }
 
-    invoiceRepo.save(invoice);
+      // Apply fiscal position specificities. Note that original code contains an useless
+      // check for partner being null. This is useless as in this case partnerAccount
+      // nullity check would have thrown an exception.
+      partnerAccount =
+          Beans.get(FiscalPositionAccountService.class)
+              .getAccount(invoice.getPartner().getFiscalPosition(), partnerAccount);
+      invoice.setPartnerAccount(partnerAccount);
+    }
+    setInvoiceSequenceNumber(invoice);
+    if (invoice.getPaymentSchedule() != null) {
+      invoice.getPaymentSchedule().addInvoiceSetItem(invoice);
+    }
+    // Advance payment invoices does not get ventilated per se, only their payments are
+    if (invoice.getOperationSubTypeSelect() != InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE) {
+      if (invoice.getInTaxTotal().signum() != 0) {
+        moveService.createMove(invoice);
+        // There used to be an if(createdMove != null) but createMove never returns null
+        moveService.createMoveUseExcessPaymentOrDue(invoice);
+      }
+      invoice.setStatusSelect(InvoiceRepository.STATUS_VENTILATED);
+      invoice.setVentilatedDate(appAccountService.getTodayDate());
+      invoice.setVentilatedByUser(userService.getUser());
+
+      if (invoice.getInTaxTotal().compareTo(BigDecimal.ZERO) != 0) {
+        fixedAssetService.createFixedAsset(invoice);
+      }
+    }
+
     // FIXME: Disabled temporary due to RM#14505
     //    if (appAccountService.getAppAccount().getPrintReportOnVentilation()) {
     //      Beans.get(InvoicePrintService.class).printAndSave(invoice);
     //    }
+
+    afterVentilation(invoice);
+  }
+
+  private void setVentilationDate(final Invoice invoice) throws AxelorException {
+    LocalDate todayDate = appAccountService.getTodayDate();
+
+    if (invoice.getInvoiceDate() == null) {
+      invoice.setInvoiceDate(todayDate);
+    } else if (invoice.getInvoiceDate().isAfter(todayDate)) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_FUTURE_DATE));
+    }
+
+    boolean isPurchase = InvoiceToolService.isPurchase(invoice);
+    if (isPurchase && invoice.getOriginDate() == null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_MISSING_ORIGIN_DATE));
+    }
+    if (isPurchase && invoice.getOriginDate().isAfter(todayDate)) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_FUTURE_ORIGIN_DATE));
+    }
+
+    if ((invoice.getPaymentCondition() != null
+            && invoice.getPaymentCondition().getIsFree() == false)
+        || invoice.getDueDate() == null) {
+      invoice.setDueDate(
+          InvoiceToolService.getDueDate(
+              invoice.getPaymentCondition(),
+              isPurchase ? invoice.getOriginDate() : invoice.getInvoiceDate()));
+    }
+  }
+
+  private void setInvoiceSequenceNumber(final Invoice invoice) throws AxelorException {
+    if (!sequenceService.isEmptyOrDraftSequenceNumber(invoice.getInvoiceId())) {
+      return;
+    }
+
+    Sequence sequence = getInvoiceSequence(invoice);
+
+    // FIXME We should store sequence in the invoice to be able to check if when a canceled invoice
+    // switches to validated/ventilated
+    checkSequenceDateConsistency(invoice, sequence);
+
+    invoice.setInvoiceId(sequenceService.getSequenceNumber(sequence, invoice.getInvoiceDate()));
+
+    if (invoice.getInvoiceId() != null) {
+      return;
+    }
+
+    throw new AxelorException(
+        invoice,
+        TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+        I18n.get(IExceptionMessage.VENTILATE_STATE_4),
+        invoice.getCompany().getName());
+  }
+
+  private Sequence getInvoiceSequence(Invoice invoice) throws AxelorException {
+
+    AccountConfig accountConfig = accountConfigService.getAccountConfig(invoice.getCompany());
+
+    switch (invoice.getOperationTypeSelect()) {
+      case InvoiceRepository.OPERATION_TYPE_SUPPLIER_PURCHASE:
+        return accountConfigService.getSuppInvSequence(accountConfig);
+
+      case InvoiceRepository.OPERATION_TYPE_SUPPLIER_REFUND:
+        return accountConfigService.getSuppRefSequence(accountConfig);
+
+      case InvoiceRepository.OPERATION_TYPE_CLIENT_SALE:
+        return accountConfigService.getCustInvSequence(accountConfig);
+
+      case InvoiceRepository.OPERATION_TYPE_CLIENT_REFUND:
+        return accountConfigService.getCustRefSequence(accountConfig);
+
+      default:
+        throw new AxelorException(
+            invoice,
+            TraceBackRepository.CATEGORY_MISSING_FIELD,
+            I18n.get(IExceptionMessage.JOURNAL_1),
+            invoice.getInvoiceId());
+    }
+  }
+
+  /**
+   * Checks that there is no invoice with an invoicing date greater than the one of the provided
+   * invoice, absolutely if sequence has no reset, on the same year if the sequence has yearly
+   * reset, on the same yearMonth if the sequence if reset monthly.
+   *
+   * @param invoice Invoice to check, only sale invoices are subject to checking.
+   * @param sequence Sequence used to generate the invoice's sequence number.
+   * @throws AxelorException If a more recent invoice exists within the same "sequence space"
+   */
+  void checkSequenceDateConsistency(Invoice invoice, Sequence sequence) throws AxelorException {
+    if (InvoiceToolService.isPurchase(invoice)) return;
+
+    String query =
+        "self.statusSelect = ? AND self.invoiceDate > ? AND self.operationTypeSelect = ? ";
+    List<Object> params = new ArrayList<>(5);
+    params.add(InvoiceRepository.STATUS_VENTILATED);
+    params.add(invoice.getInvoiceDate());
+    params.add(invoice.getOperationTypeSelect());
+
+    if (sequence.getMonthlyResetOk()) {
+
+      query += "AND EXTRACT (month from self.invoiceDate) = ? ";
+      params.add(invoice.getInvoiceDate().getMonthValue());
+    }
+
+    if (sequence.getYearlyResetOk()) {
+
+      query += "AND EXTRACT (year from self.invoiceDate) = ? ";
+      params.add(invoice.getInvoiceDate().getYear());
+    }
+
+    if (invoiceRepo.all().filter(query, params.toArray()).count() > 0) {
+      if (sequence.getMonthlyResetOk()) {
+        throw new AxelorException(
+            sequence,
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.VENTILATE_STATE_2));
+      }
+      if (sequence.getYearlyResetOk()) {
+        throw new AxelorException(
+            sequence,
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.VENTILATE_STATE_3));
+      }
+      throw new AxelorException(
+          sequence,
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.VENTILATE_STATE_1));
+    }
   }
 
   /**
@@ -324,11 +549,38 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void cancel(Invoice invoice) throws AxelorException {
 
-    log.debug("Annulation de la facture {}", invoice.getInvoiceId());
+    if (invoice.getStatusSelect() == InvoiceRepository.STATUS_VENTILATED
+        && accountConfigService
+                .getAccountConfig(invoice.getCompany())
+                .getAllowCancelVentilatedInvoice()
+            == false) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.INVOICE_CANCEL_2));
+    }
 
-    cancelFactory.getCanceller(invoice).process();
+    if (log.isDebugEnabled()) {
+      log.debug("Canceling invoice #{} (ref. {})", invoice.getId(), invoice.getInvoiceId());
+    }
 
-    invoiceRepo.save(invoice);
+    beforeCancelation(invoice);
+
+    if (invoice.getStatusSelect() == InvoiceRepository.STATUS_VENTILATED
+        && invoice.getOldMove() != null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.INVOICE_CANCEL_1));
+    }
+
+    Move move = invoice.getMove();
+    if (move != null) {
+      invoice.setMove(null);
+      Beans.get(MoveCancelService.class).cancel(move);
+    }
+
+    invoice.setStatusSelect(InvoiceRepository.STATUS_CANCELED);
+
+    afterCancelation(invoice);
   }
 
   /**
@@ -543,6 +795,14 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     }
   }
 
+  /**
+   * Indicates if the provided advance payment is suitable to be bound to the given invoice.
+   *
+   * @param invoice Invoice to which the advance payment could be bound.
+   * @param candidateAdvancePayment Advance payment to check
+   * @return true if the candidate total amount is less or equals to the invoice's total amount
+   * @throws AxelorException
+   */
   protected boolean removeBecauseOfTotalAmount(Invoice invoice, Invoice candidateAdvancePayment)
       throws AxelorException {
     if (Beans.get(AccountConfigService.class)
@@ -705,7 +965,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
   private Pair<Integer, Integer> massProcess(
       Collection<? extends Number> invoiceIds, ThrowConsumer<Invoice> consumer, int statusSelect) {
-    IntCounter doneCounter = new IntCounter();
+    MutableInt doneCounter = new MutableInt();
 
     int errorCount =
         ModelTool.apply(
@@ -722,35 +982,6 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
             });
 
     return Pair.of(doneCounter.intValue(), errorCount);
-  }
-
-  private static class IntCounter extends Number {
-    private static final long serialVersionUID = -5434353935712805399L;
-    private int count = 0;
-
-    public void increment() {
-      ++count;
-    }
-
-    @Override
-    public int intValue() {
-      return count;
-    }
-
-    @Override
-    public long longValue() {
-      return Long.valueOf(count);
-    }
-
-    @Override
-    public float floatValue() {
-      return Float.valueOf(count);
-    }
-
-    @Override
-    public double doubleValue() {
-      return Double.valueOf(count);
-    }
   }
 
   @Override
@@ -775,5 +1006,77 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     }
 
     return true;
+  }
+
+  protected void beforeValidation(Invoice invoice) throws AxelorException {}
+
+  protected void afterValidation(Invoice invoice) throws AxelorException {}
+
+  protected void beforeCancelation(Invoice invoice) throws AxelorException {}
+
+  protected void afterCancelation(Invoice invoice) throws AxelorException {}
+
+  protected void beforeVentilation(Invoice invoice) throws AxelorException {}
+
+  protected void afterVentilation(Invoice invoice) throws AxelorException {
+    Company company = invoice.getCompany();
+
+    // Is called if we do not create a move for invoice payments.
+    if (!accountConfigService.getAccountConfig(company).getGenerateMoveForInvoicePayment()) {
+
+      Set<Invoice> advancePaymentInvoiceSet = invoice.getAdvancePaymentInvoiceSet();
+      if (advancePaymentInvoiceSet == null) {
+        return;
+      }
+      for (Invoice advancePaymentInvoice : advancePaymentInvoiceSet) {
+
+        List<InvoicePayment> advancePayments = advancePaymentInvoice.getInvoicePaymentList();
+        if (advancePayments == null) {
+          continue;
+        }
+        for (InvoicePayment advancePayment : advancePayments) {
+
+          // FIXME should handle PaymentVoucher
+          InvoicePayment imputationPayment =
+              invoicePaymentCreateService.createInvoicePayment(
+                  invoice,
+                  advancePayment.getAmount(),
+                  advancePayment.getPaymentDate(),
+                  advancePayment.getCurrency(),
+                  advancePayment.getPaymentMode(),
+                  InvoicePaymentRepository.TYPE_ADV_PAYMENT_IMPUTATION);
+          advancePayment.setImputedBy(imputationPayment);
+          imputationPayment.setCompanyBankDetails(advancePayment.getCompanyBankDetails());
+          invoice.addInvoicePaymentListItem(imputationPayment);
+          invoicePaymentRepository.save(imputationPayment);
+        }
+      }
+
+      // if the sum of amounts in advance payment is greater than the amount
+      // of the invoice, then we cancel the ventilation.
+      List<InvoicePayment> invoicePayments = invoice.getInvoicePaymentList();
+      if (invoicePayments == null || invoicePayments.isEmpty()) {
+        return;
+      }
+      BigDecimal totalPayments =
+          invoicePayments.stream().map(InvoicePayment::getAmount).reduce(BigDecimal::add).get();
+      if (totalPayments.compareTo(invoice.getInTaxTotal()) > 0) {
+        throw new AxelorException(
+            invoice,
+            TraceBackRepository.TYPE_FUNCTIONNAL,
+            I18n.get(IExceptionMessage.AMOUNT_ADVANCE_PAYMENTS_TOO_HIGH));
+      }
+    }
+
+    // send message
+    if (invoice.getInvoiceAutomaticMail()) {
+      try {
+        Beans.get(TemplateMessageService.class)
+            .generateAndSendMessage(invoice, invoice.getInvoiceMessageTemplate());
+      } catch (Exception e) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR, e.getMessage(), invoice);
+      }
+    }
   }
 }

@@ -23,7 +23,9 @@ import com.axelor.apps.base.exceptions.IExceptionMessage;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
+import com.google.inject.Singleton;
 
+@Singleton
 public class CompanyConfigService {
 
   public Currency getCompanyCurrency(Company company) throws AxelorException {

@@ -33,6 +33,7 @@ import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
@@ -42,6 +43,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class MoveToolService {
 
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -66,7 +68,7 @@ public class MoveToolService {
 
   public boolean isMinus(Invoice invoice) {
     // Si le montant est négatif, alors on doit inverser le signe du montant
-    if (invoice.getInTaxTotal().compareTo(BigDecimal.ZERO) == -1) {
+    if (invoice.getInTaxTotal().signum() == -1) {
       return true;
     } else {
       return false;
