@@ -47,7 +47,11 @@ public class AssistantReportInvoiceController {
     String name = I18n.get("SaleInvoicesDetails-") + getDateString(assistant);
 
     String fileLink =
-        ReportFactory.createReport(IReport.SALE_INVOICES_DETAILS, name + "-${date}")
+        ReportFactory.createReport(
+                "accountSaleInvoicesDetails",
+                assistant.getCompany(),
+                IReport.SALE_INVOICES_DETAILS,
+                name + "-${date}")
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .addParam("assistantId", assistant.getId())
             .addParam("companyId", assistant.getCompany().getId())
@@ -74,7 +78,11 @@ public class AssistantReportInvoiceController {
     String name = I18n.get("PurchaseInvoicesDetails-") + getDateString(assistant);
 
     String fileLink =
-        ReportFactory.createReport(IReport.PURCHASE_INVOICES_DETAILS, name + "-${date}")
+        ReportFactory.createReport(
+                "accountPurchaseInvoicesDetails",
+                assistant.getCompany(),
+                IReport.PURCHASE_INVOICES_DETAILS,
+                name + "-${date}")
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .addParam("assistantId", assistant.getId())
             .addParam("companyId", assistant.getCompany().getId())

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
+
+    <module name="base" package="com.axelor.apps.base.db"/>
+
+    <entity name="DocumentTemplate" cachable="true">
+        <string name="title" title="Title" namecolumn="true" required="true"/>
+        <enum name="engine" ref="DocumentTemplateEngine" required="true"/>
+        <string name="type" selection="base.document.template.type.select" title="Document type" required="true"/>
+        <many-to-one name="templateFile" ref="com.axelor.meta.db.MetaFile" title="Template file" required="true"/>
+    </entity>
+
+    <entity name="UserDocumentTemplateAssignment" cachable="true">
+        <many-to-one name="user" ref="com.axelor.auth.db.User" readonly="true" column="user_id" required="true"/>
+        <many-to-one name="company" ref="Company" title="Company" required="true"/>
+        <string name="type" selection="base.document.template.type.select" title="Document type" required="true"/>
+        <many-to-one name="template" ref="DocumentTemplate" title="Default template" required="true"/>
+        <unique-constraint columns="company,type,user_id" />
+    </entity>
+
+    <entity name="CompanyDocumentTemplateAssignment" cachable="true">
+        <many-to-one name="company" ref="Company" title="Company" required="true"/>
+        <string name="type" selection="base.document.template.type.select" title="Document type" required="true"/>
+        <many-to-one name="template" ref="DocumentTemplate" title="Default template" required="true"/>
+        <unique-constraint columns="company,type" />
+    </entity>
+
+    <enum name="DocumentTemplateEngine">
+        <item name="BIRT" title="BIRT"/>
+        <item name="JASPER" title="JasperReports"/>
+    </enum>
+
+</domain-models>

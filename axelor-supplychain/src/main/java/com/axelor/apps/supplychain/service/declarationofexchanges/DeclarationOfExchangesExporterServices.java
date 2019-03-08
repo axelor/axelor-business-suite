@@ -139,7 +139,11 @@ public class DeclarationOfExchangesExporterServices extends DeclarationOfExchang
 
   @Override
   protected String exportToPDF() throws AxelorException {
-    return ReportFactory.createReport(IReport.DECLARATION_OF_SERVICES, getTitle())
+    return ReportFactory.createReport(
+            "supplychainDEXServices",
+            declarationOfExchanges.getCompany(),
+            IReport.DECLARATION_OF_SERVICES,
+            getTitle())
         .addParam("DeclarationOfExchangesId", declarationOfExchanges.getId())
         .addParam("UserId", AuthUtils.getUser().getId())
         .addParam("Locale", ReportSettings.getPrintingLocale())

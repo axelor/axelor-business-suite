@@ -63,7 +63,11 @@ public class EmployeeBonusController {
         I18n.get("Employee bonus management") + " :  " + bonus.getEmployeeBonusType().getLabel();
 
     String fileLink =
-        ReportFactory.createReport(IReport.EMPLOYEE_BONUS_MANAGEMENT, name)
+        ReportFactory.createReport(
+                "hrEmployeeBonusManagement",
+                bonus.getCompany(),
+                IReport.EMPLOYEE_BONUS_MANAGEMENT,
+                name)
             .addParam("EmployeeBonusMgtId", bonus.getId())
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .toAttach(bonus)

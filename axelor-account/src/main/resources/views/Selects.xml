@@ -378,4 +378,32 @@
 		<option value="1">%</option>
 		<option value="2">Amount</option>
 	</selection>
+
+	<selection name="base.document.template.type.select" id="account.document.template.type.select">
+		<option value="accountAccountingReportType1">General Ledger</option>
+		<option value="accountAccountingReportType2">General Balance</option>
+		<option value="accountAccountingReportType3">Detailed Customers Balance</option>
+		<option value="accountAccountingReportType4">Aged Balance</option>
+		<option value="accountAccountingReportType5">Cheque Deposit</option>
+		<option value="accountAccountingReportType6">Partner Balance</option>
+		<option value="accountAccountingReportType7">Partner General Ledger</option>
+		<option value="accountAccountingReportType10">Cash Payments Summary</option>
+		<option value="accountAccountingReportType11">Journal</option>
+		<option value="accountAccountingReportType12">VAT Statement on invoices</option>
+		<option value="accountAccountingReportType13">Payment Differences</option>
+		<option value="accountAccountingReportType14">Alternative general ledger</option>
+		<option value="accountAccountingReportType15">VAT Statement on amount received</option>
+		<option value="accountAccountingReportType2000">Analytic Balance</option>
+		<option value="accountAccountingReportType16">Acquisitions</option>
+		<option value="accountAccountingReportType17">Gross values and deprecation</option>
+		<option value="accountInvoice">Invoice</option>
+		<option value="accountIrrecoverable">Irrecoverable</option>
+		<option value="accountPaymentVoucher">Payment voucher</option>
+		<option value="accountSaleInvoicesDetails">Sale invoices details</option>
+		<option value="accountPurchaseInvoicesDetails">Purchase invoices details</option>
+		<option value="accountMove">Account move</option>
+		<option value="accountSubrogationRelease">Subrogation release</option>
+		<option value="accountChequeDepositSlip">Cheque deposit slip</option>
+		<option value="accountCacheDepositSlip">Cash deposit slip</option>
+	</selection>
 </object-views>

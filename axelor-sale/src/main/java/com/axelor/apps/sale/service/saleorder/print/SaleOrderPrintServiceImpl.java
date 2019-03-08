@@ -87,7 +87,8 @@ public class SaleOrderPrintServiceImpl implements SaleOrderPrintService {
     String title = saleOrderService.getFileName(saleOrder);
 
     ReportSettings reportSetting =
-        ReportFactory.createReport(IReport.SALES_ORDER, title + " - ${date}");
+        ReportFactory.createReport(
+            "saleSaleOrder", saleOrder.getCompany(), IReport.SALES_ORDER, title + " - ${date}");
 
     return reportSetting
         .addParam("SaleOrderId", saleOrder.getId())

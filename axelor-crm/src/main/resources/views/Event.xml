@@ -329,11 +329,11 @@
     	<attribute name="domain" for="userSet" expr="eval: &quot; self.id IN (${project?.memberUserSet?.collect{it.id}.join(',')})&quot;" if="project?.memberUserSet?.collect{it.id}?.size() > 0"/>
     	<attribute name="domain" for="userSet" expr="eval:" if="project?.memberUserSet?.collect{it.id}?.size() == 0"/>
     </action-attrs>
-    
+
     <action-attrs name="action-event-attrs-team-domain">
     	<attribute name="domain" for="team" expr="eval: &quot;self.id IN (${user?.teamSet?.collect{it.id}.join(',')})&quot;" if="user?.teamSet?.collect{it.id}?.size() > 0"/>
     </action-attrs>
-    
+
     <action-attrs name="action-event-attrs-contact-partner-domain">
     	<attribute name="domain" for="contactPartner" expr="eval: &quot;self.isContact = true AND self.id IN (${(partner?.contactPartnerSet != null &amp;&amp; !partner.contactPartnerSet.empty)?partner.contactPartnerSet.collect{it.id}.join(','):'null,null'})&quot;" if="partner"/>
     </action-attrs>

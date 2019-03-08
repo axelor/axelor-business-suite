@@ -103,7 +103,11 @@ public class IrrecoverableController {
       String name = I18n.get("Irrecoverable reporting") + " " + irrecoverable.getName();
 
       String fileLink =
-          ReportFactory.createReport(IReport.IRRECOVERABLE, name + "-${date}")
+          ReportFactory.createReport(
+                  "accountIrrecoverable",
+                  irrecoverable.getCompany(),
+                  IReport.IRRECOVERABLE,
+                  name + "-${date}")
               .addParam("IrrecoverableID", irrecoverable.getId())
               .addFormat(irrecoverable.getExportTypeSelect())
               .toAttach(irrecoverable)

@@ -98,7 +98,8 @@ public class MessageController extends com.axelor.apps.message.web.MessageContro
       }
 
       String fileLink =
-          ReportFactory.createReport(IReport.MESSAGE_PDF, title + "-${date}")
+          ReportFactory.createReport(
+                  "messagePdf", message.getCompany(), IReport.MESSAGE_PDF, title + "-${date}")
               .addParam("Locale", language)
               .addParam("MessageId", messageIds)
               .addFormat(ReportSettings.FORMAT_XLS)

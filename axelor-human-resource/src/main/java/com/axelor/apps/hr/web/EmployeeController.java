@@ -56,7 +56,11 @@ public class EmployeeController {
         I18n.get("Annual expenses report") + " :  " + user.getFullName() + " (" + yearName + ")";
 
     String fileLink =
-        ReportFactory.createReport(IReport.EMPLOYEE_ANNUAL_REPORT, name)
+        ReportFactory.createReport(
+                "hrEmployeeAnnualReport",
+                user.getActiveCompany(),
+                IReport.EMPLOYEE_ANNUAL_REPORT,
+                name)
             .addParam("EmployeeId", Long.valueOf(employeeId))
             .addParam("YearId", Long.valueOf(yearId))
             .addParam("Locale", ReportSettings.getPrintingLocale(null))

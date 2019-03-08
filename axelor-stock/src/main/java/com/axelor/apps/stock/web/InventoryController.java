@@ -70,7 +70,8 @@ public class InventoryController {
       String name = I18n.get("Inventory") + " " + inventory.getInventorySeq();
 
       String fileLink =
-          ReportFactory.createReport(IReport.INVENTORY, name + "-${date}")
+          ReportFactory.createReport(
+                  "stockInventory", inventory.getCompany(), IReport.INVENTORY, name + "-${date}")
               .addParam("InventoryId", inventory.getId())
               .addParam("Locale", ReportSettings.getPrintingLocale(null))
               .addParam(

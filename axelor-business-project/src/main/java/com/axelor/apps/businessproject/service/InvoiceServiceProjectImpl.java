@@ -81,7 +81,10 @@ public class InvoiceServiceProjectImpl extends InvoiceServiceSupplychainImpl {
     Integer invoicesCopy = invoice.getInvoicesCopySelect();
     ReportSettings rS =
         ReportFactory.createReport(
-            IReport.INVOICE_ANNEX, title + "-" + I18n.get("Annex") + "-${date}");
+            "businessProjectInvoiceAnnex",
+            invoice.getCompany(),
+            IReport.INVOICE_ANNEX,
+            title + "-" + I18n.get("Annex") + "-${date}");
 
     if (toAttach) {
       rS.toAttach(invoice);

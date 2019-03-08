@@ -22,5 +22,8 @@
 		<option value="2">Spending</option>
 		<option value="3">Both</option>
 	</selection>
-	
+
+	<selection name="base.document.template.type.select" id="cash.management.document.template.type.select">
+		<option value="cashManagementForecastRecap">Forecast recap</option>
+	</selection>
 </object-views>

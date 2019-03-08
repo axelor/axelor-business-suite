@@ -89,7 +89,8 @@ public class ProjectController {
     String name = I18n.get("Project") + " " + project.getCode();
 
     String fileLink =
-        ReportFactory.createReport(IReport.PROJECT, name + "-${date}")
+        ReportFactory.createReport(
+                "businessProjectProject", project.getCompany(), IReport.PROJECT, name + "-${date}")
             .addParam("ProjectId", project.getId())
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .toAttach(project)
@@ -159,7 +160,11 @@ public class ProjectController {
     }
 
     String fileLink =
-        ReportFactory.createReport(IReport.PLANNIF_AND_COST, name)
+        ReportFactory.createReport(
+                "businessProjectPlannificationAndCost",
+                project.getCompany(),
+                IReport.PLANNIF_AND_COST,
+                name)
             .addParam("ProjectId", project.getId())
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .toAttach(project)

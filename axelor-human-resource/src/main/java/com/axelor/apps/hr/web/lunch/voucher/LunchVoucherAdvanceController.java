@@ -27,6 +27,7 @@ import com.axelor.apps.hr.service.config.HRConfigService;
 import com.axelor.apps.hr.service.lunch.voucher.LunchVoucherAdvanceService;
 import com.axelor.apps.hr.service.lunch.voucher.LunchVoucherMgtService;
 import com.axelor.apps.report.engine.ReportSettings;
+import com.axelor.auth.AuthUtils;
 import com.axelor.db.EntityHelper;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
@@ -101,7 +102,11 @@ public class LunchVoucherAdvanceController {
             + LocalDate.now().format(DateTimeFormatter.ISO_DATE);
     try {
       String fileLink =
-          ReportFactory.createReport(IReport.LUNCH_VOUCHER_ADVANCE, name)
+          ReportFactory.createReport(
+                  "hrLunchVoucherAdvance",
+                  AuthUtils.getUser().getActiveCompany(),
+                  IReport.LUNCH_VOUCHER_ADVANCE,
+                  name)
               .addParam("lunchVoucherAdvId", lunchVoucherAdvance.getId())
               .addFormat(ReportSettings.FORMAT_PDF)
               .generate()

@@ -64,7 +64,8 @@ public class SaleOrderServiceImpl implements SaleOrderService {
       SaleOrder saleOrder, String name, String language, boolean proforma, String format)
       throws AxelorException {
 
-    return ReportFactory.createReport(IReport.SALES_ORDER, name + "-${date}")
+    return ReportFactory.createReport(
+            "saleSaleOrder", saleOrder.getCompany(), IReport.SALES_ORDER, name + "-${date}")
         .addParam("Locale", language)
         .addParam("SaleOrderId", saleOrder.getId())
         .addParam("ProformaInvoice", proforma)

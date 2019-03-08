@@ -27,6 +27,12 @@ dependencies {
 	compile "org.mnode.ical4j:ical4j-extensions:1.0.3"
 	compile "org.mnode.ical4j:ical4j-connector:1.0.1"
 	compile "com.google.zxing:core:3.3.2"
-	compile 'org.iban4j:iban4j:3.2.1'
-	compile 'com.itextpdf:itextpdf:5.0.6'
+	compile "org.iban4j:iban4j:3.2.1"
+	compile "com.itextpdf:itextpdf:5.0.6"
+	compile("net.sf.jasperreports:jasperreports:6.7.0") {
+        // Needed because of conflicts with version referenced through itextpdf & axelor-account
+        exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+
+    }
+    compile "net.sf.jasperreports:jasperreports-fonts:6.0.0"
 }

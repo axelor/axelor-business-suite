@@ -206,7 +206,11 @@ public class BillOfMaterialServiceImpl implements BillOfMaterialService {
       BillOfMaterial billOfMaterial, String name, String language, String format)
       throws AxelorException {
 
-    return ReportFactory.createReport(IReport.BILL_OF_MATERIAL, name + "-${date}")
+    return ReportFactory.createReport(
+            "productionBillOfMaterial",
+            billOfMaterial.getCompany(),
+            IReport.BILL_OF_MATERIAL,
+            name + "-${date}")
         .addParam("Locale", language)
         .addParam("BillOfMaterialId", billOfMaterial.getId())
         .addFormat(format)

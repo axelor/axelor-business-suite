@@ -95,7 +95,11 @@ public class ProductController {
     String name = I18n.get("Product Catalog");
 
     String fileLink =
-        ReportFactory.createReport(IReport.PRODUCT_CATALOG, name + "-${date}")
+        ReportFactory.createReport(
+                "productCatalog",
+                user.getActiveCompany(),
+                IReport.PRODUCT_CATALOG,
+                name + "-${date}")
             .addParam("UserId", user.getId())
             .addParam("CurrYear", Integer.toString(currentYear))
             .addParam("ProductIds", productIds)
@@ -123,7 +127,8 @@ public class ProductController {
       }
 
       String fileLink =
-          ReportFactory.createReport(IReport.PRODUCT_SHEET, name + "-${date}")
+          ReportFactory.createReport(
+                  "productSheet", user.getActiveCompany(), IReport.PRODUCT_SHEET, name + "-${date}")
               .addParam("ProductId", product.getId())
               .addParam("CompanyId", user.getActiveCompany().getId())
               .addParam("Locale", ReportSettings.getPrintingLocale(null))

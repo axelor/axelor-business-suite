@@ -64,7 +64,11 @@ public class ProductionBatchController {
     String name = I18n.get(ITranslation.WORK_IN_PROGRESS_VALUATION);
 
     String fileLink =
-        ReportFactory.createReport(IReport.WORK_IN_PROGRESS_VALUATION, name + "-${date}")
+        ReportFactory.createReport(
+                "productionWorkInProgressValuation",
+                productionBatch.getCompany(),
+                IReport.WORK_IN_PROGRESS_VALUATION,
+                name + "-${date}")
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .addParam(
                 "companyId",

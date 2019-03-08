@@ -134,4 +134,8 @@
 		<option value="Event">CRM events</option>
 	</selection>
 
+	<selection name="base.document.template.type.select" id="crm.document.template.type.select">
+		<option value="crmLead">Lead</option>
+	</selection>
+
 </object-views>

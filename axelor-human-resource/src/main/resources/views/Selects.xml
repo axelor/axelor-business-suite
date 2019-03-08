@@ -11,7 +11,7 @@
 		<option value="5">Refused</option>
 		<option value="6">Canceled</option>
 	</selection>
-	
+
 	<selection name="hrs.leave.request.status.select">
 		<option value="1">Draft</option>
 		<option value="2">Waiting validation</option>
@@ -19,7 +19,7 @@
 		<option value="4">Refused</option>
 		<option value="5">Canceled</option>
 	</selection>
-	
+
 	<selection name="hrs.timesheet.status.select">
 		<option value="1">Draft</option>
 		<option value="2">Waiting validation</option>
@@ -27,14 +27,14 @@
 		<option value="4">Refused</option>
 		<option value="5">Canceled</option>
 	</selection>
-	
-	
+
+
 	<selection name="hr.time.logging.preference.select">
 		<option value="days">Days</option>
 		<option value="hours">Hours</option>
 		<option value="minutes">Minutes</option>
 	</selection>
-	
+
 	<selection name="hrs.weekly.day.select">
 		<option value="monday">Monday</option>
 		<option value="tuesday">Tuesday</option>
@@ -44,22 +44,22 @@
 		<option value="saturday">Saturday</option>
 		<option value="sunday">Sunday</option>
 	</selection>
-	
+
 	<selection name="hr.start.on.select">
 		<option value="1">Morning</option>
 		<option value="2">Afternoon</option>
 	</selection>
-	
+
 	<selection name="hrs.leave.reason.inject.consume.select">
 		<option value="1">Consume</option>
 		<option value="2">Inject</option>
 	</selection>
-	
+
 	<selection name="hrs.timesheet.line.invoicing.type.select">
 		<option value="1">Use line's Activity</option>
 		<option value="2">Use employee's Activity</option>
 	</selection>
-	
+
 	<selection name="hr.employment.contract.amendment.type.select">
         <option value="1">Extension Amendment</option>
         <option value="2">Miscellaneous Amendment</option>
@@ -71,23 +71,23 @@
 		<option value="2">Active</option>
 		<option value="3">Closed</option>
 	</selection>
-    
+
     <selection name="hr.employment.contract.executiveStatus.select">
         <option value="1">Executive</option>
         <option value="2">Non-Executive</option>
     </selection>
-    
+
     <selection name="hr.kilometric.allowance.type.select">
 		<option value="1">One-way</option>
 		<option value="2">Round trip</option>
 	</selection>
-	
+
 	<selection name="hr.timer.status.select">
 		<option value="1">Start</option>
 		<option value="2">Pause</option>
 		<option value="3">Stop</option>
 	</selection>
-	
+
 	<selection name="ihr.batch.action.select">
 		<option value="1">Leave Management</option>
 		<option value="2">Seniority leave Management</option>
@@ -95,40 +95,40 @@
 		<option value="4">Payroll preparation export</option>
 		<option value="5">Leave Management Reset</option>
 	</selection>
-	
+
 	<selection name="hr.expense.company.cb.payment">
 		<option value="1">No</option>
 		<option value="2">Company's credit card</option>
 	</selection>
-	
+
 	<selection name="hrs.lunch.voucher.mgt.status.select">
 		<option value="1">Draft</option>
 		<option value="2">Calculated</option>
 		<option value="3">Validated</option>
 		<option value="4">Finished</option>
 	</selection>
-	
+
 	<selection name="hr.lunch.voucher.mgt.line.lunch.voucher.format.select">
 		<option value="1">Paper format</option>
 		<option value="2">Electronic card</option>
 	</selection>
-	
+
 	<selection name="hr.employee.advance.type.select">
 		<option value="1">Permanent</option>
 		<option value="2">Occasional</option>
 	</selection>
-	
+
 	<selection name="hr.employee.advance.status.select">
 		<option value="1">Requested</option>
 		<option value="2">Validated</option>
 	</selection>
-	
+
 	<selection name="hr.employee.bonus.mgt.status.select">
 		<option value="1">Draft</option>
 		<option value="2">Anomaly</option>
 		<option value="3">Calculated</option>
 	</selection>
-	
+
 	<selection name="hr.employee.bonus.mgt.line.status.select">
 		<option value="1">Calculated</option>
 		<option value="2">Anomaly</option>
@@ -138,18 +138,18 @@
 		<option value="1">Calculated</option>
 		<option value="2">Anomaly</option>
 	</selection>
-	
+
 	<selection name="hr.batch.payroll.preparation.export.type.select">
 		<option value="1">Standard</option>
 		<option value="2">Nibelis</option>
 	</selection>
-	
+
 	<selection name="hr.employee.marital.status">
 		<option value="1">Married</option>
 		<option value="2">Single</option>
 		<option value="3">Cohabitee</option>
 	</selection>
-	
+
 	<selection name="hr.timesheet.default.end.format" >
 		<option value="0">None</option>
 		<option value="1">End of the week</option>
@@ -159,13 +159,22 @@
 	<selection name="meta.schedule.batch.service.select" id="hr.meta.schedule.batch.service.select">
 		<option value="com.axelor.apps.hr.service.batch.HrBatchService">com.axelor.apps.hr.service.batch.HrBatchService</option>
 	</selection>
-	
+
 	<selection name="sequence.generic.code.select" id="hr.sequence.generic.code.select">
 		<option value="expense">Expense</option>
 	</selection>
-	
+
 	<selection id="hr.object.data.config.model.select" name="object.data.config.model.select">
 		<option value="com.axelor.apps.hr.db.Employee">Employee</option>
 	</selection>
 
+	<selection name="base.document.template.type.select" id="hr.document.template.type.select">
+		<option value="hrEmploymentContract">Employment contract</option>
+		<option value="hrExpense">Expense</option>
+		<option value="hrTimesheet">Timesheet</option>
+		<option value="hrEmployeeBonusManagement">Employee bonus management</option>
+		<option value="hrEmployeeAnnualReport">Employee annual report</option>
+		<option value="hrLunchVoucherManagementMonthly">Lunch vouchers monthly report</option>
+		<option value="hrLunchVoucherAdvance">Launch voucher advance</option>
+	</selection>
 </object-views>

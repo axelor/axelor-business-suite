@@ -39,7 +39,11 @@ public class LogisticalFormController {
           String.format("%s %s", I18n.get("Packing list"), logisticalForm.getDeliveryNumberSeq());
 
       String fileLink =
-          ReportFactory.createReport(IReport.PACKING_LIST, name + " - ${date}")
+          ReportFactory.createReport(
+                  "supplychainPackingList",
+                  logisticalForm.getCompany(),
+                  IReport.PACKING_LIST,
+                  name + " - ${date}")
               .addParam("LogisticalFormId", logisticalForm.getId())
               .addParam(
                   "Locale",

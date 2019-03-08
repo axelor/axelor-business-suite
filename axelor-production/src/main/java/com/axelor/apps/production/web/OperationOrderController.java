@@ -238,7 +238,11 @@ public class OperationOrderController {
         }
 
         String fileLink =
-            ReportFactory.createReport(IReport.OPERATION_ORDER, name + "-${date}")
+            ReportFactory.createReport(
+                    "productionOperationOrder",
+                    operationOrder.getManufOrder().getCompany(),
+                    IReport.OPERATION_ORDER,
+                    name + "-${date}")
                 .addParam("Locale", ReportSettings.getPrintingLocale(null))
                 .addParam("OperationOrderId", operationOrderIds)
                 .generate()

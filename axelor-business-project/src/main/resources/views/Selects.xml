@@ -35,4 +35,9 @@
 		<option value="2">Realised</option>
 	</selection>
 
+	<selection name="base.document.template.type.select" id="business.project.document.template.type.select">
+		<option value="businessProjectProject">Project</option>
+		<option value="businessProjectInvoiceAnnex">Invoice annex</option>
+		<option value="businessProjectPlannificationAndCost">Plannification and cost</option>
+	</selection>
 </object-views>

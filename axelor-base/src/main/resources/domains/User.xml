@@ -40,6 +40,7 @@
     <boolean name="receiveEmails" title="Receive notifications by email" help="Allow notifications to be sent by email" default="true"/>
     <many-to-many name="followedMetaModelSet" title="Entities you wish to follow by email" ref="com.axelor.meta.db.MetaModel"/>
     <one-to-many name="emailAccountList" ref="com.axelor.apps.message.db.EmailAccount" title="Email accounts"/>
+    <one-to-many name="documentTemplates" ref="com.axelor.apps.base.db.UserDocumentTemplateAssignment" title="Document templates" mappedBy="user"/>
 
     <string name="transientPassword" transient="true"/>
 

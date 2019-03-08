@@ -115,4 +115,15 @@
 		<option value="3">Work in progress</option>
 		<option value="4">Bill of material</option>
 	</selection>
+
+	<selection name="base.document.template.type.select" id="production.document.template.type.select">
+		<option value="productionManufOrder">Manufacturing order</option>
+		<option value="productionOperationOrder">Operation order</option>
+		<option value="productionProdProcess">Production process</option>
+		<option value="productionBillOfMaterial">Bill of material</option>
+		<option value="productionRawMaterialRequirement">Raw material requirement</option>
+		<option value="productionCostSheet">Production cost sheet</option>
+		<option value="productionWorkInProgressValuation">Work in progress valuation</option>
+	</selection>
+
 </object-views>

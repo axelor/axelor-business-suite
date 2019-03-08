@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+    <grid name="document-template-grid" title="Document Templates" model="com.axelor.apps.base.db.DocumentTemplate">
+        <field name="type"/>
+        <field name="title"/>
+        <field name="engine"/>
+    </grid>
+
+    <grid title="Document templates" name="company-document-template-assignment-grid" model="com.axelor.apps.base.db.CompanyDocumentTemplateAssignment">
+        <field name="type"/>
+        <field name="template"/>
+    </grid>
+
+    <grid title="Document templates" name="company-document-template-assignment-grid" model="com.axelor.apps.base.db.UserDocumentTemplateAssignment">
+        <field name="type"/>
+        <field name="template"/>
+    </grid>
+
+    <form name="document-template-form" title="Document Template" model="com.axelor.apps.base.db.DocumentTemplate" onNew="action-document-template-record-type-on-new,action-document-template-method-type-change">
+        <panel name="mainPanel">
+            <field name="type" onChange="action-document-template-method-type-change"/>
+            <field name="title"/>
+            <field name="templateFile" widget="binary-link" onChange="action-document-template-record-engine-on-template-file-change"/>
+            <field name="engine"/>
+        </panel>
+    </form>
+
+    <form name="company-document-template-assignment-form" title="Company document template" model="com.axelor.apps.base.db.CompanyDocumentTemplateAssignment" onNew="action-company-document-template-assignment-record-company-on-new">
+        <panel name="mainPanel">
+            <field name="company" hidden="true"/>
+            <field name="type" onChange="action-document-template-assignment-type-domain"/>
+            <field name="template" canNew="true" canEdit="true"/>
+        </panel>
+    </form>
+
+    <form name="user-document-template-assignment-form" title="User document template" model="com.axelor.apps.base.db.UserDocumentTemplateAssignment" onNew="action-user-document-template-assignment-record-user-on-new">
+        <panel name="mainPanel">
+            <field name="user" hidden="true"/>
+            <field name="company"/>
+            <field name="type" onChange="action-document-template-assignment-type-domain"/>
+            <field name="template" canNew="true" canEdit="true"/>
+        </panel>
+    </form>
+
+    <action-record name="action-document-template-record-type-on-new" model="com.axelor.apps.base.db.DocumentTemplate">
+        <field name="type" expr="eval:__parent__.type" if="__parent__?._model == 'com.axelor.apps.base.db.DocumentTemplateAssignment'"/>
+    </action-record>
+
+    <action-method name="action-document-template-method-type-change" model="com.axelor.apps.base.db.DocumentTemplate">
+        <call class="com.axelor.apps.base.web.DocumentTemplateController" method="getDefaultTitle"/>
+    </action-method>
+
+    <action-record name="action-company-document-template-assignment-record-company-on-new" model="com.axelor.apps.base.db.CompanyDocumentTemplateAssignment">
+        <field name="company" expr="eval: __parent__"/>
+    </action-record>
+
+    <action-record name="action-document-template-record-engine-on-template-file-change" model="com.axelor.apps.base.db.DocumentTemplate">
+        <field name="engine" expr="eval: templateFile?.fileName?.toLowerCase().endsWith('.jrxml') ? 'JASPER' : 'BIRT'"/>
+    </action-record>
+
+    <action-record name="action-user-document-template-assignment-record-user-on-new" model="com.axelor.apps.base.db.UserDocumentTemplateAssignment">
+        <field name="user" expr="eval: __parent__"/>
+    </action-record>
+
+    <action-attrs name="action-document-template-assignment-type-domain">
+        <attribute name="domain" for="template" expr="eval: &quot;self.type = '${type}'&quot;"/>
+    </action-attrs>
+
+</object-views>
+

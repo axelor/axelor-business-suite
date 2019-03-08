@@ -188,7 +188,11 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
 
   @Override
   public void saveSaleOrderPDFAsAttachment(SaleOrder saleOrder) throws AxelorException {
-    ReportFactory.createReport(IReport.SALES_ORDER, this.getFileName(saleOrder) + "-${date}")
+    ReportFactory.createReport(
+            "saleSaleOrder",
+            saleOrder.getCompany(),
+            IReport.SALES_ORDER,
+            this.getFileName(saleOrder) + "-${date}")
         .addParam("Locale", ReportSettings.getPrintingLocale(saleOrder.getClientPartner()))
         .addParam("SaleOrderId", saleOrder.getId())
         .toAttach(saleOrder)

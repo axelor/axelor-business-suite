@@ -230,4 +230,10 @@
 		<option value="com.axelor.apps.bankpayment.service.batch.BankPaymentBatchService">com.axelor.apps.bankpayment.service.batch.BankPaymentBatchService</option>
 	</selection>
 
+	<selection name="base.document.template.type.select" id="bankpayment.document.template.type.select">
+		<option value="bankPaymentBankOrder">Bank order</option>
+		<option value="bankPaymentEbicsCertificate">EBICS certificate</option>
+		<option value="bankPaymentBankReconciliation">Bank reconciliation</option>
+	</selection>
+
 </object-views>

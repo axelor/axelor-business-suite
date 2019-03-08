@@ -90,7 +90,11 @@ public class ProdProcessController {
     String prodProcessLabel = prodProcess.getName().toString();
 
     String fileLink =
-        ReportFactory.createReport(IReport.PROD_PROCESS, prodProcessLabel + "-${date}")
+        ReportFactory.createReport(
+                "productionProdProcess",
+                prodProcess.getCompany(),
+                IReport.PROD_PROCESS,
+                prodProcessLabel + "-${date}")
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .addParam("ProdProcessId", prodProcessId)
             .generate()

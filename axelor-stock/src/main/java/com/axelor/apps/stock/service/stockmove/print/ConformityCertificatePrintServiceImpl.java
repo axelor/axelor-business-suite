@@ -70,7 +70,11 @@ public class ConformityCertificatePrintServiceImpl implements ConformityCertific
     String title = getFileName(stockMove);
 
     ReportSettings reportSetting =
-        ReportFactory.createReport(IReport.CONFORMITY_CERTIFICATE, title + " - ${date}");
+        ReportFactory.createReport(
+            "stockConformityCertificate",
+            stockMove.getCompany(),
+            IReport.CONFORMITY_CERTIFICATE,
+            title + " - ${date}");
     return reportSetting
         .addParam("StockMoveId", stockMove.getId())
         .addParam("Locale", locale)

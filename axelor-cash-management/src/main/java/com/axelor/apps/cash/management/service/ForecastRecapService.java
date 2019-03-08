@@ -992,7 +992,11 @@ public class ForecastRecapService {
     String title = I18n.get("ForecastRecap");
     title += forecastRecap.getId();
 
-    return ReportFactory.createReport(IReport.FORECAST_RECAP, title + "-${date}")
+    return ReportFactory.createReport(
+            "cashManagementForecastRecap",
+            forecastRecap.getCompany(),
+            IReport.FORECAST_RECAP,
+            title + "-${date}")
         .addParam("ForecastRecapId", forecastRecap.getId().toString())
         .addParam("Locale", ReportSettings.getPrintingLocale(null))
         .generate()

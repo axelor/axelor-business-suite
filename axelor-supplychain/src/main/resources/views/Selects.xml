@@ -85,4 +85,11 @@
 		<option value="2">Forecasted customer invoices</option>
 	</selection>
 
+	<selection name="base.document.template.type.select" id="supplychain.document.template.type.select">
+		<option value="supplychainMrpWeeks">MRP weeks</option>
+		<option value="supplychainMrpList">MRP list</option>
+		<option value="supplychainPackingList">Packing list</option>
+		<option value="supplychainDEXGoods">Declaration of exchanges of goods</option>
+		<option value="supplychainDEXServices">Declaration of exchanges of services</option>
+	</selection>
 </object-views>

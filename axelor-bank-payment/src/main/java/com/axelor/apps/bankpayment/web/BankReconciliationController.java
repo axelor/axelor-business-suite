@@ -140,7 +140,10 @@ public class BankReconciliationController {
     try {
       String fileLink =
           ReportFactory.createReport(
-                  IReport.BANK_RECONCILIATION, "Bank Reconciliation" + "-${date}")
+                  "bankPaymentBankReconciliation",
+                  bankReconciliation.getCompany(),
+                  IReport.BANK_RECONCILIATION,
+                  "Bank Reconciliation" + "-${date}")
               .addParam("BankReconciliationId", bankReconciliation.getId())
               .addParam("Locale", ReportSettings.getPrintingLocale(null))
               .addFormat("pdf")

@@ -75,7 +75,11 @@ public class PickingStockMovePrintServiceimpl implements PickingStockMovePrintSe
     String title = getFileName(stockMove);
 
     ReportSettings reportSetting =
-        ReportFactory.createReport(IReport.PICKING_STOCK_MOVE, title + " - ${date}");
+        ReportFactory.createReport(
+            "stockPickingStockMove",
+            stockMove.getCompany(),
+            IReport.PICKING_STOCK_MOVE,
+            title + " - ${date}");
     return reportSetting
         .addParam("StockMoveId", stockMove.getId())
         .addParam("Locale", locale)

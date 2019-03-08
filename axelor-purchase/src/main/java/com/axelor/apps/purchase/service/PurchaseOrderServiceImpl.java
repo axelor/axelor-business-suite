@@ -271,7 +271,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 ? "-V" + purchaseOrder.getVersionNumber()
                 : "");
 
-    ReportFactory.createReport(IReport.PURCHASE_ORDER, title + "-${date}")
+    // TODO allow per purchase order template!
+    ReportFactory.createReport(
+            "purchaseOrder", purchaseOrder.getCompany(), IReport.PURCHASE_ORDER, title + "-${date}")
         .addParam("PurchaseOrderId", purchaseOrder.getId().toString())
         .addParam("Locale", language)
         .toAttach(purchaseOrder)

@@ -232,6 +232,14 @@ public class ReportSettings {
     return "true".equals(useIntegratedEngine);
   }
 
+  public static ReportEngine getReportEngine() {
+    AppSettings appsSettings = AppSettings.get();
+
+    String engine = appsSettings.get("axelor.report.engine.type", "birt");
+
+    return "birt".equals(engine) ? ReportEngine.BIRT : ReportEngine.JASPER_REPORTS;
+  }
+
   /**
    * Get the language select for a partner or current connected user.
    *
@@ -255,5 +263,10 @@ public class ReportSettings {
    */
   public static String getPrintingLocale() {
     return getPrintingLocale(null);
+  }
+
+  public enum ReportEngine {
+    BIRT,
+    JASPER_REPORTS
   }
 }

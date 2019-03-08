@@ -156,7 +156,11 @@ public class PaymentVoucherController {
     }
 
     String fileLink =
-        ReportFactory.createReport(IReport.PAYMENT_VOUCHER, name + "-${date}")
+        ReportFactory.createReport(
+                "accountPaymentVoucher",
+                paymentVoucher.getCompany(),
+                IReport.PAYMENT_VOUCHER,
+                name + "-${date}")
             .addParam("PaymentVoucherId", paymentVoucher.getId())
             .generate()
             .getFileLink();

@@ -79,4 +79,9 @@
 		<option value="1">Current Login user</option>
 		<option value="2">User assigned to customer</option>
 	</selection>
+
+	<selection name="base.document.template.type.select" id="sale.document.template.type.select">
+		<option value="saleSaleOrder">Sale order</option>
+	</selection>
+
 </object-views>

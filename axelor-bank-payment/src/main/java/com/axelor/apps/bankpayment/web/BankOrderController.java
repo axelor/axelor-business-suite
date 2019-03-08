@@ -149,7 +149,11 @@ public class BankOrderController {
     String name = I18n.get("Bank Order") + " " + bankOrder.getBankOrderSeq();
 
     String fileLink =
-        ReportFactory.createReport(IReport.BANK_ORDER, name + "-${date}")
+        ReportFactory.createReport(
+                "bankPaymentBankOrder",
+                bankOrder.getSenderCompany(),
+                IReport.BANK_ORDER,
+                name + "-${date}")
             .addParam("BankOrderId", bankOrder.getId())
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .generate()

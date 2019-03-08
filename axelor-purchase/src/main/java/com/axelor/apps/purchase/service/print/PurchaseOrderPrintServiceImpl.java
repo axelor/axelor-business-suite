@@ -79,9 +79,9 @@ public class PurchaseOrderPrintServiceImpl implements PurchaseOrderPrintService 
     }
     String locale = ReportSettings.getPrintingLocale(purchaseOrder.getSupplierPartner());
     String title = getFileName(purchaseOrder);
-    ReportSettings reportSetting =
-        ReportFactory.createReport(IReport.PURCHASE_ORDER, title + " - ${date}");
-    return reportSetting
+    // TODO allow per purchase order template!
+    return ReportFactory.createReport(
+            "purchaseOrder", purchaseOrder.getCompany(), IReport.PURCHASE_ORDER, title + "-${date}")
         .addParam("PurchaseOrderId", purchaseOrder.getId())
         .addParam("Locale", locale)
         .addFormat(formatPdf);

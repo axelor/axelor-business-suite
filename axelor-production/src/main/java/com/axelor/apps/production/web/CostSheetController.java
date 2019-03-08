@@ -39,7 +39,15 @@ public class CostSheetController {
       Long costSheetId = costSheet.getId();
       String name = I18n.get("Cost sheet");
       String fileLink =
-          ReportFactory.createReport(IReport.COST_SHEET, name + "-${date}")
+          ReportFactory.createReport(
+                  "productionCostSheet",
+                  costSheet.getManufOrder() == null
+                      ? (costSheet.getBillOfMaterial() == null
+                          ? null
+                          : costSheet.getBillOfMaterial().getCompany())
+                      : costSheet.getManufOrder().getCompany(),
+                  IReport.COST_SHEET,
+                  name + "-${date}")
               .addParam("Locale", ReportSettings.getPrintingLocale(null))
               .addParam("CostSheetId", costSheetId)
               .addParam("BaseUrl", AppSettings.get().getBaseURL())

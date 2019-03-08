@@ -37,7 +37,9 @@
 	
 	<selection name="sequence.generic.code.select" id="purchase.sequence.generic.code.select">
 		<option value="purchaseOrder">Purchase order</option>
-		
 	</selection>
-	
+
+	<selection name="base.document.template.type.select" id="purchase.document.template.type.select">
+		<option value="purchaseOrder">Purchase order</option>
+	</selection>
 </object-views>
