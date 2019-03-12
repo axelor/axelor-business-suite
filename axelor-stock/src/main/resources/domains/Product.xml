@@ -5,6 +5,7 @@
  
   <entity name="Product" lang="java">
       <decimal name="avgPrice" readonly="true" precision="20" scale="10" title="Average Price"/>
+      <boolean name="isAvgPriceChanged"/>
       <many-to-one name="trackingNumberConfiguration" ref="com.axelor.apps.stock.db.TrackingNumberConfiguration" title="Tracking Nbr. Config." massUpdate="true"/>
 	  <many-to-one name="customsCodeNomenclature" ref="com.axelor.apps.stock.db.CustomsCodeNomenclature" title="Customs code" massUpdate="true"/>
       <boolean name="controlOnReceipt" title="Control on Receipt" massUpdate="true"/>
@@ -14,6 +15,7 @@
 
     <track on="UPDATE">
         <field name="trackingNumberConfiguration"/>
+        <field name="avgPrice" if="isAvgPriceChanged"/>
     </track>
   </entity>
 

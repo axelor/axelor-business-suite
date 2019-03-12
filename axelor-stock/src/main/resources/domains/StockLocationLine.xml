@@ -14,7 +14,7 @@
 	<decimal name="currentQty" title="Current Qty" readonly="true"/>
 	<decimal name="futureQty" title="Future Qty" readonly="true"/>
 	<decimal name="avgPrice" precision="20" scale="10" readonly="true" title="Average Price"/>
-	<boolean name="isAvgPriceChanged" transient="true"/>
+	<boolean name="isAvgPriceChanged"/>
 	<date name="lastFutureStockMoveDate" title="Last Future Stock Move" readonly="true"/>
 	
     <string name="rack" title="Rack"/>
@@ -24,5 +24,9 @@
 	<decimal name="lastInventoryRealQty"/>
 	<datetime name="lastInventoryDateT" tz="true" title="Last inventory date"/>
 	
+	<track on="UPDATE" subscribe="false">
+		<field name="avgPrice" if="isAvgPriceChanged"/>
+		<message if="true" on="UPDATE">Stock Location Line updated</message>
+	</track>
   </entity>
 </domain-models>

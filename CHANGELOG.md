@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased 5.1.5]
+## Features
+
+## Improvements
+- Stock : Manual tracking of avgPrice from stockLocationLine.
+
+## Bug Fixes
+
 ## [5.1.4] - 2019-03-11
 ## Features
 - MARKETING CAMPAIGN : Manage guests and attendees

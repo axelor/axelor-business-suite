@@ -466,7 +466,9 @@ public class StockMoveLineServiceImpl implements StockMoveLineService {
             lastFutureStockMoveDate,
             stockMoveLine.getTrackingNumber(),
             BigDecimal.ZERO);
+		stockMoveLine.getProduct().setIsAvgPriceChanged(false);
         weightedAveragePriceService.computeAvgPriceForProduct(stockMoveLine.getProduct());
+        stockLocationServiceImpl.computeAvgPriceForProduct(stockMoveLine.getProduct());
       }
     }
   }

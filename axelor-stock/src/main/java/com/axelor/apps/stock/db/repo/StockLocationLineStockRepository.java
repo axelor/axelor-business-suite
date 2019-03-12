@@ -27,8 +27,11 @@ public class StockLocationLineStockRepository extends StockLocationLineRepositor
   @Override
   public StockLocationLine save(StockLocationLine entity) {
     Product product = entity.getProduct();
+    product.setIsAvgPriceChanged(false);
     if (entity.getIsAvgPriceChanged()) {
-      Beans.get(WeightedAveragePriceService.class).computeAvgPriceForProduct(product);
+	  product.setIsAvgPriceChanged(true);
+	  Beans.get(WeightedAveragePriceService.class).computeAvgPriceForProduct(product);
+      Beans.get(StockLocationService.class).computeAvgPriceForProduct(product);
     }
     return super.save(entity);
   }
