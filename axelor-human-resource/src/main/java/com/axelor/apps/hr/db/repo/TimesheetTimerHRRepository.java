@@ -20,6 +20,7 @@ package com.axelor.apps.hr.db.repo;
 import com.axelor.apps.hr.db.TSTimer;
 import com.axelor.apps.hr.db.TimesheetLine;
 import com.axelor.apps.hr.service.timesheet.timer.TimesheetTimerService;
+import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 
@@ -33,7 +34,11 @@ public class TimesheetTimerHRRepository extends TSTimerRepository {
       if (tsTimer.getTimesheetLine() != null) updateTimesheetLine(tsTimer);
       else {
         if (tsTimer.getDuration() > 59) {
-          tsTimerService.generateTimesheetLine(tsTimer);
+          try {
+            tsTimerService.generateTimesheetLine(tsTimer);
+          } catch (AxelorException e) {
+            e.printStackTrace();
+          }
         }
       }
     }

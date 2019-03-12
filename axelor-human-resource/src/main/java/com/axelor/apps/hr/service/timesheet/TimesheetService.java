@@ -102,9 +102,10 @@ public interface TimesheetService {
 
   public Timesheet getCurrentTimesheet();
 
-  public Timesheet getCurrentOrCreateTimesheet();
+  public Timesheet getCurrentOrCreateTimesheet() throws AxelorException;
 
-  public Timesheet createTimesheet(User user, LocalDate fromDate, LocalDate toDate);
+  public Timesheet createTimesheet(Employee employee, LocalDate fromDate, LocalDate toDate)
+      throws AxelorException;
 
   public List<InvoiceLine> createInvoiceLines(
       Invoice invoice, List<TimesheetLine> timesheetLineList, int priority) throws AxelorException;

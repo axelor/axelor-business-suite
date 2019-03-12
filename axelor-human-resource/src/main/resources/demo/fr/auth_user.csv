@@ -1,5 +1,5 @@
 "code";"name";"importId";"group.code";"language";"homeAction";"companySet.importId";"activeCompany.importId";"partner.importId";"activeCashRegister.importId";"employee.importId";"activeTeam.importId";"picture_fileName"
-"admin";"Admin";1;"admins";"fr";;1;1;90019;1;;4;"img/user/1033_128px.png"
+"admin";"Admin";1;"admins";"fr";;1;1;90019;1;19;4;"img/user/1033_128px.png"
 "demo";"Demo";2;"users";"fr";;1;1;90020;1;;4;"img/user/1033_128px.png"
 "dirg";"Yoann MARQUES";3;"MGT";"fr";;1;1;90001;1;1;4;"img/user/1033_128px.png"
 "assist";"Lucy ROBERT";4;"MGT";"fr";;1;1;90002;1;2;4;"img/user/1033_128px.png"

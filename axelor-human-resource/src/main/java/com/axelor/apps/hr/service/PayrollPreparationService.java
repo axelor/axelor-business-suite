@@ -142,7 +142,7 @@ public class PayrollPreparationService {
         leaveRequestRepo
             .all()
             .filter(
-                "self.statusSelect = ?4 AND self.user.employee = ?3 AND self.fromDate <= ?1 AND self.toDate >= ?2",
+                "self.statusSelect = ?4 AND self.employee = ?3 AND self.fromDate <= ?1 AND self.toDate >= ?2",
                 toDate,
                 fromDate,
                 employee,
@@ -207,7 +207,7 @@ public class PayrollPreparationService {
         Beans.get(ExtraHoursLineRepository.class)
             .all()
             .filter(
-                "self.user.employee = ?1 AND self.extraHours.statusSelect = 3 AND self.date BETWEEN ?2 AND ?3 AND (self.payrollPreparation = null OR self.payrollPreparation.id = ?4)",
+                "self.employee = ?1 AND self.extraHours.statusSelect = 3 AND self.date BETWEEN ?2 AND ?3 AND (self.payrollPreparation = null OR self.payrollPreparation.id = ?4)",
                 payrollPreparation.getEmployee(),
                 fromDate,
                 toDate,
@@ -225,7 +225,7 @@ public class PayrollPreparationService {
         Beans.get(ExpenseRepository.class)
             .all()
             .filter(
-                "self.user.employee = ?1 "
+                "self.employee = ?1 "
                     + "AND self.statusSelect = ?2 "
                     + "AND (self.payrollPreparation IS NULL OR self.payrollPreparation.id = ?3) "
                     + "AND self.companyCbSelect = ?4 "

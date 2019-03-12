@@ -71,8 +71,8 @@ public class LeaveController {
         Beans.get(LeaveRequestRepository.class)
             .all()
             .filter(
-                "self.user = ?1 AND self.company = ?2 AND self.statusSelect = 1",
-                user,
+                "self.employee.user.id = ?1 AND self.company = ?2 AND self.statusSelect = 1",
+                user.getId(),
                 user.getActiveCompany())
             .fetch();
     if (leaveList.isEmpty()) {
@@ -149,7 +149,7 @@ public class LeaveController {
 
     if (employee == null || !employee.getHrManager()) {
       actionView
-          .domain(actionView.get().getDomain() + " AND self.user.employee.managerUser = :_user")
+          .domain(actionView.get().getDomain() + " AND self.employee.managerUser = :_user")
           .context("_user", user);
     }
 
@@ -157,10 +157,10 @@ public class LeaveController {
   }
 
   public void showSubordinateLeaves(ActionRequest request, ActionResponse response) {
-
     User user = AuthUtils.getUser();
     String domain =
-        "self.user.employee.managerUser.employee.managerUser = :_user AND self.statusSelect = 2";
+        "self.employee.managerUser.employee.managerUser = :_user AND self.statusSelect = 2";
+
     long nbLeaveRequests = Query.of(ExtraHours.class).filter(domain).bind("_user", user).count();
 
     if (nbLeaveRequests == 0) {
@@ -197,11 +197,11 @@ public class LeaveController {
       LeaveRequest leaveRequest = request.getContext().asType(LeaveRequest.class);
       leaveRequest = leaveRequestRepositoryProvider.get().find(leaveRequest.getId());
 
-      if (leaveRequest.getUser().getEmployee().getWeeklyPlanning() == null) {
+      if (leaveRequest.getEmployee().getWeeklyPlanning() == null) {
         response.setAlert(
             String.format(
                 I18n.get(IExceptionMessage.EMPLOYEE_PLANNING),
-                leaveRequest.getUser().getEmployee().getName()));
+                leaveRequest.getEmployee().getName()));
         return;
       }
       if (leaveRequest
@@ -348,11 +348,11 @@ public class LeaveController {
       return;
     }
     Company company = leave.getCompany();
-    if (leave.getUser() == null) {
+    if (leave.getEmployee() == null) {
       return;
     }
     if (company == null) {
-      company = leave.getUser().getActiveCompany();
+      company = leave.getEmployee().getUser().getActiveCompany();
     }
     if (company == null) {
       return;
@@ -360,14 +360,14 @@ public class LeaveController {
 
     hrConfigService.getLeaveReason(company.getHrConfig());
 
-    Employee employee = leave.getUser().getEmployee();
+    Employee employee = leave.getEmployee();
 
     LeaveReason leaveReason =
         Beans.get(LeaveReasonRepository.class)
             .find(company.getHrConfig().getToJustifyLeaveReason().getId());
 
     if (employee != null) {
-      employee = Beans.get(EmployeeRepository.class).find(leave.getUser().getEmployee().getId());
+      employee = Beans.get(EmployeeRepository.class).find(leave.getEmployee().getId());
       leaveLine = leaveServiceProvider.get().addLeaveReasonOrCreateIt(employee, leaveReason);
       response.setValue("leaveLine", leaveLine);
     }

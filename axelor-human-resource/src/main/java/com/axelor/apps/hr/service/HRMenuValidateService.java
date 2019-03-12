@@ -36,11 +36,12 @@ public class HRMenuValidateService {
         actionView
             .domain(
                 actionView.get().getDomain()
-                    + " AND (self.user = :_user OR self.user.employee.managerUser = :_user)")
+                    + " AND (self.employee.user.id = :_user_id OR self.employee.managerUser = :_user)")
+            .context("_user_id", user.getId())
             .context("_user", user);
       } else {
         actionView
-            .domain(actionView.get().getDomain() + " AND self.user.employee.managerUser = :_user")
+            .domain(actionView.get().getDomain() + " AND self.employee.managerUser = :_user")
             .context("_user", user);
       }
     }

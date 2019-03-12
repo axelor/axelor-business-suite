@@ -12,7 +12,7 @@
       <date name="sentDate" title="Sent Date" readonly="true"  />
       <many-to-one name="period" ref="com.axelor.apps.base.db.Period" title="Period"/>
       <integer name="statusSelect" title="Status" selection="hrs.expenses.status.select" default="1" readonly="true"/>
-      <many-to-one name="user" ref="com.axelor.auth.db.User" title="User" column="user_id" readonly="true"/>
+      <many-to-one name="employee" ref="Employee" title="Employee" readonly="true"/>
 
       <one-to-many name="generalExpenseLineList" ref="com.axelor.apps.hr.db.ExpenseLine" title="General expense lines" mappedBy="generalExpense"/>
       <one-to-many name="kilometricExpenseLineList" ref="com.axelor.apps.hr.db.ExpenseLine" title="Kilometric lines" mappedBy="kilometricExpense"/>
@@ -47,8 +47,8 @@
       <string name="fullName" namecolumn="true" readonly="true">
       <![CDATA[
       String fullName = "";
-      if(this.getUser() != null)  {
-      	 fullName = this.getUser().getFullName();
+      if(this.getEmployee() != null)  {
+      	 fullName = this.getEmployee().getName();
       }
       if(this.getCreatedOn() != null){
       	fullName = fullName.concat(" ").concat(this.getCreatedOn().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd HH:mm")));

@@ -9,7 +9,7 @@
       
       <many-to-one name="payrollPreparation" ref="com.axelor.apps.hr.db.PayrollPreparation"/>
       <many-to-one name="extraHours" ref="com.axelor.apps.hr.db.ExtraHours"/>
-      <many-to-one name="user" ref="com.axelor.auth.db.User" title="User" required="true" column="user_id"/>
+      <many-to-one name="employee" ref="Employee" title="Employee" required="true"/>
       <date name="date" column="date_val" title="From" required="true"/>
 	  <decimal name="qty" title="Hours"/>
 	  <many-to-one name="project" ref="com.axelor.apps.project.db.Project" title="Project"/>

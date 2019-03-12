@@ -276,8 +276,9 @@ public class TimesheetServiceImpl implements TimesheetService {
       Product product)
       throws AxelorException {
 
-    User user = timesheet.getUser();
-    Employee employee = user.getEmployee();
+    TimesheetLineService timesheetLineService = Beans.get(TimesheetLineService.class);
+    User user = timesheet.getEmployee().getUser();
+    Employee employee = timesheet.getEmployee();
 
     if (fromGenerationDate == null) {
       throw new AxelorException(
@@ -304,7 +305,7 @@ public class TimesheetServiceImpl implements TimesheetService {
           I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
           user.getName());
     }
-    WeeklyPlanning planning = user.getEmployee().getWeeklyPlanning();
+    WeeklyPlanning planning = employee.getWeeklyPlanning();
     if (planning == null) {
       throw new AxelorException(
           timesheet,
@@ -329,7 +330,9 @@ public class TimesheetServiceImpl implements TimesheetService {
     List<LeaveRequest> leaveList =
         LeaveRequestRepository.of(LeaveRequest.class)
             .all()
-            .filter("self.user = ?1 AND (self.statusSelect = 2 OR self.statusSelect = 3)", user)
+            .filter(
+                "self.employee.user.id = ?1 AND (self.statusSelect = 2 OR self.statusSelect = 3)",
+                user.getId())
             .fetch();
 
     // Public holidays list
@@ -386,7 +389,7 @@ public class TimesheetServiceImpl implements TimesheetService {
               timesheetLineService.createTimesheetLine(
                   project,
                   product,
-                  user,
+                  employee,
                   fromDate,
                   timesheet,
                   timesheetLineService.computeHoursDuration(timesheet, logTime, true),
@@ -404,7 +407,8 @@ public class TimesheetServiceImpl implements TimesheetService {
     Timesheet timesheet =
         Beans.get(TimesheetRepository.class)
             .all()
-            .filter("self.user = ?1 ORDER BY self.toDate DESC", AuthUtils.getUser())
+            .filter(
+                "self.employee.user.id = ?1 ORDER BY self.toDate DESC", AuthUtils.getUser().getId())
             .fetchOne();
     if (timesheet != null) {
       return timesheet.getToDate();
@@ -419,7 +423,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         Beans.get(TimesheetRepository.class)
             .all()
             .filter(
-                "self.statusSelect = ?1 AND self.user.id = ?2",
+                "self.statusSelect = ?1 AND self.employee.user.id = ?2",
                 TimesheetRepository.STATUS_DRAFT,
                 AuthUtils.getUser().getId())
             .order("-id")
@@ -432,29 +436,40 @@ public class TimesheetServiceImpl implements TimesheetService {
   }
 
   @Override
-  public Timesheet getCurrentOrCreateTimesheet() {
+  public Timesheet getCurrentOrCreateTimesheet() throws AxelorException {
     Timesheet timesheet = getCurrentTimesheet();
     if (timesheet == null) {
       timesheet =
           createTimesheet(
-              AuthUtils.getUser(), appHumanResourceService.getTodayDateTime().toLocalDate(), null);
+              AuthUtils.getUser().getEmployee(),
+              appHumanResourceService.getTodayDateTime().toLocalDate(),
+              null);
     }
     return timesheet;
   }
 
   @Override
-  public Timesheet createTimesheet(User user, LocalDate fromDate, LocalDate toDate) {
+  public Timesheet createTimesheet(Employee employee, LocalDate fromDate, LocalDate toDate)
+      throws AxelorException {
     Timesheet timesheet = new Timesheet();
 
-    timesheet.setUser(user);
-    Company company = null;
-    if (user.getEmployee() != null && user.getEmployee().getMainEmploymentContract() != null) {
-      company = user.getEmployee().getMainEmploymentContract().getPayCompany();
+    if (employee != null) {
+      timesheet.setEmployee(employee);
+      Company company = null;
+      if (employee.getMainEmploymentContract() != null) {
+        company = employee.getMainEmploymentContract().getPayCompany();
+      }
+      timesheet.setCompany(company);
+      timesheet.setFromDate(fromDate);
+      timesheet.setStatusSelect(TimesheetRepository.STATUS_DRAFT);
+      timesheet.setFullName(computeFullName(timesheet));
+    } else {
+      throw new AxelorException(
+          timesheet,
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
+          AuthUtils.getUser().getName());
     }
-    timesheet.setCompany(company);
-    timesheet.setFromDate(fromDate);
-    timesheet.setStatusSelect(TimesheetRepository.STATUS_DRAFT);
-    timesheet.setFullName(computeFullName(timesheet));
 
     return timesheet;
   }
@@ -473,7 +488,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     for (TimesheetLine timesheetLine : timesheetLineList) {
       Object[] tabInformations = new Object[5];
       tabInformations[0] = timesheetLine.getProduct();
-      tabInformations[1] = timesheetLine.getUser();
+      tabInformations[1] = timesheetLine.getEmployee();
       // Start date
       tabInformations[2] = timesheetLine.getDate();
       // End date, useful only for consolidation
@@ -482,7 +497,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
       String key = null;
       if (consolidate) {
-        key = timesheetLine.getProduct().getId() + "|" + timesheetLine.getUser().getId();
+        key = timesheetLine.getProduct().getId() + "|" + timesheetLine.getEmployee().getId();
         if (timeSheetInformationsMap.containsKey(key)) {
           tabInformations = timeSheetInformationsMap.get(key);
           // Update date
@@ -688,11 +703,11 @@ public class TimesheetServiceImpl implements TimesheetService {
   @Override
   public String computeFullName(Timesheet timesheet) {
 
-    User timesheetUser = timesheet.getUser();
+    Employee timesheetEmployee = timesheet.getEmployee();
     LocalDateTime createdOn = timesheet.getCreatedOn();
 
-    if (timesheetUser != null && createdOn != null) {
-      return timesheetUser.getFullName()
+    if (timesheetEmployee != null && createdOn != null) {
+      return timesheetEmployee.getName()
           + " "
           + createdOn.getDayOfMonth()
           + "/"
@@ -703,8 +718,8 @@ public class TimesheetServiceImpl implements TimesheetService {
           + createdOn.getHour()
           + ":"
           + createdOn.getMinute();
-    } else if (timesheetUser != null) {
-      return timesheetUser.getFullName() + " N°" + timesheet.getId();
+    } else if (timesheetEmployee != null) {
+      return timesheetEmployee.getName() + " N°" + timesheet.getId();
     } else {
       return "N°" + timesheet.getId();
     }
@@ -820,7 +835,7 @@ public class TimesheetServiceImpl implements TimesheetService {
   public List<Map<String, Object>> createDefaultLines(Timesheet timesheet) {
 
     List<Map<String, Object>> lines = new ArrayList<>();
-    User user = timesheet.getUser();
+    User user = timesheet.getEmployee().getUser();
     if (user == null || timesheet.getFromDate() == null) {
       return lines;
     }
@@ -846,7 +861,13 @@ public class TimesheetServiceImpl implements TimesheetService {
     for (Project project : projects) {
       TimesheetLine line =
           timesheetLineService.createTimesheetLine(
-              project, product, user, timesheet.getFromDate(), timesheet, new BigDecimal(0), null);
+              project,
+              product,
+              timesheet.getEmployee(),
+              timesheet.getFromDate(),
+              timesheet,
+              new BigDecimal(0),
+              null);
       lines.add(Mapper.toMap(line));
     }
 
@@ -907,13 +928,13 @@ public class TimesheetServiceImpl implements TimesheetService {
         actionView
             .domain(
                 actionView.get().getDomain()
-                    + " AND (self.timesheet.user = :_user OR self.timesheet.user.employee.managerUser = :_user)")
+                    + " AND (self.timesheet.employee.user.id = :_user_id OR self.timesheet.employee.managerUser = :_user)")
+            .context("_user_id", user.getId())
             .context("_user", user);
       } else {
         actionView
             .domain(
-                actionView.get().getDomain()
-                    + " AND self.timesheet.user.employee.managerUser = :_user")
+                actionView.get().getDomain() + " AND self.timesheet.employee.managerUser = :_user")
             .context("_user", user);
       }
     }
@@ -947,10 +968,10 @@ public class TimesheetServiceImpl implements TimesheetService {
   @Override
   public void updateTimeLoggingPreference(Timesheet timesheet) throws AxelorException {
     String timeLoggingPref;
-    if (timesheet.getUser() == null || timesheet.getUser().getEmployee() == null) {
+    if (timesheet.getEmployee() == null) {
       timeLoggingPref = EmployeeRepository.TIME_PREFERENCE_HOURS;
     } else {
-      Employee employee = timesheet.getUser().getEmployee();
+      Employee employee = timesheet.getEmployee();
       timeLoggingPref = employee.getTimeLoggingPreferenceSelect();
     }
     timesheet.setTimeLoggingPreferenceSelect(timeLoggingPref);
@@ -968,7 +989,7 @@ public class TimesheetServiceImpl implements TimesheetService {
   @Override
   public void generateLinesFromProjectPlanning(Timesheet timesheet, Boolean realHours)
       throws AxelorException {
-    User user = timesheet.getUser();
+
     List<ProjectPlanningTime> planningList = getProjectPlanningTimeList(timesheet);
     for (ProjectPlanningTime projectPlanningTime : planningList) {
       TimesheetLine timesheetLine = new TimesheetLine();
@@ -985,7 +1006,7 @@ public class TimesheetServiceImpl implements TimesheetService {
       }
 
       timesheetLine.setTimesheet(timesheet);
-      timesheetLine.setUser(user);
+      timesheetLine.setEmployee(timesheet.getEmployee());
       timesheetLine.setProduct(projectPlanningTime.getProduct());
       timesheetLine.setProject(projectPlanningTime.getProject());
       timesheetLine.setDate(projectPlanningTime.getDate());
@@ -1001,13 +1022,13 @@ public class TimesheetServiceImpl implements TimesheetService {
           projectPlanningTimeRepository
               .all()
               .filter(
-                  "self.user.id = ?1 "
+                  "self.employee.id = ?1 "
                       + "AND self.date >= ?2 "
                       + "AND self.id NOT IN "
                       + "(SELECT timesheetLine.projectPlanningTime.id FROM TimesheetLine as timesheetLine "
                       + "WHERE timesheetLine.projectPlanningTime != null "
                       + "AND timesheetLine.timesheet = ?3)",
-                  timesheet.getUser().getId(),
+                  timesheet.getEmployee().getId(),
                   timesheet.getFromDate(),
                   timesheet)
               .fetch();
@@ -1016,13 +1037,13 @@ public class TimesheetServiceImpl implements TimesheetService {
           projectPlanningTimeRepository
               .all()
               .filter(
-                  "self.user.id = ?1 "
-                      + "AND self.date BETWEEN ?2 AND ?3 "
+                  "self.employee.id = ?1 "
+                      + "AND self.date ?2 BETWEEN ?3 "
                       + "AND self.id NOT IN "
                       + "(SELECT timesheetLine.projectPlanningTime.id FROM TimesheetLine as timesheetLine "
                       + "WHERE timesheetLine.projectPlanningTime != null "
                       + "AND timesheetLine.timesheet = ?4)",
-                  timesheet.getUser().getId(),
+                  timesheet.getEmployee().getId(),
                   timesheet.getFromDate(),
                   timesheet.getToDate(),
                   timesheet)

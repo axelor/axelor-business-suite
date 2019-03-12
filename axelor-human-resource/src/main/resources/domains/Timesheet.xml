@@ -9,7 +9,7 @@
 
       <date name="sentDate" title="Sent Date" readonly="true"/>
       <integer name="statusSelect" title="Status" selection="hrs.timesheet.status.select" default="1" readonly="true"/>
-      <many-to-one name="user" ref="com.axelor.auth.db.User" title="User" column="user_id" required="true" readonly="true"/>
+      <many-to-one name="employee" ref="Employee" title="Employee" required="true" readonly="true"/>
       <one-to-many name="timesheetLineList" ref="com.axelor.apps.hr.db.TimesheetLine" title="Timesheet Lines" mappedBy="timesheet" orphanRemoval="true"/>
       <date name="fromDate"/>
       <date name="toDate"/>
@@ -25,12 +25,12 @@
 
       <string name="fullName" namecolumn="true" readonly="true">
       <![CDATA[
-      		if(this.getUser() != null && this.getCreatedOn() != null){
-      			return this.getUser().getFullName()+" "+this.getCreatedOn().getDayOfMonth()+"/"+this.getCreatedOn().getMonthValue()
+      		if(this.getEmployee() != null && this.getCreatedOn() != null){
+      			return this.getEmployee().getName()+" "+this.getCreatedOn().getDayOfMonth()+"/"+this.getCreatedOn().getMonthValue()
 	  				+"/"+this.getCreatedOn().getYear()+"  "+this.getCreatedOn().getHour()+":"+this.getCreatedOn().getMinute();
       		}
-	  		else if (this.getUser() != null){
-	  			return this.getUser().getFullName()+" N°"+this.getId();
+	  		else if (this.getEmployee() != null){
+	  			return this.getEmployee().getName()+" N°"+this.getId();
 	  		}
 	  		else{
 	  			return "N°"+this.getId();
@@ -38,7 +38,7 @@
 	  ]]>
       </string>
       
-      <finder-method name="findByUserAndStatus" using="user,statusSelect"/>
+      <finder-method name="findByEmployeeAndStatus" using="employee,statusSelect"/>
       
       <extra-code>
       	<![CDATA[

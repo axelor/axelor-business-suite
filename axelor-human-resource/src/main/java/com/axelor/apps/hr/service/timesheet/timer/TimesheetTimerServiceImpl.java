@@ -77,7 +77,7 @@ public class TimesheetTimerServiceImpl implements TimesheetTimerService {
   }
 
   @Transactional
-  public TimesheetLine generateTimesheetLine(TSTimer timer) {
+  public TimesheetLine generateTimesheetLine(TSTimer timer) throws AxelorException {
 
     BigDecimal durationHours = this.convertSecondDurationInHours(timer.getDuration());
     Timesheet timesheet = Beans.get(TimesheetService.class).getCurrentOrCreateTimesheet();
@@ -86,7 +86,7 @@ public class TimesheetTimerServiceImpl implements TimesheetTimerService {
             .createTimesheetLine(
                 timer.getProject(),
                 timer.getProduct(),
-                timer.getUser(),
+                timer.getEmployee(),
                 timer.getStartDateTime().toLocalDate(),
                 timesheet,
                 durationHours,
@@ -112,7 +112,7 @@ public class TimesheetTimerServiceImpl implements TimesheetTimerService {
   public TSTimer getCurrentTSTimer() {
     return Beans.get(TSTimerRepository.class)
         .all()
-        .filter("self.user = ?1", AuthUtils.getUser())
+        .filter("self.employee.user.id = ?1", AuthUtils.getUser().getId())
         .fetchOne();
   }
 }

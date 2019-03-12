@@ -169,7 +169,7 @@ public class HumanResourceMobileController {
           Beans.get(ExpenseRepository.class)
               .all()
               .filter(
-                  "self.statusSelect = ?1 AND self.user.id = ?2",
+                  "self.statusSelect = ?1 AND self.employee.user.id = ?2",
                   ExpenseRepository.STATUS_DRAFT,
                   user.getId())
               .order("-id")
@@ -254,7 +254,7 @@ public class HumanResourceMobileController {
         expenseLine.setComments(requestData.get("comments").toString());
         expenseLine.setExpenseProduct(product);
         expenseLine.setProject(project);
-        expenseLine.setUser(user);
+        expenseLine.setEmployee(user.getEmployee());
         expenseLine.setTotalAmount(new BigDecimal(requestData.get("unTaxTotal").toString()));
         expenseLine.setTotalTax(new BigDecimal(requestData.get("taxTotal").toString()));
         expenseLine.setUntaxedAmount(
@@ -387,11 +387,11 @@ public class HumanResourceMobileController {
         Timesheet timesheet =
             timesheetRepository
                 .all()
-                .filter("self.statusSelect = 1 AND self.user.id = ?1", user.getId())
+                .filter("self.statusSelect = 1 AND self.employee.user.id = ?1", user.getId())
                 .order("-id")
                 .fetchOne();
         if (timesheet == null) {
-          timesheet = timesheetService.createTimesheet(user, date, date);
+          timesheet = timesheetService.createTimesheet(user.getEmployee(), date, date);
         }
         BigDecimal hours = new BigDecimal(request.getData().get("duration").toString());
 
@@ -403,7 +403,7 @@ public class HumanResourceMobileController {
                   Beans.get(TimesheetLineRepository.class).find(Long.valueOf(idO.toString())),
                   project,
                   product,
-                  user,
+                  timesheet.getEmployee(),
                   date,
                   timesheet,
                   hours,
@@ -413,7 +413,7 @@ public class HumanResourceMobileController {
               timesheetLineService.createTimesheetLine(
                   project,
                   product,
-                  user,
+                  timesheet.getEmployee(),
                   date,
                   timesheet,
                   hours,
@@ -476,7 +476,7 @@ public class HumanResourceMobileController {
     }
     if (user != null && leaveReason != null) {
       LeaveRequest leave = new LeaveRequest();
-      leave.setUser(user);
+      leave.setEmployee(user.getEmployee());
       Company company = null;
       if (user.getEmployee() != null && user.getEmployee().getMainEmploymentContract() != null) {
         company = user.getEmployee().getMainEmploymentContract().getPayCompany();

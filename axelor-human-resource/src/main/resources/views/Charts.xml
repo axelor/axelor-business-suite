@@ -54,18 +54,18 @@
 		</search-fields>
 		<dataset type="jpql"><![CDATA[
 		SELECT
-			self.user.name as _employee,
+			self.employee.user.name as _employee,
 			SUM(self.inTaxTotal) as _amount
 		FROM
 			Expense self
 		WHERE
-			self.user.employee.managerUser = :__user__
+			self.employee.managerUser = :__user__
 		AND
 			self.period = :period
 		GROUP BY
-			self.user.name
+			self.employee.user.name
 		ORDER BY
-			self.user.name
+			self.employee.user.name
 		]]></dataset>
 		<category key="_employee" type="text" title="Employee"/>
 		<series key="_amount" aggregate="sum" type="bar"

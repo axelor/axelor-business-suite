@@ -1,3 +1,3 @@
-"importId";"statusSelect";"user.code";"company.importId";"fromDate";"toDate";"timeLoggingPreferenceSelect"
+"importId";"statusSelect";"employee.user.code";"company.importId";"fromDate";"toDate";"timeLoggingPreferenceSelect"
 1;2;"admin";1;"TODAY[-15d]";"TODAY[-8d]";"hours"
 2;1;"admin";1;"TODAY[-7d]";"TODAY[+7d]";"hours"

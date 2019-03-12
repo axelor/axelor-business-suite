@@ -7,7 +7,7 @@
 
   <entity name="LeaveRequest" cachable="true">
       
-      <many-to-one name="user" ref="com.axelor.auth.db.User" title="User" required="true" column="user_id"/>
+      <many-to-one name="employee" ref="Employee" title="Employee" required="true"/>
       <integer name="statusSelect" title="Status" selection="hrs.leave.request.status.select" default="1" readonly="true"/>
       <date name="requestDate" title="Request date" readonly="true" />
       <date name="fromDate" title="From" required="true"/>
@@ -30,8 +30,8 @@
 	
       <string name="fullName" namecolumn="true" readonly="true">
       <![CDATA[
-      		if(this.getUser() != null && this.getCreatedOn() != null)
-	  			return this.getUser().getFullName()+" "+this.getCreatedOn().getDayOfMonth()+"/"+this.getCreatedOn().getMonthValue()
+      		if(this.getEmployee() != null && this.getCreatedOn() != null)
+	  			return this.getEmployee().getName()+" "+this.getCreatedOn().getDayOfMonth()+"/"+this.getCreatedOn().getMonthValue()
 	  				+"/"+this.getCreatedOn().getYear()+"  "+this.getCreatedOn().getHour()+":"+this.getCreatedOn().getMinute();
 	  		else
 	  			return " ";

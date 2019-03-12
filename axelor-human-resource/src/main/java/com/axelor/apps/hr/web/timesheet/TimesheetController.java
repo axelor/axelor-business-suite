@@ -107,8 +107,9 @@ public class TimesheetController {
       if (productContext != null) {
         product = productRepoProvider.get().find(((Integer) productContext.get("id")).longValue());
       }
-      if (context.get("showActivity") == null || !(Boolean) context.get("showActivity")) {
-        product = userHrservice.get().getTimesheetProduct(timesheet.getUser());
+      if (timesheet.getEmployee() != null
+          && (context.get("showActivity") == null || !(Boolean) context.get("showActivity"))) {
+        product = userHrservice.get().getTimesheetProduct(timesheet.getEmployee().getUser());
       }
 
       timesheet =
@@ -127,8 +128,8 @@ public class TimesheetController {
         Beans.get(TimesheetRepository.class)
             .all()
             .filter(
-                "self.user = ?1 AND self.company = ?2 AND self.statusSelect = 1",
-                AuthUtils.getUser(),
+                "self.employee.user.id = ?1 AND self.company = ?2 AND self.statusSelect = 1",
+                AuthUtils.getUser().getId(),
                 AuthUtils.getUser().getActiveCompany())
             .fetch();
     if (timesheetList.isEmpty()) {
@@ -263,7 +264,7 @@ public class TimesheetController {
 
     if (employee == null || !employee.getHrManager()) {
       actionView
-          .domain(actionView.get().getDomain() + " AND self.user.employee.managerUser = :_user")
+          .domain(actionView.get().getDomain() + " AND self.employee.managerUser = :_user")
           .context("_user", user);
     }
 
@@ -289,8 +290,7 @@ public class TimesheetController {
     if (employee == null || !employee.getHrManager()) {
       actionView
           .domain(
-              actionView.get().getDomain()
-                  + " AND self.timesheet.user.employee.managerUser = :_user")
+              actionView.get().getDomain() + " AND self.timesheet.employee.managerUser = :_user")
           .context("_user", user);
     }
 
@@ -309,7 +309,7 @@ public class TimesheetController {
             .add("form", "timesheet-form");
 
     String domain =
-        "self.user.employee.managerUser.employee.managerUser = :_user AND self.company = :_activeCompany AND self.statusSelect = 2";
+        "self.employee.managerUser.employee.managerUser = :_user AND self.company = :_activeCompany AND self.statusSelect = 2";
 
     long nbTimesheets =
         Query.of(ExtraHours.class)
@@ -406,8 +406,8 @@ public class TimesheetController {
             .model(Timesheet.class.getName())
             .add("form", "timesheet-form")
             .add("grid", "timesheet-grid")
-            .domain("self.user = :_user")
-            .context("_user", AuthUtils.getUser())
+            .domain("self.employee.user.id = :_user_id")
+            .context("_user_id", AuthUtils.getUser().getId())
             .map());
   }
 
@@ -514,11 +514,13 @@ public class TimesheetController {
 
     boolean showActivity = true;
 
-    User user = timesheet.getUser();
-    if (user != null) {
-      Company company = user.getActiveCompany();
-      if (company != null && company.getHrConfig() != null) {
-        showActivity = !company.getHrConfig().getUseUniqueProductForTimesheet();
+    if (timesheet.getEmployee() != null) {
+      User user = timesheet.getEmployee().getUser();
+      if (user != null) {
+        Company company = user.getActiveCompany();
+        if (company != null && company.getHrConfig() != null) {
+          showActivity = !company.getHrConfig().getUseUniqueProductForTimesheet();
+        }
       }
     }
 

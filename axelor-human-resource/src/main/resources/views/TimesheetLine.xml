@@ -4,7 +4,7 @@
 
 	<grid name="timesheet-line-project-grid" title="Log Times" model="com.axelor.apps.hr.db.TimesheetLine" editable="true"
 	onNew="action-hr-default-timesheet-line-project,action-timesheet-line-record-to-invoice-parent,action-timesheet-line-default-project" orderBy="-date">
-		<field name="user" form-view="user-form" grid-view="user-grid"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 		<field name="date" />
 		<field name="product" requiredIf="toInvoice" onSelect="action-hr-timesheet-line-attrs-domain-product" widget="SuggestBox" form-view="product-activity-form" grid-view="product-activity-grid"/>
 		<field name="hoursDuration" width="62%" min="0.01"/>
@@ -25,13 +25,13 @@
 		<field name="toInvoice" width="100" if-module="axelor-business-project"  if="__config__.app.isApp('business-project')" />
 		<field name="enableEditor" hidden="true" />
 		<field name="comments" width="400"/>
-		<field name="user" form-view="user-form" grid-view="user-grid" hidden="true"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid" hidden="true"/>
 	</grid>
 
 	<grid name="timesheet-line-grid" title="Timesheet Lines" model="com.axelor.apps.hr.db.TimesheetLine" canNew="false">
 		<field name="timesheet.company"/>
 		<field name="timesheet" grid-view="timesheet-grid" form-view="timesheet-form"/>
-		<field name="timesheet.user"/>
+		<field name="timesheet.employee"/>
 		<field name="project"/>
 		<field name="date"/>
 		<field name="product"/>
@@ -45,7 +45,7 @@
 
 	<grid name="timesheet-line-timesheet-project-grid" title="Timesheet Lines" model="com.axelor.apps.hr.db.TimesheetLine" editable="true" 
 	onNew="action-hr-default-timesheet-line-timesheet" orderBy="date" >
-		<field name="user" form-view="user-form" grid-view="user-grid"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 		<field name="project" onChange="action-timesheet-line-group-project-onchange" requiredIf="toInvoice" onSelect="action-timesheet-line-attrs-domain-project" form-view="project-form" grid-view="project-grid"/>
 		<field name="date" onChange="action-timesheet-line-validate-date"/>
 		<field name="product" requiredIf="toInvoice" onSelect="action-hr-timesheet-line-attrs-domain-product" widget="SuggestBox" form-view="product-activity-form" grid-view="product-activity-grid"/>
@@ -67,14 +67,14 @@
 		<field name="toInvoice" width="88%" if-module="axelor-business-project" if="__config__.app.isApp('business-project')" />
 		<field name="comments" />
 		<field name="enableEditor" hidden="true" />
-		<field name="user" form-view="user-form" grid-view="user-grid" hidden="true"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid" hidden="true"/>
 	</grid>
 
 	<form name="timesheet-line-project-form" title="Log Time" model="com.axelor.apps.hr.db.TimesheetLine" 
 	onNew="action-hr-default-timesheet-line-project,action-timesheet-line-attrs-set-duration-label,action-timesheet-line-record-to-invoice-parent"
 	onLoad="action-timesheet-line-attrs-set-duration-label,action-timesheet-line-attrs-set-visible-duration-title" width="large">
 		<panel name="overviewPanel" title="Overview">
-			<field name="user" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
+			<field name="employee" form-view="employee-form" grid-view="employee-grid" canNew="false" canEdit="false" canView="false"/>
 			<field name="date" />
 			<field name="product" requiredIf="toInvoice" canEdit="false" onSelect="action-hr-timesheet-line-attrs-domain-product" widget="SuggestBox" form-view="product-activity-form" grid-view="product-activity-grid"/>
 			<field name="duration" width="62%" colSpan="3" onChange="action-timesheet-line-method-set-stored-duration" min="0.01"/>
@@ -100,7 +100,7 @@
 			<field name="toInvoice" if-module="axelor-business-project" if="__config__.app.isApp('business-project')" />
 			<field name="enableEditor" />
 			<field name="comments" />
-			<field name="user" form-view="user-form" grid-view="user-grid" hidden="true" canNew="false" canEdit="false" canView="false"/>
+			<field name="employee" form-view="employee-form" grid-view="employee-grid" hidden="true" canNew="false" canEdit="false" canView="false"/>
 		</panel>
 	</form>
 
@@ -110,7 +110,7 @@
 		<panel name="mainPanel">
 			<field name="timesheet.company"/>
 			<field name="timesheet" grid-view="timesheet-grid" form-view="timesheet-form"/>
-			<field name="timesheet.user"/>
+			<field name="timesheet.employee"/>
 			<field name="timesheet.statusSelect"/>
 		</panel>
 		<panel-include view="timesheet-line-timesheet-form"/>
@@ -130,7 +130,7 @@
 			<field name="toInvoice" if-module="axelor-business-project" if="__config__.app.isApp('business-project')" />
 			<field name="comments" />
 			<field name="enableEditor" />
-			<field name="user"  form-view="user-form" grid-view="user-grid" hidden="true" canNew="false" canEdit="false" canView="false"/>
+			<field name="employee"  form-view="employee-form" grid-view="employee-grid" hidden="true" canNew="false" canEdit="false" canView="false"/>
 		</panel>
 	</form>
 
@@ -171,13 +171,13 @@
 	</action-attrs>
 	
 	<action-record name="action-hr-default-timesheet-line-project" model="com.axelor.apps.hr.db.TimesheetLine">
-	    <field name="user" expr="eval:__user__" />
+	    <field name="employee" expr="eval:__user__.employee" />
 	    <field name="product" expr="eval:__user__.employee?.product" />
 	</action-record>
 	
 	<action-record name="action-hr-default-timesheet-line-timesheet" model="com.axelor.apps.hr.db.TimesheetLine">
-	    <field name="user" expr="eval:__parent__.user" />
-	    <field name="product" expr="call:com.axelor.apps.hr.service.user.UserHrService:getTimesheetProduct(__repo__(User).find(__parent__.user.id))" if="__parent__.user != null"/>
+	    <field name="employee" expr="eval:__parent__.employee" />
+	    <field name="product" expr="call:com.axelor.apps.hr.service.user.UserHrService:getTimesheetProduct(__repo__(User).find(__parent__.employee.user.id))" if="__parent__.employee != null"/>
 	</action-record>
 
     <action-record name="action-timesheet-line-record-to-invoice"
@@ -199,7 +199,7 @@
 	</action-record>
 
 	<action-record name="action-timesheet-line-editor-record-get-default" model="com.axelor.apps.hr.db.TimesheetLine">
-		<field name="product" expr="call:com.axelor.apps.hr.service.user.UserHrService:getTimesheetProduct(user)"/>
+		<field name="product" expr="call:com.axelor.apps.hr.service.user.UserHrService:getTimesheetProduct(employee?.user)"/>
 	</action-record>
 	
 	<action-validate name="action-timesheet-line-validate-date">

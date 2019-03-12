@@ -116,7 +116,7 @@ public class BatchCreditTransferExpensePaymentHR extends BatchCreditTransferExpe
         "self.ventilated = true "
             + "AND self.paymentStatusSelect = :paymentStatusSelect "
             + "AND self.company = :company "
-            + "AND self.user.partner.outPaymentMode = :paymentMode "
+            + "AND self.employee.contactPartner.outPaymentMode = :paymentMode "
             + "AND self.id NOT IN (:anomalyList)";
 
     if (manageMultiBanks) {

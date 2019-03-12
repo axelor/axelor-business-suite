@@ -7,7 +7,7 @@
 		 <hilite color="success" if="statusSelect == 3"/>
 		 <hilite color="warning" if="statusSelect == 2"/>
 		 <field name="company" form-view="company-form" grid-view="company-grid"/>
-		 <field name="user" form-view="user-form" grid-view="user-grid"/>
+		 <field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 		 <field name="requestDate" />
 		 <field name="fromDate" />
 		 <field name="startOnSelect" />
@@ -23,7 +23,7 @@
 		<hilite background="danger" if="$moment(fromDate).diff(todayDate,'days') &lt;= 0"/>
   		<hilite background="warning" if="$moment(todayDate).diff(requestDate,'days') &gt;= 7 || $moment(todayDate).diff(requestDate,'days') &gt;= 15"/> 
 		 <field name="company" form-view="company-form" grid-view="company-grid"/>
-		 <field name="user" form-view="user-form" grid-view="user-grid" onChange="action-leave-request-validate-dates"/>
+		 <field name="employee" form-view="employee-form" grid-view="employee-grid" onChange="action-leave-request-validate-dates"/>
 		 <field name="requestDate" />
 		 <field name="fromDate" onChange="action-leave-request-validate-dates"/>
 		 <field name="startOnSelect" />
@@ -52,9 +52,9 @@
 	    </panel>
 		<panel name="informationPanel">
 			<spacer name="companySpacer"/>
-			<field name="company" canEdit="false" onChange="action-hr-record-empty-user,action-leave-request-method-leave-reason-to-justify" form-view="company-form" grid-view="company-grid"/>
-			<field name="user" form-view="user-form" grid-view="user-grid"
-				   onSelect="action-hr-attrs-set-user-domain"
+			<field name="company" canEdit="false" onChange="action-hr-record-empty-employee,action-leave-request-method-leave-reason-to-justify" form-view="company-form" grid-view="company-grid"/>
+			<field name="employee" form-view="employee-form" grid-view="employee-grid"
+				onSelect="action-hr-attrs-set-employee-domain"
 				onChange="action-leave-request-record-reset-leave-line,action-leave-request-validate-dates,action-leave-request-methode-compute-duration,action-leave-request-method-leave-reason-to-justify"
 				canNew="false" canEdit="false" canView="false"/>
 			<field name="requestDate" colSpan="12" width="50%"/>
@@ -144,7 +144,7 @@
 	</action-group>
 	
 	<action-record name="action-leave-request-record-default" model="com.axelor.apps.hr.db.LeaveRequest">
-	    <field name="user" expr="eval:__user__"/>
+	    <field name="employee" expr="eval:__user__.employee"/>
 	    <field name="company" expr="eval: __user__.employee?.mainEmploymentContract?.payCompany ?: __user__.activeCompany"/>
 	</action-record>
 
@@ -154,7 +154,7 @@
 	</action-record>
 	
 	<action-attrs name="action-leave-request-attrs-domain-leave-request-select">
-		<attribute name="domain" for="$leaveSelect" expr="eval: &quot; self.statusSelect = 1 AND self.user = ${__user__.id} &quot;"/>
+		<attribute name="domain" for="$leaveSelect" expr="eval: &quot; self.statusSelect = 1 AND self.employee.user.id = ${__user__.id} &quot;"/>
 	</action-attrs>
 	
 	<action-record name="action-leave-request-record-draft" model="com.axelor.apps.hr.db.LeaveRequest">
@@ -162,12 +162,12 @@
 	</action-record>
 	
 	<action-attrs name="action-leave-request-attrs-buttons">
-		<attribute name="hidden" for="validateBtn" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__ == user?.employee?.managerUser?.employee?.managerUser  || __user__.employee?.hrManager))"/>
-		<attribute name="hidden" for="refuseBtn" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__ == user?.employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))"/>
+		<attribute name="hidden" for="validateButton" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__ == employee?.managerUser?.employee?.managerUser  || __user__.employee?.hrManager))"/>
+		<attribute name="hidden" for="refuseButton" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__ == employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))"/>
 		<attribute name="readonly" for="company" expr="eval: true" if="!__user__.employee?.hrManager"/>
 		<attribute name="readonly" for="company" expr="eval: statusSelect &gt; 2" if="__user__.employee?.hrManager"/>
-		<attribute name="readonly" for="user" expr="eval: true" if="!__user__.employee?.hrManager &amp;&amp; !to_justify_leave_reason"/>
-		<attribute name="readonly" for="user" expr="eval: statusSelect &gt; 2" if="__user__.employee?.hrManager || to_justify_leave_reason"/>
+		<attribute name="readonly" for="employee" expr="eval: true" if="!__user__.employee?.hrManager &amp;&amp; !to_justify_leave_reason"/>
+		<attribute name="readonly" for="employee" expr="eval: statusSelect &gt; 2" if="__user__.employee?.hrManager || to_justify_leave_reason"/>
 	</action-attrs>
 	
 	<action-attrs name="action-leave-request-attrs-select">
@@ -177,7 +177,7 @@
 	</action-attrs>
 	
 	<action-attrs name="action-leave-request-attrs-send">
-  		<attribute name="readonly" expr="eval: statusSelect == 2 &amp;&amp; !((__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__ == user?.employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))" for="informationPanel"/>
+  		<attribute name="readonly" expr="eval: statusSelect == 2 &amp;&amp; !((__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__ == employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))" for="information"/>
 	</action-attrs>
 	
 	<action-attrs name="action-leave-request-attrs-valid-refuse">
@@ -193,7 +193,7 @@
 	</action-validate>
 	
 	<action-validate name="action-leave-request-validate-dates-on-save">
-		<error message="You don't have the permission to create a leave request in the past, please contact your manager." if="((!(__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__ == user?.employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager) &amp;&amp; fromDate.isBefore(__date__)))"/>
+		<error message="You don't have the permission to create a leave request in the past, please contact your manager." if="((!(__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__ == employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager) &amp;&amp; fromDate.isBefore(__date__)))"/>
 		<error message="Invalid dates" if="toDate &lt; fromDate || (toDate == fromDate &amp;&amp; startOnSelect &gt; endOnSelect)"/>
 		<error message="Duration equals 0" if="duration == 0"/>
 	</action-validate>
@@ -245,10 +245,10 @@
     </action-attrs>
 	
 	<action-attrs name="action-leave-request-attrs-line-domain">
-		<attribute name="domain" for="leaveLine"  expr="eval: &quot; self.employee.id = ${__this__.user.employee?.id}&quot; "/>
+		<attribute name="domain" for="leaveLine"  expr="eval: &quot; self.employee.id = ${__this__.employee?.id}&quot; "/>
 		<attribute for="leaveLine" name="domain"
 				   if="!__user__.employee?.hrManager"
-				   expr="eval: &quot; self.employee.id = ${__this__.user.employee?.id} AND (self.leaveReason IS NULL OR self.leaveReason.selectedByMgtOnly = false) &quot;"/>
+				   expr="eval: &quot; self.employee.id = ${__this__.employee?.id} AND (self.leaveReason IS NULL OR self.leaveReason.selectedByMgtOnly = false) &quot;"/>
 	</action-attrs>
 
 	<action-record name="action-leave-request-record-reset-leave-line" model="com.axelor.apps.hr.db.LeaveRequest">

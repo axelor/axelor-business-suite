@@ -36,28 +36,28 @@
 	<action-view name="hr.dashboard.my.extrahours" title="My extra hours" model="com.axelor.apps.hr.db.ExtraHours">
 		<view type="grid" name="extra-hours-validate-grid"/>
 		<view type="form" name="extra-hours-form"/>
-		  <domain>self.user.id = :userId</domain>
+		  <domain>self.employee.user.id = :userId</domain>
 		 <context name="userId" expr="eval: __user__.id"/>
 	</action-view>
 	
 	<action-view name="hr.dashboard.my.expenses" title="My expenses" model="com.axelor.apps.hr.db.Expense">
 		<view type="grid" name="expense-validate-grid"/>
 		<view type="form" name="expense-form"/>
-		  <domain>self.user.id = :userId</domain>
+		  <domain>self.employee.user.id = :userId</domain>
 		 <context name="userId" expr="eval: __user__.id"/>
 	</action-view>
 	
 	<action-view name="hr.dashboard.my.leave.requests" title="My leave requests" model="com.axelor.apps.hr.db.LeaveRequest">
 		<view type="grid" name="leave-request-validate-grid"/>
 		<view type="form" name="leave-request-form"/>
-		 <domain>self.user.id = :userId</domain>
+		 <domain>self.employee.user.id = :userId</domain>
 		 <context name="userId" expr="eval: __user__.id"/>
 	</action-view>
 
 	<action-view name="hr.dashboard.my.timesheets" title="My timesheets" model="com.axelor.apps.hr.db.Timesheet">
 		<view type="grid" name="timesheet-validate-grid"/>
 		<view type="form" name="timesheet-form"/>
-		<domain>self.user.id = :userId</domain>
+		<domain>self.employee.user.id = :userId</domain>
 		<context name="userId" expr="eval: __user__.id"/>
 	</action-view>
 

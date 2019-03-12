@@ -10,7 +10,7 @@
 		<field name="company" form-view="company-form" grid-view="company-grid"/>
 		<field name="sentDate"/>
 		<field name="period" form-view="period-form" grid-view="period-grid" canEdit="false" canView="false"/>
-		<field name="user" form-view="user-form" grid-view="user-grid"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 		<field name="statusSelect"/>
 		<field name="ventilated"/>
 	</grid>
@@ -31,7 +31,7 @@
 		<field name="company" canEdit="false" form-view="company-form" grid-view="company-grid"/>
 		<field name="sentDate"/>
 		<field name="period" form-view="period-form" grid-view="period-grid" canEdit="false" canView="false"/>
-		<field name="user" form-view="user-form" grid-view="user-grid"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 		<field name="statusSelect"/>
 	</grid>
 
@@ -69,12 +69,12 @@
 				<panel name="generalInfoPanel" colSpan="12">
 					<field name="multipleUsers" colSpan="12" hidden="true" onChange="action-expense-attrs-multiple-users"/>
 					<field name="company" canEdit="false" form-view="company-form" grid-view="company-grid" onChange="action-expense-record-company-onchange"/>
-					<field name="user" form-view="user-form" onSelect="action-hr-attrs-set-user-domain" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
+					<field name="employee" form-view="employee-form" onSelect="action-hr-attrs-set-employee-domain" grid-view="employee-grid" canNew="false" canEdit="false" canView="false"/>
 					<field name="bankDetails" widget="SuggestBox" if-module="axelor-cash-management" onSelect="action-accounting-batch-attrs-bank-details-domain" form-view="bank-details-form" grid-view="bank-details-grid" if="__config__.app.getApp('base').getManageMultiBanks()" />
 					<field name="period" canEdit="false" onSelect="action-expense-attrs-domain-period" form-view="period-form" grid-view="period-grid" canView="false"/>
 					<field name="companyCbSelect" onChange="action-expense-attrs-expense-company-cb" readonlyIf="statusSelect != 1"/>
 					<field name="withdrawnCash" hidden="true" showIf="companyCbSelect > 1" readonlyIf="statusSelect != 1"/>
-					<field name="user.employee.companyCbDetails" colSpan="12" hidden="true" showIf="user != null &amp;&amp; user.employee != null &amp;&amp; companyCbSelect &gt; 1"/>
+					<field name="employee.companyCbDetails" colSpan="12" hidden="true" showIf="employee != null &amp;&amp; companyCbSelect &gt; 1"/>
 					<field name="personalExpenseAmount" hidden="true" />
 					<field name="advanceAmount" hidden="true" />
 				</panel>
@@ -194,7 +194,7 @@
 	</action-group>
 	
 	<action-record name="action-expense-record-default" model="com.axelor.apps.hr.db.Expense">
-	    <field name="user" expr="eval:__user__"/>
+	    <field name="employee" expr="eval:__user__.employee"/>
 	    <field name="company" expr="eval: __user__.employee?.mainEmploymentContract?.payCompany ?: __user__.activeCompany"/>
         <field name="companyCbSelect" expr="eval: __user__.employee?.companyCbSelect"/>
 		<field name="period" expr="eval: __repo__(Period).all().filter('self.fromDate &lt;= ?1 AND self.toDate &gt;= ?1 AND self.allowExpenseCreation = true AND self.year.company = ?2 AND self.year.typeSelect = 1', __date__, _payCompany).fetchOne()"/>
@@ -207,7 +207,7 @@
 	<action-record name="action-expense-record-company-onchange" model="com.axelor.apps.hr.db.Expense">
 		<field name="period" expr="eval: null"/>
 		<field name="bankDetails" expr="eval: null"/>
-		<field name="user" expr="eval: null"/>
+		<field name="employee" expr="eval: null"/>
 	</action-record>
 
 	<action-record name="action-expense-record-draft" model="com.axelor.apps.hr.db.Expense">
@@ -215,7 +215,7 @@
 	</action-record>
 	
 	<action-attrs name="action-expense-attrs-domain-expense-select">
-		<attribute name="domain" for="$expenseSelect" expr="eval: &quot; self.statusSelect = 1 AND self.user = ${__user__.id} &quot;"/>
+		<attribute name="domain" for="$expenseSelect" expr="eval: &quot; self.statusSelect = 1 AND self.employee.user.id = ${__user__.id} &quot;"/>
 	</action-attrs>
 	
 	<action-attrs name="action-expense-attrs-domain-period">
@@ -260,8 +260,8 @@
 	
 	<action-attrs name="action-expense-attrs-hide-button-readonly-field">
 		<attribute name="hidden" for="ventilateBtn" expr="eval: !__user__.employee?.hrManager || statusSelect != 3 || ventilated"/>
-		<attribute name="hidden" for="validateBtn" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__ == user?.employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))"/>
-		<attribute name="hidden" for="refuseBtn" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__ == user?.employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))"/>
+		<attribute name="hidden" for="validateButton" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__ == employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))"/>
+		<attribute name="hidden" for="refuseButton" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__ == employee?.managerUser?.employee?.managerUser || __user__.employee?.hrManager))"/>
 		<attribute name="hidden" for="cancelBtn" expr="eval: period?.toDate?.isAfter(__date__) || statusSelect == 6 || move"/>
 		<attribute name="readonly" for="period" expr="eval: true" if="!__user__.employee?.hrManager"/>
 		<attribute name="readonly" for="period" expr="eval: ventilated" if="__user__.employee?.hrManager"/>
@@ -269,8 +269,8 @@
 		<attribute name="readonly" for="bankDetails" expr="eval: ventilated" if="__user__.employee?.hrManager"/>
 		<attribute name="readonly" for="company" expr="eval: true" if="!__user__.employee?.hrManager"/>
 		<attribute name="readonly" for="company" expr="eval: statusSelect &gt; 2" if="__user__.employee?.hrManager"/>
-		<attribute name="readonly" for="user" expr="eval: true" if="!__user__.employee?.hrManager"/>
-		<attribute name="readonly" for="user" expr="eval: statusSelect &gt; 2" if="__user__.employee?.hrManager"/>
+		<attribute name="readonly" for="employee" expr="eval: true" if="!__user__.employee?.hrManager"/>
+		<attribute name="readonly" for="employee" expr="eval: statusSelect &gt; 2" if="__user__.employee?.hrManager"/>
 	</action-attrs>
 	
 	<action-attrs name="action-expense-attrs-multiple-users">

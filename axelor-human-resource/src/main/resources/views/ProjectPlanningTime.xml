@@ -5,7 +5,7 @@
 	<grid name="project-planning-time-grid" title="Planned time" model="com.axelor.apps.project.db.ProjectPlanningTime">
 		<field name="project"/>
 		<field name="date"/>
-        <field name="user"/>
+        <field name="employee"/>
         <field name="task"/>
         <field name="plannedHours" />
         <field name="realHours"/>
@@ -23,7 +23,7 @@
     <form name="project-planning-time-form" title="Planned time" model="com.axelor.apps.project.db.ProjectPlanningTime" onNew="action-project-planning-time-attrs-default">
 		<panel name="mainPanel">
 			<field name="date" />
-			<field name="user" onSelect="action-project-planning-time-attrs-project-domain" canEdit="false" onChange="action-project-planning-time-attrs-user-change"/>		
+			<field name="employee" onSelect="action-project-planning-time-attrs-project-domain" canEdit="false" onChange="action-project-planning-time-attrs-employee-change"/>		
 			<field name="project" readonly="true"/>
 			<field name="task" domain="self.project = :project" canEdit="false" />
 			<field name="plannedHours" />
@@ -39,11 +39,11 @@
 			<field name="fromDate" required="true" type="datetime" title="From" />
 			<field name="toDate" required="true" type="datetime" title="To" />
 			<field name="task" canEdit="false" type="many-to-one" title="Task" target="com.axelor.team.db.TeamTask" target-name="name" domain="self.project = :project"/>
-			<field name="user" canEdit="false" title="User" type="many-to-one" target="com.axelor.auth.db.User" target-name="name" required="true"  onSelect="action-project-planning-time-attrs-project-domain"  onChange="action-project-planning-time-attrs-user-change"/>
+			<field name="employee" canEdit="false" title="Employee" type="many-to-one" target="com.axelor.apps.hr.db.Employee" target-name="name" required="true"  onSelect="action-project-planning-time-attrs-project-domain"  onChange="action-project-planning-time-attrs-employee-change"/>
 			<field name="product" canEdit="false" title="Activity" type="many-to-one" target="com.axelor.apps.base.db.Product" target-name="name"  onSelect="action-project-planning-time-attrs-domain-product" required="true" />
 			<field name="timepercent" title="Time%" widget="SelectProgress" type="integer" selection="project.task.progress.select"/>
 			<field name="isIncludeInTurnoverForecast" title="Include in turnover forecast" type="boolean" />
-			<button name="addMultipleProjectPlanningTimeBtn" title="Add lines" onClick="action-project-planning-time-method-add-multiple-project-planning-time" colSpan="3" readonlyIf="fromDate == null || toDate == null || user == null"/>
+			<button name="addMultipleProjectPlanningTime" title="Add lines" onClick="action-project-planning-time-method-add-multiple-project-planning-time" colSpan="3" readonlyIf="fromDate == null || toDate == null || employee == null"/>
 			<field name="project" type="many-to-one" target="com.axelor.apps.project.db.Project" hidden="true"/>
 		</panel>
 	</form>
@@ -94,14 +94,16 @@
 	</action-attrs>
 	
 	<action-attrs name="action-project-planning-time-attrs-project-domain">
-	   <attribute name="domain" expr="eval:&quot;self.employee != null and self.id in (${([0]+__repo__(Project).find(project.id).membersUserSet.collect{it->it.id}).join(',')})&quot;" 
-	   for="userSet,user" if="project != null"/>
-	   <attribute name="domain" expr="eval:&quot;self.employee != null and self.id in (${([0]+__repo__(Project).all().filter('self.statusSelect in (1,2)').fetch().collect{it->it.membersUserSet.id}.flatten()).join(',')})&quot;" 
-	   for="userSet"  if="project == null"/>
+		<attribute name="domain" expr="eval:&quot;self.id in (${([0]+__repo__(Project).find(project.id).membersUserSet.collect{it->it.employee?.id}).join(',')})&quot;" 
+	   	for="employee" if="project != null"/>
+	   	<attribute name="domain" expr="eval:&quot;self.employee != null and self.id in (${([0]+__repo__(Project).find(project.id).membersUserSet.collect{it->it.id}).join(',')})&quot;" 
+	   	for="userSet" if="project != null"/>
+	   	<attribute name="domain" expr="eval:&quot;self.employee != null and self.id in (${([0]+__repo__(Project).all().filter('self.statusSelect in (1,2)').fetch().collect{it->it.membersUserSet.id}.flatten()).join(',')})&quot;" 
+	   	for="userSet" if="project == null"/>
 	</action-attrs>
 	
-	<action-attrs name="action-project-planning-time-attrs-user-change">
-		<attribute name="value" for="product" expr="eval: user?.employee?.product"/>
+	<action-attrs name="action-project-planning-time-attrs-employee-change">
+		<attribute name="value" for="product" expr="eval: employee?.product"/>
 	</action-attrs>
 	
 	<action-attrs name="action-project-planning-time-attrs-default">

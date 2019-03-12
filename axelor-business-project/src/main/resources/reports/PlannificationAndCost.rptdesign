@@ -290,8 +290,7 @@
        sum(tml.hours_duration) * emp.hourly_rate as emp_cost
 from hr_timesheet_line tml
 left join hr_timesheet tm on (tm.id = tml.timesheet)
-left join auth_user usr on (usr.id = tm.user_id)
-left join hr_employee emp on (emp.id = usr.employee)
+left join hr_employee emp on (emp.id = tm.employee)
 where tm.status_select = 3 and tml.project = ?
 group by emp.id,emp.name,emp.hourly_rate]]></xml-property>
         </oda-data-set>
@@ -610,8 +609,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
        to_char(tml.date_val,'yyyy-mm') as month_text
 from hr_timesheet_line tml
 left join hr_timesheet tm on (tm.id = tml.timesheet)
-left join auth_user usr on (usr.id = tm.user_id)
-left join hr_employee emp on (emp.id = usr.employee)
+left join hr_employee emp on (emp.id = tm.employee)
 where tm.status_select = 3 and (tml.project = ?)
 group by month_val,month_text]]></xml-property>
         </oda-data-set>
@@ -733,8 +731,7 @@ group by month_val,month_text]]></xml-property>
        emp.hourly_rate as emp_rate,
        sum(ppt.planned_hours * emp.hourly_rate) as emp_cost
 from project_project_planning_time ppt
-left join auth_user usr on (usr.id = ppt.user_id)
-left join hr_employee emp on (emp.id = usr.employee)
+left join hr_employee emp on (emp.id = ppt.employee)
 left join project_project project on (project.id = ppt.project)
 where project.id = ? and ppt.planned_hours > 0
 group by emp.id,emp.name;]]></xml-property>
@@ -838,8 +835,7 @@ group by emp.id,emp.name;]]></xml-property>
        date_trunc('month',ppt.date_val) as month_val,
        to_char(ppt.date_val,'yyyy-mm') as month_text
 from project_project_planning_time ppt
-left join auth_user usr on (usr.id = ppt.user_id)
-left join hr_employee emp on (emp.id = usr.employee)
+left join hr_employee emp on (emp.id = ppt.employee)
 where ppt.project = ?
 group by month_val,month_text]]></xml-property>
         </oda-data-set>
@@ -1110,8 +1106,7 @@ left join (
 		date_trunc('month',tml_real.date_val) as month_val
 	from hr_timesheet_line tml_real
 	left join hr_timesheet tm_real on (tm_real.id = tml_real.timesheet)
-	left join auth_user user_real on (user_real.id = tm_real.user_id)
-	left join hr_employee emp_real on (emp_real.id = user_real.employee)
+	left join hr_employee emp_real on (emp_real.id = tm_real.employee)
 	where tm_real.status_select = 3 and tml_real.project = ?
 	group by month_val) real_time 
 on (ts.month_val = real_time.month_val)
@@ -1120,8 +1115,7 @@ left join (
     	       date_trunc('month',tml_planned.date_val) as month_val
 	from hr_timesheet_line tml_planned
 	left join hr_timesheet tm_planned on (tm_planned.id = tml_planned.timesheet)
-	left join auth_user user_planned on (user_planned.id = tml_planned.user_id)
-	left join hr_employee emp_planned on (emp_planned.id = user_planned.employee)
+	left join hr_employee emp_planned on (emp_planned.id = tml_planned.employee)
 	where tm_planned.status_select < 3  and tml_planned.project = ?
 	group by month_val) theory_time
 on (ts.month_val = theory_time.month_val)
@@ -1130,8 +1124,7 @@ left join (
       	       sum(ppt.planned_hours * emp.hourly_rate) as planned_past_cost,
        	       date_trunc('month',ppt.date_val) as month_val
 	from project_project_planning_time ppt
-	left join auth_user usr on (usr.id = ppt.user_id)
-	left join hr_employee emp on (emp.id = usr.employee)
+	left join hr_employee emp on (emp.id = ppt.employee)
 	where ppt.date_val < current_date and ppt.project = ?
 	group by month_val) past_planned
 on (ts.month_val = past_planned.month_val)
@@ -1140,8 +1133,7 @@ left join (
       	       sum(ppt.planned_hours * emp.hourly_rate) as planned_cost,
        	       date_trunc('month',ppt.date_val) as month_val
 	from project_project_planning_time ppt
-	left join auth_user usr on (usr.id = ppt.user_id)
-	left join hr_employee emp on (emp.id = usr.employee)
+	left join hr_employee emp on (emp.id = ppt.employee)
 	where ppt.date_val >= current_date and ppt.project = ?
 	group by month_val) planned
 on (ts.month_val = planned.month_val) 

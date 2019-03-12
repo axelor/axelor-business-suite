@@ -7,7 +7,7 @@
 		<field name="qty" width="100" onChange="action-extra-hours-line-validate-qty" aggregate="sum"/>
 		<field name="project" width="200"/>
 		<field name="description" width="400"/>
-		<field name="user" hidden="true"/>
+		<field name="employee" hidden="true"/>
 	</grid>
 
 	<form name="extra-hours-line-form" title="Extra Hours" model="com.axelor.apps.hr.db.ExtraHoursLine" cols="12" width="large"
@@ -19,7 +19,7 @@
 			<field name="qty" onChange="action-extra-hours-line-validate-qty"/>
 			<field name="project"/>
 			<field name="description" colSpan="12"/>
-			<field name="user" hidden="true" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
+			<field name="employee" hidden="true" form-view="employee-form" grid-view="employee-grid" canNew="false" canEdit="false" canView="false"/>
 		</panel>
 	</form>
 	
@@ -30,7 +30,7 @@
 	
 
 	<action-record name="action-extra-hours-line-record-default" model="com.axelor.apps.hr.db.ExtraHoursLine">
-	    <field name="user" expr="eval: __user__"/>
+	    <field name="employee" expr="eval: __user__.employee"/>
 	</action-record>
 	
 	<action-group name="action-group-extra-hours-line-onnew">
@@ -39,11 +39,11 @@
 	</action-group>
 	
 	<action-validate name="action-extra-hours-line-validate-qty">
-		<error message="Maximum value for hours exceeded (configure daily work hours in employee)" if="user?.employee == null || user?.employee?.dailyWorkHours &lt; qty" action="action-extra-hours-line-record-qty"/>
+		<error message="Maximum value for hours exceeded (configure daily work hours in employee)" if="employee == null || employee?.dailyWorkHours &lt; qty" action="action-extra-hours-line-record-qty"/>
 	</action-validate>
 	
 	<action-record name="action-extra-hours-line-record-qty" model="com.axelor.apps.hr.db.ExtraHoursLine">
-		<field name="qty" expr="eval: user?.employee != null ? user?.employee?.dailyWorkHours : 0"/>
+		<field name="qty" expr="eval: employee != null ? employee?.dailyWorkHours : 0"/>
 	</action-record>
 
 </object-views>

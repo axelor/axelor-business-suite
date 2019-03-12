@@ -261,8 +261,7 @@
 		product.name
 FROM hr_expense_line AS expenseLine
 LEFT JOIN hr_expense AS expense ON (expenseLine.expense = expense.id)
-LEFT JOIN auth_user AS user_val ON (user_val.id = expense.user_id)
-LEFT JOIN hr_employee AS employee ON (employee.id = user_val.employee)
+LEFT JOIN hr_employee AS employee ON (employee.id = expense.employee)
 LEFT JOIN base_period AS period ON (period.id = expense.period)
 LEFT JOIN base_year AS year_val ON (year_val.id = period.year)
 LEFT JOIN base_product AS product ON (product.id = expenseLine.expense_product)
@@ -277,23 +276,6 @@ GROUP BY product.name
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
-  <DataSetParameters>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>1</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Unknown</design:nullability>
-        </design:attributes>
-      </design:ParameterDefinition>
-    </parameter>
-  </DataSetParameters>
   <design:ResultSets derivedMetaData="true">
     <design:resultSetDefinitions>
       <design:resultSetColumns>

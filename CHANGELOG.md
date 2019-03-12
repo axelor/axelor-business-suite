@@ -2,6 +2,7 @@
 
 ## [Unreleased 5.1.5]
 ## Features
+- HR: replace the m2o 'user' field to m2o 'employee' field.
 
 ## Improvements
 
