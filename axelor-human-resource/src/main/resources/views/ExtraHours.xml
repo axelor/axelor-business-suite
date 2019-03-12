@@ -9,7 +9,7 @@
 		<field name="company" form-view="company-form" grid-view="company-grid"/>
 		<field name="sentDate"/>
 		<field name="statusSelect"/>
-		<field name="user" form-view="user-form" grid-view="user-grid"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 	</grid>
 	
 	<grid name="extra-hours-validate-grid" title="Extra Hours" model="com.axelor.apps.hr.db.ExtraHours" canNew="false" orderBy="-sentDate">
@@ -21,7 +21,7 @@
 		<field name="company" form-view="company-form" grid-view="company-grid"/>
 		<field name="sentDate"/>
 		<field name="statusSelect"/>
-		<field name="user" form-view="user-form" grid-view="user-grid"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 	</grid>
 
 	<form name="extra-hours-form" title="Extra Hours" model="com.axelor.apps.hr.db.ExtraHours" cols="12" width="large"
@@ -43,7 +43,7 @@
 			<field name="sentDate" colSpan="3"/>
 			<field name="totalQty" colSpan="3"/>
 			<field name="company" canEdit="false" colSpan="3" form-view="company-form" grid-view="company-grid"/>
-			<field name="user" colSpan="3" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
+			<field name="employee" colSpan="4" form-view="employee-form" grid-view="employee-grid" canNew="false" canEdit="false" canView="false"/>
 		</panel>
 		<panel-related name="extraHoursLineListPanel" field="extraHoursLineList" onChange="action-extra-hours-method-compute"/>
 		<panel name="validationPanel">
@@ -96,7 +96,7 @@
 	</action-group>
 	
 	<action-record name="action-extra-hours-record-default" model="com.axelor.apps.hr.db.ExtraHours">
-	    <field name="user" expr="eval:__user__"/>
+	    <field name="employee" expr="eval:__user__.employee"/>
 	    <field name="company" expr="eval: __user__.employee?.mainEmploymentContract?.payCompany ?: __user__.activeCompany"/>
 	</action-record>
 	
@@ -105,9 +105,9 @@
 	</action-record>
 	
 	<action-attrs name="action-extra-hours-attrs-buttons">
-		<attribute name="hidden" for="validateBtn" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__.employee?.hrManager))"/>
-		<attribute name="hidden" for="refuseBtn" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__.employee?.hrManager))"/>
-		<attribute name="readonly" for="headPanel" expr="eval: (statusSelect == 2 &amp;&amp; !(__user__ == user?.employee?.managerUser || (__user__ == user &amp;&amp; user?.employee?.managerUser == null) || __user__.employee?.hrManager)) || statusSelect &gt; 2"/>
+		<attribute name="hidden" for="validateButton" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__.employee?.hrManager))"/>
+		<attribute name="hidden" for="refuseButton" expr="eval: !(statusSelect == 2 &amp;&amp; (__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__.employee?.hrManager))"/>
+		<attribute name="readonly" for="head" expr="eval: (statusSelect == 2 &amp;&amp; !(__user__ == employee?.managerUser || (__user__ == employee?.user &amp;&amp; employee?.managerUser == null) || __user__.employee?.hrManager)) || statusSelect &gt; 2"/>
 	</action-attrs>
 	
 	<action-attrs name="action-extra-hours-attrs-title-project">
@@ -115,7 +115,7 @@
 	</action-attrs>
 	
 	<action-attrs name="action-extra-hours-attrs-domain-extra-hours-select">
-		<attribute name="domain" for="$extraHoursSelect" expr="eval: &quot; self.statusSelect = 1 AND self.user = ${__user__.id} &quot;"/>
+		<attribute name="domain" for="$extraHoursSelect" expr="eval: &quot; self.statusSelect = 1 AND self.employee.user.id = ${__user__.id} &quot;"/>
 	</action-attrs>
 	
 	<action-method name="action-extra-hours-method-confirm">

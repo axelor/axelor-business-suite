@@ -10,7 +10,7 @@
 		<field name="project" requiredIf="toInvoice" canView="false" onSelect="action-expense-line-attrs-domain-project" widget="SuggestBox" width="150"/>
 		<field name="expenseProduct" canView="false" onSelect="action-expense-line-attrs-set-product-domain" widget="SuggestBox" form-view="product-expense-form" grid-view="product-expense-grid" width="200"/>
 		<field name="expenseDate" onChange="action-expense-line-validate-expenseDate" width="120"/>
-		<field name="user" hidden="true" form-view="user-form" grid-view="user-grid" onSelect="action-expense-line-attrs-company"/>
+		<field name="employee" hidden="true" form-view="employee-form" grid-view="employee-grid" onSelect="action-expense-line-attrs-company"/>
 		<field name="totalAmount" aggregate="sum" onChange="action-expense-on-change-tax-untaxt-amount" width="170"/>
 		<field name="totalTax" aggregate="sum" readonlyIf="expenseProduct.blockExpenseTax" width="80"
 			onChange="action-expense-on-change-tax-untaxt-amount, action-expense-line-method-compute-analytic-distribution"/>
@@ -34,7 +34,7 @@
 	    <field name="totalAmount" title="Total A.T.I" width="85" readonly="true"
 	    	onChange="action-expense-on-change-untaxt-amount, action-expense-line-method-compute-analytic-distribution" />
    	    <field name="comments" width="250"/>
-   	    <field name="user" hidden="true" form-view="user-form" grid-view="user-grid" onSelect="action-expense-line-attrs-company" canNew="false" canEdit="false" canView="false"/>
+   	    <field name="employee" hidden="true" form-view="employee-form" grid-view="employee-grid" onSelect="action-expense-line-attrs-company" canNew="false" canEdit="false" canView="false"/>
   		<field name="untaxedAmount" hidden="true" />
    		<field name="expenseProduct" hidden="true"/>
 	</grid>
@@ -48,7 +48,7 @@
 		onSave="action-expense-line-validate-expenseDate" width="large">
 		
 		<panel name="mainPanel" title="Main">
-			<field name="user" hidden="true" showIf="expense.multipleUsers" form-view="user-form" grid-view="user-grid" onSelect="action-expense-line-attrs-company" canNew="false" canEdit="false" canView="false"/>
+			<field name="employee" hidden="true" showIf="expense.multipleUsers" form-view="employee-form" grid-view="employee-grid" onSelect="action-expense-line-attrs-company" canNew="false" canEdit="false" canView="false"/>
 			<field name="project" requiredIf="toInvoice" edit-icon="false" canEdit="false" onSelect="action-expense-line-attrs-domain-project" widget="SuggestBox" form-view="project-form" grid-view="project-grid"/>
 			<field name="expenseProduct" edit-icon="false" canEdit="false" onSelect="action-expense-line-attrs-set-product-domain" widget="SuggestBox" form-view="product-expense-form" grid-view="product-expense-grid"/>
 			<field name="expenseDate" onChange="action-expense-line-validate-expenseDate"/>
@@ -100,7 +100,7 @@
 		        </panel>
 		    	<field name="totalAmount" onChange="action-expense-on-change-untaxt-amount, action-expense-line-method-compute-analytic-distribution" readonly="true"/>
 	    		<field name="comments" colSpan="12"/>
-				<field name="user"  hidden="true" form-view="user-form" grid-view="user-grid"
+				<field name="employee"  hidden="true" form-view="employee-form" grid-view="employee-grid"
 					   onSelect="action-expense-line-attrs-company" canNew="false" canEdit="false" canView="false"/>
 				<field name="expenseProduct" hidden="true"/>
 			</panel>
@@ -148,7 +148,7 @@
 	</action-attrs>
 
 	<action-record name="action-expense-line-default" model="com.axelor.apps.hr.db.ExpenseLine">
-		<field name="user" expr="eval: _parent?.user"/>
+		<field name="employee" expr="eval: _parent?.employee"/>
 	</action-record>
 	
 	<action-record name="action-expense-on-change-tax-untaxt-amount" model="com.axelor.apps.hr.db.ExpenseLine">
@@ -168,7 +168,7 @@
 	</action-record>
 
 	<action-attrs name="action-expense-line-attrs-company" model="com.axelor.apps.hr.db.ExpenseLine">
-		<attribute name="domain" for="user" expr="eval: &quot; ${expense.company.id} MEMBER OF self.companySet &quot;" />
+		<attribute name="domain" for="employee" expr="eval: &quot; ${expense.company.id} MEMBER OF self.employee.user.companySet &quot;" />
 	</action-attrs>
 
 	<action-attrs name="action-expense-line-attrs-set-product-domain">

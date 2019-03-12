@@ -26,7 +26,6 @@ import com.axelor.apps.hr.db.repo.EmployeeRepository;
 import com.axelor.apps.hr.db.repo.TimesheetRepository;
 import com.axelor.apps.hr.exception.IExceptionMessage;
 import com.axelor.apps.project.db.Project;
-import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
@@ -61,9 +60,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
         timesheet == null ? "null" : timesheet.getFullName());
 
     if (timesheet != null) {
-      User user = timesheet.getUser();
-
-      Employee employee = user.getEmployee();
+      Employee employee = timesheet.getEmployee();
 
       log.debug("Employee: {}", employee);
 
@@ -140,7 +137,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
   public TimesheetLine createTimesheetLine(
       Project project,
       Product product,
-      User user,
+      Employee employee,
       LocalDate date,
       Timesheet timesheet,
       BigDecimal hours,
@@ -152,7 +149,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
     timesheetLine.setComments(comments);
     timesheetLine.setProduct(product);
     timesheetLine.setProject(project);
-    timesheetLine.setUser(user);
+    timesheetLine.setEmployee(employee);
     timesheetLine.setHoursDuration(hours);
     try {
       timesheetLine.setDuration(computeHoursDuration(timesheet, hours, false));
@@ -170,7 +167,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
       TimesheetLine timesheetLine,
       Project project,
       Product product,
-      User user,
+      Employee employee,
       LocalDate date,
       Timesheet timesheet,
       BigDecimal hours,
@@ -180,7 +177,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
     timesheetLine.setComments(comments);
     timesheetLine.setProduct(product);
     timesheetLine.setProject(project);
-    timesheetLine.setUser(user);
+    timesheetLine.setEmployee(employee);
     timesheetLine.setHoursDuration(hours);
     try {
       timesheetLine.setDuration(computeHoursDuration(timesheet, hours, false));

@@ -82,7 +82,7 @@ public class TimesheetProjectServiceImpl extends TimesheetServiceImpl {
     for (TimesheetLine timesheetLine : timesheetLineList) {
       Object[] tabInformations = new Object[6];
       tabInformations[0] = timesheetLine.getProduct();
-      tabInformations[1] = timesheetLine.getUser();
+      tabInformations[1] = timesheetLine.getEmployee();
       // Start date
       tabInformations[2] = timesheetLine.getDate();
       // End date, useful only for consolidation
@@ -95,7 +95,7 @@ public class TimesheetProjectServiceImpl extends TimesheetServiceImpl {
         key =
             timesheetLine.getProduct().getId()
                 + "|"
-                + timesheetLine.getUser().getId()
+                + timesheetLine.getEmployee().getId()
                 + "|"
                 + timesheetLine.getProject().getId();
         if (timeSheetInformationsMap.containsKey(key)) {

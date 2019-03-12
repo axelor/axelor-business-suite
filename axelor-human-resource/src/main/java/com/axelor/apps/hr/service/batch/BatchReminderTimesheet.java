@@ -78,14 +78,14 @@ public class BatchReminderTimesheet extends AbstractBatch {
           Beans.get(TimesheetRepository.class)
               .all()
               .filter(
-                  "self.company.id = ?1 AND self.statusSelect = 1 AND self.user.employee.timesheetReminder = true",
+                  "self.company.id = ?1 AND self.statusSelect = 1 AND self.employee.timesheetReminder = true",
                   company.getId())
               .fetch();
     } else {
       timesheetList =
           Beans.get(TimesheetRepository.class)
               .all()
-              .filter("self.statusSelect = 1 AND self.user.employee.timesheetReminder = true")
+              .filter("self.statusSelect = 1 AND self.employee.timesheetReminder = true")
               .fetch();
     }
     String model = template.getMetaModel().getFullName();
@@ -95,7 +95,7 @@ public class BatchReminderTimesheet extends AbstractBatch {
       try {
         message =
             templateMessageService.generateMessage(
-                timesheet.getUser().getEmployee().getId(), model, tag, template);
+                timesheet.getEmployee().getId(), model, tag, template);
         message = messageService.sendByEmail(message);
         incrementDone();
       } catch (Exception e) {
@@ -113,14 +113,14 @@ public class BatchReminderTimesheet extends AbstractBatch {
           Beans.get(TimesheetRepository.class)
               .all()
               .filter(
-                  "self.company.id = ?1 AND self.statusSelect = 1 AND self.user.employee.timesheetReminder = true",
+                  "self.company.id = ?1 AND self.statusSelect = 1 AND self.employee.timesheetReminder = true",
                   company.getId())
               .fetch();
     } else {
       timesheetList =
           Beans.get(TimesheetRepository.class)
               .all()
-              .filter("self.statusSelect = 1 AND self.user.employee.timesheetReminder = true")
+              .filter("self.statusSelect = 1 AND self.employee.timesheetReminder = true")
               .fetch();
     }
     for (Timesheet timesheet : timesheetList) {
@@ -131,7 +131,7 @@ public class BatchReminderTimesheet extends AbstractBatch {
         message.setCcEmailAddressSet(new HashSet<EmailAddress>());
         message.setBccEmailAddressSet(new HashSet<EmailAddress>());
         message.addToEmailAddressSetItem(
-            timesheet.getUser().getEmployee().getContactPartner().getEmailAddress());
+            timesheet.getEmployee().getContactPartner().getEmailAddress());
         message.setSenderUser(AuthUtils.getUser());
         message.setSubject(batch.getMailBatch().getSubject());
         message.setContent(batch.getMailBatch().getContent());

@@ -30,7 +30,7 @@ public interface TimesheetTimerService {
 
   public void calculateDuration(TSTimer timer);
 
-  public TimesheetLine generateTimesheetLine(TSTimer timer);
+  public TimesheetLine generateTimesheetLine(TSTimer timer) throws AxelorException;
 
   public TSTimer getCurrentTSTimer();
 

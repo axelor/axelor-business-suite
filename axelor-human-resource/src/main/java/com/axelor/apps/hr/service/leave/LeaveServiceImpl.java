@@ -155,12 +155,12 @@ public class LeaveServiceImpl implements LeaveService {
       LeaveRequest leave, LocalDate from, LocalDate to, int startOn, int endOn)
       throws AxelorException {
     if (from != null && to != null) {
-      Employee employee = leave.getUser().getEmployee();
+      Employee employee = leave.getEmployee();
       if (employee == null) {
         throw new AxelorException(
             TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
             I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
-            leave.getUser().getName());
+            leave.getEmployee().getName());
       }
 
       WeeklyPlanning weeklyPlanning = employee.getWeeklyPlanning();
@@ -249,13 +249,13 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void manageSentLeaves(LeaveRequest leave) throws AxelorException {
-    Employee employee = leave.getUser().getEmployee();
+    Employee employee = leave.getEmployee();
     if (employee == null) {
       throw new AxelorException(
           leave,
           TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
           I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
-          leave.getUser().getName());
+          leave.getEmployee().getName());
     }
     LeaveLine leaveLine =
         getLeaveLineRepo()
@@ -282,13 +282,13 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void manageValidateLeaves(LeaveRequest leave) throws AxelorException {
-    Employee employee = leave.getUser().getEmployee();
+    Employee employee = leave.getEmployee();
     if (employee == null) {
       throw new AxelorException(
           leave,
           TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
           I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
-          leave.getUser().getName());
+          leave.getEmployee().getName());
     }
     LeaveLine leaveLine =
         getLeaveLineRepo()
@@ -334,13 +334,13 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void manageRefuseLeaves(LeaveRequest leave) throws AxelorException {
-    Employee employee = leave.getUser().getEmployee();
+    Employee employee = leave.getEmployee();
     if (employee == null) {
       throw new AxelorException(
           leave,
           TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
           I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
-          leave.getUser().getName());
+          leave.getEmployee().getName());
     }
     LeaveLine leaveLine =
         getLeaveLineRepo()
@@ -367,13 +367,13 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void manageCancelLeaves(LeaveRequest leave) throws AxelorException {
-    Employee employee = leave.getUser().getEmployee();
+    Employee employee = leave.getEmployee();
     if (employee == null) {
       throw new AxelorException(
           leave,
           TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
           I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
-          leave.getUser().getName());
+          leave.getEmployee().getName());
     }
     LeaveLine leaveLine =
         getLeaveLineRepo()
@@ -441,13 +441,13 @@ public class LeaveServiceImpl implements LeaveService {
 
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public LeaveRequest createEvents(LeaveRequest leave) throws AxelorException {
-    Employee employee = leave.getUser().getEmployee();
+    Employee employee = leave.getEmployee();
     if (employee == null) {
       throw new AxelorException(
           leave,
           TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
           I18n.get(IExceptionMessage.LEAVE_USER_EMPLOYEE),
-          leave.getUser().getName());
+          leave.getEmployee().getName());
     }
 
     WeeklyPlanning weeklyPlanning = employee.getWeeklyPlanning();
@@ -521,12 +521,12 @@ public class LeaveServiceImpl implements LeaveService {
         icalendarService.createEvent(
             fromDateTime,
             toDateTime,
-            leave.getUser(),
+            leave.getEmployee().getUser(),
             leave.getComments(),
             4,
             leave.getLeaveLine().getLeaveReason().getLeaveReason()
                 + " "
-                + leave.getUser().getFullName());
+                + leave.getEmployee().getName());
     icalEventRepo.save(event);
     leave.setIcalendarEvent(event);
 
@@ -709,7 +709,6 @@ public class LeaveServiceImpl implements LeaveService {
             .getQuantity()
             .add(
                 leaveRequest
-                    .getUser()
                     .getEmployee()
                     .getWeeklyPlanning()
                     .getLeaveCoef()

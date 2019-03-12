@@ -1,7 +1,7 @@
 "importId";"name";"replyToRecipients";"toRecipients";"ccRecipients";"subject";"content";"metaModel.name";"metaModel.packageName";"isSystem";"mediaTypeSelect"
-4;"Leave request sent";"$LeaveRequest.user.partner.emailAddress.address$";"$LeaveRequest.user.employee.managerUser.partner.emailAddress.address$";"$LeaveRequest.user.partner.emailAddress.address$";"Leave request of ($LeaveRequest.user.name$)";"<p>Hello $LeaveRequest.user.employee.managerUser.name$,</p>
+4;"Leave request sent";"$LeaveRequest.employee.contactPartner.emailAddress.address$";"$LeaveRequest.employee.managerUser.partner.emailAddress.address$";"$LeaveRequest.employee.contactPartner.emailAddress.address$";"Leave request of ($LeaveRequest.employee.name$)";"<p>Hello $LeaveRequest.employee.managerUser.name$,</p>
 <p><br></p>
-<p>$LeaveRequest.user.name$ informs you of a leave request from $LeaveRequest.fromDate; format=""E. d MMM yyyy""$ to $LeaveRequest.toDate; format=""E. d MMM yyyy""$ on $LeaveRequest.leaveReason.leaveReason$ ($LeaveRequest.duration$ day(s)).</p>
+<p>$LeaveRequest.employee.name$ informs you of a leave request from $LeaveRequest.fromDate; format=""E. d MMM yyyy""$ to $LeaveRequest.toDate; format=""E. d MMM yyyy""$ on $LeaveRequest.leaveReason.leaveReason$ ($LeaveRequest.duration$ day(s)).</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/leave.validate/edit/$LeaveRequest.id$"">Please log in to consult it.</a>
 
 <div>
@@ -9,7 +9,7 @@
 <p><br></p>
 <p>Best regards</p>
 </div>";"LeaveRequest";"com.axelor.apps.hr.db";"true";2
-5;"Leave request refused";"$LeaveRequest.user.employee.managerUser.partner.emailAddress.address$";"$LeaveRequest.user.partner.emailAddress.address$";"$LeaveRequest.user.employee.managerUser.partner.emailAddress.address$";"Leave request rejection";"<p>Hello $LeaveRequest.user.name$,</p>
+5;"Leave request refused";"$LeaveRequest.employee.managerUser.partner.emailAddress.address$";"$LeaveRequest.employee.contactPartner.emailAddress.address$";"$LeaveRequest.employee.managerUser.partner.emailAddress.address$";"Leave request rejection";"<p>Hello $LeaveRequest.employee.name$,</p>
 <p><br></p>
 <p>unfortunately, Your leave request for the period from $LeaveRequest.fromDate; format=""E. d MMM yyyy""$ to $LeaveRequest.toDate; format=""E. d MMM yyyy""$ can not be accepted.</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/leave.validate/edit/$LeaveRequest.id$"">Please log in to consult it.</a>
@@ -21,7 +21,7 @@
 <p><br></p>
 <p>$LeaveRequest.refusedBy.name$</p>
 </div>";"LeaveRequest";"com.axelor.apps.hr.db";"true";2
-6;"Leave request validated";"$LeaveRequest.user.employee.managerUser.partner.emailAddress.address$";"$LeaveRequest.user.partner.emailAddress.address$";"$LeaveRequest.user.employee.managerUser.partner.emailAddress.address$";"Leave request validation";"<p>Hello $LeaveRequest.user.name$,</p>
+6;"Leave request validated";"$LeaveRequest.employee.managerUser.partner.emailAddress.address$";"$LeaveRequest.employee.contactPartner.emailAddress.address$";"$LeaveRequest.employee.managerUser.partner.emailAddress.address$";"Leave request validation";"<p>Hello $LeaveRequest.employee.name$,</p>
 <p><br></p>
 <p>Your leave request for the period from $LeaveRequest.fromDate; format=""E. d MMM yyyy""$ to $LeaveRequest.toDate; format=""E. d MMM yyyy""$ has been validated.</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/leave.validate/edit/$LeaveRequest.id$"">Please log in to consult it.</a>

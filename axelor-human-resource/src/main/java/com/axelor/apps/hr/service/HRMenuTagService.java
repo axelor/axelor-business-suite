@@ -48,7 +48,7 @@ public class HRMenuTagService {
       return Long.toString(
           JPA.all(modelConcerned)
               .filter(
-                  "self.user.employee.managerUser.id = :_userId AND self.statusSelect = :_statusSelect")
+                  "self.employee.managerUser.id = :_userId AND self.statusSelect = :_statusSelect")
               .bind("_userId", user.getId())
               .bind("_statusSelect", status)
               .count());

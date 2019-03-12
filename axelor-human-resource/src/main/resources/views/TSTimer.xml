@@ -4,7 +4,7 @@
 
 	<grid name="ts-timer-grid" title="Start&amp;Stop Timer" model="com.axelor.apps.hr.db.TSTimer" editable="true"
 	onNew="action-hr-ts-timer-record-default" canNew="false">
-		<field name="user" form-view="user-form" grid-view="user-grid"/>
+		<field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 		<field name="project" form-view="project-form" grid-view="project-grid"/>
 		<field name="product" domain="self.isActivity = true AND EXISTS(SELECT p FROM Project p WHERE p = :project AND self MEMBER OF p.productSet)" widget="SuggestBox" form-view="product-activity-form" grid-view="product-activity-grid"/>
 		<field name="startDateTime"/>
@@ -16,7 +16,7 @@
 	<form name="ts-timer-form" title="Start&amp;Stop Timer" model="com.axelor.apps.hr.db.TSTimer"
 	width="large" onNew="action-hr-ts-timer-record-default" canNew="false">
 		<panel name="startAndStopPanel" title="Start&amp;Stop Timer">
-			<field name="user" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
+			<field name="employee" form-view="employee-form" grid-view="employee-grid" canNew="false" canEdit="false" canView="false"/>
 			<field name="project" form-view="project-form" grid-view="project-grid" domain="self.imputable = true" onChange="action-hr-ts-timer-record-empty-product"/>
 			<field name="startDateTime"/>
 			<field name="product" canEdit="false" onSelect="action-hr-timesheet-timer-attrs-domain-product" widget="SuggestBox" form-view="product-activity-form" grid-view="product-activity-grid"/>
@@ -41,7 +41,7 @@
 	</action-attrs>
 	
 	<action-record name="action-hr-ts-timer-record-default" model="com.axelor.apps.hr.db.TSTimer">
-	    <field name="user" expr="eval:__user__" />
+	    <field name="employee" expr="eval:__user__.employee" />
 	    <field name="product" expr="eval:__user__.employee?.product" />
 	</action-record>
 	

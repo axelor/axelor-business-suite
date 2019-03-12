@@ -1,7 +1,7 @@
 "importId";"name";"replyToRecipients";"toRecipients";"ccRecipients";"subject";"content";"metaModel.name";"metaModel.packageName";"isSystem";"mediaTypeSelect"
-1;"NDF envoyée";;;"$Expense.user.partner.emailAddress.address$";"Soumission note de frais par $Expense.user.name$";"<p>Bonjour,</p>
+1;"NDF envoyée";;;"$Expense.employee.contactPartner.emailAddress.address$";"Soumission note de frais par $Expense.employee.name$";"<p>Bonjour,</p>
 <p><br></p>
-<p>Une note de frais vous a été soumise par $Expense.user.name$.</p>
+<p>Une note de frais vous a été soumise par $Expense.employee.name$.</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/expense.validate/edit/$Expense.id$"">Veuillez vous connecter pour la consulter.</a>
 
 <div>
@@ -9,7 +9,7 @@
 <p><br></p>
 <p>Cordialement</p>
 </div>";"Expense";"com.axelor.apps.hr.db";"true";2
-2;"NDF refusée";;"$Expense.user.partner.emailAddress.address$";;"Rejet de note de frais";"<p>Bonjour,</p>
+2;"NDF refusée";;"$Expense.employee.contactPartner.emailAddress.address$";;"Rejet de note de frais";"<p>Bonjour,</p>
 <p><br></p>
 <p>Votre note de frais $Expense.fullName$ n'est malheureusement pas conforme et ne pourra pas être validée en l'état.</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/expense.validate/edit/$Expense.id$"">Veuillez vous connecter pour la consulter.</a>
@@ -21,9 +21,9 @@
 <p><br></p>
 <p>$Expense.refusedBy.name$</p>
 </div>";"Expense";"com.axelor.apps.hr.db";"true";2
-3;"NDF validée";;"$Expense.user.partner.emailAddress.address$";;"Validation de note de frais";"<p>Bonjour,</p>
+3;"NDF validée";;"$Expense.employee.contactPartner.emailAddress.address$";;"Validation de note de frais";"<p>Bonjour,</p>
 <p><br></p>
-<p>Votre note de frais ($Expense.user.name$) a été validée et vous sera réglée dans les plus brefs délais.</p>
+<p>Votre note de frais ($Expense.employee.name$) a été validée et vous sera réglée dans les plus brefs délais.</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/expense.validate/edit/$Expense.id$"">Veuillez vous connecter pour la consulter.</a>
 
 <div>

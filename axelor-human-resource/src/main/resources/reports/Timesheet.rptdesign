@@ -353,13 +353,13 @@
 	MetaFile.file_path as logo_path,
 	PrintingSetting.pdf_header, 
 	Company.name as company_name,
-	AuthUser.full_name as user_name, 
+	Emp.name as user_name, 
 	Timesheet.from_date,
 	Timesheet.to_date,
 	ValidatedUser.full_name as validated_user_name,
 	Timesheet.validation_date
 from hr_timesheet as Timesheet
-left join auth_user as AuthUser on (Timesheet.user_id = AuthUser.id)
+left join hr_employee as Emp on (Timesheet.employee = Emp.id)
 left join base_company as Company on (Timesheet.company = Company.id)
 left join meta_file as MetaFile on (MetaFile.id = Company.logo)
 left join auth_user as ValidatedUser on (Timesheet.validated_by = ValidatedUser.id)
@@ -369,23 +369,6 @@ where Timesheet.id = ?
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
-  <DataSetParameters>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>1</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Unknown</design:nullability>
-        </design:attributes>
-      </design:ParameterDefinition>
-    </parameter>
-  </DataSetParameters>
   <design:ResultSets derivedMetaData="true">
     <design:resultSetDefinitions>
       <design:resultSetColumns>

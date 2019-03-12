@@ -1612,7 +1612,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <property name="nativeDataType">-5</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[SELECT line.id, timesheet_user.name AS ts_user, 
+            <xml-property name="queryText"><![CDATA[SELECT line.id, timesheet_emp.name AS ts_user, 
 product.name AS ts_activity, 
 line.hours_duration AS ts_duration,
 product_unit.name AS ts_product_unit, 
@@ -1628,7 +1628,7 @@ FROM hr_timesheet_line line
 JOIN businessproject_invoicing_project_log_times_set logset ON logset.log_times_set = line.id
 JOIN businessproject_invoicing_project invproj ON invproj.id = logset.businessproject_invoicing_project
 JOIN project_project_task project ON project.id = invproj.project_task
-JOIN auth_user timesheet_user ON timesheet_user.id = line.user_id
+JOIN hr_employee timesheet_emp ON timesheet_emp.id = line.employee
 JOIN base_product product ON product.id = line.product
 JOIN meta_select mselect ON (mselect.name = 'hr.time.logging.preference.select')
 LEFT JOIN meta_select_item select_item ON select_item.select_id = mselect.id AND select_item.value = project.unit_on_printing

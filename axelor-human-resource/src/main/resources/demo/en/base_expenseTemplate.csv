@@ -1,7 +1,7 @@
 "importId";"name";"replyToRecipients";"toRecipients";"ccRecipients";"subject";"content";"metaModel.name";"metaModel.packageName";"isSystem";"mediaTypeSelect"
-1;"Expense sent";;;"$Expense.user.partner.emailAddress.address$";"Expense submission by $Expense.user.name$";"<p>Hello,</p>
+1;"Expense sent";;;"$Expense.employee.contactPartner.emailAddress.address$";"Expense submission by $Expense.employee.name$";"<p>Hello,</p>
 <p><br></p>
-<p>An expense has been submitted to you by $Expense.user.name$.</p>
+<p>An expense has been submitted to you by $Expense.employee.name$.</p>
 <a href=S""http://localhost:8080/abs-webapp/#/ds/expense.validate/edit/$Expense.id$"">Please log in to consult it.</a>
 
 <div>
@@ -9,7 +9,7 @@
 <p><br></p>
 <p>Best regards</p>
 </div>";"Expense";"com.axelor.apps.hr.db";"true";2
-2;"Expense refused";;"$Expense.user.partner.emailAddress.address$";;"Expense rejection";"<p>Hello,</p>
+2;"Expense refused";;"$Expense.employee.contactPartner.emailAddress.address$";;"Expense rejection";"<p>Hello,</p>
 <p><br></p>
 <p>Your expense $Expense.fullName$ is unfortunately not congruent and can not be validated as is.</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/expense.validate/edit/$Expense.id$"">Please log in to consult it.</a>
@@ -21,9 +21,9 @@
 <p><br></p>
 <p>$Expense.refusedBy.name$</p>
 </div>";"Expense";"com.axelor.apps.hr.db";"true";2
-3;"Expense validated";;"$Expense.user.partner.emailAddress.address$";;"Expense validation";"<p>Hello,</p>
+3;"Expense validated";;"$Expense.employee.contactPartner.emailAddress.address$";;"Expense validation";"<p>Hello,</p>
 <p><br></p>
-<p>Your expense ($Expense.user.name$) has been validated and will be payed as soon as possible.</p>
+<p>Your expense ($Expense.employee.name$) has been validated and will be payed as soon as possible.</p>
 <a href=""http://localhost:8080/abs-webapp/#/ds/expense.validate/edit/$Expense.id$"">Please log in to consult it.</a>
 
 <div>

@@ -154,8 +154,8 @@
 		title="My Leave Requests">
 		<view name="leave-request-grid" type="grid" />
 		<view name="leave-request-form" type="form" />
-		<domain>self.user = :user_id AND self.toJustifyLeaveReason = :to_justify_leave_reason</domain>
-		<context name="user_id" expr="eval:__user__" />
+		<domain>self.employee.user.id = :user_id AND self.toJustifyLeaveReason = :to_justify_leave_reason</domain>
+		<context name="user_id" expr="eval:__user__.id" />
 		<context name="to_justify_leave_reason" expr="eval: false"/>
 	</action-view>
 
@@ -187,8 +187,8 @@
 	<action-view name="leave.request.to.justify" title="Leave to justify" model="com.axelor.apps.hr.db.LeaveRequest">
 		<view name="leave-request-form" type="form" />
 		<view name="leave-request-validate-grid" type="grid" />
-		<domain>self.user = :user_id AND self.toJustifyLeaveReason = :to_justify_leave_reason</domain>
-		<context name="user_id" expr="eval:__user__" />
+		<domain>self.employee.user.id = :user_id AND self.toJustifyLeaveReason = :to_justify_leave_reason</domain>
+		<context name="user_id" expr="eval:__user__.id" />
 		<context name="to_justify_leave_reason" expr="eval: true"/>
 	</action-view>
 
@@ -217,8 +217,8 @@
 		title="My Expenses">
 		<view name="expense-grid" type="grid" />
 		<view name="expense-form" type="form" />
-		<domain>self.user = :user_id</domain>
-		<context name="user_id" expr="eval:__user__" />
+		<domain>self.employee.user.id = :user_id</domain>
+		<context name="user_id" expr="eval:__user__.id" />
         <context name="_payCompany" expr="eval: __user__.employee?.mainEmploymentContract?.payCompany ?: __user__.activeCompany"/>
 	</action-view>
 
@@ -298,8 +298,8 @@
 		title="My Timesheets">
 		<view name="my-timesheets-grid" type="grid" />
 		<view name="timesheet-form" type="form" />
-		<domain>self.user = :user_id</domain>
-		<context name="user_id" expr="eval:__user__" />
+		<domain>self.employee.user.id = :user_id</domain>
+		<context name="user_id" expr="eval:__user__.id" />
 	</action-view>
 
 	<menuitem name="validate-timesheet"  parent="timesheet-root" title="Timesheets to Validate" action="timesheet.validate" order="3"/>
@@ -336,8 +336,8 @@
 		title="My Extra Hours">
 		<view name="extra-hours-grid" type="grid" />
 		<view name="extra-hours-form" type="form" />
-		<domain>self.user = :user_id</domain>
-		<context name="user_id" expr="eval:__user__" />
+		<domain>self.employee.user.id = :user_id</domain>
+		<context name="user_id" expr="eval:__user__.id" />
 	</action-view>
 
 	<menuitem name="validate-extra-hours"  parent="extra-hours-root" title="Extra hours to validate" action="extra.hours.validate"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.6.0.v201606072122</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">odaURL</property>
@@ -423,7 +423,7 @@
             <xml-property name="queryText"><![CDATA[SELECT Expense.id, 
 	MetaFile.file_path AS logo_path, 
 	PrintingSetting.pdf_header, 
-	AuthUser.full_name AS user_name, 
+	Emp.name AS user_name, 
 	PaymentPeriod.name AS payment_period_name, 
 	Expense.in_tax_total AS total_amount, 
 	ValidatedUser.full_name AS validated_user_name,
@@ -434,7 +434,7 @@
 	select_item.title  AS company_cb_select,
 	Expense.multiple_users
 FROM hr_expense AS Expense
-LEFT JOIN auth_user AS AuthUser ON (Expense.user_id = AuthUser.id)
+LEFT JOIN hr_employee AS Emp ON (Emp.id = Expense.id)
 LEFT JOIN base_company AS Company ON (Expense.company = Company.id)
 LEFT JOIN meta_file AS MetaFile ON (MetaFile.id = Company.logo)
 LEFT JOIN base_period AS PaymentPeriod ON (Expense.period = PaymentPeriod.id)
@@ -449,23 +449,6 @@ WHERE Expense.id = ?
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
-  <DataSetParameters>
-    <parameter>
-      <design:ParameterDefinition>
-        <design:inOutMode>In</design:inOutMode>
-        <design:attributes>
-          <design:identifier>
-            <design:name></design:name>
-            <design:position>1</design:position>
-          </design:identifier>
-          <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
-          <design:precision>0</design:precision>
-          <design:scale>0</design:scale>
-          <design:nullability>Unknown</design:nullability>
-        </design:attributes>
-      </design:ParameterDefinition>
-    </parameter>
-  </DataSetParameters>
   <design:ResultSets derivedMetaData="true">
     <design:resultSetDefinitions>
       <design:resultSetColumns>

@@ -1,4 +1,4 @@
-"comments";"leaveLine.importId";"value";"date";"fromDate";"toDate";"user.importId"
+"comments";"leaveLine.importId";"value";"date";"fromDate";"toDate";"employee.user.importId"
 "Congés";1;12;"TODAY[-2M1d]";"TODAY[-3M1d]";"TODAY[-2M1d]";1
 "Congés";2;52;"TODAY[-2M1d]";"TODAY[-3M1d]";"TODAY[-2M1d]";1
 "Congés";3;45;"TODAY[-2M1d]";"TODAY[-3M1d]";"TODAY[-2M1d]";1

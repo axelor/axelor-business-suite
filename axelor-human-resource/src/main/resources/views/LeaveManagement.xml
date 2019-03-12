@@ -6,7 +6,7 @@
           editable="true" orderBy="-fromDate,-date" onNew="action-leave-management-record-default">
 		<field name="value" onChange="action-leave-management-record-counted"/>
 	    <field name="date"/>
-	    <field name="user" form-view="user-form" grid-view="user-grid"/>
+	    <field name="employee" form-view="employee-form" grid-view="employee-grid"/>
 	    <field name="fromDate"/>
 	    <field name="toDate"/>
 	    <field name="comments"/>
@@ -19,7 +19,7 @@
 		<panel name="mainPanel">
 			<field name="value" onChange="action-leave-management-record-counted"/>
 		    <field name="date"/>
-		    <field name="user" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
+		    <field name="employee" form-view="employee-form" grid-view="employee-grid" canNew="false" canEdit="false" canView="false"/>
 		    <field name="fromDate"/>
 		    <field name="toDate"/>
 		    <field name="comments"/>
@@ -28,7 +28,7 @@
 	
 	<action-record name="action-leave-management-record-default" model="com.axelor.apps.hr.db.LeaveManagement">
 		<field name="date" expr="eval: __date__"/>
-		<field name="user" expr="eval: __user__"/>
+		<field name="employee" expr="eval: __user__.employee"/>
 	</action-record>
 	
 	<action-record name="action-leave-management-record-counted" model="com.axelor.apps.hr.db.LeaveManagement">

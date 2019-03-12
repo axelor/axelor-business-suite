@@ -235,7 +235,8 @@
 				 model="com.axelor.apps.hr.db.Timesheet">
 		<view type="grid" name="my-timesheets-grid"/>
 		<view type="form" name="timesheet-form"/>
-        <domain>self.user = :__user__</domain>
+        <domain>self.employee.user.id = :user_id</domain>
+  		<context name="user_id" expr="eval: __user__.id"/>
 	</action-view>
 
 	<action-method name="action-employee-method-show-annual-report">

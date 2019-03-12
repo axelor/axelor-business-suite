@@ -61,7 +61,7 @@ public class BankOrderCreateServiceHr extends BankOrderCreateService {
   public BankOrder createBankOrder(Expense expense, BankDetails bankDetails)
       throws AxelorException {
     Company company = expense.getCompany();
-    Partner partner = expense.getUser().getPartner();
+    Partner partner = expense.getEmployee().getContactPartner();
     PaymentMode paymentMode = expense.getPaymentMode();
     BigDecimal amount =
         expense

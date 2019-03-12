@@ -7,7 +7,7 @@
 
   <entity name="TSTimer" cachable="true">
 
-      	<many-to-one name="user" title="User" ref="com.axelor.auth.db.User" readonly="true" column="user_id"/>
+      	<many-to-one name="employee" title="Employee" ref="Employee" readonly="true"/>
       	<many-to-one name="project" ref="com.axelor.apps.project.db.Project" title="Project"/>
       	<many-to-one name="product" ref="com.axelor.apps.base.db.Product" title="Activity" required="true"/>
       	<string name="comments" title="Comments" large="true"/>

@@ -7,7 +7,7 @@
 
 	<entity name="ExpenseLine" cachable="true">
 	    <!-- Original part of expenseLine -->
-	    <many-to-one name="user" ref="com.axelor.auth.db.User" title="User" column="user_id"/>
+	    <many-to-one name="employee" ref="Employee" title="Employee" />
 	    <many-to-one name="project" ref="com.axelor.apps.project.db.Project" title="Project" />
 	    <many-to-one name="expenseProduct" ref="com.axelor.apps.base.db.Product" title="Expense Type" required="true" />
 	    <date name="expenseDate" title="Expense date" required="true"/>
