@@ -1194,11 +1194,14 @@ public class MoveLineExportServiceImpl implements MoveLineExportService {
           items[6] = partner.getPartnerSeq();
           items[7] = partner.getName();
         }
+
         items[8] = moveLine.getOrigin();
-        if (moveLine.getOriginDate() != null) {
-          items[9] =
-              moveLine.getOriginDate().format(DateTimeFormatter.ofPattern(DATE_FORMAT_YYYYMMDD));
+
+        if(moveLine.getOriginDate() == null) {
+          moveLine.setOriginDate(move.getDate());
         }
+        items[9] = moveLine.getOriginDate().format(DateTimeFormatter.ofPattern(DATE_FORMAT_YYYYMMDD));
+
         items[10] = moveLine.getDescription();
         items[11] = moveLine.getDebit().toString();
         items[12] = moveLine.getCredit().toString();
