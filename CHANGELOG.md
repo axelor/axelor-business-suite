@@ -13,6 +13,7 @@ CRM : Convert leads (change title and change the translation of title).
 - Remove mapping between Product Family and Product Category.
 - Fix NPE when planning with tracking number.
 - Invoice : cannot cancel an advance payment invoice.
+- MOVELINE : NPE - Calculated balance
 
 ## [5.1.5] - 2019-03-30
 ## Features

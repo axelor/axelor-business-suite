@@ -141,7 +141,8 @@ public class MoveLineController {
     try {
       if (idList != null) {
         for (Integer id : idList) {
-          MoveLine moveLine = Beans.get(MoveLineRepository.class).find(id.longValue());
+          MoveLine moveLine =
+              id != null ? Beans.get(MoveLineRepository.class).find(id.longValue()) : null;
           if (moveLine != null) {
             totalCredit = totalCredit.add(moveLine.getCredit());
             totalDebit = totalDebit.add(moveLine.getDebit());
