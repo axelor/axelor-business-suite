@@ -18,11 +18,15 @@
 package com.axelor.apps.account.service;
 
 import com.axelor.apps.account.db.Account;
+import com.axelor.apps.account.db.AccountConfig;
 import com.axelor.apps.account.db.AccountManagement;
 import com.axelor.apps.account.db.AnalyticDistributionTemplate;
 import com.axelor.apps.account.db.FiscalPosition;
 import com.axelor.apps.account.db.FixedAssetCategory;
+import com.axelor.apps.account.db.Tax;
+import com.axelor.apps.account.db.TaxLine;
 import com.axelor.apps.account.exception.IExceptionMessage;
+import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.service.tax.AccountManagementServiceImpl;
@@ -33,6 +37,7 @@ import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.google.inject.Inject;
 import java.lang.invoke.MethodHandles;
+import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +45,8 @@ public class AccountManagementServiceAccountImpl extends AccountManagementServic
     implements AccountManagementAccountService {
 
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+  @Inject AccountConfigService accountConfigService;
+  @Inject TaxService taxService;
 
   @Inject
   public AccountManagementServiceAccountImpl(
@@ -83,7 +90,10 @@ public class AccountManagementServiceAccountImpl extends AccountManagementServic
     Account account =
         new FiscalPositionAccountServiceImpl().getAccount(fiscalPosition, generalAccount);
 
-    if (account != null) {
+    AccountConfig accountConfig = accountConfigService.getAccountConfig(company);
+    if (account != null
+        || (accountConfig.getAdvancePaymentProduct() != null
+            && accountConfig.getAdvancePaymentProduct().equals(product))) {
       return account;
     }
 
@@ -219,5 +229,42 @@ public class AccountManagementServiceAccountImpl extends AccountManagementServic
     }
 
     return fixedAssetCategory;
+  }
+
+  @Override
+  public TaxLine getTaxLine(
+      LocalDate date,
+      Product product,
+      Company company,
+      FiscalPosition fiscalPosition,
+      boolean isPurchase)
+      throws AxelorException {
+
+    AccountConfig accountConfig = accountConfigService.getAccountConfig(company);
+    try {
+      return super.getTaxLine(date, product, company, fiscalPosition, isPurchase);
+    } catch (Exception e) {
+      if (accountConfig.getAdvancePaymentProduct() != null
+          && accountConfig.getAdvancePaymentProduct().equals(product)) {
+        return null;
+      }
+      throw e;
+    }
+  }
+
+  @Override
+  public Tax getProductTax(
+      Product product, Company company, FiscalPosition fiscalPosition, boolean isPurchase)
+      throws AxelorException {
+    try {
+      return super.getProductTax(product, company, fiscalPosition, isPurchase);
+    } catch (Exception e) {
+      AccountConfig accountConfig = accountConfigService.getAccountConfig(company);
+      if (accountConfig.getAdvancePaymentProduct() != null
+          && accountConfig.getAdvancePaymentProduct().equals(product)) {
+        return null;
+      }
+      throw e;
+    }
   }
 }
