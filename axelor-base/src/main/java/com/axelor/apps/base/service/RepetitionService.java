@@ -18,20 +18,28 @@
 package com.axelor.apps.base.service;
 
 import com.axelor.apps.base.db.Repetition;
-import com.axelor.team.db.TeamTask;
+import java.time.LocalDate;
+import java.util.List;
 
-public interface TeamTaskService {
+public interface RepetitionService {
 
-  /** Generates reccurent tasks from given {@link TeamTask} and {@link Repetition} */
-  void generateTasks(TeamTask teamTask, Repetition repetition);
+  /** Computes summary of given {@link Repetition}. */
+  String computeSummary(Repetition repetition);
 
   /**
-   * Updates fields of next task of given {@link TeamTask}, recursively.
-   *
-   * <p>This method DOES NOT update potential parent.
+   * Returns all possible dates for given {@link Repetition} between {@code startDate} and {@code
+   * endDate}.
    */
-  void updateNextTask(TeamTask teamTask);
+  List<LocalDate> getDates(Repetition repetition, LocalDate startDate, LocalDate endDate);
 
-  /** Removes all next tasks of given {@link TeamTask}. */
-  void removeNextTasks(TeamTask teamTask);
+  /**
+   * Returns word for current frequency (singular and plurar are managed).
+   *
+   * <p>e.g. If frequency is "monthly", it will return {@code month} or {@code months} depending on
+   * the field {@code every}.
+   */
+  String getFrequencyWord(Repetition repetition);
+
+  /** Sorts select string for given {@link Repetition}. */
+  String sort(Repetition repetition, String selectField);
 }

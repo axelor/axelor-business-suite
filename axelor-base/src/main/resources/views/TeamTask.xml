@@ -12,7 +12,7 @@
   </grid>
 
   <form name="team-task-form" id="base-team-task-form" title="Task" model="com.axelor.team.db.TeamTask" onNew="action-team-task-group-onnew">
-    <panel showIf="nextTeamTask">
+    <panel showIf="nextTeamTask &amp;&amp; hasDateOrRepetitionChanged">
       <field name="doApplyToAllNextTasks" widget="InlineCheckbox" colSpan="12"/>
     </panel>
 
@@ -21,7 +21,7 @@
       <field name="team"/>
       <field name="priority"/>
       <field name="status"/>
-      <field name="taskDate" onChange="action-team-task-record-set-date-or-frequency-changed"/>
+      <field name="taskDate" onChange="action-team-task-record-set-date-or-repetition-changed"/>
       <field name="taskDeadline"/>
       <field name="taskDuration"/>
       <field name="assignedTo"/>
@@ -31,12 +31,13 @@
     </panel>
 
     <panel-tabs>
-      <panel title="Frequency">
-        <field name="frequency" onChange="action-team-task-record-set-date-or-frequency-changed" domain="1 &lt;&gt; 1" canNew="true" grid-view="frequency-grid" form-view="frequency-form"/>
+      <panel name="repetitionPanel" title="Repetition">
+        <field name="repetition" onChange="action-team-task-record-set-date-or-repetition-changed" domain="1 &lt;&gt; 1" canNew="true" grid-view="repetition-grid" form-view="repetition-form"/>
+        <field name="repetitionEndDate" onChange="action-team-task-record-set-date-or-repetition-changed" requiredIf="repetition"/>
         <field name="nextTeamTask" hidden="true" showIf="nextTeamTask"/>
         <field name="isFirst" hidden="true"/>
         <field name="doUpdateNextTasks" hidden="true"/>
-        <field name="hasDateOrFrequencyChanged" hidden="true"/>
+        <field name="hasDateOrRepetitionChanged" hidden="true"/>
       </panel>
     </panel-tabs>
 
@@ -56,8 +57,8 @@
     <field name="typeSelect" expr="eval: _typeSelect"/>
   </action-record>
 
-  <action-record name="action-team-task-record-set-date-or-frequency-changed" model="com.axelor.team.db.TeamTask">
-    <field name="hasDateOrFrequencyChanged" expr="true" if="nextTeamTask"/>
+  <action-record name="action-team-task-record-set-date-or-repetition-changed" model="com.axelor.team.db.TeamTask">
+    <field name="hasDateOrRepetitionChanged" expr="true" if="nextTeamTask"/>
   </action-record>
 
 </object-views>

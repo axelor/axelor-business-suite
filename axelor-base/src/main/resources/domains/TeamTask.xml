@@ -6,11 +6,12 @@
   <module name="project" package="com.axelor.team.db"/>
 
   <entity name="TeamTask">
-    <many-to-one name="frequency" title="Frequency" ref="com.axelor.apps.base.db.Frequency"/>
+    <many-to-one name="repetition" title="Repetition" ref="com.axelor.apps.base.db.Repetition"/>
+    <date name="repetitionEndDate" title="Repetition end date"/>
     <many-to-one name="nextTeamTask" title="Next task" ref="com.axelor.team.db.TeamTask" readonly="true"/>
     <boolean name="isFirst" title="First" readonly="true" default="false"/> <!-- if first, on save, it can generate reccurent tasks -->
     <boolean name="doApplyToAllNextTasks" title="Apply modifications to next tasks" default="false"/>
-    <boolean name="hasDateOrFrequencyChanged" title="Date or frequency changed" readonly="true" default="false"/>
+    <boolean name="hasDateOrRepetitionChanged" title="Date or repetition changed" readonly="true" default="false"/>
 
     <string name="typeSelect" title="Type" selection="team.task.type.select"/>
 

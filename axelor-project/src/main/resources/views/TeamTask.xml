@@ -32,7 +32,7 @@
 	        </menu>
 	    </menubar>
 
-		<panel showIf="nextTeamTask">
+		<panel showIf="nextTeamTask &amp;&amp; hasDateOrRepetitionChanged">
 			<field name="doApplyToAllNextTasks" widget="InlineCheckbox" colSpan="12"/>
 		</panel>
 
@@ -90,7 +90,7 @@
 				<field name="priority" colSpan="4" required="true"/>
 				<field name="targetVersion" if-module="axelor-business-support" if="__config__.app.isApp('business-support')" domain="self.project = :project OR self.project.parentProject = :project" colSpan="4" form-view="project-version-form" grid-view="project-version-grid"/>
 				<field name="assignment" hidden="true" showIf="typeSelect == 'ticket'" if-module="axelor-business-support" if="__config__.app.isApp('business-support')" colSpan="4"/>
-				<field name="taskDate" title="Task date" colSpan="4" onChange="action-task-attrs-set-task-duration,action-team-task-record-set-date-or-frequency-changed" required="true"/>
+        <field name="taskDate" title="Task date" colSpan="4" onChange="action-task-attrs-set-task-duration,action-team-task-record-set-date-or-repetition-changed" required="true"/>
 				<field name="taskEndDate" colSpan="4" onChange="action-task-attrs-set-task-duration"/>
 				<field name="taskDeadline" title="Task deadline" colSpan="4" if="!__config__.app.isApp('business-support')"/>
 				<field name="progressSelect" colSpan="12" widget="SelectProgress" onChange="action-task-update-planned-progress"/>
@@ -183,13 +183,14 @@
 				<field if="__config__.app.getApp('project').isEnableSignature" name="metaFile"  width="120" widget="Image" />
 			</panel>
 
-			<panel name="frequencyPanel" title="Frequency">
-				<field name="frequency" onChange="action-team-task-record-set-date-or-frequency-changed" domain="1 &lt;&gt; 1" canNew="true" grid-view="frequency-grid" form-view="frequency-form"/>
-				<field name="nextTeamTask" hidden="true" showIf="nextTeamTask"/>
-				<field name="isFirst" hidden="true"/>
-				<field name="doUpdateNextTasks" hidden="true"/>
-				<field name="hasDateOrFrequencyChanged" hidden="true"/>
-			</panel>
+      <panel name="repetitionPanel" title="Repetition">
+        <field name="repetition" onChange="action-team-task-record-set-date-or-repetition-changed" domain="1 &lt;&gt; 1" canNew="true" grid-view="repetition-grid" form-view="repetition-form"/>
+        <field name="repetitionEndDate" onChange="action-team-task-record-set-date-or-repetition-changed" requiredIf="repetition"/>
+        <field name="nextTeamTask" hidden="true" showIf="nextTeamTask"/>
+        <field name="isFirst" hidden="true"/>
+        <field name="doUpdateNextTasks" hidden="true"/>
+        <field name="hasDateOrRepetitionChanged" hidden="true"/>
+      </panel>
 
 			<panel name="timerPanel" title="Timer" showIf="id" hidden="true">
 				<panel name="actionsPanel" title="Actions">

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
+
+  <module name="base" package="com.axelor.apps.base.db"/>
+
+  <entity name="Repetition">
+    <string name="summary" namecolumn="true"/>
+
+    <string name="frequencySelect" title="Frequency" default="daily" selection="repetition.base.frequency.select" required="true"/>
+    <integer name="every" title="Every" default="1" min="1" required="true"/>
+
+    <string name="monthlyTypeSelect" title="Type" default="each" selection="repetition.base.monthlytype.select"/>
+
+    <string name="daySelect" title="REPETITION_Day" selection="repetition.base.days.select"/>
+    <string name="monthDaySelect" title="Month day" selection="repetition.base.monthdays.select"/>
+    <string name="dayOfMonthSelect" title="Day of month" selection="repetition.base.daysofmonth.select"/>
+    <string name="monthSelect" title="Month" selection="repetition.base.months.select"/>
+
+    <extra-code>
+      <![CDATA[
+        public static final String FREQUENCY_DAILY = "daily";
+        public static final String FREQUENCY_WEEKLY = "weekly";
+        public static final String FREQUENCY_MONTHLY = "monthly";
+        public static final String FREQUENCY_YEARLY = "yearly";
+
+        public static final String MONTHLY_TYPE_EACH = "each";
+        public static final String MONTHLY_TYPE_ON_THE = "onThe";
+
+        public static final String MONTH_DAY_FIRST = "first";
+        public static final String MONTH_DAY_SECOND = "second";
+        public static final String MONTH_DAY_THIRD = "third";
+        public static final String MONTH_DAY_FOURTH = "fourth";
+        public static final String MONTH_DAY_FIFTH = "fifth";
+        public static final String MONTH_DAY_LAST = "last";
+      ]]>
+    </extra-code>
+  </entity>
+
+</domain-models>

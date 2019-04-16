@@ -62,8 +62,6 @@ import com.axelor.apps.base.service.CompanyService;
 import com.axelor.apps.base.service.CompanyServiceImpl;
 import com.axelor.apps.base.service.DurationService;
 import com.axelor.apps.base.service.DurationServiceImpl;
-import com.axelor.apps.base.service.FrequencyService;
-import com.axelor.apps.base.service.FrequencyServiceImpl;
 import com.axelor.apps.base.service.MailServiceBaseImpl;
 import com.axelor.apps.base.service.MapRestService;
 import com.axelor.apps.base.service.MapRestServiceImpl;
@@ -75,6 +73,8 @@ import com.axelor.apps.base.service.ProductMultipleQtyService;
 import com.axelor.apps.base.service.ProductMultipleQtyServiceImpl;
 import com.axelor.apps.base.service.ProductService;
 import com.axelor.apps.base.service.ProductServiceImpl;
+import com.axelor.apps.base.service.RepetitionService;
+import com.axelor.apps.base.service.RepetitionServiceImpl;
 import com.axelor.apps.base.service.TeamTaskService;
 import com.axelor.apps.base.service.TeamTaskServiceImpl;
 import com.axelor.apps.base.service.TradingNameService;
@@ -163,7 +163,7 @@ public class BaseModule extends AxelorModule {
     bind(TaxRepository.class).to(TaxBaseRepository.class);
     bind(TeamTaskRepository.class).to(TeamTaskBaseRepository.class);
     bind(TeamTaskService.class).to(TeamTaskServiceImpl.class);
-    bind(FrequencyService.class).to(FrequencyServiceImpl.class);
+    bind(RepetitionService.class).to(RepetitionServiceImpl.class);
     bind(MailingListMessageRepository.class).to(MailingListMessageBaseRepository.class);
   }
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+  <grid name="repetition-grid" title="Repetitions" model="com.axelor.apps.base.db.Repetition">
+    <field name="summary"/>
+  </grid>
+
+  <form name="repetition-form" title="Repetition" model="com.axelor.apps.base.db.Repetition"
+        onNew="action-repetition-method-update-frequency-word,action-repetition-method-compute-summary"
+        onLoad="action-repetition-method-update-frequency-word"
+        onSave="action-repetition-validate-before-save">
+    <panel name="summaryPanel">
+      <field name="summary" css="bold" colSpan="12" showTitle="false" readonly="true"/>
+    </panel>
+
+    <panel name="frequencyEveryPanel">
+      <field name="frequencySelect" onChange="action-repetition-record-reset-all,action-repetition-method-update-frequency-word,action-repetition-method-compute-summary"/>
+      <field name="every" colSpan="3" onChange="action-repetition-method-update-frequency-word,action-repetition-method-compute-summary"/>
+      <field name="$frequencyWord" colSpan="3" showTitle="false" readonly="true"/>
+    </panel>
+
+    <panel name="optionsPanel" hideIf="frequencySelect == 'daily'">
+      <panel name="weeklyOptionsPanel" showIf="frequencySelect == 'weekly'" colSpan="12">
+        <field name="daySelect" title="Days" widget="MultiSelect" onChange="action-repetition-method-sort-day-select,action-repetition-method-compute-summary"/>
+      </panel>
+
+      <panel name="monthlyOptionsPanel" showIf="frequencySelect == 'monthly'" colSpan="12">
+        <field name="monthlyTypeSelect" onChange="action-repetition-method-compute-summary"/>
+
+        <panel colSpan="12" stacked="true">
+          <panel name="monthlyEachPanel" showIf="monthlyTypeSelect == 'each'">
+            <field name="dayOfMonthSelect" title="Days of month" widget="MultiSelect" onChange="action-repetition-method-sort-day-of-month-select,action-repetition-method-compute-summary"/>
+          </panel>
+
+          <panel name="monthlyOnThePanel" showIf="monthlyTypeSelect == 'onThe'">
+            <field name="monthDaySelect" onChange="action-repetition-method-compute-summary"/>
+            <field name="daySelect" onChange="action-repetition-method-compute-summary"/>
+          </panel>
+        </panel>
+      </panel>
+
+      <panel name="yearlyOptionsPanel" showIf="frequencySelect == 'yearly'" colSpan="12">
+        <field name="dayOfMonthSelect" title="Days of month" widget="MultiSelect" onChange="action-repetition-method-sort-day-of-month-select,action-repetition-method-compute-summary"/>
+        <field name="monthSelect" title="Months" widget="MultiSelect" onChange="action-repetition-method-sort-month-select,action-repetition-method-compute-summary"/>
+      </panel>
+    </panel>
+  </form>
+
+  <action-record name="action-repetition-record-reset-all" model="com.axelor.apps.base.db.Repetition">
+    <field name="daySelect" expr="eval: ''"/>
+    <field name="monthDaySelect" expr="eval: ''"/>
+    <field name="dayOfMonthSelect" expr="eval: ''"/>
+    <field name="monthSelect" expr="eval: ''"/>
+  </action-record>
+
+  <action-method name="action-repetition-method-compute-summary">
+    <call class="com.axelor.apps.base.web.RepetitionController" method="computeSummary"/>
+  </action-method>
+
+  <action-method name="action-repetition-method-update-frequency-word">
+    <call class="com.axelor.apps.base.web.RepetitionController" method="updateFrequencyWord"/>
+  </action-method>
+
+  <action-method name="action-repetition-method-sort-day-select">
+    <call class="com.axelor.apps.base.web.RepetitionController" method="sortDaySelect"/>
+  </action-method>
+
+  <action-method name="action-repetition-method-sort-day-of-month-select">
+    <call class="com.axelor.apps.base.web.RepetitionController" method="sortDayOfMonthSelect"/>
+  </action-method>
+
+  <action-method name="action-repetition-method-sort-month-select">
+    <call class="com.axelor.apps.base.web.RepetitionController" method="sortMonthSelect"/>
+  </action-method>
+
+  <action-validate name="action-repetition-validate-before-save">
+    <!-- Weekly -->
+    <error message="Field 'Days' is required." if="frequencySelect == 'weekly' &amp;&amp; !daySelect"/>
+
+    <!-- Monthly -->
+    <error message="Field 'Type' is required." if="frequencySelect == 'monthly' &amp;&amp; !monthlyTypeSelect"/>
+    <error message="Field 'Days of month' is required." if="frequencySelect == 'monthly' &amp;&amp; monthlyTypeSelect == 'each' &amp;&amp; !dayOfMonthSelect"/>
+    <error message="Field 'Month day' is required." if="frequencySelect == 'monthly' &amp;&amp; monthlyTypeSelect == 'onThe' &amp;&amp; !monthDaySelect"/>
+    <error message="Field 'Day' is required." if="frequencySelect == 'monthly' &amp;&amp; monthlyTypeSelect == 'onThe' &amp;&amp; !daySelect"/>
+
+    <!-- Yearly -->
+    <error message="Field 'Day of month' is required." if="frequencySelect == 'yearly' &amp;&amp; !dayOfMonthSelect"/>
+    <error message="Field 'Month' is required." if="frequencySelect == 'yearly' &amp;&amp; !monthSelect"/>
+  </action-validate>
+
+</object-views>

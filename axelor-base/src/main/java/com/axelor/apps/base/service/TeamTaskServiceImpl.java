@@ -17,8 +17,8 @@
  */
 package com.axelor.apps.base.service;
 
-import com.axelor.apps.base.db.Frequency;
-import com.axelor.apps.base.db.repo.FrequencyRepository;
+import com.axelor.apps.base.db.Repetition;
+import com.axelor.apps.base.db.repo.RepetitionRepository;
 import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.inject.Beans;
 import com.axelor.team.db.TeamTask;
@@ -40,10 +40,11 @@ public class TeamTaskServiceImpl implements TeamTaskService {
 
   @Override
   @Transactional
-  public void generateTasks(TeamTask teamTask, Frequency frequency) {
+  public void generateTasks(TeamTask teamTask, Repetition repetition) {
     List<LocalDate> taskDates =
-        Beans.get(FrequencyService.class)
-            .getDates(frequency, teamTask.getTaskDate(), frequency.getEndDate());
+        Beans.get(RepetitionService.class)
+            .getDates(repetition, teamTask.getTaskDate(), teamTask.getRepetitionEndDate());
+    taskDates.sort(LocalDate::compareTo);
 
     taskDates.removeIf(date -> date.equals(teamTask.getTaskDate()));
 
@@ -68,10 +69,10 @@ public class TeamTaskServiceImpl implements TeamTaskService {
 
   protected void setModuleFields(TeamTask teamTask, LocalDate date, TeamTask newTeamTask) {
     newTeamTask.setIsFirst(false);
-    newTeamTask.setHasDateOrFrequencyChanged(false);
+    newTeamTask.setHasDateOrRepetitionChanged(false);
     newTeamTask.setDoApplyToAllNextTasks(false);
-    newTeamTask.setFrequency(
-        Beans.get(FrequencyRepository.class).copy(teamTask.getFrequency(), false));
+    newTeamTask.setRepetition(
+        Beans.get(RepetitionRepository.class).copy(teamTask.getRepetition(), false));
     newTeamTask.setTaskDate(date);
     newTeamTask.setTaskDeadline(date);
     newTeamTask.setNextTeamTask(null);
@@ -104,7 +105,7 @@ public class TeamTaskServiceImpl implements TeamTaskService {
   public void removeNextTasks(TeamTask teamTask) {
     List<TeamTask> teamTasks = getAllNextTasks(teamTask);
     teamTask.setNextTeamTask(null);
-    teamTask.setHasDateOrFrequencyChanged(false);
+    teamTask.setHasDateOrRepetitionChanged(false);
     teamTaskRepo.save(teamTask);
 
     for (TeamTask teamTaskToRemove : teamTasks) {
