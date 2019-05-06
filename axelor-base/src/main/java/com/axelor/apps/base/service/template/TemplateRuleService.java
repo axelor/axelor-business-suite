@@ -23,6 +23,7 @@ import com.axelor.apps.base.exceptions.IExceptionMessage;
 import com.axelor.apps.message.db.Template;
 import com.axelor.db.Model;
 import com.axelor.i18n.I18n;
+import com.axelor.meta.ActionExecutor;
 import com.axelor.meta.ActionHandler;
 import com.axelor.meta.MetaStore;
 import com.axelor.meta.db.MetaAction;
@@ -40,6 +41,7 @@ import java.util.Map;
 public class TemplateRuleService {
 
   @Inject private TemplateBaseService ts;
+  @Inject private ActionExecutor actionExecutor;
 
   public Map<String, Object> getContext(TemplateRule templateRule, Model bean) {
     Template template = this.getTemplate(bean, templateRule);
@@ -136,6 +138,6 @@ public class TemplateRuleService {
     request.setModel(model);
     request.setAction(action);
 
-    return new ActionHandler(request);
+    return actionExecutor.newActionHandler(request);
   }
 }
