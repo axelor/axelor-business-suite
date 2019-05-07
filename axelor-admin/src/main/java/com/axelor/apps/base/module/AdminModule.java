@@ -30,6 +30,8 @@ import com.axelor.apps.base.service.app.AppService;
 import com.axelor.apps.base.service.app.AppServiceImpl;
 import com.axelor.apps.base.service.app.DataBackupService;
 import com.axelor.apps.base.service.app.DataBackupServiceImpl;
+import com.axelor.dms.db.repo.DMSFileRepository;
+import com.axelor.dms.db.repo.DMSFileTreeRepository;
 
 public class AdminModule extends AxelorModule {
 
@@ -41,5 +43,6 @@ public class AdminModule extends AxelorModule {
     bind(AccessTemplateService.class).to(AccessTemplateServiceImpl.class);
     bind(AccessConfigImportService.class).to(AccessConfigImportServiceImpl.class);
     bind(DataBackupService.class).to(DataBackupServiceImpl.class);
+    bind(DMSFileRepository.class).to(DMSFileTreeRepository.class);
   }
 }
