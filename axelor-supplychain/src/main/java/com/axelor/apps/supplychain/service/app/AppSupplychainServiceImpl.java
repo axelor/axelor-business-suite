@@ -24,10 +24,15 @@ import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
 import com.axelor.apps.supplychain.db.SupplyChainConfig;
 import com.axelor.apps.supplychain.db.repo.SupplyChainConfigRepository;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.List;
+import javax.inject.Named;
 
 @Singleton
 public class AppSupplychainServiceImpl extends AppBaseServiceImpl implements AppSupplychainService {
@@ -54,5 +59,10 @@ public class AppSupplychainServiceImpl extends AppBaseServiceImpl implements App
       supplyChainConfig.setCompany(company);
       supplyChainConfigRepo.save(supplyChainConfig);
     }
+  }
+
+  void onAppSupplychainPostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppSupplychain.class) PostRequest event) {
+    fireFeatureChanged(event, getAppSupplychain());
   }
 }

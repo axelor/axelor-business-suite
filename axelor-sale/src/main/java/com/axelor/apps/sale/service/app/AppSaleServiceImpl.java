@@ -24,10 +24,15 @@ import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
 import com.axelor.apps.sale.db.SaleConfig;
 import com.axelor.apps.sale.db.repo.SaleConfigRepository;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.List;
+import javax.inject.Named;
 
 @Singleton
 public class AppSaleServiceImpl extends AppBaseServiceImpl implements AppSaleService {
@@ -54,5 +59,10 @@ public class AppSaleServiceImpl extends AppBaseServiceImpl implements AppSaleSer
       saleConfig.setCompany(company);
       saleConfigRepo.save(saleConfig);
     }
+  }
+
+  void onAppSalePostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppSale.class) PostRequest event) {
+    fireFeatureChanged(event, getAppSale());
   }
 }

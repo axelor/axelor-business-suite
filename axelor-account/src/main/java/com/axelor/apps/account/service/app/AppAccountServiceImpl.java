@@ -28,10 +28,15 @@ import com.axelor.apps.base.db.repo.AppBudgetRepository;
 import com.axelor.apps.base.db.repo.AppInvoiceRepository;
 import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.List;
+import javax.inject.Named;
 
 @Singleton
 public class AppAccountServiceImpl extends AppBaseServiceImpl implements AppAccountService {
@@ -72,5 +77,20 @@ public class AppAccountServiceImpl extends AppBaseServiceImpl implements AppAcco
       config.setCompany(company);
       accountConfigRepo.save(config);
     }
+  }
+
+  void onAppAccountPostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppAccount.class) PostRequest event) {
+    fireFeatureChanged(event, getAppAccount());
+  }
+
+  void onAppBudgetPostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppBudget.class) PostRequest event) {
+    fireFeatureChanged(event, getAppBudget());
+  }
+
+  void onAppInvoicePostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppInvoice.class) PostRequest event) {
+    fireFeatureChanged(event, getAppInvoice());
   }
 }

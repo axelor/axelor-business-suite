@@ -20,8 +20,13 @@ package com.axelor.apps.businessproject.service.app;
 import com.axelor.apps.base.db.AppBusinessProject;
 import com.axelor.apps.base.db.repo.AppBusinessProjectRepository;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import javax.inject.Named;
 
 @Singleton
 public class AppBusinessProjectServiceImpl extends AppBaseServiceImpl
@@ -32,5 +37,10 @@ public class AppBusinessProjectServiceImpl extends AppBaseServiceImpl
   @Override
   public AppBusinessProject getAppBusinessProject() {
     return appBusinessProjectRepo.all().fetchOne();
+  }
+
+  void onAppBusinessProjectPostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppBusinessProject.class) PostRequest event) {
+    fireFeatureChanged(event, getAppBusinessProject());
   }
 }

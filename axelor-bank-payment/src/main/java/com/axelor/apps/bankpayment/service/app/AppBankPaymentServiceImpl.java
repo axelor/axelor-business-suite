@@ -24,10 +24,15 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.repo.AppBankPaymentRepository;
 import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.List;
+import javax.inject.Named;
 
 @Singleton
 public class AppBankPaymentServiceImpl extends AppBaseServiceImpl implements AppBankPaymentService {
@@ -61,5 +66,10 @@ public class AppBankPaymentServiceImpl extends AppBaseServiceImpl implements App
       config.setCompany(company);
       bankPaymentConfigRepo.save(config);
     }
+  }
+
+  void onAppBankPaymentPostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppBankPayment.class) PostRequest event) {
+    fireFeatureChanged(event, getAppBankPayment());
   }
 }

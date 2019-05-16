@@ -29,6 +29,7 @@ import com.axelor.data.csv.CSVImporter;
 import com.axelor.data.csv.CSVInput;
 import com.axelor.data.xml.XMLImporter;
 import com.axelor.db.JPA;
+import com.axelor.events.PostRequest;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -84,6 +85,8 @@ public class AppServiceImpl implements AppService {
   @Inject private AppRepository appRepo;
 
   @Inject private MetaModelRepository metaModelRepo;
+
+  @Inject private AppFeatureManager appFeatureManager;
 
   @Override
   public App importDataDemo(App app) throws AxelorException {
@@ -564,5 +567,22 @@ public class AppServiceImpl implements AppService {
     for (App app : apps) {
       importRoles(app);
     }
+  }
+
+  /*
+   * Application configuration provider
+   *
+   * Feature name is the name of a boolean field prefixed by app code and a dot,
+   * eg. "sale.manageSalesUnits".
+   *
+   * @see com.axelor.app.AppConfig#hasFeature(java.lang.String)
+   */
+  @Override
+  public boolean hasFeature(String featureName) {
+    return appFeatureManager.hasFeature(featureName);
+  }
+
+  protected void fireFeatureChanged(PostRequest event, App app) {
+    appFeatureManager.fireFeatureChanged(event, app);
   }
 }

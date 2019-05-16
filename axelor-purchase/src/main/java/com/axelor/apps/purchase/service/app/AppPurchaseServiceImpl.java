@@ -24,10 +24,15 @@ import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
 import com.axelor.apps.purchase.db.PurchaseConfig;
 import com.axelor.apps.purchase.db.repo.PurchaseConfigRepository;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.List;
+import javax.inject.Named;
 
 @Singleton
 public class AppPurchaseServiceImpl extends AppBaseServiceImpl implements AppPurchaseService {
@@ -54,5 +59,10 @@ public class AppPurchaseServiceImpl extends AppBaseServiceImpl implements AppPur
       purchaseConfig.setCompany(company);
       purchaseConfigRepo.save(purchaseConfig);
     }
+  }
+
+  void onAppPurchasePostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppPurchase.class) PostRequest event) {
+    fireFeatureChanged(event, getAppPurchase());
   }
 }

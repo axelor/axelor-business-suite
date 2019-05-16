@@ -23,10 +23,15 @@ import com.axelor.apps.base.service.app.AppBaseServiceImpl;
 import com.axelor.apps.production.db.ProductionConfig;
 import com.axelor.apps.production.db.repo.ProductionConfigRepository;
 import com.axelor.db.Query;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.axelor.inject.Beans;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import java.util.List;
+import javax.inject.Named;
 
 @Singleton
 public class AppProductionServiceImpl extends AppBaseServiceImpl implements AppProductionService {
@@ -62,5 +67,10 @@ public class AppProductionServiceImpl extends AppBaseServiceImpl implements AppP
     }
 
     return DEFAULT_NB_DECIMAL_DIGITS;
+  }
+
+  void onAppProductionPostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppProduction.class) PostRequest event) {
+    fireFeatureChanged(event, getAppProduction());
   }
 }

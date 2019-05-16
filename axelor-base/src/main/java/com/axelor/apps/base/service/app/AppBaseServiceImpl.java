@@ -25,6 +25,10 @@ import com.axelor.apps.base.db.Unit;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.db.Query;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.axelor.exception.AxelorException;
 import com.google.common.base.Strings;
 import com.google.inject.persist.Transactional;
@@ -33,6 +37,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Singleton
@@ -189,5 +194,10 @@ public class AppBaseServiceImpl extends AppServiceImpl implements AppBaseService
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void setManageMultiBanks(boolean manageMultiBanks) {
     getAppBase().setManageMultiBanks(manageMultiBanks);
+  }
+
+  void onAppBasePostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppBase.class) PostRequest event) {
+    fireFeatureChanged(event, getAppBase());
   }
 }

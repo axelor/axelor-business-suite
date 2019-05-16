@@ -28,6 +28,10 @@ import com.axelor.apps.base.db.repo.CompanyRepository;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
 import com.axelor.apps.hr.db.HRConfig;
 import com.axelor.apps.hr.db.repo.HRConfigRepository;
+import com.axelor.event.Observes;
+import com.axelor.events.PostRequest;
+import com.axelor.events.RequestEvent;
+import com.axelor.events.qualifiers.EntityType;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Inject;
@@ -36,6 +40,7 @@ import com.google.inject.persist.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Named;
 
 @Singleton
 public class AppHumanResourceServiceImpl extends AppBaseServiceImpl
@@ -107,5 +112,20 @@ public class AppHumanResourceServiceImpl extends AppBaseServiceImpl
       hrConfig.setCompany(company);
       hrConfigRepo.save(hrConfig);
     }
+  }
+
+  void onAppTimesheetPostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppTimesheet.class) PostRequest event) {
+    fireFeatureChanged(event, getAppTimesheet());
+  }
+
+  void onAppLeavePostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppLeave.class) PostRequest event) {
+    fireFeatureChanged(event, getAppLeave());
+  }
+
+  void onAppExpensePostSave(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(AppExpense.class) PostRequest event) {
+    fireFeatureChanged(event, getAppExpense());
   }
 }

@@ -17,12 +17,13 @@
  */
 package com.axelor.apps.base.service.app;
 
+import com.axelor.app.AppConfig;
 import com.axelor.apps.base.db.App;
 import com.axelor.exception.AxelorException;
 import java.io.IOException;
 import java.util.Collection;
 
-public interface AppService {
+public interface AppService extends AppConfig {
 
   public App importDataDemo(App app) throws AxelorException;
 
