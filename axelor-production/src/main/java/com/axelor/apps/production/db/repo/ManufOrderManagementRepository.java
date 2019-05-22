@@ -83,9 +83,11 @@ public class ManufOrderManagementRepository extends ManufOrderRepository {
       throw new PersistenceException(e);
     }
 
-    for (OperationOrder operationOrder : entity.getOperationOrderList()) {
-      if (operationOrder.getBarCode() == null) {
-        operationOrderService.createBarcode(operationOrder);
+    if (entity.getOperationOrderList() != null) {
+      for (OperationOrder operationOrder : entity.getOperationOrderList()) {
+        if (operationOrder.getBarCode() == null) {
+          operationOrderService.createBarcode(operationOrder);
+        }
       }
     }
     return super.save(entity);

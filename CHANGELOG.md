@@ -51,6 +51,7 @@
 - Stock Move: unused description field removed
 - Sale Order: show invoiced tag with multiple invoices.
 - Invoice: fix refunds grid view.
+- SaleOrder : NPE on generating production order from saleOrder
 
 ## [5.1.6] - 2019-04-29
 ## Features
