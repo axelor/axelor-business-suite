@@ -118,6 +118,7 @@
 					<field name="displayPartnerSeqOnPrinting" widget="boolean-switch"/>
 					<field name="displayTimesheetOnPrinting" widget="boolean-switch" if-module="axelor-business-project" if="__config__.app.isApp('business-project') &amp;&amp;  __config__.app.isApp('timesheet')"/>
 					<field name="displayExpenseOnPrinting" widget="boolean-switch" if-module="axelor-business-project" if="__config__.app.isApp('business-project') &amp;&amp;  __config__.app.isApp('expense')"/>
+					<field name="isPrintInvoicesInCompanyLanguage" widget="boolean-switch"/>
 					<field name="invoiceClientBox" widget="html" x-lite="true" colSpan="12"/>
 					<field name="saleInvoiceLegalNote" widget="html" x-lite="true" colSpan="12"/>
 					<field name="termsAndConditions" widget="html" colSpan="12"/>

@@ -32,6 +32,7 @@
     
    	<many-to-one name="weeklyPlanning" ref="com.axelor.apps.base.db.WeeklyPlanning" />
     <many-to-one name="publicHolidayEventsPlanning" ref="com.axelor.apps.base.db.EventsPlanning" title="Public Holiday Planning"/>
+    <many-to-one name="language" ref="com.axelor.apps.base.db.Language" title="Language"/>
 
   </entity>
   

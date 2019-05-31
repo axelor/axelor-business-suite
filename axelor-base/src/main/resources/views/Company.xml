@@ -55,6 +55,7 @@
 				<field name="tradingNamePrintingSettingsList" canNew="true" form-view="trading-name-printing-settings-company-form" grid-view="trading-name-printing-settings-company-grid" colSpan="12" if="__config__.app.getApp('base').enableTradingNamesManagement"/>
 				<field name="weeklyPlanning" title="Weekly planning" canNew="true" form-view="weekly-planning-form" grid-view="weekly-planning-grid"/>
 				<field name="publicHolidayEventsPlanning" form-view="events-planning-form" grid-view="events-planning-grid" canNew="true" />
+				<field name="language" colSpan="6" canEdit="false"/>
 	  		</panel>
 	    	<panel name="bankDetailsPanel" title="Bank details">
                 <field name="defaultBankDetails" onSelect="action-company-attrs-default-bank-details-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>

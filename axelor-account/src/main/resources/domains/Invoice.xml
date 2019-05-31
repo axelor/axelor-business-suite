@@ -45,6 +45,7 @@
   	<one-to-many name="invoicePaymentList" ref="com.axelor.apps.account.db.InvoicePayment" title ="Payments" mappedBy="invoice"/>
     <date name="ventilatedDate" readonly="true" title="Ventilated Date"/>
     <many-to-one name="ventilatedByUser" ref="com.axelor.auth.db.User" readonly="true" title="Ventilated by"/>
+    <many-to-one name="language" ref="com.axelor.apps.base.db.Language" title="Language"/>
 
     
     

@@ -33,10 +33,12 @@ import com.axelor.apps.account.service.invoice.print.InvoicePrintService;
 import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
+import com.axelor.apps.base.db.Language;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PriceList;
 import com.axelor.apps.base.db.PrintingSettings;
 import com.axelor.apps.base.db.Wizard;
+import com.axelor.apps.base.db.repo.LanguageRepository;
 import com.axelor.apps.base.db.repo.PartnerRepository;
 import com.axelor.apps.base.service.AddressService;
 import com.axelor.apps.base.service.BankDetailsService;
@@ -64,6 +66,7 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -315,12 +318,24 @@ public class InvoiceController {
             context.get("reportType") != null
                 ? Integer.parseInt(context.get("reportType").toString())
                 : null;
+
+        Map languageMap =
+            (reportType == 1 || reportType == 3) && context.get("language") != null
+                ? (Map<String, Object>) request.getContext().get("language")
+                : null;
+        Language language =
+            languageMap.get("id") != null
+                ? Beans.get(LanguageRepository.class)
+                    .find(Long.parseLong(languageMap.get("id").toString()))
+                : null;
+        String locale = language != null ? language.getCode() : null;
         fileLink =
             invoicePrintService.printInvoice(
                 invoiceRepo.find(Long.parseLong(context.get("id").toString())),
                 false,
                 format,
-                reportType);
+                reportType,
+                locale);
         title = I18n.get("Invoice");
         response.setCanClose(true);
       } else {
@@ -346,7 +361,7 @@ public class InvoiceController {
       response.setCanClose(true);
       response.setView(
           ActionView.define(I18n.get("Invoice"))
-              .add("html", invoicePrintService.printInvoice(invoice, true, "pdf", reportType))
+              .add("html", invoicePrintService.printInvoice(invoice, true, "pdf", reportType, null))
               .map());
     } catch (Exception e) {
       TraceBackService.trace(response, e);

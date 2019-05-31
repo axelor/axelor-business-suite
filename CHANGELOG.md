@@ -125,6 +125,7 @@
 - Change titles for productFamily.
 - CONTRACT : Set project on generated invoices
 - LEAVE REQUEST : Set message for leave reason has no unit
+- INVOICE : Add field language to change report language
 
 ## Bug Fixes
 - TeamTask : Resolve NPE on save of new team task.

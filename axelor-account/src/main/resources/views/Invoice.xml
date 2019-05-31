@@ -345,6 +345,7 @@ InvoiceSet.length > 0))"
 				<field name="printingSettings" onSelect="action-invoice-method-filter-printing-settings" canEdit="false"/>
 				<field name="invoicesCopySelect" colSpan="6" title="Invoices copy"/>
 				<field name="hideDiscount" colSpan="6"/>
+				<field name="language" colSpan="6" canEdit="false"/>
 				<field name="note" widget="Html" x-lite="true" colSpan="12"/>
 				<field name="specificNotes" colSpan="12" readonly="true" showIf="specificNotes"/>
 				<field name="displayTimesheetOnPrinting" if-module="axelor-business-project" hidden="true"/>
@@ -501,6 +502,7 @@ InvoiceSet.length > 0))"
 			<panel name="formatPanel" colSpan="6">
 				<field name="$format" title="Format" type="integer" selection="invoice.report.format" colSpan="12" required="true"/>
 			</panel>
+			<field name="$language" title="Language" type="many-to-one" target="com.axelor.apps.base.db.Language" showIf="$reportType ==1 || $reportType==3"/>
 			<button name="printBtn" title="Print" onClick="action-invoice-group-report-print" readonlyIf="$reportType==null || $format==null"/>
 		</panel>
 	</form>
@@ -750,6 +752,7 @@ InvoiceSet.length > 0))"
 		<action name="action-invoice-attrs-change-create-refund-title"/>
 	    <action name="action-invoice-record-printing-fields" if="__config__.app.isApp('business-project')"/>
         <action name="action-invoice-record-load-dummy-field-payment-voucher-on-invoice"/>
+        <action name="action-invoice-record-set-language"/>
     </action-group>
 
     <action-group name="action-account-invoice-onload-group" >
@@ -776,6 +779,7 @@ InvoiceSet.length > 0))"
         <action name="action-invoice-record-specific-note-on-invoice"/>
     	<action name="action-invoice-attrs-hide-cancel-button"/>
         <action name="action-invoice-record-update-info-company"/>
+        <action name="action-invoice-record-set-language"/>
     </action-group>
 
     <action-group name="action-group-account-invoice-partner-onchange">
@@ -791,6 +795,7 @@ InvoiceSet.length > 0))"
 		<action name="action-invoice-attrs-interco-supplychain"/>
 		<action name="action-invoice-record-interco-supplychain"/>
 		<action name="action-invoice-method-check-partner-bank-details-list"/>
+		<action name="action-invoice-record-set-language"/>
     </action-group>
 
 	<action-group name="action-invoice-group-currency-onchange">
@@ -912,6 +917,10 @@ InvoiceSet.length > 0))"
 	<action-record name="action-invoice-record-specific-note-on-invoice" model="com.axelor.apps.account.db.Invoice">
 		<field name="note" expr="eval: companyBankDetails?.specificNoteOnInvoice"/>
 	</action-record>
+	
+	<action-record name="action-invoice-record-set-language" model="com.axelor.apps.account.db.Invoice">
+		<field name="language" expr="eval: (__repo__(AccountConfig).all().filter('self.company = ?',company).fetchOne()?.isPrintInvoicesInCompanyLanguage == true) ? company?.language : partner?.language"/>
+	</action-record>
 
     <!-- ACTION ATTRS -->
 
@@ -987,6 +996,7 @@ InvoiceSet.length > 0))"
     
     <action-attrs name="action-invoice-reports-wizard-attrs-set-report-type-select">
     	<attribute name="value" for="$reportType" expr="eval: 1" if="_statusSelect == 1 || (_statusSelect == 2 &amp;&amp; _operationSubTypeSelect != 2)"/>
+    	<attribute name="value" expr="eval: _language" for="$language" />
     </action-attrs>
 
 	<!-- DOMAIN -->
@@ -1188,6 +1198,7 @@ InvoiceSet.length > 0))"
 		<context name="_operationSubTypeSelect" expr="eval: operationSubTypeSelect"/>
 		<context name="_printedPDF" expr="eval: printedPDF"/>
 		<context name="id" expr="eval: id"/>
+		<context name="_language" expr="eval: language"/>
 	</action-view>
 	
 	<search-filters name="customer-invoices-filters" model="com.axelor.apps.account.db.Invoice" title="Customer invoices filters">

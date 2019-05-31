@@ -323,7 +323,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
     invoiceRepo.save(invoice);
     Beans.get(InvoicePrintService.class)
-        .printAndSave(invoice, InvoiceRepository.REPORT_TYPE_ORIGINAL_INVOICE);
+        .printAndSave(invoice, InvoiceRepository.REPORT_TYPE_ORIGINAL_INVOICE,null);
   }
 
   /**
