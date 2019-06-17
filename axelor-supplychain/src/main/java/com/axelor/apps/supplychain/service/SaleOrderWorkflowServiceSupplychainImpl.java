@@ -25,6 +25,7 @@ import com.axelor.apps.base.service.user.UserService;
 import com.axelor.apps.purchase.db.PurchaseOrder;
 import com.axelor.apps.purchase.db.repo.PurchaseOrderRepository;
 import com.axelor.apps.sale.db.SaleOrder;
+import com.axelor.apps.sale.db.SaleOrderLine;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.sale.exception.BlockedSaleOrderException;
 import com.axelor.apps.sale.service.app.AppSaleService;
@@ -96,6 +97,11 @@ public class SaleOrderWorkflowServiceSupplychainImpl extends SaleOrderWorkflowSe
     super.cancelSaleOrder(saleOrder, cancelReason, cancelReasonStr);
     try {
       accountingSituationSupplychainService.updateUsedCredit(saleOrder.getClientPartner());
+
+      for (SaleOrderLine saleOrderLine : saleOrder.getSaleOrderLineList()) {
+        saleOrderLine.setAnalyticDistributionTemplate(null);
+        saleOrderLine.clearAnalyticMoveLineList();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }

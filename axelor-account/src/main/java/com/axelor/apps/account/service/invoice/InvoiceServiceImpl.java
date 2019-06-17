@@ -341,6 +341,10 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
     cancelFactory.getCanceller(invoice).process();
 
+    for (InvoiceLine invoiceLine : invoice.getInvoiceLineList()) {
+      invoiceLine.setAnalyticDistributionTemplate(null);
+      invoiceLine.clearAnalyticMoveLineList();
+    }
     invoiceRepo.save(invoice);
   }
 

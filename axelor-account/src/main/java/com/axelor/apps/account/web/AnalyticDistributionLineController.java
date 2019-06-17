@@ -22,6 +22,7 @@ import com.axelor.apps.account.db.AnalyticMoveLine;
 import com.axelor.apps.account.service.AnalyticMoveLineService;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.axelor.rpc.Context;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -42,6 +43,14 @@ public class AnalyticDistributionLineController {
         analyticDistributionTemplate.getAnalyticDistributionLineList())) {
       response.setError(
           "The distribution is wrong, some axes percentage values are higher than 100%");
+    }
+  }
+
+  public void getOriginalPieceAmount(ActionRequest request, ActionResponse response) {
+    Context parentContext = request.getContext().getParent();
+    if (parentContext != null) {
+      response.setValue(
+          "originalPieceAmount", analyticMoveLineService.getOriginalPieceAmount(parentContext));
     }
   }
 }

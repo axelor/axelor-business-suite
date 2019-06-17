@@ -22,12 +22,15 @@ import com.axelor.apps.account.db.AnalyticDistributionLine;
 import com.axelor.apps.account.db.AnalyticDistributionTemplate;
 import com.axelor.apps.account.db.AnalyticJournal;
 import com.axelor.apps.account.db.AnalyticMoveLine;
+import com.axelor.apps.account.db.InvoiceLine;
+import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.base.db.AppAccount;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.db.repo.AppAccountRepository;
+import com.axelor.rpc.Context;
 import com.google.inject.Inject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -152,5 +155,17 @@ public class AnalyticMoveLineServiceImpl implements AnalyticMoveLineService {
       }
     }
     return true;
+  }
+
+  @Override
+  public BigDecimal getOriginalPieceAmount(Context parentContext) {
+    if (parentContext.getContextClass().equals(InvoiceLine.class)) {
+      InvoiceLine invoiceLine = parentContext.asType(InvoiceLine.class);
+      return invoiceLine.getCompanyExTaxTotal();
+    } else if (parentContext.getContextClass().equals(MoveLine.class)) {
+      MoveLine moveLine = parentContext.asType(MoveLine.class);
+      return moveLine.getDebit();
+    }
+    return BigDecimal.ZERO;
   }
 }

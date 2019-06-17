@@ -34,9 +34,9 @@
     <form name="analytic-move-line-form" title="Analytic Move Line" model="com.axelor.apps.account.db.AnalyticMoveLine"  onNew="action-analytic-move-line-record-currency,action-analytic-move-line-attrs-title-project"
     	onLoad="action-analytic-move-line-attrs-title-project" width="large">
        <panel name="mainPanel" >
-       		<field name="analyticJournal" form-view="analytic-journal-form" grid-view="analytic-journal-grid"/>
-       		<field name="analyticAxis" form-view="analytic-axis-form" grid-view="analytic-axis-grid"/>
-	        <field name="analyticAccount" form-view="analytic-account-form" grid-view="analytic-account-grid"/>
+    		<field name="analyticJournal" form-view="analytic-journal-form" grid-view="analytic-journal-grid" canEdit="false" required="true"/>
+    		<field name="analyticAxis" form-view="analytic-axis-form" grid-view="analytic-axis-grid" canEdit="false" required="true"/>
+    		<field name="analyticAccount" form-view="analytic-account-form" grid-view="analytic-account-grid" canEdit="false" required="true"/>
 	        <field name="date"/>
 	        <field name="percentage"/>
             <field name="originalPieceAmount" aggregate="sum"/>
@@ -51,11 +51,11 @@
         
     </form>
     
-    <form name="analytic-move-line-distribution-form" title="Analytic move line" model="com.axelor.apps.account.db.AnalyticMoveLine"  >
+    <form name="analytic-move-line-distribution-form" title="Analytic move line" model="com.axelor.apps.account.db.AnalyticMoveLine" onNew="action-analytic-move-line-method-set-original-piece-amount">
         <panel name="mainPanel" >
-   	        <field name="analyticJournal" grid-view="analytic-journal-grid" form-view="analytic-journal-form"/>
-	        <field name="analyticAxis" form-view="analytic-axis-form" grid-view="analytic-axis-grid"/>
-	        <field name="analyticAccount" grid-view="analytic-account-grid" form-view="analytic-account-form"/>
+	        <field name="analyticJournal" grid-view="analytic-journal-grid" form-view="analytic-journal-form" canEdit="false" required="true"/>
+	        <field name="analyticAxis" form-view="analytic-axis-form" grid-view="analytic-axis-grid" canEdit="false" required="true"/>
+	        <field name="analyticAccount" grid-view="analytic-account-grid" form-view="analytic-account-form" domain="self.analyticAxis=:analyticAxis" canEdit="false" required="true"/>
 	        <field name="accountType" grid-view="account-type-grid" form-view="account-type-form"/>
 	        <field name="percentage" colSpan="4" onChange="action-analytic-move-line-method-compute-amount"/>
             <field name="originalPieceAmount" aggregate="sum"/>
@@ -70,6 +70,10 @@
     	<call class="com.axelor.apps.account.web.AnalyticDistributionLineController" method="computeAmount"/>
     </action-method>
     
+    <action-method name="action-analytic-move-line-method-set-original-piece-amount">
+		<call class="com.axelor.apps.account.web.AnalyticDistributionLineController" method="getOriginalPieceAmount"/>
+    </action-method>
+
     <action-record name="action-analytic-move-line-record-currency" model="com.axelor.apps.account.db.AnalyticMoveLine">
     	<field name="currency" expr="eval: __user__.activeCompany?.currency"/>
     </action-record>

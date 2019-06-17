@@ -412,11 +412,13 @@
 		<action name="action-sale-order-line-attrs-pack" if="typeSelect == 2 || isSubLine"/>
 		<action name="action-sale-order-line-attrs-is-requested-qty-readonly" if="__config__.app.isApp('supplychain') &amp;&amp; __config__.app.getApp('supplychain').getManageStockReservation()"/>
       <action name="action-record-sale-order-line-future-qty" if="__config__.app.isApp('supplychain')"/>
+      <action name="action-sale-order-line-attrs-set-analytical-distribution-template-readonly"/>
     </action-group>
 
     <action-group name="action-group-sale-saleorderline-product-onchange">
     	<action name="action-sale-order-line-method-get-product-information" />
     	<action name="action-sale-order-line-method-compute" />
+		<action name="action-sale-order-line-method-compute-analytic-distribution" if="__config__.app.isApp('supplychain') &amp;&amp; __config__.app.getApp('account').getManageAnalyticAccounting()"/>
     	<action name="action-sale-order-line-attrs-hide-bill-of-material"/>
     	<action name="action-sale-order-line-get-production-information"/>
 		<action name="action-sale-order-line-method-supplier-partner-default" if="__config__.app.isApp('supplychain')"/>
@@ -649,6 +651,10 @@
 		<attribute name="value" expr="eval: _parent?.deliveryDate" for="estimatedDelivDate" if="_parent != null &amp;&amp; _parent._model == 'com.axelor.apps.sale.db.SaleOrder' &amp;&amp; deliveryState &lt; 2"/>
 	</action-attrs>
 	
+	<action-attrs name="action-sale-order-line-attrs-set-analytical-distribution-template-readonly">
+		<attribute name="readonly" for="analyticDistributionTemplate" expr="eval: _parent.statusSelect == 5"/>
+	</action-attrs>
+
 <!-- 	ACTION VIEW -->
 	<action-view name="action-sale-order-line-view-stock-move-line" title="" model="com.axelor.apps.stock.db.StockMoveLine">
   		<view type="grid" name="stock-move-line-sale-order-line-grid"/>

@@ -22,6 +22,7 @@ import com.axelor.apps.account.db.repo.AnalyticMoveLineMngtRepository;
 import com.axelor.apps.account.db.repo.InvoiceManagementRepository;
 import com.axelor.apps.account.service.AccountCustomerService;
 import com.axelor.apps.account.service.AccountingSituationServiceImpl;
+import com.axelor.apps.account.service.AnalyticMoveLineServiceImpl;
 import com.axelor.apps.account.service.BudgetService;
 import com.axelor.apps.account.service.invoice.InvoiceLineServiceImpl;
 import com.axelor.apps.account.service.invoice.InvoiceServiceImpl;
@@ -69,6 +70,7 @@ import com.axelor.apps.supplychain.service.AccountingCutOffServiceImpl;
 import com.axelor.apps.supplychain.service.AccountingSituationSupplychainService;
 import com.axelor.apps.supplychain.service.AccountingSituationSupplychainServiceImpl;
 import com.axelor.apps.supplychain.service.AdvancePaymentServiceSupplychainImpl;
+import com.axelor.apps.supplychain.service.AnalyticMoveLineServiceSupplyChainImpl;
 import com.axelor.apps.supplychain.service.BudgetSupplychainService;
 import com.axelor.apps.supplychain.service.IntercoService;
 import com.axelor.apps.supplychain.service.IntercoServiceImpl;
@@ -205,5 +207,6 @@ public class SupplychainModule extends AxelorModule {
     bind(StockLocationLineReservationService.class)
         .to(StockLocationLineReservationServiceImpl.class);
     bind(PurchaseRequestServiceImpl.class).to(PurchaseRequestServiceSupplychainImpl.class);
+    bind(AnalyticMoveLineServiceImpl.class).to(AnalyticMoveLineServiceSupplyChainImpl.class);
   }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased 5.1.8]
+## Improvements
+- ANALYTIC MOVE LINE : Fix several issues
+
 ## [5.1.7] - 2019-06-17
 - USER : filter assigned to user in partner form
 - AVAILABITY REQUEST : error message if availableStock is less than realQty - reservedQty on stock move line
