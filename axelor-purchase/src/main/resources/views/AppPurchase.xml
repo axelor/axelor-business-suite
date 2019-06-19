@@ -5,6 +5,8 @@
 	
 	<form name="app-purchase-config-form" title="App purchase" model="com.axelor.apps.base.db.AppPurchase" canDelete="false" canNew="false" width="large">
 		<panel name="mainPanel">
+			<field name="assignableUsers"/>
+			<field name="groupsAssignable" showIf="assignableUsers == 1" widget="TagSelect" requiredIf="assignableUsers == 1"/>
 			<field name="managePurchasesUnits" widget="boolean-switch"/>
 			<field name="managePurchaseOrderVersion"  widget="boolean-switch"/>
 			<field name="supplierRequestMgt"  widget="boolean-switch" if-module="axelor-supplier-management"/>

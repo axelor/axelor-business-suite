@@ -40,4 +40,9 @@
 		<option value="PurchaseRequest">Purchase request</option>
 	</selection>
 	
+	<selection name="purchase.app.purchase.assignable.user.select">
+		<option value="0">All users</option>
+		<option value="1">Some user groups</option>
+	</selection>
+	
 </object-views>

@@ -3,6 +3,7 @@
 ##[Unreleased 5.1.8]
 ##Features
 - USER MANAGEMENT : add traking on all fields of user-form, group-form, role-form and permission-form
+- USER : filter assigned to user in supplier partner form and on saleman in sale order
 
 ##Improvements
 - DEMO DATA : Reduce padding in sequence for all modules.

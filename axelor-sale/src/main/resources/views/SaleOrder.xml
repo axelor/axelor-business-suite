@@ -390,7 +390,7 @@
 	    </field>
 	  </panel>
 	  <panel name="salesFollowUpPanel" title="Sales follow-up" hideIf="clientPartner == null" sidebar="true" itemSpan="6" canCollapse="true" collapseIf="true">
-	    <field name="salemanUser" canNew="false" canView="false" canEdit="false" form-view="user-form" grid-view="user-grid"/>
+	    <field name="salemanUser" canNew="false" canView="false" canEdit="false" form-view="user-form" grid-view="user-grid" onSelect="action-saleorder-attrs-salemanuser-group"/>
 	    <field if="__config__.app.getApp('base').getTeamManagement()" name="team" canEdit="false" onSelect="action-sale-order-domain-on-team" form-view="team-form" grid-view="team-grid"/>
 	  </panel>
 	  <panel name="characteristicsPanel" title="Characteristics" hideIf="clientPartner == null" sidebar="true" itemSpan="6" canCollapse="true" collapseIf="true">
@@ -1133,6 +1133,10 @@
 	<action-attrs name="action-set-client-partner-domain">
  		<attribute name="domain" for="clientPartner" expr="eval:&quot;self.id != ${company.partner?.id} AND self.isContact = false and (self.isCustomer = true or self.isProspect = true) AND :company member of self.companySet&quot;"/>
  	</action-attrs>
+ 	
+ 	<action-attrs name="action-saleorder-attrs-salemanuser-group" if-module="axelor-crm">
+		<attribute name="domain" for="salemanUser" expr="eval: &quot;self.group IN (${__config__.app.getApp('crm').groupsAssignable?.collect{it.id}.plus(0).join(',')})&quot;" if="__config__.app.getApp('crm').assignableUsers == __repo__(AppCrm).ASSIGNABLE_SOME_USER_GROUPS"/>
+	</action-attrs>
 
 	<search-filters name="sale-order-filters" model="com.axelor.apps.sale.db.SaleOrder" title="Sales Order filters">
 		<field name="saleOrderLineList.product.name" title="Product Name"/>

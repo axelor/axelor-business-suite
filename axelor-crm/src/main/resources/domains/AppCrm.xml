@@ -9,6 +9,14 @@
 	<many-to-many name="groupsAssignable" title="Groups Assignable" ref="com.axelor.auth.db.Group"/>
 		<boolean name="displayCustomerDescriptionInOpportunity" title="Display customer description in opportunity"/>
 
+		<extra-code><![CDATA[
+	
+	   	// USERS SELECT
+		public static final int ASSIGNABLE_ALL_USERS = 0;
+		public static final int ASSIGNABLE_SOME_USER_GROUPS = 1;
+	
+		]]></extra-code> 
+
 		<track>
 			<field name="assignableUsers" on="UPDATE"/>
 			<field name="groupsAssignable" on="UPDATE"/>

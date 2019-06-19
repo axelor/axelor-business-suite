@@ -10,6 +10,18 @@
         <boolean name="manageMultiplePurchaseQuantity" title="Manage multiple purchase quantity"/>
 		<boolean name="isEnabledProductDescriptionCopy" title="Enable product description copy"/>
 		<boolean name="manageSupplierCatalog" title="Manage supplier catalog"/>
+		<integer name="assignableUsers" title="Assignable Users" selection="purchase.app.purchase.assignable.user.select"/>
+		<many-to-many name="groupsAssignable" title="Groups Assignable" ref="com.axelor.auth.db.Group"/>
+		
+		
+		 <extra-code><![CDATA[
+	
+	   	// USERS SELECT
+		public static final int ASSIGNABLE_ALL_USERS = 0;
+		public static final int ASSIGNABLE_SOME_USER_GROUPS = 1;
+	
+		]]></extra-code> 
+		
 		
 		<track>
 			<field name="managePurchaseOrderVersion" on="UPDATE"/>
