@@ -25,6 +25,7 @@
 			<field name="customerAccount" form-view="customer-account-form" grid-view="account-grid" canNew="true"/>
 			<field name="supplierAccount" form-view="supplier-account-form" grid-view="account-grid" canNew="true"/>
 			<field name="employeeAccount" form-view="employee-account-form" grid-view="account-grid" canNew="true" />
+			<field name="employeeCbAccount" form-view="account-form" grid-view="account-grid"/>
 		</panel>
 		<panel name="customerBalancePanel" title="Customer balance" itemSpan="4">
 			<field name="balanceCustAccount"/>

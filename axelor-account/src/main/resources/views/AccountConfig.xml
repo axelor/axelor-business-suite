@@ -49,6 +49,7 @@
 					<panel title="AccountConfig.Employees" colSpan="12">
 						<field name="employeeAccount" domain="self.company = :company" grid-view="account-grid" form-view="account-form"
 							   help="Select the default employee account to be used in eg. expense payments. It will also be used as parent account if automatic account creation is enabled."/>
+						<field name="employeeCbAccount" form-view="account-form" grid-view="account-grid"/>
 						<field name="employeeAccountPrefix" help="Prefix to be prepended on employee accounts' codes, the code will be [prefix]PARTNERNAME"
 							   showIf="partnerAccountGenerationModeSelect == 1" requiredIf="partnerAccountGenerationModeSelect == 1"/>
 						<field name="employeeAccountSequence" help="Sequence to be used to generate employee accounts' codes" canNew="true" canEdit="true"

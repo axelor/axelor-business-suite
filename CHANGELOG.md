@@ -3,6 +3,7 @@
 ##[Unreleased 5.1.8]
 ##Features
 - USER MANAGEMENT : add traking on all fields of user-form, group-form, role-form and permission-form
+- Expense : Change process to create Move when Expense paid with company's credit card = Company's credit card
 
 ##Improvements
 - DEMO DATA : Reduce padding in sequence for all modules.

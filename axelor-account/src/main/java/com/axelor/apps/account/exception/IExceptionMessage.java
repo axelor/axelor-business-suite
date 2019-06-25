@@ -443,6 +443,8 @@ public interface IExceptionMessage {
       "%s : You must configure a factor credit account for the company %s" /*)*/;
   static final String ACCOUNT_CONFIG_42 = /*$$(*/
       "%s : You must configure a factor debit account for the company %s" /*)*/;
+  static final String ACCOUNT_CONFIG_43 = /*$$(*/
+      "Please set up the Employee Account Corporate Cards in Accounting Configurations" /*)*/;
 
   static final String ACCOUNT_CONFIG_SEQUENCE_1 = /*$$(*/
       "%s : Please, configure a sequence for the customer invoices and the company %s" /*)*/;

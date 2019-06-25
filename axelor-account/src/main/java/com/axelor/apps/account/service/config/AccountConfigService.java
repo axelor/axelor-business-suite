@@ -372,6 +372,16 @@ public class AccountConfigService {
     return accountConfig.getDoubtfulCustomerAccount();
   }
 
+  public Account getEmployeeCbAccount(AccountConfig accountConfig) throws AxelorException {
+
+    if (accountConfig.getEmployeeCbAccount() == null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.ACCOUNT_CONFIG_43));
+    }
+    return accountConfig.getEmployeeCbAccount();
+  }
+
   /** ****************************** TVA ******************************************* */
   public Tax getIrrecoverableStandardRateTax(AccountConfig accountConfig) throws AxelorException {
 

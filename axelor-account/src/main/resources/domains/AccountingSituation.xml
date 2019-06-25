@@ -14,6 +14,7 @@
 		<many-to-one name="customerAccount" ref="com.axelor.apps.account.db.Account" title="Customer account"/>
 		<many-to-one name="supplierAccount" ref="com.axelor.apps.account.db.Account" title="Supplier account"/>
 		<many-to-one name="employeeAccount" ref="com.axelor.apps.account.db.Account" title="Employee account"/>
+		<many-to-one name="employeeCbAccount" ref="com.axelor.apps.account.db.Account" title="Employee credit card account"/>
 
 		<!-- PAGE Compte Client -->
 		<decimal name="balanceCustAccount" title="Total balance" readonly="true"/>

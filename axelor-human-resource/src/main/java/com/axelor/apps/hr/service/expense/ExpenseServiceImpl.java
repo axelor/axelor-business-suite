@@ -384,7 +384,10 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     int moveLineId = 1;
     int expenseLineId = 1;
-    Account employeeAccount = accountingSituationService.getEmployeeAccount(partner, company);
+    Account employeeAccount =
+        expense.getCompanyCbSelect() == ExpenseRepository.COMPANY_CB_PAYMENT_NO
+            ? accountingSituationService.getEmployeeAccount(partner, company)
+            : accountingSituationService.getEmployeeCbAccount(partner, company);
     moveLines.add(
         moveLineService.createMoveLine(
             move,

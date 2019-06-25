@@ -94,4 +94,6 @@ public interface AccountingSituationService {
    * @return
    */
   BankDetails getCompanySalesBankDetails(Company company, Partner partner);
+
+  Account getEmployeeCbAccount(Partner partner, Company company) throws AxelorException;
 }

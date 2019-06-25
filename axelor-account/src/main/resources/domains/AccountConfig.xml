@@ -37,6 +37,7 @@
 		<many-to-one name="advancePaymentAccount" ref="com.axelor.apps.account.db.Account" title="Advance Payment Account"/>
 		<many-to-one name="factorDebitAccount" ref="com.axelor.apps.account.db.Account"/>
 		<many-to-one name="factorCreditAccount" ref="com.axelor.apps.account.db.Account"/>
+		<many-to-one name="employeeCbAccount" ref="com.axelor.apps.account.db.Account" title="Employee credit card account"/>
 
         <!-- Automatic account creation for partners -->
         <integer name="partnerAccountGenerationModeSelect" selection="account.create.mode.select" default="0" title="Automatic partner account creation mode"/>

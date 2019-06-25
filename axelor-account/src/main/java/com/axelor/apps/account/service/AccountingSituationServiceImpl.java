@@ -446,4 +446,21 @@ public class AccountingSituationServiceImpl implements AccountingSituationServic
 
     return company.getDefaultBankDetails();
   }
+
+  @Override
+  public Account getEmployeeCbAccount(Partner partner, Company company) throws AxelorException {
+    Account account = null;
+    AccountingSituation accountingSituation = getAccountingSituation(partner, company);
+
+    if (accountingSituation != null) {
+      account = accountingSituation.getEmployeeCbAccount();
+    }
+
+    if (account == null) {
+      AccountConfig accountConfig = accountConfigService.getAccountConfig(company);
+      account = accountConfigService.getEmployeeCbAccount(accountConfig);
+    }
+
+    return account;
+  }
 }
