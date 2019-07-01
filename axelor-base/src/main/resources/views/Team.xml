@@ -6,6 +6,27 @@
   		<panel-include view="team-form" from="axelor-core"/>
 	</form>
 
+    <cards name="team-cards" id="base-team-cards" title="Teams" model="com.axelor.team.db.Team">
+       <field name="name"/>
+       <field name="description"/>
+       <template><![CDATA[
+          <div>
+            <div class="span4 card-image">
+               <img ng-src="{{$image(null, 'image')}}">
+               <strong>{{name}}</strong>
+            </div>
+            <div class="span8">
+               <strong>{{name}}</strong>
+               <p class="muted">{{description}}</p>
+               <div class="buttons">
+                   <a class="btn btn-small btn-success" href="" ng-show="!_following" ui-action-click="com.axelor.mail.web.MailController:follow" x-translate>Join</a>
+                   <a class="btn btn-small btn-danger" href="" ng-show="_following" ui-action-click="com.axelor.mail.web.MailController:unfollow" x-translate>WorkTeam.Leave</a>
+               </div>
+            </div>
+          </div>
+        ]]></template>
+    </cards>
+    
 	<action-record name="action-quality-team-record-default" model="com.axelor.team.db.Team">
  		<field name="typeSelect" expr="eval: _typeSelect" if="_typeSelect != null"/>
   		<field name="typeSelect" expr="eval: 'general'" if="_typeSelect == null"/>

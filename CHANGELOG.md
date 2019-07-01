@@ -20,6 +20,7 @@
 - USER MANAGEMENT : add traking on all fields of user-form, group-form, role-form and permission-form
 - EMPLOYEE CARD : add tag for rh, company and department field.
 - STOCK MOVES : updating filterOnAvailableProducts field display conditions
+- WORKTEAM: change title of button to subscribe to a team
 
 ## Bug Fixes
 - SALE/PURCHASE ORDER LINES : dates should not be in readonly
