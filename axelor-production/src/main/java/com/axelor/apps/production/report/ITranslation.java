@@ -59,6 +59,8 @@ public interface ITranslation {
 
   public static final String WORK_IN_PROGRESS_VALUATION_TITLE = /*$$(*/
       "WorkInProgressValuation.title"; /*)*/
+  public static final String DETAILED_WORK_IN_PROGRESS_VALUATION_TITLE = /*$$(*/
+      "DetailedWorkInProgressValuation.title"; /*)*/
 
   public static final String MANUF_ORDER_COMPANY = /*$$(*/ "ManufOrder.company"; /*)*/
   public static final String MANUF_ORDER_TITLE = /*$$(*/ "ManufOrder.title"; /*)*/

@@ -85,4 +85,34 @@ public class ProductionBatchController {
 
     response.setView(ActionView.define(name).add("html", fileLink).map());
   }
+
+  public void showDetailedValuation(ActionRequest request, ActionResponse response)
+      throws AxelorException {
+    ProductionBatch productionBatch = request.getContext().asType(ProductionBatch.class);
+    productionBatch = productionBatchRepo.find(productionBatch.getId());
+
+    String name = I18n.get(ITranslation.DETAILED_WORK_IN_PROGRESS_VALUATION);
+
+    String fileLink =
+        ReportFactory.createReport(IReport.DETAILED_WORK_IN_PROGRESS_VALUATION, name + "-${date}")
+            .addParam("Locale", ReportSettings.getPrintingLocale(null))
+            .addParam(
+                "companyId",
+                productionBatch.getCompany() != null ? productionBatch.getCompany().getId() : 0)
+            .addParam(
+                "locationId",
+                productionBatch.getWorkshopStockLocation() != null
+                    ? productionBatch.getWorkshopStockLocation().getId()
+                    : 0)
+            .addParam(
+                "editionDate",
+                DateTimeFormatter.ofPattern("MMM d, yyyy, hh:mm a")
+                    .format(productionBatch.getUpdatedOn()))
+            .generate()
+            .getFileLink();
+
+    LOG.debug("Printing {}", name);
+
+    response.setView(ActionView.define(name).add("html", fileLink).map());
+  }
 }

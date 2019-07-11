@@ -755,138 +755,64 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
             <property name="rightMargin">0.396875cm</property>
             <property name="showHeaderOnFirst">true</property>
             <property name="showFooterOnLast">true</property>
-            <property name="headerHeight">0.5in</property>
-            <property name="footerHeight">0.6in</property>
-            <page-header>
-                <grid id="3117">
-                    <property name="height">2.513541666666667cm</property>
-                    <property name="width">11.020833333333334in</property>
-                    <property name="dataSet">ManufOrderDS</property>
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">id</property>
-                            <text-property name="displayName">id</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["id"]</expression>
-                            <property name="dataType">decimal</property>
-                        </structure>
-                        <structure>
-                            <property name="name">logo_path</property>
-                            <text-property name="displayName">logo_path</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["logo_path"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">company_id</property>
-                            <text-property name="displayName">company_id</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["company_id"]</expression>
-                            <property name="dataType">decimal</property>
-                        </structure>
-                        <structure>
-                            <property name="name">company_name</property>
-                            <text-property name="displayName">company_name</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["company_name"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">currency_symbol</property>
-                            <text-property name="displayName">currency_symbol</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["currency_symbol"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">stock_location_id</property>
-                            <text-property name="displayName">stock_location_id</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["stock_location_id"]</expression>
-                            <property name="dataType">decimal</property>
-                        </structure>
-                        <structure>
-                            <property name="name">stock_location_name</property>
-                            <text-property name="displayName">stock_location_name</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["stock_location_name"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">product_code</property>
-                            <text-property name="displayName">product_code</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["product_code"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">product_name</property>
-                            <text-property name="displayName">product_name</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["product_name"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">bom_name</property>
-                            <text-property name="displayName">bom_name</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["bom_name"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">manuf_order_seq</property>
-                            <text-property name="displayName">manuf_order_seq</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["manuf_order_seq"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">planned_end</property>
-                            <text-property name="displayName">planned_end</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["planned_end"]</expression>
-                            <property name="dataType">date-time</property>
-                        </structure>
-                        <structure>
-                            <property name="name">status_select</property>
-                            <text-property name="displayName">status_select</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["status_select"]</expression>
-                            <property name="dataType">integer</property>
-                        </structure>
-                        <structure>
-                            <property name="name">cost_price</property>
-                            <text-property name="displayName">cost_price</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["cost_price"]</expression>
-                            <property name="dataType">decimal</property>
-                        </structure>
-                    </list-property>
-                    <column id="4158">
-                        <property name="width">3.8854166666666665in</property>
+            <property name="headerHeight">0in</property>
+            <property name="footerHeight">0.5in</property>
+            <page-footer>
+                <grid id="4314">
+                    <property name="height">1.905cm</property>
+                    <property name="width">28.04583333333333cm</property>
+                    <column id="4315">
+                        <property name="width">20.79625cm</property>
                     </column>
-                    <column id="3118">
-                        <property name="width">5.729166666666667in</property>
+                    <column id="4410">
+                        <property name="textAlign">right</property>
+                        <property name="width">1.5625in</property>
                     </column>
-                    <column id="3119">
-                        <property name="width">1.40625in</property>
+                    <column id="4394">
+                        <property name="textAlign">right</property>
+                        <property name="width">1.5875cm</property>
                     </column>
-                    <row id="3120">
-                        <cell id="4157">
-                            <image id="5962">
-                                <property name="height">84px</property>
-                                <property name="width">235px</property>
-                                <list-property name="visibility">
-                                    <structure>
-                                        <property name="format">all</property>
-                                        <expression name="valueExpr" type="javascript">row["logo_path"] == null</expression>
-                                    </structure>
-                                </list-property>
-                                <property name="source">file</property>
-                                <property name="proportionalScale">true</property>
-                                <expression name="uri" type="javascript">params["AttachmentPath"].value+row["logo_path"]</expression>
-                            </image>
+                    <column id="6042">
+                        <property name="textAlign">right</property>
+                        <property name="width">0.5291666666666667cm</property>
+                    </column>
+                    <column id="6045">
+                        <property name="textAlign">right</property>
+                        <property name="width">1.1641666666666666cm</property>
+                    </column>
+                    <row id="5936">
+                        <property name="height">0.6085416666666666cm</property>
+                        <cell id="5937">
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
                         </cell>
-                        <cell id="3121">
-                            <property name="verticalAlign">top</property>
-                            <text id="5973">
-                                <property name="fontSize">9pt</property>
-                                <property name="fontWeight">normal</property>
-                                <property name="marginTop">1pt</property>
-                                <property name="marginLeft">2pt</property>
-                                <property name="textAlign">right</property>
+                        <cell id="5938"/>
+                        <cell id="5939"/>
+                        <cell id="6040"/>
+                        <cell id="6043"/>
+                    </row>
+                    <row id="4387">
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="height">1.2964583333333333cm</property>
+                        <cell id="4388">
+                            <property name="borderBottomStyle">none</property>
+                            <property name="borderLeftStyle">none</property>
+                            <property name="borderRightStyle">none</property>
+                            <property name="borderTopStyle">none</property>
+                            <text id="6039">
+                                <property name="fontSize">14pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">none</property>
+                                <property name="textAlign">center</property>
                                 <property name="dataSet">TranslateDS</property>
                                 <list-property name="paramBindings">
                                     <structure>
                                         <property name="paramName">param_1</property>
                                         <simple-property-list name="expression">
-                                            <value type="javascript">"ManufOrder.editionDate"</value>
+                                            <value type="javascript">'WorkInProgressValuation.title'</value>
                                         </simple-property-list>
                                     </structure>
                                 </list-property>
@@ -905,86 +831,35 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                                     </structure>
                                 </list-property>
                                 <property name="contentType">html</property>
-                                <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> : ]]></text-property>
+                                <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF>]]></text-property>
                             </text>
                         </cell>
-                        <cell id="3122">
-                            <property name="verticalAlign">top</property>
+                        <cell id="4409">
                             <text id="5963">
                                 <property name="fontSize">9pt</property>
+                                <property name="textAlign">left</property>
                                 <property name="contentType">html</property>
                                 <text-property name="content"><![CDATA[<VALUE-OF>params["editionDate"].value</VALUE-OF>]]></text-property>
                             </text>
                         </cell>
-                    </row>
-                </grid>
-            </page-header>
-            <page-footer>
-                <grid id="4314">
-                    <property name="height">1.905cm</property>
-                    <property name="width">27.99291666666667cm</property>
-                    <column id="4315">
-                        <property name="width">23.468541666666667cm</property>
-                    </column>
-                    <column id="4410">
-                        <property name="textAlign">right</property>
-                        <property name="width">0.4166666666666667in</property>
-                    </column>
-                    <column id="4394">
-                        <property name="textAlign">right</property>
-                        <property name="width">3.4660416666666665cm</property>
-                    </column>
-                    <row id="5936">
-                        <property name="height">0.6085416666666666cm</property>
-                        <cell id="5937">
-                            <property name="borderBottomStyle">none</property>
-                            <property name="borderLeftStyle">none</property>
-                            <property name="borderRightStyle">none</property>
-                            <property name="borderTopStyle">none</property>
+                        <cell id="4390">
+                            <auto-text id="4403">
+                                <property name="textAlign">right</property>
+                                <property name="type">page-number</property>
+                            </auto-text>
                         </cell>
-                        <cell id="5938"/>
-                        <cell id="5939"/>
-                    </row>
-                    <row id="4387">
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <property name="height">1.2964583333333333cm</property>
-                        <cell id="4388">
-                            <property name="borderBottomStyle">none</property>
-                            <property name="borderLeftStyle">none</property>
-                            <property name="borderRightStyle">none</property>
-                            <property name="borderTopStyle">none</property>
-                        </cell>
-                        <cell id="4409">
-                            <text id="4411">
-                                <property name="contentType">auto</property>
-                                <text-property name="content"><![CDATA[Page]]></text-property>
+                        <cell id="6041">
+                            <text id="4405">
+                                <property name="textAlign">center</property>
+                                <property name="contentType">plain</property>
+                                <text-property name="content"><![CDATA[/]]></text-property>
                             </text>
                         </cell>
-                        <cell id="4390">
-                            <grid id="4397">
-                                <column id="4398"/>
-                                <column id="4399"/>
-                                <column id="4400"/>
-                                <row id="4401">
-                                    <cell id="4402">
-                                        <auto-text id="4403">
-                                            <property name="type">page-number</property>
-                                        </auto-text>
-                                    </cell>
-                                    <cell id="4404">
-                                        <text id="4405">
-                                            <property name="contentType">plain</property>
-                                            <text-property name="content"><![CDATA[/]]></text-property>
-                                        </text>
-                                    </cell>
-                                    <cell id="4406">
-                                        <auto-text id="4407">
-                                            <property name="type">total-page</property>
-                                        </auto-text>
-                                    </cell>
-                                </row>
-                            </grid>
+                        <cell id="6044">
+                            <auto-text id="4407">
+                                <property name="textAlign">left</property>
+                                <property name="type">total-page</property>
+                            </auto-text>
                         </cell>
                     </row>
                 </grid>
@@ -1052,7 +927,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                 </cell>
             </row>
             <row id="5981">
-                <property name="height">0.281in</property>
+                <property name="height">0.23958333333333334in</property>
                 <cell id="5982">
                     <property name="colSpan">6</property>
                     <property name="rowSpan">1</property>

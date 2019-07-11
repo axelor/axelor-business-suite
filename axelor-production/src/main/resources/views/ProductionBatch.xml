@@ -15,6 +15,7 @@
 	<form name="production-batch-form" title="Production Batch" model="com.axelor.apps.production.db.ProductionBatch" onNew="action-production-batch-record-on-new" width="large">
 		<toolbar>
 			<button name="printBtn" title="Work in progress valuation" hideIf="!batchList" onClick="save,action-production-batch-method-show-valuation"/>
+			<button name="printBtn" title="Detailed work in progress valuation" hideIf="!batchList" onClick="save,action-production-batch-method-show-detailed-valuation"/>
 		</toolbar>
 		<panel name="mainPanel" >
 		  <field name="actionSelect"/>
@@ -53,6 +54,10 @@
 	
 	<action-method name="action-production-batch-method-show-valuation">
 		<call class="com.axelor.apps.production.web.ProductionBatchController" method="showValuation"/>
+	</action-method>
+	
+	<action-method name="action-production-batch-method-show-detailed-valuation">
+		<call class="com.axelor.apps.production.web.ProductionBatchController" method="showDetailedValuation"/>
 	</action-method>
 	
 	<action-attrs name="action-production-batch-attrs-domain-stock-location">
