@@ -34,6 +34,11 @@ public class ImportCity {
     City city = (City) bean;
 
     try {
+
+      if (city.getName() == null) {
+        return null;
+      }
+
       if (city.getCanton() != null) {
         city.getCanton().setDepartment(city.getDepartment());
       }
