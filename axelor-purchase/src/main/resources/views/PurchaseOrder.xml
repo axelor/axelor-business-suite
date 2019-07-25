@@ -399,6 +399,7 @@
     </action-group>
 
     <action-group name="action-group-purchase-order-on-validate-actions">
+      <action name="action-purchase-order-method-check-analytic-distribution-template"/>
     	<action name="action-purchase-order-validate-purchase-order-line"/>
     	<action name="action-purchase-order-validate-stock-location"/>
     	<action name="save"/>
@@ -683,4 +684,7 @@
                  || (externalReference != null &amp;&amp; id == null &amp;&amp; __repo__(PurchaseOrder).all().filter('self.externalReference = ?', externalReference).count() > 0))"/>
 	</action-attrs>
 
+  <action-method name="action-purchase-order-method-check-analytic-distribution-template">
+    <call class="com.axelor.apps.supplychain.web.PurchaseOrderController" method="checkPurchaseOrderAnalyticDistributionTemplate" if="company?.purchaseConfig?.isAnalyticDistributionRequired"/>
+  </action-method>
 </object-views>

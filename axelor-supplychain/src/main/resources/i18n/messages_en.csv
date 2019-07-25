@@ -442,6 +442,8 @@
 "The trading name must be the same for all purchase orders.",,,
 "The trading name must be the same for all sale orders.",,,
 "There are no lines to invoice",,,
+"There is no analytic distribution on %s purchase order line",,,
+"There is no analytic distribution on %s sale order line",,,
 "This batch has already been running this month",,,
 "This operation cannot be performed. Available stock for product %s: %s, stock needed: %s. Please deallocate.",,,
 "This product is not stock managed.",,,

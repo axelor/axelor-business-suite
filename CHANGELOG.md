@@ -8,6 +8,7 @@
 - ActionBuilderView : Add condition option
 - FORECAST RECAP LINE : Add reference to display related invoice, expense, sale order, purchase order or forecast reason
 - MrpForecast : Enable Tracking Feature for all fields on the creation of record
+- SALE ORDER/ PURCHASE ORDER : Addtion of boolean field 'isAnalyticDistributionRequired' in app's configuration.
 
 ## Improvements
 - DEMO DATA : Reduce padding in sequence for all modules.

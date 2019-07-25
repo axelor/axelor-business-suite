@@ -19,7 +19,7 @@
   	<boolean name="displayProductDetailOnPrinting" title="Display product detail on printing"/>
   	
   	<string name="priceRequest" title="Message for requesting prices" large="true"/>
-  	
+    <boolean name="isAnalyticDistributionRequired" title="Analytic distribution required on purchase order line"/>
   	<track>
   		<field name="company" on="UPDATE"/>
   		<field name="purchaseOrderInAtiSelect" on="UPDATE"/>

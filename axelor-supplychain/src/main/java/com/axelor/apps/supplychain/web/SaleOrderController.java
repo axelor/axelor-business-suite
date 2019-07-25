@@ -764,4 +764,20 @@ public class SaleOrderController {
       TraceBackService.trace(response, e);
     }
   }
+
+  public void checkSaleOrderAnalyticDistributionTemplate(
+      ActionRequest request, ActionResponse response) {
+    SaleOrder saleOrder = request.getContext().asType(SaleOrder.class);
+    List<String> ProductList = new ArrayList<String>();
+    for (SaleOrderLine saleOrderLine : saleOrder.getSaleOrderLineList()) {
+      if (saleOrderLine.getAnalyticDistributionTemplate() == null) {
+        ProductList.add(saleOrderLine.getProduct().getFullName());
+      }
+    }
+    if (ProductList != null && !ProductList.isEmpty()) {
+      response.setFlash(
+          String.format(
+              I18n.get(IExceptionMessage.SALE_ORDER_ANALYTIC_DISTRIBUTION_ERROR), ProductList));
+    }
+  }
 }

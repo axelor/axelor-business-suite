@@ -25,6 +25,7 @@
 			<field name="displayEstimDelivDateOnPrinting" widget="boolean-switch"/>
 			<field name="displayCustomerCodeOnPrinting" widget="boolean-switch"/>
 			<field name="displayProductPictureOnPrinting" widget="boolean-switch"/>
+			<field name="isAnalyticDistributionRequired" widget="boolean-switch" if="__config__.app.getApp('account')"/>
 			<field name="saleOrderClientBox" widget="html" x-lite="true" colSpan="12"/>
 			<field name="saleOrderLegalNote" widget="html" x-lite="true" colSpan="12"/>
 		</panel>

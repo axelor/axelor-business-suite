@@ -18,6 +18,7 @@
 			<field name="displayTaxDetailOnPrinting" widget="boolean-switch"/>
 			<field name="displayProductDetailOnPrinting" widget="boolean-switch"/>
 			<field name="displaySupplierCodeOnPrinting" widget="boolean-switch"/>
+			 <field name="isAnalyticDistributionRequired" widget="boolean-switch" if="__config__.app.getApp('account')"/>
 			<field name="purchaseOrderSupplierBox" widget="html" colSpan="12"/>
 			<field name="priceDisplay" widget="boolean-switch"/>
 		  	<field name="priceRequest" colSpan="12"/>

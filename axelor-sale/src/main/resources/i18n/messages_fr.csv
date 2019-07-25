@@ -20,6 +20,7 @@
 "Amount Tax","Montant Taxe",,
 "Amount invoiced W.T.","Montant facturé HT",,
 "Amount to be spread over the timetable","Montant restant à étaler sur l'échéancier",,
+"Analytic distribution required on sale order line","Exiger un modèle de répartition analytique sur les lignes de commandes",,
 "Analytics","Analytique",,
 "App sale","App Ventes",,
 "At least one sale order line has a stock move with availability request.","Il existe pour cette commande au moins un BL avec une demande de mise à dispo.",,

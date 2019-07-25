@@ -20,6 +20,7 @@
 		<boolean name="displayCustomerCodeOnPrinting" title="Display customer code on printing"/>
 		<boolean name="displayProductPictureOnPrinting" title="Display product picture on printing"/>
 		<many-to-one name="defaultValidityDuration" ref="com.axelor.apps.base.db.Duration" title="Validity duration per default"/>
+		<boolean name="isAnalyticDistributionRequired" title="Analytic distribution required on sale order line"/>
 
 	</entity>
 

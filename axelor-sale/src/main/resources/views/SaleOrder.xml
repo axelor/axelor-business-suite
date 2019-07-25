@@ -884,6 +884,7 @@
 		</action-group>
 
 	<action-group name="action-sale-group-confirmed">
+    <action name="action-sale-order-method-check-analytic-distribution-template"/>
     	<action name="action-sale-order-method-generate-project" if="__config__.app.isApp('business-project') &amp;&amp; __config__.app.getApp('business-project').getAutomaticProject()"/>
 		<action name="action-sale-order-validate-check-on-confirm"/>
     	<action name="action-sale-order-method-confirm"/>
@@ -1308,4 +1309,7 @@
 		<call class="com.axelor.apps.supplychain.web.SaleOrderController" method="fillSaleOrderLinesEstimatedDate"/>
 	</action-method>
 
+  <action-method name="action-sale-order-method-check-analytic-distribution-template">
+    <call class="com.axelor.apps.supplychain.web.SaleOrderController" method="checkSaleOrderAnalyticDistributionTemplate" if="company?.saleConfig?.isAnalyticDistributionRequired"/>
+  </action-method>
 </object-views>

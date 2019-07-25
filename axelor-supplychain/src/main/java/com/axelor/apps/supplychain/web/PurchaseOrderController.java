@@ -364,4 +364,20 @@ public class PurchaseOrderController {
     }
     response.setValue("purchaseOrderLineList", purchaseOrderLineList);
   }
+
+  public void checkPurchaseOrderAnalyticDistributionTemplate(
+      ActionRequest request, ActionResponse response) {
+    PurchaseOrder purchaseOrder = request.getContext().asType(PurchaseOrder.class);
+    List<String> ProductList = new ArrayList<String>();
+    for (PurchaseOrderLine purchaseOrderLine : purchaseOrder.getPurchaseOrderLineList()) {
+      if (purchaseOrderLine.getAnalyticDistributionTemplate() == null) {
+        ProductList.add(purchaseOrderLine.getProduct().getFullName());
+      }
+    }
+    if (ProductList != null && !ProductList.isEmpty()) {
+      response.setFlash(
+          String.format(
+              I18n.get(IExceptionMessage.PURCHASE_ORDER_ANALYTIC_DISTRIBUTION_ERROR), ProductList));
+    }
+  }
 }

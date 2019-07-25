@@ -20,6 +20,7 @@
 "Amount Tax",,,
 "Amount invoiced W.T.",,,
 "Amount to be spread over the timetable",,,
+"Analytic distribution required on sale order line",,,
 "Analytics",,,
 "App sale",,,
 "At least one sale order line has a stock move with availability request.",,,
