@@ -196,6 +196,10 @@
             <div class="card-footer">
                 <i class='fa fa-clock-o'></i> <span>{{record.expectedCloseDate|date:'dd/MM/yyyy'}}</span>
             </div>
+			<div class="card-summary popover">
+				<p style="margin:2px;max-width:250px;" "word-break:break-all;" ng-bind-html="record.description"></p>
+			</div>
+	        </div>
             ]]>
         </template>
 	</kanban>
