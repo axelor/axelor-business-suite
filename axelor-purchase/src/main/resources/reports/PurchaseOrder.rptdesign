@@ -4909,7 +4909,7 @@ row["first_name"]
                                     <property name="paddingRight">2pt</property>
                                     <property name="verticalAlign">top</property>
                                     <data id="4473">
-                                        <property name="fontSize">8pt</property>
+                                        <property name="fontSize">7pt</property>
                                         <property name="textAlign">left</property>
                                         <property name="resultSetColumn">supplier_product_code</property>
                                     </data>

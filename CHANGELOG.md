@@ -106,6 +106,7 @@
 - MESSAGE TEMPLATE : added the management of additional contexts (groovy evaluation) in order to allow the use of Json fields.
 - HR : APPRAISALS - Optimization of the menu by adding filters
 - HR : RECRUITMENT - optimization of the menu by adding filters
+- PUCHASE ORDER : Font used for supplier product code on the purchase order print reduce to smaller (to prevent carriage return on mid size codes)
 
 ## Improvements
 - Contract: added button to manually close contract if termination date was set in the future
