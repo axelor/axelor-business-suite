@@ -541,6 +541,8 @@ public interface IExceptionMessage {
   static final String DEBT_RECOVERY_3 = /*$$(*/
       "Debt recovery method missing for the configuration." /*)*/;
   static final String DEBT_RECOVERY_4 = /*$$(*/ "Debt recovery level waiting for approval." /*)*/;
+  static final String DEBT_RECOVERY_5 = /*$$(*/
+      "Email is not sent. Please check Manual validation to true for Action Level" /*)*/;
   static final String DEBT_RECOVERY_DEBT_RECOVERY_LEVEL_NOT_FOUND = /*$$(*/
       "Debt recovery method line not found" /*)*/;
 

@@ -52,6 +52,10 @@ public class DebtRecoveryController {
         throw new AxelorException(
             TraceBackRepository.CATEGORY_MISSING_FIELD,
             I18n.get(IExceptionMessage.DEBT_RECOVERY_1));
+      } else if (!debtRecovery.getDebtRecoveryMethodLine().getManualValidationOk()) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.DEBT_RECOVERY_5));
       }
       debtRecovery.setDebtRecoveryMethodLine(debtRecovery.getWaitDebtRecoveryMethodLine());
       debtRecoveryActionService.runManualAction(debtRecovery);
