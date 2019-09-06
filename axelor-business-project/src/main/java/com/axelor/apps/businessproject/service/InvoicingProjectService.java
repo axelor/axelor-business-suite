@@ -34,6 +34,7 @@ import com.axelor.apps.base.db.repo.PriceListRepository;
 import com.axelor.apps.base.service.PartnerPriceListService;
 import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.app.AppBaseService;
+import com.axelor.apps.businessproject.db.InvoicingElementOrder;
 import com.axelor.apps.businessproject.db.InvoicingProject;
 import com.axelor.apps.businessproject.db.repo.InvoicingProjectRepository;
 import com.axelor.apps.businessproject.exception.IExceptionMessage;
@@ -164,21 +165,49 @@ public class InvoicingProjectService {
     List<TeamTask> teamTaskList = new ArrayList<TeamTask>(folder.getTeamTaskSet());
 
     List<InvoiceLine> invoiceLineList = new ArrayList<InvoiceLine>();
+
+    List<InvoicingElementOrder> invoicingElementOrderList = folder.getInvoicingElementOrderList();
+    Map<String, Integer> priorityMap = new HashMap<>();
+
+    for (InvoicingElementOrder elementOrder : invoicingElementOrderList) {
+      priorityMap.put(elementOrder.getElementToInvoiceSelect(), elementOrder.getSequence());
+    }
+
     invoiceLineList.addAll(
         this.createSaleOrderInvoiceLines(
-            invoice, saleOrderLineList, folder.getSaleOrderLineSetPrioritySelect()));
+            invoice,
+            saleOrderLineList,
+            priorityMap.get(InvoicingProjectRepository.SALE_ORDER_LINE) != null
+                ? priorityMap.get(InvoicingProjectRepository.SALE_ORDER_LINE)
+                : 0));
     invoiceLineList.addAll(
         this.createPurchaseOrderInvoiceLines(
-            invoice, purchaseOrderLineList, folder.getPurchaseOrderLineSetPrioritySelect()));
+            invoice,
+            purchaseOrderLineList,
+            priorityMap.get(InvoicingProjectRepository.PURCHASE_ORDER_LINE) != null
+                ? priorityMap.get(InvoicingProjectRepository.PURCHASE_ORDER_LINE)
+                : 0));
     invoiceLineList.addAll(
         timesheetService.createInvoiceLines(
-            invoice, timesheetLineList, folder.getLogTimesSetPrioritySelect()));
+            invoice,
+            timesheetLineList,
+            priorityMap.get(InvoicingProjectRepository.TIME_SHEET_LINE) != null
+                ? priorityMap.get(InvoicingProjectRepository.TIME_SHEET_LINE)
+                : 0));
     invoiceLineList.addAll(
         expenseService.createInvoiceLines(
-            invoice, expenseLineList, folder.getExpenseLineSetPrioritySelect()));
+            invoice,
+            expenseLineList,
+            priorityMap.get(InvoicingProjectRepository.EXPENSE_LINE) != null
+                ? priorityMap.get(InvoicingProjectRepository.EXPENSE_LINE)
+                : 0));
     invoiceLineList.addAll(
         teamTaskBusinessProjectService.createInvoiceLines(
-            invoice, teamTaskList, folder.getTeamTaskSetPrioritySelect()));
+            invoice,
+            teamTaskList,
+            priorityMap.get(InvoicingProjectRepository.TEAM_TASK) != null
+                ? priorityMap.get(InvoicingProjectRepository.TEAM_TASK)
+                : 0));
 
     Collections.sort(invoiceLineList, new InvoiceLineComparator());
 

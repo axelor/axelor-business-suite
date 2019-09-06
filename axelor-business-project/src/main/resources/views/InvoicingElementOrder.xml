@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.1.xsd">
+	
+	<grid name="invoicing-element-order-grid" title="Invoicing element order" model="com.axelor.apps.businessproject.db.InvoicingElementOrder" canMove="true" orderBy="sequence">
+		<field name="sequence" />
+                <field name="elementToInvoiceSelect" />
+	</grid>
+	
+	<form name="invoicing-element-order-form" title="Invoicing element order" model="com.axelor.apps.businessproject.db.InvoicingElementOrder">
+	    <panel>
+            <field name="sequence" required="true"/>
+            <field name="elementToInvoiceSelect" required="true"/>
+            <field name="invoicingProject" hidden="true"/>
+        </panel>
+    </form>
+    
+</object-views>

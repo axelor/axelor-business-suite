@@ -14,18 +14,12 @@
     <many-to-many name="expenseLineSet" ref="com.axelor.apps.hr.db.ExpenseLine" title="Expense Lines" />
     <many-to-many name="projectSet" ref="com.axelor.apps.project.db.Project" title="Project" />
     <many-to-many name="teamTaskSet" ref="com.axelor.team.db.TeamTask" title="Tasks" />
-		<integer name="logTimesSetPrioritySelect" selection="invoicing.project.priority.select" title="Log Times Priority" default="3"/>
-		<integer name="saleOrderLineSetPrioritySelect" selection="invoicing.project.priority.select" title="Sale order lines Priority" default="1"/>
-		<integer name="purchaseOrderLineSetPrioritySelect" selection="invoicing.project.priority.select" title="Purchase order lines Priority" default="2"/>
-		<integer name="expenseLineSetPrioritySelect" selection="invoicing.project.priority.select" title="Expense Lines Priority" default="4"/>
-		<integer name="projectSetPrioritySelect" selection="invoicing.project.priority.select" title="Project Priority" default="5"/>
-		<integer name="teamTaskSetPrioritySelect" selection="invoicing.project.priority.select" title="Task Priority" default="6"/>
     <many-to-one name="invoice" ref="com.axelor.apps.account.db.Invoice" title="Invoice generated" />
     <date name="deadlineDate" title="Deadline"/>
     <string name="comments" title="Comments" large="true" />
     <boolean name="attachAnnexToInvoice" title="Attach the Annex to the invoice"/>
     <integer name="statusSelect" title="Status" selection="business.project.invoicing.project.status.select" default="1"/>
-    
+    <one-to-many name="invoicingElementOrderList" title="Invoicing element order" ref="com.axelor.apps.businessproject.db.InvoicingElementOrder" orderBy="sequence" mappedBy="invoicingProject"/>
     <extra-code>
         // STATUS SELECT
       public static final int STATUS_DRAFT = 1;
@@ -33,6 +27,14 @@
       public static final int STATUS_VALIDATED = 3;
       public static final int STATUS_VENTILATED = 4;
       public static final int STATUS_CANCELED = 5;
+      
+      public static final String SALE_ORDER_LINE = "com.axelor.apps.sale.db.SaleOrderLine";
+      public static final String TIME_SHEET_LINE = "com.axelor.apps.hr.db.TimesheetLine";
+      public static final String PROJECT = "com.axelor.apps.project.db.Project";
+      public static final String PURCHASE_ORDER_LINE = "com.axelor.apps.purchase.db.PurchaseOrderLine";
+      public static final String EXPENSE_LINE = "com.axelor.apps.hr.db.ExpenseLine";
+      public static final String TEAM_TASK = "com.axelor.team.db.TeamTask";
+     
     </extra-code>
   </entity>
   

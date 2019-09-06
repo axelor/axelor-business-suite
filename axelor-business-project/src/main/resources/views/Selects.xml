@@ -41,5 +41,14 @@
     <option value="4">Ventilated</option>
     <option value="5">Canceled</option>
   </selection>
+  
+  <selection name="business.project.invoicing.element.order.element.to.invoice.select">
+		<option value="com.axelor.apps.sale.db.SaleOrderLine">Sale order lines</option>
+		<option value="com.axelor.apps.hr.db.TimesheetLine">Log Times</option>
+		<option value="com.axelor.apps.project.db.Project">Project</option>
+		<option value="com.axelor.apps.purchase.db.PurchaseOrderLine">Purchase order lines</option>
+		<option value="com.axelor.apps.hr.db.ExpenseLine">Expense Lines</option>
+		<option value="com.axelor.team.db.TeamTask">Task</option>
+  </selection>
 
 </object-views>

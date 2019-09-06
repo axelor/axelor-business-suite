@@ -90,13 +90,8 @@
 							   name="teamTaskSetPanel"/>
 			</panel>
 
-			<panel name="configurationsPanel" title="Configurations" readonlyIf="invoice">
-                <field name="saleOrderLineSetPrioritySelect"/>
-                <field name="purchaseOrderLineSetPrioritySelect"/>
-                <field name="logTimesSetPrioritySelect"/>
-                <field name="expenseLineSetPrioritySelect"/>
-                <field name="projectSetPrioritySelect"/>
-                <field name="teamTaskSetPrioritySelect"/>
+			<panel name="configurationsPanel" title="Configurations" readonlyIf="invoice" >
+                <field name="invoicingElementOrderList" colSpan="12" canEdit="true"/>
             </panel>
         </panel-tabs>
 

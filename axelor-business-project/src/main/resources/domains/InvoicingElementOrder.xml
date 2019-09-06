@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.1.xsd">
+  
+  <module name="business-project" package="com.axelor.apps.businessproject.db"/>
+
+  <entity name="InvoicingElementOrder" cacheable="true">
+  
+    <integer name="sequence" title="Sequence" min="1"/>
+    <string name="elementToInvoiceSelect" title="Element to invoice" selection="business.project.invoicing.element.order.element.to.invoice.select"/>
+    <many-to-one name="invoicingProject" title="Invoicing project"  ref="com.axelor.apps.businessproject.db.InvoicingProject"/>
+    
+    <unique-constraint columns="elementToInvoiceSelect,invoicingProject"/>
+  
+  </entity>
+  
+</domain-models>
