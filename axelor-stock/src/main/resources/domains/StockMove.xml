@@ -84,7 +84,7 @@
     
     <string name="note" title="Notes" large="true"/>
   
-    <boolean name="filterOnAvailableProducts" title="Filter on available products" default="true" transient="true"/>
+    <boolean name="filterOnAvailableProducts" title="Filter on available products" default="true" />
 
     <many-to-one name="reversionOriginStockMove" title="Origin stock move" ref="com.axelor.apps.stock.db.StockMove"/>
     

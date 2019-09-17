@@ -269,7 +269,7 @@
             <field name="tradingName" readonlyIf="statusSelect != 1" domain=":company MEMBER OF self.companySet" onChange="action-stock-move-method-printing-settings-default-value" canEdit="false" if="__config__.app.getApp('base').enableTradingNamesManagement" grid-view="trading-name-grid" form-view="trading-name-form"/>
             <spacer name="tradingNameSpacer" if="!__config__.app.getApp('base').enableTradingNamesManagement"/>
 
-            <field name="fromStockLocation" canEdit="false" domain="self.company = :company" onChange="action-stock-move-group-from-location-onchange" readonlyIf="statusSelect != 1" grid-view="stock-location-grid" form-view="stock-location-form"/>
+            <field name="fromStockLocation" canEdit="false" domain="self.company = :company" onChange="action-stock-move-group-from-location-onchange,action-stock-move-attrs-filter-on-available-products" readonlyIf="statusSelect != 1" grid-view="stock-location-grid" form-view="stock-location-form"/>
             <field name="toStockLocation" canEdit="false" domain="self.company = :company" onChange="action-stock-move-group-to-location-onchange" readonlyIf="statusSelect != 1" grid-view="stock-location-grid" form-view="stock-location-form"/>
 
             <field name="fromStockLocation.address" showIf="typeSelect == 1"/>
@@ -508,7 +508,7 @@
     </action-attrs> -->
     
     <action-attrs name="action-stock-move-attrs-filter-on-available-products">
-    	<attribute name="hidden" for="filterOnAvailableProducts" expr="eval: statusSelect &gt; 1 || fromStockLocation.typeSelect == 3"/>
+    	<attribute name="hidden" for="filterOnAvailableProducts" expr="eval: statusSelect &gt; 1 || (fromStockLocation != null ? fromStockLocation.typeSelect == 3 : false)"/>
     </action-attrs>
     
     <action-group name="action-group-stock-stockmove-onnew">

@@ -11,7 +11,7 @@
     <many-to-one name="plannedStockMove" ref="com.axelor.apps.stock.db.StockMove"/>
 
 	<many-to-one name="product" ref="com.axelor.apps.base.db.Product" title="Product"/>    
-	<boolean name="filterOnAvailableProducts" title="Filter on available products" default="true" transient="true"/>
+	<boolean name="filterOnAvailableProducts" title="Filter on available products" default="true"/>
 	<decimal name="qty" title="Expected Qty"/>
 	<decimal name="realQty" title="Real Qty"/>
 	<decimal name="oldQty" hidden="true"/>
