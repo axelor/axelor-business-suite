@@ -557,7 +557,10 @@ public class ExpenseController {
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }
-
+    if (expenseLine.getKilometricTypeSelect().equals(0)) {
+      response.setValue("kilometricTypeSelect", 1);
+      response.setValue("kilometricType", 1);
+    }
     response.setValue("totalAmount", amount);
     response.setValue("untaxedAmount", amount);
   }
@@ -688,5 +691,22 @@ public class ExpenseController {
     BigDecimal amount = kilometricService.computeKilometricExpense(expenseLine, employee);
     response.setValue("totalAmount", amount);
     response.setValue("untaxedAmount", amount);
+  }
+
+  public void computeTotalAmountAndDistance(ActionRequest request, ActionResponse response) {
+    ExpenseLine expenseLine = request.getContext().asType(ExpenseLine.class);
+    BigDecimal total = expenseLine.getTotalAmount();
+    BigDecimal distance = expenseLine.getDistance();
+    if (!expenseLine.getDistance().equals(new BigDecimal(0))) {
+      if (expenseLine.getKilometricTypeSelect() == 2) {
+        total = total.multiply(new BigDecimal(2));
+        distance = distance.multiply(new BigDecimal(2));
+      } else {
+        total = total.divide(new BigDecimal(2));
+        distance = distance.divide(new BigDecimal(2));
+      }
+    }
+    response.setValue("totalAmount", total);
+    response.setValue("distance", distance);
   }
 }

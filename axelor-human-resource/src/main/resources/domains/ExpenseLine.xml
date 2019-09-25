@@ -27,6 +27,7 @@
 		<!-- integration of KilometricAllowance -->
   		<many-to-one name="kilometricAllowParam" ref="com.axelor.apps.hr.db.KilometricAllowParam" title="K.A.P."/>
         <integer name="kilometricTypeSelect" title="Type"  selection="hr.kilometric.allowance.type.select"/>
+        <integer name="kilometricType" title="Type" transient="true"/>
         <decimal name="distance" title="Distance travelled" min="0"/>
         <string name="fromCity" title="Starting city" />
         <string name="toCity" title="Arriving city" />
