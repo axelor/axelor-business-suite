@@ -27,7 +27,8 @@
         	onChange="action-kilometric-allowance-method-compute, action-kilometric-allowance-method-update-kap"/>
 		<field name="kilometricAllowParam" canEdit="false" required="true" width="60"
 			onChange="action-kilometric-allowance-method-compute" onSelect="action-kilometric-allowance-method-domain-on-select-on-kap"/>
-        <field name="kilometricTypeSelect" required="true" width="100"/>
+        <field name="kilometricTypeSelect" required="true" width="100" onChange="action-expense-line-group-onchange-kilometricTypeSelect"/>
+        <field name="kilometricType" hidden="true"/>
         <field name="distance" required="true" onChange="action-kilometric-allowance-method-compute" width="150"/>
         <field name="fromCity" required="true" onChange="action-kilometric-allowance-method-compute-distance" width="150"/>
         <field name="toCity" required="true" onChange="action-kilometric-allowance-method-compute-distance" width="150"/>
@@ -92,7 +93,8 @@
 				<field name="project" requiredIf="toInvoice" edit-icon="false" canEdit="false" onSelect="action-expense-line-attrs-domain-project" widget="SuggestBox" form-view="project-form" grid-view="project-grid"/>
 		        <field name="expenseDate"/>
 				<field name="kilometricAllowParam" onSelect="action-kilometric-allowance-method-domain-on-select-on-kap" onChange="action-kilometric-allowance-method-compute"/>
-		        <field name="kilometricTypeSelect" required="true"/>
+		        <field name="kilometricTypeSelect" required="true" onChange="action-expense-line-group-onchange-kilometricTypeSelect"/>
+		         <field name="kilometricType" hidden="true"/>
 		        <field name="distance" onChange="action-kilometric-allowance-method-compute" required="true"/>
 		        <panel name="cityDetailsPanel" colSpan="12">
 			        <field name="fromCity" required="true" onChange="action-kilometric-allowance-method-compute-distance"/>
@@ -139,6 +141,10 @@
 		<call class="com.axelor.apps.hr.web.expense.ExpenseController" method="computeDistanceAndKilometricExpense"/>
 	</action-method>
 
+	<action-method name="action-kilometric-allowance-method-compute-amount-distance">
+		<call class="com.axelor.apps.hr.web.expense.ExpenseController" method="computeTotalAmountAndDistance"/>
+    </action-method>
+
 	<action-attrs name="action-expense-line-attrs-read-only-distribution-lines">
 		<attribute name="readonly" for="analyticMoveLineList" expr="eval: __config__.app.getApp('account').getAnalyticDistributionTypeSelect() != 1"/>
 	</action-attrs>
@@ -181,5 +187,14 @@
 
 	<action-attrs name="action-expense-line-attrs-project-on-change">
 		<attribute name="value" for="toInvoice" expr="eval: project?.isInvoicingExpenses"/>
+	</action-attrs>
+
+	<action-group name="action-expense-line-group-onchange-kilometricTypeSelect">
+		<action name="action-kilometric-allowance-method-compute-amount-distance" if="kilometricTypeSelect != kilometricType"/>
+		<action name="action-expense-line-attrs-kilometricType" if="kilometricTypeSelect != kilometricType"/>
+	</action-group>
+
+	<action-attrs name="action-expense-line-attrs-kilometricType">
+		<attribute name="value" for="kilometricType" expr="eval:kilometricTypeSelect"/>
 	</action-attrs>
 </object-views>
