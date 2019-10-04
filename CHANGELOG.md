@@ -28,6 +28,7 @@
 - DEMO DATA : change tracking number config of the product classic server in order to avoid a bug when it's sale. 
 - INVOICE : Fix NPE on mass payment on supplier Invoice
 
+- BUDGET : same budget applied multiple times when click apply to all button in purchaseOrder multiple times fixed
 
 ## [5.1.8] - 2019-09-26
 ## Features

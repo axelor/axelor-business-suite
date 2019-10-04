@@ -45,6 +45,7 @@ import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.meta.schema.actions.ActionView.ActionViewBuilder;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.axelor.rpc.Context;
 import com.google.common.base.Joiner;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -353,10 +354,15 @@ public class PurchaseOrderController {
 
   public void applyToAllBudgetDistribution(ActionRequest request, ActionResponse response) {
 
-    PurchaseOrder purchaseOrder = request.getContext().asType(PurchaseOrder.class);
+    Context context = request.getContext();
+    PurchaseOrder purchaseOrder = context.asType(PurchaseOrder.class);
+    String previousBudgetId = context.get("previousBudgetId").toString();
+
     purchaseOrder = Beans.get(PurchaseOrderRepository.class).find(purchaseOrder.getId());
     Beans.get(PurchaseOrderServiceSupplychainImpl.class)
-        .applyToallBudgetDistribution(purchaseOrder);
+        .applyToallBudgetDistribution(purchaseOrder, previousBudgetId);
+    response.setAttr("$previousBudgetId", "value", purchaseOrder.getBudget().getId().toString());
+    response.setAttr("applyToAllBtn", "readonly", true);
   }
 
   public void updateEstimatedDelivDate(ActionRequest request, ActionResponse response) {

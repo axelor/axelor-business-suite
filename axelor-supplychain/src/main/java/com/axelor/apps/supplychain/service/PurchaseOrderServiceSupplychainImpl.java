@@ -21,6 +21,7 @@ import com.axelor.apps.account.db.Budget;
 import com.axelor.apps.account.db.BudgetDistribution;
 import com.axelor.apps.account.db.BudgetLine;
 import com.axelor.apps.account.db.repo.BudgetDistributionRepository;
+import com.axelor.apps.account.db.repo.BudgetRepository;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.base.db.Company;
@@ -51,6 +52,7 @@ import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -223,7 +225,15 @@ public class PurchaseOrderServiceSupplychainImpl extends PurchaseOrderServiceImp
   }
 
   @Transactional
-  public void applyToallBudgetDistribution(PurchaseOrder purchaseOrder) {
+  public void applyToallBudgetDistribution(PurchaseOrder purchaseOrder, String previousBudgetId) {
+
+    if (!previousBudgetId.equals("null")) {
+
+      Budget previousBudget =
+          Beans.get(BudgetRepository.class).find(Long.parseLong(previousBudgetId));
+      this.removePreviousBudgetDistributionLines(
+          purchaseOrder.getPurchaseOrderLineList(), previousBudget);
+    }
 
     for (PurchaseOrderLine purchaseOrderLine : purchaseOrder.getPurchaseOrderLineList()) {
       BudgetDistribution newBudgetDistribution = new BudgetDistribution();
@@ -363,5 +373,26 @@ public class PurchaseOrderServiceSupplychainImpl extends PurchaseOrderServiceImp
   public void cancelPurchaseOrder(PurchaseOrder purchaseOrder) {
     super.cancelPurchaseOrder(purchaseOrder);
     budgetSupplychainService.updateBudgetLinesFromPurchaseOrder(purchaseOrder);
+  }
+
+  @Transactional
+  private void removePreviousBudgetDistributionLines(
+      List<PurchaseOrderLine> purchaseOrderLineList, Budget previousBudget) {
+
+    for (PurchaseOrderLine purchaseOrderLine : purchaseOrderLineList) {
+
+      List<BudgetDistribution> budgetDistributionList =
+          new ArrayList<>(purchaseOrderLine.getBudgetDistributionList());
+
+      if (budgetDistributionList != null && !budgetDistributionList.isEmpty()) {
+
+        for (BudgetDistribution budgetDistribution : budgetDistributionList) {
+          if (budgetDistribution.getBudget() == previousBudget) {
+            purchaseOrderLine.getBudgetDistributionList().remove(budgetDistribution);
+            Beans.get(BudgetDistributionRepository.class).remove(budgetDistribution);
+          }
+        }
+      }
+    }
   }
 }

@@ -149,8 +149,9 @@
 				<panel-related name="timetableListPanel" field="timetableList" colSpan="12" grid-view="timetable-grid" form-view="timetable-form" onChange="action-purchase-order-method-update-amount-to-be-spread-over-the-timetable" if-module="axelor-supplychain"/>
 			</panel>
 			<panel name="budgetDistributionPanel" title="Budget distribution" if="__config__.app.isApp('budget')" showIf="statusSelect &lt;= 2" if-module="axelor-supplychain">
-				<field name="budget"/>
-				<button name="applyToAllBtn" title="Apply to all" onClick="save,action-purchase-order-budget-distribution-apply-to-all" readonlyIf="!budget"/>
+				<field name="budget" onChange="action-purchase-order-attrs-set-apply-to-all-btn-readonly" onSelect="action-purchse-order-record-set-previous-budget"/>
+				<button name="applyToAllBtn" title="Apply to all" onClick="save,action-purchase-order-budget-distribution-apply-to-all" readonly="true"/>
+			    <field name="$previousBudgetId" hidden="true" type="string"/>
 			</panel>
 			<panel name="printingPanel" title="Printing">
 				<field name="printingSettings" onSelect="action-purchase-order-method-filter-printing-settings" canEdit="false"/>
@@ -687,4 +688,13 @@
   <action-method name="action-purchase-order-method-check-analytic-distribution-template">
     <call class="com.axelor.apps.supplychain.web.PurchaseOrderController" method="checkPurchaseOrderAnalyticDistributionTemplate" if="company?.purchaseConfig?.isAnalyticDistributionRequired"/>
   </action-method>
+  
+  <action-attrs name="action-purchase-order-attrs-set-apply-to-all-btn-readonly">
+    <attribute name="readonly" expr="eval: previousBudgetId == budget?.id.toString() || !budget" for="applyToAllBtn"/>
+  </action-attrs>
+  
+  <action-attrs name="action-purchse-order-record-set-previous-budget">
+    <attribute if="!previousBudgetId" name="value" expr="eval: budget?.getId().toString()" for="$previousBudgetId"/>
+  </action-attrs>
+  
 </object-views>
