@@ -175,12 +175,17 @@
     <action-group name="action-group-account-move-validate-click">
       <action name="action-account-validate-prompt" if="(!company?.accountConfig?.accountingDaybook &amp;&amp;statusSelect == 1) || (company?.accountConfig?.accountingDaybook &amp;&amp; statusSelect == 2)"/>
       <action name="save"/>
+      <action name="action-move-validate-control-period"/>
       <action name="action-move-method-validate"/>
     </action-group>
 
     <action-validate name="action-account-validate-prompt">
       <alert message="The validation of a move brings irrevocable integration of a move in Moves book"/>
     </action-validate>
+    
+    <action-validate name="action-move-validate-control-period" model="com.axelor.apps.account.db.Move">
+      <error message="Accounting move can not be validated because its fiscal period is closed." if="period?.statusSelect == 2"/>
+    </action-validate>   
 
    	<!-- ACTION RECORD -->
     <action-record name="default-move-record" model="com.axelor.apps.account.db.Move">
