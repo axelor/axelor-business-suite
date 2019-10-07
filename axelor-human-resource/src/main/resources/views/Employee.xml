@@ -6,6 +6,7 @@
 	<grid name="employee-grid" title="Employee" model="com.axelor.apps.hr.db.Employee" orderBy="contactPartner.simpleFullName">
 		 <toolbar>
 			<button name="printEmployeePhoneBookBtn" title="Employee PhoneBook" icon="fa-print" onClick="action-print-employee-phonebook"/>
+			<button name="generateDPAEBtn" title="Generate DPAE" onClick="action-method-generate-dpae"/>
 		 </toolbar>
 		 <field name="contactPartner.partnerSeq" width="120"/>
 		 <field name="contactPartner.simpleFullName"/>
@@ -471,6 +472,12 @@
     <action-method name="action-print-employee-phonebook" >
 		<call class="com.axelor.apps.hr.web.EmployeeController" method="printEmployeePhonebook"/>
 	</action-method>
+	
+	<action-method name="action-method-generate-dpae">
+		<call class="com.axelor.apps.hr.web.EmployeeController" method="generateDPAE"/>
+	</action-method>
+	
+	
 
 	<action-condition name="action-employee-validate-dates">
 		<check error="Invalid date" field="endDate" if="startDate != null &amp;&amp; endDate != null  &amp;&amp; (endDate &lt; startDate)"/>

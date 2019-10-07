@@ -51,6 +51,8 @@ import com.axelor.apps.hr.service.bankorder.BankOrderServiceHRImpl;
 import com.axelor.apps.hr.service.batch.BatchCreditTransferExpensePaymentHR;
 import com.axelor.apps.hr.service.batch.MailBatchServiceHR;
 import com.axelor.apps.hr.service.config.AccountConfigHRService;
+import com.axelor.apps.hr.service.dpae.DPAEService;
+import com.axelor.apps.hr.service.dpae.DPAEServiceImpl;
 import com.axelor.apps.hr.service.employee.EmployeeService;
 import com.axelor.apps.hr.service.employee.EmployeeServiceImpl;
 import com.axelor.apps.hr.service.expense.ExpenseService;
@@ -67,6 +69,8 @@ import com.axelor.apps.hr.service.lunch.voucher.LunchVoucherMgtService;
 import com.axelor.apps.hr.service.lunch.voucher.LunchVoucherMgtServiceImpl;
 import com.axelor.apps.hr.service.project.ProjectPlanningTimeService;
 import com.axelor.apps.hr.service.project.ProjectPlanningTimeServiceImpl;
+import com.axelor.apps.hr.service.sentdpae.SentDPAEService;
+import com.axelor.apps.hr.service.sentdpae.SentDPAEServiceImpl;
 import com.axelor.apps.hr.service.timesheet.TimesheetLineService;
 import com.axelor.apps.hr.service.timesheet.TimesheetLineServiceImpl;
 import com.axelor.apps.hr.service.timesheet.TimesheetService;
@@ -114,5 +118,7 @@ public class HumanResourceModule extends AxelorModule {
     bind(UserBaseRepository.class).to(UserHRRepository.class);
     bind(PartnerAccountRepository.class).to(PartnerHRRepository.class);
     bind(BankOrderMergeServiceImpl.class).to(BankOrderMergeHRServiceImpl.class);
+    bind(DPAEService.class).to(DPAEServiceImpl.class);
+    bind(SentDPAEService.class).to(SentDPAEServiceImpl.class);
   }
 }

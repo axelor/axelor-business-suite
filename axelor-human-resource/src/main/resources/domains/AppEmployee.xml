@@ -11,6 +11,7 @@
 		<boolean name="payrollPreparation" title="Payroll preparation"/>
 		<boolean name="lunchVoucher" title="Lunch Voucher"/>
 		<boolean name="employeeBonus" title="Employee bonus"/>
+		<many-to-one name="templateDPAE" title="Template DPAE"  ref="com.axelor.apps.message.db.Template"/>
 		
 		<extra-code>
    		<![CDATA[

@@ -4,40 +4,115 @@
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.1.xsd">
 
   <grid name="dpae-grid" title="DPAEs" model="com.axelor.apps.hr.db.DPAE">
+	  <menubar>
+	  	<menu title="Tools" showTitle="true" icon="fa-wrench">
+			<item name="sendDPAEBtn" title="Send DPAEs" action="action-method-send-dpaes"/>
+		</menu>
+		</menubar>
     <field name="employee"/>
     <field name="company" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-    <field name="contractType"/>
+    <field name="contractTypeSelect"/>
+    <field name="createdOn"/>
+    <field name="isSent"/>
+    <button name="sendBtn" readonlyIf="isSent" icon="fa-location-arrow" onClick="action-method-send-dpaes"/>
   </grid>
 
-  <form name="dpae-form" title="DPAE" model="com.axelor.apps.hr.db.DPAE" width="large">
+  <form name="dpae-form" title="DPAE" model="com.axelor.apps.hr.db.DPAE" onLoad="action-group-dpae-onload" width="large">
+
+	<toolbar>
+		<button name="sendButton" title="Send" onClick="save,action-method-send-dpaes" />
+	</toolbar>
+
+  	<panel name="registration" title="Registration" >
+  		<field name="registrationDPAE" pattern="[^U][^P]+$" required="true"/>
+  		<field name="isSent"/>
+		<field name="metaFile" readonly="true" showIf="metaFile"/>
+  	</panel>
+
     <panel name="employerPanel" title="Establishment of the employer">
-      <field name="registrationCode" colSpan="9"/>
-      <field name="mainActivityCode" colSpan="3"/>
-      <field name="company"/>
-      <field name="companyAddress"/>
-      <field name="companyFixedPhone"/>
-      <field name="healthService"/>
-      <field name="healthServiceAddress"/>
+      <field name="registrationCode" colSpan="8" max="14" required="true"/>
+      <field name="mainActivityCode" colSpan="4" min="5" max="5" required="true"/>
+      <field name="company" colSpan="8"/>
+      <field name="companyName" required="true" x-bind="{{companyName|unaccent|uppercase}}"/>
+      <field name="companyFixedPhone" max="11" required="true"/>
+      <field name="firstNameEmployer" max="32" pattern="^[A-Z0-9 -&amp;.]+$"/>
+      <field name="lastNameEmployer" max="32" pattern="^[A-Z0-9 -&amp;.]+$"/>
+      <field name="companyAddressL1" max="30" x-bind="{{companyAddressL1|unaccent|uppercase}}" pattern="^[A-Z0-9 -&amp;.,']+$" required="true"/>
+      <field name="companyAddressL2" max="30" x-bind="{{companyAddressL2|unaccent|uppercase}}" pattern="^[A-Z0-9 -&amp;.,']+$"/>
+      <panel stacked="true" showTitle="false" itemSpan="12">
+	      <field name="$companyCitySelector" title="Company city" type="many-to-one" x-target="com.axelor.apps.base.db.City" canEdit="false" canNew="false" onChange="action-dpae-record-set-company-zip-code" hidden="true" showIf="!companyCity" />
+	      <field name="companyCity" hidden="true" showIf="companyCity" max="27"/>
+      </panel>
+	  <field name="companyZipCode" min="5" max="5"/>
+	  <panel name="healthService" title="Health service" colSpan="12">
+		  <field name="healthServiceCode" title="Code" pattern="MT[0-9][0-9][0-9]$"/>
+	      <field name="healthService" title="Name"/>
+	      <field name="healthServiceAddress" title="Address" colSpan="12"/>
+	  </panel>
     </panel>
 
     <panel name="employeePanel" title="Employee">
-      <field name="lastName"/>
-      <field name="firstName"/>
-      <field name="socialSecurityNumber"/>
-      <field name="sexSelect"/>
-      <field name="dateOfBirth"/>
-      <field name="departmentOfBirth"/>
-      <field name="cityOfBirth"/>
-      <field name="countryOfBirth"/>
+      <panel name="headerEmployeePanel" colSpan="12"> 
+      	<field name="sexSelect" colSpan="2" required="true"/>
+      </panel>
+      <field name="lastName" max="32" required="true" x-bind="{{lastName|unaccent|uppercase}}" pattern="^[A-Z0-9 -&amp;.]+$"/>
+      <field name="maritalName" max="32" />
+      <field name="firstName" max="32" colSpan="12" required="true" x-bind="{{firstName|unaccent|uppercase}}" pattern="^[A-Z0-9 -&amp;.]+$"/>
+      <field name="socialSecurityNumber" min="13" max="13" required="true"/>
+      <field name="dateOfBirth" required="true"/>
+      <panel colSpan="12" showTitle="false" >
+	      <panel stacked="true" showTitle="false" colSpan="12">
+	          <field name="$isForeignBorn" type="BOOLEAN" title="Born outside France ?" onClick="action-dpae-record-set-foreign-born" colSpan="2" />
+		      <field name="$cityOfBirthSelector" title="City of birth" colSpan="6" type="many-to-one" x-target="com.axelor.apps.base.db.City" canEdit="false" canNew="false" onChange="action-dpae-record-set-birth-venue" hidden="true" showIf="!cityOfBirth"/>
+		      <field name="$cityOfBirthSelector.department" hidden="true" />
+		      <field name="$cityOfBirthSelector.country" hidden="true" />
+	      </panel>
+	      <panel stacked="true" showTitle="false" colSpan="12" hidden="true" showIf="cityOfBirth || $isForeignBorn">
+	      	<field name="cityOfBirth" colSpan="5" pattern="^[A-Z0-9 -,'.]+$"/>
+	      	<field name="departmentOfBirth" colSpan="2" max="2" readonlyIf="$isForeignBorn" required="true" />
+	      	<field name="countryOfBirth" colSpan="5" max="24" requiredIf="!$isForeignBorn" pattern="^[A-Z0-9 -,'.]+$"/>
+	      </panel>
+      </panel>
     </panel>
 
     <panel name="contractPanel" title="Contract">
-      <field name="dateOfHire"/>
-      <field name="timeOfHire"/>
-      <field name="trialPeriodDuration"/>
-      <field name="contractType"/>
+    	<panel name="headerContractPanel" colSpan="12">
+     		<field name="contractTypeSelect" onChange="action-dpae-attrs-set-required-field" colSpan="2" required="true"/>
+    	</panel>
+      <field name="dateOfHire" required="true"/>
+      <field name="timeOfHire" required="true"/>
+      <field name="trialPeriodDuration" max="3" />
       <field name="endDateOfContract"/>
     </panel>
   </form>
+  
+  <action-method name="action-method-send-dpaes">
+  	<call class="com.axelor.apps.hr.web.DPAEController" method="send"/>
+  </action-method>
+  	
+  <action-record name="action-dpae-record-set-company-zip-code" model="com.axelor.apps.hr.db.DPAE">
+  	<field name="companyCity" expr="eval: $companyCitySelector?.name"/>
+  	<field name="companyZipCode" expr="eval: $companyCitySelector?.zipCode"/>
+  </action-record>
+  
+  <action-record name="action-dpae-record-set-birth-venue" model="com.axelor.apps.hr.db.DPAE">
+  	<field name="cityOfBirth" expr="eval: cityOfBirthSelector?.name"/>
+  	<field name="departmentOfBirth" expr="eval: cityOfBirthSelector?.department?.code?.substring(0,2)"/>
+  	<field name="countryOfBirth" expr="eval: cityOfBirthSelector?.country?.name"/>
+  </action-record>
+  
+  
+  <action-record name="action-dpae-record-set-foreign-born" model="com.axelor.apps.hr.db.DPAE">
+  	<field name="departmentOfBirth" expr="99"/>
+  </action-record>
+
+  <action-group name="action-dpae-group-onload">
+    	<action name="action-dpae-attrs-set-required-field"/>
+    </action-group>
+  
+	<action-attrs name="action-dpae-attrs-set-required-field">
+    	<attribute name="required" for="endDateOfContract" expr="eval: contractTypeSelect == 1"/>
+    	<attribute name="required" for="healthServiceCode" expr="eval: contractTypeSelect == 1 || contractTypeSelect == 2"/>
+    </action-attrs>
 
 </object-views>

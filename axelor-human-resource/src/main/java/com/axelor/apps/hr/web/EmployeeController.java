@@ -17,17 +17,29 @@
  */
 package com.axelor.apps.hr.web;
 
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.axelor.apps.ReportFactory;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.hr.db.DPAE;
 import com.axelor.apps.hr.db.Employee;
 import com.axelor.apps.hr.db.repo.EmployeeRepository;
+import com.axelor.apps.hr.exception.IExceptionMessage;
 import com.axelor.apps.hr.report.IReport;
 import com.axelor.apps.hr.service.employee.EmployeeService;
 import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
+import com.axelor.common.ObjectUtils;
 import com.axelor.exception.AxelorException;
+import com.axelor.exception.ResponseMessageType;
+import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
@@ -35,11 +47,9 @@ import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.meta.schema.actions.ActionView.ActionViewBuilder;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.axelor.rpc.Context;
 import com.google.inject.Singleton;
-import java.lang.invoke.MethodHandles;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import wslite.json.JSONException;
 import wslite.json.JSONObject;
 
@@ -134,9 +144,52 @@ public class EmployeeController {
               .context("_showRecord", dpaeId);
       response.setView(builder.map());
     } catch (AxelorException e) {
-      TraceBackService.trace(response, e);
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
     }
 
     response.setReload(true);
+  }
+
+  @SuppressWarnings("unchecked")
+  public void generateDPAE(ActionRequest request, ActionResponse response) {
+
+    Context context = request.getContext();
+
+    try {
+      EmployeeService employeeService = Beans.get(EmployeeService.class);
+
+      if (!ObjectUtils.isEmpty(request.getContext().get("_ids"))) {
+
+        List<Long> ids =
+            (List)
+                (((List) context.get("_ids"))
+                    .stream()
+                    .filter(ObjectUtils::notEmpty)
+                    .map(input -> Long.parseLong(input.toString()))
+                    .collect(Collectors.toList()));
+        List<Long> idsError = employeeService.generateDPAEs(ids);
+        if (idsError.isEmpty()) {
+          response.setFlash(
+              String.format(I18n.get(IExceptionMessage.DPAE_PRINTS_SUCCESSFUL), ids.size()));
+        } else {
+          response.setError(
+              String.format(
+                  I18n.get(IExceptionMessage.DPAE_PRINTS_ERROR),
+                  ids.size() - idsError.size(),
+                  idsError.toString()));
+        }
+      } else if (context.get("id") != null) {
+        Employee employee = request.getContext().asType(Employee.class);
+        employee = Beans.get(EmployeeRepository.class).find(employee.getId());
+        employeeService.generateNewDPAE(employee);
+        LOG.debug("Printing " + employee.getName() + "'s DPAE");
+        response.setFlash(String.format(I18n.get(IExceptionMessage.DPAE_PRINTS_SUCCESSFUL), 1));
+      } else {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_MISSING_FIELD, I18n.get(IExceptionMessage.DPAE_PRINT));
+      }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
   }
 }

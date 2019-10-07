@@ -7,33 +7,54 @@
 
   <!-- Déclaration Préalable À l'Embauche -->
   <entity name="DPAE">
-    <many-to-one name="employee" title="Employee" ref="com.axelor.apps.hr.db.Employee"/> <!-- mapping -->
-
+    <many-to-one name="employee" title="Employee" ref="com.axelor.apps.hr.db.Employee" required="true"/> <!-- mapping -->
+	<string name="registrationDPAE" namecolumn="true" title="Registration DPAE"/>
+	<many-to-one name="metaFile" ref="com.axelor.meta.db.MetaFile" title="File" />
+	<boolean name="isSent" title="Sent" />
+	
     <!-- 1) Employer institution -->
-    <string name="registrationCode" title="Registration code"/>
-    <string name="mainActivityCode" title="Main activity code" min="5" max="5"/>
+    <string name="registrationCode" title="Registration code" />
+    <string name="mainActivityCode" title="Main activity code" />
     <many-to-one name="company" title="Company" ref="com.axelor.apps.base.db.Company"/>
-    <many-to-one name="companyAddress" title="Company address" ref="com.axelor.apps.base.db.Address"/>
+    <string name="companyName" title="Company's name" />
+    <string name="firstNameEmployer" title="Employer's first name" />
+    <string name="lastNameEmployer" title="Employer's last name" />
+    <string name="companyAddressL1" title="Company address (line 1)" />
+    <string name="companyAddressL2" title="Company address (line 2)" />
+    <string name="companyCity" title="Company city"/>
+    <string name="companyZipCode" title="Company zip code" />
     <string name="companyFixedPhone" title="Company fixed phone"/>
+    <string name="healthServiceCode" title="Health service code"/>
     <string name="healthService" title="Health service"/>
-    <many-to-one name="healthServiceAddress" title="Health service address" ref="com.axelor.apps.base.db.Address"/>
+    <string name="healthServiceAddress" title="Health service address"/>
 
     <!-- 2) Employee -->
-    <string name="lastName" title="Last name"/>
-    <string name="firstName" title="First name"/>
-    <string name="socialSecurityNumber" title="Social security number" min="15" max="15"/>
+    <string name="lastName" title="Last name" />
+    <string name="firstName" title="First name" />
+    <string name="maritalName" title="Marital name" />
+    <string name="socialSecurityNumber" title="Social security number" />
     <string name="sexSelect" title="Sex" selection="employee.hr.sex.select"/>
     <date name="dateOfBirth" title="Date of birth"/>
-    <many-to-one name="departmentOfBirth" title="Department of birth" ref="com.axelor.apps.base.db.Department"/>
-    <many-to-one name="cityOfBirth" title="City of birth" ref="com.axelor.apps.base.db.City"/>
-    <many-to-one name="countryOfBirth" title="Country of birth" ref="com.axelor.apps.base.db.Country"/>
+    <string name="departmentOfBirth" title="Department of birth (code)" />
+    <string name="cityOfBirth" title="City of birth" />
+    <string name="countryOfBirth" title="Country of birth" />
 
     <!-- 3) Contract -->
+    <integer name="contractTypeSelect" title="Contract type" selection="hr.dpae.contract.type.select"/>
     <date name="dateOfHire" title="Date of hire"/>
     <time name="timeOfHire" title="Time of hire"/>
-    <string name="trialPeriodDuration" title="Trial period duration"/>
-    <many-to-one name="contractType" title="Contract type" ref="com.axelor.apps.hr.db.EmploymentContractType"/>
+    <string name="trialPeriodDuration" title="Trial period duration (in days)" />
     <date name="endDateOfContract" title="End date of hire"/>
+    
+    <extra-code>
+   		<![CDATA[
+            // Contract Type Select   
+			public static final int CDD = 1;
+			public static final int CDI = 2;
+			public static final int CTT = 3;
+   		]]>
+   	</extra-code>
+    
   </entity>
 
 </domain-models>

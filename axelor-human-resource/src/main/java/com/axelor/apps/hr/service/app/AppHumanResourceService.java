@@ -17,6 +17,7 @@
  */
 package com.axelor.apps.hr.service.app;
 
+import com.axelor.apps.base.db.AppEmployee;
 import com.axelor.apps.base.db.AppExpense;
 import com.axelor.apps.base.db.AppLeave;
 import com.axelor.apps.base.db.AppTimesheet;
@@ -31,6 +32,8 @@ public interface AppHumanResourceService extends AppBaseService {
   public AppLeave getAppLeave();
 
   public AppExpense getAppExpense();
+
+  public AppEmployee getAppEmployee();
 
   public void getHrmAppSettings(ActionRequest request, ActionResponse response);
 

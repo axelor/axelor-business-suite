@@ -205,4 +205,23 @@ public interface IExceptionMessage {
 
   static final String UNIT_SELECT_FOR_LEAVE_REASON = /*$$(*/
       "Please configure the unit for this type of absence" /*)*/;
+
+  /** DPAE Service */
+  static final String DPAE_FIELD_INVALID = /*$$(*/ "Field %s missing or invalid in DPAE." /*)*/;
+
+  static final String DPAE_PRINT = /*$$(*/ "Please select the employee(s) to generate DPAE." /*)*/;
+
+  static final String DPAE_PRINTS_SUCCESSFUL = /*$$(*/ "%s DPAE generated." /*)*/;
+
+  static final String DPAE_PRINTS_ERROR = /*$$(*/ "%s DPAE generated.\n%s with errors." /*)*/;
+
+  static final String DPAE_SEND_SELECT = /*$$(*/ "Please select one or more DPAE to send." /*)*/;
+
+  static final String DPAE_ALREADY_SEND = /*$$(*/
+      "DPAE already sent. Please uncheck the boolean in DPAE." /*)*/;
+
+  static final String DPAE_SEND = /*$$(*/ "DPAE correctly sent." /*)*/;
+
+  static final String DPAE_MISSING_TEMPLATE = /*$$(*/
+      "DPAE template is missing. Please select one." /*)*/;
 }

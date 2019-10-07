@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.1.xsd">
+
+  <module name="human-resource" package="com.axelor.apps.hr.db"/>
+
+  <entity name="SentDPAE">
+  
+    <many-to-one name="message" title="Message" ref="com.axelor.apps.message.db.Message"/> 
+	<many-to-one name="metaFile" title="File sent" ref="com.axelor.meta.db.MetaFile" />
+	<many-to-many name="employeeList" title="Employee's list" ref="com.axelor.apps.hr.db.Employee"/>
+    
+  </entity>
+
+</domain-models>

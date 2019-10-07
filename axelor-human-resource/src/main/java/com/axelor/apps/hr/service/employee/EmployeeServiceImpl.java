@@ -17,10 +17,16 @@
  */
 package com.axelor.apps.hr.service.employee;
 
+import com.axelor.apps.base.db.Address;
+import com.axelor.apps.base.db.City;
 import com.axelor.apps.base.db.Company;
+import com.axelor.apps.base.db.Country;
 import com.axelor.apps.base.db.EventsPlanning;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.WeeklyPlanning;
+import com.axelor.apps.base.db.repo.PartnerRepository;
+import com.axelor.apps.base.db.repo.SequenceRepository;
+import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.apps.base.service.user.UserServiceImpl;
 import com.axelor.apps.base.service.weeklyplanning.WeeklyPlanningService;
@@ -38,18 +44,23 @@ import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class EmployeeServiceImpl extends UserServiceImpl implements EmployeeService {
 
   @Inject protected WeeklyPlanningService weeklyPlanningService;
+
+  @Inject protected EmployeeRepository employeeRepo;
 
   public int getLengthOfService(Employee employee, LocalDate refDate) throws AxelorException {
 
@@ -211,41 +222,95 @@ public class EmployeeServiceImpl extends UserServiceImpl implements EmployeeServ
           I18n.get(IExceptionMessage.EMPLOYEE_CONTRACT_OF_EMPLOYMENT),
           employee.getName());
     }
-
+    DPAE newDPAE = new DPAE();
     Company payCompany = mainEmploymentContract.getPayCompany();
     Partner employer = payCompany.getPartner();
-
-    DPAE newDPAE = new DPAE();
+    if (employer != null) {
+      employer = Beans.get(PartnerRepository.class).find(employer.getId());
+      newDPAE.setRegistrationCode(employer.getRegistrationCode());
+      newDPAE.setMainActivityCode(employer.getMainActivityCode());
+      if (employer.getMainAddress() != null) {
+        newDPAE.setCompanyCity(
+            Optional.ofNullable(employer.getMainAddress().getCity()).isPresent()
+                ? employer.getMainAddress().getCity().getName()
+                : !Strings.isNullOrEmpty(employer.getMainAddress().getAddressL6())
+                        && employer.getMainAddress().getAddressL6().length() > 6
+                    ? employer.getMainAddress().getAddressL6().substring(6)
+                    : "");
+        newDPAE.setCompanyZipCode(
+            !Strings.isNullOrEmpty(employer.getMainAddress().getZip())
+                ? employer.getMainAddress().getZip()
+                : !Strings.isNullOrEmpty(employer.getMainAddress().getAddressL6())
+                        && employer.getMainAddress().getAddressL6().length() >= 5
+                    ? employer.getMainAddress().getAddressL6().substring(0, 5)
+                    : "");
+        newDPAE.setCompanyAddressL1(
+            (Optional.ofNullable(employer.getMainAddress().getAddressL2()).orElse("")
+                    + " "
+                    + Optional.ofNullable(employer.getMainAddress().getAddressL3()).orElse(""))
+                .trim());
+        newDPAE.setCompanyAddressL2(
+            (Optional.ofNullable(employer.getMainAddress().getAddressL4()).orElse("")
+                    + " "
+                    + Optional.ofNullable(employer.getMainAddress().getAddressL5()).orElse(""))
+                .trim());
+      }
+      newDPAE.setCompanyFixedPhone(employer.getFixedPhone());
+      newDPAE.setHealthService(employer.getHealthService());
+      newDPAE.setHealthServiceAddress(
+          Optional.ofNullable(employer.getHealthServiceAddress())
+              .map(Address::getFullName)
+              .orElse(""));
+    }
 
     // Employer
-    newDPAE.setRegistrationCode(employer.getRegistrationCode());
-    newDPAE.setMainActivityCode(employer.getMainActivityCode());
+    newDPAE.setRegistrationDPAE(
+        Beans.get(SequenceService.class).getSequenceNumber(SequenceRepository.DPAE, payCompany));
     newDPAE.setCompany(payCompany);
-    newDPAE.setCompanyAddress(employer.getMainAddress());
-    newDPAE.setCompanyFixedPhone(employer.getFixedPhone());
-    newDPAE.setHealthService(employer.getHealthService());
-    newDPAE.setHealthServiceAddress(employer.getHealthServiceAddress());
+    newDPAE.setCompanyName(payCompany.getName());
 
     // Employee
     newDPAE.setLastName(employee.getContactPartner().getName());
     newDPAE.setFirstName(employee.getContactPartner().getFirstName());
-    newDPAE.setSocialSecurityNumber(employee.getSocialSecurityNumber());
+    newDPAE.setMaritalName(employee.getMaritalName());
+    if (!Strings.isNullOrEmpty(employee.getSocialSecurityNumber())
+        && employee.getSocialSecurityNumber().length() == 15) {
+      newDPAE.setSocialSecurityNumber(employee.getSocialSecurityNumber());
+    }
     newDPAE.setSexSelect(employee.getSexSelect());
     newDPAE.setDateOfBirth(employee.getBirthDate());
-    newDPAE.setDepartmentOfBirth(employee.getDepartmentOfBirth());
-    newDPAE.setCityOfBirth(employee.getCityOfBirth());
-    newDPAE.setCountryOfBirth(employee.getCountryOfBirth());
+    newDPAE.setDepartmentOfBirth(
+        Optional.ofNullable(employee.getDepartmentOfBirth()).isPresent()
+                && employee.getDepartmentOfBirth().getCode().length() >= 2
+            ? employee.getDepartmentOfBirth().getCode().substring(0, 2)
+            : "");
+    newDPAE.setCityOfBirth(
+        Optional.ofNullable(employee.getCityOfBirth()).map(City::getName).orElse(""));
+    newDPAE.setCountryOfBirth(
+        Optional.ofNullable(employee.getCountryOfBirth()).map(Country::getName).orElse(""));
 
     // Contract
     newDPAE.setDateOfHire(mainEmploymentContract.getStartDate());
     newDPAE.setTimeOfHire(mainEmploymentContract.getStartTime());
     newDPAE.setTrialPeriodDuration(mainEmploymentContract.getTrialPeriodDuration());
-    newDPAE.setContractType(mainEmploymentContract.getContractType());
     newDPAE.setEndDateOfContract(mainEmploymentContract.getEndDate());
 
     employee.addDpaeListItem(newDPAE);
 
-    Beans.get(EmployeeRepository.class).save(employee);
+    employeeRepo.save(employee);
     return newDPAE.getId();
+  }
+
+  @Override
+  public List<Long> generateDPAEs(List<Long> ids) {
+    List<Long> idsError = new ArrayList<>();
+    for (Long id : ids) {
+      try {
+        generateNewDPAE(employeeRepo.find(id));
+      } catch (AxelorException e) {
+        idsError.add(id);
+      }
+    }
+    return idsError;
   }
 }

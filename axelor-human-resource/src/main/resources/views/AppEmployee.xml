@@ -4,12 +4,13 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.1.xsd">
 	
 	<form name="app-employee-config-form" title="Employees management" model="com.axelor.apps.base.db.AppEmployee" canDelete="false" canNew="false" width="large">
-		<panel name="mainPanel">
-			<field name="dailyWorkHours" colSpan="12"/>
+		<panel name="mainPanel" itemSpan="4">
+			<field name="dailyWorkHours"/>
 			<field name="advanceManagement" />
-			<field name="payrollPreparation" colSpan="4" widget="boolean-switch" />
-			<field name="lunchVoucher" colSpan="4" widget="boolean-switch" />
-			<field name="employeeBonus" colSpan="4" widget="boolean-switch" />
+			<field name="payrollPreparation"  widget="boolean-switch" />
+			<field name="lunchVoucher" widget="boolean-switch" />
+			<field name="employeeBonus" widget="boolean-switch" />
+			<field name="templateDPAE"/>
 		</panel>
 		<panel name="configPanel">
 			<button name="generateHrConfigurationsBtn" colSpan="4" title="Generate human resource configurations" onClick="save,com.axelor.apps.hr.web.AppHumanResourceController:generateHrConfigurations"/>

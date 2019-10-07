@@ -11,6 +11,7 @@
         
         //SEQUENCE SELECT
   		public static final String EXPENSE = "expense";
+  		public static final String DPAE = "dpae";
         
      ]]></extra-code>
     

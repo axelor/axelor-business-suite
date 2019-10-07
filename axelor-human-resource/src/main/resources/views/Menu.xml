@@ -50,10 +50,26 @@
 	    <view type="form" name="employee-bonus-mgt-form"/>
 	</action-view>
 
-  <menuitem name="hr-employee-dpae" title="DPAEs" parent="hr-root-emp-mgt" action="employee.dpae.all" if="__user__.activeCompany?.hrConfig?.enableDPAE"/>
-  <action-view name="employee.dpae.all" title="DPAEs" model="com.axelor.apps.hr.db.DPAE">
+  <menuitem name="hr-employee-dpae" title="DPAE" parent="hr-root-emp-mgt" if="__user__.activeCompany?.hrConfig?.enableDPAE" />
+  
+  <menuitem name="hr-employee-dpae-to-send" title="DPAE to send" parent="hr-employee-dpae" action="employee.dpae.to.send" if="__user__.activeCompany?.hrConfig?.enableDPAE" order="20"/>
+  <action-view name="employee.dpae.to.send" title="DPAE to send" model="com.axelor.apps.hr.db.DPAE">
     <view type="grid" name="dpae-grid"/>
     <view type="form" name="dpae-form"/>
+    <domain>self.isSent != true</domain>
+  </action-view>
+  
+  <menuitem name="hr-employee-dpae-sent" title="DPAE sent" parent="hr-employee-dpae" action="employee.dpae.sent" if="__user__.activeCompany?.hrConfig?.enableDPAE" order="22"/>
+  <action-view name="employee.dpae.sent" title="DPAE sent" model="com.axelor.apps.hr.db.DPAE">
+    <view type="grid" name="dpae-grid"/>
+    <view type="form" name="dpae-form"/>
+    <domain>self.isSent = true</domain>
+  </action-view>
+  
+  <menuitem name="hr-employee-sent-dpae" title="Historic" parent="hr-employee-dpae" action="employee.sentdpae.all" if="__user__.activeCompany?.hrConfig?.enableDPAE" order="24"/>
+  <action-view name="employee.sentdpae.all" title="Historic" model="com.axelor.apps.hr.db.SentDPAE">
+    <view type="grid" name="sent-dpae-grid"/>
+    <view type="form" name="sent-dpae-form"/>
   </action-view>
 
   <menuitem name="hr-root-emp-mgt-conf" parent="hr-root-emp-mgt" title="Configuration" icon="fa-cog"/>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.1.xsd">
+
+	<grid name="sent-dpae-grid" title="Sent DPAE" model="com.axelor.apps.hr.db.SentDPAE" canNew="false" canDelete="false" canEdit="false" >
+		<field name="message.sentDateT" />
+		<field name="metaFile" />
+		<field name="message"/>
+	</grid>
+	
+	<form name="sent-dpae-form" title="Sent DPAE" model="com.axelor.apps.hr.db.SentDPAE" width="large" canNew="false" canDelete="false" canEdit="false">
+		<panel name="mainPanel" >
+			<field name="message.sentDateT" />
+			<field name="metaFile" />
+			<field name="message" />
+			<field name="employeeList" colSpan="12" grid-view="employee-grid" form-view="employee-form"/>
+		</panel>
+	
+	</form>
+</object-views>

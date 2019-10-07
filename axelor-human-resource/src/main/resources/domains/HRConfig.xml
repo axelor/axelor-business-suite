@@ -70,6 +70,7 @@
 
     <!-- DPAE -->
     <boolean name="enableDPAE" title="Enable DPAE" default="false"/>
+    <many-to-one name="receiptMailDPAE" ref="com.axelor.apps.message.db.EmailAddress" title="Receipt mail of DPAE" />
   </entity>
   
 </domain-models>

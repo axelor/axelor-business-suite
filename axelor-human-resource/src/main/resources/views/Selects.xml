@@ -168,6 +168,7 @@
 	
 	<selection name="sequence.generic.code.select" id="hr.sequence.generic.code.select">
 		<option value="expense">Expense</option>
+		<option value="dpae">DPAE</option>
 	</selection>
 	
 	<selection id="hr.object.data.config.model.select" name="object.data.config.model.select">
@@ -195,6 +196,12 @@
     <selection name="hr.leave.reason.unit.select">
         <option value="1">Days</option>
         <option value="2">Hours</option>
+    </selection>
+    
+    <selection name="hr.dpae.contract.type.select">
+        <option value="1">CDD</option>
+        <option value="2">CDI</option>
+        <option value="3">CTT</option>
     </selection>
 
 </object-views>

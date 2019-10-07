@@ -17,10 +17,12 @@
  */
 package com.axelor.apps.hr.service.app;
 
+import com.axelor.apps.base.db.AppEmployee;
 import com.axelor.apps.base.db.AppExpense;
 import com.axelor.apps.base.db.AppLeave;
 import com.axelor.apps.base.db.AppTimesheet;
 import com.axelor.apps.base.db.Company;
+import com.axelor.apps.base.db.repo.AppEmployeeRepository;
 import com.axelor.apps.base.db.repo.AppExpenseRepository;
 import com.axelor.apps.base.db.repo.AppLeaveRepository;
 import com.axelor.apps.base.db.repo.AppTimesheetRepository;
@@ -44,6 +46,7 @@ public class AppHumanResourceServiceImpl extends AppBaseServiceImpl
   private AppTimesheetRepository appTimesheetRepo;
   private AppLeaveRepository appLeaveRepo;
   private AppExpenseRepository appExpenseRepo;
+  private AppEmployeeRepository appEmployeeRepo;
 
   @Inject private CompanyRepository companyRepo;
 
@@ -53,10 +56,12 @@ public class AppHumanResourceServiceImpl extends AppBaseServiceImpl
   public AppHumanResourceServiceImpl(
       AppTimesheetRepository appTimesheetRepo,
       AppLeaveRepository appLeaveRepo,
-      AppExpenseRepository appExpense) {
+      AppExpenseRepository appExpense,
+      AppEmployeeRepository appEmployee) {
     this.appTimesheetRepo = appTimesheetRepo;
     this.appLeaveRepo = appLeaveRepo;
     this.appExpenseRepo = appExpense;
+    this.appEmployeeRepo = appEmployee;
   }
 
   @Override
@@ -72,6 +77,11 @@ public class AppHumanResourceServiceImpl extends AppBaseServiceImpl
   @Override
   public AppExpense getAppExpense() {
     return appExpenseRepo.all().fetchOne();
+  }
+
+  @Override
+  public AppEmployee getAppEmployee() {
+    return appEmployeeRepo.all().fetchOne();
   }
 
   @Override

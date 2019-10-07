@@ -81,6 +81,7 @@
 		  	</panel>
         <panel name="dpaePanel" title="DPAE">
           <field name="enableDPAE" widget="BooleanSwitch"/>
+          <field name="receiptMailDPAE" requiredIf="enableDPAE" showIf="enableDPAE"/>
         </panel>
 		</panel-tabs>
 				        

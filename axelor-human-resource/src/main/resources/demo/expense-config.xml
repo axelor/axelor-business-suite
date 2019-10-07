@@ -12,14 +12,21 @@
 	<input file="hr_employeeBonusType.csv" separator=";" type="com.axelor.apps.hr.db.EmployeeBonusType" />
 	
 	<input file="base_sequence.csv" separator=";" type="com.axelor.apps.base.db.Sequence" search="self.importId = :importId" call="com.axelor.csv.script.SequenceScript:computeFullname">
-    	<bind to="yearlyResetOk" column="yearlyResetOk" eval="yearlyResetOk == '1' ? true : false"/>
-    	<bind to="nextNum" column="nextNum" eval="nextNum?.empty ? '1' : nextNum"/>
-    	<bind to="padding" column="padding" eval="padding?.empty ? '1' : padding"/>
-    	<bind to="toBeAdded" column="toBeAdded" eval="toBeAdded?.empty ? '1' : toBeAdded"/>
-    </input>
+	    	<bind to="yearlyResetOk" column="yearlyResetOk" eval="yearlyResetOk == '1' ? true : false"/>
+    		<bind to="nextNum" column="nextNum" eval="nextNum?.empty ? '1' : nextNum"/>
+    		<bind to="padding" column="padding" eval="padding?.empty ? '1' : padding"/>
+    		<bind to="toBeAdded" column="toBeAdded" eval="toBeAdded?.empty ? '1' : toBeAdded"/>
+   	 </input>
 	
 	<input file="base_expenseTemplate.csv" separator=";" type="com.axelor.apps.message.db.Template" search="self.importId = :importId"/>
 	
+    	<input file="base_sequence_new.csv" separator=";" type="com.axelor.apps.base.db.Sequence" search="self.importId = :importId">
+     		<bind to="nextNum" column="nextNum" eval="nextNum?.empty ? '1' : nextNum"/>
+     		<bind to="padding" column="padding" eval="padding?.empty ? '1' : padding"/>
+     		<bind to="toBeAdded" column="toBeAdded" eval="toBeAdded?.empty ? '1' : toBeAdded"/>
+     		<bind to="resetDate" eval="call:com.axelor.apps.base.service.app.AppBaseService:getTodayDate()" />
+     	</input>
+    
 	<input file="account_accountConfig.csv" separator=";" type="com.axelor.apps.account.db.AccountConfig" search="self.importId = :importId" update="true"/>
 	
 	<input file="hr_hrConfig.csv" type="com.axelor.apps.hr.db.HRConfig" separator=";" search="self.importId = :importId" update="true"/>
