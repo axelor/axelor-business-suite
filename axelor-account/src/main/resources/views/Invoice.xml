@@ -923,12 +923,12 @@ InvoiceSet.length > 0))"
 
 	<action-attrs name="action-invoice-attrs-printing-fields" if-module="axelor-business-project">
 		<attribute name="hidden" for="displayTimesheetOnPrinting" if="__config__.app.isApp('business-project')"
-			expr="eval: __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayTimesheetOnPrinting"/>
-		<attribute name="value" for="displayTimesheetOnPrinting" if="__config__.app.isApp('business-project') &amp;&amp; __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayTimesheetOnPrinting"
+			expr="eval: id &amp;&amp; __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayTimesheetOnPrinting"/>
+		<attribute name="value" for="displayTimesheetOnPrinting" if="__config__.app.isApp('business-project') &amp;&amp; id &amp;&amp; __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayTimesheetOnPrinting"
 			expr="eval: false"/>
 		<attribute name="hidden" for="displayExpenseOnPrinting" if="__config__.app.isApp('business-project')"
-			expr="eval: __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayExpenseOnPrinting"/>
-		<attribute name="value" for="displayExpenseOnPrinting" if="__config__.app.isApp('business-project') &amp;&amp; __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayExpenseOnPrinting"
+			expr="eval: id &amp;&amp; __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayExpenseOnPrinting"/>
+		<attribute name="value" for="displayExpenseOnPrinting" if="__config__.app.isApp('business-project') &amp;&amp; id &amp;&amp; __repo__(InvoicingProject).all().filter('self.invoice.id = ?1', id).fetch().isEmpty() &amp;&amp; !__user__.activeCompany?.accountConfig?.displayExpenseOnPrinting"
 			expr="eval: false"/>
 	</action-attrs>
 
