@@ -273,5 +273,6 @@
 - QualityControl : status selection order and other translation changes
 - Frequency: Error on clear of Frequency type fix
 - RH : NPE on ventilation of expense fixed
+- SaleOrder: Fix issue of UnitCode null value in SaleOrder report.
 
 [Unreleased 5.2.0]: https://github.com/axelor/axelor-open-suite/compare/dev...wip

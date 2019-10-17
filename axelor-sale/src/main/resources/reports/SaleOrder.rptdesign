@@ -1913,7 +1913,7 @@ where SaleOrder.id = ?]]></xml-property>
 	SOLine.id, 
 	SOLine.description, 
 	SOLine.qty as "quantity", 
-	Unit.label_to_printing as "UnitCode", 
+	COALESCE(Unit.label_to_printing,Unit.name) as "UnitCode", 
 	SOLine.product_name as "ProductName", 
 	(CASE WHEN SaleOrder.in_ati
 		THEN SOLine.in_tax_price
@@ -5150,11 +5150,11 @@ row["ClientPartFirstName"]
                                                             </structure>
                                                         </list-property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF format="^">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"] &amp;&amp; row["translation"] != null) {" " + row["translation"]} else if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"] &amp;&amp; row["translation"] == null) {" " + row._outer["UnitCode"]}</VALUE-OF>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="^">if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"] &amp;&amp; row["translation"] != null) {" " + row["translation"]} else if(!row["is_sub_line"] &amp;&amp; !row["is_pack_line"] &amp;&amp; row._outer["UnitCode"] != null) {" " + row._outer["UnitCode"]}</VALUE-OF>
 <I><FONT size="7pt">
-<VALUE-OF format="^">if(row["is_sub_line"]) {"  "}</VALUE-OF><VALUE-OF>if(row["is_sub_line"] &amp;&amp; row["translation"] != null) {row["translation"]} else if(row["is_sub_line"] &amp;&amp; row["translation"] == null) {row._outer["UnitCode"]}</VALUE-OF>
+<VALUE-OF format="^">if(row["is_sub_line"]) {"  "}</VALUE-OF><VALUE-OF>if(row["is_sub_line"] &amp;&amp; row["translation"] != null) {row["translation"]} else if(row["is_sub_line"] &amp;&amp; row._outer["UnitCode"] != null) {row._outer["UnitCode"]}</VALUE-OF>
 </VALUE-OF></FONT></I>
-<B><VALUE-OF>if(row["is_pack_line"] &amp;&amp; row["translation"] != null) {row["translation"]} else if(row["is_pack_line"] &amp;&amp; row["translation"] == null) {row._outer["UnitCode"]}</VALUE-OF></B>]]></text-property>
+<B><VALUE-OF>if(row["is_pack_line"] &amp;&amp; row["translation"] != null) {row["translation"]} else if(row["is_pack_line"] &amp;&amp; row._outer["UnitCode"] != null) {row._outer["UnitCode"]}</VALUE-OF></B>]]></text-property>
                                                     </text>
                                                 </cell>
                                             </row>
