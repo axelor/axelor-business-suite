@@ -274,6 +274,13 @@ public class ExpenseController {
     response.setValues(expense);
   }
 
+  public void updateMoveDateAndPeriod(ActionRequest request, ActionResponse response) {
+    Expense expense = request.getContext().asType(Expense.class);
+    expense = expenseServiceProvider.get().updateMoveDateAndPeriod(expense);
+    response.setValue("moveDate", expense.getMoveDate());
+    response.setValue("period", expense.getPeriod());
+  }
+
   public void ventilate(ActionRequest request, ActionResponse response) throws AxelorException {
     try {
       Expense expense = request.getContext().asType(Expense.class);
