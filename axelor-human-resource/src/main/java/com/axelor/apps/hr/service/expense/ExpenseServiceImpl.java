@@ -94,6 +94,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.mail.MessagingException;
+import org.apache.commons.collections.CollectionUtils;
 
 @Singleton
 public class ExpenseServiceImpl implements ExpenseService {
@@ -356,11 +357,10 @@ public class ExpenseServiceImpl implements ExpenseService {
   }
 
   protected Move createAndSetMove(Expense expense) throws AxelorException {
-    LocalDate moveDate = expense.getPeriod().getToDate();
+    LocalDate moveDate = expense.getMoveDate();
     if (moveDate == null) {
       moveDate = appAccountService.getTodayDate();
     }
-    expense.setMoveDate(moveDate);
     Company company = expense.getCompany();
     Partner partner = expense.getUser().getPartner();
 
@@ -1018,5 +1018,32 @@ public class ExpenseServiceImpl implements ExpenseService {
         }
       }
     }
+  }
+
+  @Override
+  public Expense updateMoveDateAndPeriod(Expense expense) {
+    if (CollectionUtils.isNotEmpty(expense.getGeneralExpenseLineList())) {
+      LocalDate recentDate =
+          expense
+              .getGeneralExpenseLineList()
+              .stream()
+              .map(ExpenseLine::getExpenseDate)
+              .max(LocalDate::compareTo)
+              .get();
+      expense.setMoveDate(recentDate);
+
+      PeriodRepository periodRepository = Beans.get(PeriodRepository.class);
+      if (expense.getPeriod() == null
+          || !(recentDate.compareTo(expense.getPeriod().getFromDate()) >= 0)
+          || !(recentDate.compareTo(expense.getPeriod().getToDate()) <= 0)) {
+        expense.setPeriod(
+            periodRepository
+                .all()
+                .filter("self.fromDate <= :_moveDate AND self.toDate >= :_moveDate")
+                .bind("_moveDate", expense.getMoveDate())
+                .fetchOne());
+      }
+    }
+    return expense;
   }
 }

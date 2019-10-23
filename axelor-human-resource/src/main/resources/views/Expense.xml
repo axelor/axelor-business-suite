@@ -132,22 +132,21 @@
 		</panel>
 		<panel-tabs name="mainPanelTab">
 			<panel-related name="generalExpenseLineListPanel" field="generalExpenseLineList" title="General expenses" readonlyIf="statusSelect &gt; 1" colSpan="12"
-				editable="true" form-view="general-expense-line-form" grid-view="general-expense-line-grid" onChange="action-expense-method-compute" />
+				editable="true" form-view="general-expense-line-form" grid-view="general-expense-line-grid" onChange="action-expense-method-compute,action-expense-method-update-moveDate-and-period" />
 			<panel-related name="kilometricExpenseLineListPanel" field="kilometricExpenseLineList" title="Kilometric Allowances" readonlyIf="statusSelect &gt; 1" colSpan="12" showIf="!setMultipleUsers"
 				editable="true" form-view="expense-line-kilometric-form" grid-view="expense-line-kilometric-grid" onChange="action-expense-method-compute"/>
 			<panel-related name="employeeAdvanceUsageListPanel" showIf="!setMultipleUsers &amp;&amp; employeeAdvanceUsageList &amp;&amp; employeeAdvanceUsageList.length" field="employeeAdvanceUsageList" title="Employee advance list" readonly="false" canNew="false" canSelect="false" canEdit="true" editable="true" form-view="employee-advance-usage-expense-form" grid-view="employee-advance-usage-expense-grid" />
-			<panel name="accountInfoPanel" title="Account information" showIf="statusSelect == 3 || statusSelect == 4" readonlyIf="statusSelect == 4">
-				<panel name="moveInfoPanel" title="Account information" showIf="move">
-					<field name="moveDate" hidden="true" readonly="true" showIf="moveDate" colSpan="4"/>
-					<field name="move" showIf="move" readonlyIf="move" colSpan="6" form-view="move-form" grid-view="move-grid"/>
-				</panel>
-				<panel name="paymentInfoPanel" colSpan="12" title="Payment information">
-					<field name="paymentStatusSelect" colSpan="4"/>
-					<field name="paymentMode" showIf="paymentMode" readonly="true" colSpan="4"/>
-					<field name="paymentDate" showIf="paymentDate" colSpan="4"/>
-					<field name="bankOrder" hidden="true" showIf="bankOrder" colSpan="4"/>
-					<field name="paymentMove" showIf="paymentMove" readonlyIf="paymentMove" colSpan="4" form-view="move-form" grid-view="move-grid"/>
-				</panel>
+			<panel name="accountInfoPanel" title="Account information">
+      			<panel name="moveInfoPanel" title="Account information">
+        			<field name="moveDate" readonlyIf="move"  colSpan="4"/>
+        			<field name="move" showIf="move" readonlyIf="move" colSpan="6" form-view="move-form" grid-view="move-grid"/>
+      			</panel>
+      			<panel name="paymentInfoPanel" showIf=" statusSelect == 4" title="Payment information" colSpan="12">
+			        <field name="paymentStatusSelect" colSpan="4"/>
+			        <field name="paymentMode" readonly="true" showIf="paymentMode" colSpan="4"/>
+			        <field name="paymentDate" showIf="paymentDate" colSpan="4"/>
+			      	<field name="bankOrder" hidden="true" showIf="bankOrder" colSpan="4"/>
+			      </panel>
 			</panel>
 		</panel-tabs>
 		<panel name="attrsPanel">
@@ -316,6 +315,9 @@
 		<call class="com.axelor.apps.hr.web.expense.ExpenseController" method="validateAndCompute"/>
     </action-method>
     
-
-
+	<!--MoveDate-->
+    <action-method name="action-expense-method-update-moveDate-and-period">
+		<call class="com.axelor.apps.hr.web.expense.ExpenseController" method="updateMoveDateAndPeriod"/>
+    </action-method>
+    
 </object-views>
