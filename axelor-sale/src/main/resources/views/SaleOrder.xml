@@ -364,7 +364,7 @@
 	  </panel>
 	  <panel name="actionsPanel" hideIf="clientPartner == null" sidebar="true" stacked="true">
 	    <button name="finalizeBtn" title="Finalize" showIf="statusSelect == 1" colSpan="12" onClick="action-group-sale-order-finalize-quotation"/>
-	    <button if="(__config__.app.isApp('supplychain') &amp;&amp; __config__.app.getApp('supplychain')?.allowCompleteManuallySaleOrder) || (!__config__.app.isApp('supplychain'))" name="completeManuallySaleOrderBtn" title="Complete manually sale order" showIf="statusSelect == 3" prompt="Warning, a completed order can't be changed anymore, do you want to continue?" colSpan="12" onClick="save,action-sale-order-method-complete-sale-order"/>
+	    <button if="(__config__.app.isApp('supplychain') &amp;&amp; __config__.app.getApp('supplychain')?.allowCompleteManuallySaleOrder) || (!__config__.app.isApp('supplychain'))" name="completeManuallySaleOrderBtn" title="Complete manually sale order" showIf="statusSelect == 3" prompt="Warning, a completed order can't be changed anymore, do you want to continue?" colSpan="12" onClick="save,action-validate-sale-order-check-manually-complete-sale-order,action-sale-order-method-complete-sale-order"/>
 	    <button if="__config__.app.getApp('sale').getManageSaleOrderVersion()" name="newVersionBtn" title="New version" showIf="statusSelect == 2" colSpan="12" onClick="save,action-sale-record-newVersion,save"/>
 	    <button if="__config__.app.getApp('sale').allowPendingOrderModification" name="editOrderBtn" title="Edit order" showIf="statusSelect == 3 &amp;&amp; !orderBeingEdited" colSpan="12" onClick="action-sale-order-method-edit-order"/>
 	    <button name="validateChangesBtn" title="Validate changes" showIf="statusSelect == 3 &amp;&amp; orderBeingEdited" colSpan="12" onClick="action-group-sale-order-validate-changes"/>
@@ -1286,6 +1286,10 @@
 
 	<action-validate name="action-validate-sale-quotation-check-selection">
 		<error message="You have to choose at least one sale quotation" if="saleQuotationToMerge == null || (saleQuotationToMerge != null &amp;&amp; saleQuotationToMerge.size() == 0)"/>
+	</action-validate>
+	
+	<action-validate name="action-validate-sale-order-check-manually-complete-sale-order">
+		<error message="There is at least one draft or planned stock move for this sale order." if="__repo__(StockMove).all().filter('self.originId = ?1 AND (self.statusSelect = 1 OR self.statusSelect = 2)', id).fetchOne() != null"/>
 	</action-validate>
 	
 	<action-record name="action-saleorder-record-template" model="com.axelor.apps.sale.db.SaleOrder">
