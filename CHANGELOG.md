@@ -28,6 +28,7 @@
 - Invoice : add header and footer height parameter on PrintSetting object
 - URLService : Use try-with-resources for "BufferedOutputStream"
 - Tools : use try-with-resources for resource management in download file from ftp server
+- FileTool : Use try-with-resources for "BufferedReader"
 
 ## [5.1.11] - 2019-11-05
 ## Improvements
