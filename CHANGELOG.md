@@ -4,6 +4,7 @@
 ## Features
 - AVAILABILITY REQUEST : Addition of button on grid-view to view stock move lines.
 - StockMove : Addition of button to view stockMoveLines on grid-view.
+- PROJECT : display the Project status in grid views
 
 ## Improvements
 - STOCK : Changed type select french translation

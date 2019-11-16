@@ -13,7 +13,9 @@
 					<item name="ganttWithProjectItem"  title="Gantt with project" action="action-project-open-popup-select-projects"/>
 			</menu>
 		</menubar>
-		<hilite background="primary" if="isProject &amp;&amp; projectTypeSelect == 1"/>
+		<hilite background="primary" if="isProject &amp;&amp; projectTypeSelect == 1 &amp;&amp; (statusSelect == 1 || statusSelect == 2)"/>
+		<hilite background="success" if="isProject &amp;&amp; projectTypeSelect == 1 &amp;&amp; statusSelect == 3"/>
+		<hilite background="danger" if="isProject &amp;&amp; projectTypeSelect == 1 &amp;&amp; statusSelect == 4"/>
 		<hilite background="info" if="isProject &amp;&amp; projectTypeSelect == 2"/>
 		<field name="code"/>
 		<field name="name"/>
@@ -24,6 +26,7 @@
 		<field name="toDate" />
 		<field name="dueDate" />
 		<field name="imputable" width="90"/>
+		<field name="statusSelect"/>
 		<button name="openGanttBtn" title="Gantt" icon="fa-tasks" onClick="action-project-open-gantt"/>
 		<field name="isProject" hidden="true"/>
 		<field name="projectTypeSelect" hidden="true"/>
