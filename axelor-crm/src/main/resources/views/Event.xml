@@ -171,7 +171,7 @@
 		<panel sidebar="true" title="References" name="meetingLinkedPanel" canCollapse="true">
 			<field name="partner" canEdit="false" colSpan="6" onSelect="action-partner-attrs-set-domain" onChange="action-event-group-partner-onchange" form-view="partner-form" grid-view="partner-grid" />
 			<field name="contactPartner" canEdit="false" colSpan="6" hideIf="partner.partnerTypeSelect == 2" onChange="action-group-crm-meeting-contactpartner-onchange" onSelect="action-event-attrs-contact-partner-domain" domain="self.isContact = true" form-view="partner-contact-form" grid-view="partner-contact-grid"/>
-			<field name="lead" canEdit="false" colSpan="6" onChange="action-meeting-set-location-lead, action-event-method-add-guest" form-view="lead-form" grid-view="lead-grid"/>
+			<field name="lead" canEdit="false" colSpan="6" onChange="action-meeting-set-location-lead" form-view="lead-form" grid-view="lead-grid"/>
 			<field name="campaign" canEdit="false" colSpan="6" form-view="campaign-form" grid-view="campaign-grid"/>
 			<field name="relatedToSelect" widget="RefSelect" x-related="relatedToSelectId"/>
 			<field name="relatedToSelectId" hidden="true" />

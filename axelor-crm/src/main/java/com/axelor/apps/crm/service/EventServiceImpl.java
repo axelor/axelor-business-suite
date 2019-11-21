@@ -645,13 +645,6 @@ public class EventServiceImpl implements EventService {
       if (contactPartner.getEmailAddress() != null)
         emailAddress = emailAddressRepo.find(contactPartner.getEmailAddress().getId());
 
-    } else if (event.getPartner() == null
-        && event.getContactPartner() == null
-        && event.getLead() != null) {
-
-      Lead lead = leadRepo.find(event.getLead().getId());
-      if (lead.getEmailAddress() != null)
-        emailAddress = emailAddressRepo.find(lead.getEmailAddress().getId());
     }
     return emailAddress;
   }

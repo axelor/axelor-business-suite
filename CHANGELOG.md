@@ -9,6 +9,7 @@
 - Sale Order: allocate a full sale order does not try to allocate already delivered lines.
 - Project : Fix computation of 'timeSpent' field on removal of validated timesheet.
 - ADDRESS : reduced space between addresses in partner-form
+- CRM Event : remove automatically following of lead in discussion.
 
 ## [5.1.12] - 2019-11-19
 ## Features
