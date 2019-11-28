@@ -76,9 +76,9 @@
       			<field name="partner" showTitle="false" colSpan="12" canNew="true" domain="self.partnerTypeSelect = 2 OR self.isContact = true OR self.isEmployee = true" form-view="partner-employee-form" grid-view="partner-employee-grid">
         			<editor x-viewer="true">
           				<field name="fullName" readonly="true"/>
-          				<field name="fixedPhone" />
-          				<field name="mobilePhone"/>
-          				<field name="fax"/>
+          				<field name="fixedPhone" widget="phone" />
+          				<field name="mobilePhone" widget="phone"/>
+          				<field name="fax" widget="phone"/>
                         <field name="emailAddress" form-view="email-address-simple-form" canNew="!emailAddress" canSelect="false" canRemove="false" placeholder="Email address"/>
         			</editor>
       			</field>

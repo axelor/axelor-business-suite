@@ -256,9 +256,9 @@
 					</field>
 				</panel>
 				<panel name="generalContactDetailsPanel" title="General contact details" colSpan="12">
-					<field name="fixedPhone" colSpan="3" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
-					<field name="fax" colSpan="3" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
-					<field name="mobilePhone" colSpan="3" hideIf="partnerTypeSelect == 1" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+					<field name="fixedPhone" widget="phone" colSpan="3" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+					<field name="fax" widget="phone" colSpan="3" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+					<field name="mobilePhone" widget="phone" colSpan="3" hideIf="partnerTypeSelect == 1" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
 					<field name="emailAddress" canSelect="false" colSpan="6" form-view="email-address-simple-form" x-show-icons="false">
 						<editor x-show-titles="false">
 							<field name="address" colSpan="12" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
@@ -404,9 +404,9 @@
 							<field name="address"/>
 						</editor>
 					</field>
-					<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
-					<field name="fixedPhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
-					<field name="mobilePhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+					<field name="fax" widget="phone" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+					<field name="fixedPhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+					<field name="mobilePhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
 					<field name="webSite" placeholder="http://www.url.com" pattern="^(?:http(?:s)?://)?\S+(?:\.\S+)+$"/>
 				</panel>
 			</panel>
@@ -476,14 +476,14 @@
 			<panel name="contactDetailsPanel" title="Contact details">
 				<field name="jobTitle"/>
 				<field name="reportsTo" domain="self.isContact = true"/>
-				<field name="fixedPhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
-				<field name="mobilePhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+				<field name="fixedPhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+				<field name="mobilePhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
 				<field name="emailAddress" canSelect="false" form-view="email-address-simple-form" x-show-icons="false">
 					<editor x-show-titles="false">
 						<field name="address" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$" colSpan="12"/>
 					</editor>
 				</field>
-				<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+				<field name="fax" widget="phone" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
 				<field name="mainAddress" canNew="true" form-view="address-form" grid-view="address-grid" colSpan="12"/>
 				<field name="timeSlot" colSpan="12"/>
 			</panel>
@@ -523,9 +523,9 @@
 					<field name="address" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
 				</editor>
 			</field>
-			<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
-			<field name="fixedPhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
-			<field name="mobilePhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+			<field name="fax" widget="phone" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+			<field name="fixedPhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+			<field name="mobilePhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
 			<field name="webSite" placeholder="http://www.url.com" pattern="^(?:http(?:s)?://)?\S+(?:\.\S+)+$"/>
 		</panel>
 	</form>
@@ -654,14 +654,14 @@
 			<panel name="contactDetailsPanel" title="Contact details">
 				<field name="jobTitle"/>
 				<field name="reportsTo" domain="self.isContact = true"/>
-				<field name="fixedPhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
-				<field name="mobilePhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+				<field name="fixedPhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+				<field name="mobilePhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
 				<field name="emailAddress" canSelect="false" form-view="email-address-simple-form" x-show-icons="false">
 					<editor x-show-titles="false">
 						<field name="address" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
 					</editor>
 				</field>
-				<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+				<field name="fax" widget="phone" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
 				<field name="mainAddress" canNew="true" form-view="address-form" grid-view="address-grid"/>
 			</panel>
 			<panel name="activitiesPanel" title="Activities" showIf="id != null" if-module="axelor-crm" onTabSelect="action-partner-method-view-emails-contact" if="__config__.app.isApp('crm')">

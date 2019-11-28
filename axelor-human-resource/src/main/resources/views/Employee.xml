@@ -43,9 +43,9 @@
 							<field name="name" title="Name"  css="bold" onChange="action-partner-record-simple-and-full-name, action-employee-contact-method-set-social-network-url" colSpan="5"/>
 							<field name="firstName"  css="bold" onChange="action-partner-record-simple-and-full-name, action-employee-contact-method-set-social-network-url" colSpan="5"/>
               <field name="emailAddress" form-view="email-address-simple-form" canNew="true" canSelect="false"/>
-							<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
-							<field name="fixedPhone"  placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
-							<field name="mobilePhone" placeholder="+33600000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+							<field name="fax" widget="phone" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+							<field name="fixedPhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+							<field name="mobilePhone" widget="phone" placeholder="+33600000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
 							<field name="webSite" placeholder="http://www.url.com" pattern="^(?:http(?:s)?://)?\S+(?:\.\S+)+$"/>
 				         </panel>
 			        </panel>
@@ -55,9 +55,9 @@
         <panel-tabs name="mainPanelTab">
         	<panel name="informationPanel" title="Information">
 	        	<panel name="phoneProPanel" title="Work phones" colSpan="12">
-	        		<field name="fixedProPhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-employee-method-normalize-fixedProPhone" colSpan="4"/>
-	        		<field name="mobileProPhone" placeholder="+33600000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-employee-method-normalize-mobileProPhone" colSpan="4"/>
-					<field name="phoneAtCustomer" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-employee-method-normalize-phoneAtCustomer" colSpan="4"/>
+	        		<field name="fixedProPhone" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-employee-method-normalize-fixedProPhone" colSpan="4"/>
+	        		<field name="mobileProPhone" widget="phone" placeholder="+33600000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-employee-method-normalize-mobileProPhone" colSpan="4"/>
+					<field name="phoneAtCustomer" widget="phone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-employee-method-normalize-phoneAtCustomer" colSpan="4"/>
 	        	</panel>
       			<panel name="personalInfoPanel" title="Personal Info." colSpan="12">
         			<field name="birthDate" colSpan="4"/>

@@ -34,9 +34,9 @@
 		      		</panel>
 	      			
 	      			<panel name="generalContactDetailsPanel" title="General contact details" colSpan="12">
-						<field name="fixedPhone" colSpan="3" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
-						<field name="fax" colSpan="3" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
-						<field name="mobilePhone" colSpan="3" hideIf="partnerTypeSelect == 1" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
+						<field name="fixedPhone" widget="phone" colSpan="3" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
+						<field name="fax" widget="phone" colSpan="3" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+						<field name="mobilePhone" widget="phone" colSpan="3" hideIf="partnerTypeSelect == 1" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-mobilePhone"/>
 						<field name="emailAddress" canSelect="false" form-view="email-address-simple-form"/>
 						<field name="webSite" placeholder="www.url.com" pattern="([^\s]+\.[^\s]+\.[^\s]{2,})"/>
 					</panel>
@@ -81,10 +81,10 @@
 					<label name="contactLabel" title="Contact"/>
 					<field name="jobTitle"/>
 					<field name="reportsTo" domain="self.isContact = true"/>
-					<field name="fixedPhone"/>
-					<field name="mobilePhone"/>
+					<field name="fixedPhone" widget="phone"/>
+					<field name="mobilePhone" widget="phone"/>
 					<field name="emailAddress" canSelect="false" form-view="email-address-simple-form"/>
-					<field name="fax"/>
+					<field name="fax" widget="phone"/>
 					<field name="user" />
 					<field name="team" />
 				</editor>

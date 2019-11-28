@@ -71,14 +71,14 @@
 			</panel>
 			<panel name="contactPanel" title="Contact" colSpan="12">
 				<panel name="contactDetailsPanel" title="Contact details" colSpan="12">
-					<field name="mobilePhone" colSpan="3"/>
+					<field name="mobilePhone" widget="phone" colSpan="3"/>
 					<field name="emailAddress" canRemove="false" canSelect="false" canSuggest="false" colSpan="3" canNew="true" canEdit="true">
             <editor x-show-titles="false">
               <field name="address" colSpan="12" pattern="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@+[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$" widget="Email" placeholder="user@mydomain.com"/>
             </editor>
 					</field>
-					<field name="fixedPhone" colSpan="3"/>
-					<field name="fax" colSpan="3"/>
+					<field name="fixedPhone" widget="phone" colSpan="3"/>
+					<field name="fax" widget="phone" colSpan="3"/>
 					<field name="linkedInProfile" colSpan="3" widget="url"/>
 					<label name="linkedinLabel" title="&lt;a class='fa fa-linkedin' href='http://www.linkedin.com' target='_blank' /&gt;" colSpan="2"/>
 				</panel>

@@ -121,14 +121,14 @@
 						</viewer>
 					</field>
 					<spacer name="viewerCallAndEmailSpacer" colSpan="6"/>
-					<field name="mobilePhone" colSpan="3" placeholder="+33100000000" onChange="action-partner-method-normalize-mobilePhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
+					<field name="mobilePhone" widget="phone" colSpan="3" placeholder="+33100000000" onChange="action-partner-method-normalize-mobilePhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
 					<field name="emailAddress" colSpan="3" canSelect="false" form-view="email-address-simple-form" x-show-icons="false">
 						<editor x-show-titles="false">
 							<field name="address" colSpan="12" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
 						</editor>
 					</field>
-					<field name="fixedPhone" colSpan="3" placeholder="+33100000000" onChange="action-partner-method-normalize-fixedPhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
-					<field name="fax" colSpan="3" placeholder="+33100000000" onChange="action-partner-method-normalize-fax" pattern="^\+?([\s()-.]*\d){7,}$"/>
+					<field name="fixedPhone" widget="phone" colSpan="3" placeholder="+33100000000" onChange="action-partner-method-normalize-fixedPhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
+					<field name="fax" widget="phone" colSpan="3" placeholder="+33100000000" onChange="action-partner-method-normalize-fax" pattern="^\+?([\s()-.]*\d){7,}$"/>
 					<field name="webSite" colSpan="3" placeholder="http://www.url.com" pattern="^(?:http(?:s)?://)?\S+(?:\.\S+)+$"/>
 				</panel>
 

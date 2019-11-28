@@ -3,6 +3,7 @@
 ## [Unreleased 5.1.13]
 ## Features
 - OPPORTUNITY : Display of description on popup in kanban-view.
+- Apply the Phone widget on all concerned fields.
 
 ## Improvements
 - Importer : Use try-with-resources with "ZipFile"

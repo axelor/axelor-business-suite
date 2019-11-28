@@ -13,7 +13,7 @@
 			<field name="fullName" colSpan="12" showTitle="false" css="label-bold bold large" hideIf="!fullName" readonly="true"/>
 			<field name="bank" canNew="true" onChange="action-ebics-bank-record-onchange-bank"/>
 			<field name="hostId"/>
-			<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
+			<field name="fax" widget="phone" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
 			<field name="emailAddress" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
 			<field name="protocolSelect" required="true" />
 			<field name="url" colSpan="12" pattern="http(s)?://.+" />

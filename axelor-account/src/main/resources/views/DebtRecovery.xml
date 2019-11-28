@@ -63,8 +63,8 @@
         		<panel-related name="partnerAddressListPanel" field="accountingSituation.partner.partnerAddressList" colSpan="12" form-view="partner-address-form" >
         			<field name="address" form-view="address-form" grid-view="address-grid"/>
         		</panel-related>
-        		<field name="accountingSituation.partner.fixedPhone" colSpan="6" />
-        		<field name="accountingSituation.partner.fax" colSpan="6" />
+        		<field name="accountingSituation.partner.fixedPhone" widget="phone" colSpan="6" />
+        		<field name="accountingSituation.partner.fax" widget="phone" colSpan="6" />
         		<field name="accountingSituation.partner.emailAddress" colSpan="6"/>
         		<field name="accountingSituation.partner.webSite" colSpan="6"/>
         	</panel>
