@@ -114,7 +114,7 @@ public class MoveRemoveService {
         archivingToolService.getObjectLinkTo(move, move.getId());
     for (Map.Entry<String, String> entry : objectsLinkToMoveMap.entrySet()) {
       String modelName = entry.getKey();
-      if (!modelName.equals("MoveLine")) {
+      if (!"MoveLine".equals(modelName)) {
         errorMessage +=
             String.format(
                 I18n.get(IExceptionMessage.MOVE_ARCHIVE_NOT_OK_BECAUSE_OF_LINK_WITH),
