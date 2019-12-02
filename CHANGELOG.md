@@ -2,6 +2,8 @@
 
 ## [Unreleased 5.2.1]
 ## Improvements
+- PURCHASE ORDER LINE : Recalculate tax line when purchase order created from sale order automatically(createdByInterco)
+
 ## Bug Fixes
 
 ## [5.2.0] - 2019-11-29
