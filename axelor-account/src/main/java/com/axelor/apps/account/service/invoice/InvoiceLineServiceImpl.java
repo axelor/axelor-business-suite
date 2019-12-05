@@ -47,6 +47,7 @@ import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.common.base.MoreObjects;
 import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -442,5 +443,13 @@ public class InvoiceLineServiceImpl implements InvoiceLineService {
   @Override
   public boolean isAccountRequired(InvoiceLine invoiceLine) {
     return true;
+  }
+
+  @Override
+  @Transactional(rollbackOn = {Exception.class})
+  public InvoiceLine cleanAnalytic(InvoiceLine invoiceLine) throws AxelorException {
+    invoiceLine.setAnalyticDistributionTemplate(null);
+    invoiceLine.clearAnalyticMoveLineList();
+    return invoiceLine;
   }
 }

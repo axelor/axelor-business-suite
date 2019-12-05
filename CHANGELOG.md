@@ -7,6 +7,7 @@
 ## Improvements
 - MOVE : changed position of reconciliation tag in move form.
 - BANK STATEMENT: add caption under bank statement line grid in bank statement form in order to explain the colors used in bank statement line grid.
+- ACCOUNT : add management of change in analytic configuration, different view open for move lines and invoice lines in function of the changes.
 
 ## Bug Fixes
 - REFUND : avoid blocking message when ventilation of the invoice
@@ -14,6 +15,7 @@
 - Manuf Order: fix real quantity not updating when a new line in consumed products is created.
 - INVOICE PAYMENT CANCELLATION : corrected error when boolean allow removal validate move in account configuration is true.
 - INVOICE : stopped the creation of invoice payment when a reconciliation is made with accounts not used in partner balance.
+- ACCOUNT : when analytic distribution authorized change to false the two required anlytic boolean also change to false.
 
 ## [5.1.13] - 2019-11-29
 ## Improvements
@@ -127,6 +129,7 @@
 - TAX PAYMENT MOVE LINE: add reconcile.
 - Accounting Report: Added a boolean field option to print partner general ledger report with cumulative balance.
 - Add help on important fields in partner-form, sale-order-form, invoice-form, product-form.
+
 
 ## Bug Fixes
 - Employee: fix error on duplicate.

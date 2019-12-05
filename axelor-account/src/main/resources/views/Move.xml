@@ -86,7 +86,7 @@
 		
 		<panel>
 			<panel-related name="moveLineListPanel" field="moveLineList" editable="true" colSpan="12" height="6" showIf="(statusSelect &lt; 3) &amp;&amp; journal &amp;&amp; company &amp;&amp; date &amp;&amp; period" canNew="true" canRemove="true" grid-view="move-line-move-grid" form-view="move-line-move-form" onChange="action-account-move-method-compute-totals"/>
-			<panel-related name="moveLineListPanel" field="moveLineList" editable="false" colSpan="12" height="6" showIf="statusSelect &gt; 2 &amp;&amp; journal &amp;&amp; company &amp;&amp; date &amp;&amp; period" canNew="false" canRemove="false" grid-view="move-line-move-grid" form-view="move-line-move-form" onChange="action-account-move-method-compute-totals"/>
+			<panel-related name="moveLineListPanel" field="moveLineList" editable="true" colSpan="12" height="6" showIf="statusSelect &gt; 2 &amp;&amp; journal &amp;&amp; company &amp;&amp; date &amp;&amp; period" canNew="false" canRemove="false" grid-view="move-line-move-grid" form-view="move-line-move-form" onChange="action-account-move-method-compute-totals"/>
 			<field name="$reconcileTags" colSpan="12" hidden="true" readonly="true" showTitle="false">
                     <viewer depends="moveLineList">
                         <![CDATA[

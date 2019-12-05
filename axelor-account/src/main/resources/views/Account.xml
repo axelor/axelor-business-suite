@@ -53,9 +53,9 @@
 				<field name="useForPartnerBalance" colSpan="3"/>
 				<field name="reconcileOk" colSpan="3"/>
 				<field name="compatibleAccountSet" widget="TagSelect" showIf="reconcileOk"/>
-				<field name="analyticDistributionAuthorized" widget="boolean-switch" colSpan="4"/>
-				<field name="analyticDistributionRequiredOnInvoiceLines" widget="boolean-switch" colSpan="4" showIf="analyticDistributionAuthorized"/>
-				<field name="analyticDistributionRequiredOnMoveLines" widget="boolean-switch" colSpan="4" showIf="analyticDistributionAuthorized"/>
+				<field name="analyticDistributionAuthorized" widget="boolean-switch" colSpan="4" onChange="action-account-update-analytic-boolean-record,save,action-account-analytic-distribution-authorized-bacame-false-method"/>
+				<field name="analyticDistributionRequiredOnInvoiceLines" widget="boolean-switch" colSpan="4" showIf="analyticDistributionAuthorized" onChange="save,action-account-analytic-distribution-required-on-invoice-lines-bacame-true-method"/>
+				<field name="analyticDistributionRequiredOnMoveLines" widget="boolean-switch" colSpan="4" showIf="analyticDistributionAuthorized" onChange="save,action-account-analytic-distribution-required-on-move-lines-bacame-true-method"/>
 				<field name="isTaxAuthorizedOnMoveLine" widget="boolean-switch" colSpan="4"/>
 				<field name="isTaxRequiredOnMoveLine" showIf="isTaxAuthorizedOnMoveLine" widget="boolean-switch" colSpan="4"/>
 			</panel>
@@ -79,7 +79,32 @@
     <form name="employee-account-form" model="com.axelor.apps.account.db.Account" width="large" onNew="action-account-group-new-employee-account" title="New employee account">
         <panel-include view="account-form"/>
     </form>
-
+    
+    <form name="account-move-and-invoice-lines-to-clean-form" model="com.axelor.apps.account.db.Account" title="Move/Invoice lines with analytic to clean" >
+    	<panel name="mainPanel" itemSpan="12">
+    		<label title="Please note that the following incoice and/or move lines have an analytic distribution template. Do you want to delete them?"/>
+    		<panel-dashlet action="action-account-view-show-invoice-lines" />
+    		<panel-dashlet action="action-account-view-show-move-lines-analytic" />
+    	</panel>
+    	<panel name="buttonsPanel">
+			<button name="cleanBtn" title="Clean analytic" onClick="action-account-clean-analytic-method"/>
+		</panel>
+    </form>
+    
+	<form name="account-move-lines-to-complete-form" model="com.axelor.apps.account.db.Account" title="Move lines without analytic to complete" >
+    	<panel name="mainPanel" itemSpan="12">
+    		<label title="Please note that the following invoice lines do not have an analytic distribution template. Please fill them in so as not to be blocked."/>
+    		<panel-dashlet action="action-account-view-show-move-lines-analytic" />
+    	</panel>
+    </form>
+    
+    <form name="account-invoice-lines-to-complete-form" model="com.axelor.apps.account.db.Account" title="Invoice lines without analytic to complete" >
+    	<panel name="mainPanel" itemSpan="12">
+    		<label title="Please note that the following entry lines do not have an analytical distribution template. Please fill them in so as not to be blocked in accounting."/>
+    		<panel-dashlet action="action-account-view-show-invoice-lines" />
+    	</panel>
+    </form>
+    
 	<form name="account-info-form" title="Accounting.Account" model="com.axelor.apps.account.db.Account" width="large">
 		<panel name="mainPanel" title="Account details" readonly="true">
 			<field name="code" x-bind="{{code|unaccent|uppercase}}" colSpan="3" css="bold"/>
@@ -119,6 +144,11 @@
         <action  name="action-account-record-new-employee-account"/>
     </action-group>
     
+    <action-record name="action-account-update-analytic-boolean-record" model="com.axelor.apps.account.db.Account">
+    	<field name="analyticDistributionRequiredOnInvoiceLines" expr="false" if="analyticDistributionAuthorized == false"/>
+    	<field name="analyticDistributionRequiredOnMoveLines" expr="false" if="analyticDistributionAuthorized == false"/>
+    </action-record>
+    
     <action-record name="action-account-record-new" model="com.axelor.apps.account.db.Account">
     	<field name="company"  expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
@@ -155,5 +185,21 @@
     <action-method name="action-account-method-compute-balance">
     	<call class="com.axelor.apps.account.web.AccountController" method="computeBalance"/>
     </action-method>
+    
+    <action-method name="action-account-analytic-distribution-authorized-bacame-false-method">
+		<call class="com.axelor.apps.account.web.AccountController" method="analyticDistributionAuthorizedBacameFalse"/>
+	</action-method>
+	
+	<action-method name="action-account-analytic-distribution-required-on-invoice-lines-bacame-true-method">
+		<call class="com.axelor.apps.account.web.AccountController" method="analyticDistributionRequiredOnInvoiceLinesBacameTrue"/>
+	</action-method>
+	
+	<action-method name="action-account-analytic-distribution-required-on-move-lines-bacame-true-method">
+		<call class="com.axelor.apps.account.web.AccountController" method="analyticDistributionRequiredOnMoveLinesBacameTrue"/>
+	</action-method>
+	
+	<action-method name="action-account-clean-analytic-method">
+		<call class="com.axelor.apps.account.web.AccountController" method="cleanAnalytic"/>
+	</action-method>
     
 </object-views>

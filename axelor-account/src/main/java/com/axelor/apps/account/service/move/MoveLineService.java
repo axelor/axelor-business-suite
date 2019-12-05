@@ -89,6 +89,7 @@ public class MoveLineService {
   protected CompanyConfigService companyConfigService;
   protected MoveLineRepository moveLineRepository;
   protected TaxPaymentMoveLineService taxPaymentMoveLineService;
+  protected AnalyticMoveLineRepository analyticMoveLineRepository;
 
   public static final boolean IS_CREDIT = false;
   public static final boolean IS_DEBIT = true;
@@ -103,7 +104,8 @@ public class MoveLineService {
       CurrencyService currencyService,
       CompanyConfigService companyConfigService,
       MoveLineRepository moveLineRepository,
-      TaxPaymentMoveLineService taxPaymentMoveLineService) {
+      TaxPaymentMoveLineService taxPaymentMoveLineService,
+      AnalyticMoveLineRepository analyticMoveLineRepository) {
     this.accountManagementService = accountManagementService;
     this.taxAccountService = taxAccountService;
     this.fiscalPositionAccountService = fiscalPositionAccountService;
@@ -113,6 +115,7 @@ public class MoveLineService {
     this.companyConfigService = companyConfigService;
     this.moveLineRepository = moveLineRepository;
     this.taxPaymentMoveLineService = taxPaymentMoveLineService;
+    this.analyticMoveLineRepository = analyticMoveLineRepository;
   }
 
   public MoveLine computeAnalyticDistribution(MoveLine moveLine) {
@@ -1265,6 +1268,13 @@ public class MoveLineService {
         moveLine.setTaxAmount(moveLine.getTaxAmount().add(taxPaymentMoveLine.getTaxAmount()));
       }
     }
+    return moveLine;
+  }
+
+  @Transactional(rollbackOn = {Exception.class})
+  public MoveLine cleanAnalytic(MoveLine moveLine) throws AxelorException {
+    moveLine.setAnalyticDistributionTemplate(null);
+    moveLine.clearAnalyticMoveLineList();
     return moveLine;
   }
 }
