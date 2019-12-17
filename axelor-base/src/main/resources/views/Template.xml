@@ -58,7 +58,7 @@
 				</panel>
 				<panel-related name="templateContextPanel" field="templateContextList" colSpan="12"/>
 				<panel name="attachedFilesPanel" title="Attached files" colSpan="12">
-					<field name="birtTemplate" colSpan="12" canEdit="false"
+					<field name="birtTemplate" colSpan="12" canEdit="false" domain="self.metaModel = :metaModel"
 						form-view="birt-template-form" grid-view="birt-template-grid" />
 				</panel>
 			</panel>

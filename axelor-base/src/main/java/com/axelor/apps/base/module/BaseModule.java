@@ -32,6 +32,8 @@ import com.axelor.apps.base.db.repo.BankBaseRepository;
 import com.axelor.apps.base.db.repo.BankRepository;
 import com.axelor.apps.base.db.repo.BaseBatchBaseRepository;
 import com.axelor.apps.base.db.repo.BaseBatchRepository;
+import com.axelor.apps.base.db.repo.BirtTemplateBaseRepository;
+import com.axelor.apps.base.db.repo.BirtTemplateRepository;
 import com.axelor.apps.base.db.repo.DurationBaseRepository;
 import com.axelor.apps.base.db.repo.DurationRepository;
 import com.axelor.apps.base.db.repo.ICalendarEventManagementRepository;
@@ -189,5 +191,6 @@ public class BaseModule extends AxelorModule {
     bind(FileTabService.class).to(FileTabServiceImpl.class);
     bind(FileFieldService.class).to(FileFieldServiceImpl.class);
     bind(PartnerService.class).to(PartnerServiceImpl.class);
+    bind(BirtTemplateRepository.class).to(BirtTemplateBaseRepository.class);
   }
 }

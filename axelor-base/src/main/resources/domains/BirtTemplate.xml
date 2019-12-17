@@ -6,12 +6,13 @@
   <module name="base" package="com.axelor.apps.base.db"/>
 
   <entity name="BirtTemplate" lang="java">
-  	
   	<string name="name" title="Name" required="true"/>
-  	<string name="templateLink" title="Template file name"/>
+  	<string name="templateLink" title="Template file name" unique="true" />
   	<string name="format" title="Format"/>
   	<one-to-many name="birtTemplateParameterList" ref="com.axelor.apps.base.db.BirtTemplateParameter" mappedBy="birtTemplate" title="Parameters"/>
-    
+    <boolean name="embeddedReport" title="Embedded report" default="true"/>
+  	<many-to-one name="templateFile" ref="com.axelor.meta.db.MetaFile" title="Template file" />	
+  	<many-to-one name="metaModel" ref="com.axelor.meta.db.MetaModel"/>
   </entity>
 
 </domain-models>

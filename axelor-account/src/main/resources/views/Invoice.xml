@@ -190,11 +190,11 @@
           onNew="action-account-invoice-onnew-group"
           onLoad="action-account-invoice-onload-group" >
 
-		<toolbar>
-			<button name="reportsBtn" title="Reports" icon="fa-print" showIf="statusSelect != 4" readonlyIf="!id" onClick="save,action-invoice-view-reports-wizard"/>
-		</toolbar>
-
         <menubar>
+            <menu name="stockMoveToolsMenu" title="Reports" icon="fa-print">
+		      <item name="reportsBtn" title="Report" showIf="statusSelect != 4" readonlyIf="!id" action="save,action-invoice-view-reports-wizard"/>
+		      <item name="templateReport" title="Template report" if="com.axelor.apps.report.engine.ReportSettings.useIntegratedEngine()" action="save,action-report-wizard-method-print-birt-report"/>
+		    </menu>
             <menu name="invoiceToolsMenu" title="Tools" icon="fa-wrench" showTitle="true">
                 <item name="sendEmailItem" title="Send email" action="save,action-send-by-email-with-template" readonlyIf="partner == null"/>
             </menu>

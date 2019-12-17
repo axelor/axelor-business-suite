@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+   	<form model="com.axelor.apps.base.db.Wizard" title="Report Select" name="report-bind-wizard-form">
+    	<panel name="mainPanel">
+        	<field name="$report" canEdit="true" title="Birt Template" required="true" target-name="name" type="many-to-one" target="com.axelor.apps.base.db.BirtTemplate" 
+        			grid-view="birt-template-grid" form-view="birt-template-form" onSelect="action-report-wizard-attrs-filter-birt-template"/>
+        	<button name="printReport" title="Print Report" onClick="action-report-wizard-method-select-report" />
+    	</panel>
+    </form>
+    
+    <action-method name="action-report-wizard-method-print-birt-report">
+    	<call class="com.axelor.apps.base.web.ReportWizardController" method="printReport"/>
+    </action-method>
+        
+	<action-method name="action-report-wizard-method-select-report">
+		<call class="com.axelor.apps.base.web.ReportWizardController" method="printReportFromWizard"/>
+	</action-method>
+	
+	<action-attrs name="action-report-wizard-attrs-filter-birt-template">
+		<attribute name="domain" for="$report" expr="eval: &quot; self.metaModel.fullName = '${modelName}' &quot;" if="modelName != null"/>
+	</action-attrs>
+</object-views>

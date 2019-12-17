@@ -81,6 +81,7 @@
 		<menubar>
             <menu name="purchaseOrderReportsMenu" title="Reports" icon="fa-files-o" showTitle="true">
 			  <item name="printItem" title="Print" action="save,action-purchase-order-method-show-purchase-order" hideIf="supplierPartner == null"/>
+			  <item name="templateReport" title="Template report"  if="supplierPartner == null &amp;&amp; com.axelor.apps.report.engine.ReportSettings.useIntegratedEngine()" action="save,action-report-wizard-method-print-birt-report"/>
 			</menu>
 			<menu name="purchaseOrderToolsMenu" title="Tools" icon="fa-wrench" showTitle="true">
 			  <item name="sendEmailItem"  title="Send email" action="save,action-send-by-email-with-template" hideIf="supplierPartner == null"/>

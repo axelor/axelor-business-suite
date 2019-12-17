@@ -162,7 +162,9 @@
                 <item name="printIncomingMoveItem" title="Print Incoming Move" action="save,action-print-stock-move" readonlyIf="statusSelect == 1" showIf="typeSelect == 3"/>
                 <item name="printPickingOrderItem" title="Print picking order" action="save,action-print-picking-stock-move" showIf="statusSelect != 1 &amp;&amp; typeSelect == 2"/>
 				<item name="printCertificateOfConformityItem" title="Print certificate of conformity" action="save,action-method-print-conformity-certificate" showIf="statusSelect != 1 &amp;&amp; isNeedingConformityCertificate"/>
+            	<item name="templateReport" title="Template report" if="com.axelor.apps.report.engine.ReportSettings.useIntegratedEngine()" action="save,action-report-wizard-method-print-birt-report"/>
             </menu>
+            
 
 			<menu name="stockMoveToolsMenu" title="Tools" icon="fa-wrench">
                 <item name="viewDirectionItem" title="View Direction" showIf="typeSelect == 2 &amp;&amp; statusSelect!=4" action="action-stock-move-validate-address,action-stock-move-method-view-direction"/>

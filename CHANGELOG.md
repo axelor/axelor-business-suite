@@ -24,6 +24,7 @@
 - CITY : Import automatically from Geonames files
 - MRP : Freeze proposals after manually modifying them.
 - ExtraHoursLine : Add new field 'Type' referencing new domain ExtraHoursType.
+- BIRT TEMPLATE :  Added a feature to user can print own birt report using birt template instead of existing report 
 
 ## Improvements
 - Remove Pack Feature from Product.

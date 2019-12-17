@@ -167,6 +167,7 @@
 	      <item name="printProformaInvoiceItem" title="Print proforma invoice" hideIf="clientPartner == null" action="save,action-sale-order-method-print-proforma-invoice"/>
 	      <item name="excelExportItem" title="Excel Export" hideIf="clientPartner == null" action="save,action-sale-order-method-export-sale-order-excel"/>
 	      <item name="wordExportItem" title="Word Export" hideIf="clientPartner == null" action="save,action-sale-order-method-export-sale-order-word"/>
+	      <item name="templateReport" title="Template report" if="clientPartner == null &amp;&amp; com.axelor.apps.report.engine.ReportSettings.useIntegratedEngine()" action="save,action-report-wizard-method-print-birt-report"/>
 	    </menu>
 	    <menu name="saleOrderToolsMenu" title="Tools">
 	      <item name="scheduleEventItem" title="Schedule Event" hideIf="clientPartner == null" action="action-sale-order-view-schedule-event"/>
