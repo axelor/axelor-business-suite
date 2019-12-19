@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+    <grid name="residence-permit-type-grid" title="Residence Permit Type" model="com.axelor.apps.hr.db.ResidencePermitType">
+    	<field name="type"/>
+    </grid>
+
+    <form name="residence-permit-type-form" title="Residence Permit Type" model="com.axelor.apps.hr.db.ResidencePermitType">
+        <panel name="mainPanel">
+        	 <field name="type"/>
+        </panel>
+    </form>
+
+</object-views>

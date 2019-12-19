@@ -79,6 +79,14 @@
 			<field name="endOfContractReason" canNew="true"/>
 			<field name="endContractDetails"/>
 		</panel>
+		
+		<!-- ResidencePermit -->
+        <panel name="residencePermitListPanel" colSpan="12">
+                <panel-dashlet action="action-employment-contract-view-residence-permit-dashlet" title="Residence Permit" colSpan="12"/>
+                <button name="addResidencePermitBtn" title="Add a residence permit" css="btn-custom text-left" icon="fa-plus" 
+                  onClick="save,action-employment-contract-view-add-residence-permit" colSpan="3"/>
+        </panel>
+        <!-- ResidencePermit -->
     </form>
 
 	<action-attrs name="action-employment-contract-attrs-department-domain">
@@ -124,5 +132,22 @@
 		<view type="grid" name="payroll-preparation-grid"/>
     	<context name="_idEmploymentContract" expr="eval: id"/>
 	</action-view>
-
+	
+	<!-- ResidencePermit -->
+	  <action-view name="action-employment-contract-view-residence-permit-dashlet" title="Residence Permit" model="com.axelor.apps.hr.db.ResidencePermit">
+	    <view type="grid" name="residence-permit-grid"/>
+	    <view type="form" name="residence-permit-form"/>
+	    <view-param name="popup" value="reload"/>
+	    <view-param name="show-toolbar" value="true"/>
+	    <domain>self.employee.id = :_employeeId</domain>
+	    <context name="_employeeId" expr="eval: employee?.id"/>
+	  </action-view>
+	  
+	  <action-view name="action-employment-contract-view-add-residence-permit" title="Residence Permit" model="com.axelor.apps.hr.db.ResidencePermit">
+		  <view type="form" name="residence-permit-form"/>
+		  <view-param name="popup" value="reload"/>
+		  <view-param name="show-toolbar" value="false"/>
+		  <context name="_employeeId" expr="eval: employee?.id"/>
+	  </action-view>
+	<!-- ResidencePermit -->
 </object-views>

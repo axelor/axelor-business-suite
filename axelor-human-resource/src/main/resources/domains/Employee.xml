@@ -71,6 +71,10 @@
 	<string name="maidenName" title="Maiden name"/>
 	<string name="maritalName" title="Marital name"/>
 
+	<!-- ResidencePermit -->
+	<one-to-many name="residencePermitList" ref="com.axelor.apps.hr.db.ResidencePermit" mappedBy="employee" title="Residence Permits"/>
+	<!-- ResidencePermit -->
+	
       <extra-code>
    		<![CDATA[
    			public static final String TIME_PREFERENCE_DAYS = "days";

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
+
+    <module name="human-resource" package="com.axelor.apps.hr.db"/>
+
+    <entity name="ResidencePermit">
+
+        <string name="residencePermitRef" title="Residence Permit Ref"/>
+        <many-to-one name="residencePermitType" ref="com.axelor.apps.hr.db.ResidencePermitType" title="Residence Permit Type"/>
+        <date name="fromDate" title="ResidencePermit.fromDate"/>
+        <date name="toDate" title="ResidencePermit.toDate"/>
+        <many-to-one name="metaFile" ref="com.axelor.meta.db.MetaFile" title="ResidencePermit.metaFile"/>
+		<many-to-one name="employee" ref="com.axelor.apps.hr.db.Employee" title="Employee"/>
+		
+    </entity>
+
+</domain-models>

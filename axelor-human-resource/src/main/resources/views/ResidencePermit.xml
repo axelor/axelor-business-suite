@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+    <grid name="residence-permit-grid" title="Residence Permit" model="com.axelor.apps.hr.db.ResidencePermit">
+    	<field name="employee"/>
+    	<field name="residencePermitType"/>
+    	<field name="residencePermitRef"/>
+    	<field name="fromDate"/>
+    	<field name="toDate"/>
+    </grid>
+    
+    <grid name="residence-permit-employee-grid" title="Residence Permit" model="com.axelor.apps.hr.db.ResidencePermit">
+    	<field name="residencePermitType"/>
+    	<field name="residencePermitRef"/>
+    	<field name="fromDate"/>
+    	<field name="toDate"/>
+    </grid>
+
+    <form name="residence-permit-form" title="Residence Permit" model="com.axelor.apps.hr.db.ResidencePermit" onNew="action-employee-record-set-default-on-new">
+	    <panel name="mainPanel">
+	    	<field name="employee" hideIf="$popup()"/>
+	    	<field name="residencePermitType"/>
+	    	<field name="residencePermitRef"/>
+	    	<field name="fromDate"/>
+	    	<field name="toDate"/>
+	    	<field name="metaFile" widget="binary-link"/>
+	    </panel>
+    </form>
+    
+    <action-record name="action-employee-record-set-default-on-new" model="com.axelor.apps.hr.db.ResidencePermit">
+    	<field name="employee" expr="eval: __repo__(Employee).find(_employeeId)" if="_employeeId"/>
+    </action-record>
+
+</object-views>

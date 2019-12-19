@@ -10,7 +10,7 @@
 
 	<menuitem name="employee-all" parent="hr-root-emp-mgt"
     	title="List of employees"
-    	action="employee.all"/>
+    	action="employee.all" order="10"/>
 
 	<action-view name="employee.all" title="Employee" model="com.axelor.apps.hr.db.Employee">
 		<view type="cards" name="employee-card"/>
@@ -19,7 +19,7 @@
 	    <view-param name="search-filters" value="employee-filters"/>
 	</action-view>
 
-	<menuitem name="all-employment-contract" parent="hr-root-emp-mgt" title="Employment Contracts" action="employment.contracts.all"/>
+	<menuitem name="all-employment-contract" parent="hr-root-emp-mgt" title="Employment Contracts" action="employment.contracts.all" order="20"/>
 
 	<action-view name="employment.contracts.all" title="Employment Contracts" model="com.axelor.apps.hr.db.EmploymentContract">
 		<view type="grid" name="employment-contract-grid"/>
@@ -27,15 +27,25 @@
 	</action-view>
 
 	<menuitem name="all-payroll-preparation" parent="hr-root-emp-mgt" title="Payroll Preparations" action="payroll.preparation.all"
-			  if="__config__.app.getApp('employee').getPayrollPreparation()"/>
+			  if="__config__.app.getApp('employee').getPayrollPreparation()" order="30"/>
 
 	<action-view name="payroll.preparation.all" title="Payroll Preparations" model="com.axelor.apps.hr.db.PayrollPreparation">
     	<view type="grid" name="payroll-preparation-grid"/>
 	    <view type="form" name="payroll-preparation-form"/>
 	</action-view>
-
+	
+	<!-- ResidencePermit -->
+	<menuitem name="hr-root-emp-mgt-residence-permit" title="Residence permits management" parent="hr-root-emp-mgt"
+			action="hr.root.emp.mgt.residence.permit" order="40"/>
+	
+	<action-view name="hr.root.emp.mgt.residence.permit" title="Residence permits management" model="com.axelor.apps.hr.db.ResidencePermit">
+		<view type="grid" name="residence-permit-grid"/>
+		<view type="form" name="residence-permit-form"/>
+	</action-view>
+	<!-- ResidencePermit -->
+	
 	<menuitem name="all-lunch-voucher-mgt" parent="hr-root-emp-mgt" title="Lunch Voucher Management" action="lunch.voucher.mgt.all"
-			  if="__config__.app.getApp('employee').getLunchVoucher()"/>
+			  if="__config__.app.getApp('employee').getLunchVoucher()" order="50"/>
 
 	<action-view name="lunch.voucher.mgt.all" title="Lunch Voucher Management" model="com.axelor.apps.hr.db.LunchVoucherMgt">
     	<view type="grid" name="lunch-voucher-mgt-grid"/>
@@ -43,20 +53,20 @@
 	</action-view>
 
 	<menuitem name="hr-employee-bonus-mgt" parent="hr-root-emp-mgt" title="Employee bonus mgt" action="employee.bonus.mgt.all"
-			  if="__config__.app.getApp('employee').getEmployeeBonus()"/>
+			  if="__config__.app.getApp('employee').getEmployeeBonus()" order="60"/>
 
 	<action-view name="employee.bonus.mgt.all" title="Employee bonus mgt" model="com.axelor.apps.hr.db.EmployeeBonusMgt">
     	<view type="grid" name="employee-bonus-mgt-grid"/>
 	    <view type="form" name="employee-bonus-mgt-form"/>
 	</action-view>
 
-  <menuitem name="hr-employee-dpae" title="DPAEs" parent="hr-root-emp-mgt" action="employee.dpae.all" if="__user__.activeCompany?.hrConfig?.enableDPAE"/>
+  <menuitem name="hr-employee-dpae" title="DPAEs" parent="hr-root-emp-mgt" action="employee.dpae.all" if="__user__.activeCompany?.hrConfig?.enableDPAE" order="70"/>
   <action-view name="employee.dpae.all" title="DPAEs" model="com.axelor.apps.hr.db.DPAE">
     <view type="grid" name="dpae-grid"/>
     <view type="form" name="dpae-form"/>
   </action-view>
 
-  <menuitem name="hr-root-emp-mgt-conf" parent="hr-root-emp-mgt" title="Configuration" icon="fa-cog"/>
+  <menuitem name="hr-root-emp-mgt-conf" parent="hr-root-emp-mgt" title="Configuration" icon="fa-cog" order="80"/>
 
 	<menuitem name="hr-conf-product-activity" parent="hr-root-emp-mgt-conf" title="Product Activities" action="conf.product.activity"/>
 
@@ -128,7 +138,17 @@
         <view type="form" name="period-hr-fiscal-form"/>
         <domain>self.year.typeSelect = 1</domain>
     </action-view>
-
+    
+    <!-- ResidencePermit -->
+    <menuitem name="hr-conf-residence-permit-type" title="Residence permits type" parent="hr-root-emp-mgt-conf"
+			action="hr.conf.residence.permit.type"/>
+	
+	<action-view name="hr.conf.residence.permit.type" title="Residence permits type" model="com.axelor.apps.hr.db.ResidencePermitType">
+		<view type="grid" name="residence-permit-type-grid"/>
+		<view type="form" name="residence-permit-type-form"/>
+	</action-view>
+    <!-- ResidencePermit -->
+    
 	<menuitem name="plannings-all" parent="hr-root-emp-mgt-conf" title="Plannings" />
 
 	<menuitem name="event-planning-all" parent="plannings-all" title="Public holidays planning" action="hr.public.holiday.planning.all"/>
