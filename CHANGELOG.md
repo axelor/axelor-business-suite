@@ -19,7 +19,26 @@
 - Product : mass update enabled for defaultSupplierPartner field.
 
 ## Improvements
-- Stock move invoicing: when generating an invoice, the user can now only select quantity not present in generated invoices.
+- AdvancedExportLine : Add translation for field orderByType.
+- PURCHASE REQUEST: add new columns in 'purchase-request-grid'
+- MOVE : changed position of reconciliation tag in move form.
+- BANK STATEMENT: add caption under bank statement line grid in bank statement form in order to explain the colors used in bank statement line grid.
+- PRODUCT : update translation for "Service" and "Product"
+- STOCK MOVE: empty reservationDateTime on duplicate stock move
+- STOCK CONFIG : rename field name "stockLocationValue" 
+- STOCK MOVE: Update stock move's form view 
+- SALE ORDER PRINTING : rename title  "Sale order" in "Order Acknowledgement"  of report on condition
+- MOVE : Improved messages when there is an exception on trying to remove an accounting move.
+- Partner Form : change the translation of "Create sale quotation".
+- STOCK MOVE : to and from stock location set on company change.
+- STOCK MOVE : hide reserved qty when it is a supplier arrival or a customer return
+- STOCK MOVE : rename title of stock-move-form buttons related to PFP
+- INVOICE : hide 'stockMoveSet' buttons of 'invoice-form'
+- STOCK MOVE: update pfp tags on stock move form
+- Invoicing project : unit conversion for "Duration adjust for customer".
+- ACCOUNTING REPORT : change the title of "General ledger 2" from the selection.
+- TAX : add column 'typeSelect' in 'tax-grid'.
+- STOCK CORRECTION : change status Draft on duplicate Stock Correction
 - SALE ORDER: change title "Description to display" of field 'description'.
 - ACCOUNTING REPORT : display popup message on click of 'exportBtn'.
 - INVOICING PROJECT : added field "teamTask" in timesheet line form related to project.
