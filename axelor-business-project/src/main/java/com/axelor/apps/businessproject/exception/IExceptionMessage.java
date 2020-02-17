@@ -65,4 +65,6 @@ public interface IExceptionMessage {
   static final String BATCH_INVOICING_PROJECT_1 = /*$$(*/ "Project %s" /*)*/;
 
   static final String BATCH_INVOICING_PROJECT_2 = /*$$(*/ "Generated invoicing project" /*)*/;
+
+  static final String COMPANY_LOGO = /*$$(*/ "Please add a logo in your active company." /*)*/;
 }

@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">Data Cube.Data Set.x</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Data Cube.Data Set.y</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Data Cube1.Data Set.x</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Data Cube1.Data Set.y</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+    </list-property>
+    <property name="Data Cube.Data Set.x">135</property>
+    <property name="Data Cube.Data Set.y">80</property>
+    <property name="Data Cube1.Data Set.x">135</property>
+    <property name="Data Cube1.Data Set.y">80</property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[function UCFirst(str){
+   firstChar = str.substring(0,1);
+   remainChar = str.substring(1);
+
+   firstChar = firstChar.toUpperCase(); 
+   remainChar = remainChar.toLowerCase();
+
+   return firstChar + remainChar
+
+}
+
+reportContext.setPersistentGlobalVariable("UCFirst", UCFirst);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="AttachmentPath" id="4830">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="granularitySelect" id="26">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="startDate" id="28">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="endDate" id="29">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="logoPath" id="1131">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="companyId" id="4831">
+            <property name="valueType">static</property>
+            <property name="dataType">decimal</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <script-data-source name="Data Source" id="4">
+            <method name="open"><![CDATA[importPackage(com.axelor.apps.businessproject.service.report);
+packageClass = new AvailabilitiesReportServiceImpl().getInstance();
+translation = new com.axelor.i18n.I18n.getBundle(java.util.Locale.forLanguageTag(params["Locale"]));
+]]></method>
+        </script-data-source>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="30">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">employeeName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">value</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">startDate</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">endDate</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">companyDepartment</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">employeeName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value</property>
+                </structure>
+                <structure>
+                    <property name="columnName">startDate</property>
+                </structure>
+                <structure>
+                    <property name="columnName">endDate</property>
+                </structure>
+                <structure>
+                    <property name="columnName">companyDepartment</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">employeeName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">value</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">startDate</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">endDate</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">companyDepartment</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[availabilitiesDataList = packageClass.getAvailabilitiesData(params["startDate"],params["endDate"],params["granularitySelect"],params["companyId"]).iterator();]]></method>
+            <method name="fetch"><![CDATA[if(availabilitiesDataList.hasNext()){
+    node = availabilitiesDataList.next();
+
+	row["employeeName"] = node.get("employeeName");
+	row["value"]= node.get("value");
+	row["startDate"] = node.get("startDate");
+	row["endDate"] = node.get("endDate");
+	row["companyDepartment"] = node.get("companyDepartment");
+	return true;
+}
+return false;]]></method>
+        </script-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Availabilities" id="4887">
+            <property name="dimensions">
+                <tabular-dimension name="employee" id="4888">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="4889">
+                            <property name="levels">
+                                <tabular-level name="companyDepartment" id="4890">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">companyDepartment</property>
+                                </tabular-level>
+                                <tabular-level name="employeeName" id="4891">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">employeeName</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="date" id="4892">
+                    <property name="isTimeType">false</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy3" id="4893">
+                            <property name="levels">
+                                <tabular-level name="startDate" id="4894">
+                                    <property name="dataType">date</property>
+                                    <property name="columnName">startDate</property>
+                                </tabular-level>
+                                <tabular-level name="endDate" id="4895">
+                                    <property name="dataType">date</property>
+                                    <property name="columnName">endDate</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="4896">
+                    <property name="measures">
+                        <tabular-measure name="value" id="4897">
+                            <expression name="measureExpression" type="javascript">dataSetRow["value"]</expression>
+                            <property name="dataType">decimal</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+    </cubes>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
+            <property name="headerHeight">1in</property>
+            <page-header>
+                <grid id="4292">
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">Column Binding</property>
+                            <expression name="expression" type="javascript">params["logoPath"].value</expression>
+                            <property name="dataType">string</property>
+                            <property name="allowExport">true</property>
+                        </structure>
+                    </list-property>
+                    <column id="4293"/>
+                    <column id="4294"/>
+                    <column id="4295"/>
+                    <row id="4296">
+                        <cell id="4297">
+                            <image id="4829">
+                                <property name="height">70px</property>
+                                <property name="source">file</property>
+                                <expression name="uri" type="javascript">params["AttachmentPath"].value+params["logoPath"]</expression>
+                            </image>
+                        </cell>
+                        <cell id="4298">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <property name="fontSize">14pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <text id="4307">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">16pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="marginLeft">10%</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<B><VALUE-OF>Packages.com.axelor.i18n.I18n.get('Availabilities.title')</VALUE-OF></B>]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="4631">
+                    <property name="width">100%</property>
+                    <column id="4828">
+                        <property name="verticalAlign">middle</property>
+                        <property name="width">85%</property>
+                    </column>
+                    <column id="4818">
+                        <property name="verticalAlign">middle</property>
+                        <property name="width">6%</property>
+                    </column>
+                    <column id="4820">
+                        <property name="verticalAlign">middle</property>
+                        <property name="width">3%</property>
+                    </column>
+                    <column id="4823">
+                        <property name="verticalAlign">middle</property>
+                        <property name="width">6%</property>
+                    </column>
+                    <row id="4635">
+                        <property name="fontSize">9pt</property>
+                        <cell id="4827">
+                            <property name="verticalAlign">middle</property>
+                        </cell>
+                        <cell id="4817">
+                            <property name="verticalAlign">middle</property>
+                            <auto-text id="3937">
+                                <property name="textAlign">right</property>
+                                <property name="type">page-number</property>
+                            </auto-text>
+                        </cell>
+                        <cell id="4819">
+                            <property name="verticalAlign">middle</property>
+                            <text id="3939">
+                                <property name="textAlign">center</property>
+                                <property name="contentType">plain</property>
+                                <text-property name="content"><![CDATA[/]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="4822">
+                            <property name="verticalAlign">middle</property>
+                            <auto-text id="3941">
+                                <property name="textAlign">left</property>
+                                <property name="type">total-page</property>
+                            </auto-text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="4979">
+            <property name="cube">Availabilities</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="5004">
+                    <property name="measure">value</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="5005">
+                            <property name="aggregationOnRow">employee/employeeName</property>
+                            <property name="aggregationOnColumn">date/endDate</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="content">
+                                <data id="5006">
+                                    <property name="textAlign">right</property>
+                                    <property name="resultSetColumn">value_employee/employeeName_date/endDate</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="aggregations">
+                        <extended-item extensionName="AggregationCell" id="5013">
+                            <property name="aggregationOnRow">employee/companyDepartment</property>
+                            <property name="aggregationOnColumn">date/endDate</property>
+                            <property name="backgroundColor">#AEADAD</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="content">
+                                <data id="5014">
+                                    <property name="fontWeight">bold</property>
+                                    <property name="fontStyle">italic</property>
+                                    <property name="textAlign">right</property>
+                                    <property name="resultSetColumn">value_employee/companyDepartment_date/endDate</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="5017">
+                            <property name="aggregationOnColumn">date/endDate</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="content">
+                                <data id="5018">
+                                    <property name="fontWeight">bold</property>
+                                    <property name="textAlign">right</property>
+                                    <property name="resultSetColumn">value_date/endDate</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="5007">
+                            <property name="backgroundColor">#AEADAD</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="4992">
+                    <property name="grandTotal">
+                        <extended-item extensionName="CrosstabCell" id="5016">
+                            <property name="content">
+                                <text id="5021">
+                                    <property name="fontFamily">sans-serif</property>
+                                    <property name="fontSize">8.5pt</property>
+                                    <property name="contentType">html</property>
+                                    <text-property name="content"><![CDATA[<VALUE-OF>translation.getString('Availabilities.total')</VALUE-OF>]]></text-property>
+                                </text>
+                            </property>
+                            <property name="fontFamily">sans-serif</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="verticalAlign">middle</property>
+                        </extended-item>
+                    </property>
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="4993">
+                            <property name="dimension">employee</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View2" id="4994">
+                                    <property name="level">employee/companyDepartment</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="4995">
+                                            <property name="content">
+                                                <data name="companyDepartment" id="4996">
+                                                    <property name="resultSetColumn">companyDepartment</property>
+                                                </data>
+                                            </property>
+                                            <property name="fontFamily">sans-serif</property>
+                                            <property name="fontSize">9pt</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">center</property>
+                                            <property name="verticalAlign">middle</property>
+                                            <property name="borderTopStyle">solid</property>
+                                            <property name="borderTopWidth">thin</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">thin</property>
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">thin</property>
+                                            <property name="borderRightStyle">solid</property>
+                                            <property name="borderRightWidth">thin</property>
+                                            <property name="width">3%</property>
+                                        </extended-item>
+                                    </property>
+                                    <property name="aggregationHeader">
+                                        <extended-item extensionName="CrosstabCell" id="5012">
+                                            <property name="content">
+                                                <text id="5020">
+                                                    <property name="fontSize">8.5pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="contentType">html</property>
+                                                    <text-property name="content"><![CDATA[<VALUE-OF>translation.getString('Availabilities.departmentTotal')</VALUE-OF>]]></text-property>
+                                                </text>
+                                            </property>
+                                            <property name="fontFamily">sans-serif</property>
+                                            <property name="fontSize">10pt</property>
+                                            <property name="borderTopStyle">solid</property>
+                                            <property name="borderTopWidth">thin</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">thin</property>
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">thin</property>
+                                            <property name="borderRightStyle">solid</property>
+                                            <property name="borderRightWidth">thin</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="4998">
+                                    <property name="level">employee/employeeName</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="4999">
+                                            <property name="content">
+                                                <data name="employeeName" id="5002">
+                                                    <property name="resultSetColumn">employeeName</property>
+                                                </data>
+                                            </property>
+                                            <property name="fontFamily">sans-serif</property>
+                                            <property name="fontSize">8.5pt</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="borderTopStyle">solid</property>
+                                            <property name="borderTopWidth">thin</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">thin</property>
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="borderBottomWidth">thin</property>
+                                            <property name="borderRightStyle">solid</property>
+                                            <property name="borderRightWidth">thin</property>
+                                            <property name="width">15%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="4981">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="4982">
+                            <property name="dimension">date</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="4983">
+                                    <property name="level">date/startDate</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="4984">
+                                            <property name="backgroundColor">#AEADAD</property>
+                                            <property name="borderTopStyle">solid</property>
+                                            <property name="borderTopWidth">thin</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">thin</property>
+                                            <property name="borderRightStyle">solid</property>
+                                            <property name="borderRightWidth">thin</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View1" id="4987">
+                                    <property name="level">date/endDate</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="4988">
+                                            <property name="content">
+                                                <data name="endDate" id="4990">
+                                                    <property name="fontFamily">sans-serif</property>
+                                                    <property name="fontSize">8.5pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">endDate</property>
+                                                </data>
+                                            </property>
+                                            <property name="backgroundColor">#AEADAD</property>
+                                            <property name="borderLeftStyle">solid</property>
+                                            <property name="borderLeftWidth">thin</property>
+                                            <property name="borderRightStyle">solid</property>
+                                            <property name="borderRightWidth">thin</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="header">
+                <extended-item extensionName="CrosstabCell" id="5001"/>
+                <extended-item extensionName="CrosstabCell" id="4980"/>
+                <extended-item extensionName="CrosstabCell" id="5009"/>
+                <extended-item extensionName="CrosstabCell" id="5010"/>
+                <extended-item extensionName="CrosstabCell" id="4989"/>
+                <extended-item extensionName="CrosstabCell" id="5000"/>
+            </property>
+            <method name="onCreate"><![CDATA[function onCreateCell( cellInst, reportContext )
+{
+ 	if(cellInst.getCellID() == 5005){
+    var color = "#FFA500";
+        if(cellInst.getDataValue("value_employee/companyDepartment_date/endDate") < 0){
+            cellInst.getStyle().setBackgroundColor(color);
+        }
+ 	} 
+}]]></method>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">startDate</property>
+                    <expression name="expression">dimension["date"]["startDate"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">endDate</property>
+                    <expression name="expression" type="javascript">var granularitySelect=params["granularitySelect"].value;
+if(granularitySelect==1){
+	BirtDateTime.day(dimension["date"]["startDate"])+"-"+BirtDateTime.day(dimension["date"]["endDate"])+" \n"+UCFirst(BirtDateTime.month(dimension["date"]["endDate"],3))+" \n"+BirtDateTime.year(dimension["date"]["startDate"])
+}else if(granularitySelect==2){
+	UCFirst(BirtDateTime.month(dimension["date"]["endDate"],3))+" "+BirtDateTime.year(dimension["date"]["startDate"])
+}else if(granularitySelect==3){
+	BirtDateTime.year(dimension["date"]["startDate"])
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">companyDepartment</property>
+                    <expression name="expression">dimension["employee"]["companyDepartment"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">employeeName</property>
+                    <expression name="expression">dimension["employee"]["employeeName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value_employee/employeeName_date/endDate</property>
+                    <expression name="expression">measure["value"]</expression>
+                    <property name="dataType">decimal</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>employee/employeeName</value>
+                        <value>date/endDate</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">value_employee/companyDepartment_date/endDate</property>
+                    <expression name="expression">measure["value"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>employee/companyDepartment</value>
+                        <value>date/endDate</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">companyDepartment_TOTAL</property>
+                    <expression name="expression">dimension["employee"]["companyDepartment"]+" TOTAL"</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value_date/endDate</property>
+                    <expression name="expression">measure["value"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>date/endDate</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+            </list-property>
+        </extended-item>
+    </body>
+</report>

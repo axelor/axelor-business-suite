@@ -29,6 +29,14 @@
 		<view type="form" name="invoicing-project-form"/>
 	</action-view>
 	
+	<!-- Project -->
+		
+	<menuitem name="project-reporting-availabilities" parent="project-reporting" title="Availabilities" action="project.reporting.availabilities"/>
+
+    <action-view name="project.reporting.availabilities" title="Availabilities" model="com.axelor.apps.base.db.Wizard">
+      <view type="form" name="availabilities-report-form" />
+    </action-view>
+	
 	<!-- ADMINISTRATION -->
 
 	<menuitem name="admin-root-batch-project-invoicing-assistant" parent="admin-root-batch" if="__config__.app.isApp('business-project')" if-module="axelor-business-project" 

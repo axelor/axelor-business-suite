@@ -208,4 +208,9 @@ public interface ITranslation {
       "InvoicingProjectAnnex.status"; /*)*/
   public static final String INVOICING_PROJECT_ANNEX_PROGRESS = /*$$(*/
       "InvoicingProjectAnnex.progress"; /*)*/
+  // Availabilities Report Translations
+  public static final String AVAILABILITIES_TITLE = /*$$(*/ "Availabilities.title"; /*)*/
+  public static final String AVAILABILITIES_TOTAL = /*$$(*/ "Availabilities.total"; /*)*/
+  public static final String AVAILABILITIES_DEPARTMENT_TOTAL = /*$$(*/
+      "Availabilities.departmentTotal"; /*)*/
 }

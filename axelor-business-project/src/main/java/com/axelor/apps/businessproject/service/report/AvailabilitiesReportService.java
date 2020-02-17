@@ -15,13 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.axelor.apps.businessproject.report;
+package com.axelor.apps.businessproject.service.report;
 
-public interface IReport {
+import com.axelor.exception.AxelorException;
+import java.util.List;
+import java.util.Map;
 
-  public static final String PROJECT = "Project.rptdesign";
-  public static final String INVOICE_ANNEX = "InvoiceAnnex.rptdesign";
-  public static final String PLANNIF_AND_COST = "PlannificationAndCost.rptdesign";
-  public static final String INVOICING_PROJECT_ANNEX = "InvoicingProjectAnnex.rptdesign";
-  public static final String AVAILABILITIES = "Availabilities.rptdesign";
+public interface AvailabilitiesReportService {
+
+  public List<Map<String, Object>> getAvailabilitiesData(
+      String startDate, String endDate, Integer granularitySelect, Long companyId)
+      throws AxelorException;
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+   <form name="availabilities-report-form" title="Availabilities" model="com.axelor.apps.base.db.Wizard" onNew="action-availabilities-report-staffing-days-defaults" canNew="false" canSave="false">
+      <panel name="parameterPanel" title="Parameters" itemSpan="3" colSpan="12">
+         <field name="$startDate" title="Start date" type="date" />
+         <field name="$endDate" title="End date" type="date" />
+         <field name="$granularitySelect" selection="staffing.granularity.select" type="integer" title="Granularity" />
+         <field name="$company" type="many-to-one" target="com.axelor.apps.base.db.Company" title="Company" form-view="company-from" grid-view="company-grid" required="true" />
+      </panel>
+      <panel name="actionPanel" sidebar="true">
+         <button name="printBtn" title="Availabilities report" onClick="action-method-availabilities-report-print" readonlyIf="!$company" />
+      </panel>
+   </form>
+
+   <action-attrs name="action-availabilities-report-staffing-days-defaults">
+      <attribute name="value" for="$granularitySelect" expr="eval: 2" />
+      <attribute name="value" for="$startDate" expr="eval:__date__.with(java.time.temporal.TemporalAdjusters.firstDayOfYear())" />
+      <attribute name="value" for="$endDate" expr="eval:__date__.with(java.time.temporal.TemporalAdjusters.lastDayOfYear())" />
+      <attribute name="value" for="$company" expr="eval: __user__?.activeCompany"/>
+   </action-attrs>
+
+   <action-method name="action-method-availabilities-report-print">
+      <call class="com.axelor.apps.businessproject.web.AvailabilitiesReportController" method="printAvailabilitiesReport" />
+   </action-method>
+
+</object-views>

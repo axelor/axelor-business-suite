@@ -1,6 +1,9 @@
 
 # Changelog
 ## [Unreleased 5.2.5]
+## Features
+- Project planning time: reporting
+
 ## Improvements
 - STOCK RULE : add comment field
 - Sale Order: Desired delivery date is used to generate stock move if estimated date is empty.

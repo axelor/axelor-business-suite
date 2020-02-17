@@ -59,5 +59,11 @@
 		<option value="2">Don't consolidate</option>
 		<option value="3">Default value</option>
 	</selection>
+	
+	<selection name="staffing.granularity.select">
+      <option value="1">Fortnight</option>
+      <option value="2">Month</option>
+      <option value="3">Year</option>
+    </selection>
 
 </object-views>
