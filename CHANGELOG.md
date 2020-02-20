@@ -10,6 +10,7 @@ ACCOUNTING REPORT : group by and subtotal of analyticDistributionTemplate.
 - BILL OF MATERIAL : display product field before the production process field.
 - UNIT CONVERSION : used large width for unit conversion form view.
 - LEAVE REQUEST : change in email template.
+- ACCOUNTING REPORT : modify design of summary of gross values and depreciation report.
 
 ## Bug Fixes
 - MANUF ORDER : Display sale order comment in manufacturing order printing.
