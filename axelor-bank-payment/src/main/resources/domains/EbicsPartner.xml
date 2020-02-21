@@ -24,7 +24,7 @@
     <many-to-one name="pSRBankStatementFileFormat" ref="com.axelor.apps.bankpayment.db.BankStatementFileFormat" title="Payment Status Report file format"/>
 	<boolean name="usePSR" title="Enable PSR"/>
 	
-	<boolean name="testMode" title="Test mode"/>
+	<boolean name="testMode" title="Test mode" massUpdate="true"/>
 
 	<boolean name="filterReceiverBD" default="false" title="Filter receiver bank details"/>
 	<integer name="orderTypeSelect" selection="bankpayment.bank.order.type.select" title="Order type to filter"/>
