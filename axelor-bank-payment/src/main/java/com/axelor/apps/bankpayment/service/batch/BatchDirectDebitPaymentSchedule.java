@@ -119,6 +119,10 @@ public class BatchDirectDebitPaymentSchedule extends BatchDirectDebit {
     queryBuilder.add("self.paymentSchedule.typeSelect = :paymentScheduleTypeSelect");
     queryBuilder.bind("paymentScheduleTypeSelect", paymentScheduleType);
 
+    queryBuilder.add("self.paymentSchedule.invoiceTypeSelect = :paymentScheduleInvoiceTypeSelect");
+    queryBuilder.bind(
+        "paymentScheduleInvoiceTypeSelect", PaymentScheduleRepository.INVOICE_TYPE_SALE);
+
     queryBuilder.add("self.statusSelect = :statusSelect");
     queryBuilder.bind("statusSelect", PaymentScheduleLineRepository.STATUS_IN_PROGRESS);
 

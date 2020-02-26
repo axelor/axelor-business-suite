@@ -26,11 +26,13 @@ import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.PaymentScheduleLine;
+import com.axelor.apps.account.db.repo.AccountTypeRepository;
 import com.axelor.apps.account.db.repo.AccountingSituationRepository;
 import com.axelor.apps.account.db.repo.DebtRecoveryRepository;
 import com.axelor.apps.account.db.repo.MoveLineRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.db.repo.PaymentScheduleLineRepository;
+import com.axelor.apps.account.db.repo.PaymentScheduleRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountCustomerService;
 import com.axelor.apps.account.service.app.AppAccountService;
@@ -233,6 +235,7 @@ public class DebtRecoveryService {
     int mailTransitTime = company.getAccountConfig().getMailTransitTime();
 
     for (MoveLine moveLine : moveLineQuery) {
+
       if (moveLine.getMove() != null && !moveLine.getMove().getIgnoreInDebtRecoveryOk()) {
         Move move = moveLine.getMove();
         // facture exigibles non bloquée en relance et dont la date de facture + délai
@@ -247,7 +250,11 @@ public class DebtRecoveryService {
               && moveLine.getDueDate() != null
               && (appAccountService.getTodayDate().isAfter(moveLine.getDueDate())
                   || appAccountService.getTodayDate().isEqual(moveLine.getDueDate()))) {
-            if (moveLine.getAccount() != null && moveLine.getAccount().getUseForPartnerBalance()) {
+            if (moveLine.getAccount() != null
+                && moveLine.getAccount().getUseForPartnerBalance()
+                && moveLine.getAccount().getAccountType() != null
+                && moveLine.getAccount().getAccountType().getTechnicalTypeSelect()
+                    == AccountTypeRepository.TYPE_RECEIVABLE) {
               if (moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0) {
                 moveLineList.add(moveLine);
               }
@@ -261,7 +268,11 @@ public class DebtRecoveryService {
               && moveLine.getDueDate() != null
               && (appAccountService.getTodayDate().isAfter(moveLine.getDueDate())
                   || appAccountService.getTodayDate().isEqual(moveLine.getDueDate()))) {
-            if (moveLine.getAccount() != null && moveLine.getAccount().getUseForPartnerBalance()) {
+            if (moveLine.getAccount() != null
+                && moveLine.getAccount().getUseForPartnerBalance()
+                && moveLine.getPaymentScheduleLine().getPaymentSchedule() != null
+                && moveLine.getPaymentScheduleLine().getPaymentSchedule().getInvoiceTypeSelect()
+                    == PaymentScheduleRepository.INVOICE_TYPE_SALE) {
               if (moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0) {
                 moveLineList.add(moveLine);
               }

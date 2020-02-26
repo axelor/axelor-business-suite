@@ -319,7 +319,12 @@
 		<option value="1">New notification</option>
 		<option value="2">Notification validated</option>
 	</selection>
-
+	
+	<selection name="iaccount.payment.schedule.invoice.type.select">
+		<option value="1">Sale</option>
+		<option value="2">Purchase</option>
+	</selection>
+	
 	<selection name="iaccount.payment.schedule.type.select">
 		<option value="1">Payment terms</option>
 		<option value="2">Monthly payments</option>

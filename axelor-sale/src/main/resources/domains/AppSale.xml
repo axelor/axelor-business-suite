@@ -22,8 +22,7 @@
 		<track>
 			<field name="manageSaleOrderVersion" on="UPDATE"/>
 			<field name="printingOnSOFinalization" on="UPDATE"/>
-			<field name="manageSalesUnits" on="UPDATE"/>
-			<field name="productPackMgt" on="UPDATE"/>
+			<field name="manageSalesUnits" on="UPDATE"/>			
 			<field name="enableConfigurator" on="UPDATE"/>
 			<field name="allowPendingOrderModification" on="UPDATE"/>
 			<field name="manageMultipleSaleQuantity" on="UPDATE"/>

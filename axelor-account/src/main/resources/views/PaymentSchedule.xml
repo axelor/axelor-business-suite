@@ -5,11 +5,15 @@
 
 	<grid name="payment-schedule-grid" title="Payment schedule"
 		model="com.axelor.apps.account.db.PaymentSchedule" orderBy="-paymentScheduleSeq">
+		<toolbar>
+			<button name="paymentScheduleLinesBtn" title="Payment schedule lines:all" onClick="account.root.payment.schedule.payment.schedule.line"/>
+		</toolbar>
+		
 		<field name="paymentScheduleSeq" width="120"/>
 		<field name="creationDate" />
 		<field name="partner" form-view="partner-form" grid-view="partner-grid" />
 		<field name="company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-    <field name="typeSelect"/>
+        <field name="typeSelect"/>
 		<field name="inTaxAmount" aggregate="sum"/>
 		<field name="nbrTerm" />
 		<field name="bankDetails" form-view="bank-details-form" grid-view="bank-details-grid"/>
@@ -25,11 +29,12 @@
 		<panel name="mainPanel">
 		    <field name="statusSelect" widget="NavSelect" colSpan="12" />
 		    <field name="paymentScheduleSeq" />
+		    <field name="invoiceTypeSelect" readonlyIf="statusSelect != 1"/>
 			<field name="typeSelect" readonlyIf="statusSelect != 1" />
 			<field name="creationDate" readonlyIf="statusSelect != 1" />
 			<field name="startDate" readonlyIf="statusSelect != 1" required="true" />
 			<panel colSpan="12" name="companyPanel">
-				<field name="company" canEdit="false" readonlyIf="statusSelect != 1" widget="SuggestBox" form-view="company-form" grid-view="company-grid" />
+				<field name="company" canEdit="false" readonlyIf="statusSelect != 1" widget="SuggestBox" form-view="company-form" grid-view="company-grid"/>
 				<field name="companyBankDetails" form-view="bank-details-form" grid-view="bank-details-grid" onSelect="action-payment-schedule-attrs-company-bank-details-domain" if="__config__.app.getApp('base').getManageMultiBanks()" />
 			</panel>
 			<panel colSpan="12" name="partnerDetailPanel">
@@ -42,9 +47,8 @@
             <field name="nbrTerm" readonlyIf="statusSelect != 1" />
 		</panel>
 		
-		<panel-related name="invoiceSetPanel" title="Invoices" field="invoiceSet" grid-view="invoice-account-grid" form-view="invoice-form" 
-			domain="self.partner = :partner and self.schedulePaymentOk = 'f' and self.company=:company and self.statusSelect = 3 and self.companyInTaxTotalRemaining > 0.0 AND self.currency = :currency AND self.operationTypeSelect = 3"
-			readonlyIf="statusSelect != 1" onChange="action-payment-schedule-record-in-tax-amount" hideIf="typeSelect == 2" canNew="false" />
+		<panel-related name="invoiceSetPanel" title="Invoices" field="invoiceSet" grid-view="invoice-account-grid" form-view="invoice-form" 			
+			readonlyIf="statusSelect != 1" onSelect="action-payment-schedule-attrs-invoice-set-domain" onChange="action-payment-schedule-record-in-tax-amount" hideIf="typeSelect == 2" canNew="false" />
 			
 		<panel-related name="paymentScheduleLineListPanel" title="Payment schedule lines" field="paymentScheduleLineList" editable="true" grid-view="payment-schedule-line-payment-schedule-grid" form-view="payment-schedule-line-payment-schedule-form"
 			readonlyIf="statusSelect != 1" />
@@ -66,9 +70,9 @@
 	<!-- ACTION GROUPs -->
 	<action-group name="action-account-payment-schedule-onnew-group">
 		<action name="default-payment-schedule-record" />
-		<action name="action-payment-schedule-attrs-collapse-irrecoverable-group" />
+		<action name="action-payment-schedule-attrs-collapse-irrecoverable-group" />		
 	</action-group>
-
+	
 	<action-group name="action-group-account-payment-schedule-create-click">
 		<action name="save" />
 		<action name="action-payment-schedule-create-payment-schedule-lines" />
@@ -86,8 +90,17 @@
   <action-group name="action-payment-schedule-group-onchange-partner">
     <action name="action-payment-schedule-record-partner" />
     <action name="action-payment-schedule-method-fill-partner-bank-details" />
-    <action name="action-payment-schedule-method-fill-company-bank-details" />
+    <action name="action-payment-schedule-method-fill-company-bank-details" />    
   </action-group>
+  
+    <!-- ACTION VIEW -->
+    <action-view name="account.root.payment.schedule.payment.schedule.line"
+        title="Payment schedule lines:all" model="com.axelor.apps.account.db.PaymentScheduleLine">
+        <view type="grid" name="payment-schedule-line-grid"/>
+        <view type="form" name="payment-schedule-line-form"/>
+        <view-param name="search-filters" value="payment-schedule-line-filters"/>
+        <domain>self.paymentSchedule.invoiceTypeSelect = :_invoiceTypeSelect</domain>
+    </action-view>
 
 	<!-- ACTION RECORD -->
 	<action-record name="default-payment-schedule-record"
@@ -97,6 +110,7 @@
 		<field name="company"  expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
 		<field name="statusSelect" expr="eval: 1" />
+		<field name="invoiceTypeSelect" expr="eval: _invoiceTypeSelect" if="_invoiceTypeSelect"/>
 	</action-record>
 
 	<action-record name="action-payment-schedule-record-partner"
@@ -133,6 +147,18 @@
 		<attribute name="domain" for="companyBankDetails"
 			expr="eval: &quot;self.id IN (${company.bankDetailsList.collect{it.id}.join(',')})&quot;"
 			if="company &amp;&amp; company.bankDetailsList" />
+	</action-attrs>
+	
+	<action-attrs
+		name="action-payment-schedule-attrs-invoice-set-domain">
+		<attribute name="domain" for="invoiceSet"
+			expr="eval: &quot; self.partner=:partner AND self.schedulePaymentOk = 'f' AND self.company=:company 
+			AND self.statusSelect = 3  AND self.companyInTaxTotalRemaining &gt; 0.0 AND self.currency=:currency AND self.operationTypeSelect = 3 &quot;"
+			if="invoiceTypeSelect &amp;&amp; invoiceTypeSelect == 1" />
+		<attribute name="domain" for="invoiceSet"
+			expr="eval: &quot; self.partner=:partner AND self.schedulePaymentOk = 'f' AND self.company=:company 
+			AND self.statusSelect = 3  AND self.companyInTaxTotalRemaining &gt; 0.0 AND self.currency=:currency AND self.operationTypeSelect = 1 &quot;"
+			if="invoiceTypeSelect &amp;&amp; invoiceTypeSelect == 2" />
 	</action-attrs>
 
 	<!-- ACTION METHOD -->

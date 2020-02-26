@@ -92,29 +92,33 @@
 		
 	<menuitem name="account-root-payment-schedule" title="Payment Schedule" order="25" if-module="axelor-bank-payment"
               parent="invoice-root" if="__config__.app.getApp('bank-payment')?.manageDirectDebitPayment"/>
+        
+     <menuitem name="account-root-payment-schedule-payment-schedule-customer"
+        parent="account-root-payment-schedule" title="Payment Schedules Customers"
+        action="account.root.payment.schedule.payment.schedule.customer" order="-20"/>
 
-    <menuitem name="account-root-payment-schedule-payment-schedule"
-        parent="account-root-payment-schedule" title="Payment Schedules"
-        action="account.root.payment.schedule.payment.schedule" />
-
-    <action-view name="account.root.payment.schedule.payment.schedule"
-        title="Payment Schedules" model="com.axelor.apps.account.db.PaymentSchedule">
+    <action-view name="account.root.payment.schedule.payment.schedule.customer"
+        title="Payment Schedules Customers" model="com.axelor.apps.account.db.PaymentSchedule">
         <view type="grid" name="payment-schedule-grid"/>
         <view type="form" name="payment-schedule-form"/>
         <view-param name="search-filters" value="payment-schedule-filters"/>
+        <domain>self.invoiceTypeSelect = 1</domain>
+        <context name="_invoiceTypeSelect" expr="eval:1"/>
     </action-view>
+    
+    <menuitem name="account-root-payment-schedule-payment-schedule-supplier"
+        parent="account-root-payment-schedule" title="Payment Schedules Suppliers"
+        action="account.root.payment.schedule.payment.schedule.supplier" order="-19"/>
 
-    <menuitem name="account-root-payment-schedule-payment-schedule-line"
-        parent="account-root-payment-schedule" title="Payment schedule lines:all"
-        action="account.root.payment.schedule.payment.schedule.line" />
-
-    <action-view name="account.root.payment.schedule.payment.schedule.line"
-        title="Payment schedule lines:all" model="com.axelor.apps.account.db.PaymentScheduleLine">
-        <view type="grid" name="payment-schedule-line-grid"/>
-        <view type="form" name="payment-schedule-line-form"/>
-        <view-param name="search-filters" value="payment-schedule-line-filters"/>
+    <action-view name="account.root.payment.schedule.payment.schedule.supplier"
+        title="Payment Schedules Suppliers" model="com.axelor.apps.account.db.PaymentSchedule">
+        <view type="grid" name="payment-schedule-grid"/>
+        <view type="form" name="payment-schedule-form"/>
+        <view-param name="search-filters" value="payment-schedule-filters"/>
+        <domain>self.invoiceTypeSelect = 2</domain>
+        <context name="_invoiceTypeSelect" expr="eval:2"/>
     </action-view>
-	
+    	
 	
 	<menuitem name="invoice-root-report" parent="invoice-root" order="50"  icon="fa-bar-chart"
 		title="Reportings"/>

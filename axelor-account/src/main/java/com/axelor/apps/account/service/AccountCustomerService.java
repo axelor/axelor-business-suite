@@ -21,6 +21,7 @@ import com.axelor.apps.account.db.Account;
 import com.axelor.apps.account.db.AccountConfig;
 import com.axelor.apps.account.db.AccountingSituation;
 import com.axelor.apps.account.db.MoveLine;
+import com.axelor.apps.account.db.repo.AccountTypeRepository;
 import com.axelor.apps.account.db.repo.AccountingSituationRepository;
 import com.axelor.apps.account.db.repo.MoveLineRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
@@ -143,10 +144,12 @@ public class AccountCustomerService {
                     + "WHERE moveline.credit > 0 "
                     + "GROUP BY moveline.id, moveline.amount_remaining) AS m2 ON (m2.moveline_id = ml.id) "
                     + "LEFT OUTER JOIN public.account_account AS account ON (ml.account = account.id) "
+                    + "LEFT OUTER JOIN public.account_account_type AS account_type ON (account.account_type = account_type.id) "
                     + "LEFT OUTER JOIN public.account_move AS move ON (ml.move = move.id) "
                     + "WHERE ml.partner = ?2 AND move.company = ?3 AND move.ignore_in_debt_recovery_ok IN ('false', null) "
-                    + "AND move.ignore_in_accounting_ok IN ('false', null) AND account.use_for_partner_balance = 'true'"
-                    + "AND (move.status_select = ?4 OR move.status_select = ?5) AND ml.amount_remaining > 0 ")
+                    + "AND move.ignore_in_accounting_ok IN ('false', null) "
+                    + "AND (move.status_select = ?4 OR move.status_select = ?5) AND ml.amount_remaining > 0 "
+                    + "AND account.use_for_partner_balance = 'true' AND account_type.technical_type_select = ?6 ")
             .setParameter(
                 1,
                 Date.from(
@@ -159,7 +162,8 @@ public class AccountCustomerService {
             .setParameter(2, partner)
             .setParameter(3, company)
             .setParameter(4, MoveRepository.STATUS_VALIDATED)
-            .setParameter(5, MoveRepository.STATUS_DAYBOOK);
+            .setParameter(5, MoveRepository.STATUS_DAYBOOK)
+            .setParameter(6, AccountTypeRepository.TYPE_RECEIVABLE);
 
     BigDecimal balance = (BigDecimal) query.getSingleResult();
 
@@ -218,11 +222,13 @@ public class AccountCustomerService {
                     + "WHERE moveline.credit > 0 "
                     + "GROUP BY moveline.id, moveline.amount_remaining) AS m2 ON (m2.moveline_id = ml.id) "
                     + "LEFT OUTER JOIN public.account_account AS account ON (ml.account = account.id) "
+                    + "LEFT OUTER JOIN public.account_account_type AS account_type ON (account.account_type = account_type.id) "
                     + "LEFT OUTER JOIN public.account_move AS move ON (ml.move = move.id) "
                     + "LEFT JOIN public.account_invoice AS invoice ON (move.invoice = invoice.id) "
                     + "WHERE ml.partner = ?3 AND move.company = ?4 AND move.ignore_in_debt_recovery_ok in ('false', null) "
-                    + "AND move.ignore_in_accounting_ok IN ('false', null) AND account.use_for_partner_balance = 'true'"
-                    + "AND (move.status_select = ?5 OR move.status_select = ?6) AND ml.amount_remaining > 0 AND invoice.debt_recovery_blocking_ok = FALSE ")
+                    + "AND move.ignore_in_accounting_ok IN ('false', null) "
+                    + "AND (move.status_select = ?5 OR move.status_select = ?6) AND ml.amount_remaining > 0 AND invoice.debt_recovery_blocking_ok = FALSE "
+                    + "AND account.use_for_partner_balance = 'true' AND account_type.technical_type_select = ?7 ")
             .setParameter(1, mailTransitTime)
             .setParameter(
                 2,
@@ -236,7 +242,8 @@ public class AccountCustomerService {
             .setParameter(3, partner)
             .setParameter(4, company)
             .setParameter(5, MoveRepository.STATUS_VALIDATED)
-            .setParameter(6, MoveRepository.STATUS_DAYBOOK);
+            .setParameter(6, MoveRepository.STATUS_DAYBOOK)
+            .setParameter(7, AccountTypeRepository.TYPE_RECEIVABLE);
 
     BigDecimal balance = (BigDecimal) query.getSingleResult();
 

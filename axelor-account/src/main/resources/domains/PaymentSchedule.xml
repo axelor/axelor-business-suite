@@ -7,6 +7,7 @@
   
   <entity name="PaymentSchedule" lang="java">
 
+    <integer name="invoiceTypeSelect" title="Invoice type" selection="iaccount.payment.schedule.invoice.type.select"/>
 	<integer name="typeSelect" title="Type" selection="iaccount.payment.schedule.type.select" default="1"/>
     <string name="paymentScheduleSeq" title="Ref." required="false" namecolumn="true" readonly="true"/>
     <date name="creationDate" title="Creation Date"/>
@@ -44,6 +45,10 @@
 		public static final int IRRECOVERABLE_STATUS_NOT_IRRECOUVRABLE = 0;
 		public static final int IRRECOVERABLE_STATUS_TO_PASS_IN_IRRECOUVRABLE = 1;
 		public static final int IRRECOVERABLE_STATUS_PASSED_IN_IRRECOUVRABLE = 2;
+		
+		//INVOICE TYPE SELECT
+		public static final int INVOICE_TYPE_SALE = 1;
+		public static final int INVOICE_TYPE_PURCHASE = 2;
 	
 	]]></extra-code>
 	
