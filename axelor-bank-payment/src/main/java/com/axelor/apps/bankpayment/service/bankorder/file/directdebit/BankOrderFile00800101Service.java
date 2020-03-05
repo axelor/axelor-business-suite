@@ -52,6 +52,7 @@ import com.axelor.apps.bankpayment.xsd.sepa.pain_008_001_01.ServiceLevel2Code;
 import com.axelor.apps.bankpayment.xsd.sepa.pain_008_001_01.ServiceLevel3Choice;
 import com.axelor.apps.base.db.Bank;
 import com.axelor.apps.base.db.BankDetails;
+import com.axelor.apps.tool.StringTool;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -627,7 +628,9 @@ public class BankOrderFile00800101Service extends BankOrderFile008Service {
        * Information supplied to enable the matching of an entry with the items that the transfer is intended
        * to settle, eg, commercial invoices in an accounts' receivable system in an unstructured form.
        */
-      remittanceInformation1.getUstrd().add(bankOrderLine.getReceiverReference());
+      remittanceInformation1
+          .getUstrd()
+          .add(StringTool.truncRight(bankOrderLine.getReceiverReference(), 140));
 
       /*
        * Structured   (choice 2 of 2)

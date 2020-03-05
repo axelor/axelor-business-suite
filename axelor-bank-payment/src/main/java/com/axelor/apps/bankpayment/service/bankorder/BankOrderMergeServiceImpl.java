@@ -34,6 +34,7 @@ import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.service.app.AppBaseService;
+import com.axelor.apps.tool.StringTool;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -46,10 +47,13 @@ import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -283,7 +287,14 @@ public class BankOrderMergeServiceImpl implements BankOrderMergeService {
     String lastReferenceId = "";
     LocalDate lastReferenceDate = null;
 
-    for (BankOrderLineOrigin bankOrderLineOrigin : bankOrderLine.getBankOrderLineOriginList()) {
+    List<BankOrderLineOrigin> orderByDateBankOrderLineOriginList =
+        bankOrderLine.getBankOrderLineOriginList();
+
+    Collections.sort(
+        orderByDateBankOrderLineOriginList,
+        Comparator.comparing(BankOrderLineOrigin::getRelatedToSelectDate));
+
+    for (BankOrderLineOrigin bankOrderLineOrigin : orderByDateBankOrderLineOriginList) {
       LocalDate originDate = null;
       String originReferenceId = null;
 
@@ -291,9 +302,9 @@ public class BankOrderMergeServiceImpl implements BankOrderMergeService {
         case BankOrderLineOriginRepository.RELATED_TO_INVOICE:
           Invoice invoice = invoiceRepository.find(bankOrderLineOrigin.getRelatedToSelectId());
           if (!Strings.isNullOrEmpty(invoice.getSupplierInvoiceNb())) {
-            originReferenceId = invoice.getSupplierInvoiceNb();
+            originReferenceId += invoice.getSupplierInvoiceNb() + "/";
           } else {
-            originReferenceId = invoice.getInvoiceId();
+            originReferenceId += invoice.getInvoiceId() + "/";
           }
           if (!Strings.isNullOrEmpty(invoice.getSupplierInvoiceNb())) {
             originDate = invoice.getOriginDate();
@@ -305,7 +316,7 @@ public class BankOrderMergeServiceImpl implements BankOrderMergeService {
         case BankOrderLineOriginRepository.RELATED_TO_PAYMENT_SCHEDULE_LINE:
           PaymentScheduleLine paymentScheduleLine =
               paymentScheduleLineRepository.find(bankOrderLineOrigin.getRelatedToSelectId());
-          originReferenceId = paymentScheduleLine.getName();
+          originReferenceId += paymentScheduleLine.getName() + "/";
           originDate = paymentScheduleLine.getScheduleDate();
           break;
 
@@ -320,7 +331,8 @@ public class BankOrderMergeServiceImpl implements BankOrderMergeService {
       }
     }
 
-    return Pair.of(lastReferenceId, lastReferenceDate);
+    return Pair.of(
+        StringTool.truncRight(StringUtils.chop(lastReferenceId), 255), lastReferenceDate);
   }
 
   @Override
