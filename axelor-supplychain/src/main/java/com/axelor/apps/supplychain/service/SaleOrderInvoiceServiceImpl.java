@@ -195,7 +195,7 @@ public class SaleOrderInvoiceServiceImpl implements SaleOrderInvoiceService {
     return invoice;
   }
 
-  private Map<Long, BigDecimal> generateQtyToInvoiceMap(
+  protected Map<Long, BigDecimal> generateQtyToInvoiceMap(
       SaleOrder saleOrder, BigDecimal percentage) {
     Map<Long, BigDecimal> map = new HashMap<>();
 
@@ -811,7 +811,7 @@ public class SaleOrderInvoiceServiceImpl implements SaleOrderInvoiceService {
         .fetch();
   }
 
-  private BigDecimal getAmountVentilated(
+  protected BigDecimal getAmountVentilated(
       SaleOrder saleOrder,
       Long currentInvoiceId,
       boolean excludeCurrentInvoice,

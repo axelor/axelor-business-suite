@@ -461,7 +461,7 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
     return null;
   }
 
-  private void updatePackInfo(SaleOrderLine saleOrderLine, StockMoveLine stockMoveLine) {
+  protected void updatePackInfo(SaleOrderLine saleOrderLine, StockMoveLine stockMoveLine) {
     stockMoveLine.setLineTypeSelect(saleOrderLine.getTypeSelect());
     stockMoveLine.setPackPriceSelect(saleOrderLine.getPackPriceSelect());
     stockMoveLine.setIsSubLine(saleOrderLine.getIsSubLine());
@@ -517,7 +517,7 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
     updateDeliveryState(saleOrder);
   }
 
-  private int computeDeliveryState(SaleOrder saleOrder) throws AxelorException {
+  protected int computeDeliveryState(SaleOrder saleOrder) throws AxelorException {
 
     if (saleOrder.getSaleOrderLineList() == null || saleOrder.getSaleOrderLineList().isEmpty()) {
       return SaleOrderRepository.DELIVERY_STATE_NOT_DELIVERED;

@@ -354,7 +354,7 @@ public class PartnerServiceImpl implements PartnerService {
     return JPA.em().createQuery(query).getResultList();
   }
 
-  private PartnerAddress createPartnerAddress(Address address, Boolean isDefault) {
+  protected PartnerAddress createPartnerAddress(Address address, Boolean isDefault) {
 
     PartnerAddress partnerAddress = new PartnerAddress();
     partnerAddress.setAddress(address);

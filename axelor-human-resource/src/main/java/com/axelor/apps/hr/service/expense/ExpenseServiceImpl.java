@@ -862,7 +862,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
   }
 
-  private void setExpenseSeq(Expense expense) throws AxelorException {
+  protected void setExpenseSeq(Expense expense) throws AxelorException {
     if (!Beans.get(SequenceService.class).isEmptyOrDraftSequenceNumber(expense.getExpenseSeq())) {
       return;
     }

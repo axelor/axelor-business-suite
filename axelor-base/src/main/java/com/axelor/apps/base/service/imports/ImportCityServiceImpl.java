@@ -70,7 +70,7 @@ public class ImportCityServiceImpl implements ImportCityService {
    * @param typeSelect
    * @return
    */
-  private File getConfigXmlFile(String typeSelect) {
+  protected File getConfigXmlFile(String typeSelect) {
 
     File configFile = null;
     try {
@@ -101,7 +101,7 @@ public class ImportCityServiceImpl implements ImportCityService {
    * @param dataFile
    * @return
    */
-  private File getDataCsvFile(MetaFile dataFile) {
+  protected File getDataCsvFile(MetaFile dataFile) {
 
     File csvFile = null;
     try {
@@ -123,7 +123,7 @@ public class ImportCityServiceImpl implements ImportCityService {
    * @param dataCsvFile
    * @return
    */
-  private ImportHistory importCityData(File configXmlFile, File dataCsvFile) {
+  protected ImportHistory importCityData(File configXmlFile, File dataCsvFile) {
 
     ImportHistory importHistory = null;
     try {
@@ -145,7 +145,7 @@ public class ImportCityServiceImpl implements ImportCityService {
    * @param configXmlFile
    * @param dataCsvFile
    */
-  private void deleteTempFiles(File configXmlFile, File dataCsvFile) {
+  protected void deleteTempFiles(File configXmlFile, File dataCsvFile) {
 
     try {
       if (configXmlFile.isDirectory() && dataCsvFile.isDirectory()) {
@@ -160,7 +160,7 @@ public class ImportCityServiceImpl implements ImportCityService {
     }
   }
 
-  private MetaFile extractCityZip(MetaFile dataFile) throws Exception {
+  protected MetaFile extractCityZip(MetaFile dataFile) throws Exception {
 
     ZipEntry entry = null;
     MetaFile metaFile = null;

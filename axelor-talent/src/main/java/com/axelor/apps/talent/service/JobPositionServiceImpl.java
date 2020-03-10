@@ -74,7 +74,7 @@ public class JobPositionServiceImpl implements JobPositionService {
     updateLastEmailId(message);
   }
 
-  private void createApplication(JobPosition position, Message message) {
+  protected void createApplication(JobPosition position, Message message) {
 
     JobApplication application = new JobApplication();
 
@@ -113,7 +113,7 @@ public class JobPositionServiceImpl implements JobPositionService {
     appRecruitmentRepo.save(appRecruitment);
   }
 
-  private void copyAttachments(JobApplication application, Message message) throws IOException {
+  protected void copyAttachments(JobApplication application, Message message) throws IOException {
 
     List<MetaAttachment> attachments =
         metaAttachmentRepo

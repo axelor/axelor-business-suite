@@ -95,7 +95,7 @@ public class FileTabServiceImpl implements FileTabService {
     return fileTab;
   }
 
-  private String getSubImportField(MetaField importField) throws ClassNotFoundException {
+  protected String getSubImportField(MetaField importField) throws ClassNotFoundException {
     String modelName = importField.getTypeName();
     MetaModel metaModel = Beans.get(MetaModelRepository.class).findByName(modelName);
 

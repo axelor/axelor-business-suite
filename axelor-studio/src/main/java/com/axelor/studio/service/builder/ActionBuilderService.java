@@ -102,7 +102,7 @@ public class ActionBuilderService {
     return actionBuilder;
   }
 
-  private void setActionBuilderView(
+  protected void setActionBuilderView(
       String viewType, String viewName, List<ActionBuilderView> actionBuilderViews) {
     ActionBuilderView actionBuilderView = new ActionBuilderView();
     actionBuilderView.setViewType(viewType);

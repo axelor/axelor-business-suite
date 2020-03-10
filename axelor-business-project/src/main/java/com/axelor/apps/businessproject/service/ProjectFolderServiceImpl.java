@@ -103,7 +103,7 @@ public class ProjectFolderServiceImpl implements ProjectFolderService {
     return reportSettings.generate().getFile();
   }
 
-  private ReportSettings prepareReportSettings(
+  protected ReportSettings prepareReportSettings(
       Project project, String name, String reportDesignName) {
 
     ReportSettings reportSetting = ReportFactory.createReport(reportDesignName, name);

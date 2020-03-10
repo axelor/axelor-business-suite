@@ -103,7 +103,7 @@ public class EbicsService {
     return makeDN(ebicsUser.getName(), email, "FR", companyName);
   }
 
-  private String makeDN(String name, String email, String country, String organization) {
+  protected String makeDN(String name, String email, String country, String organization) {
 
     StringBuffer buffer = new StringBuffer();
     buffer.append("CN=" + name);
@@ -300,7 +300,7 @@ public class EbicsService {
     sendFULRequest(transportUser, signatoryUser, product, file, ebicsCodification, signature);
   }
 
-  private String findEbicsCodification(EbicsPartner ebicsPartner, BankOrderFileFormat format)
+  protected String findEbicsCodification(EbicsPartner ebicsPartner, BankOrderFileFormat format)
       throws AxelorException {
     Preconditions.checkNotNull(ebicsPartner);
     Preconditions.checkNotNull(format);
@@ -328,7 +328,7 @@ public class EbicsService {
    * @param product the application product.
    * @throws AxelorException
    */
-  private void sendFULRequest(
+  protected void sendFULRequest(
       EbicsUser transportUser,
       EbicsUser signatoryUser,
       EbicsProduct product,
@@ -425,7 +425,7 @@ public class EbicsService {
     return fetchFile(OrderType.HPD, user, product, start, end, null);
   }
 
-  private File fetchFile(
+  protected File fetchFile(
       OrderType orderType,
       EbicsUser user,
       EbicsProduct product,
@@ -469,7 +469,7 @@ public class EbicsService {
     return file;
   }
 
-  private boolean isTest(EbicsUser user) throws AxelorException {
+  protected boolean isTest(EbicsUser user) throws AxelorException {
 
     EbicsPartner partner = user.getEbicsPartner();
 

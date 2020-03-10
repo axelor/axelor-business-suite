@@ -102,7 +102,7 @@ public class ActionServiceImpl implements ActionService {
   }
 
   @SuppressWarnings("unchecked")
-  private void updateContext(Map<String, Object> value) {
+  protected void updateContext(Map<String, Object> value) {
 
     if (value == null) {
       return;

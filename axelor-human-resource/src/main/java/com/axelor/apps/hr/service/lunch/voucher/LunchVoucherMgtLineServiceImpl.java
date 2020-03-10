@@ -77,7 +77,7 @@ public class LunchVoucherMgtLineServiceImpl implements LunchVoucherMgtLineServic
     lunchVoucherMgtLine.setStatusSelect(lineStatus);
   }
 
-  private Integer computeEmployeeLunchVoucherAdvance(Employee employee) {
+  protected Integer computeEmployeeLunchVoucherAdvance(Employee employee) {
     int number = 0;
     List<LunchVoucherAdvance> list =
         Beans.get(LunchVoucherAdvanceRepository.class)

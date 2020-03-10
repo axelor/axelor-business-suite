@@ -773,7 +773,7 @@ public class ICalendarService {
     }
   }
 
-  private VEvent updateEvent(VEvent source, VEvent target, boolean keepRemote)
+  protected VEvent updateEvent(VEvent source, VEvent target, boolean keepRemote)
       throws IOException, URISyntaxException, ParseException {
 
     final String[] names = {
@@ -969,7 +969,7 @@ public class ICalendarService {
     }
   }
 
-  private List<ICalendarEvent> getICalendarEvents(ICalendar calendar) {
+  protected List<ICalendarEvent> getICalendarEvents(ICalendar calendar) {
     LocalDateTime lastSynchro = calendar.getLastSynchronizationDateT();
     if (lastSynchro != null) {
       return iEventRepo

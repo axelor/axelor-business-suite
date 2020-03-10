@@ -108,7 +108,7 @@ public class AlarmEngineBatchService extends AbstractBatch {
     }
   }
 
-  private <T extends Model> void associateAlarm(Alarm alarm, T t)
+  protected <T extends Model> void associateAlarm(Alarm alarm, T t)
       throws IllegalArgumentException, IllegalAccessException {
 
     LOG.debug("ASSOCIATE alarm:{} TO model:{}", new Object[] {batch, model});
@@ -130,7 +130,7 @@ public class AlarmEngineBatchService extends AbstractBatch {
     }
   }
 
-  private <T extends Model> boolean isAssociable(Field field, T t) {
+  protected <T extends Model> boolean isAssociable(Field field, T t) {
 
     return field.getType().equals(EntityHelper.getEntityClass(t));
   }

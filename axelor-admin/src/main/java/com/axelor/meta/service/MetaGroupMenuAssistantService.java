@@ -85,7 +85,7 @@ public class MetaGroupMenuAssistantService {
   private static final Logger logger =
       LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  private String getFileName(MetaGroupMenuAssistant groupMenuAssistant) {
+  protected String getFileName(MetaGroupMenuAssistant groupMenuAssistant) {
 
     String userCode = groupMenuAssistant.getCreatedBy().getCode();
     String dateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
@@ -94,11 +94,11 @@ public class MetaGroupMenuAssistantService {
     return fileName;
   }
 
-  private void setBundle(Locale locale) {
+  protected void setBundle(Locale locale) {
     bundle = I18n.getBundle(locale);
   }
 
-  private ResourceBundle getBundle() {
+  protected ResourceBundle getBundle() {
     if (bundle == null) {
       bundle = I18n.getBundle(new Locale("en"));
     }
@@ -132,7 +132,7 @@ public class MetaGroupMenuAssistantService {
     }
   }
 
-  private List<String[]> createHeader(MetaGroupMenuAssistant groupMenuAssistant)
+  protected List<String[]> createHeader(MetaGroupMenuAssistant groupMenuAssistant)
       throws IOException {
 
     MetaFile metaFile = groupMenuAssistant.getMetaFile();
@@ -157,7 +157,7 @@ public class MetaGroupMenuAssistantService {
     return rows;
   }
 
-  private String[] getGroupRow(String[] row, MetaGroupMenuAssistant groupMenuAssistant)
+  protected String[] getGroupRow(String[] row, MetaGroupMenuAssistant groupMenuAssistant)
       throws IOException {
 
     List<String> groupList = new ArrayList<String>();
@@ -185,7 +185,7 @@ public class MetaGroupMenuAssistantService {
     return groupList.toArray(new String[groupList.size()]);
   }
 
-  private void addMenuRows(MetaGroupMenuAssistant groupMenuAssistant, List<String[]> rows) {
+  protected void addMenuRows(MetaGroupMenuAssistant groupMenuAssistant, List<String[]> rows) {
     String[] groupRow = rows.get(0);
     rows.remove(0);
     Set<String> names = new HashSet<>();
@@ -228,7 +228,7 @@ public class MetaGroupMenuAssistantService {
     rows.add(0, groupRow);
   }
 
-  private void addGroupAccess(List<String[]> rows) {
+  protected void addGroupAccess(List<String[]> rows) {
 
     ListIterator<String[]> rowIter = rows.listIterator();
 
@@ -259,7 +259,7 @@ public class MetaGroupMenuAssistantService {
     }
   }
 
-  private Map<String, Object> checkGroups(String[] groupRow) {
+  protected Map<String, Object> checkGroups(String[] groupRow) {
 
     Map<String, Object> groupMap = new HashMap<String, Object>();
 
@@ -277,7 +277,7 @@ public class MetaGroupMenuAssistantService {
     return groupMap;
   }
 
-  private Map<String, Role> checkRoles(String[] roleRow) {
+  protected Map<String, Role> checkRoles(String[] roleRow) {
 
     Map<String, Role> roleMap = new HashMap<String, Role>();
 
@@ -344,7 +344,7 @@ public class MetaGroupMenuAssistantService {
     }
   }
 
-  private void importMenus(
+  protected void importMenus(
       String[] row, String[] groupRow, Map<String, Object> groupMap, Group admin)
       throws IOException {
 

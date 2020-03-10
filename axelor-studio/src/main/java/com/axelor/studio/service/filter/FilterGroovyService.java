@@ -91,7 +91,7 @@ public class FilterGroovyService {
    * @return Groovy expression string.
    * @throws AxelorException
    */
-  private String createGroovyFilter(
+  protected String createGroovyFilter(
       Filter filter, String parentField, boolean isButton, boolean isField) throws AxelorException {
 
     String fieldType = null;
@@ -130,7 +130,7 @@ public class FilterGroovyService {
     return getConditionExpr(operator, targetField, fieldType, value, isButton);
   }
 
-  private String getJsonFieldType(MetaJsonField jsonField, String targetField)
+  protected String getJsonFieldType(MetaJsonField jsonField, String targetField)
       throws AxelorException {
 
     if (targetField == null || !targetField.contains(".")) {
@@ -174,7 +174,7 @@ public class FilterGroovyService {
     }
   }
 
-  private String getMetaFieldType(MetaField field, String targetField, boolean isJson)
+  protected String getMetaFieldType(MetaField field, String targetField, boolean isJson)
       throws AxelorException {
 
     if (targetField == null || !targetField.contains(".")) {
@@ -209,7 +209,7 @@ public class FilterGroovyService {
         model.getFullName());
   }
 
-  private String processValue(Filter filter) {
+  protected String processValue(Filter filter) {
 
     String value = filter.getValue();
     if (value == null) {
@@ -221,7 +221,7 @@ public class FilterGroovyService {
     return filterCommonService.getTagValue(value, false);
   }
 
-  private String getConditionExpr(
+  protected String getConditionExpr(
       String operator, String field, String fieldType, String value, boolean isButton) {
 
     switch (operator) {

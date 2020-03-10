@@ -148,7 +148,7 @@ public class PaymentVoucherConfirmService {
     paymentVoucherRepository.save(paymentVoucher);
   }
 
-  private void waitForDepositSlip(PaymentVoucher paymentVoucher) {
+  protected void waitForDepositSlip(PaymentVoucher paymentVoucher) {
     for (PayVoucherElementToPay payVoucherElementToPay :
         paymentVoucher.getPayVoucherElementToPayList()) {
       Invoice invoice = payVoucherElementToPay.getMoveLine().getMove().getInvoice();

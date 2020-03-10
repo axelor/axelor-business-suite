@@ -199,7 +199,7 @@ public class StockRulesServiceSupplychainImpl extends StockRulesServiceImpl {
    * @param product
    * @return
    */
-  private BigDecimal getDefaultSupplierMinQty(Product product) {
+  protected BigDecimal getDefaultSupplierMinQty(Product product) {
     Partner defaultSupplierPartner = product.getDefaultSupplierPartner();
     if (Beans.get(AppPurchaseService.class).getAppPurchase().getManageSupplierCatalog()) {
       List<SupplierCatalog> supplierCatalogList = product.getSupplierCatalogList();

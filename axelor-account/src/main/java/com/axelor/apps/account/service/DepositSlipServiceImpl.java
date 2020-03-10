@@ -90,7 +90,7 @@ public class DepositSlipServiceImpl implements DepositSlipService {
     return String.format("%s - %s", name, depositSlip.getDepositNumber());
   }
 
-  private String getReportName(DepositSlip depositSlip) throws AxelorException {
+  protected String getReportName(DepositSlip depositSlip) throws AxelorException {
     switch (depositSlip.getPaymentModeTypeSelect()) {
       case PaymentModeRepository.TYPE_CHEQUE:
         return IReport.CHEQUE_DEPOSIT_SLIP;
@@ -104,7 +104,7 @@ public class DepositSlipServiceImpl implements DepositSlipService {
     }
   }
 
-  private void compute(DepositSlip depositSlip) {
+  protected void compute(DepositSlip depositSlip) {
     if (depositSlip.getPaymentVoucherList() != null) {
       List<PaymentVoucher> paymentVoucherList = depositSlip.getPaymentVoucherList();
       BigDecimal totalAmount =
@@ -117,7 +117,7 @@ public class DepositSlipServiceImpl implements DepositSlipService {
     }
   }
 
-  private List<PaymentVoucher> fetchPaymentVouchers(DepositSlip depositSlip) {
+  protected List<PaymentVoucher> fetchPaymentVouchers(DepositSlip depositSlip) {
     QueryBuilder<PaymentVoucher> queryBuilder = QueryBuilder.of(PaymentVoucher.class);
 
     if (depositSlip.getPaymentModeTypeSelect() != 0) {
@@ -164,7 +164,7 @@ public class DepositSlipServiceImpl implements DepositSlipService {
     return queryBuilder.build().fetch();
   }
 
-  private void confirmPayments(DepositSlip depositSlip) throws AxelorException {
+  protected void confirmPayments(DepositSlip depositSlip) throws AxelorException {
     if (depositSlip.getPaymentVoucherList() != null) {
       PaymentVoucherConfirmService paymentVoucherConfirmService =
           Beans.get(PaymentVoucherConfirmService.class);

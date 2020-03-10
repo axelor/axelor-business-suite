@@ -226,7 +226,7 @@ public class EbicsUserService {
    * @throws GeneralSecurityException
    * @throws IOException
    */
-  private byte[] decryptData(byte[] input, byte[] key) throws AxelorException {
+  protected byte[] decryptData(byte[] input, byte[] key) throws AxelorException {
     return EbicsUtils.decrypt(input, new SecretKeySpec(key, "EAS"));
   }
 
@@ -317,7 +317,7 @@ public class EbicsUserService {
     return new String(orderIds);
   }
 
-  private char getNextChar(char c) {
+  protected char getNextChar(char c) {
 
     if (c == '9') {
       return 'A';
@@ -326,7 +326,7 @@ public class EbicsUserService {
     return (char) ((int) c + 1);
   }
 
-  private void trace(EbicsRequestLog requestLog, EbicsRootElement[] rootElements)
+  protected void trace(EbicsRequestLog requestLog, EbicsRootElement[] rootElements)
       throws AxelorException, JDOMException, IOException {
 
     ByteArrayOutputStream bout = new ByteArrayOutputStream();

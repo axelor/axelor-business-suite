@@ -127,7 +127,7 @@ public class PurchaseRequestServiceImpl implements PurchaseRequestService {
     return purchaseOrders;
   }
 
-  private PurchaseOrderLine getPoLineByProduct(Product product, PurchaseOrder purchaseOrder) {
+  protected PurchaseOrderLine getPoLineByProduct(Product product, PurchaseOrder purchaseOrder) {
 
     PurchaseOrderLine purchaseOrderLine =
         purchaseOrder.getPurchaseOrderLineList() != null

@@ -378,7 +378,7 @@ public class MapService {
     getJSON(response);
   }
 
-  private JSONObject getJSON(Response response) throws AxelorException, JSONException {
+  protected JSONObject getJSON(Response response) throws AxelorException, JSONException {
     LOG.debug(
         "Gmap connection status code: {}, message: {}",
         response.getStatusCode(),
@@ -429,7 +429,7 @@ public class MapService {
     }
   }
 
-  private String getErrorURI(String msg) {
+  protected String getErrorURI(String msg) {
     final String uri = "map/error.html";
 
     try {

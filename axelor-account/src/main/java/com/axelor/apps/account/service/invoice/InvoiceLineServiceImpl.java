@@ -167,7 +167,7 @@ public class InvoiceLineServiceImpl implements InvoiceLineService {
    * @return the unit price of the invoice line
    * @throws AxelorException
    */
-  private BigDecimal getUnitPrice(
+  protected BigDecimal getUnitPrice(
       Invoice invoice,
       InvoiceLine invoiceLine,
       TaxLine taxLine,

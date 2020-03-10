@@ -54,12 +54,12 @@ public class CfonbImportService {
     this.appAccountService = appAccountService;
   }
 
-  private void init(CfonbConfig cfonbConfig) {
+  protected void init(CfonbConfig cfonbConfig) {
 
     this.cfonbConfig = cfonbConfig;
   }
 
-  private void init(Company company) throws AxelorException {
+  protected void init(Company company) throws AxelorException {
 
     this.init(cfonbConfigService.getCfonbConfig(company));
   }
@@ -269,7 +269,7 @@ public class CfonbImportService {
     return importDataList;
   }
 
-  private List<String[]> getDetailDataAndCheckAmount(
+  protected List<String[]> getDetailDataAndCheckAmount(
       int operation,
       String headerCFONB,
       List<String> multiDetailsCFONB,
@@ -296,7 +296,7 @@ public class CfonbImportService {
     return importDataList;
   }
 
-  private void checkTotalAmount(
+  protected void checkTotalAmount(
       List<String> multiDetailsCFONB,
       String endingCFONB,
       String fileName,
@@ -324,7 +324,7 @@ public class CfonbImportService {
     }
   }
 
-  private void testLength(
+  protected void testLength(
       String headerCFONB, List<String> multiDetailsCFONB, String endingCFONB, Company company)
       throws AxelorException {
     //		cfonbToolService.testLength(headerCFONB, 240);
@@ -340,7 +340,7 @@ public class CfonbImportService {
    * @param detailCFONB Un enregistrement 'détail' d'un rejet de prélèvement au format CFONB
    * @return Les infos de rejet d'un prélèvement ou virement
    */
-  private String[] getDetailData(String detailCFONB) {
+  protected String[] getDetailData(String detailCFONB) {
     String[] detailData = new String[4];
     log.debug("detailCFONB : {}", detailCFONB);
 
@@ -367,7 +367,7 @@ public class CfonbImportService {
    * @param detailCFONB Un enregistrement 'détail' d'un rejet de prélèvement au format CFONB
    * @return Les infos de rejet d'un prélèvement ou virement
    */
-  private String getHeaderDate(String headerCFONB) {
+  protected String getHeaderDate(String headerCFONB) {
     return headerCFONB.substring(10, 16);
   }
 
@@ -400,7 +400,7 @@ public class CfonbImportService {
    *
    * @return
    */
-  private String getHeaderCFONB(List<String> file, int operation, int optionalOperation) {
+  protected String getHeaderCFONB(List<String> file, int operation, int optionalOperation) {
     String recordCode = this.getHeaderRecordCode(operation);
     String optionalRecordCode = this.getHeaderRecordCode(optionalOperation);
     String operationCode = this.getImportOperationCode(operation);
@@ -440,7 +440,7 @@ public class CfonbImportService {
    *
    * @return 999 si operation non correct
    */
-  private String getHeaderRecordCode(int operation) {
+  protected String getHeaderRecordCode(int operation) {
     if (operation == 0 || operation == 1 || operation == 2) {
       return this.cfonbConfig.getHeaderRecordCodeImportCFONB();
     } else if (operation == 3 || operation == 4) {
@@ -460,7 +460,7 @@ public class CfonbImportService {
    *
    * @return
    */
-  private List<String> getDetailsCFONB(List<String> file, int operation, int optionalOperation) {
+  protected List<String> getDetailsCFONB(List<String> file, int operation, int optionalOperation) {
 
     List<String> stringList = new ArrayList<String>();
     String recordCode = this.getDetailRecordCode(operation);
@@ -499,7 +499,7 @@ public class CfonbImportService {
    *
    * @return 999 si operation non correct
    */
-  private String getDetailRecordCode(int operation) {
+  protected String getDetailRecordCode(int operation) {
     if (operation == 0 || operation == 1 || operation == 2) {
       return this.cfonbConfig.getDetailRecordCodeImportCFONB();
     } else if (operation == 3 || operation == 4) {
@@ -519,7 +519,7 @@ public class CfonbImportService {
    *
    * @return
    */
-  private String getEndingCFONB(List<String> file, int operation, int optionalOperation) {
+  protected String getEndingCFONB(List<String> file, int operation, int optionalOperation) {
     String operationCode = this.getImportOperationCode(operation);
     String recordCode = this.getEndingRecordCode(operation);
     String optionalRecordCode = this.getEndingRecordCode(optionalOperation);
@@ -554,7 +554,7 @@ public class CfonbImportService {
    *
    * @return 999 si operation non correct
    */
-  private String getEndingRecordCode(int operation) {
+  protected String getEndingRecordCode(int operation) {
     if (operation == 0 || operation == 1 || operation == 2) {
       return this.cfonbConfig.getEndingRecordCodeImportCFONB();
     } else if (operation == 3 || operation == 4) {
@@ -576,7 +576,7 @@ public class CfonbImportService {
    *
    * @return Le code opération
    */
-  private String getImportOperationCode(int operation) {
+  protected String getImportOperationCode(int operation) {
     String operationCode = "";
     switch (operation) {
       case 0:

@@ -88,7 +88,7 @@ public class FixedAssetLineServiceImpl implements FixedAssetLineService {
   }
 
   @Transactional(rollbackOn = {Exception.class})
-  private void generateMove(FixedAssetLine fixedAssetLine) throws AxelorException {
+  protected void generateMove(FixedAssetLine fixedAssetLine) throws AxelorException {
     FixedAsset fixedAsset = fixedAssetLine.getFixedAsset();
 
     Journal journal = fixedAsset.getJournal();

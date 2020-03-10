@@ -140,7 +140,7 @@ public class StockMoveInvoiceServiceImpl implements StockMoveInvoiceService {
     return invoice;
   }
 
-  private void addSubLineQty(
+  protected void addSubLineQty(
       Map<Long, BigDecimal> qtyToInvoiceMap, BigDecimal qtyToInvoiceItem, Long stockMoveLineId) {
     StockMoveLine stockMoveLine = stockMoveLineRepository.find(stockMoveLineId);
 
@@ -461,7 +461,7 @@ public class StockMoveInvoiceServiceImpl implements StockMoveInvoiceService {
    * @return
    * @throws AxelorException
    */
-  private List<StockMoveLine> getConsolidatedStockMoveLineList(
+  protected List<StockMoveLine> getConsolidatedStockMoveLineList(
       List<StockMoveLine> stockMoveLineList) throws AxelorException {
 
     Map<SaleOrderLine, List<StockMoveLine>> stockMoveLineSaleMap = new LinkedHashMap<>();

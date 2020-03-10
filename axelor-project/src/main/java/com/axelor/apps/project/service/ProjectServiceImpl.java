@@ -105,7 +105,7 @@ public class ProjectServiceImpl implements ProjectService {
     return projectRepository.save(project);
   }
 
-  private String getUniqueProjectName(Partner partner) {
+  protected String getUniqueProjectName(Partner partner) {
     String baseName = String.format(I18n.get("%s project"), partner.getName());
     long count =
         projectRepository.all().filter(String.format("self.name LIKE '%s%%'", baseName)).count();
@@ -128,7 +128,8 @@ public class ProjectServiceImpl implements ProjectService {
     return this.getClientPartnerFromProject(project, 0);
   }
 
-  private Partner getClientPartnerFromProject(Project project, int counter) throws AxelorException {
+  protected Partner getClientPartnerFromProject(Project project, int counter)
+      throws AxelorException {
     if (project.getParentProject() == null) {
       // it is a root project, can get the client partner
       if (project.getClientPartner() == null) {

@@ -146,7 +146,7 @@ public class CurrencyConversionService {
     return rate;
   }
 
-  private Float validateAndGetRate(
+  protected Float validateAndGetRate(
       int dayCount, String wsUrl, Currency currencyFrom, Currency currencyTo, LocalDate date)
       throws MalformedURLException, JSONException, AxelorException {
 
@@ -195,7 +195,7 @@ public class CurrencyConversionService {
     }
   }
 
-  private Float getRateFromJson(Currency currencyFrom, Currency currencyTo, HTTPResponse response)
+  protected Float getRateFromJson(Currency currencyFrom, Currency currencyTo, HTTPResponse response)
       throws JSONException {
     int compareCode = currencyFrom.getCode().compareTo(currencyTo.getCode());
     Float rt = null;

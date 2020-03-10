@@ -125,7 +125,7 @@ public class WorkflowVentilationProjectServiceImpl
     }
   }
 
-  private boolean checkInvoicedTimesheetLines(TeamTask teamTask) {
+  protected boolean checkInvoicedTimesheetLines(TeamTask teamTask) {
 
     long timesheetLineCnt =
         timesheetLineRepo

@@ -94,7 +94,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return false;
   }
 
-  private boolean validateExcel(File excelFile, FileOutputStream out)
+  protected boolean validateExcel(File excelFile, FileOutputStream out)
       throws FileNotFoundException, IOException, AxelorException {
     Workbook workBook = new XSSFWorkbook(new FileInputStream(excelFile));
     boolean flag = true;
@@ -115,7 +115,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return flag;
   }
 
-  private boolean validateSheet(Sheet sheet, StringBuilder errorList) throws IOException {
+  protected boolean validateSheet(Sheet sheet, StringBuilder errorList) throws IOException {
 
     boolean flag = true;
 
@@ -137,7 +137,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return flag;
   }
 
-  private boolean validateModule(Row moduleRow, StringBuilder errorList) throws IOException {
+  protected boolean validateModule(Row moduleRow, StringBuilder errorList) throws IOException {
 
     if (this.validateRow(moduleRow, errorList, I18n.get(IExceptionMessage.MODULE))
         && this.validateCell(moduleRow.getCell(0), errorList, I18n.get(IExceptionMessage.MODULE))) {
@@ -153,7 +153,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return false;
   }
 
-  private boolean validateDataFile(Row dataFileRow, StringBuilder errorList) throws IOException {
+  protected boolean validateDataFile(Row dataFileRow, StringBuilder errorList) throws IOException {
 
     if (this.validateRow(dataFileRow, errorList, I18n.get(IExceptionMessage.DATA_FILE))
         && this.validateCell(
@@ -164,7 +164,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return false;
   }
 
-  private boolean validateConfigFile(Row moduleRow, Row configFileRow, StringBuilder errorList)
+  protected boolean validateConfigFile(Row moduleRow, Row configFileRow, StringBuilder errorList)
       throws IOException {
 
     if (this.validateRow(configFileRow, errorList, I18n.get(IExceptionMessage.CONFIGURATION_FILE))
@@ -185,7 +185,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return false;
   }
 
-  private boolean validateHeader(Sheet sheet, StringBuilder errorList) throws IOException {
+  protected boolean validateHeader(Sheet sheet, StringBuilder errorList) throws IOException {
 
     boolean flag = true;
     Row headerRow = sheet.getRow(3);
@@ -207,7 +207,8 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return flag;
   }
 
-  private boolean validateRow(Row row, StringBuilder errorList, String rowName) throws IOException {
+  protected boolean validateRow(Row row, StringBuilder errorList, String rowName)
+      throws IOException {
 
     if (row == null) {
       errorList.append(String.format("\n" + I18n.get(IExceptionMessage.ROW_NOT_EMPTY), rowName));
@@ -216,7 +217,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return true;
   }
 
-  private boolean validateCell(Cell cell, StringBuilder errorList, String cellName)
+  protected boolean validateCell(Cell cell, StringBuilder errorList, String cellName)
       throws IOException {
 
     if (cell == null || cell.getCellType() != Cell.CELL_TYPE_STRING) {
@@ -226,7 +227,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return true;
   }
 
-  private boolean checkConfigFile(String moduleName, String configFileName) {
+  protected boolean checkConfigFile(String moduleName, String configFileName) {
     String dirNamePattern = "demo".replaceAll("/|\\\\", "(/|\\\\\\\\)");
     List<URL> files = new ArrayList<URL>();
 
@@ -238,7 +239,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return true;
   }
 
-  private String[] getImportDetailsFromSheet(Sheet sheet) throws AxelorException {
+  protected String[] getImportDetailsFromSheet(Sheet sheet) throws AxelorException {
     String[] importDetails = new String[3];
     Row moduleRow = sheet.getRow(0);
     Row dataFileRow = sheet.getRow(1);
@@ -251,7 +252,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return importDetails;
   }
 
-  private File getConfigFile(String moduleName, File configFile, String configFileName)
+  protected File getConfigFile(String moduleName, File configFile, String configFileName)
       throws IOException, AxelorException {
     String dirNamePattern = "demo".replaceAll("/|\\\\", "(/|\\\\\\\\)");
     List<URL> files = new ArrayList<URL>();
@@ -270,7 +271,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
     return configFile;
   }
 
-  private MetaFile importFileData(
+  protected MetaFile importFileData(
       File dataFile, File configFile, String dataFileName, String configFileName)
       throws IOException, AxelorException {
     ImportConfiguration config = new ImportConfiguration();

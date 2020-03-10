@@ -177,7 +177,7 @@ public class AddressServiceImpl implements AddressService {
     checkUsedFuncs.add(checkUsedFunc);
   }
 
-  private static boolean checkAddressUsedBase(Long addressId) {
+  protected static boolean checkAddressUsedBase(Long addressId) {
     return JPA.all(PartnerAddress.class).filter("self.address.id = ?1", addressId).fetchOne()
             != null
         || JPA.all(Partner.class).filter("self.mainAddress.id = ?1", addressId).fetchOne() != null

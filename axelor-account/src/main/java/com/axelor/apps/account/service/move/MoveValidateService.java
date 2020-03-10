@@ -398,7 +398,7 @@ public class MoveValidateService {
     }
   }
 
-  private String getPartnerFullName(Partner partner) {
+  protected String getPartnerFullName(Partner partner) {
     if (!Strings.isNullOrEmpty(partner.getName())
         && !Strings.isNullOrEmpty(partner.getFirstName())) {
       return partner.getName() + " " + partner.getFirstName();

@@ -271,7 +271,7 @@ public class StudioMetaService {
     metaMenuRepo.remove(metaMenu);
   }
 
-  private Integer getPriority(String object, String name) {
+  protected Integer getPriority(String object, String name) {
     String query =
         String.format("SELECT MAX(obj.priority) FROM %s obj WHERE obj.name = :name", object);
 

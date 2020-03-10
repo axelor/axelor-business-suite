@@ -179,7 +179,7 @@ public class ContractServiceImpl extends ContractRepository implements ContractS
   }
 
   @Transactional
-  private void fillInvoicingDateByInvoicingMoment(Contract contract) {
+  protected void fillInvoicingDateByInvoicingMoment(Contract contract) {
     ContractVersion version = contract.getCurrentContractVersion();
     if (version.getAutomaticInvoicing()) {
       switch (version.getInvoicingMomentSelect()) {

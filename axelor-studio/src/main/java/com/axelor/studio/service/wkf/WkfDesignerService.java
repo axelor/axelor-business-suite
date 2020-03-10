@@ -72,9 +72,9 @@ public class WkfDesignerService {
 
   protected String defaultStatus = null;
 
-  private Set<WkfNode> nodes = new LinkedHashSet<>();
+  protected Set<WkfNode> nodes = new LinkedHashSet<>();
 
-  private Set<WkfTransition> transitions = new LinkedHashSet<>();
+  protected Set<WkfTransition> transitions = new LinkedHashSet<>();
 
   private Wkf instance;
 
@@ -175,7 +175,7 @@ public class WkfDesignerService {
     }
   }
 
-  private Map<String, WkfNode> getNodeMap() {
+  protected Map<String, WkfNode> getNodeMap() {
 
     WkfNodeRepository wkfNodeRepository = Beans.get(WkfNodeRepository.class);
 
@@ -192,7 +192,7 @@ public class WkfDesignerService {
     return nodeMap;
   }
 
-  private Map<String, WkfTransition> getTransitionMap() {
+  protected Map<String, WkfTransition> getTransitionMap() {
 
     WkfTransitionRepository wkfTransitionRepo = Beans.get(WkfTransitionRepository.class);
 

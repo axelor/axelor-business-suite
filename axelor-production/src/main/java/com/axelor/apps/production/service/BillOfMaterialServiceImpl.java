@@ -260,7 +260,7 @@ public class BillOfMaterialServiceImpl implements BillOfMaterialService {
     return bomTree;
   }
 
-  private List<Long> processChildBom(BillOfMaterial bom, TempBomTree bomTree) {
+  protected List<Long> processChildBom(BillOfMaterial bom, TempBomTree bomTree) {
 
     List<Long> validBomIds = new ArrayList<Long>();
 

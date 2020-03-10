@@ -62,7 +62,7 @@ public class AppBuilderService {
     return appBuilder;
   }
 
-  private void checkCode(AppBuilder appBuilder) throws AxelorException {
+  protected void checkCode(AppBuilder appBuilder) throws AxelorException {
 
     App app = appRepo.findByCode(appBuilder.getCode());
 

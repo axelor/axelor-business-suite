@@ -139,13 +139,14 @@ public class TeamTaskBusinessProjectServiceImpl extends TeamTaskProjectServiceIm
     return teamTask;
   }
 
-  private void emptyDiscounts(TeamTask teamTask) {
+  protected void emptyDiscounts(TeamTask teamTask) {
     teamTask.setDiscountTypeSelect(PriceListLineRepository.AMOUNT_TYPE_NONE);
     teamTask.setDiscountAmount(BigDecimal.ZERO);
     teamTask.setPriceDiscounted(BigDecimal.ZERO);
   }
 
-  private PriceListLine getPriceListLine(TeamTask teamTask, PriceList priceList, BigDecimal price) {
+  protected PriceListLine getPriceListLine(
+      TeamTask teamTask, PriceList priceList, BigDecimal price) {
 
     return priceListService.getPriceListLine(
         teamTask.getProduct(), teamTask.getQuantity(), priceList, price);
@@ -167,13 +168,13 @@ public class TeamTaskBusinessProjectServiceImpl extends TeamTaskProjectServiceIm
     return teamTask;
   }
 
-  private BigDecimal computeDiscount(TeamTask teamTask) {
+  protected BigDecimal computeDiscount(TeamTask teamTask) {
 
     return priceListService.computeDiscount(
         teamTask.getUnitPrice(), teamTask.getDiscountTypeSelect(), teamTask.getDiscountAmount());
   }
 
-  private BigDecimal computeAmount(BigDecimal quantity, BigDecimal price) {
+  protected BigDecimal computeAmount(BigDecimal quantity, BigDecimal price) {
 
     BigDecimal amount =
         price
@@ -326,7 +327,7 @@ public class TeamTaskBusinessProjectServiceImpl extends TeamTaskProjectServiceIm
     return teamTask;
   }
 
-  private BigDecimal computeUnitPrice(TeamTask teamTask) {
+  protected BigDecimal computeUnitPrice(TeamTask teamTask) {
     Product product = teamTask.getProduct();
     BigDecimal unitPrice = product.getSalePrice();
 

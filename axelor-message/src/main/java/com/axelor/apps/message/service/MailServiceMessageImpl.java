@@ -204,7 +204,7 @@ public class MailServiceMessageImpl extends MailServiceImpl {
         });
   }
 
-  private MailSender getMailSender(EmailAccount emailAccount) {
+  protected MailSender getMailSender(EmailAccount emailAccount) {
 
     if (senderAccount == null
         || !senderAccount.getId().equals(emailAccount.getId())
@@ -221,7 +221,7 @@ public class MailServiceMessageImpl extends MailServiceImpl {
     return sender;
   }
 
-  private MailReader getMailReader(EmailAccount emailAccount) {
+  protected MailReader getMailReader(EmailAccount emailAccount) {
 
     if (readerAccount == null
         || !readerAccount.getId().equals(emailAccount.getId())

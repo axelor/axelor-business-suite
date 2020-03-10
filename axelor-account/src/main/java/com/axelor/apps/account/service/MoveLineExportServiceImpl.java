@@ -1469,7 +1469,7 @@ public class MoveLineExportServiceImpl implements MoveLineExportService {
         accountingReport);
   }
 
-  private MetaFile writeMoveLineToCsvFile(
+  protected MetaFile writeMoveLineToCsvFile(
       Company company,
       String fileName,
       String[] columnHeader,

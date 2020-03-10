@@ -165,7 +165,7 @@ public class WkfService {
     return null;
   }
 
-  private void initService(Wkf wkf) {
+  protected void initService(Wkf wkf) {
     workflow = wkf;
     inflector = Inflector.getInstance();
     wkfId = "wkf" + wkf.getId().toString();
@@ -178,7 +178,7 @@ public class WkfService {
     }
   }
 
-  private void setJsonView() throws AxelorException {
+  protected void setJsonView() throws AxelorException {
 
     //    clearOldStatusField();
 
@@ -224,7 +224,7 @@ public class WkfService {
     //    setTrackOnSave(workflow, false);
   }
 
-  private void setMetaView(String defaultValue) {
+  protected void setMetaView(String defaultValue) {
     try {
       MetaView existingMetaView = workflow.getMetaView();
 
@@ -319,7 +319,7 @@ public class WkfService {
     return newOnNew;
   }
 
-  private List<Extend> addExtendItems(String onNew) {
+  protected List<Extend> addExtendItems(String onNew) {
     List<Extend> extendItems = new ArrayList<Extend>();
     try {
       MetaField statusField = workflow.getStatusMetaField();
@@ -354,7 +354,7 @@ public class WkfService {
     return extendItems;
   }
 
-  private AbstractWidget createField() throws AxelorException {
+  protected AbstractWidget createField() throws AxelorException {
 
     applyCondition =
         filterGroovyService.getGroovyFilters(workflow.getConditions(), "$attrs", false, true);
@@ -619,7 +619,7 @@ public class WkfService {
     metaViewRepo.remove(generatedView);
   }
 
-  private String clearFields(String actions, boolean fromRemove) {
+  protected String clearFields(String actions, boolean fromRemove) {
 
     List<MetaJsonField> fields = getFields(fromRemove);
 
@@ -638,7 +638,7 @@ public class WkfService {
     return builder.toString();
   }
 
-  private List<MetaJsonField> getFields(boolean fromRemove) {
+  protected List<MetaJsonField> getFields(boolean fromRemove) {
 
     List<MetaJsonField> fields;
 

@@ -221,7 +221,7 @@ public class SequenceService {
     return nextSeq;
   }
 
-  private String findNextLetterSequence(SequenceVersion sequenceVersion) {
+  protected String findNextLetterSequence(SequenceVersion sequenceVersion) {
     long n = sequenceVersion.getNextNum();
     char[] buf = new char[(int) Math.floor(Math.log(25 * (n + 1)) / Math.log(26))];
     for (int i = buf.length - 1; i >= 0; i--) {

@@ -225,7 +225,7 @@ public class PurchaseOrderLineServiceImpl implements PurchaseOrderLineService {
    *     purchase at the supplier of the purchase order
    * @throws AxelorException
    */
-  private BigDecimal getUnitPrice(
+  protected BigDecimal getUnitPrice(
       PurchaseOrder purchaseOrder,
       PurchaseOrderLine purchaseOrderLine,
       TaxLine taxLine,

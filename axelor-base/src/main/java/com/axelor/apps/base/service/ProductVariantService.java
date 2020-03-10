@@ -130,7 +130,7 @@ public class ProductVariantService {
     return false;
   }
 
-  private ProductVariant getProductVariant(
+  protected ProductVariant getProductVariant(
       ProductVariantAttr productVariantAttr1,
       ProductVariantAttr productVariantAttr2,
       ProductVariantAttr productVariantAttr3,
@@ -214,7 +214,8 @@ public class ProductVariantService {
     return productModel;
   }
 
-  private Product getProductVariant(ProductVariant parentProductVariant, Product productSearched) {
+  protected Product getProductVariant(
+      ProductVariant parentProductVariant, Product productSearched) {
 
     LOG.debug(
         "Recherche d'un variant du produit {} ayant des attributs communs avec {}",
@@ -481,7 +482,7 @@ public class ProductVariantService {
     return productSearched;
   }
 
-  private boolean containsProductVariantValue(
+  protected boolean containsProductVariantValue(
       Product product, ProductVariantValue productVariantValue) {
 
     ProductVariant productVariantFind = product.getProductVariant();

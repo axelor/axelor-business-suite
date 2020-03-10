@@ -81,7 +81,7 @@ public class CipherServiceImpl implements CipherService {
     return decryptedText;
   }
 
-  private SecretKey initEncryptOrDecrypt()
+  protected SecretKey initEncryptOrDecrypt()
       throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException,
           NoSuchPaddingException, InvalidKeySpecException {
 

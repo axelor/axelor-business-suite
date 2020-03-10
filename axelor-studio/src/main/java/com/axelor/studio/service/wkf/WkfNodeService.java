@@ -120,7 +120,7 @@ class WkfNodeService {
    * @param nodeList WkfNode list to compare.
    * @return Updated MetaSelect.
    */
-  private MetaSelect removeOldOptions(MetaSelect metaSelect, List<WkfNode> nodeList) {
+  protected MetaSelect removeOldOptions(MetaSelect metaSelect, List<WkfNode> nodeList) {
 
     log.debug("Cleaning meta select: {}", metaSelect.getName());
 
@@ -153,7 +153,7 @@ class WkfNodeService {
    * @param metaSelect MetaSelect to update.
    * @return Return first item as default value for wkfStatus field.
    */
-  private String processNodes(MetaSelect metaSelect) {
+  protected String processNodes(MetaSelect metaSelect) {
 
     String wkfFieldInfo[] = wkfService.getWkfFieldInfo(wkfService.workflow);
     String wkfFieldName = wkfFieldInfo[0];
@@ -237,7 +237,7 @@ class WkfNodeService {
    * @param option Option to search.
    * @return MetaSelctItem found or null.
    */
-  private MetaSelectItem getMetaSelectItem(MetaSelect metaSelect, String option) {
+  protected MetaSelectItem getMetaSelectItem(MetaSelect metaSelect, String option) {
 
     for (MetaSelectItem selectItem : metaSelect.getItems()) {
       if (selectItem.getValue().equals(option)) {

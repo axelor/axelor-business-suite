@@ -378,7 +378,7 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
    * @return the unit price of the sale order line
    * @throws AxelorException
    */
-  private BigDecimal getUnitPrice(
+  protected BigDecimal getUnitPrice(
       SaleOrder saleOrder, SaleOrderLine saleOrderLine, TaxLine taxLine, boolean resultInAti)
       throws AxelorException {
     Product product = saleOrderLine.getProduct();

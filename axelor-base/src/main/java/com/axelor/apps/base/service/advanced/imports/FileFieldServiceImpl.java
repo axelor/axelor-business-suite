@@ -52,7 +52,7 @@ public class FileFieldServiceImpl implements FileFieldService {
     return fileField;
   }
 
-  private String[] getSubFieldType(String[] subFields, int index, MetaField parentField) {
+  protected String[] getSubFieldType(String[] subFields, int index, MetaField parentField) {
     String[] types = new String[2];
 
     if (index < subFields.length) {

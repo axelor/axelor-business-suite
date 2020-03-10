@@ -518,7 +518,7 @@ public class PurchaseOrderStockServiceImpl implements PurchaseOrderStockService 
     purchaseOrder.setReceiptState(computeReceiptState(purchaseOrder));
   }
 
-  private int computeReceiptState(PurchaseOrder purchaseOrder) throws AxelorException {
+  protected int computeReceiptState(PurchaseOrder purchaseOrder) throws AxelorException {
 
     if (purchaseOrder.getPurchaseOrderLineList() == null
         || purchaseOrder.getPurchaseOrderLineList().isEmpty()) {

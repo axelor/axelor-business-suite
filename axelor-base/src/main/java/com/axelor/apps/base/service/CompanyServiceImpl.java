@@ -44,7 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
    * @param company the company on which we count the number of active bank details
    * @return the number of active bank details
    */
-  private int countActiveBankDetails(Company company) {
+  protected int countActiveBankDetails(Company company) {
     int count = 0;
     Set<BankDetails> bankDetailsSet = company.getBankDetailsSet();
 

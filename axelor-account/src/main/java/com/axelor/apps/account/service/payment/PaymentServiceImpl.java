@@ -173,7 +173,7 @@ public class PaymentServiceImpl implements PaymentService {
    * @throws AxelorException
    */
   @Transactional
-  private void createReconcile(
+  protected void createReconcile(
       MoveLine debitMoveLine,
       MoveLine creditMoveLine,
       BigDecimal debitTotalRemaining,

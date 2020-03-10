@@ -397,7 +397,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     return null;
   }
 
-  private long getRefundsAmount(Long partnerId, int refundType) {
+  protected long getRefundsAmount(Long partnerId, int refundType) {
     return invoiceRepo
         .all()
         .filter(
@@ -781,7 +781,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     return massProcess(invoiceIds, this::ventilate, STATUS_VALIDATED);
   }
 
-  private Pair<Integer, Integer> massProcess(
+  protected Pair<Integer, Integer> massProcess(
       Collection<? extends Number> invoiceIds, ThrowConsumer<Invoice> consumer, int statusSelect) {
     IntCounter doneCounter = new IntCounter();
 

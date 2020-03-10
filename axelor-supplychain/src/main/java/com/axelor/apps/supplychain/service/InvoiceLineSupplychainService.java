@@ -128,7 +128,7 @@ public class InvoiceLineSupplychainService extends InvoiceLineServiceImpl {
     return discounts;
   }
 
-  private Map<String, Object> updateInfoFromCatalog(Invoice invoice, InvoiceLine invoiceLine)
+  protected Map<String, Object> updateInfoFromCatalog(Invoice invoice, InvoiceLine invoiceLine)
       throws AxelorException {
 
     return supplierCatalogService.updateInfoFromCatalog(

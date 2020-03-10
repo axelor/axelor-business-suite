@@ -1033,19 +1033,19 @@ public class MoveLineService {
         companyPartnerDebitMoveLineList, companyPartnerCreditMoveLineList);
   }
 
-  private void populateCredit(
+  protected void populateCredit(
       Map<List<Object>, Pair<List<MoveLine>, List<MoveLine>>> moveLineMap,
       List<MoveLine> reconciliableMoveLineList) {
     populateMoveLineMap(moveLineMap, reconciliableMoveLineList, true);
   }
 
-  private void populateDebit(
+  protected void populateDebit(
       Map<List<Object>, Pair<List<MoveLine>, List<MoveLine>>> moveLineMap,
       List<MoveLine> reconciliableMoveLineList) {
     populateMoveLineMap(moveLineMap, reconciliableMoveLineList, false);
   }
 
-  private void populateMoveLineMap(
+  protected void populateMoveLineMap(
       Map<List<Object>, Pair<List<MoveLine>, List<MoveLine>>> moveLineMap,
       List<MoveLine> reconciliableMoveLineList,
       boolean isCredit) {

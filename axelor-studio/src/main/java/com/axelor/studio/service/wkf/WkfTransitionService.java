@@ -114,7 +114,7 @@ class WkfTransitionService {
    * @return List of RecordField
    * @throws AxelorException
    */
-  private List<ActionRecord.RecordField> proccessTransitions() throws AxelorException {
+  protected List<ActionRecord.RecordField> proccessTransitions() throws AxelorException {
 
     List<ActionRecord.RecordField> fields = new ArrayList<ActionRecord.RecordField>();
 
@@ -170,7 +170,7 @@ class WkfTransitionService {
     return fields;
   }
 
-  private String getFilters(List<Filter> filterList, boolean isButton, boolean isField)
+  protected String getFilters(List<Filter> filterList, boolean isButton, boolean isField)
       throws AxelorException {
 
     String jsonField =
@@ -184,7 +184,7 @@ class WkfTransitionService {
     return filters;
   }
 
-  private String getTyped(Integer value, String wkfFieldType) {
+  protected String getTyped(Integer value, String wkfFieldType) {
 
     if (wkfFieldType.equals("integer") || wkfFieldType.equals("Integer")) {
       return value.toString();
@@ -203,7 +203,7 @@ class WkfTransitionService {
    * @param sequence Sequence of button to add in toolbar.
    * @throws AxelorException
    */
-  private void addButton(WkfTransition transition, String condition, Integer sequence)
+  protected void addButton(WkfTransition transition, String condition, Integer sequence)
       throws AxelorException {
 
     //    String source = transition.getSource().getName();
@@ -254,7 +254,7 @@ class WkfTransitionService {
    * @param buttonName Name of button used in creation of action name.
    * @throws AxelorException
    */
-  private String addButtonActions(WkfTransition transition, String buttonName)
+  protected String addButtonActions(WkfTransition transition, String buttonName)
       throws AxelorException {
 
     String actionName = buttonName.toLowerCase().replace(" ", "-");
@@ -317,7 +317,7 @@ class WkfTransitionService {
    * @param fields List of ActionRecord.
    * @return Xml of ActionRecord created.
    */
-  private String getActionXML(String name, String model, List<RecordField> recordFields) {
+  protected String getActionXML(String name, String model, List<RecordField> recordFields) {
 
     log.debug("Creating action record: {}", name);
     ActionRecord action = new ActionRecord();
@@ -337,7 +337,7 @@ class WkfTransitionService {
    * @return Xml generated from ActionValidate.
    * @throws AxelorException
    */
-  private String getActionValidateXML(
+  protected String getActionValidateXML(
       String name, String type, String message, List<Filter> conditions) throws AxelorException {
 
     ActionValidate actionValidate = new ActionValidate();

@@ -96,7 +96,7 @@ public class ObjectDataExportServiceImpl implements ObjectDataExportService {
     }
   }
 
-  private Map<String, List<String[]>> createData(
+  protected Map<String, List<String[]>> createData(
       ObjectDataConfig objectDataConfig, Long recordId, String language)
       throws ClassNotFoundException {
 
@@ -127,7 +127,7 @@ public class ObjectDataExportServiceImpl implements ObjectDataExportService {
     return data;
   }
 
-  private Map<String, String> getSelectMap(Mapper mapper) {
+  protected Map<String, String> getSelectMap(Mapper mapper) {
 
     Map<String, String> selectionMap = new HashMap<>();
 
@@ -141,7 +141,7 @@ public class ObjectDataExportServiceImpl implements ObjectDataExportService {
     return selectionMap;
   }
 
-  private String[][] createFieldsData(Set<MetaField> metaFields, ResourceBundle bundle)
+  protected String[][] createFieldsData(Set<MetaField> metaFields, ResourceBundle bundle)
       throws ClassNotFoundException {
 
     List<String> names = new ArrayList<>();
@@ -178,7 +178,7 @@ public class ObjectDataExportServiceImpl implements ObjectDataExportService {
     };
   }
 
-  private List<String[]> fetchData(
+  protected List<String[]> fetchData(
       String[][] fieldsData,
       Query<? extends Model> query,
       Map<String, String> selectMap,
@@ -224,7 +224,7 @@ public class ObjectDataExportServiceImpl implements ObjectDataExportService {
     return dataList;
   }
 
-  private MetaFile writeCSV(Map<String, List<String[]>> data) throws IOException {
+  protected MetaFile writeCSV(Map<String, List<String[]>> data) throws IOException {
 
     File zipFile = MetaFiles.createTempFile("Data", ".zip").toFile();
     try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(zipFile))) {
@@ -243,7 +243,7 @@ public class ObjectDataExportServiceImpl implements ObjectDataExportService {
     return metaFiles.upload(zipFile);
   }
 
-  private MetaFile writeExcel(Map<String, List<String[]>> data) throws IOException {
+  protected MetaFile writeExcel(Map<String, List<String[]>> data) throws IOException {
 
     XSSFWorkbook workBook = new XSSFWorkbook();
 

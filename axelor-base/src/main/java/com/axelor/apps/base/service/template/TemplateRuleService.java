@@ -76,7 +76,7 @@ public class TemplateRuleService {
     return null;
   }
 
-  private Class<?> getTemplateClass(MetaModel metaModel) {
+  protected Class<?> getTemplateClass(MetaModel metaModel) {
     String model = metaModel.getFullName();
 
     try {
@@ -92,7 +92,7 @@ public class TemplateRuleService {
    *
    * @param templateRuleLine
    */
-  private List<TemplateRuleLine> _sortRuleLine(List<TemplateRuleLine> templateRuleLine) {
+  protected List<TemplateRuleLine> _sortRuleLine(List<TemplateRuleLine> templateRuleLine) {
 
     Collections.sort(
         templateRuleLine,
@@ -133,7 +133,7 @@ public class TemplateRuleService {
     return (Boolean) result;
   }
 
-  private ActionHandler createHandler(Model bean, String action, String model) {
+  protected ActionHandler createHandler(Model bean, String action, String model) {
 
     ActionRequest request = new ActionRequest();
 

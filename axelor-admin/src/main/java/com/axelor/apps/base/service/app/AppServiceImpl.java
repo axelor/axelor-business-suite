@@ -116,7 +116,7 @@ public class AppServiceImpl implements AppService {
     return appRepo.save(app);
   }
 
-  private void importData(App app, String dataDir, boolean useLang) {
+  protected void importData(App app, String dataDir, boolean useLang) {
 
     String modules = app.getModules();
     if (modules == null) {
@@ -137,7 +137,7 @@ public class AppServiceImpl implements AppService {
     }
   }
 
-  private void importPerConfig(String appCode, File dataDir) {
+  protected void importPerConfig(String appCode, File dataDir) {
 
     try {
       File[] configs =
@@ -164,7 +164,7 @@ public class AppServiceImpl implements AppService {
     }
   }
 
-  private String getLanguage(App app) {
+  protected String getLanguage(App app) {
 
     String lang = app.getLanguageSelect();
 
@@ -175,7 +175,7 @@ public class AppServiceImpl implements AppService {
     return lang;
   }
 
-  private void importParentData(App app) throws AxelorException {
+  protected void importParentData(App app) throws AxelorException {
 
     List<App> depends = getDepends(app, true);
 
@@ -187,7 +187,7 @@ public class AppServiceImpl implements AppService {
     }
   }
 
-  private App importDataInit(App app) {
+  protected App importDataInit(App app) {
 
     String lang = getLanguage(app);
     if (lang == null) {
@@ -203,7 +203,7 @@ public class AppServiceImpl implements AppService {
     return app;
   }
 
-  private void runImport(File config, File data) {
+  protected void runImport(File config, File data) {
 
     log.debug(
         "Running import with config path: {}, data path: {}",
@@ -234,7 +234,7 @@ public class AppServiceImpl implements AppService {
     }
   }
 
-  private File extract(String module, String dirName, String lang, String code) {
+  protected File extract(String module, String dirName, String lang, String code) {
     String dirNamePattern = dirName.replaceAll("/|\\\\", "(/|\\\\\\\\)");
     List<URL> files = new ArrayList<URL>();
     files.addAll(MetaScanner.findAll(module, dirNamePattern, code + "(-+.*)?" + CONFIG_PATTERN));
@@ -272,12 +272,12 @@ public class AppServiceImpl implements AppService {
     return tmp;
   }
 
-  private List<URL> fetchUrls(String module, String fileName) {
+  protected List<URL> fetchUrls(String module, String fileName) {
     final String fileNamePattern = fileName.replaceAll("/|\\\\", "(/|\\\\\\\\)");
     return MetaScanner.findAll(module, fileNamePattern, "(.+?)");
   }
 
-  private void copy(InputStream in, File toDir, String name) throws IOException {
+  protected void copy(InputStream in, File toDir, String name) throws IOException {
     File dst = FileUtils.getFile(toDir, name);
     Files.createParentDirs(dst);
     FileOutputStream out = new FileOutputStream(dst);
@@ -288,7 +288,7 @@ public class AppServiceImpl implements AppService {
     }
   }
 
-  private void clean(File file) {
+  protected void clean(File file) {
     if (file.isDirectory()) {
       for (File child : file.listFiles()) {
         clean(child);
@@ -314,7 +314,7 @@ public class AppServiceImpl implements AppService {
     return app.getActive();
   }
 
-  private List<App> getDepends(App app, Boolean active) {
+  protected List<App> getDepends(App app, Boolean active) {
 
     List<App> apps = new ArrayList<App>();
     app = appRepo.find(app.getId());
@@ -328,7 +328,7 @@ public class AppServiceImpl implements AppService {
     return sortApps(apps);
   }
 
-  private List<String> getNames(List<App> apps) {
+  protected List<String> getNames(List<App> apps) {
 
     List<String> names = new ArrayList<String>();
 
@@ -339,7 +339,7 @@ public class AppServiceImpl implements AppService {
     return names;
   }
 
-  private List<App> getChildren(App app, Boolean active) {
+  protected List<App> getChildren(App app, Boolean active) {
 
     String code = app.getCode();
 
@@ -388,7 +388,7 @@ public class AppServiceImpl implements AppService {
     return saveApp(app);
   }
 
-  private List<App> sortApps(Collection<App> apps) {
+  protected List<App> sortApps(Collection<App> apps) {
 
     List<App> appsList = new ArrayList<App>();
 
@@ -482,7 +482,7 @@ public class AppServiceImpl implements AppService {
     }
   }
 
-  private void copyStream(InputStream stream, File file) throws IOException {
+  protected void copyStream(InputStream stream, File file) throws IOException {
 
     if (stream != null) {
       FileOutputStream out = new FileOutputStream(file);
@@ -542,7 +542,7 @@ public class AppServiceImpl implements AppService {
     return saveApp(app);
   }
 
-  private void importParentRoles(App app) throws AxelorException {
+  protected void importParentRoles(App app) throws AxelorException {
 
     List<App> depends = getDepends(app, true);
 

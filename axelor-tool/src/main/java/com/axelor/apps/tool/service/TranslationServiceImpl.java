@@ -79,7 +79,7 @@ public class TranslationServiceImpl implements TranslationService {
     }
   }
 
-  private Object[] getTranslatedValueArgs(Object[] args, String language) {
+  protected Object[] getTranslatedValueArgs(Object[] args, String language) {
     Object[] translatedArgs = new String[args.length];
 
     for (int i = 0; i < args.length; ++i) {
@@ -117,7 +117,7 @@ public class TranslationServiceImpl implements TranslationService {
     return !valueKey.equals(translation) ? translation : key;
   }
 
-  private Collection<String> getLanguages(Object... args) {
+  protected Collection<String> getLanguages(Object... args) {
     Collection<String> languages = new HashSet<>();
 
     for (Object arg : args) {

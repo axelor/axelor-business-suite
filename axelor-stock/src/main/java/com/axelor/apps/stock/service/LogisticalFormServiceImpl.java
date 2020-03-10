@@ -285,7 +285,7 @@ public class LogisticalFormServiceImpl implements LogisticalFormService {
     return stockMoveLineList;
   }
 
-  private List<LogisticalForm> findPendingLogisticalForms(LogisticalForm logisticalForm) {
+  protected List<LogisticalForm> findPendingLogisticalForms(LogisticalForm logisticalForm) {
     Preconditions.checkNotNull(logisticalForm);
     Preconditions.checkNotNull(logisticalForm.getDeliverToCustomerPartner());
 

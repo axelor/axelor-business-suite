@@ -106,7 +106,7 @@ public class QuerieService {
     return idLists;
   }
 
-  private Class<?> getClass(MetaModel metaModel) {
+  protected Class<?> getClass(MetaModel metaModel) {
     String model = metaModel.getFullName();
 
     try {

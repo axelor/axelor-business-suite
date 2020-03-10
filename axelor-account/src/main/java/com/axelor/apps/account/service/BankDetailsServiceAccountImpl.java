@@ -102,7 +102,7 @@ public class BankDetailsServiceAccountImpl extends BankDetailsServiceImpl {
     }
   }
 
-  private List<BankDetails> createCompanyBankDetailsDomainFromFactorPartner(Company company)
+  protected List<BankDetails> createCompanyBankDetailsDomainFromFactorPartner(Company company)
       throws AxelorException {
 
     AccountConfig accountConfig = Beans.get(AccountConfigService.class).getAccountConfig(company);
@@ -169,7 +169,7 @@ public class BankDetailsServiceAccountImpl extends BankDetailsServiceImpl {
     }
   }
 
-  private BankDetails getDefaultCompanyBankDetailsFromFactorPartner(Company company)
+  protected BankDetails getDefaultCompanyBankDetailsFromFactorPartner(Company company)
       throws AxelorException {
 
     AccountConfig accountConfig = Beans.get(AccountConfigService.class).getAccountConfig(company);

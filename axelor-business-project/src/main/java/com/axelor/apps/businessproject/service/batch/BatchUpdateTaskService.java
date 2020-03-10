@@ -74,7 +74,7 @@ public class BatchUpdateTaskService extends AbstractBatch {
     this.updateTimesheetLines(contextValues);
   }
 
-  private void updateTasks(Map<String, Object> contextValues) {
+  protected void updateTasks(Map<String, Object> contextValues) {
     AppBusinessProject appBusinessProject = appBusinessProjectService.getAppBusinessProject();
     List<Object> updatedTaskList = new ArrayList<Object>();
 
@@ -132,7 +132,7 @@ public class BatchUpdateTaskService extends AbstractBatch {
         batch, updatedTaskList, "updatedTaskSet", contextValues);
   }
 
-  private void updateTimesheetLines(Map<String, Object> contextValues) {
+  protected void updateTimesheetLines(Map<String, Object> contextValues) {
 
     List<Object> updatedTimesheetLineList = new ArrayList<Object>();
 

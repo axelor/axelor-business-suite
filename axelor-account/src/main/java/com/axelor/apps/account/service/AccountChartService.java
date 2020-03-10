@@ -92,7 +92,8 @@ public class AccountChartService {
     }
   }
 
-  private File createConfigFile(InputStream inputStream) throws IOException, FileNotFoundException {
+  protected File createConfigFile(InputStream inputStream)
+      throws IOException, FileNotFoundException {
 
     File configFile = File.createTempFile("input-config", ".xml");
 

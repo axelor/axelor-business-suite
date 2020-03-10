@@ -76,7 +76,7 @@ public class CfonbExportService {
     this.partnerService = partnerService;
   }
 
-  private void init(CfonbConfig cfonbConfig) {
+  protected void init(CfonbConfig cfonbConfig) {
 
     this.cfonbConfig = cfonbConfig;
   }
@@ -352,7 +352,7 @@ public class CfonbExportService {
    * @return Un enregistrement 'emetteur'
    * @throws AxelorException
    */
-  private String createSenderReimbursementCFONB(
+  protected String createSenderReimbursementCFONB(
       ZonedDateTime zonedDateTime, BankDetails bankDetails) throws AxelorException {
 
     DateFormat ddmmFormat = new SimpleDateFormat("ddMM");
@@ -424,7 +424,7 @@ public class CfonbExportService {
    * @return Un enregistrement 'emetteur'
    * @throws AxelorException
    */
-  private String createSenderMonthlyExportCFONB(LocalDate localDate, BankDetails bankDetails)
+  protected String createSenderMonthlyExportCFONB(LocalDate localDate, BankDetails bankDetails)
       throws AxelorException {
 
     DateFormat ddmmFormat = new SimpleDateFormat("ddMM");
@@ -488,7 +488,7 @@ public class CfonbExportService {
    * @return Un enregistrement 'destinataire'
    * @throws AxelorException
    */
-  private String createRecipientCFONB(Reimbursement reimbursement) throws AxelorException {
+  protected String createRecipientCFONB(Reimbursement reimbursement) throws AxelorException {
     BankDetails bankDetails = reimbursement.getBankDetails();
 
     if (bankDetails == null) {
@@ -518,7 +518,7 @@ public class CfonbExportService {
    * @return Un enregistrement 'destinataire'
    * @throws AxelorException
    */
-  private String createRecipientCFONB(PaymentScheduleLine paymentScheduleLine, boolean mensu)
+  protected String createRecipientCFONB(PaymentScheduleLine paymentScheduleLine, boolean mensu)
       throws AxelorException {
     PaymentSchedule paymentSchedule = paymentScheduleLine.getPaymentSchedule();
     Partner partner = paymentSchedule.getPartner();
@@ -544,7 +544,7 @@ public class CfonbExportService {
    * @return Un enregistrement 'destinataire'
    * @throws AxelorException
    */
-  private String createRecipientCFONB(
+  protected String createRecipientCFONB(
       DirectDebitManagement directDebitManagement, boolean isForInvoice) throws AxelorException {
     BankDetails bankDetails = null;
     String partnerName = "";
@@ -580,7 +580,8 @@ public class CfonbExportService {
     return this.createRecipientCFONB(amount, ref, partnerName, bankDetails, operationCode);
   }
 
-  private BigDecimal getAmount(DirectDebitManagement directDebitManagement, boolean isForInvoice) {
+  protected BigDecimal getAmount(
+      DirectDebitManagement directDebitManagement, boolean isForInvoice) {
     BigDecimal amount = BigDecimal.ZERO;
 
     if (isForInvoice) {
@@ -606,7 +607,7 @@ public class CfonbExportService {
    * @return Un enregistrement 'destinataire'
    * @throws AxelorException
    */
-  private String createRecipientCFONB(Company company, Invoice invoice) throws AxelorException {
+  protected String createRecipientCFONB(Company company, Invoice invoice) throws AxelorException {
     Partner partner = invoice.getPartner();
     BankDetails bankDetails = partnerService.getDefaultBankDetails(partner);
     if (bankDetails == null) {
@@ -640,7 +641,7 @@ public class CfonbExportService {
    * @return L'enregistrement 'destinataire'
    * @throws AxelorException
    */
-  private String createRecipientCFONB(
+  protected String createRecipientCFONB(
       BigDecimal amount, String ref, String partner, BankDetails bankDetails, String operationCode)
       throws AxelorException {
     this.testBankDetailsField(bankDetails);
@@ -694,7 +695,7 @@ public class CfonbExportService {
    * @param amount Le montant total des enregistrements 'destinataire'
    * @return
    */
-  private String createReimbursementTotalCFONB(BigDecimal amount) {
+  protected String createReimbursementTotalCFONB(BigDecimal amount) {
 
     // Code opération
     String operationCode = this.cfonbConfig.getTransferOperationCodeExportCFONB();
@@ -709,7 +710,7 @@ public class CfonbExportService {
    * @param amount Le montant total des enregistrements 'destinataire'
    * @return L'enregistrement 'total'
    */
-  private String createPaymentScheduleTotalCFONB(Company company, BigDecimal amount) {
+  protected String createPaymentScheduleTotalCFONB(Company company, BigDecimal amount) {
 
     // Code opération
     String operationCode = this.cfonbConfig.getDirectDebitOperationCodeExportCFONB();
@@ -730,7 +731,7 @@ public class CfonbExportService {
    *
    * @return L'enregistrement 'total'
    */
-  private String createTotalCFONB(BigDecimal amount, String operationCode) {
+  protected String createTotalCFONB(BigDecimal amount, String operationCode) {
     String totalAmount = amount.setScale(2).toString().replace(".", "");
 
     // Récupération des valeurs
@@ -779,7 +780,7 @@ public class CfonbExportService {
    * @param prefix Le préfix utilisé
    * @throws AxelorException
    */
-  private void createCFONBFile(
+  protected void createCFONBFile(
       List<String> cFONB, ZonedDateTime zonedDateTime, String destinationFolder, String prefix)
       throws AxelorException {
     DateFormat yyyyMMddHHmmssFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -804,7 +805,7 @@ public class CfonbExportService {
    * @param memory Un mémoire
    * @return Civilité + Nom + Prénom si c'est une personne physique Civilité + Nom sinon
    */
-  private String getPayeurPartnerName(Partner partner) {
+  protected String getPayeurPartnerName(Partner partner) {
 
     if (partner.getTitleSelect() != null) {
       return String.format("%s %s", partner.getTitleSelect(), partner.getName());
@@ -819,7 +820,7 @@ public class CfonbExportService {
    * @param reimbursementList Une liste de remboursement
    * @return Le montant total
    */
-  private BigDecimal getTotalAmountReimbursementExport(List<Reimbursement> reimbursementList) {
+  protected BigDecimal getTotalAmountReimbursementExport(List<Reimbursement> reimbursementList) {
     BigDecimal totalAmount = BigDecimal.ZERO;
     for (Reimbursement reimbursement : reimbursementList) {
       reimbursement = reimbursementRepo.find(reimbursement.getId());
@@ -834,7 +835,7 @@ public class CfonbExportService {
    * @param paymentScheduleLineList Une liste d'échéance de mensu
    * @return Le montant total à prélever
    */
-  private BigDecimal getTotalAmountPaymentSchedule(
+  protected BigDecimal getTotalAmountPaymentSchedule(
       List<PaymentScheduleLine> paymentScheduleLineList) {
     BigDecimal totalAmount = BigDecimal.ZERO;
 
@@ -853,7 +854,7 @@ public class CfonbExportService {
    * @param paymentScheduleLineList Une liste d'échéance de mensu
    * @return Le montant total à prélever
    */
-  private BigDecimal getTotalAmountInvoice(List<Invoice> invoiceList) {
+  protected BigDecimal getTotalAmountInvoice(List<Invoice> invoiceList) {
     BigDecimal totalAmount = BigDecimal.ZERO;
 
     for (Invoice invoice : invoiceList) {

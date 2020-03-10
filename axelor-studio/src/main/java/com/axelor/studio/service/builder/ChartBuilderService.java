@@ -115,7 +115,7 @@ public class ChartBuilderService {
     }
   }
 
-  private String createXml(ChartBuilder chartBuilder, String[] queryString) {
+  protected String createXml(ChartBuilder chartBuilder, String[] queryString) {
 
     String xml =
         "<chart name=\"" + chartBuilder.getName() + "\" title=\"" + chartBuilder.getTitle() + "\" ";
@@ -173,7 +173,7 @@ public class ChartBuilderService {
    * @return StringArray with first element as query string and second as aggregate field name.
    * @throws AxelorException
    */
-  private String[] prepareQuery(ChartBuilder chartBuilder) throws AxelorException {
+  protected String[] prepareQuery(ChartBuilder chartBuilder) throws AxelorException {
 
     String query =
         createSumQuery(
@@ -236,7 +236,7 @@ public class ChartBuilderService {
     return new String[] {query, null};
   }
 
-  private String createSumQuery(boolean isJson, MetaField metaField, MetaJsonField jsonField) {
+  protected String createSumQuery(boolean isJson, MetaField metaField, MetaJsonField jsonField) {
 
     String sumField = null;
     if (isJson) {
@@ -256,7 +256,7 @@ public class ChartBuilderService {
     return "SELECT" + Tab3 + "SUM(" + sumField + ") AS sum_field," + Tab3;
   }
 
-  private String getGroup(
+  protected String getGroup(
       boolean isJson, MetaField metaField, MetaJsonField jsonField, String dateType, String target)
       throws AxelorException {
 
@@ -297,7 +297,7 @@ public class ChartBuilderService {
     return group;
   }
 
-  private String getDateTypeGroup(String dateType, String typeName, String group) {
+  protected String getDateTypeGroup(String dateType, String typeName, String group) {
 
     switch (dateType) {
       case "year":
@@ -318,7 +318,7 @@ public class ChartBuilderService {
    *
    * @return
    */
-  private String getSearchFields() {
+  protected String getSearchFields() {
 
     String search = "<search-fields>";
 
@@ -388,7 +388,7 @@ public class ChartBuilderService {
   //
   //	}
 
-  private void addSearchField(List<Filter> filters) throws AxelorException {
+  protected void addSearchField(List<Filter> filters) throws AxelorException {
 
     if (filters == null) {
       return;
@@ -422,7 +422,7 @@ public class ChartBuilderService {
     }
   }
 
-  private String getMetaSearchField(String fieldStr, MetaField field) {
+  protected String getMetaSearchField(String fieldStr, MetaField field) {
 
     fieldStr = "<field name=\"" + fieldStr + "\" title=\"" + field.getLabel();
 
@@ -444,7 +444,7 @@ public class ChartBuilderService {
     return fieldStr;
   }
 
-  private String getJsonSearchField(String fieldStr, MetaJsonField field) {
+  protected String getJsonSearchField(String fieldStr, MetaJsonField field) {
 
     fieldStr = "<field name=\"" + fieldStr + "\" title=\"" + field.getTitle();
 
@@ -481,7 +481,7 @@ public class ChartBuilderService {
     return fieldStr;
   }
 
-  private String getTable(String model) {
+  protected String getTable(String model) {
 
     String[] models = model.split("\\.");
     MetaModel metaModel = metaModelRepo.findByName(models[models.length - 1]);

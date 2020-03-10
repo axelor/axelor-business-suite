@@ -60,7 +60,7 @@ public class TemplateService {
     }
   }
 
-  private void validTarget(String target, MetaModel metaModel) throws ClassNotFoundException {
+  protected void validTarget(String target, MetaModel metaModel) throws ClassNotFoundException {
     Iterator<String> iter = Splitter.on(".").split(target).iterator();
     Property p = Mapper.of(Class.forName(metaModel.getFullName())).getProperty(iter.next());
     while (iter.hasNext() && p != null) {

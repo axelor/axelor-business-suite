@@ -163,7 +163,7 @@ public class SaleOrderComputeServiceImpl implements SaleOrderComputeService {
     return total;
   }
 
-  private void _addPackLines(SaleOrder saleOrder) {
+  protected void _addPackLines(SaleOrder saleOrder) {
 
     if (saleOrder.getSaleOrderLineList() == null) {
       return;

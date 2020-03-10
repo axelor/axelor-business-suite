@@ -26,7 +26,7 @@ public class AddressServiceSaleImpl extends AddressServiceImpl {
     registerCheckUsedFunc(AddressServiceSaleImpl::checkAddressUsedSale);
   }
 
-  private static boolean checkAddressUsedSale(Long addressId) {
+  protected static boolean checkAddressUsedSale(Long addressId) {
     return JPA.all(SaleOrder.class)
             .filter("self.mainInvoicingAddress.id = ?1 OR self.deliveryAddress.id = ?1", addressId)
             .fetchOne()

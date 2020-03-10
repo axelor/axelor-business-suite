@@ -79,7 +79,7 @@ public class MapRestServiceImpl implements MapRestService {
     mainNode.put("errorMsg", e.getLocalizedMessage());
   }
 
-  private String makeAddressString(Address address) {
+  protected String makeAddressString(Address address) {
     StringBuilder addressString = new StringBuilder();
 
     if (StringUtils.notBlank(address.getAddressL2())) {

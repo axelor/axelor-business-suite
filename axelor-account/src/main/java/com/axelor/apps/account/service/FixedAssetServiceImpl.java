@@ -155,7 +155,7 @@ public class FixedAssetServiceImpl implements FixedAssetService {
     return fixedAsset;
   }
 
-  private LocalDate addPeriodicity(
+  protected LocalDate addPeriodicity(
       FixedAsset fixedAsset, LocalDate fisrtDepreciationDate, int counter) {
     LocalDate depreciationDate;
     depreciationDate =
@@ -168,14 +168,14 @@ public class FixedAssetServiceImpl implements FixedAssetService {
     return depreciationDate;
   }
 
-  private BigDecimal computeDepreciationValue(FixedAsset fixedAsset, boolean isLinear) {
+  protected BigDecimal computeDepreciationValue(FixedAsset fixedAsset, boolean isLinear) {
     BigDecimal depreciationValue = BigDecimal.ZERO;
     depreciationValue =
         this.computeDepreciation(fixedAsset, fixedAsset.getGrossValue(), true, isLinear);
     return depreciationValue;
   }
 
-  private BigDecimal computeProrataTemporis(FixedAsset fixedAsset, boolean isFirstYear) {
+  protected BigDecimal computeProrataTemporis(FixedAsset fixedAsset, boolean isFirstYear) {
     float prorataTemporis = 1;
     if (isFirstYear
         && fixedAsset.getFixedAssetCategory().getIsProrataTemporis()
@@ -197,7 +197,7 @@ public class FixedAssetServiceImpl implements FixedAssetService {
     return BigDecimal.valueOf(prorataTemporis);
   }
 
-  private BigDecimal computeDepreciation(
+  protected BigDecimal computeDepreciation(
       FixedAsset fixedAsset, BigDecimal residualValue, boolean isFirstYear, boolean isLinear) {
 
     int scale = Beans.get(AppBaseService.class).getNbDecimalDigitForUnitPrice();
@@ -345,7 +345,7 @@ public class FixedAssetServiceImpl implements FixedAssetService {
     fixedAssetRepo.save(fixedAsset);
   }
 
-  private FixedAssetLine generateProrataDepreciationLine(
+  protected FixedAssetLine generateProrataDepreciationLine(
       FixedAsset fixedAsset, LocalDate disposalDate, FixedAssetLine previousRealizedLine) {
 
     LocalDate previousRealizedDate =

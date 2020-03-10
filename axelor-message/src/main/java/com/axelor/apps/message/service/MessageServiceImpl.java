@@ -353,7 +353,7 @@ public class MessageServiceImpl extends JpaSupport implements MessageService {
     return message;
   }
 
-  private Message findMessage(Long messageId) {
+  protected Message findMessage(Long messageId) {
     Message foundMessage;
     final long startTime = System.currentTimeMillis();
 
@@ -369,7 +369,7 @@ public class MessageServiceImpl extends JpaSupport implements MessageService {
     return foundMessage;
   }
 
-  private void sleep() {
+  protected void sleep() {
     try {
       Thread.sleep(ENTITY_FIND_INTERVAL);
     } catch (InterruptedException e) {

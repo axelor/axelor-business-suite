@@ -152,7 +152,7 @@ public class ObjectDataAnonymizeServiceImpl implements ObjectDataAnonymizeServic
     }
   }
 
-  private Map<String, Object> getDefaultValues(Mapper mapper, Set<MetaField> fields) {
+  protected Map<String, Object> getDefaultValues(Mapper mapper, Set<MetaField> fields) {
 
     Map<String, Object> defaultValues = new HashMap<>();
 

@@ -110,7 +110,8 @@ public class DataBackupRestoreService {
     }
   }
 
-  private boolean unZip(MetaFile zipMetaFile, String destinationDirectoryPath) throws IOException {
+  protected boolean unZip(MetaFile zipMetaFile, String destinationDirectoryPath)
+      throws IOException {
     File zipFile = MetaFiles.getPath(zipMetaFile).toFile();
     try (ZipInputStream zis =
         new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)))) {

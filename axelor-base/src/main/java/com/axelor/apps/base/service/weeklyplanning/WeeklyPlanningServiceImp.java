@@ -54,7 +54,7 @@ public class WeeklyPlanningServiceImp implements WeeklyPlanningService {
     return DayOfWeek.MONDAY;
   }
 
-  private DayOfWeek getDayOfWeek(DayPlanning day) {
+  protected DayOfWeek getDayOfWeek(DayPlanning day) {
     switch (day.getName()) {
       case "monday":
         return DayOfWeek.MONDAY;

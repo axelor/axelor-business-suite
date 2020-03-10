@@ -148,7 +148,7 @@ public class ImportService {
   }
 
   // Import methods specific for import from AppBuilder
-  private MetaFile importImg(String name, String data) {
+  protected MetaFile importImg(String name, String data) {
 
     if (data == null) {
       return null;

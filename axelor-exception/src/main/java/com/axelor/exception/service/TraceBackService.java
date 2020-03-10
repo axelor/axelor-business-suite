@@ -51,7 +51,7 @@ public class TraceBackService {
    * @param categorySelect <code>0 = Champ manquant</code> <code>1 = Clef non unique</code> <code>
    *     2 = Aucune valeur retournée</code> <code>3 = Problème de configuration</code>
    */
-  private static TraceBack _create(
+  protected static TraceBack _create(
       Throwable e, String origin, int typeSelect, int categorySelect, long batchId) {
 
     StringWriter sw = new StringWriter();
@@ -86,11 +86,11 @@ public class TraceBackService {
     return traceBack;
   }
 
-  private static TraceBack _create(Throwable e, String origin, int categorySelect, long batchId) {
+  protected static TraceBack _create(Throwable e, String origin, int categorySelect, long batchId) {
     return _create(e, origin, TYPE_TECHNICAL, categorySelect, batchId);
   }
 
-  private static TraceBack _create(AxelorException e, String origin, long batchId) {
+  protected static TraceBack _create(AxelorException e, String origin, long batchId) {
     TraceBack traceBack = _create(e, origin, TYPE_FUNCTIONAL, e.getCategory(), batchId);
 
     if (e.getRefClass() != null) {
@@ -107,7 +107,7 @@ public class TraceBackService {
    * @param response
    * @param e L'exception cible.
    */
-  private static void _response(
+  protected static void _response(
       ActionResponse response, Throwable e, ResponseMessageType responseMessageType) {
 
     String message = e.getMessage() != null ? e.getMessage() : e.toString();

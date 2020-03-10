@@ -873,7 +873,7 @@ public class ReservedQtyServiceImpl implements ReservedQtyService {
   }
 
   /** Convert but with null check. Return start value if one unit is null. */
-  private BigDecimal convertUnitWithProduct(
+  protected BigDecimal convertUnitWithProduct(
       Unit startUnit, Unit endUnit, BigDecimal qtyToConvert, Product product)
       throws AxelorException {
     if (startUnit != null && !startUnit.equals(endUnit)) {

@@ -73,7 +73,7 @@ public class AccessConfigImportServiceImpl implements AccessConfigImportService 
     }
   }
 
-  private void processWorkbook(XSSFWorkbook workBook) {
+  protected void processWorkbook(XSSFWorkbook workBook) {
 
     Iterator<XSSFSheet> sheetIter = workBook.iterator();
 
@@ -88,7 +88,7 @@ public class AccessConfigImportServiceImpl implements AccessConfigImportService 
     }
   }
 
-  private void importObjectAccess(XSSFSheet sheet) {
+  protected void importObjectAccess(XSSFSheet sheet) {
 
     App app = appService.getApp(sheet.getSheetName());
     if (app == null) {
@@ -130,7 +130,7 @@ public class AccessConfigImportServiceImpl implements AccessConfigImportService 
     return configMap;
   }
 
-  private void createObjectRoles(Map<Integer, AccessConfig> accessMap, Row row) {
+  protected void createObjectRoles(Map<Integer, AccessConfig> accessMap, Row row) {
 
     Iterator<Cell> cellIter = row.iterator();
     String obj = cellIter.next().getStringCellValue();
@@ -146,7 +146,7 @@ public class AccessConfigImportServiceImpl implements AccessConfigImportService 
     }
   }
 
-  private boolean invalidValue(String value) {
+  protected boolean invalidValue(String value) {
 
     return !"rwcde".startsWith(value);
   }
@@ -220,7 +220,7 @@ public class AccessConfigImportServiceImpl implements AccessConfigImportService 
     accessConfigRepo.save(config);
   }
 
-  private void importMenuAccess(XSSFSheet sheet) {
+  protected void importMenuAccess(XSSFSheet sheet) {
 
     App app = appService.getApp(sheet.getSheetName().split("-")[0]);
     if (app == null) {
@@ -237,7 +237,7 @@ public class AccessConfigImportServiceImpl implements AccessConfigImportService 
     }
   }
 
-  private void createMenuRoles(Map<Integer, AccessConfig> accessMap, Row row) {
+  protected void createMenuRoles(Map<Integer, AccessConfig> accessMap, Row row) {
 
     Iterator<Cell> cellIter = row.iterator();
     String menu = cellIter.next().getStringCellValue().trim();

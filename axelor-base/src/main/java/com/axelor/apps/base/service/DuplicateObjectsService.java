@@ -196,7 +196,7 @@ public class DuplicateObjectsService {
 
   /*
    * get all records for duplicate records
-   */ private String concatFields(Class<?> modelClass, Set<String> fieldSet)
+   */ protected String concatFields(Class<?> modelClass, Set<String> fieldSet)
       throws AxelorException {
 
     StringBuilder fields = new StringBuilder("LOWER(concat(");
@@ -235,7 +235,7 @@ public class DuplicateObjectsService {
     return fields.toString();
   }
 
-  private String createSubQuery(Class<?> modelClass, String filter, String concatedFields) {
+  protected String createSubQuery(Class<?> modelClass, String filter, String concatedFields) {
 
     StringBuilder queryBuilder = new StringBuilder("SELECT ");
     queryBuilder.append(concatedFields);
@@ -251,7 +251,7 @@ public class DuplicateObjectsService {
     return queryBuilder.toString();
   }
 
-  private List<?> fetchDuplicatedRecordIds(
+  protected List<?> fetchDuplicatedRecordIds(
       Class<? extends Model> modelClass, String concatedFields, String subQuery, String filter) {
 
     log.debug("Fetch duplicated records for: {}", modelClass);

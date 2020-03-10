@@ -317,7 +317,7 @@ public class BatchBankPaymentServiceImpl implements BatchBankPaymentService {
     return getPaymentScheduleLineDoneListQuery(batch).fetch(AbstractBatch.FETCH_LIMIT, offset);
   }
 
-  private Query<PaymentScheduleLine> getPaymentScheduleLineDoneListQuery(Batch batch) {
+  protected Query<PaymentScheduleLine> getPaymentScheduleLineDoneListQuery(Batch batch) {
     QueryBuilder<PaymentScheduleLine> queryBuilder = QueryBuilder.of(PaymentScheduleLine.class);
 
     queryBuilder.add(":batch MEMBER OF self.batchSet");
@@ -333,7 +333,7 @@ public class BatchBankPaymentServiceImpl implements BatchBankPaymentService {
     return getBankOrderListQuery(batch).fetch(AbstractBatch.FETCH_LIMIT);
   }
 
-  private Query<BankOrder> getBankOrderListQuery(Batch batch) {
+  protected Query<BankOrder> getBankOrderListQuery(Batch batch) {
     QueryBuilder<BankOrder> queryBuilder = QueryBuilder.of(BankOrder.class);
 
     queryBuilder.add("self.batch = :batch");

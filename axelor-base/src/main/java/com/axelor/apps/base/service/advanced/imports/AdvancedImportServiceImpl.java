@@ -183,7 +183,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     return isValid;
   }
 
-  private boolean applyObject(
+  protected boolean applyObject(
       String[] row, FileTab fileTab, boolean isConfig, int linesToIgnore, boolean isTabConfig)
       throws AxelorException {
     int rowIndex = isConfig ? (isTabConfig ? 1 : 0) : 0;
@@ -226,7 +226,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     return true;
   }
 
-  private void applyWithConfig(
+  protected void applyWithConfig(
       String[] row,
       int line,
       List<FileField> fileFieldList,
@@ -341,7 +341,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     }
   }
 
-  private void setSampleLines(int line, String value, FileField fileField) {
+  protected void setSampleLines(int line, String value, FileField fileField) {
     if (!StringUtils.isBlank(fileField.getTargetType())
         && fileField.getTargetType().equals("String")
         && !StringUtils.isBlank(value)
@@ -413,7 +413,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     fileTab.addFileFieldListItem(fileField);
   }
 
-  private boolean checkFields(Mapper mapper, String importField, String subImportField)
+  protected boolean checkFields(Mapper mapper, String importField, String subImportField)
       throws AxelorException, ClassNotFoundException {
 
     if (importField != null) {
@@ -449,7 +449,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     return true;
   }
 
-  private boolean checkSubFields(String[] subFields, int index, Property parentProp, String model)
+  protected boolean checkSubFields(String[] subFields, int index, Property parentProp, String model)
       throws AxelorException, ClassNotFoundException {
     boolean isValid = true;
 
@@ -486,7 +486,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     return isValid;
   }
 
-  private void setImportFields(
+  protected void setImportFields(
       Mapper mapper, FileField fileField, String importField, String subImportField) {
 
     Property prop = mapper.getProperty(importField);
@@ -513,7 +513,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     }
   }
 
-  private int getImportType(String value, String importType) {
+  protected int getImportType(String value, String importType) {
 
     if (Strings.isNullOrEmpty(importType)) {
       if (value.contains(".")) {
@@ -543,7 +543,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
     }
   }
 
-  private int getForStatusSelect(String importType) {
+  protected int getForStatusSelect(String importType) {
 
     switch (importType.toLowerCase()) {
       case forSelectUseTitles:
@@ -708,7 +708,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
   }
 
   @Transactional
-  private void resetPropertyValue(Class<? extends Model> klass, List<Object> recordList)
+  protected void resetPropertyValue(Class<? extends Model> klass, List<Object> recordList)
       throws ClassNotFoundException {
 
     JpaRepository<? extends Model> modelRepo = JpaRepository.of(klass);
@@ -730,7 +730,7 @@ public class AdvancedImportServiceImpl implements AdvancedImportService {
   }
 
   @SuppressWarnings("unchecked")
-  private void resetSubPropertyValue(Class<? extends Model> klass, JsonContext jsonContext)
+  protected void resetSubPropertyValue(Class<? extends Model> klass, JsonContext jsonContext)
       throws ClassNotFoundException {
 
     for (Property prop : Mapper.of(klass).getProperties()) {

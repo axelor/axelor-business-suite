@@ -123,7 +123,7 @@ public class DashboardBuilderService {
    * @param chart Chart to open from action-view.
    * @return Name of action-view.
    */
-  private MetaAction getAction(
+  protected MetaAction getAction(
       String dashboard, String name, String model, DashletBuilder dashletBuilder) {
 
     String actionName = "action-" + (dashboard + "-" + name).replace(".", "-");

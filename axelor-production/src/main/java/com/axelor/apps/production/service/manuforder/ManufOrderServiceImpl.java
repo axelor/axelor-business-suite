@@ -194,7 +194,7 @@ public class ManufOrderServiceImpl implements ManufOrderService {
     return qty;
   }
 
-  private List<BillOfMaterial> getSortedBillsOfMaterials(
+  protected List<BillOfMaterial> getSortedBillsOfMaterials(
       Collection<BillOfMaterial> billsOfMaterials) {
 
     billsOfMaterials = MoreObjects.firstNonNull(billsOfMaterials, Collections.emptyList());
@@ -815,7 +815,7 @@ public class ManufOrderServiceImpl implements ManufOrderService {
     return query;
   }
 
-  private List<Integer> getMOFiltersOnProductionConfig() {
+  protected List<Integer> getMOFiltersOnProductionConfig() {
     List<Integer> statusList = new ArrayList<>();
     statusList.add(ManufOrderRepository.STATUS_IN_PROGRESS);
     statusList.add(ManufOrderRepository.STATUS_STANDBY);

@@ -317,7 +317,7 @@ public class InventoryService {
     storeLastInventoryData(inventory);
   }
 
-  private void storeLastInventoryData(Inventory inventory) {
+  protected void storeLastInventoryData(Inventory inventory) {
     Map<Pair<Product, TrackingNumber>, BigDecimal> realQties = new HashMap<>();
     Map<Product, BigDecimal> consolidatedRealQties = new HashMap<>();
     Map<Product, String> realRacks = new HashMap<>();

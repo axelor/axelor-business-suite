@@ -207,7 +207,7 @@ public class AccountingSituationSupplychainServiceImpl extends AccountingSituati
     return accountingSituation;
   }
 
-  private boolean isUsedCreditExceeded(AccountingSituation accountingSituation) {
+  protected boolean isUsedCreditExceeded(AccountingSituation accountingSituation) {
     return accountingSituation.getUsedCredit().compareTo(accountingSituation.getAcceptedCredit())
         > 0;
   }

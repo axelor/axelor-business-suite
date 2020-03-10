@@ -123,7 +123,7 @@ public class FilterSqlService {
     return filters;
   }
 
-  private String checkDateTime(String[] fields) {
+  protected String checkDateTime(String[] fields) {
     switch (fields[1]) {
       case "LocalDateTime":
         return "(cast(to_char("
@@ -204,7 +204,7 @@ public class FilterSqlService {
     return new String[] {field, type};
   }
 
-  private String getParam(boolean isParam, String value, Long filterId, String type) {
+  protected String getParam(boolean isParam, String value, Long filterId, String type) {
 
     if (isParam) {
       String sqlType = getSqlType(type);
@@ -431,7 +431,7 @@ public class FilterSqlService {
         .fetchOne();
   }
 
-  private void addJoin(MetaField field, List<String> joins, StringBuilder parent) {
+  protected void addJoin(MetaField field, List<String> joins, StringBuilder parent) {
 
     MetaModel metaModel = metaModelRepo.findByName(field.getTypeName());
     String parentField = getColumn(field);
@@ -452,7 +452,7 @@ public class FilterSqlService {
     parent.replace(0, parent.length(), "obj" + (joins.size() - 1));
   }
 
-  private void addJoin(MetaJsonField field, List<String> joins, StringBuilder parent) {
+  protected void addJoin(MetaJsonField field, List<String> joins, StringBuilder parent) {
 
     String targetModel = null;
     if (field.getTargetModel() != null) {

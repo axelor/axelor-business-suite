@@ -102,7 +102,7 @@ public class PartnerProductQualityRatingServiceImpl implements PartnerProductQua
    * @param product
    * @return
    */
-  private Optional<PartnerProductQualityRating> searchPartnerProductQualityRating(
+  protected Optional<PartnerProductQualityRating> searchPartnerProductQualityRating(
       Partner partner, Product product) {
     List<PartnerProductQualityRating> partnerProductQualityRatingList =
         partner.getPartnerProductQualityRatingList();
@@ -151,7 +151,7 @@ public class PartnerProductQualityRatingServiceImpl implements PartnerProductQua
    * @param partnerProductQualityRating
    * @param stockMoveLine
    */
-  private void updatePartnerProductQualityRating(
+  protected void updatePartnerProductQualityRating(
       PartnerProductQualityRating partnerProductQualityRating, StockMoveLine stockMoveLine) {
     updatePartnerProductQualityRating(partnerProductQualityRating, stockMoveLine, false);
   }
@@ -163,7 +163,7 @@ public class PartnerProductQualityRatingServiceImpl implements PartnerProductQua
    * @param stockMoveLine
    * @param undo
    */
-  private void updatePartnerProductQualityRating(
+  protected void updatePartnerProductQualityRating(
       PartnerProductQualityRating partnerProductQualityRating,
       StockMoveLine stockMoveLine,
       boolean undo) {
@@ -197,7 +197,7 @@ public class PartnerProductQualityRatingServiceImpl implements PartnerProductQua
    *
    * @param partner
    */
-  private void updateSupplier(Partner partner) {
+  protected void updateSupplier(Partner partner) {
     BigDecimal supplierQualityRating = BigDecimal.ZERO;
     BigDecimal supplierArrivalProductQty = BigDecimal.ZERO;
     List<PartnerProductQualityRating> partnerProductQualityRatingList =
@@ -233,7 +233,7 @@ public class PartnerProductQualityRatingServiceImpl implements PartnerProductQua
    * @param arrivalProductQty
    * @return
    */
-  private BigDecimal computeQualityRating(
+  protected BigDecimal computeQualityRating(
       BigDecimal compliantArrivalProductQty, BigDecimal arrivalProductQty) {
     return compliantArrivalProductQty
         .multiply(MAX_QUALITY_RATING)
@@ -246,7 +246,7 @@ public class PartnerProductQualityRatingServiceImpl implements PartnerProductQua
    * @param qualityRating
    * @return
    */
-  private BigDecimal computeQualityRatingSelect(BigDecimal qualityRating) {
+  protected BigDecimal computeQualityRatingSelect(BigDecimal qualityRating) {
     final BigDecimal two = new BigDecimal(2);
     return qualityRating
         .multiply(two)

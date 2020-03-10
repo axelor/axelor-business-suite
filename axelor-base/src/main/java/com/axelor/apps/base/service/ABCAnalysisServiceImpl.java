@@ -96,7 +96,7 @@ public class ABCAnalysisServiceImpl implements ABCAnalysisService {
     return abcAnalysisClassList;
   }
 
-  private ABCAnalysisClass createAbcClass(
+  protected ABCAnalysisClass createAbcClass(
       String name, Integer sequence, BigDecimal worth, BigDecimal qty) {
     ABCAnalysisClass abcAnalysisClass = new ABCAnalysisClass();
 
@@ -136,7 +136,7 @@ public class ABCAnalysisServiceImpl implements ABCAnalysisService {
     abcAnalysisRepository.save(abcAnalysis);
   }
 
-  private void getAbcAnalysisClassList(ABCAnalysis abcAnalysis) {
+  protected void getAbcAnalysisClassList(ABCAnalysis abcAnalysis) {
     Query<ABCAnalysisClass> abcAnalysisClassQuery =
         abcAnalysisClassRepository
             .all()
@@ -146,7 +146,7 @@ public class ABCAnalysisServiceImpl implements ABCAnalysisService {
     this.abcAnalysisClassList = abcAnalysisClassQuery.fetch();
   }
 
-  private Set<Product> getProductSet(ABCAnalysis abcAnalysis) {
+  protected Set<Product> getProductSet(ABCAnalysis abcAnalysis) {
     Set<Product> productList = new HashSet<>();
     String productCategoryQuery = getProductCategoryQuery();
     String productFamilyQuery = getProductFamilyQuery();
@@ -272,7 +272,7 @@ public class ABCAnalysisServiceImpl implements ABCAnalysisService {
     abcAnalysisLineRepository.save(abcAnalysisLine);
   }
 
-  private void computePercentage(ABCAnalysisLine abcAnalysisLine) {
+  protected void computePercentage(ABCAnalysisLine abcAnalysisLine) {
     BigDecimal qty = BigDecimal.ZERO;
     if (totalQty.compareTo(BigDecimal.ZERO) > 0) {
       qty =
@@ -327,11 +327,11 @@ public class ABCAnalysisServiceImpl implements ABCAnalysisService {
     this.totalWorth = this.totalWorth.add(totalWorth);
   }
 
-  private void incCumulatedQty(BigDecimal cumulatedQty) {
+  protected void incCumulatedQty(BigDecimal cumulatedQty) {
     this.cumulatedQty = this.cumulatedQty.add(cumulatedQty);
   }
 
-  private void incCumulatedWorth(BigDecimal cumulatedWorth) {
+  protected void incCumulatedWorth(BigDecimal cumulatedWorth) {
     this.cumulatedWorth = this.cumulatedWorth.add(cumulatedWorth);
   }
 

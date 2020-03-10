@@ -120,7 +120,7 @@ public class EbicsCertificateService {
     return getCertificate(certificate, type);
   }
 
-  private byte[] getSSLCertificate(EbicsBank bank) throws AxelorException {
+  protected byte[] getSSLCertificate(EbicsBank bank) throws AxelorException {
 
     try {
       final URL bankUrl = new URL(bank.getUrl());
@@ -250,7 +250,7 @@ public class EbicsCertificateService {
     return certRepo.save(cert);
   }
 
-  private static EbicsCertificate getEbicsCertificate(EbicsBank bank, String type) {
+  protected static EbicsCertificate getEbicsCertificate(EbicsBank bank, String type) {
 
     if (bank == null) {
       return null;

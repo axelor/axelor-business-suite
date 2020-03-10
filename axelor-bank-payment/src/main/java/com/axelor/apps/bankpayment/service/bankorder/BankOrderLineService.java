@@ -422,7 +422,7 @@ public class BankOrderLineService {
     }
   }
 
-  private boolean ebicsPartnerIsFiltering(EbicsPartner ebicsPartner, int orderType) {
+  protected boolean ebicsPartnerIsFiltering(EbicsPartner ebicsPartner, int orderType) {
     return (ebicsPartner != null)
         && (ebicsPartner.getFilterReceiverBD())
         && (ebicsPartner.getReceiverBankDetailsSet() != null)

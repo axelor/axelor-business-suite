@@ -157,7 +157,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return sendEmailMessage(timesheetReminders, reminderTemplate);
   }
 
-  private List<TimesheetReminder> getTimesheetReminderList(TimesheetReport timesheetReport) {
+  protected List<TimesheetReminder> getTimesheetReminderList(TimesheetReport timesheetReport) {
     List<TimesheetReminder> timesheetReminders = new ArrayList<>();
 
     List<User> users = new ArrayList<>(timesheetReport.getReminderUserSet());
@@ -169,7 +169,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return timesheetReminders;
   }
 
-  private void addTimesheetReminder(
+  protected void addTimesheetReminder(
       TimesheetReport timesheetReport, List<User> users, List<TimesheetReminder> timesheetReminders)
       throws AxelorException {
     BigDecimal worksHour = BigDecimal.ZERO,
@@ -235,7 +235,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     } while (toDate.until(timesheetReport.getToDate()).getDays() > 0);
   }
 
-  private List<Message> sendEmailMessage(
+  protected List<Message> sendEmailMessage(
       List<TimesheetReminder> timesheetReminders, Template reminderTemplate) {
 
     List<Message> messages = new ArrayList<>();
@@ -254,7 +254,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return messages;
   }
 
-  private TimesheetReminderLine createTimesheetReminderLine(
+  protected TimesheetReminderLine createTimesheetReminderLine(
       LocalDate fromDate,
       LocalDate toDate,
       BigDecimal worksHour,
@@ -329,7 +329,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return list;
   }
 
-  private Map<String, Object> getTimesheetMap(
+  protected Map<String, Object> getTimesheetMap(
       User user, LocalDate date, BigDecimal dailyWorkingHours) throws AxelorException {
     Employee employee = user.getEmployee();
     BigDecimal worksHour = BigDecimal.ZERO, workedHour = BigDecimal.ZERO;
@@ -352,7 +352,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return map;
   }
 
-  private BigDecimal getTotalWorksHours(
+  protected BigDecimal getTotalWorksHours(
       User user, LocalDate date, boolean isPublicHoliday, BigDecimal dailyWorkingHours)
       throws AxelorException {
     Employee employee = user.getEmployee();
@@ -380,7 +380,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return worksHour.setScale(2, RoundingMode.HALF_EVEN);
   }
 
-  private BigDecimal getTotalWeekWorksHours(
+  protected BigDecimal getTotalWeekWorksHours(
       User user, LocalDate fromDate, LocalDate toDate, BigDecimal publicHolidays)
       throws AxelorException {
     Employee employee = user.getEmployee();
@@ -407,7 +407,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return worksHour.setScale(2, RoundingMode.HALF_EVEN);
   }
 
-  private BigDecimal getTotalWorkedHours(
+  protected BigDecimal getTotalWorkedHours(
       User user, LocalDate date, boolean isPublicHoliday, BigDecimal dailyWorkingHours)
       throws AxelorException {
     BigDecimal totalHours = BigDecimal.ZERO;
@@ -438,7 +438,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return totalHours.setScale(2, RoundingMode.HALF_EVEN);
   }
 
-  private BigDecimal getTotalWeekWorkedHours(
+  protected BigDecimal getTotalWeekWorkedHours(
       User user, LocalDate fromDate, LocalDate toDate, BigDecimal publicHolidays)
       throws AxelorException {
     BigDecimal totalHours = BigDecimal.ZERO;
@@ -468,7 +468,7 @@ public class TimesheetReportServiceImpl implements TimesheetReportService {
     return totalHours.setScale(2, RoundingMode.HALF_EVEN);
   }
 
-  private BigDecimal getLeaveHours(User user, LocalDate date, BigDecimal dailyWorkingHours)
+  protected BigDecimal getLeaveHours(User user, LocalDate date, BigDecimal dailyWorkingHours)
       throws AxelorException {
     LeaveRequest leave = leaveService.getLeave(user, date);
     if (leave != null) {

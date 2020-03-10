@@ -113,7 +113,7 @@ public class CurrencyService {
     return BigDecimal.ONE;
   }
 
-  private CurrencyConversionLine getCurrencyConversionLine(
+  protected CurrencyConversionLine getCurrencyConversionLine(
       Currency startCurrency, Currency endCurrency, LocalDate localDate) {
 
     List<CurrencyConversionLine> currencyConversionLineList =
