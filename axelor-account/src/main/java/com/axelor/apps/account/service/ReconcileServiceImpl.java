@@ -336,14 +336,16 @@ public class ReconcileServiceImpl implements ReconcileService {
         && debitMoveLine.getAccount().getUseForPartnerBalance()
         && creditMoveLine.getAccount().getUseForPartnerBalance()) {
       InvoicePayment debitInvoicePayment =
-          invoicePaymentCreateService.createInvoicePayment(debitInvoice, amount, creditMove);
+          invoicePaymentCreateService.createInvoicePayment(
+              debitInvoice, amount, creditMove, creditMove.getDate());
       debitInvoicePayment.setReconcile(reconcile);
     }
     if (creditInvoice != null
         && debitMoveLine.getAccount().getUseForPartnerBalance()
         && creditMoveLine.getAccount().getUseForPartnerBalance()) {
       InvoicePayment creditInvoicePayment =
-          invoicePaymentCreateService.createInvoicePayment(creditInvoice, amount, debitMove);
+          invoicePaymentCreateService.createInvoicePayment(
+              creditInvoice, amount, debitMove, debitMove.getDate());
       creditInvoicePayment.setReconcile(reconcile);
     }
   }

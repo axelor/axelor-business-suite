@@ -40,7 +40,8 @@ public interface InvoicePaymentCreateService {
       PaymentMode paymentMode,
       int typeSelect);
 
-  public InvoicePayment createInvoicePayment(Invoice invoice, BigDecimal amount, Move paymentMove)
+  public InvoicePayment createInvoicePayment(
+      Invoice invoice, BigDecimal amount, Move paymentMove, LocalDate paymentDate)
       throws AxelorException;
 
   /**

@@ -99,10 +99,10 @@ public class InvoicePaymentCreateServiceImpl implements InvoicePaymentCreateServ
    * @param paymentMove
    * @return
    */
-  public InvoicePayment createInvoicePayment(Invoice invoice, BigDecimal amount, Move paymentMove)
+  public InvoicePayment createInvoicePayment(
+      Invoice invoice, BigDecimal amount, Move paymentMove, LocalDate paymentDate)
       throws AxelorException {
 
-    LocalDate paymentDate = paymentMove.getDate();
     BigDecimal amountConverted =
         currencyService.getAmountCurrencyConvertedAtDate(
             paymentMove.getCompanyCurrency(), paymentMove.getCurrency(), amount, paymentDate);

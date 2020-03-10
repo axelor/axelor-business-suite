@@ -36,6 +36,7 @@
 - PURCHASE ORDER REPORT: Fixed value of payment condition from PurchaseOrder's payment condition instead of using partner.
 - Move: Fix exception message when saving a new record.
 - SALEORDER : fixed bug causing the margins to be rounded to the unit
+- Invoice Payment : change date from move date to move line date.  
 
 ## [5.2.5] - 2020-02-25
 ## Improvements
