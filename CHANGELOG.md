@@ -42,6 +42,7 @@
 - CLIENT PORTAL : debug TeamTask counters
 - MRP : Fixed issue when user try to copy an existing MRP record.
 - PURCHASE REQUEST : translate "Purchase Request Lines" in french "Ligne de demandes d'achat"
+- Move : change message when reconciled move lines are deleted from move line grid in move
 
 ## [5.2.5] - 2020-02-25
 ## Improvements

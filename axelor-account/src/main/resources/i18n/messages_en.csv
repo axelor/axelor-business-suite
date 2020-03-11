@@ -1807,6 +1807,7 @@
 "Temporary filepath to import rejected records",,,
 "Terms and Conditions","Terms and Conditions",,
 "The Move Balance must be positive",,,
+"The move line %s can't be removed because it is reconciled with the move line %s",,,
 "The account of a product could not be determined or is not filled. Please fill the missing account on invoice line %s",,,
 "The accounting move line on the account %s can't have an amount equals to zero",,,
 "The bank order linked to this invoice payment has already been carried out/rejected, and thus can't be canceled",,,
