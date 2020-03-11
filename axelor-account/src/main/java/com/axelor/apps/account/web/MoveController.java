@@ -20,6 +20,7 @@ package com.axelor.apps.account.web;
 import com.axelor.apps.ReportFactory;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
+import com.axelor.apps.account.db.Reconcile;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.report.IReport;
@@ -28,6 +29,7 @@ import com.axelor.apps.account.service.move.MoveService;
 import com.axelor.apps.base.db.repo.YearRepository;
 import com.axelor.apps.base.service.PeriodService;
 import com.axelor.apps.report.engine.ReportSettings;
+import com.axelor.common.StringUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.ResponseMessageType;
 import com.axelor.exception.service.TraceBackService;
@@ -305,25 +307,43 @@ public class MoveController {
   public void checkRemoveLines(ActionRequest request, ActionResponse response) {
     try {
       Move moveView = request.getContext().asType(Move.class);
+
+      String errorMessage = "";
+      String newLine = System.getProperty("line.separator");
+
       if (moveView.getId() == null) {
         return;
       }
       Move moveBD = Beans.get(MoveRepository.class).find(moveView.getId());
-      List<String> moveLineReconciledAndRemovedNameList = new ArrayList<>();
+
       for (MoveLine moveLineBD : moveBD.getMoveLineList()) {
+
+        List<String> moveLineReconciledList = new ArrayList<>();
+
         if (!moveView.getMoveLineList().contains(moveLineBD)) {
           if (moveLineBD.getReconcileGroup() != null) {
-            moveLineReconciledAndRemovedNameList.add(moveLineBD.getName());
+
+            for (Reconcile reconcile : moveLineBD.getCreditReconcileList()) {
+              moveLineReconciledList.add(reconcile.getDebitMoveLine().getName());
+            }
+            for (Reconcile reconcile : moveLineBD.getDebitReconcileList()) {
+              moveLineReconciledList.add(reconcile.getCreditMoveLine().getName());
+            }
+
+            errorMessage +=
+                String.format(
+                        I18n.get(IExceptionMessage.MOVE_LINE_RECONCILE_LINE_CANNOT_BE_REMOVED),
+                        moveLineBD.getName(),
+                        moveLineReconciledList.toString())
+                    + newLine;
           }
         }
       }
-      if (moveLineReconciledAndRemovedNameList != null
-          && !moveLineReconciledAndRemovedNameList.isEmpty()) {
-        response.setError(
-            String.format(
-                I18n.get(IExceptionMessage.MOVE_LINE_RECONCILE_LINE_CANNOT_BE_REMOVED),
-                moveLineReconciledAndRemovedNameList.toString()));
+
+      if (!StringUtils.isEmpty(errorMessage)) {
+        response.setError(errorMessage);
       }
+
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }
