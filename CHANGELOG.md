@@ -27,6 +27,7 @@
 - BANK RECONCILIATION : corrected error with bank statement load where no other statement was loaded.
 - LEAD : Fix action doesnot exist on LEAD convert.
 - MOVE TEMPLATE : Add missing translation
+- BANK ORDER : revert generated moves without ebics
 
 ## [5.3.1] - 2020-03-16
 ## Improvements
