@@ -107,9 +107,9 @@ public class BankOrderMoveServiceImpl implements BankOrderMoveService {
 
     if (orderTypeSelect == BankOrderRepository.ORDER_TYPE_INTERNATIONAL_CREDIT_TRANSFER
         || orderTypeSelect == BankOrderRepository.ORDER_TYPE_SEPA_CREDIT_TRANSFER) {
-      isDebit = true;
-    } else {
       isDebit = false;
+    } else {
+      isDebit = true;
     }
 
     for (BankOrderLine bankOrderLine : bankOrder.getBankOrderLineList()) {
