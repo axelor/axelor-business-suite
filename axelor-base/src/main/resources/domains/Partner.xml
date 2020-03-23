@@ -44,6 +44,7 @@
     <string name="department" title="Dept./Div."/>
     
     <many-to-many name="companySet" ref="com.axelor.apps.base.db.Company" title="Companies associated to"/>
+    <many-to-one name="tradingName" ref="com.axelor.apps.base.db.TradingName" title="Trading name"/>
    
     <one-to-many name="bankDetailsList" ref="com.axelor.apps.base.db.BankDetails" mappedBy="partner" title="Bank Details list"/>
    
@@ -68,6 +69,7 @@
    	<many-to-one name="industrySector" title="Industry sector" ref="com.axelor.apps.base.db.IndustrySector" index="false" massUpdate="true"/>
 	<integer name="nbrEmployees" title="Employees (Nbr)"/>
 	<integer name="saleTurnover" title="Turnover"/>
+	<string name="sirenNumber" title="SIREN number"/>
 	<string name="registrationCode" title="Registration code"/>
     <string name="mainActivityCode" title="Main activity code"/>
 	<string name="taxNbr" title="Tax N°"/>

@@ -279,15 +279,16 @@
 						<field name="source" canEdit="false" colSpan="6" widget="SuggestBox" form-view="source-form" grid-view="source-grid"/>
 						<field name="department" colSpan="6" hideIf="partnerTypeSelect== 2"/>
 					</panel>
-          <panel name="otherPartnerDetailsPanel">
-            <field name="saleTurnover" hideIf="partnerTypeSelect== 2"/>
-            <field name="nbrEmployees" hideIf="partnerTypeSelect== 2"/>
-            <field name="registrationCode" hideIf="partnerTypeSelect== 2"/>
-            <field name="mainActivityCode" hideIf="partnerTypeSelect== 2"/>
-            <field name="taxNbr" hideIf="partnerTypeSelect== 2"/>
-						<field name="paymentDelay" if-module="axelor-cash-management"  if="__config__.app.isApp('cash-management')"/>
-            <field name="parentPartner" hideIf="partnerTypeSelect != 1" domain="self.isContact = false AND self.partnerTypeSelect = 1 AND self in (SELECT p FROM Partner p join p.companySet c where c in :companySet)" form-view="partner-form" grid-view="partner-grid"/>
-						<field name="sellerCode" showIf="isFactor" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageFactors()" />
+					<panel name="otherPartnerDetailsPanel">
+					  <field name="saleTurnover" hideIf="partnerTypeSelect== 2"/>
+					  <field name="nbrEmployees" hideIf="partnerTypeSelect== 2"/>
+					  <field name="sirenNumber" hideIf="partnerTypeSelect== 2"/>
+					  <field name="registrationCode" hideIf="partnerTypeSelect== 2"/>
+					  <field name="mainActivityCode" hideIf="partnerTypeSelect== 2"/>
+					  <field name="taxNbr" hideIf="partnerTypeSelect== 2"/>
+					  <field name="paymentDelay" if-module="axelor-cash-management"  if="__config__.app.isApp('cash-management')"/>
+					  <field name="parentPartner" hideIf="partnerTypeSelect != 1" domain="self.isContact = false AND self.partnerTypeSelect = 1 AND self in (SELECT p FROM Partner p join p.companySet c where c in :companySet)" form-view="partner-form" grid-view="partner-grid"/>
+					  <field name="sellerCode" showIf="isFactor" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageFactors()" />
 					</panel>
 				</panel>
 
@@ -301,6 +302,7 @@
 						<field name="user" colSpan="6" form-view="user-form" onSelect="action-partner-attrs-user-group" grid-view="user-grid" hideIf="isEmployee" canNew="false" canEdit="false" canView="false"/>
 						<field name="team" canEdit="false" colSpan="6" form-view="team-form" grid-view="team-grid" if="__config__.app.getApp('base').getTeamManagement()" hideIf="isEmployee"/>
 						<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="company-form" grid-view="company-grid"/>
+						<field name="tradingName" form-view="trading-name-form" grid-view="trading-name-grid" canNew="false" canEdit="false"/>
 					</panel>
 				</panel>
 				<panel name="notesPanel" title="Notes" colSpan="12">
@@ -538,6 +540,7 @@
 				<field name="user" colSpan="6" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
 				<field name="team" canEdit="false" colSpan="6" form-view="team-form" grid-view="team-grid" if="__config__.app.getApp('base').getTeamManagement()"/>
 				<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="company-form" grid-view="company-grid"/>
+				<field name="tradingName" form-view="trading-name-form" grid-view="trading-name-grid" canNew="false" canEdit="false"/>
 			</panel>
 		</panel>
 		<panel name="notesPanel" title="Notes" colSpan="12" sidebar="true">
@@ -714,6 +717,7 @@
 				<field name="user" colSpan="6" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
 				<field name="team" canEdit="false" colSpan="6" form-view="team-form" grid-view="team-grid" if="__config__.app.getApp('base').getTeamManagement()"/>
 				<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="company-form" grid-view="company-grid"/>
+				<field name="tradingName" form-view="trading-name-form" grid-view="trading-name-grid" canNew="false" canEdit="false"/>
 			</panel>
 		</panel>
 		<panel name="notesPanel" title="Notes" colSpan="12" sidebar="true">

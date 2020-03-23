@@ -9,6 +9,8 @@
   
 	<one-to-one name="stockConfig" ref="com.axelor.apps.stock.db.StockConfig" title="Stock config" mappedBy="company"/>
 
+	<one-to-many name="workshopList" ref="com.axelor.apps.stock.db.StockLocation" title="Workshops" mappedBy="company"/>
+	
   </entity>
   
 </domain-models>

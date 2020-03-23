@@ -13,6 +13,7 @@
     <many-to-one name="partner" ref="com.axelor.apps.base.db.Partner" title="Partner"/>
     <many-to-one name="parent" ref="Company" title="Parent company" massUpdate="true"/>
     <one-to-many name="companyDepartmentList" title="Company departments" ref="com.axelor.apps.base.db.CompanyDepartment" mappedBy="company"/>
+	<one-to-many name="partnerList" title="Attached partners" ref="com.axelor.apps.base.db.Partner"/>
 
     <string name="notes" large="true" title="Notes"/>
     <many-to-one name="logo" ref="com.axelor.meta.db.MetaFile" title="Logo"/>

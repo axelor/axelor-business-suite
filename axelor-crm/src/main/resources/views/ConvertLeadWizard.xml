@@ -47,6 +47,7 @@
 				        <field name="department" hideIf="partnerTypeSelect == 2" form-view="department-form" grid-view="department-grid"/>
 				        <field name="saleTurnover" showTitle="true" hideIf="partnerTypeSelect == 2"/>
 				        <field name="nbrEmployees" hideIf="partnerTypeSelect == 2"/>
+				        <field name="sirenNumber" hideIf="partnerTypeSelect == 2"/>
 				        <field name="registrationCode" hideIf="partnerTypeSelect == 2"/>
 				        <field name="taxNbr" showTitle="true" hideIf="partnerTypeSelect == 2"/>
 		                <field name="source" hidden="true"/>

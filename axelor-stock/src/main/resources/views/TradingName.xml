@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+    <form id="stock-trading-name-form" name="trading-name-form" model="com.axelor.apps.base.db.TradingName" title="Trading name">
+        <panel name="mainPanel">
+            <field name="name" />
+            <field name="logo" widget="Image" />
+            <panel-related name="companySetPanel" field="companySet" form-view="company-form" grid-view="company-grid" colSpan="12" canNew="false"/>
+        	<field name="workshopList" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="12" canNew="false" canSelect="true"/>
+        </panel>
+    </form>
+
+</object-views>

@@ -57,6 +57,8 @@
 	    	<panel name="informationsPanel" title="Information">
 	      		<field name="notes" colSpan="12"/>
 	    		<field name="companyDepartmentList" grid-view="company-department-company-grid" form-view="company-department-company-form" canSelect="true" domain="self.company IS NULL" colSpan="12"/>
+	    		<field name="partnerList" form-view="partner-form" grid-view="partner-grid" colSpan="12" canNew="false" canSelect="true"/>
+		    	<field name="workshopList" colSpan="12" if-module="axelor-stock" if="__config__.app.isApp('stock')" canNew="false" canSelect="true"/>
 	    	</panel>
 	    	<panel name="configurationsPanel" title="Configurations">
 	  			<field name="currency" canEdit="false" form-view="currency-form" grid-view="currency-grid"/>
