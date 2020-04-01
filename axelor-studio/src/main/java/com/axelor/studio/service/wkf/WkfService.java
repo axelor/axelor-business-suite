@@ -220,13 +220,6 @@ public class WkfService {
     }
     saveJsonField(workflow.getStatusField());
 
-    MetaJsonField wkfEnd = getJsonField(wkfId + "Separator", "separator");
-    wkfEnd.setSequence(wkfSequence);
-    wkfEnd.setVisibleInGrid(false);
-    wkfEnd.setIsWkf(true);
-    wkfEnd.setWidgetAttrs("{\"colSpan\": \"12\"}");
-    saveJsonField(panel);
-
     //    setTrackOnSave(workflow, false);
   }
 

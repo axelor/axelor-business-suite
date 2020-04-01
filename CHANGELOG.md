@@ -25,6 +25,7 @@
 - LEAD : enterprise name is now more highlighted
 - LEAD : fill region and country automatically onchange of city in lead.
 - APP LEAVE : remove unused boolean overtimeManagement.
+- BPM : Remove default separator field when create new workflow for custom object.
 
 ## Bug Fixes
 - SALE ORDER : Fix NPE when interco sale order finalized.
