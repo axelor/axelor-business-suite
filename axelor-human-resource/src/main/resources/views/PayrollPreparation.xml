@@ -39,8 +39,8 @@
                 <field name="socialCharges" />
                 <field name="total" />
             </panel>
-            <field name="exportTypeSelect" readonlyIf="exported" />
-            <button name="exportBtn" title="Export payroll preparation" hidden="true" showIf="id != null &amp;&amp; !exported" onClick="action-payroll-preparation-group-export" />
+            <field name="exportTypeSelect" />
+            <button name="exportBtn" title="Export payroll preparation" hidden="true" showIf="id != null" onClick="action-payroll-preparation-group-export" />
             <field name="exported" />
             <field name="exportDate" hidden="true" showIf="exported" />
         </panel>
@@ -88,10 +88,15 @@
 	</action-record>
 	
 	<action-group name="action-payroll-preparation-group-export">
+		<action name="action-payroll-preparation-validate-export" if="exported"/>
 		<action name="save"/>
 		<action name="action-payroll-preparation-method-export"/>
 		<action name="action-payroll-preparation-attrs-export" if="exported"/>
 	</action-group>
+	
+	<action-validate name="action-payroll-preparation-validate-export">
+		<alert message="This payroll preparation has already been exported, still proceed ?"/>
+	</action-validate>
 	
 	<action-method name="action-payroll-preparation-method-export" >
 		<call class="com.axelor.apps.hr.web.PayrollPreparationController" method="exportPayrollPreparation"/>
