@@ -35,6 +35,11 @@
 		<option value="forecastRecap">Forecast Recap</option>
 	</selection>
   
+    <selection name="forecast.calculation.mode.select">
+        <option value="1">All bank details</option>
+        <option value="2">Specific bank details</option>
+    </selection>
+
 	<selection name="forecast.recap.report.type.select">
 		<option value="pdf">PDF</option>
 		<option value="xlsx">XLS</option>

@@ -51,10 +51,12 @@
         <scalar-parameter name="ForecastRecapId" id="211">
             <property name="hidden">true</property>
             <property name="valueType">static</property>
+            <property name="isRequired">true</property>
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
             <property name="controlType">text-box</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -407,13 +409,6 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <text-property name="heading">startingbalance</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">bankdetails</property>
-                    <property name="alias">bankdetails</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">bankdetails</text-property>
-                    <text-property name="heading">bankdetails</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">todate</property>
                     <property name="alias">todate</property>
                     <property name="analysis">dimension</property>
@@ -433,6 +428,13 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">logopath</text-property>
                     <text-property name="heading">logopath</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">sequence</property>
+                    <property name="alias">sequence</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">sequence</text-property>
+                    <text-property name="heading">sequence</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -481,26 +483,21 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">bankdetails</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
                         <property name="name">todate</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">8</property>
                         <property name="name">endingbalance</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">9</property>
                         <property name="name">logopath</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">10</property>
                         <property name="name">sequence</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -546,30 +543,24 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                 </structure>
                 <structure>
                     <property name="position">7</property>
-                    <property name="name">bankdetails</property>
-                    <property name="nativeName">bankdetails</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
                     <property name="name">todate</property>
                     <property name="nativeName">todate</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">8</property>
                     <property name="name">endingbalance</property>
                     <property name="nativeName">endingbalance</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">9</property>
                     <property name="name">logopath</property>
                     <property name="nativeName">logopath</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">10</property>
                     <property name="name">sequence</property>
                     <property name="nativeName">sequence</property>
                     <property name="dataType">string</property>
@@ -582,7 +573,6 @@ ForecastRecap.opportunities_type_select as opportunitiesTypeSelect,
 Currency.name as currency,
 ForecastRecap.from_date as fromDate,
 ForecastRecap.starting_balance as startingBalance,
-BankDetails.iban as bankDetails,
 ForecastRecap.to_date as toDate,
 ForecastRecap.ending_balance as endingBalance,
 MetaFile.file_path as logoPath,
@@ -590,7 +580,6 @@ ForecastRecap.forecast_recap_seq as sequence
 from management_forecast_recap as ForecastRecap
 left outer join base_company as Company on (ForecastRecap.company = Company.id)
 left outer join base_currency as Currency on (ForecastRecap.currency = Currency.id)
-left outer join base_bank_details as BankDetails on (ForecastRecap.bank_details = BankDetails.id)
 left outer join meta_file as MetaFile on (Company.logo = MetaFile.id)
 where ForecastRecap.id = ?;]]></xml-property>
         </oda-data-set>
@@ -865,6 +854,81 @@ where ForecastRecap.id = ?
   </design:ResultSets>
 </model:DesignValues>]]></xml-property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="BankDetails" id="5423">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">iban</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">iban</text-property>
+                    <text-property name="heading">iban</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">ForecastRecapId</property>
+                    <property name="dataType">decimal</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">iban</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">iban</property>
+                    <property name="nativeName">iban</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select BankDetails.iban as iban
+from base_bank_details as BankDetails
+left outer join management_forecast_recap_bank_details_set as BankDetailsSet on (BankDetails.id = BankDetailsSet.bank_details_set)
+where BankDetailsSet.management_forecast_recap = ?;]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ibans</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ibans</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ibans</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
     </data-sets>
     <styles>
         <style name="report" id="4">
@@ -943,12 +1007,6 @@ where ForecastRecap.id = ?
                             <text-property name="displayName">startingbalance</text-property>
                             <expression name="expression" type="javascript">dataSetRow["startingbalance"]</expression>
                             <property name="dataType">decimal</property>
-                        </structure>
-                        <structure>
-                            <property name="name">bankdetails</property>
-                            <text-property name="displayName">bankdetails</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["bankdetails"]</expression>
-                            <property name="dataType">string</property>
                         </structure>
                         <structure>
                             <property name="name">todate</property>
@@ -1064,6 +1122,7 @@ where ForecastRecap.id = ?
     </page-setup>
     <body>
         <grid id="3850">
+            <property name="height">8.333333333333334in</property>
             <property name="dataSet">ForecastRecap</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -1103,12 +1162,6 @@ where ForecastRecap.id = ?
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
-                    <property name="name">bankdetails</property>
-                    <text-property name="displayName">bankdetails</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["bankdetails"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">todate</property>
                     <text-property name="displayName">todate</text-property>
                     <expression name="expression" type="javascript">dataSetRow["todate"]</expression>
@@ -1119,6 +1172,18 @@ where ForecastRecap.id = ?
                     <text-property name="displayName">endingbalance</text-property>
                     <expression name="expression" type="javascript">dataSetRow["endingbalance"]</expression>
                     <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">logopath</property>
+                    <text-property name="displayName">logopath</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["logopath"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">sequence</property>
+                    <text-property name="displayName">sequence</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["sequence"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
             </list-property>
             <column id="3901"/>
@@ -1227,41 +1292,7 @@ where ForecastRecap.id = ?
                         <text-property name="content"><![CDATA[<B><VALUE-OF>row["translation"]</VALUE-OF></B> : <VALUE-OF>row._outer["currency"]</VALUE-OF>]]></text-property>
                     </text>
                 </cell>
-                <cell id="3857">
-                    <text id="4020">
-                        <property name="dataSet">TranslateDS</property>
-                        <list-property name="visibility">
-                            <structure>
-                                <property name="format">all</property>
-                                <expression name="valueExpr" type="javascript">row._outer["bankdetails"] == null</expression>
-                            </structure>
-                        </list-property>
-                        <list-property name="paramBindings">
-                            <structure>
-                                <property name="paramName">param_1</property>
-                                <simple-property-list name="expression">
-                                    <value type="javascript">'ForecastRecap.bankDetailsIban'</value>
-                                </simple-property-list>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">message_key</property>
-                                <text-property name="displayName">message_key</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">translation</property>
-                                <text-property name="displayName">translation</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                        <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<B><VALUE-OF>row["translation"]</VALUE-OF></B> : <VALUE-OF>row._outer["bankdetails"]</VALUE-OF>]]></text-property>
-                    </text>
-                </cell>
+                <cell id="3857"/>
             </row>
             <row id="3858">
                 <cell id="3898">
@@ -1469,6 +1500,95 @@ where ForecastRecap.id = ?
                         <text-property name="content"><![CDATA[<B><VALUE-OF>row["translation"]</VALUE-OF></B> : <VALUE-OF>row._outer["endingbalance"]</VALUE-OF>]]></text-property>
                     </text>
                 </cell>
+            </row>
+            <row id="5424">
+                <cell id="5425">
+                    <grid id="5428">
+                        <property name="width">3.4166666666666665in</property>
+                        <property name="dataSet">BankDetails</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">row["iban"] == null</expression>
+                            </structure>
+                        </list-property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">iban</property>
+                                <text-property name="displayName">iban</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["iban"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Column Binding</property>
+                                <expression name="expression" type="javascript">row["iban"]</expression>
+                                <property name="dataType">string</property>
+                                <property name="allowExport">true</property>
+                            </structure>
+                        </list-property>
+                        <column id="5429">
+                            <property name="width">0.49in</property>
+                        </column>
+                        <column id="5430"/>
+                        <row id="5431">
+                            <cell id="5432">
+                                <text id="5456">
+                                    <property name="dataSet">TranslateDS</property>
+                                    <list-property name="paramBindings">
+                                        <structure>
+                                            <property name="paramName">param_1</property>
+                                            <simple-property-list name="expression">
+                                                <value type="javascript">'ForecastRecap.bankDetailsIban'</value>
+                                            </simple-property-list>
+                                        </structure>
+                                    </list-property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">message_key</property>
+                                            <text-property name="displayName">message_key</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">translation</property>
+                                            <text-property name="displayName">translation</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="contentType">html</property>
+                                    <text-property name="content"><![CDATA[<B><VALUE-OF>row["translation"]</VALUE-OF></B> :]]></text-property>
+                                </text>
+                            </cell>
+                            <cell id="5433">
+                                <table id="5539">
+                                    <property name="dataSet">BankDetails</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">iban</property>
+                                            <text-property name="displayName">iban</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["iban"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <column id="5548"/>
+                                    <detail>
+                                        <row id="5543">
+                                            <cell id="5544">
+                                                <text id="5551">
+                                                    <property name="contentType">html</property>
+                                                    <text-property name="content"><![CDATA[<VALUE-OF>row._outer["iban"]</VALUE-OF>]]></text-property>
+                                                </text>
+                                            </cell>
+                                        </row>
+                                    </detail>
+                                </table>
+                            </cell>
+                        </row>
+                    </grid>
+                </cell>
+                <cell id="5426"/>
+                <cell id="5427"/>
             </row>
             <row id="3862">
                 <property name="height">20pt</property>

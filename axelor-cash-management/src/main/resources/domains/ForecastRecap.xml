@@ -7,7 +7,8 @@
 	
 	<string name="forecastRecapSeq" readonly="true" title="Seq." />
 	<many-to-one name="company" ref="com.axelor.apps.base.db.Company" required="true" title="Company" />
-	<many-to-one name="bankDetails" ref="com.axelor.apps.base.db.BankDetails" title="Bank"/>
+    <integer name="calculationModeSelect" title="Calculation Mode Select" selection="forecast.calculation.mode.select" default="1"/>
+    <many-to-many name="bankDetailsSet" ref="com.axelor.apps.base.db.BankDetails" title="Bank details"/>
 	<decimal name="startingBalance" title="Starting Balance" required="true"/>
 	<decimal name="endingBalance" title="Ending Balance"/>
 	<decimal name="currentBalance"/>
@@ -30,6 +31,10 @@
 		public static final int OPPORTUNITY_TYPE_BASE = 2;
 		public static final int OPPORTUNITY_TYPE_WORST = 3;
 		public static final int OPPORTUNITY_TYPE_BEST = 4;
+    
+        // CALCULATION MODE SELECT
+        public static final int ALL_BANK_DETAILS = 1;
+        public static final int SPECIFIC_BANK_DETAILS = 2;
 	
 	]]></extra-code>
   </entity>

@@ -5,7 +5,6 @@
     
 	<grid name="forecast-recap-grid" title="Forecast Recaps" model="com.axelor.apps.cash.management.db.ForecastRecap">
 		<field name="company" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-		<field name="bankDetails" if="__config__.app.getApp('base').getManageMultiBanks()"/>
 		<field name="fromDate"/>
 		<field name="toDate"/>
 	</grid>
@@ -20,7 +19,8 @@
                        <field name="forecastRecapSeq" showTitle="false" colSpan="12" css="label-bold bold large"/>
                    </panel>
 		   <field name="company" canEdit="false" onChange="action-forecast-record-bank, action-forecast-recap-record-currency"/>
-	       	   <field name="bankDetails" onSelect="action-accounting-batch-attrs-bank-details-domain" if="__config__.app.getApp('base').getManageMultiBanks()"/>
+               <field name="calculationModeSelect" onChange="action-forecast-recap-record-null-bank-details-set"/>
+               <field name="bankDetailsSet" widget="TagSelect" showIf="calculationModeSelect == 2"/>
 	       	   <field name="fromDate" onChange="action-forecast-recap-validate-dates"/>
        		   <field name="toDate" onChange="action-forecast-recap-validate-dates"/>
        		   <field name="opportunitiesTypeSelect"/>
@@ -43,7 +43,6 @@
 
 	 <grid name="forecast-report-grid" title="Forecast Reports" model="com.axelor.apps.cash.management.db.ForecastRecap">
        <field name="company"/>
-       <field name="bankDetails" if="__config__.app.getApp('base').getManageMultiBanks()"/>
        <field name="fromDate"/>
        <field name="toDate"/>
     </grid>
@@ -52,7 +51,8 @@
 	 	onNew="action-forecast-report-record-default-on-new">
 	 	<panel name="mainPanel" >
 			<field name="company" canEdit="false" onChange="action-forecast-record-bank, action-forecast-recap-record-currency" colSpan="4" required="true"/>
-	       	<field name="bankDetails" onSelect="action-accounting-batch-attrs-bank-details-domain" if="__config__.app.getApp('base').getManageMultiBanks()" colSpan="4"/>
+	       	<field name="calculationModeSelect" onChange="action-forecast-recap-record-null-bank-details-set"/>
+            <field name="bankDetailsSet" widget="TagSelect" showIf="calculationModeSelect == 2"/>
 	       	<field name="salesMan" canNew="false" canEdit="false" canView="false" colSpan="4"/>
 	       	<field name="fromDate" onChange="action-forecast-recap-validate-dates" required="true"/>
        		<field name="toDate" onChange="action-forecast-recap-validate-dates" required="true"/>
@@ -138,5 +138,9 @@
     <action-method name="action-forecast-recap-method-print">
 		<call class="com.axelor.apps.cash.management.web.ForecastRecapController" method="print"/>
     </action-method>
+    
+    <action-record name="action-forecast-recap-record-null-bank-details-set" model="com.axelor.apps.cash.management.db.ForecastRecap">
+         <field name="bankDetailsSet" expr="eval: null" if="calculationModeSelect != 2"/>
+    </action-record>
 
 </object-views>
