@@ -23,6 +23,7 @@ import com.axelor.apps.businessproject.service.projectgenerator.ProjectGenerator
 import com.axelor.apps.project.db.Project;
 import com.axelor.apps.project.db.repo.ProjectRepository;
 import com.axelor.apps.sale.db.SaleOrder;
+import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -53,7 +54,8 @@ public class ProjectGeneratorFactoryAlone implements ProjectGeneratorFactory {
   }
 
   @Override
-  public ActionViewBuilder fill(Project project, SaleOrder saleOrder, LocalDateTime localDateTime)
+  public ActionViewBuilder fill(
+      Project project, SaleOrder saleOrder, LocalDateTime localDateTime, User assignedTaskTo)
       throws AxelorException {
     throw new AxelorException(
         TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,

@@ -5,6 +5,7 @@
 - COST SHEET: in batch computing work in progress valuation, compute cost for ongoing manuf orders at the valuation date.
 - ACCOUNTING BATCH : add start and end date of realizing fixed asset line
 - Improve consistency of grid and card view menus.
+- SALE ORDER : add possibility to choose a user to assign task generated from sale order form
 
 ## Bug Fixes
 - WORKSHOP STOCK LOCATION : Fix config being ignored

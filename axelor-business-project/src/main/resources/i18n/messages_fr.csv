@@ -306,6 +306,7 @@
 "The project is configured to be alone","Le projet est configuré pour être seul",,
 "There is no customer for this project/task","Le projet/tâche sélectionné(e) ne contient pas de client",,
 "Time spent","Temps passé",,
+"Timesheet line %s",,,
 "Timesheet lines","Lignes de feuille de temps",,
 "Title",,,
 "To invoice","Facturer",,

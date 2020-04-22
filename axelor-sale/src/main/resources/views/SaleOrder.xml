@@ -351,15 +351,16 @@
 
       <panel name="businessProjectPanel" title="Business project" if="__config__.app.isApp('business-project') &amp;&amp; __config__.app.getApp('business-project').getGenerateProjectOrder()" if-module="axelor-business-project">
         <field name="$_projectGeneratorType" title="Type of project's elements generated" x-enum-type="com.axelor.apps.project.db.ProjectGeneratorType"/>
+        <field name="project" canEdit="false" domain="self.clientPartner = :clientPartner" form-view="project-form" grid-view="project-grid" requiredIf="$_projectGeneratorType == 'TASK_BY_LINE_WITH_PARENT_TASK'"/>
         <field name="$_elementStartDate" title="Start date" widget="date-time" type="datetime"/>
-        <field name="project" canEdit="false" domain="self.clientPartner = :clientPartner" form-view="project-form" grid-view="project-grid"/>
         <field name="toInvoiceViaTask" hidden="true" showIf="$_projectGeneratorType == 'TASK_BY_LINE' || $_projectGeneratorType == 'TASK_TEMPLATE'"/>
+        <field name="$_assignTaskTo" title="Assign task to" type="many-to-one" target="com.axelor.auth.db.User" showIf="project &amp;&amp; ($_projectGeneratorType == 'TASK_BY_LINE' || $_projectGeneratorType == 'TASK_TEMPLATE' || $_projectGeneratorType == 'TASK_BY_LINE_WITH_PARENT_TASK')" onSelect="action-business-project-sale-order-attrs-assigned-to-set-domain-onselect" help="If this field is empty, it will assign task to User assigned to the selected project."/>
         <panel name="projectDetailsPanel" colSpan="12">
-          <button name="updateLinesBtn" title="Update lines with selected project" onClick="save,action-business-project-sale-order-method-update-lines,save" readonlyIf="!project"/>
           <panel name="fillOrGenerateProjectPanel" stacked="true">
             <button name="fillProjectBtn" readonlyIf="!$_projectGeneratorType" title="Fill project" if="__config__.app.getApp('business-project').projectSaleOrderLines" showIf="project != null" hidden="true" onClick="save,action-business-project-method-fill-project"/>
             <button name="generateProjectBtn" readonlyIf="!$_projectGeneratorType" title="Generate Project/Business" if="!__config__.app.getApp('business-project').automaticProject" showIf="project == null" hidden="true" onClick="save,action-business-project-method-generate-project"/>
           </panel>
+          <button name="updateLinesBtn" title="Update lines with selected project" onClick="save,action-business-project-sale-order-method-update-lines,save" readonlyIf="!project"/>
         </panel>
       </panel>
 

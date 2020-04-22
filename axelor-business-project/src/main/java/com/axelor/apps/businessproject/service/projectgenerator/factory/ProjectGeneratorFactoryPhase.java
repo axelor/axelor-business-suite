@@ -28,6 +28,7 @@ import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.SaleOrderLine;
 import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
 import com.axelor.apps.tool.StringTool;
+import com.axelor.auth.db.User;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.meta.schema.actions.ActionView.ActionViewBuilder;
 import com.google.inject.Inject;
@@ -68,7 +69,8 @@ public class ProjectGeneratorFactoryPhase implements ProjectGeneratorFactory {
 
   @Override
   @Transactional
-  public ActionViewBuilder fill(Project project, SaleOrder saleOrder, LocalDateTime startDate) {
+  public ActionViewBuilder fill(
+      Project project, SaleOrder saleOrder, LocalDateTime startDate, User assignedTaskTo) {
     List<Project> projects = new ArrayList<>();
     projectRepository.save(project);
     for (SaleOrderLine saleOrderLine : saleOrder.getSaleOrderLineList()) {
