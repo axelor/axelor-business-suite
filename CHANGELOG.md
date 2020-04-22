@@ -6,6 +6,7 @@
 ## Improvements
 - COST SHEET: in batch computing work in progress valuation, compute cost for ongoing manuf orders at the valuation date.
 - ACCOUNTING BATCH : add start and end date of realizing fixed asset line
+- SALE ORDER : add possibility to choose a user to assign task generated from sale order form
 
 ## Bug Fixes
 - Manuf Order: add missing translations.

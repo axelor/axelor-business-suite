@@ -29,6 +29,7 @@ import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.SaleOrderLine;
 import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
 import com.axelor.apps.tool.StringTool;
+import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -71,7 +72,8 @@ public class ProjectGeneratorFactoryTask implements ProjectGeneratorFactory {
 
   @Override
   @Transactional(rollbackOn = {Exception.class, AxelorException.class})
-  public ActionViewBuilder fill(Project project, SaleOrder saleOrder, LocalDateTime startDate)
+  public ActionViewBuilder fill(
+      Project project, SaleOrder saleOrder, LocalDateTime startDate, User assignedTaskTo)
       throws AxelorException {
     List<TeamTask> tasks = new ArrayList<>();
     projectRepository.save(project);
@@ -90,7 +92,10 @@ public class ProjectGeneratorFactoryTask implements ProjectGeneratorFactory {
           && !(isTaskGenerated)) {
 
         TeamTask task =
-            teamTaskBusinessProjectService.create(saleOrderLine, project, project.getAssignedTo());
+            teamTaskBusinessProjectService.create(
+                saleOrderLine,
+                project,
+                assignedTaskTo != null ? assignedTaskTo : project.getAssignedTo());
 
         if (saleOrder.getToInvoiceViaTask()) {
           task.setInvoicingType(TeamTaskRepository.INVOICING_TYPE_PACKAGE);

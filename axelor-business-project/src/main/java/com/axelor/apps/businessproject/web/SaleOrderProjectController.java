@@ -25,6 +25,8 @@ import com.axelor.apps.project.db.ProjectGeneratorType;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.SaleOrderLine;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
+import com.axelor.auth.db.User;
+import com.axelor.auth.db.repo.UserRepository;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.ResponseMessageType;
 import com.axelor.exception.service.TraceBackService;
@@ -40,6 +42,7 @@ import com.google.inject.Singleton;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.LinkedHashMap;
 
 @Singleton
 public class SaleOrderProjectController {
@@ -83,6 +86,7 @@ public class SaleOrderProjectController {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public void fillProject(ActionRequest request, ActionResponse response) {
     try {
       SaleOrder saleOrder = request.getContext().asType(SaleOrder.class);
@@ -95,10 +99,18 @@ public class SaleOrderProjectController {
       }
       String generatorType = (String) request.getContext().get("_projectGeneratorType");
       LocalDateTime startDate = getElementStartDate(request.getContext());
+      User assignedTaskTo = null;
+      LinkedHashMap<String, Object> userHashMap =
+          (LinkedHashMap<String, Object>) request.getContext().get("_assignTaskTo");
+      if (userHashMap != null && saleOrder.getProject() != null) {
+        assignedTaskTo =
+            Beans.get(UserRepository.class).find(Long.valueOf(userHashMap.get("id").toString()));
+      }
 
       ProjectGeneratorFactory factory =
           ProjectGeneratorFactory.getFactory(ProjectGeneratorType.valueOf(generatorType));
-      ActionViewBuilder view = factory.fill(saleOrder.getProject(), saleOrder, startDate);
+      ActionViewBuilder view =
+          factory.fill(saleOrder.getProject(), saleOrder, startDate, assignedTaskTo);
 
       response.setReload(true);
       response.setView(view.map());

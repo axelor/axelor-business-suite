@@ -29,6 +29,7 @@ import com.axelor.apps.project.db.repo.ProjectRepository;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.SaleOrderLine;
 import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
+import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -77,19 +78,20 @@ public class ProjectGeneratorFactoryTaskTemplate implements ProjectGeneratorFact
 
   @Override
   @Transactional(rollbackOn = {Exception.class, AxelorException.class})
-  public ActionViewBuilder fill(Project project, SaleOrder saleOrder, LocalDateTime startDate)
+  public ActionViewBuilder fill(
+      Project project, SaleOrder saleOrder, LocalDateTime startDate, User assignedTaskTo)
       throws AxelorException {
     List<TeamTask> tasks = new ArrayList<>();
     TeamTask root;
-
+    User userToAssign = assignedTaskTo != null ? assignedTaskTo : project.getAssignedTo();
     root =
         teamTaskRepository
             .all()
             .filter(
-                "self.project = ? AND self.assignedTo = ? AND self.name = ?",
-                project,
-                project.getAssignedTo(),
-                saleOrder.getFullName())
+                "self.project = :project AND self.assignedTo = :userToAssign AND self.name = :fullName")
+            .bind("project", project)
+            .bind("userToAssign", userToAssign)
+            .bind("fullName", saleOrder.getFullName())
             .fetchOne();
 
     projectRepository.save(project);
@@ -111,7 +113,7 @@ public class ProjectGeneratorFactoryTaskTemplate implements ProjectGeneratorFact
                   .size()
               > 0;
       if (root == null) {
-        root = teamTaskService.create(saleOrder.getFullName(), project, project.getAssignedTo());
+        root = teamTaskService.create(saleOrder.getFullName(), project, userToAssign);
         root.setTaskDate(startDate.toLocalDate());
         tasks.add(teamTaskRepository.save(root));
       }
@@ -133,7 +135,7 @@ public class ProjectGeneratorFactoryTaskTemplate implements ProjectGeneratorFact
           tasks.addAll(convertedTasks);
         } else {
           TeamTask childTask =
-              teamTaskService.create(orderLine.getFullName(), project, project.getAssignedTo());
+              teamTaskService.create(orderLine.getFullName(), project, userToAssign);
           this.updateTask(root, childTask, orderLine);
 
           tasks.add(teamTaskRepository.save(childTask));

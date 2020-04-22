@@ -25,6 +25,10 @@
 		<attribute for="$genProjTypePerOrderLine" name="value" if="eval: __config__.app.getApp('business-project').getGeneratedElementTypeSelect() == 2" expr="eval: com.axelor.apps.project.db.GenProjTypePerOrderLine.PHASE_BY_LINE"/>
 		<attribute for="$genProjTypePerOrderLine" name="readonly" expr="eval: __config__.app.getApp('business-project').getGeneratedElementTypeSelect() != 3"/>
 	</action-attrs>
+	
+	<action-attrs name="action-business-project-sale-order-attrs-assigned-to-set-domain-onselect" model="com.axelor.apps.sale.db.SaleOrder">
+		<attribute name="domain" expr="eval:&quot; self.id IN (${([0]+project?.membersUserSet.collect{it->it.id}+project?.team?.members.collect{it->it.id}.flatten()).join(',')}) &quot;" for="$_assignTaskTo"/>
+	</action-attrs>
 
     <action-method name="action-business-project-sale-order-method-generate-invoicing-project">
     	<call class="com.axelor.apps.businessproject.web.SaleOrderProjectController" method="generateInvoicingProject"/>

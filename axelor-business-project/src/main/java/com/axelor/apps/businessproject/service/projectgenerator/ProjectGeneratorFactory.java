@@ -25,6 +25,7 @@ import com.axelor.apps.businessproject.service.projectgenerator.factory.ProjectG
 import com.axelor.apps.project.db.Project;
 import com.axelor.apps.project.db.ProjectGeneratorType;
 import com.axelor.apps.sale.db.SaleOrder;
+import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -45,7 +46,7 @@ public interface ProjectGeneratorFactory {
   default Project generate(SaleOrder saleOrder, LocalDateTime localDateTime)
       throws AxelorException {
     Project project = create(saleOrder);
-    fill(project, saleOrder, localDateTime);
+    fill(project, saleOrder, localDateTime, null);
     return project;
   }
 
@@ -88,9 +89,13 @@ public interface ProjectGeneratorFactory {
    * @param project Project to be fill.
    * @param saleOrder Sale order to be use for fill project.
    * @param localDateTime The date to use for create project's elements.
+   * @param assignedTaskTo the user which generated Task will be assign to. <br>
+   *     If assignedTaskTo is null, it will assign to user assigned to the project<br>
+   *     Only for ProjectGeneratorType TASK
    * @return The project fill with elements from sale order.
    * @throws AxelorException If a error occur on filling.
    */
-  ActionViewBuilder fill(Project project, SaleOrder saleOrder, LocalDateTime localDateTime)
+  ActionViewBuilder fill(
+      Project project, SaleOrder saleOrder, LocalDateTime localDateTime, User assignedTaskTo)
       throws AxelorException;
 }
