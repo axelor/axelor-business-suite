@@ -94,7 +94,7 @@ public interface IExceptionMessage {
   static final String LEAVE_ALLOW_NEGATIVE_VALUE_EMPLOYEE = /*$$(*/
       "Employee %s is not allowed to take leave in advance." /*)*/;
   static final String LEAVE_ALLOW_NEGATIVE_VALUE_REASON = /*$$(*/
-      "You are not able to take leave in advance for the reason '%s'." /*)*/;
+      "You don't have enough days available for the reason '%s' at that time." /*)*/;
   static final String LEAVE_ALLOW_NEGATIVE_ALERT = /*$$(*/
       "You now have a negative amount of leave available for the reason %s" /*)*/;
   static final String LEAVE_REASON_NO_UNIT = /*$$(*/

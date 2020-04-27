@@ -59,8 +59,9 @@
                 onChange="action-leave-request-record-reset-leave-line,action-leave-request-validate-dates,action-leave-request-methode-compute-duration,action-leave-request-method-leave-reason-to-justify"
                 canNew="false" canEdit="false" canView="false" />
             <field name="requestDate" colSpan="12" width="50%" />
-            <field name="leaveLine" onSelect="action-leave-request-attrs-line-domain" title="Reason" canEdit="false" canNew="false" widget="SuggestBox" required="true"
-                onChange="action-leave-request-attrs-select,action-leave-request-attrs-inject-change,action-leave-request-methode-compute-duration" form-view="leave-line-form" grid-view="leave-line-grid" />
+            <field name="leaveLine" onSelect="action-leave-request-attrs-line-domain" title="Reason" canEdit="false"
+									 canNew="false" widget="SuggestBox" required="true" onChange="action-leave-request-group-leave-line-onchange"
+									 form-view="leave-line-form" grid-view="leave-line-grid" />
             <panel>
                 <field name="leaveLine.quantity" title="Available quantity (acquired)" showIf="statusSelect != 3" colSpan="12" />
                 <field name="quantityBeforeValidation" showIf="statusSelect == 3" colSpan="12" />
@@ -70,13 +71,14 @@
 
             <panel colSpan="12">
                 <panel hideIf="leaveLine.leaveReason.unitSelect == 2" colSpan="12">
-                    <field name="fromDateT" onChange="action-leave-request-validate-dates,action-leave-request-methode-compute-duration" widget="date" />
+                    <field name="fromDateT" onChange="action-leave-request-group-from-date-onchange" widget="date" />
                     <field name="startOnSelect" onChange="action-leave-request-validate-dates,action-leave-request-methode-compute-duration" />
                 </panel>
                 <panel showIf="leaveLine.leaveReason.unitSelect == 2" colSpan="12">
-                    <field name="fromDateT" onChange="action-leave-request-validate-dates,action-leave-request-methode-compute-duration" widget="datetime" />
+                    <field name="fromDateT" onChange="action-leave-request-group-from-date-onchange" widget="datetime" />
                 </panel>
             </panel>
+						<field name="$expectedDays" title="Available quantity (at that time)" type="decimal" readonly="true"/>
             <panel colSpan="12">
                 <panel hideIf="leaveLine.leaveReason.unitSelect == 2" colSpan="12">
                     <field name="toDateT" onChange="action-leave-request-validate-dates,action-leave-request-methode-compute-duration" widget="date" />
@@ -162,6 +164,19 @@
 		<action name="action-leave-request-attrs-valid-refuse"/>
 	</action-group>
 	
+	<action-group name="action-leave-request-group-leave-line-onchange">
+		<action name="action-leave-request-attrs-select"/>
+		<action name="action-leave-request-attrs-inject-change"/>
+		<action name="action-leave-request-methode-compute-duration"/>
+		<action name="action-leave-request-method-compute-expected-days"/>
+	</action-group>
+
+	<action-group name="action-leave-request-group-from-date-onchange">
+		<action name="action-leave-request-validate-dates"/>
+		<action name="action-leave-request-methode-compute-duration"/>
+		<action name="action-leave-request-method-compute-expected-days"/>
+	</action-group>
+	
 	<action-record name="action-leave-request-record-default" model="com.axelor.apps.hr.db.LeaveRequest">
 	    <field name="user" expr="eval:__user__"/>
 	    <field name="company" expr="eval: __user__.employee?.mainEmploymentContract?.payCompany ?: __user__.activeCompany"/>
@@ -242,6 +257,10 @@
 	
 	<action-method name="action-leave-request-method-cancel-leave-request">
 		<call class="com.axelor.apps.hr.web.leave.LeaveController" method="cancel"/>
+	</action-method>
+
+	<action-method name="action-leave-request-method-compute-expected-days">
+		<call class="com.axelor.apps.hr.web.leave.LeaveController" method="computeExpectedDays"/>
 	</action-method>
 	
 	<action-view name="action-leave-request-refusal-popup-form" title="Ground for refusal" model="com.axelor.apps.hr.db.LeaveRequest">

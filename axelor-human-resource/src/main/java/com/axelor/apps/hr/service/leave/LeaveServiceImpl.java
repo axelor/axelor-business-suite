@@ -53,6 +53,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.List;
 import javax.mail.MessagingException;
 
@@ -912,5 +913,26 @@ public class LeaveServiceImpl implements LeaveService {
       }
     }
     return null;
+  }
+
+  public BigDecimal getExpectedDays(LeaveRequest leaveRequest) {
+    BigDecimal quantity = null;
+
+    if (leaveRequest.getLeaveLine() != null) {
+      quantity = leaveRequest.getLeaveLine().getQuantity();
+
+      if (leaveRequest.getFromDateT() != null) {
+        LocalDate fromDate = leaveRequest.getFromDateT().toLocalDate().withDayOfMonth(1);
+        Period period = Period.between(LocalDate.now().withDayOfMonth(1), fromDate);
+
+        quantity =
+                quantity.add(
+                        BigDecimal.valueOf(period.getMonths())
+                                .multiply(
+                                        leaveRequest.getLeaveLine().getLeaveReason().getDefaultDayNumberGain()));
+      }
+    }
+
+    return quantity;
   }
 }

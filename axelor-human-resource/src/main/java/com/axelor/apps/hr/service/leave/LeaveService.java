@@ -122,4 +122,6 @@ public interface LeaveService {
    * @return
    */
   public LeaveRequest getLeave(User user, LocalDate date);
+
+  public BigDecimal getExpectedDays(LeaveRequest leaveRequest);
 }

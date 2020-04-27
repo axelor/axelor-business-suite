@@ -13,6 +13,7 @@
 - Move template : Add change track on update
 - EMPLOYEE : set seniorityDate by hireDate
 - Studio : Add CSRF protection for every request header.
+- Leave request : Now handling the expected number of available days at a future date
 
 ## Improvements
 - USER : Default User language is based on application.locale from application.properties

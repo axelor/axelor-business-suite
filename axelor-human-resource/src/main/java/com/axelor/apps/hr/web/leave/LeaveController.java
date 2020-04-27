@@ -50,6 +50,8 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -259,7 +261,8 @@ public class LeaveController {
                 leaveRequest.getUser().getEmployee().getName()));
         return;
       }
-      if (leaveRequest.getLeaveLine().getQuantity().subtract(leaveRequest.getDuration()).signum()
+      BigDecimal quantity = new BigDecimal((String) request.getContext().get("expectedDays"));
+      if (quantity.subtract(leaveRequest.getDuration()).signum()
           < 0) {
         if (!leaveRequest.getLeaveLine().getLeaveReason().getAllowNegativeValue()
             && !leaveService.willHaveEnoughDays(leaveRequest)) {
@@ -433,5 +436,15 @@ public class LeaveController {
 
     return Beans.get(HRMenuTagService.class)
         .countRecordsTag(LeaveRequest.class, LeaveRequestRepository.STATUS_AWAITING_VALIDATION);
+  }
+
+  public void computeExpectedDays(ActionRequest request, ActionResponse response) {
+    try {
+      LeaveRequest leaveRequest = request.getContext().asType(LeaveRequest.class);
+      BigDecimal expectedDays = Beans.get(LeaveService.class).getExpectedDays(leaveRequest);
+      response.setValue("$expectedDays", expectedDays);
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
   }
 }
