@@ -17,6 +17,7 @@
  */
 package com.axelor.apps.account.web;
 
+import com.axelor.apps.account.db.Account;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.repo.MoveLineRepository;
@@ -201,6 +202,22 @@ public class MoveLineController {
     if (move != null) {
       String domain = Beans.get(MoveService.class).filterPartner(move);
       response.setAttr("partner", "domain", domain);
+    }
+  }
+
+  public void setEquivalentAccount(ActionRequest request, ActionResponse response) {
+    MoveLine moveLine = request.getContext().asType(MoveLine.class);
+    try {
+      Account equivalentAccount = Beans.get(MoveLineService.class).getEquivalentAccount(moveLine);
+      if (equivalentAccount == null) {
+        return;
+      }
+      response.setFlash(
+          I18n.get("Account replaced by the associated equivalent account for this partner"));
+
+      response.setValue("account", equivalentAccount);
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
     }
   }
 }

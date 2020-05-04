@@ -181,21 +181,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     analyticMoveLineList.stream().forEach(moveLine::addAnalyticMoveLineListItem);
   }
 
-  /**
-   * Creating accounting move line method using move currency
-   *
-   * @param move
-   * @param partner
-   * @param account
-   * @param amountInSpecificMoveCurrency
-   * @param isDebit <code>true = debit</code>, <code>false = credit</code>
-   * @param date
-   * @param dueDate
-   * @param counter
-   * @param origin
-   * @return
-   * @throws AxelorException
-   */
   @Override
   public MoveLine createMoveLine(
       Move move,
@@ -242,24 +227,6 @@ public class MoveLineServiceImpl implements MoveLineService {
         description);
   }
 
-  /**
-   * Creating accounting move line method using all currency informations (amount in specific move
-   * currency, amount in company currency, currency rate)
-   *
-   * @param move
-   * @param partner
-   * @param account
-   * @param amountInSpecificMoveCurrency
-   * @param amountInCompanyCurrency
-   * @param currencyRate
-   * @param isDebit
-   * @param date
-   * @param dueDate
-   * @param counter
-   * @param origin
-   * @return
-   * @throws AxelorException
-   */
   @Override
   public MoveLine createMoveLine(
       Move move,
@@ -333,20 +300,6 @@ public class MoveLineServiceImpl implements MoveLineService {
         originDate);
   }
 
-  /**
-   * Créer une ligne d'écriture comptable
-   *
-   * @param move
-   * @param partner
-   * @param account
-   * @param amount
-   * @param isDebit <code>true = débit</code>, <code>false = crédit</code>
-   * @param date
-   * @param ref
-   * @param origin
-   * @return
-   * @throws AxelorException
-   */
   @Override
   public MoveLine createMoveLine(
       Move move,
@@ -364,14 +317,6 @@ public class MoveLineServiceImpl implements MoveLineService {
         move, partner, account, amount, isDebit, date, date, ref, origin, description);
   }
 
-  /**
-   * Créer les lignes d'écritures comptables d'une facture.
-   *
-   * @param invoice
-   * @param move
-   * @param consolidate
-   * @return
-   */
   @Override
   public List<MoveLine> createMoveLines(
       Invoice invoice,
@@ -671,11 +616,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return null;
   }
 
-  /**
-   * Consolider des lignes d'écritures par compte comptable.
-   *
-   * @param moveLines
-   */
   @Override
   public List<MoveLine> consolidateMoveLines(List<MoveLine> moveLines) {
 
@@ -793,13 +733,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return moveLines;
   }
 
-  /**
-   * Fonction permettant de récuperer la ligne d'écriture (au credit et non complétement lettrée sur
-   * le compte client) de la facture
-   *
-   * @param invoice Une facture
-   * @return
-   */
   @Override
   public MoveLine getCreditCustomerMoveLine(Invoice invoice) {
     if (invoice.getMove() != null) {
@@ -808,13 +741,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return null;
   }
 
-  /**
-   * Fonction permettant de récuperer la ligne d'écriture (au credit et non complétement lettrée sur
-   * le compte client) de l'écriture de facture
-   *
-   * @param move Une écriture de facture
-   * @return
-   */
   @Override
   public MoveLine getCreditCustomerMoveLine(Move move) {
     for (MoveLine moveLine : move.getMoveLineList()) {
@@ -827,13 +753,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return null;
   }
 
-  /**
-   * Fonction permettant de récuperer la ligne d'écriture (au débit et non complétement lettrée sur
-   * le compte client) de la facture
-   *
-   * @param invoice Une facture
-   * @return
-   */
   @Override
   public MoveLine getDebitCustomerMoveLine(Invoice invoice) {
     if (invoice.getMove() != null) {
@@ -842,13 +761,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return null;
   }
 
-  /**
-   * Fonction permettant de récuperer la ligne d'écriture (au débit et non complétement lettrée sur
-   * le compte client) de l'écriture de facture
-   *
-   * @param move Une écriture de facture
-   * @return
-   */
   @Override
   public MoveLine getDebitCustomerMoveLine(Move move) {
     for (MoveLine moveLine : move.getMoveLineList()) {
@@ -861,13 +773,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return null;
   }
 
-  /**
-   * Fonction permettant de générér automatiquement la description des lignes d'écritures
-   *
-   * @param journal Le journal de l'écriture
-   * @param origin Le n° pièce réglée, facture, avoir ou de l'opération rejetée
-   * @return
-   */
   @Override
   public String determineDescriptionMoveLine(Journal journal, String origin, String description) {
     String descriptionComputed = "";
@@ -895,12 +800,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return descriptionComputed;
   }
 
-  /**
-   * Procédure permettant d'impacter la case à cocher "Passage à l'huissier" sur la facture liée à
-   * l'écriture
-   *
-   * @param moveLine Une ligne d'écriture
-   */
   @Override
   @Transactional
   public void usherProcess(MoveLine moveLine) {
@@ -916,12 +815,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     }
   }
 
-  /**
-   * Method used to recover all credit reconciliable move line from a move line list
-   *
-   * @param moveLineList
-   * @return reconciliableCreditMoveLineList
-   */
   @Override
   public List<MoveLine> getReconciliableCreditMoveLines(List<MoveLine> moveLineList) {
 
@@ -938,12 +831,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return reconciliableCreditMoveLineList;
   }
 
-  /**
-   * Method used to recover all debit reconciliable move line from a move line list
-   *
-   * @param moveLineList
-   * @return reconciliableDebitMoveLineList
-   */
   @Override
   public List<MoveLine> getReconciliableDebitMoveLines(List<MoveLine> moveLineList) {
 
@@ -960,11 +847,6 @@ public class MoveLineServiceImpl implements MoveLineService {
     return reconciliableDebitMoveLineList;
   }
 
-  /**
-   * Method used to reconcile the move line list passed as a parameter
-   *
-   * @param moveLineList
-   */
   @Override
   public void reconcileMoveLinesWithCacheManagement(List<MoveLine> moveLineList) {
 
@@ -1290,5 +1172,21 @@ public class MoveLineServiceImpl implements MoveLineService {
       }
     }
     return moveLine;
+  }
+
+  @Override
+  public Account getEquivalentAccount(MoveLine moveLine) {
+    if (moveLine.getAccount() == null || moveLine.getPartner() == null) {
+      return null;
+    }
+
+    Account oldAccount = moveLine.getAccount(),
+        newAccount =
+            Beans.get(FiscalPositionAccountService.class)
+                .getAccount(moveLine.getPartner().getFiscalPosition(), moveLine.getAccount());
+    if (oldAccount.equals(newAccount)) {
+      return null;
+    }
+    return newAccount;
   }
 }

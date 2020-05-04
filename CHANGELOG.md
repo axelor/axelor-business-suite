@@ -4,6 +4,7 @@
 - Invoice : made all dashboard's charts and grid based on ventilated invoices.
 ## Bug Fixes
 - PRODUCT VARIANTS : fix for error in product variant creation.
+- MOVELINE: When a moveLine is manually created, equivalent account is searched as it is done on automatic moveLines creation.
 
 ## [5.2.9] - 2020-04-28
 ## Features

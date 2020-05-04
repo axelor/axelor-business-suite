@@ -14,8 +14,8 @@
     <field name="date" width="90" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
  		<field name="move.period" width="100" canView="false"/>
     <field name="move.journal" width="140"/>
-    <field name="partner" form-view="partner-form" grid-view="partner-grid"/>
-    <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-compute-analytic-distribution"/>
+    <field name="partner" form-view="partner-form" grid-view="partner-grid" onChange="action-account-move-line-search-equivalent-account"/>
+	<field name="account" form-view="account-form" grid-view="account-grid" onChange="action-account-move-line-search-equivalent-account, action-move-line-method-compute-analytic-distribution"/>
     <field name="account.analyticDistributionAuthorized" hidden="true"/>
     <field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
     <field name="move.company" form-view="company-form" grid-view="company-grid" width="120" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
@@ -41,8 +41,8 @@
 		<field name="account.analyticDistributionAuthorized" hidden="true"/>
 		<field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
 		<field name="date" width="100" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
-        <field name="partner" form-view="partner-form" grid-view="partner-grid" onSelect="action-account-move-line-partner-group" width="120" canEdit="false" readonlyIf="amountPaid &gt; 0"/>
-        <field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" width="200" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-move-line-method-compute-analytic-distribution"/>
+        <field name="partner" form-view="partner-form" grid-view="partner-grid" onSelect="action-account-move-line-partner-group" width="120" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-account-move-line-search-equivalent-account"/>
+        <field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" width="200" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-account-move-line-search-equivalent-account, action-move-line-method-compute-analytic-distribution"/>
         <field name="debit" onChange="action-group-account-moveline-debitcredit-onchange" width="90" readonlyIf="credit != 0 || amountPaid &gt; 0"/>
         <field name="credit" onChange="action-group-account-moveline-debitcredit-onchange" width="90" readonlyIf="debit != 0 || amountPaid &gt; 0"/>
 		<field name="amountRemaining" hidden="true" width="150"/>
@@ -90,7 +90,7 @@
 		<field name="move.period" canView="false"/>
         <field name="move.journal"/>
         <field name="description"/>
-        <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-compute-analytic-distribution"/>
+        <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-account-move-line-search-equivalent-account, action-move-line-method-compute-analytic-distribution"/>
         <field name="account.analyticDistributionAuthorized" hidden="true"/>
         <field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
         <field name="debit" aggregate="sum"/>
@@ -108,7 +108,8 @@
         <field name="analyticMoveLineList" hidden="true"/>
     </grid>
 
-    <form name="incl-analytic-distribution-move-line-form" model="com.axelor.apps.account.db.MoveLine" title="Move line" canArchive="false">
+    <form name="incl-analytic-distribution-move-line-form" model="com.axelor.apps.account.db.MoveLine" title="Move line" canArchive="false"
+    onSave="action-account-move-line-search-equivalent-account">
     	<panel name="analyticDistributionPanel" title="Analytic distribution" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageAnalyticAccounting()" showIf="account.analyticDistributionAuthorized">
 			<field name="analyticDistributionTemplate" grid-view="analytic-distribution-template-grid" form-view="analytic-distribution-template-form" onChange="action-move-line-method-create-analytic-distribution" onSelect="action-move-line-attrs-set-domain-analytic-distribution-template" readonlyIf="!account.analyticDistributionAuthorized"
               requiredIf="(!analyticMoveLineList || !analyticMoveLineList.length) &amp;&amp; account.analyticDistributionAuthorized &amp;&amp; account.analyticDistributionRequiredOnMoveLines"/>
@@ -122,6 +123,7 @@
     </form>
 
 	<form name="move-line-form" title="Move line" model="com.axelor.apps.account.db.MoveLine"
+	onSave="action-account-move-line-search-equivalent-account"
 	onNew="action-account-move-line-onnew-group"
 	canNew="false" canDelete="false" onLoad="action-account-moveline-onload-group" canArchive="false">
 		<panel name="mainPanel" readonly="true">
@@ -148,8 +150,8 @@
 				<field name="dueDate" showIf="dueDate"/>
 				<field name="originDate"/>
 			</panel>
-			<field name="partner" readonlyIf="amountPaid &gt; 0" form-view="partner-form" grid-view="partner-grid" onSelect="action-move-line-attrs-domain-partner" canEdit="false"/>
-	        <field name="account" readonlyIf="amountPaid &gt; 0" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" onChange="action-move-line-method-compute-analytic-distribution,action-move-line-attrs-show-tax-amount"/>
+	        <field name="partner" readonlyIf="amountPaid &gt; 0" form-view="partner-form" grid-view="partner-grid" onSelect="action-move-line-attrs-domain-partner" canEdit="false" onChange="action-account-move-line-search-equivalent-account"/>
+	        <field name="account" readonlyIf="amountPaid &gt; 0" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" onChange="action-account-move-line-search-equivalent-account, action-move-line-method-compute-analytic-distribution, action-move-line-attrs-show-tax-amount"/>
 	        <field name="debit" readonlyIf="credit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" onChange="action-group-account-moveline-debitcredit-onchange" colSpan="3"/>
 	        <field name="credit" readonlyIf="debit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" onChange="action-group-account-moveline-debitcredit-onchange" colSpan="3"/>
 			<field name="amountRemaining" colSpan="3"/>
@@ -219,6 +221,7 @@
 	</form>
     
     <form name="move-line-move-form" title="Move line" model="com.axelor.apps.account.db.MoveLine" 
+    onSave="action-account-move-line-search-equivalent-account"
 	onNew="action-account-move-line-onnew-group" onLoad="action-account-moveline-onload-group" width="large">
 		<panel name="informationsPanel" title="Informations" colSpan="12" canArchive="false">
 
@@ -245,8 +248,8 @@
 				<field name="dueDate" showIf="dueDate"/>
 				<field name="originDate"/>
 			</panel>
-			<field name="partner" form-view="partner-form" grid-view="partner-grid" onSelect="action-move-line-attrs-domain-partner" canEdit="false" readonlyIf="amountPaid &gt; 0"/>
-			<field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-move-line-method-compute-analytic-distribution,action-move-line-attrs-show-tax-amount"/>
+			<field name="partner" form-view="partner-form" grid-view="partner-grid" onSelect="action-move-line-attrs-domain-partner" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-account-move-line-search-equivalent-account"/>
+			<field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-account-move-line-search-equivalent-account, action-move-line-method-compute-analytic-distribution,action-move-line-attrs-show-tax-amount"/>
 			<field name="debit" onChange="action-group-account-moveline-debitcredit-onchange" readonlyIf="credit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" colSpan="3"/>
 			<field name="credit" onChange="action-group-account-moveline-debitcredit-onchange" readonlyIf="debit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" colSpan="3"/>
 			<field name="amountRemaining" colSpan="3"/>
@@ -307,6 +310,7 @@
 	</form>
 
   <form name="account-move-line-calculation-wizard-form" title="Calculation"
+  onSave="action-account-move-line-search-equivalent-account"
     model="com.axelor.apps.base.db.Wizard" onNew="action-account-move-line-record-calculate-balance" canArchive="false">
     <panel name="mainPanel" colSpan="12" title="Total of the selected lines :">
       <field name="$credit" title="Credit :" readonly="true" colSpan="4" />
@@ -476,5 +480,9 @@
 			<domain>self.move.invoice.operationTypeSelect = 1 OR self.move.invoice.operationTypeSelect = 2</domain>
 		</filter>
 	</search-filters>
+
+	<action-method name="action-account-move-line-search-equivalent-account">
+		<call class="com.axelor.apps.account.web.MoveLineController" method="setEquivalentAccount"/>
+	</action-method>
 	
 </object-views>

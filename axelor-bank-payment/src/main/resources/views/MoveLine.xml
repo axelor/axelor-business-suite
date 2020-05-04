@@ -7,9 +7,9 @@
         <field name="name"/>
         <field name="date"/>
 		<field name="move.period" canView="false"/>
-        <field name="partner" form-view="partner-form" grid-view="partner-grid"/>
+        <field name="partner" form-view="partner-form" grid-view="partner-grid" onChange="action-account-move-line-search-equivalent-account"/>
         <field name="description"/>
-        <field name="account" form-view="account-form" grid-view="account-grid"/>
+        <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-account-move-line-search-equivalent-account"/>
         <field name="debit" aggregate="sum"/>
         <field name="credit" aggregate="sum"/>
 		<field name="bankReconciledAmount" if-module="axelor-bank-payment"/>
