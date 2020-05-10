@@ -22,20 +22,26 @@
 		<field name="percentage"/>
         <field name="tax" canEdit="false" grid-view="tax-grid" form-view="tax-form"/>
     </grid>
-    
+
 	<form name="move-template-line-in-amount-form" title="Move template line" model="com.axelor.apps.account.db.MoveTemplateLine">
 		<panel name="mainPanel">
 			<field name="name"/>
 			<field name="partner" canEdit="false" form-view="partner-form" grid-view="partner-grid"/>
 			<field name="debit" readonlyIf="credit > 0" onChange="action-move-template-line-record-update-need-to-check-validity"/>
-        	<field name="credit" readonlyIf="debit > 0" onChange="action-move-template-line-record-update-need-to-check-validity"/>
-        	<field name="product" canEdit="false" onChange="action-move-template-line-get-account" form-view="product-form" grid-view="product-grid"/>
+			<field name="credit" readonlyIf="debit > 0" onChange="action-move-template-line-record-update-need-to-check-validity"/>
+			<field name="product" canEdit="false" onChange="action-move-template-line-get-account" form-view="product-form" grid-view="product-grid"/>
 			<field name="account" canEdit="false" onSelect="action-move-template-line-set-account-domain" grid-view="account-grid" form-view="account-form"/>
-	        <field name="tax" canEdit="false" grid-view="tax-grid" form-view="tax-form"/>
-	        <field name="analyticDistributionTemplate" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageAnalyticAccounting()" grid-view="analytic-distribution-template-grid" form-view="analytic-distribution-template-form"/>
+			<field name="tax" canEdit="false" grid-view="tax-grid" form-view="tax-form" readonlyIf="!(account.accountType.technicalTypeSelect == 'income' || account.accountType.technicalTypeSelect == 'charge' || account.accountType.technicalTypeSelect == 'tax' || account.accountType.technicalTypeSelect == 'immobilisation' || account.isTaxAuthorizedOnMoveLine)" requiredIf="(account.isTaxAuthorizedOnMoveLine &amp;&amp; account.isTaxRequiredOnMoveLine) || account.accountType.technicalTypeSelect == 'income' || account.accountType.technicalTypeSelect == 'charge' || account.accountType.technicalTypeSelect == 'tax' || account.accountType.technicalTypeSelect == 'immobilisation'" showIf="account.accountType.technicalTypeSelect == 'income' || account.accountType.technicalTypeSelect == 'charge' || account.accountType.technicalTypeSelect == 'tax' || account.accountType.technicalTypeSelect == 'immobilisation' || account.isTaxAuthorizedOnMoveLine"/>
+			<field name="analyticDistributionTemplate" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageAnalyticAccounting()" grid-view="analytic-distribution-template-grid" form-view="analytic-distribution-template-form" readonlyIf="!account.analyticDistributionAuthorized"
+				   requiredIf="account.analyticDistributionAuthorized &amp;&amp; account.analyticDistributionRequiredOnMoveLines" showIf="account.analyticDistributionAuthorized"/>
 			<field name="isValid" readonly="true" hidden="true"/>
+			<field name="account.accountType.technicalTypeSelect" hidden="true"/>
+			<field name="account.isTaxRequiredOnMoveLine" hidden="true"/>
+			<field name="account.isTaxAuthorizedOnMoveLine" hidden="true"/>
+			<field name="account.analyticDistributionAuthorized" hidden="true"/>
+			<field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
 		</panel>
-  	</form>
+	</form>
   	
   	<form name="move-template-line-in-percentage-form" title="Move template line" model="com.axelor.apps.account.db.MoveTemplateLine">
 		<panel name="mainPanel">
