@@ -10,14 +10,14 @@
         <field name="mrpSeq"/>
         <field name="createdOn"/>
         <field name="createdBy"/>
-        <field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="6"/>
-        <field name="stockLocation.company"/>
+        <field name="stockLocationFullNames" colSpan="6"/>
+        <field name="stockLocationCompanies"/>
         <field name="endDate" colSpan="6"/>
         <field name="statusSelect"/>
 	 </grid>
     
 	<form name="mrp-form" model="com.axelor.apps.supplychain.db.Mrp" title="Mrp" width="large"
-		onLoad="action-attrs-mrp-generate-all-proposals">
+		onLoad="action-attrs-mrp-generate-all-proposals" >
 	     <menubar>
 	     	<menu title="Tools" showTitle="true" icon="fa-wrench">
 	    		<item name="runCalculationItem" title="Run calculation"  showIf="statusSelect != 1" action="save,action-method-mrp-run-calculation" prompt="Are you sure you want run the calculation ? Calculation can take a long time."/>
@@ -42,8 +42,8 @@
 			<field name="createdOn" colSpan="4"/>
 			<field name="createdBy" colSpan="4"/>
 			<field name="endDate" colSpan="4"/>
-			<field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="4" domain="self.typeSelect != 3" canEdit="false"/>
-			<field name="stockLocation.company" colSpan="4"/>
+			<field name="stockLocationSet" widget="TagSelect" canNew="false" form-view="stock-location-form" grid-view="stock-location-grid" domain="self.typeSelect != 3 AND (self.isNotInMrp = false OR self.isNotInMrp = null)" canEdit="false" onChange="action-mrp-record-set-stocklocation-fullname-and-companies-fullname"/>
+			<field name="stockLocationCompanies" readonly="true"/>
 	    </panel>
 	    <panel name="filtersPanel" title="Filters" collapseIf="statusSelect != 0" colSpan="12">
 			<field name="id"/><spacer/>
@@ -52,8 +52,8 @@
 	        <field name="endDateTime" colSpan="4" readonly="true"/>
 	        <field name="createdBy"/>
 	        <field name="endDate" colSpan="6"/>
-	        <field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="6" domain="self.typeSelect != 3 AND (self.isNotInMrp = false OR self.isNotInMrp = null)" canEdit="false"/>
-	        <field name="stockLocation.company"/>
+	        <field name="stockLocationSet" widget="TagSelect" canNew="false" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="6" domain="self.typeSelect != 3 AND (self.isNotInMrp = false OR self.isNotInMrp = null)" canEdit="false" onChange="action-mrp-record-set-stocklocation-fullname-and-companies-fullname"/>
+	        <field name="stockLocationCompanies" readonly="true"/>
 	        <field name="displayProductWithoutProposal" widget="boolean-switch"/>
 	        <panel-related name="productSetPanel" field="productSet" canEdit="false" form-view="product-form" grid-view="product-grid" canNew="false" colSpan="12" domain="self.productTypeSelect = 'storable' AND self.excludeFromMrp = false AND self.stockManaged = true"/>
 	        <panel-related name="productCategorySetPanel" field="productCategorySet" canEdit="false" form-view="product-category-form" grid-view="product-category-grid" canNew="false" colSpan="12"/>
@@ -124,12 +124,17 @@
 	</action-attrs>
 	
 	<action-attrs name="action-mrp-attrs-sale-order-domain">
-  		<attribute name="domain" for="saleOrderLineSet" expr="eval: &quot;self.product.productTypeSelect = 'storable' AND self.product.excludeFromMrp = false AND self.product.stockManaged = true AND self.deliveryState != 3 AND self.saleOrder.company.id = ${stockLocation?.company?.id} AND self.saleOrder.stockLocation is not null&quot;"/>
+  		<attribute name="domain" for="saleOrderLineSet" expr="eval: &quot;self.product.productTypeSelect = 'storable' AND self.product.excludeFromMrp = false AND self.product.stockManaged = true AND self.deliveryState != 3 AND self.saleOrder.company.id IN (${[0]+stockLocationSet?.collect{it -> it.company?.id}.flatten()).join(',')}) AND self.saleOrder.stockLocation is not null&quot;"/>
 	</action-attrs>
 	
 	<action-method name="action-method-mrp-undo-manual-changes">
 		<call class="com.axelor.apps.supplychain.web.MrpController" method="undoManualChanges"/>
 	</action-method>
+	
+	<action-record name="action-mrp-record-set-stocklocation-fullname-and-companies-fullname" model="com.axelor.apps.supplychain.db.Mrp">
+		<field name="stockLocationFullNames" expr="eval: stockLocationSet?.collect{it -> it.name}.flatten().join(',')"/>
+		<field name="stockLocationCompanies" expr="eval: stockLocationSet?.collect{it -> it.company?.name}.flatten().join(',')"/>
+	</action-record>  
 	
 </object-views>
 

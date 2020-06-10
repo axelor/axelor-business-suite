@@ -31,6 +31,7 @@
 - Removed block permission from demo data.
 - SaleOrder/Invoice/PurchaseOrder Line : Unit is now required
 - TeamTask: add new field categorySet.
+- MRP : possibility to choose one or more stock location
 
 ## Bug Fixes
 - HR : A leave-line cannot be saved whitout employee or leave-reason.
