@@ -16,6 +16,7 @@
 		    <field name="actionSelect"/>
 		    <field name="code" x-bind="{{code|unaccent|uppercase}}" onChange="action-base-batch-condition-check-unique-code"/>
 		    <field name="company" canEdit="false"/>
+		    <field name="batchFetchLimit"/>
 		</panel>
 		<panel-tabs name="mainPanelTab">
             <panel name="leaveManagementPanel" title="Leave management" hidden="true" showIf="actionSelect == 1">

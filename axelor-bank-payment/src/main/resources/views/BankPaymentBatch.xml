@@ -16,6 +16,7 @@
     		<field name="actionSelect"/>
     		<field name="code"/>
     		<field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid" hideIf="actionSelect &gt; 2" hidden="true"/>
+    		<field name="batchFetchLimit"/>
   		</panel>
   		
   		 <panel-tabs name="mainPanelTab">

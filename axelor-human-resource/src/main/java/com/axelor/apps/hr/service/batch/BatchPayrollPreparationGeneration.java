@@ -30,6 +30,7 @@ import com.axelor.apps.hr.db.repo.PayrollPreparationRepository;
 import com.axelor.apps.hr.exception.IExceptionMessage;
 import com.axelor.apps.hr.service.PayrollPreparationService;
 import com.axelor.db.JPA;
+import com.axelor.db.Query;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.ExceptionOriginRepository;
 import com.axelor.exception.db.repo.TraceBackRepository;
@@ -88,11 +89,17 @@ public class BatchPayrollPreparationGeneration extends BatchStrategy {
   @Override
   protected void process() {
 
-    List<Employee> employeeList = this.getEmployees(hrBatch);
-    generatePayrollPreparations(employeeList);
+    List<Employee> employeeList = null;
+    int fetchLimit = getFetchLimit();
+    Query<Employee> query = this.getEmployees(hrBatch);
+    int offset = 0;
+    while (!(employeeList = query.fetch(fetchLimit, offset)).isEmpty()) {
+      generatePayrollPreparations(employeeList);
+      offset += employeeList.size();
+    }
   }
 
-  public List<Employee> getEmployees(HrBatch hrBatch) {
+  public Query<Employee> getEmployees(HrBatch hrBatch) {
 
     List<String> query = Lists.newArrayList();
 
@@ -117,10 +124,9 @@ public class BatchPayrollPreparationGeneration extends BatchStrategy {
               Joiner.on(" AND ").join(query)
                   + liaison
                   + " self.mainEmploymentContract.payCompany = :company")
-          .bind("company", hrBatch.getCompany())
-          .fetch();
+          .bind("company", hrBatch.getCompany());
     } else {
-      return JPA.all(Employee.class).filter(Joiner.on(" AND ").join(query)).fetch();
+      return JPA.all(Employee.class).filter(Joiner.on(" AND ").join(query));
     }
   }
 

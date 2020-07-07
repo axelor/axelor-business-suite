@@ -313,7 +313,8 @@ public class AccountingCloseAnnualServiceImpl implements AccountingCloseAnnualSe
     }
   }
 
-  public List<Long> getAllAccountOfYear(Set<Account> accountSet, Year year) {
+  public List<Long> getAllAccountOfYear(
+      Set<Account> accountSet, Year year, int fetchLimit, int position) {
 
     List<Long> accountIdList =
         accountService.getAllAccountsSubAccountIncluded(
@@ -329,6 +330,8 @@ public class AccountingCloseAnnualServiceImpl implements AccountingCloseAnnualSe
     q.setParameter(1, year);
     q.setParameter(2, accountIdList);
     q.setParameter(3, MoveRepository.STATUS_VALIDATED);
+    q.setMaxResults(fetchLimit);
+    q.setFirstResult(position);
 
     List<Long> result = q.getResultList();
 

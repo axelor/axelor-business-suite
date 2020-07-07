@@ -75,47 +75,53 @@ public class BatchEventReminder extends BatchStrategy {
     if (!stop) {
 
       int i = 0;
+      int fetchLimit = getFetchLimit();
 
-      List<? extends EventReminder> eventReminderList = eventReminderRepo.all().fetch();
+      List<? extends EventReminder> eventReminderList = null;
+      com.axelor.db.Query<EventReminder> query = eventReminderRepo.all();
+      int offset = 0;
+      while (!(eventReminderList = query.fetch(fetchLimit, offset)).isEmpty()) {
+        offset += eventReminderList.size();
 
-      for (EventReminder eventReminder : eventReminderList) {
+        for (EventReminder eventReminder : eventReminderList) {
 
-        try {
+          try {
 
-          eventReminder = eventReminderRepo.find(eventReminder.getId());
+            eventReminder = eventReminderRepo.find(eventReminder.getId());
 
-          Integer eventStatusSelect = eventReminder.getEvent().getStatusSelect();
-          boolean eventIsNotFinished =
-              eventStatusSelect == EventRepository.STATUS_PLANNED
-                  || eventStatusSelect == EventRepository.STATUS_NOT_STARTED
-                  || eventStatusSelect == EventRepository.STATUS_ON_GOING
-                  || eventStatusSelect == EventRepository.STATUS_PENDING;
-          if (!eventReminder.getIsReminded() && isExpired(eventReminder) && eventIsNotFinished) {
-            updateEventReminder(eventReminder);
-            i++;
-          }
+            Integer eventStatusSelect = eventReminder.getEvent().getStatusSelect();
+            boolean eventIsNotFinished =
+                eventStatusSelect == EventRepository.STATUS_PLANNED
+                    || eventStatusSelect == EventRepository.STATUS_NOT_STARTED
+                    || eventStatusSelect == EventRepository.STATUS_ON_GOING
+                    || eventStatusSelect == EventRepository.STATUS_PENDING;
+            if (!eventReminder.getIsReminded() && isExpired(eventReminder) && eventIsNotFinished) {
+              updateEventReminder(eventReminder);
+              i++;
+            }
 
-        } catch (Exception e) {
+          } catch (Exception e) {
 
-          TraceBackService.trace(
-              new Exception(
-                  String.format(
-                      I18n.get(IExceptionMessage.BATCH_EVENT_REMINDER_1),
-                      eventReminderRepo.find(eventReminder.getId()).getEvent().getSubject()),
-                  e),
-              ExceptionOriginRepository.CRM,
-              batch.getId());
+            TraceBackService.trace(
+                new Exception(
+                    String.format(
+                        I18n.get(IExceptionMessage.BATCH_EVENT_REMINDER_1),
+                        eventReminderRepo.find(eventReminder.getId()).getEvent().getSubject()),
+                    e),
+                ExceptionOriginRepository.CRM,
+                batch.getId());
 
-          incrementAnomaly();
+            incrementAnomaly();
 
-          LOG.error(
-              "Bug(Anomalie) généré(e) pour le rappel de l'évènement {}",
-              eventReminderRepo.find(eventReminder.getId()).getEvent().getSubject());
+            LOG.error(
+                "Bug(Anomalie) généré(e) pour le rappel de l'évènement {}",
+                eventReminderRepo.find(eventReminder.getId()).getEvent().getSubject());
 
-        } finally {
+          } finally {
 
-          if (i % 1 == 0) {
-            JPA.clear();
+            if (i % 1 == 0) {
+              JPA.clear();
+            }
           }
         }
       }

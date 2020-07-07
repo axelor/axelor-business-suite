@@ -16,6 +16,7 @@
     <!-- OTHERS INFORMATIONS -->
     <string name="description" title="Description" large="true" />
     <one-to-many name="batchList" ref="com.axelor.apps.base.db.Batch" mappedBy="projectInvoicingAssistantBatch" title="Batches" />
+    <integer name="batchFetchLimit" title="Batch fetch limit" min="0" />
     
     <extra-code><![CDATA[
 	

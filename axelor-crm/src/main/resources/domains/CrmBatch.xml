@@ -15,6 +15,7 @@
     <!-- OTHERS INFORMATION -->
     <string name="description" title="Description" large="true" />
     <one-to-many name="batchList" ref="com.axelor.apps.base.db.Batch" mappedBy="crmBatch" title="Batchs" />
+    <integer name="batchFetchLimit" title="Batch fetch limit" min="0" />
   
  	<integer name="durationTypeSelect" title="Duration type" selection="crm.eventReminder.duration.type.select"/>
   

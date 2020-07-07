@@ -22,6 +22,7 @@
 		  <field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid" />
 		  <field name="workshopStockLocation" onSelect="action-production-batch-attrs-domain-stock-location" onChange="action-production-batch-record-set-company"
 						 form-view="stock-location-form" grid-view="stock-location-grid" if="__config__.app.getApp('production').getManageWorkshop()" />
+		  <field name="batchFetchLimit"/>
 		</panel>
 		<panel name="creationDetailsPanel">
 		  <field name="createdOn" title="Created on"/>

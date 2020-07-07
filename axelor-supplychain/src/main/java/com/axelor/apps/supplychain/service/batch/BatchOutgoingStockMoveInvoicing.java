@@ -48,6 +48,7 @@ public class BatchOutgoingStockMoveInvoicing extends BatchStrategy {
   @Override
   protected void process() {
     SupplychainBatch supplychainBatch = batch.getSupplychainBatch();
+    int fetchLimit = getFetchLimit();
     List<Long> anomalyList = Lists.newArrayList(0L);
     SaleOrderRepository saleRepo = Beans.get(SaleOrderRepository.class);
 
@@ -72,10 +73,12 @@ public class BatchOutgoingStockMoveInvoicing extends BatchStrategy {
             .setParameter("invoiceStatusCanceled", InvoiceRepository.STATUS_CANCELED)
             .setParameter("anomalyList", anomalyList)
             .setParameter("batch", batch)
-            .setMaxResults(FETCH_LIMIT);
+            .setMaxResults(fetchLimit);
 
-    List<StockMove> stockMoveList;
-    while (!(stockMoveList = query.getResultList()).isEmpty()) {
+    int start = 0;
+    for (List<StockMove> stockMoveList;
+        !(stockMoveList = query.getResultList()).isEmpty();
+        JPA.clear(), start += stockMoveList.size(), query.setFirstResult(start)) {
       for (StockMove stockMove : stockMoveList) {
         try {
           stockMoveInvoiceService.createInvoiceFromSaleOrder(

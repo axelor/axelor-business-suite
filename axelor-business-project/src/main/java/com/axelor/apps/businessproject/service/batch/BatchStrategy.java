@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.axelor.apps.base.service.batch;
+package com.axelor.apps.businessproject.service.batch;
 
 import com.axelor.apps.base.service.administration.AbstractBatch;
 
@@ -23,15 +23,8 @@ public abstract class BatchStrategy extends AbstractBatch {
 
   @Override
   public int getFetchLimit() {
-    int limit = 0;
-    if (batch.getBaseBatch() != null) {
-      limit = batch.getBaseBatch().getBatchFetchLimit();
-    } else if (batch.getMailBatch() != null) {
-      limit = batch.getMailBatch().getBatchFetchLimit();
-    }
-    if (limit == 0) {
-      limit = super.getFetchLimit();
-    }
-    return limit;
+    return batch.getProjectInvoicingAssistantBatch().getBatchFetchLimit() > 0
+        ? batch.getProjectInvoicingAssistantBatch().getBatchFetchLimit()
+        : super.getFetchLimit();
   }
 }

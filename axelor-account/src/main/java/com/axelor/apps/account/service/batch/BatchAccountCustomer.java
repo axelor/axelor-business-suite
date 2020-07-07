@@ -24,6 +24,7 @@ import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountCustomerService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.db.JPA;
+import com.axelor.db.Query;
 import com.axelor.exception.db.repo.ExceptionOriginRepository;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
@@ -66,46 +67,54 @@ public class BatchAccountCustomer extends BatchStrategy {
     boolean updateDueDebtRecoveryCustAccountOk =
         accountingBatch.getUpdateDueDebtRecoveryCustAccountOk();
 
-    List<AccountingSituation> accountingSituationList =
-        accountingSituationRepo.all().filter("self.company = ?1", company).fetch();
+    int fetchLimit = getFetchLimit();
+
+    List<AccountingSituation> accountingSituationList = null;
+    Query<AccountingSituation> query =
+        accountingSituationRepo.all().filter("self.company = ?1", company);
     int i = 0;
-    JPA.clear();
-    for (AccountingSituation accountingSituation : accountingSituationList) {
-      try {
 
-        accountingSituation =
-            accountCustomerService.updateAccountingSituationCustomerAccount(
-                accountingSituationRepo.find(accountingSituation.getId()),
-                updateCustAccountOk,
-                updateDueCustAccountOk,
-                updateDueDebtRecoveryCustAccountOk);
+    int offset = 0;
+    while (!(accountingSituationList = query.fetch(fetchLimit, offset)).isEmpty()) {
+      JPA.clear();
+      for (AccountingSituation accountingSituation : accountingSituationList) {
+        try {
+          ++offset;
 
-        if (accountingSituation != null) {
-          this.updateAccountingSituation(accountingSituation);
-          i++;
-        }
+          accountingSituation =
+              accountCustomerService.updateAccountingSituationCustomerAccount(
+                  accountingSituationRepo.find(accountingSituation.getId()),
+                  updateCustAccountOk,
+                  updateDueCustAccountOk,
+                  updateDueDebtRecoveryCustAccountOk);
 
-      } catch (Exception e) {
+          if (accountingSituation != null) {
+            this.updateAccountingSituation(accountingSituation);
+            i++;
+          }
 
-        TraceBackService.trace(
-            new Exception(
-                String.format(
-                    I18n.get(IExceptionMessage.BATCH_ACCOUNT_1),
-                    accountingSituationRepo.find(accountingSituation.getId()).getName()),
-                e),
-            ExceptionOriginRepository.CUSTOMER_ACCOUNT,
-            batch.getId());
+        } catch (Exception e) {
 
-        incrementAnomaly();
+          TraceBackService.trace(
+              new Exception(
+                  String.format(
+                      I18n.get(IExceptionMessage.BATCH_ACCOUNT_1),
+                      accountingSituationRepo.find(accountingSituation.getId()).getName()),
+                  e),
+              ExceptionOriginRepository.ACCOUNT_CUSTOMER,
+              batch.getId());
 
-        log.error(
-            "Bug(Anomalie) généré(e) pour la situation compable {}",
-            accountingSituationRepo.find(accountingSituation.getId()).getName());
+          incrementAnomaly();
 
-      } finally {
+          log.error(
+              "Bug(Anomalie) généré(e) pour la situation compable {}",
+              accountingSituationRepo.find(accountingSituation.getId()).getName());
 
-        if (i % 1 == 0) {
-          JPA.clear();
+        } finally {
+
+          if (i % 1 == 0) {
+            JPA.clear();
+          }
         }
       }
     }

@@ -46,7 +46,7 @@ public class SubscriptionInvoiceServiceImpl implements SubscriptionInvoiceServic
 
     List<Invoice> invoices = new ArrayList<Invoice>();
 
-    for (SaleOrder saleOrder : getSubscriptionOrders(null)) {
+    for (SaleOrder saleOrder : getSubscriptionOrders().fetch()) {
       Invoice invoice = generateSubscriptionInvoice(saleOrder);
       invoices.add(invoice);
     }
@@ -55,7 +55,7 @@ public class SubscriptionInvoiceServiceImpl implements SubscriptionInvoiceServic
   }
 
   @Override
-  public List<SaleOrder> getSubscriptionOrders(Integer limit) {
+  public Query<SaleOrder> getSubscriptionOrders() {
 
     Query<SaleOrder> query =
         saleOrderRepo
@@ -69,11 +69,7 @@ public class SubscriptionInvoiceServiceImpl implements SubscriptionInvoiceServic
             .bind("saleOrderStatus", SaleOrderRepository.STATUS_ORDER_CONFIRMED)
             .bind("subScriptionDate", appBaseService.getTodayDate());
 
-    if (limit != null) {
-      return query.fetch(limit);
-    }
-
-    return query.fetch();
+    return query;
   }
 
   @Override

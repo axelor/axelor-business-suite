@@ -18,6 +18,7 @@
 		    <field name="actionSelect" onChange="action-base-batch-attrs-action-select"/>
 		    <field name="code" x-bind="{{code|unaccent|uppercase}}" onChange="action-base-batch-condition-check-unique-code"/>
 		    <field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid"/>
+		    <field name="batchFetchLimit"/>
 			<field name="synchronizationDuration" widget="Integer" readonlyIf="allEvents" showIf="actionSelect == 2"/>
 			<field name="allEvents" widget="boolean-switch" showIf="actionSelect == 2"/>
 		</panel>

@@ -28,6 +28,7 @@ import com.axelor.apps.bankpayment.service.bankstatement.BankStatementService;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.apps.base.service.administration.AbstractBatch;
 import com.axelor.db.JPA;
+import com.axelor.db.Query;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.ExceptionOriginRepository;
 import com.axelor.exception.db.repo.TraceBackRepository;
@@ -59,9 +60,25 @@ public class BatchBankStatement extends AbstractBatch {
     // Retrieve all active EBICS partners if there is no configured EBICS partners
     // on the batch.
     if (ebicsPartners == null || ebicsPartners.isEmpty()) {
-      ebicsPartners = getAllActiveEbicsPartners();
-    }
+      int fetchLimit = getFetchLimit();
+      Query<EbicsPartner> query =
+          Beans.get(EbicsPartnerRepository.class)
+              .all()
+              .filter("self.transportEbicsUser.statusSelect = :statusSelect")
+              .bind("statusSelect", EbicsUserRepository.STATUS_ACTIVE_CONNECTION);
 
+      int offset = 0;
+      while (!(ebicsPartners = query.fetch(fetchLimit, offset)).isEmpty()) {
+        offset += ebicsPartners.size();
+        processActiveEbicsPartnersBankStatement(ebicsPartners, bankPaymentBatch);
+      }
+    } else {
+      processActiveEbicsPartnersBankStatement(ebicsPartners, bankPaymentBatch);
+    }
+  }
+
+  private void processActiveEbicsPartnersBankStatement(
+      Collection<EbicsPartner> ebicsPartners, BankPaymentBatch bankPaymentBatch) {
     for (EbicsPartner ebicsPartner : ebicsPartners) {
       try {
         List<BankStatement> bankStatementList =
@@ -135,15 +152,14 @@ public class BatchBankStatement extends AbstractBatch {
     super.stop();
   }
 
-  private Collection<EbicsPartner> getAllActiveEbicsPartners() {
-    return Beans.get(EbicsPartnerRepository.class)
-        .all()
-        .filter("self.transportEbicsUser.statusSelect = :statusSelect")
-        .bind("statusSelect", EbicsUserRepository.STATUS_ACTIVE_CONNECTION)
-        .fetch();
-  }
-
   public Batch bankStatement(BankPaymentBatch bankPaymentBatch) {
     return Beans.get(BatchBankStatement.class).run(bankPaymentBatch);
+  }
+
+  @Override
+  public int getFetchLimit() {
+    return batch.getBankPaymentBatch().getBatchFetchLimit() > 0
+        ? batch.getBankPaymentBatch().getBatchFetchLimit()
+        : super.getFetchLimit();
   }
 }

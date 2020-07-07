@@ -77,6 +77,8 @@
 	   	
 	   	<one-to-many name="globalTrackingConfigurationLines" ref="com.axelor.apps.admin.db.GlobalTrackingConfigurationLine" mappedBy="appBase" orphanRemoval="true"/>
 	   	
+		<integer name="batchFetchLimit" title="Batch fetch limit" min="0" />
+		
 		<extra-code>
 	   		<![CDATA[
 	   			public static final int DISCOUNT_SEPARATE = 1;

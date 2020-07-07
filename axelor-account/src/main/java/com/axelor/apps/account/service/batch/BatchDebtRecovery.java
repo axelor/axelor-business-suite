@@ -91,11 +91,12 @@ public class BatchDebtRecovery extends BatchStrategy {
   protected void process() {
 
     if (!stopping) {
-      this.debtRecoveryPartner();
+      int fetchLimit = getFetchLimit();
+      this.debtRecoveryPartner(fetchLimit);
     }
   }
 
-  public void debtRecoveryPartner() {
+  public void debtRecoveryPartner(int fetchLimit) {
     Company company = batch.getAccountingBatch().getCompany();
 
     Query<Partner> query =
@@ -116,7 +117,7 @@ public class BatchDebtRecovery extends BatchStrategy {
     int offset = 0;
     List<Partner> partnerList;
 
-    while (!(partnerList = query.fetch(FETCH_LIMIT, offset)).isEmpty()) {
+    while (!(partnerList = query.fetch(fetchLimit, offset)).isEmpty()) {
       findBatch();
 
       for (Partner partner : partnerList) {
