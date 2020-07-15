@@ -23,14 +23,18 @@ import com.axelor.apps.crm.translation.ITranslation;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.sale.service.saleorder.OpportunitySaleOrderService;
+import com.axelor.apps.sale.service.saleorder.OpportunitySaleOrderServiceImpl;
 import com.axelor.apps.sale.service.saleorder.SaleOrderWorkflowService;
 import com.axelor.exception.AxelorException;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Singleton
@@ -66,6 +70,38 @@ public class OpportunitySaleOrderController {
           }
         }
       }
+    }
+  }
+
+  public void findAvailableSaleOrders(ActionRequest request, ActionResponse response) {
+    Opportunity opportunity =
+        Beans.get(OpportunityRepository.class)
+            .find(Long.parseLong(request.getContext().get("opportunityId").toString()));
+    if (opportunity.getPartner() != null)
+      response.setAttr(
+          "$availableSaleOrders",
+          "domain",
+          "self.opportunity = null && self.clientPartner = " + opportunity.getPartner().getId());
+    else response.setAttr("$availableSaleOrders", "domain", "self.opportunity = null");
+  }
+
+  public void linkSaleOrdersToOpportunity(ActionRequest request, ActionResponse response) {
+    try {
+      List<Long> selectedSaleOrdersIdList = new ArrayList<Long>();
+      Opportunity opportunity =
+          Beans.get(OpportunityRepository.class)
+              .find(Long.parseLong(request.getContext().get("opportunityId").toString()));
+
+      for (LinkedHashMap<String, Object> entry :
+          (ArrayList<LinkedHashMap<String, Object>>)
+              request.getContext().get("availableSaleOrders")) {
+        selectedSaleOrdersIdList.add(Long.parseLong(entry.get("id").toString()));
+      }
+      System.out.println(selectedSaleOrdersIdList);
+      Beans.get(OpportunitySaleOrderServiceImpl.class)
+          .linkSaleOrderToOpportunity(selectedSaleOrdersIdList, opportunity);
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
     }
   }
 }

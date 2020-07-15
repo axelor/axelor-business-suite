@@ -21,9 +21,12 @@ import com.axelor.apps.crm.db.Opportunity;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.exception.AxelorException;
 import com.google.inject.persist.Transactional;
+import java.util.List;
 
 public interface OpportunitySaleOrderService {
 
   @Transactional(rollbackOn = {Exception.class})
   public SaleOrder createSaleOrderFromOpportunity(Opportunity opportunity) throws AxelorException;
+
+  public void linkSaleOrderToOpportunity(List<Long> saleOrderIdList, Opportunity opportunity);
 }

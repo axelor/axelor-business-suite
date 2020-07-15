@@ -30,6 +30,7 @@ import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import java.util.List;
 
 public class OpportunitySaleOrderServiceImpl implements OpportunitySaleOrderService {
 
@@ -86,5 +87,14 @@ public class OpportunitySaleOrderServiceImpl implements OpportunitySaleOrderServ
         opportunity.getPartner(),
         opportunity.getTeam(),
         opportunity.getTradingName());
+  }
+
+  @Transactional
+  public void linkSaleOrderToOpportunity(List<Long> saleOrderIdList, Opportunity opportunity) {
+    for (Long id : saleOrderIdList) {
+      SaleOrder saleOrder = saleOrderRepo.find(id);
+      saleOrder.setOpportunity(opportunity);
+      saleOrderRepo.save(saleOrder);
+    }
   }
 }

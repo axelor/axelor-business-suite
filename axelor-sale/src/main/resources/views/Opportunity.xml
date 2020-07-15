@@ -27,4 +27,27 @@
     	<call class="com.axelor.apps.sale.web.OpportunitySaleOrderController" method="cancelSaleOrders"/>
     </action-method>
 	
+	<form name="opportunity-add-sale-order-wizard-form" title="Add sale order" model="com.axelor.apps.base.db.Wizard" onNew="action-opportunity-method-find-available-sale-orders">
+		<panel-related name="selectedSaleOrdersPanel" field="$availableSaleOrders" form-view="sale-order-form" title="Selected sale orders" colSpan="12" type="many-to-many" target="com.axelor.apps.sale.db.SaleOrder" domain="self.opportunity = null" canNew="false" canEdit="false" grid-view="sale-order-opportunity-grid"/>
+		<panel name="actionsPanel">
+			<button name="linkSaleOrdersButton" title="Link selected sale orders to the opportunity" onClick="action-opportunity-method-link-sale-orders,close"/>
+	  	</panel>
+	</form>
+	
+	<action-method name="action-opportunity-method-link-sale-orders">
+		<call class="com.axelor.apps.sale.web.OpportunitySaleOrderController" method="linkSaleOrdersToOpportunity" />
+	</action-method>
+	
+	<action-method name="action-opportunity-method-find-available-sale-orders">
+		<call class="com.axelor.apps.sale.web.OpportunitySaleOrderController" method="findAvailableSaleOrders"/>
+	</action-method>
+		
+	<action-view name="action-opportunity-add-sale-order-wizard" title="Add sale order" model="com.axelor.apps.crm.db.Opportunity">
+		<view type="form" name="opportunity-add-sale-order-wizard-form"/>
+		<view-param name="popup" value="reload"/>
+		<view-param name="popup-save" value="false"/>
+		<view-param name="show-toolbar" value="false"/>
+		<context name="opportunityId" expr="eval: id"/> 
+	</action-view>
+	
 </object-views>	

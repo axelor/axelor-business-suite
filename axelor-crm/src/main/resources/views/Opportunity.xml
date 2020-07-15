@@ -140,7 +140,11 @@
             	<panel name="customerDescriptionPanel" title="Customer Description" if="__config__.app.getApp('crm')?.displayCustomerDescriptionInOpportunity">
             		<field name="customerDescription" showTitle="false" colSpan="12" widget="html"/>
             	</panel>
-            <panel-related name="saleOrderListPanel" if="__config__.app.isApp('sale')" if-module="axelor-sale" title="Sale quotations/orders" field="saleOrderList" form-view="sale-order-form" grid-view="sale-order-opportunity-grid" canNew="false"/>
+            <panel name="saleOrderPanel" if="__config__.app.isApp('sale')" if-module="axelor-sale" title="Sale quotations/orders">
+            	<button name="addSaleOrderButton" title="Link to a sale order" onClick="save,action-opportunity-add-sale-order-wizard"/>
+           		<panel-related colSpan="12" name="saleOrderListPanel" title="Sale quotations/orders" field="saleOrderList" form-view="sale-order-form" grid-view="sale-order-opportunity-grid" canNew="false"/>
+       		</panel>
+       
         </panel-tabs>
 
         <panel name="otherDetailsPanel" sidebar="true">
@@ -228,7 +232,7 @@
 			<field name="lostReason.freeText" hidden="true"/>
 		</panel>
 	</form>
-
+	
 	<action-view name="action-opportunity-view-opportunity-lost-popup-view" model="com.axelor.apps.crm.db.Opportunity" title="Lost reason">
 	   <view type="form" name="opportunity-form-lost-popup"/>
 		<view-param name="popup" value="reload"/>
@@ -356,5 +360,5 @@
 		<view type="grid" name="opportunity-grid"/>
 		<view type="form" name="opportunity-form" />
 	</action-view>
-
+	
 </object-views>

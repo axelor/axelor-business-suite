@@ -22,6 +22,7 @@
 - BPM : Add overview of the result of the wkf.
 - SUPPLIER PORTAL : Creation of new Supplier portal
 - INVOICE : Added the possibility to add a watermark to the printings
+- OPPORTUNITY : Added the possibility to link an opportunity to a saleOrder from the opportunity form view
 
 ## Improvements
 - USER : Default User language is based on application.locale from application.properties
