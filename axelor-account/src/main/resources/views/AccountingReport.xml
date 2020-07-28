@@ -67,7 +67,8 @@
 				<field name="displayClosingAccountingMoves" showIf="typeSelect != 5 &amp;&amp; typeSelect != 16 &amp;&amp; typeSelect != 17"/>
 				<field name="displayOpeningAccountingMoves" showIf="typeSelect != 5 &amp;&amp; typeSelect != 16 &amp;&amp; typeSelect != 17"/>
 				<separator title="Display options" colSpan="12" showIf="typeSelect == 7 || typeSelect == 1"/>
-				<field name="displayOnlyNotCompletelyLetteredMoveLines" hideIf="typeSelect != 7 &amp;&amp; typeSelect != 1"/>
+				<field name="calculateProvisionalOpeningAccountingMoves" showIf="typeSelect == 1 || typeSelect == 7 || typeSelect == 11 || typeSelect == 2 || typeSelect == 6"/>
+				<field name="displayOnlyNotCompletelyLetteredMoveLines" showIf="typeSelect == 7 || typeSelect == 1"/>
 				<field name="displayCodeAccountColumnOnPrinting" showIf="typeSelect == 1"/>
 				<field name="displayNameAccountColumnOnPrinting" showIf="typeSelect == 1"/>
 				<field name="displayMoveLineSequenceOnPrinting" showIf="typeSelect == 1"/>

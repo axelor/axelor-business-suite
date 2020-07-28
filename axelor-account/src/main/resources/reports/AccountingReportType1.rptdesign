@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.6.0.v201606072122</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">odaURL</property>
@@ -44,7 +44,7 @@
             <property name="dataType">string</property>
             <property name="distinct">true</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">jdbc:postgresql://localhost:5432/axelor-open-suite</value>
+                <value type="constant">jdbc:postgresql://localhost:5432/</value>
             </simple-property-list>
             <list-property name="selectionList"/>
             <property name="paramType">simple</property>
@@ -164,12 +164,10 @@
                     <text-property name="heading">move_line_description</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">date_val</property>
-                    <property name="alias">date_val</property>
+                    <property name="columnName">move_line_date</property>
                     <property name="analysis">dimension</property>
-                    <text-property name="displayName">date_val</text-property>
-                    <property name="onColumnLayout">false</property>
-                    <text-property name="heading">date_val</text-property>
+                    <text-property name="displayName">move_line_date</text-property>
+                    <text-property name="heading">move_line_date</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">partner</property>
@@ -260,6 +258,26 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
+                <structure>
+                    <property name="name">param_2</property>
+                    <property name="paramName">AccountingReportId</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_3</property>
+                    <property name="paramName">AccountingReportId</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                    <property name="position">3</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -280,7 +298,7 @@
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">date_val</property>
+                        <property name="name">move_line_date</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
@@ -366,8 +384,8 @@
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">date_val</property>
-                    <property name="nativeName">date_val</property>
+                    <property name="name">move_line_date</property>
+                    <property name="nativeName">move_line_date</property>
                     <property name="dataType">date</property>
                     <property name="nativeDataType">91</property>
                 </structure>
@@ -449,11 +467,19 @@
                     <property name="nativeDataType">2</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select DISTINCT MoveLine.id as moveLine_id, MoveLine.name as move_line_name, MoveLine.description as move_line_description,
-MoveLine.date_val, MoveLine.partner_full_name as partner,
+            <xml-property name="queryText"><![CDATA[select DISTINCT MoveLine.id as moveLine_id, 
+MoveLine.name as move_line_name, 
+MoveLine.description as move_line_description,
+MoveLine.date_val as move_line_date, 
+MoveLine.partner_full_name as partner,
 CONCAT(MoveLine.account_code, ' ', MoveLine.account_name) as account,
-MoveLine.debit, MoveLine.credit, ReconcileGroup.code as reconcile_group_code, MoveLine.due_date, Journal.code as journal_code,
-Account.code as account_code , Account.name as account_name , Move.reference as move_sequence,
+MoveLine.debit, 
+MoveLine.credit, 
+ReconcileGroup.code as reconcile_group_code, 
+MoveLine.due_date, Journal.code as journal_code,
+Account.code as account_code , 
+Account.name as account_name , 
+Move.reference as move_sequence,
 MoveLine.amount_remaining
 from public.account_accounting_report as AccountingReport
 left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
@@ -497,7 +523,137 @@ AND (AccountingReport.display_opening_accounting_moves is true
 	OR(AccountingReport.display_opening_accounting_moves is false 
 		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 1)))
 AND (MoveLine.amount_remaining > 0 OR not AccountingReport.display_only_not_completely_lettered_move_lines)
-order by account, MoveLine.date_val, MoveLine.name]]></xml-property>
+
+union
+
+
+select DISTINCT MoveLine.id as moveLine_id, 
+MoveLine.name as move_line_name, 
+CONCAT('RAN ',COALESCE (MoveLine.description,'')) as move_line_description,
+bYear.reported_balance_date as move_line_date, 
+MoveLine.partner_full_name as partner,
+CONCAT(MoveLine.account_code, ' ', MoveLine.account_name) as account,
+case when MoveLine.debit > 0 THEN MoveLine.amount_remaining ELSE 0 END , 
+case when MoveLine.credit > 0 THEN MoveLine.amount_remaining ELSE 0 END , 
+ReconcileGroup.code as reconcile_group_code, 
+MoveLine.due_date, 
+Journal.code as journal_code,
+Account.code as account_code , 
+Account.name as account_name , 
+Move.reference as move_sequence,
+MoveLine.amount_remaining
+from public.account_accounting_report as AccountingReport
+left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
+left outer join public.account_move as Move on (MoveLine.move = Move.id  AND Move.ignore_in_accounting_ok = false) 
+left outer join public.account_reconcile_group as ReconcileGroup on (ReconcileGroup.id = MoveLine.reconcile_group)
+
+left outer join public.account_account as Account on (MoveLine.account  = Account.id )
+left outer join public.account_account as ParentAccount on (Account.parent_account  = ParentAccount.id )
+left outer join public.account_account as ParentAccount2 on (ParentAccount.parent_account  = ParentAccount2.id )
+left outer join public.account_account as ParentAccount3 on (ParentAccount2.parent_account  = ParentAccount3.id )
+left outer join public.account_account as ParentAccount4 on (ParentAccount3.parent_account  = ParentAccount4.id )
+left outer join public.account_account as ParentAccount5 on (ParentAccount4.parent_account  = ParentAccount5.id )
+left outer join public.account_account as ParentAccount6 on (ParentAccount5.parent_account  = ParentAccount6.id )
+
+left outer join public.account_accounting_report_account_set as AccountSet on (AccountSet.account_accounting_report = AccountingReport.id)
+left outer join public.account_accounting_report_partner_set as PartnerSet on (PartnerSet.account_accounting_report = AccountingReport.id)
+
+left outer join public.base_company as Company on (AccountingReport.company = Company.id)
+left outer join public.account_account_config as AccountConfig on (AccountConfig.company = Company.id)
+left outer join public.base_period as Period on (Move.period = Period.id) 
+left outer join public.base_year as bYear on (Period.year = bYear.id) 
+
+left outer join public.account_journal as Journal on (Move.journal = Journal.id) 
+where 
+(AccountingReport.currency = Move.company_currency) AND
+MoveLine.date_val <= AccountingReport.date_val AND
+Move.company = AccountingReport.company AND
+(AccountSet.account_set IS NULL OR AccountSet.account_set = Account.id or AccountSet.account_set = ParentAccount.id 
+    or AccountSet.account_set = ParentAccount2.id or AccountSet.account_set = ParentAccount3.id
+    or AccountSet.account_set = ParentAccount4.id or AccountSet.account_set = ParentAccount5.id 
+    or AccountSet.account_set = ParentAccount6.id or AccountSet.account_set = ParentAccount6.parent_account) AND(PartnerSet.partner_set IS NULL OR PartnerSet.partner_set = MoveLine.partner) AND
+(AccountingReport.journal IS NULL OR AccountingReport.journal  = Move.journal) AND
+(AccountingReport.payment_mode IS  NULL OR (AccountingReport.payment_mode = Move.payment_mode)) AND
+Move.ignore_in_accounting_ok = false AND (Move.status_select = 3 OR Move.status_select = 2)
+AND (AccountingReport.type_select = 1 OR (AccountingReport.type_select != 1 AND Account.use_for_partner_balance is true))
+AND (AccountingReport.display_closing_accounting_moves is true 
+	OR(AccountingReport.display_closing_accounting_moves is false 
+		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 2)))
+AND (AccountingReport.display_opening_accounting_moves is true 
+	OR(AccountingReport.display_opening_accounting_moves is false 
+		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 1)))
+AND (MoveLine.amount_remaining > 0)
+AND Account.reconcile_ok
+AND AccountingReport.calculate_provisional_opening_accounting_moves
+AND (AccountingReport.date_from IS NULL OR MoveLine.date_val >= AccountingReport.date_from) 
+AND (AccountingReport.date_to IS NULL OR MoveLine.date_val <= AccountingReport.date_to) 
+
+Union
+
+select 0 as moveLine_id, 
+'RAN ' as move_line_name, 
+'RAN ' as move_line_description,
+bYear.reported_balance_date as move_line_date, 
+'' as partner,
+CONCAT(MoveLine.account_code, ' ', MoveLine.account_name) as account,
+case when SUM(MoveLine.debit) > SUM(MoveLine.credit) THEN SUM(MoveLine.debit) - SUM(MoveLine.credit) ELSE 0 END , 
+case when SUM(MoveLine.debit) < SUM(MoveLine.credit) THEN SUM(MoveLine.credit)  - SUM(MoveLine.debit) ELSE 0 END , 
+ReconcileGroup.code as reconcile_group_code, 
+bYear.reported_balance_date, 
+Journal.code as journal_code,
+Account.code as account_code , 
+Account.name as account_name , 
+'' as move_sequence,
+0
+from public.account_accounting_report as AccountingReport
+left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
+left outer join public.account_move as Move on (MoveLine.move = Move.id  AND Move.ignore_in_accounting_ok = false) 
+left outer join public.account_reconcile_group as ReconcileGroup on (ReconcileGroup.id = MoveLine.reconcile_group)
+
+left outer join public.account_account as Account on (MoveLine.account  = Account.id )
+left outer join public.account_account as ParentAccount on (Account.parent_account  = ParentAccount.id )
+left outer join public.account_account as ParentAccount2 on (ParentAccount.parent_account  = ParentAccount2.id )
+left outer join public.account_account as ParentAccount3 on (ParentAccount2.parent_account  = ParentAccount3.id )
+left outer join public.account_account as ParentAccount4 on (ParentAccount3.parent_account  = ParentAccount4.id )
+left outer join public.account_account as ParentAccount5 on (ParentAccount4.parent_account  = ParentAccount5.id )
+left outer join public.account_account as ParentAccount6 on (ParentAccount5.parent_account  = ParentAccount6.id )
+
+left outer join public.account_accounting_report_account_set as AccountSet on (AccountSet.account_accounting_report = AccountingReport.id)
+left outer join public.account_accounting_report_partner_set as PartnerSet on (PartnerSet.account_accounting_report = AccountingReport.id)
+
+left outer join public.base_company as Company on (AccountingReport.company = Company.id)
+left outer join public.account_account_config as AccountConfig on (AccountConfig.company = Company.id)
+left outer join public.base_period as Period on (Move.period = Period.id) 
+left outer join public.base_year as bYear on (Period.year = bYear.id) 
+
+left outer join public.account_journal as Journal on (Move.journal = Journal.id) 
+where 
+(AccountingReport.currency = Move.company_currency) AND
+MoveLine.date_val <= AccountingReport.date_val AND
+Move.company = AccountingReport.company AND
+(AccountSet.account_set IS NULL OR AccountSet.account_set = Account.id or AccountSet.account_set = ParentAccount.id 
+    or AccountSet.account_set = ParentAccount2.id or AccountSet.account_set = ParentAccount3.id
+    or AccountSet.account_set = ParentAccount4.id or AccountSet.account_set = ParentAccount5.id 
+    or AccountSet.account_set = ParentAccount6.id or AccountSet.account_set = ParentAccount6.parent_account) AND(PartnerSet.partner_set IS NULL OR PartnerSet.partner_set = MoveLine.partner) AND
+(AccountingReport.journal IS NULL OR AccountingReport.journal  = Move.journal) AND
+(AccountingReport.payment_mode IS  NULL OR (AccountingReport.payment_mode = Move.payment_mode)) AND
+Move.ignore_in_accounting_ok = false AND (Move.status_select = 3 OR Move.status_select = 2)
+AND (AccountingReport.type_select = 1 OR (AccountingReport.type_select != 1 AND Account.use_for_partner_balance is true))
+AND (AccountingReport.display_closing_accounting_moves is true 
+	OR(AccountingReport.display_closing_accounting_moves is false 
+		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 2)))
+AND (AccountingReport.display_opening_accounting_moves is true 
+	OR(AccountingReport.display_opening_accounting_moves is false 
+		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 1)))
+AND (Account.reconcile_ok is null or Account.reconcile_ok is false ) 
+AND AccountingReport.calculate_provisional_opening_accounting_moves
+AND (AccountingReport.date_from IS NULL OR MoveLine.date_val >= AccountingReport.date_from) 
+AND (AccountingReport.date_to IS NULL OR MoveLine.date_val <= AccountingReport.date_to) 
+group by moveLine_id, move_line_name, move_line_description, bYear.reported_balance_date,account,reconcile_group_code,
+journal_code,Account.code, Account.name,move_sequence,MoveLine.account_code,MoveLine.account_name
+HAVING SUM(MoveLine.debit) - SUM(MoveLine.credit) != 0
+
+order by account, move_line_date, move_line_name]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="AccountingReportDS" id="489">
             <property name="nullsOrdering">nulls lowest</property>
@@ -1209,11 +1365,12 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                             </label>
                         </cell>
                         <cell id="3122">
-                            <property name="fontSize">9pt</property>
                             <property name="verticalAlign">top</property>
-                            <data id="4273">
-                                <property name="resultSetColumn">report_date_edition</property>
-                            </data>
+                            <text id="3128">
+                                <property name="fontSize">9pt</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<VALUE-OF>row["report_date_edition"]</VALUE-OF>]]></text-property>
+                            </text>
                         </cell>
                     </row>
                 </grid>
@@ -1293,24 +1450,21 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                 </structure>
                 <structure>
                     <property name="name">date_from</property>
-                    <text-property name="displayName">DateFrom</text-property>
+                    <text-property name="displayName">date_from</text-property>
                     <expression name="expression" type="javascript">dataSetRow["date_from"]</expression>
                     <property name="dataType">date</property>
-                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">date_to</property>
-                    <text-property name="displayName">DateTo</text-property>
+                    <text-property name="displayName">date_to</text-property>
                     <expression name="expression" type="javascript">dataSetRow["date_to"]</expression>
                     <property name="dataType">date</property>
-                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">report_date</property>
-                    <text-property name="displayName">ReportDate</text-property>
+                    <text-property name="displayName">report_date</text-property>
                     <expression name="expression" type="javascript">dataSetRow["report_date"]</expression>
                     <property name="dataType">date</property>
-                    <property name="allowExport">true</property>
                 </structure>
                 <structure>
                     <property name="name">report_date_edition</property>
@@ -1411,13 +1565,6 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <text-property name="displayName">display_only_not_completely_lettered_move_lines</text-property>
                     <expression name="expression" type="javascript">dataSetRow["display_only_not_completely_lettered_move_lines"]</expression>
                     <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">Column Binding</property>
-                    <text-property name="displayName">DateTo</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["date_to"]</expression>
-                    <property name="dataType">date</property>
-                    <property name="allowExport">true</property>
                 </structure>
             </list-property>
             <column id="492">
@@ -1570,17 +1717,14 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                             </structure>
                         </list-property>
                         <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :&amp;nbsp;]]></text-property>
+                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :]]></text-property>
                     </text>
                 </cell>
                 <cell id="4129">
-                    <data id="4270">
-                        <structure name="dateTimeFormat">
-                            <property name="category">Short Date</property>
-                            <property name="pattern">Short Date</property>
-                        </structure>
-                        <property name="resultSetColumn">report_date</property>
-                    </data>
+                    <text id="3078">
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[<VALUE-OF format="Short Date">row["report_date"]</VALUE-OF>]]></text-property>
+                    </text>
                 </cell>
                 <cell id="499">
                     <text id="4196">
@@ -1702,17 +1846,14 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                             </structure>
                         </list-property>
                         <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :&amp;nbsp;]]></text-property>
+                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :]]></text-property>
                     </text>
                 </cell>
                 <cell id="4130">
-                    <data id="4271">
-                        <structure name="dateTimeFormat">
-                            <property name="category">Short Date</property>
-                            <property name="pattern">Short Date</property>
-                        </structure>
-                        <property name="resultSetColumn">date_from</property>
-                    </data>
+                    <text id="556">
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[<VALUE-OF  format="Short Date">row["date_from"]</VALUE-OF>]]></text-property>
+                    </text>
                 </cell>
                 <cell id="504">
                     <text id="4197">
@@ -1747,17 +1888,14 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                             </structure>
                         </list-property>
                         <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :&amp;nbsp;]]></text-property>
+                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :]]></text-property>
                     </text>
                 </cell>
                 <cell id="505">
-                    <data id="4272">
-                        <structure name="dateTimeFormat">
-                            <property name="category">Short Date</property>
-                            <property name="pattern">Short Date</property>
-                        </structure>
-                        <property name="resultSetColumn">date_to</property>
-                    </data>
+                    <text id="557">
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[<VALUE-OF format="Short Date">row["date_to"]</VALUE-OF> ]]></text-property>
+                    </text>
                 </cell>
             </row>
             <row id="4211">
@@ -1849,12 +1987,6 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                                 <text-property name="displayName">move_line_description</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["move_line_description"]</expression>
                                 <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">date_val</property>
-                                <text-property name="displayName">date_val</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["date_val"]</expression>
-                                <property name="dataType">date</property>
                             </structure>
                             <structure>
                                 <property name="name">partner</property>
@@ -1990,6 +2122,12 @@ else{
                                 <text-property name="displayName">amount_remaining</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["amount_remaining"]</expression>
                                 <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">move_line_date</property>
+                                <text-property name="displayName">move_line_date</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["move_line_date"]</expression>
+                                <property name="dataType">date</property>
                             </structure>
                         </list-property>
                         <property name="pageBreakInterval">0</property>
@@ -2584,14 +2722,9 @@ else{
                                     </data>
                                 </cell>
                                 <cell id="4070">
-                                    <data id="4073">
-                                        <property name="fontSize">8.5pt</property>
-                                        <structure name="dateTimeFormat">
-                                            <property name="category">Short Date</property>
-                                            <property name="pattern">Short Date</property>
-                                        </structure>
-                                        <property name="textAlign">center</property>
-                                        <property name="resultSetColumn">date_val</property>
+                                    <data id="4270">
+                                        <property name="fontSize">8pt</property>
+                                        <property name="resultSetColumn">move_line_date</property>
                                     </data>
                                 </cell>
                                 <cell id="4234">

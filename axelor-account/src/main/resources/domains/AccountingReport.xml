@@ -38,6 +38,8 @@
 	<boolean name="displayClosingAccountingMoves" title="Display closing accounting moves" default="false"/>
     <boolean name="displayOpeningAccountingMoves" title="Display opening accounting moves" default="true"/>
     
+    <boolean name="calculateProvisionalOpeningAccountingMoves" title="Calculate provisional opening accounting moves" default="false"/>
+    
     <!--Report 7 : Partner genereal ledger  --> 
     <boolean name="displayOnlyNotCompletelyLetteredMoveLines" title="Display only not completely lettered move lines" default="false"/>
     <boolean name="displayCumulativeBalance" title="Display cumulative balance on printing"/>

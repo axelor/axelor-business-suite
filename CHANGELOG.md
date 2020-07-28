@@ -38,6 +38,7 @@
 - Birt report: Change display of date
 - Invoice report : Change in font size in Invoice report.
 - Report : Fix unit translation.
+- Accounting report: add the possibility to calculate provisional opening accounting moves to ledger, partner ledger and journal.
 
 ## Bug Fixes
 - HR : A leave-line cannot be saved whitout employee or leave-reason.
