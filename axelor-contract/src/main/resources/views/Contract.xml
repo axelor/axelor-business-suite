@@ -166,11 +166,7 @@
                 <panel name="managementPanel" hidden="true" showIf="isInvoicingManagement" colSpan="12">
                   <field name="isAdditionaBenefitManagement" if="__config__.app.getApp('contract').isAdditionalBenefitManagement" widget="boolean-switch" colSpan="12"/>
                   <field name="isConsumptionManagement" if="__config__.app.getApp('contract').isConsumptionManagement" onChange="action-contract-record-update-field-in-version" widget="boolean-switch" colSpan="3"/>
-                  <field name="currentContractVersion" if="__config__.app.getApp('contract').isConsumptionManagement" showTitle="false" hidden="true" showIf="isConsumptionManagement" x-show-icons="false">
-                    <editor x-viewer="true" x-show-on-new="true" x-show-titles="true">
-                      <field name="isConsumptionBeforeEndDate" colSpan="12" widget="boolean-switch"/>
-                    </editor>
-                  </field>
+                  <field name="currentContractVersion.isConsumptionBeforeEndDate" widget="boolean-switch" readonly="false" if="__config__.app.getApp('contract').isConsumptionManagement" hidden="true" showIf="isConsumptionManagement" />
                 </panel>
 
                     <panel name="invoicingSubPanel" hidden="true" showIf="isInvoicingManagement" colSpan="12">
