@@ -29,6 +29,7 @@ import com.axelor.apps.base.db.repo.SequenceRepository;
 import com.axelor.apps.base.exceptions.IExceptionMessage;
 import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.app.AppBaseService;
+import com.axelor.db.JPA;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -40,7 +41,9 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProductServiceImpl implements ProductService {
 
@@ -175,23 +178,47 @@ public class ProductServiceImpl implements ProductService {
 
     int seq = 1;
 
-    List<Product> productVariantsList =
-        productRepo.all().filter("self.parentProduct = ?1", productModel).order("code").fetch();
+    final String regex = "\\d+(?!.*-)";
+    final Pattern pattern = Pattern.compile(regex);
 
-    if (productVariantsList != null && !productVariantsList.isEmpty()) {
+    Function<String, Integer> numberExtractor =
+        code -> {
+          final Matcher matcher = pattern.matcher(code);
+          if (matcher.find()) {
+            return Integer.parseInt(matcher.group());
+          } else {
+            return -1;
+          }
+        };
 
-      seq =
-          Integer.parseInt(
-                  StringUtils.substringAfterLast(
-                      productVariantsList.get(productVariantsList.size() - 1).getCode(), "-"))
-              + 1;
-    }
+    seq =
+        productRepo
+                .all()
+                .filter("self.parentProduct = ?1", productModel)
+                .fetchStream()
+                .map(Product::getCode)
+                .map(numberExtractor)
+                .reduce(Integer::max)
+                .orElse(0)
+            + 1;
 
+    JPA.runInTransaction(() -> productVariantList.forEach(productVariantRepo::save));
+    JPA.flush();
+    JPA.clear();
+
+    productModel = productRepo.find(productModel.getId());
+
+    int count = 0;
     for (ProductVariant productVariant : productVariantList) {
 
-      productVariantRepo.save(productVariant);
-
-      productRepo.save(this.createProduct(productModel, productVariant, seq++));
+      productRepo.save(
+          this.createProduct(productModel, productVariantRepo.find(productVariant.getId()), seq++));
+      count++;
+      if (count % 50 == 0) {
+        JPA.flush();
+        JPA.clear();
+        productModel = productRepo.find(productModel.getId());
+      }
     }
   }
 

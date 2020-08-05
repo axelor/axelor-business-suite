@@ -5,6 +5,7 @@
 
 ## Improvements
 - LEAD : Added description field on reports
+- Improve product variants generation process
 
 ## Bug Fixes
 - MRP : Shows error message instead of NPE when a product has no unit
