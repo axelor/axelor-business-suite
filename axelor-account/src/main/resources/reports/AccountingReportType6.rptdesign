@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.6.0.v201606072122</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">odaURL</property>
@@ -203,6 +203,12 @@
                     <text-property name="heading">parent_account_id</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">provisionalopeningamount</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">provisionalopeningamount</text-property>
+                    <text-property name="heading">provisionalopeningamount</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">debit</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">debit</text-property>
@@ -271,16 +277,21 @@
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">debit</property>
+                        <property name="name">provisionalopeningamount</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">credit</property>
+                        <property name="name">debit</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
+                        <property name="name">credit</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
                         <property name="name">balance</property>
                         <property name="dataType">decimal</property>
                     </structure>
@@ -297,39 +308,46 @@
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                     <property name="name">partner_name</property>
                     <property name="nativeName">partner_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">3</property>
                     <property name="name">account_id</property>
                     <property name="nativeName">account_id</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                     <property name="name">account_code</property>
                     <property name="nativeName">account_code</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">5</property>
                     <property name="name">account_name</property>
                     <property name="nativeName">account_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">6</property>
                     <property name="name">parent_account_id</property>
                     <property name="nativeName">parent_account_id</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">provisionalopeningamount</property>
+                    <property name="nativeName">provisionalopeningamount</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
@@ -354,6 +372,7 @@
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select Partner.id as partner_id, Partner.full_name as partner_name, Account.id as account_id, MoveLine.account_code as account_code, MoveLine.account_name as account_name, Account.parent_account as parent_account_id,
+CASE WHEN Account.reconcile_ok THEN SUM(CASE WHEN MoveLine.debit > 0 THEN MoveLine.amount_remaining  ELSE - MoveLine.amount_remaining END ) ELSE SUM(MoveLine.debit - MoveLine.credit) END  as provisionalOpeningAmount,
 SUM(MoveLine.debit) as debit, SUM(MoveLine.credit) as credit, SUM(MoveLine.debit - MoveLine.credit) as balance
 
 from public.account_accounting_report as AccountingReport
@@ -491,6 +510,12 @@ order by MoveLine.account_code]]></xml-property>
                     <text-property name="displayName">payment_mode</text-property>
                     <text-property name="heading">payment_mode</text-property>
                 </structure>
+                <structure>
+                    <property name="columnName">calculate_provisional_opening_accounting_moves</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">calculate_provisional_opening_accounting_moves</text-property>
+                    <text-property name="heading">calculate_provisional_opening_accounting_moves</text-property>
+                </structure>
             </list-property>
             <list-property name="parameters">
                 <structure>
@@ -576,6 +601,11 @@ order by MoveLine.account_code]]></xml-property>
                         <property name="position">14</property>
                         <property name="name">payment_mode</property>
                         <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">calculate_provisional_opening_accounting_moves</property>
+                        <property name="dataType">integer</property>
                     </structure>
                 </list-property>
             </structure>
@@ -679,6 +709,13 @@ order by MoveLine.account_code]]></xml-property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">calculate_provisional_opening_accounting_moves</property>
+                    <property name="nativeName">calculate_provisional_opening_accounting_moves</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[select Company.name as company_name, AccountingReport.date_from, AccountingReport.date_to, AccountingReport.date_val as report_date,
 AccountingReport.publication_date_time as report_date_edition, MetaFile.file_path as logo_path,
@@ -686,7 +723,8 @@ Period.name as period_name, Journal.name as journal_name, AccountingReport.globa
 Currency.code as currency,
 Company.height as logo_height,
 Company.width as logo_width,
-PaymentMode.name as payment_mode
+PaymentMode.name as payment_mode,
+AccountingReport.calculate_provisional_opening_accounting_moves
 from public.account_accounting_report as AccountingReport
 inner join public.base_company as Company on (AccountingReport.company = Company.id)
 left outer join meta_file as MetaFile on (MetaFile.id = Company.logo)
@@ -1133,6 +1171,24 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <text-property name="displayName">payment_mode</text-property>
                     <expression name="expression" type="javascript">dataSetRow["payment_mode"]</expression>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">logo_height</property>
+                    <text-property name="displayName">logo_height</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["logo_height"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">logo_width</property>
+                    <text-property name="displayName">logo_width</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["logo_width"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">calculate_provisional_opening_accounting_moves</property>
+                    <text-property name="displayName">calculate_provisional_opening_accounting_moves</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["calculate_provisional_opening_accounting_moves"]</expression>
+                    <property name="dataType">integer</property>
                 </structure>
             </list-property>
             <column id="492">
@@ -1871,6 +1927,27 @@ else  {  0.00 }</expression>
                                 <property name="dataType">string</property>
                                 <property name="allowExport">true</property>
                             </structure>
+                            <structure>
+                                <property name="name">provisionalopeningamount</property>
+                                <text-property name="displayName">provisionalopeningamount</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["provisionalopeningamount"]</expression>
+                                <property name="dataType">decimal</property>
+                            </structure>
+                            <structure>
+                                <property name="name">sumGroupProviOpeAmount</property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>group_partner_name</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">row["provisionalopeningamount"]</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="allowExport">true</property>
+                            </structure>
                         </list-property>
                         <structure name="toc"/>
                         <property name="pageBreakInterval">0</property>
@@ -1879,6 +1956,15 @@ else  {  0.00 }</expression>
                         </column>
                         <column id="4090">
                             <property name="width">3.5in</property>
+                        </column>
+                        <column id="4293">
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr" type="javascript">!row._outer["calculate_provisional_opening_accounting_moves"]</expression>
+                                </structure>
+                            </list-property>
+                            <property name="width">1in</property>
                         </column>
                         <column id="4091">
                             <property name="width">1in</property>
@@ -1976,6 +2062,11 @@ else  {  0.00 }</expression>
                                         <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF>]]></text-property>
                                     </text>
                                 </cell>
+                                <cell id="4287">
+                                    <property name="paddingLeft">1pt</property>
+                                    <property name="textAlign">right</property>
+                                    <property name="verticalAlign">middle</property>
+                                </cell>
                                 <cell id="4055">
                                     <property name="colSpan">1</property>
                                     <property name="rowSpan">1</property>
@@ -2036,6 +2127,46 @@ else  {  0.00 }</expression>
                                 <property name="fontSize">9pt</property>
                                 <property name="borderBottomStyle">solid</property>
                                 <property name="borderBottomWidth">thin</property>
+                                <cell id="4288">
+                                    <property name="paddingBottom">1pt</property>
+                                    <property name="paddingRight">1pt</property>
+                                    <property name="verticalAlign">middle</property>
+                                    <text id="4296">
+                                        <property name="fontSize">10pt</property>
+                                        <property name="fontWeight">bold</property>
+                                        <property name="borderBottomStyle">none</property>
+                                        <property name="borderLeftStyle">none</property>
+                                        <property name="borderRightStyle">none</property>
+                                        <property name="borderTopStyle">none</property>
+                                        <property name="paddingLeft">1pt</property>
+                                        <property name="textAlign">center</property>
+                                        <property name="dataSet">TranslateDS</property>
+                                        <list-property name="paramBindings">
+                                            <structure>
+                                                <property name="paramName">param_1</property>
+                                                <simple-property-list name="expression">
+                                                    <value type="javascript">'AccountingReportType2.proviOpeAmount'</value>
+                                                </simple-property-list>
+                                            </structure>
+                                        </list-property>
+                                        <list-property name="boundDataColumns">
+                                            <structure>
+                                                <property name="name">key</property>
+                                                <text-property name="displayName">key</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
+                                                <property name="dataType">string</property>
+                                            </structure>
+                                            <structure>
+                                                <property name="name">translation</property>
+                                                <text-property name="displayName">translation</text-property>
+                                                <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
+                                                <property name="dataType">string</property>
+                                            </structure>
+                                        </list-property>
+                                        <property name="contentType">html</property>
+                                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF>]]></text-property>
+                                    </text>
+                                </cell>
                                 <cell id="4167">
                                     <property name="paddingBottom">1pt</property>
                                     <property name="paddingRight">1pt</property>
@@ -2225,6 +2356,16 @@ else  {  0.00 }</expression>
                                             <property name="resultSetColumn">PartnerFullName</property>
                                         </data>
                                     </cell>
+                                    <cell id="4289">
+                                        <property name="paddingTop">0pt</property>
+                                        <property name="paddingLeft">1pt</property>
+                                        <property name="paddingBottom">0pt</property>
+                                        <property name="textAlign">right</property>
+                                        <data id="4297">
+                                            <property name="fontWeight">bold</property>
+                                            <property name="resultSetColumn">sumGroupProviOpeAmount</property>
+                                        </data>
+                                    </cell>
                                     <cell id="4228">
                                         <property name="paddingTop">0pt</property>
                                         <property name="paddingLeft">1pt</property>
@@ -2313,6 +2454,15 @@ else  {  0.00 }</expression>
                                         <property name="resultSetColumn">account_name</property>
                                     </data>
                                 </cell>
+                                <cell id="4290">
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">1pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="textAlign">right</property>
+                                    <data id="4295">
+                                        <property name="resultSetColumn">provisionalopeningamount</property>
+                                    </data>
+                                </cell>
                                 <cell id="4070">
                                     <property name="paddingTop">0pt</property>
                                     <property name="paddingLeft">1pt</property>
@@ -2383,6 +2533,11 @@ else  {  0.00 }</expression>
                                 <cell id="4083">
                                     <property name="paddingBottom">0pt</property>
                                 </cell>
+                                <cell id="4291">
+                                    <property name="paddingLeft">1pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="textAlign">right</property>
+                                </cell>
                                 <cell id="4084">
                                     <property name="paddingLeft">1pt</property>
                                     <property name="paddingBottom">0pt</property>
@@ -2449,6 +2604,9 @@ else  {  0.00 }</expression>
                                 </list-property>
                                 <cell id="4181"/>
                                 <cell id="4182"/>
+                                <cell id="4292">
+                                    <property name="textAlign">center</property>
+                                </cell>
                                 <cell id="4183">
                                     <property name="colSpan">2</property>
                                     <property name="rowSpan">1</property>

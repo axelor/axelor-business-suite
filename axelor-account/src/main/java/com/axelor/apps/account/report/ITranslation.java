@@ -200,6 +200,8 @@ public interface ITranslation {
       "AccountingReportType2.credit"; /*)*/
   public static final String ACCOUNTING_REPORT_2_GENERAL_BALANCE = /*$$(*/
       "AccountingReportType2.generalBalance"; /*)*/
+  public static final String ACCOUNTING_REPORT_2_PROVISIONAL_OPENING_AMOUNT = /*$$(*/
+      "AccountingReportType2.proviOpeAmount"; /*)*/
 
   public static final String ACCOUNTING_REPORT_6_TITLE = /*$$(*/
       "AccountingReportType6.title"; /*)*/
