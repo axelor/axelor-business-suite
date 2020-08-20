@@ -41,6 +41,7 @@
 - Invoice report : Change in font size in Invoice report.
 - Report : Fix unit translation.
 - Forecast Recap : default value set to today for from date field
+- PROJECT : Change financial report BIRT to match conventions
 
 ## Bug Fixes
 - HR : A leave-line cannot be saved whitout employee or leave-reason.
