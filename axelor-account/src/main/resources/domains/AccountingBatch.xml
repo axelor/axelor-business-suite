@@ -58,7 +58,8 @@
 	 <string name="moveDescription" title="Move description"/>
 
 	<!-- REALIZED FIXED ASSET LINES -->
-	<boolean name="updateAllRealizedFixedAssetLines" title="Update all realized fixed asset lines"/>
+	<boolean name="generateMoveAsDraftStatus" title="Generate moves with draft status (daybook status if not)"/>
+	
   	<extra-code><![CDATA[
 	
 	   	// ACTION TYPE

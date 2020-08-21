@@ -374,7 +374,7 @@ public class FixedAssetServiceImpl implements FixedAssetService {
 
       FixedAssetLine depreciationFixedAssetLine =
           generateProrataDepreciationLine(fixedAsset, disposalDate, previousRealizedLine);
-      fixedAssetLineService.realize(depreciationFixedAssetLine);
+      fixedAssetLineService.realize(depreciationFixedAssetLine, -1);
       fixedAssetLineService.generateDisposalMove(depreciationFixedAssetLine);
     } else {
       if (disposalAmount.compareTo(fixedAsset.getResidualValue()) != 0) {

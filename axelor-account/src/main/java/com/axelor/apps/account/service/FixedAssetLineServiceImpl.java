@@ -61,9 +61,9 @@ public class FixedAssetLineServiceImpl implements FixedAssetLineService {
 
   @Override
   @Transactional(rollbackOn = {Exception.class})
-  public void realize(FixedAssetLine fixedAssetLine) throws AxelorException {
+  public void realize(FixedAssetLine fixedAssetLine, int moveStatus) throws AxelorException {
 
-    generateMove(fixedAssetLine);
+    generateMove(fixedAssetLine, moveStatus);
 
     fixedAssetLine.setStatusSelect(FixedAssetLineRepository.STATUS_REALIZED);
 
@@ -86,7 +86,8 @@ public class FixedAssetLineServiceImpl implements FixedAssetLineService {
   }
 
   @Transactional(rollbackOn = {Exception.class})
-  private void generateMove(FixedAssetLine fixedAssetLine) throws AxelorException {
+  protected void generateMove(FixedAssetLine fixedAssetLine, int moveStatus)
+      throws AxelorException {
     FixedAsset fixedAsset = fixedAssetLine.getFixedAsset();
 
     Journal journal = fixedAsset.getJournal();
@@ -111,7 +112,9 @@ public class FixedAssetLineServiceImpl implements FixedAssetLineService {
 
     if (move != null) {
       List<MoveLine> moveLines = new ArrayList<MoveLine>();
-
+      if (moveStatus != -1) {
+        move.setStatusSelect(moveStatus);
+      }
       String origin = fixedAsset.getReference();
       Account debitLineAccount = fixedAsset.getFixedAssetCategory().getChargeAccount();
       Account creditLineAccount = fixedAsset.getFixedAssetCategory().getDepreciationAccount();

@@ -41,6 +41,7 @@
 - Invoice report : Change in font size in Invoice report.
 - Report : Fix unit translation.
 - Forecast Recap : default value set to today for from date field
+- Bacht fixed asset line : Added filter on company and possibility to choose to generate draft moves
 
 ## Bug Fixes
 - HR : A leave-line cannot be saved whitout employee or leave-reason.

@@ -16,7 +16,7 @@
 		<field name="actionSelect" onChange="action-accounting-batch-record-default-currency"/>
 		<field name="code" x-bind="{{code|unaccent|uppercase}}" onChange="action-base-batch-condition-check-unique-code"/>
 		<field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid" onChange="action-accounting-batch-attrs-set-empty-year-and-accountset-value"/>
-		<field name="bankDetails" hideIf="actionSelect &amp;&amp; ([14,15,16,17,18,21].indexOf(actionSelect) &gt; -1 || (actionSelect == 11 &amp;&amp; reimbursementTypeSelect == 2) || (actionSelect == 12 &amp;&amp; directDebitDataTypeSelect == 2))" widget="SuggestBox" onSelect="action-accounting-batch-attrs-bank-details-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
+		<field name="bankDetails" hideIf="actionSelect &amp;&amp; ([14,15,16,17,18,20,21].indexOf(actionSelect) &gt; -1 || (actionSelect == 11 &amp;&amp; reimbursementTypeSelect == 2) || (actionSelect == 12 &amp;&amp; directDebitDataTypeSelect == 2))" widget="SuggestBox" onSelect="action-accounting-batch-attrs-bank-details-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
 		<field name="archived" title="Archived"/>
 	</panel>
 	<panel-tabs name="mainPanelTab">
@@ -58,11 +58,13 @@
 			<field name="startDate"/>
 			<field name="endDate"/>
 		</panel>
-		<panel name="realizedFixedAssetLinesPagnel" title="Date range of realizing fixed asset lines" itemSpan="4" hideIf="actionSelect != 20" >
-			<field name="updateAllRealizedFixedAssetLines"/>
-			<field name="startDate" requiredIf="!updateAllRealizedFixedAssetLines &amp;&amp; actionSelect == 20" showIf="!updateAllRealizedFixedAssetLines"/>
-			<field name="endDate" requiredIf="!updateAllRealizedFixedAssetLines &amp;&amp; actionSelect == 20" showIf="!updateAllRealizedFixedAssetLines"/>
+		
+		<panel name="realizedFixedAssetLinesPagnel" title="Fixed asset lines realization configuration" itemSpan="4" hideIf="actionSelect != 20" >
+			<field name="generateMoveAsDraftStatus" widget="boolean-select"/>
+			<field name="startDate"/>
+			<field name="endDate"/>
 		</panel>
+
 		<panel name="yearOpeningOrClosureAccountsPagePanel" title="Close/open the accounts" hideIf="actionSelect != 21">
 <!-- 		TODO FILTER ON STATUS -->
 			<field name="closeYear"/>
@@ -162,7 +164,7 @@
    	</action-validate>
    	
 	<action-validate name="action-accounting-batch-validate-realized-fixed-date">
-		<error message="Please enter valid start date and end date" if="eval: !updateAllRealizedFixedAssetLines &amp;&amp; startDate &gt; endDate" />
+		<error message="Please enter valid start date and end date" if="eval: startDate &amp;&amp; endDate &amp;&amp; startDate &gt; endDate" />
 	</action-validate>
    	
    	
