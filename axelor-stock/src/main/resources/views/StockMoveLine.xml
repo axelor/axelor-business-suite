@@ -59,7 +59,10 @@
 		<field name="product.trackingNumberConfiguration.isProductionTrackingManaged" hidden="true"/>
 		<field name="product.trackingNumberConfiguration.isSaleTrackingManaged" hidden="true"/>
 		<field name="stockMove.typeSelect" hidden="true"/>
-        <field name="conformitySelect" readonlyIf="lineTypeSelect == 1"/>
+        <field name="conformitySelect" readonlyIf="lineTypeSelect == 1">
+        	<hilite color="success" if="conformitySelect == 2"/>
+        	<hilite color="danger" if="conformitySelect == 3"/>
+        </field>
         <field name="availableStatus" width="150" readonlyIf="lineTypeSelect == 1">
         	<hilite strong="true" color="success" if="availableStatusSelect == 1"/>
         	<hilite strong="true" color="info" if="availableStatusSelect == 2"/>
@@ -154,7 +157,14 @@
 			<field name="stockMove.toStockLocation.typeSelect" hidden="true"/>
 			<field name="stockMove.statusSelect" hidden="true"/>
 					<field name="stockMove.typeSelect" hidden="true"/>
-	        <field name="conformitySelect" onChange="action-stock-move-attrs-change-conformity"/>
+	        <field name="conformitySelect" onChange="action-stock-move-attrs-change-conformity">
+	        	<viewer depends="conformitySelect"><![CDATA[
+					<h4 class="text-left">
+						<span class="label label-success" style="margin: 5px 0 0 10px !important; display: inline-table; line-height: initial;" ng-show="record.conformitySelect == 2" x-translate>Compliant</span>
+						<span class="label label-important" style="margin: 5px 0 0 10px !important; display: inline-table; line-height: initial;" ng-show="record.conformitySelect == 3" x-translate>Non-compliant</span>
+					</h4>
+				]]></viewer>
+	        </field>
 	        <field name="$isReadOnly" hidden="true"/>
 	        <field name="description" colSpan="12" widget="html" />
             <field name="regime"/>
@@ -177,7 +187,10 @@
 		<field name="unitPriceTaxed" x-scale="2" hidden="true"/>
 		<field name="unit" readonly="true" form-view="unit-form" grid-view="unit-grid"/>
 		<field name="trackingNumber" readonly="true" form-view="tracking-number-form" grid-view="tracking-number-grid" domain="self.product = :product"/>
-		<field name="conformitySelect" readonly="true"/>
+		<field name="conformitySelect" readonly="true">
+        	<hilite color="success" if="conformitySelect == 2"/>
+        	<hilite color="danger" if="conformitySelect == 3"/>
+        </field>
 		<field name="availableStatus" width="150" readonlyIf="lineTypeSelect == 1">
         	<hilite strong="true" color="success" if="availableStatusSelect == 1"/>
         	<hilite strong="true" color="info" if="availableStatusSelect == 2"/>
@@ -199,7 +212,10 @@
         <field name="unitPriceTaxed" x-scale="2" hidden="true"/>
         <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
         <field name="trackingNumber" form-view="tracking-number-form" grid-view="tracking-number-grid" domain="self.product = :product" readonlyIf="$get('stockMove.statusSelect') > 1"/>
-        <field name="conformitySelect"/>
+        <field name="conformitySelect">
+        	<hilite color="success" if="conformitySelect == 2"/>
+        	<hilite color="danger" if="conformitySelect == 3"/>
+        </field>
         <field name="availableStatus" width="150">
         	<hilite strong="true" color="success" if="availableStatusSelect == 1"/>
         	<hilite strong="true" color="info" if="availableStatusSelect == 2"/>
