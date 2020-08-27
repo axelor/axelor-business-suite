@@ -26,7 +26,8 @@
 	</action-record>
 	
 	<action-record name="action-account-record-notification-item-invoice-onchange" model="com.axelor.apps.account.db.NotificationItem">
-		<field name="amountPaid" expr="eval: invoice?.amountRemaining"/>
+		<field name="amountPaid" expr="eval: invoice?.amountRemaining" if="invoice?.operationTypeSelect == 3"/>
+		<field name="amountPaid" expr="eval: -invoice?.amountRemaining" if="invoice?.operationTypeSelect == 4"/>
 	</action-record>
 	
 	<action-attrs name="action-account-attrs-notification-item-invoice-domain">

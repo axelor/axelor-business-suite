@@ -26,6 +26,7 @@ import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.Notification;
 import com.axelor.apps.account.db.NotificationItem;
 import com.axelor.apps.account.db.SubrogationRelease;
+import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.db.repo.NotificationRepository;
 import com.axelor.apps.account.db.repo.SubrogationReleaseRepository;
@@ -94,7 +95,11 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   protected NotificationItem createNotificationItem(Invoice invoice) {
-    return new NotificationItem(invoice, invoice.getAmountRemaining());
+    if (invoice.getOperationTypeSelect().equals(InvoiceRepository.OPERATION_TYPE_CLIENT_REFUND)) {
+      return new NotificationItem(invoice, invoice.getAmountRemaining().negate());
+    } else {
+      return new NotificationItem(invoice, invoice.getAmountRemaining());
+    }
   }
 
   @Override
@@ -151,11 +156,11 @@ public class NotificationServiceImpl implements NotificationService {
                 notification.getPaymentDate(),
                 null,
                 MoveRepository.TECHNICAL_ORIGIN_AUTOMATIC);
-    MoveLine creditMoveLine, debitMoveLine;
+    MoveLine partnerMoveLine, notificationMoveLine;
 
     Account account = getAccount(accountConfig, notificationItem);
 
-    debitMoveLine =
+    notificationMoveLine =
         moveService
             .getMoveLineService()
             .createMoveLine(
@@ -170,7 +175,7 @@ public class NotificationServiceImpl implements NotificationService {
                 origin,
                 invoice.getInvoiceId());
 
-    creditMoveLine =
+    partnerMoveLine =
         moveService
             .getMoveLineService()
             .createMoveLine(
@@ -185,21 +190,21 @@ public class NotificationServiceImpl implements NotificationService {
                 origin,
                 invoice.getInvoiceId());
 
-    paymentMove.addMoveLineListItem(debitMoveLine);
-    paymentMove.addMoveLineListItem(creditMoveLine);
+    paymentMove.addMoveLineListItem(notificationMoveLine);
+    paymentMove.addMoveLineListItem(partnerMoveLine);
     paymentMove = moveRepository.save(paymentMove);
 
     moveService.getMoveValidateService().validate(paymentMove);
 
     MoveLine invoiceMoveLine = findInvoiceAccountMoveLine(invoice);
-    MoveLine subrogationReleaseMoveLine = findSubrogationReleaseAccountMoveLine(invoice);
+    MoveLine subrogationReleaseMoveLine = findSubrogationReleaseAccountMoveLine(invoice, account);
 
     if (invoiceMoveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) == 1) {
-      reconcileService.reconcile(invoiceMoveLine, creditMoveLine, true, true);
+      reconcileService.reconcile(invoiceMoveLine, partnerMoveLine, true, true);
       if (subrogationReleaseMoveLine != null
           && notificationItem.getTypeSelect()
               == NotificationRepository.TYPE_PAYMENT_TO_THE_FACTORE) {
-        reconcileService.reconcile(debitMoveLine, subrogationReleaseMoveLine, true, false);
+        reconcileService.reconcile(notificationMoveLine, subrogationReleaseMoveLine, true, false);
       }
     }
 
@@ -249,10 +254,11 @@ public class NotificationServiceImpl implements NotificationService {
     throw new NoSuchElementException();
   }
 
-  protected MoveLine findSubrogationReleaseAccountMoveLine(Invoice invoice) throws AxelorException {
+  protected MoveLine findSubrogationReleaseAccountMoveLine(Invoice invoice, Account account)
+      throws AxelorException {
     if (invoice.getSubrogationReleaseMove() != null) {
       for (MoveLine moveLine : invoice.getSubrogationReleaseMove().getMoveLineList()) {
-        if (moveLine.getCredit().compareTo(BigDecimal.ZERO) == 1) {
+        if (moveLine.getAccount().equals(account)) {
           return moveLine;
         }
       }
