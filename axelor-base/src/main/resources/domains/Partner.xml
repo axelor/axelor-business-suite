@@ -93,6 +93,8 @@
 	<string name="pickingOrderComments" title="Comment to display on picking order" large="true"/>
 	
 	<string name="proformaComments" title="Comment to display on proforma" large="true"/>
+  
+	<integer name="activeInactivePartner" title="Active/In active partner" selection="base.partner.active.inactive.type.select"/>
 
 	<extra-code>
 	<![CDATA[

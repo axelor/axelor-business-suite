@@ -177,6 +177,7 @@
           			<field name="partnerSeq" showTitle="false" colSpan="2" css="label-bold bold large"/>
 					<button if="__config__.app.isApp('account')" name="$positiveBalanceBtn" title="Balance" colSpan="3" icon="fa-balance-scale" onClick="action-partner-view-show-move-lines" widget="info-button" showIf="id"/>
 					<field name="$balance" hidden="true"/>
+					<field name="activeInactivePartner" showIf="isCustomer == true || isProspect == true"/>
 					<static name="duplicatePartnerText" hidden="true" colSpan="12"><![CDATA[<span class='label label-warning'>There is already a partner with this name.</span>]]></static>
 				</panel>
 				<field name="isProspect"  colSpan="2" widget="InlineCheckbox" hideIf="isContact || $readonly()" onChange="action-partner-attrs-unset-customer,action-partner-record-unset-factor"/>

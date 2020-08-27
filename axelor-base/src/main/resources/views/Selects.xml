@@ -39,6 +39,11 @@
 		<option value="1">Company</option>
 		<option value="2">Individual</option>
 	</selection>
+  
+	<selection name="base.partner.active.inactive.type.select">
+		<option value="1">Active</option>
+		<option value="2">In active</option>
+	</selection>
 
 	<selection name='iterritory.artmin.select'>
 		<option value='(AUX)'>(AUX)</option>
