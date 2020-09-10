@@ -58,7 +58,7 @@
 				<field name="createdOn" title="Created on"/>
 				<field name="createdBy" title="Created by"  form-view="user-form" grid-view="user-grid"/>
 				<field name="description" showTitle="false"  />
-		      	<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true"/>
+		      	<panel-dashlet showIf="id" name="batchListPanel" canSearch = "true" readonly="true" action="action-supplychain-batch-batch-list-view" colSpan="12"/>
 			</panel>
 		</panel-tabs>
 		<panel sidebar="true" name="actionsPanel" title="Actions">
@@ -132,6 +132,12 @@
 		<context name="stockMovelineIdList" expr="call:com.axelor.apps.supplychain.service.AccountingCutOffService:getStockMoveLines(__self__)"/>
 	</action-view>
 	
-	
+	<action-view name="action-supplychain-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.supplychainBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 
 </object-views>

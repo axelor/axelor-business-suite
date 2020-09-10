@@ -33,7 +33,7 @@
       			<field name="createdOn" title="Created on"/>
       			<field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
       			<field name="description" colSpan="12" />
-      			<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true"/>
+      			<panel-dashlet showIf="id" canSearch = "true" readonly="true" name="batchListPanel" action="action-bank-payment-batch-batch-list-view" colSpan="12"/>
     		</panel>
   		</panel-tabs>
 
@@ -50,5 +50,14 @@
 	<action-method name="action-bank-payment-batch-method-action-bank-statement">
 		<call class="com.axelor.apps.bankpayment.web.BankPaymentBatchController" method="actionBankStatement" />
 	</action-method>
+	
+	<action-view name="action-bank-payment-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.bankPaymentBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
+
 
 </object-views>

@@ -81,7 +81,7 @@
 				<field name="createdOn" title="Created on"/>
 				<field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid" canEdit="false"/>
 				<field name="description" colSpan="12" />
-				<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true"/>
+				<panel-dashlet showIf="id" canSearch = "true" readonly="true" name="batchListPanel" action="action-hr-batch-batch-list-view" colSpan="12"/>
 			</panel>
 		</panel-tabs>
 	</form>
@@ -102,6 +102,14 @@
         <attribute for="employeeSet" name="domain" expr="eval: null"/>
         <attribute for="employeeSet" name="domain" expr="eval: &quot;self.mainEmploymentContract.payCompany.id = ${company.id}&quot;" if="eval: company != null"/>
     </action-attrs>
+    
+    <action-view name="action-hr-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.hrBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 	
 
 </object-views>

@@ -1,0 +1,4 @@
+---
+title: "BATCH : dashlet instead of O2M"
+type: Anomaly
+description: on all batch setting objects, replace the O2M batchList fields into dashlet

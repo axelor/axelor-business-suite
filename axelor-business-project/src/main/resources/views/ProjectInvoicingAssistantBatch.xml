@@ -23,7 +23,7 @@
 			<field name="createdOn" title="Created on"/>
 			<field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
 			<field name="description" showTitle="false" colSpan="12"/>
-			<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid"/>
+			<panel-dashlet showIf="id" canSearch = "true" readonly="true" name="batchListPanel" action="action-invoicing-assistant-batch-batch-list-view" colSpan="12"/>
 	    </panel>
   		<panel name="actionPanel" sidebar="true">
   			<button name="updateTaskBtn" title="Update tasks" onClick="save,action-project-invoicing-assistant-batch-method-update-task" showIf="actionSelect == 1"/>
@@ -57,5 +57,13 @@
 	<action-method name="action-project-invoicing-assistant-batch-method-show-inv-project">
 		<call class="com.axelor.apps.businessproject.web.ProjectInvoicingAssistantBatchController" method="showGeneratedInvoicingProject"/>
 	</action-method>
+	
+	<action-view name="action-invoicing-assistant-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.projectInvoicingAssistantBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 
 </object-views>

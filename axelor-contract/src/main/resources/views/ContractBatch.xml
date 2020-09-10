@@ -21,7 +21,7 @@
                 <field name="createdOn" title="Created on"/>
                 <field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
                 <field name="description" colSpan="12" />
-                <panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true"/>
+                <panel-dashlet showIf="id" canSearch = "true" readonly="true" name="batchListPanel" action="action-contract-batch-batch-list-view" colSpan="12"/>
             </panel>
         </panel-tabs>
         <panel name="actionsPanel" sidebar="true" title="Actions">
@@ -32,5 +32,13 @@
     <action-method name="action-contract-method-run-batch">
         <call class="com.axelor.apps.contract.web.ContractBatchController" method="runBatch"/>
     </action-method>
+    
+    <action-view name="action-contract-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.contractBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 
 </object-views>

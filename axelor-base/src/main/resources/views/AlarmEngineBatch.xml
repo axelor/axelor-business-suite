@@ -23,7 +23,7 @@
 			</panel>
 			<panel name="batchesPanel" title="Batches">
 				<field name="description" showTitle="false" colSpan="12" />
-				<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true" />
+				<panel-dashlet showIf="id" canSearch = "true" readonly="true" name="batchListPanel" action="action-alarm-engine-batch-batch-list-view" colSpan="12"/>
 			</panel>
 		</panel-tabs>
 	</form>
@@ -36,5 +36,13 @@
 		<attribute name="domain" for="alarmEngineSet" if="metaModelSet ?: false"
 			expr="eval: &quot;self.externalOk = false AND self.metaModel.id IN (${metaModelSet?.collect{it.id}?.join(',')})&quot;" />
 	</action-attrs>
+	
+	<action-view name="action-alarm-engine-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.alarmEngineBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 
 </object-views>

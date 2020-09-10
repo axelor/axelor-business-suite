@@ -79,7 +79,7 @@
 			<field name="createdOn" title="Created on"/>
 			<field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
 			<field name="description" showTitle="false"  />
-	      	<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true"/>
+	      	<panel-dashlet canSearch = "true" readonly="true" showIf="id" name="batchListPanel" action="action-account-accounting-batch-batch-list-dashlet-view" colSpan="12"/>
 		</panel>
 	</panel-tabs>
 	<panel name="actionsPanel" sidebar="true" title="Actions">
@@ -178,5 +178,13 @@
     <action-attrs name="action-accounting-batch-attrs-set-empty-year-and-accountset-value">
     	<attribute name="value" expr="eval: null" for="year,accountSet"/>
     </action-attrs>
+    
+    <action-view name="action-account-accounting-batch-batch-list-dashlet-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.accountingBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 
 </object-views>

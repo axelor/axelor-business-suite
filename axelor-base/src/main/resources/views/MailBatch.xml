@@ -24,7 +24,7 @@
 				<field name="createdOn" title="Created on"/>
 				<field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
 				<field name="description" showTitle="false"  />
-		      	<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true"/>
+		      	<panel-dashlet showIf="id" canSearch = "true" readonly="true" name="batchListPanel" action="action-mail-batch-batch-list-view" colSpan="12"/>
 			</panel>
 			<panel name="emailPagePanel" title="Email Page" hideIf="template != null &amp;&amp; actionSelect == 1">
 				<field name="subject" colSpan="12"/>
@@ -50,6 +50,14 @@
 	<action-method name="action-mail-batch-method-action-remind-timesheet">
 		<call class="com.axelor.apps.base.web.MailBatchController" method="remindTimesheet"/>
 	</action-method>
+	
+	<action-view name="action-mail-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.mailBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 	
 	
 </object-views>

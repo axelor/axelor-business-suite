@@ -26,7 +26,7 @@
 	    <panel name="descriptionPanel" title="Description">
 	      <field name="description" showTitle="false" colSpan="12"/>      
 	    </panel>
-		<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true" />
+		<panel-dashlet showIf="id" title="Batches" canSearch = "true" readonly="true" name="batchListPanel" action="action-sale-batch-batch-list-view" colSpan="12"/>
 	  </panel-tabs>
 	</form>
     
@@ -58,5 +58,13 @@
     <action-attrs name="action-sale-batch-attrs-action-select">
 	    <attribute name="hidden" expr="eval: actionSelect != 1" for="InvoicingPage"/>
 	</action-attrs>
+	
+	<action-view name="action-sale-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.saleBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 	
 </object-views>

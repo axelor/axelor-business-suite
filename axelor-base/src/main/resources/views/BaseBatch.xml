@@ -30,7 +30,7 @@
 		      <field name="createdOn" title="Created on"/>
 		      <field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
 		      <field name="description" showTitle="false" colSpan="12"/>
-		      <panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid"/>
+		      <panel-dashlet showIf="id" canSearch = "true" readonly="true" name="batchListPanel" action="action-base-batch-batch-list-view" colSpan="12"/>
 		    </panel>
   		</panel-tabs>
   		<panel name="synchronizeBtnPanel" sidebar="true">
@@ -71,5 +71,13 @@
 		<check field="code" if="eval: code != null &amp;&amp; __repo__(com.axelor.db.EntityHelper.getEntityClass(__this__)).all().filter('self.code = ?', code).fetchOne()"
 			   error="This code is already use by another batch."/>
 	</action-condition>
+	
+	<action-view name="action-base-batch-batch-list-view" title="Batches"
+		model="com.axelor.apps.base.db.Batch" >
+		<view type="grid" name="batch-grid" />
+		<view type="form" name="batch-form" />
+		<domain>self.baseBatch = :_batch</domain>
+		<context name="_batch" expr="eval: __this__"/>
+	</action-view>
 
 </object-views>
