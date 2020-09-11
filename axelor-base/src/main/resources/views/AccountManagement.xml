@@ -39,7 +39,7 @@
 			domain="self.company = :company AND self.accountType.technicalTypeSelect = 'income'" canEdit="false"/>
 		<field name="saleTax" form-view="tax-form" grid-view="tax-grid" />
 		<field name="analyticDistributionTemplate" if-module="axelor-account"
-			if="__config__.app.isApp('account')" canNew="true"/>
+			if="__config__.app.isApp('account')" canNew="true" onSelect="action-analytic-distribution-template-attrs-set-domain"/>
 	</grid>
 
 
@@ -136,7 +136,7 @@
 			<panel name="analyticsPanel" title="Analytics" colSpan="12"
 				showIf="typeSelect != 2">
 				<field name="analyticDistributionTemplate" canNew="true"
-					if-module="axelor-account" if="__config__.app.isApp('account')" />
+					if-module="axelor-account" if="__config__.app.isApp('account')" onSelect="action-analytic-distribution-template-attrs-set-domain" />
 			</panel>
 
 		</panel>

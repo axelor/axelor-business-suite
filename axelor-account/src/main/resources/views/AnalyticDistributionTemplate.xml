@@ -21,6 +21,11 @@
     	<call class="com.axelor.apps.account.web.AnalyticDistributionLineController" method="validateLines"/>
     </action-method>
     
+    <action-attrs name="action-analytic-distribution-template-attrs-set-domain">
+		<attribute name="domain" for="analyticDistributionTemplate" expr="eval: &quot; self.company.id = ${company?.id} &quot;" if="!__parent__?.company"/>
+		<attribute name="domain" for="analyticDistributionTemplate" expr="eval: &quot; self.company.id = ${__parent__?.company.id} &quot;" if="__parent__?.company"/>
+	</action-attrs>
+    
     <search-filters name="analytic-distribution-template-filters" model="com.axelor.apps.account.db.AnalyticDistributionTemplate" title="Analytic distribution template filters">
     	<field name="company" hidden="true" if="!__config__.app.getApp('base').getEnableMultiCompany()"/>
     </search-filters>

@@ -1,6 +1,8 @@
 # Changelog
 ## [Unreleased 5.3.12]
 ## Improvements
+- ACCOUNT MANAGEMENT : Added company domain on analytic distributaion template in account management.
+
 ## Bug Fixes
 - Timesheet Line: fix NPE happening when project or task were emptied.
 
