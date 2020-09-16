@@ -425,11 +425,13 @@ public class FixedAssetServiceImpl implements FixedAssetService {
             ? fixedAsset.getNumberOfDepreciation() - 1
             : fixedAsset.getNumberOfDepreciation();
     BigDecimal depreciationRate =
-        BigDecimal.valueOf(100)
-            .divide(
-                BigDecimal.valueOf(numberOfDepreciation),
-                calculationScale,
-                BigDecimal.ROUND_HALF_EVEN);
+        numberOfDepreciation <= 0
+            ? BigDecimal.ZERO
+            : BigDecimal.valueOf(100)
+                .divide(
+                    BigDecimal.valueOf(numberOfDepreciation),
+                    calculationScale,
+                    BigDecimal.ROUND_HALF_EVEN);
     BigDecimal ddRate = BigDecimal.ONE;
     if (fixedAsset
         .getComputationMethodSelect()

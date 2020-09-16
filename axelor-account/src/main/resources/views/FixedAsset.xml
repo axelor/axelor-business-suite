@@ -41,7 +41,7 @@
     		<panel name="depreciationInfo" title="Depreciation information" readonlyIf="statusSelect &gt; 1">
 	    		<field name="computationMethodSelect" required="true" onChange="action-fixed-asset-attrs-set-degressive-coef"/>
 	    		<field name="degressiveCoef" showIf="computationMethodSelect == 'degressive'"/>
-	        	<field name="numberOfDepreciation" min="1" onChange="action-fixed-asset-attrs-set-degressive-coef,action-fixed-asset-category-record-compute-duration"/>
+	        	<field name="numberOfDepreciation" min="0" onChange="action-fixed-asset-attrs-set-degressive-coef,action-fixed-asset-category-record-compute-duration"/>
 	    		<field name="periodicityInMonth" min="1" onChange="action-fixed-asset-category-record-compute-duration"/>
 	        	<field name="durationInMonth" readonly="true"/>
 	        	<field name="fixedAssetCategory.isProrataTemporis"/>
@@ -51,7 +51,7 @@
 		
     	<panel name="actionsPanel" title="Actions" sidebar="true" hideIf="statusSelect == 4">
     		<button name="computeDepreciationBtn" title="Compute depreciation" hideIf="statusSelect &gt; 1 &amp;&amp; (fixedAssetLineList &amp;&amp; fixedAssetLineList.length &gt; 0)" onClick="action-fixed-asset-group-compute-depreciation-click"/>
-    		<button name="validteBtn" title="Validate" showIf="statusSelect &lt; 2 &amp;&amp; (fixedAssetLineList &amp;&amp; fixedAssetLineList.length &gt; 0)" onClick="save,action-fixed-asset-method-compute-depreciation,action-fixed-asset-record-status-validated,save"/>
+    		<button name="validteBtn" title="Validate" showIf="statusSelect &lt; 2" onClick="save,action-fixed-asset-method-compute-depreciation,action-fixed-asset-record-status-validated,save"/>
     		<button name="disposalBtn" title="Disposal" showIf="statusSelect &gt; 1 &amp;&amp; statusSelect != 4" onClick="save,action-fixed-asset-group-disposal-click"/>
     	</panel>
     	<panel name="datesPanel" sidebar="true" readonlyIf="statusSelect &gt; 1">

@@ -2,6 +2,7 @@
 ## [Unreleased 5.3.12]
 ## Improvements
 - SALE ORDER: set endOfValidityDate when create sale order from opportunity and project.
+- FIXED ASSET : add the possibility to create fixed asset with depreciation number equal to 0.
 
 ## Bug Fixes
 - Timesheet Line: fix NPE happening when project or task were emptied.
