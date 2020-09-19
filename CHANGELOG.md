@@ -6,6 +6,7 @@
 
 ## Bug Fixes
 - Move : Fix NPE when changing date.
+- MOVE LINE : add missing required tax line depending of account.
 
 ## [5.4.0] - 2020-09-16
 ## Features

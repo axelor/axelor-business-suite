@@ -190,8 +190,8 @@
 					</editor>
 				</field>
 			</panel>
-			<panel name="othersPanel" title="Others" showIf="move.statusSelect == 2 || move.statusSelect == 3 || taxLine != null" readonly="true">
-				<field name="taxLine" canEdit="false" showIf="account.accountType.technicalTypeSelect == 'income' || account.accountType.technicalTypeSelect == 'charge' || account.accountType.technicalTypeSelect == 'tax' || account.accountType.technicalTypeSelect == 'immobilisation'" colSpan="6" form-view="tax-line-form" grid-view="tax-line-grid" domain="self.endDate > :date OR self.endDate IS NULL" readonlyIf="!account.isTaxAuthorizedOnMoveLine"/>
+			<panel name="othersPanel" title="Others" showIf="account.isTaxRequiredOnMoveLine || move.statusSelect == 2 || move.statusSelect == 3 || taxLine != null" readonly="true">
+				<field name="taxLine" canEdit="false" showIf="account.isTaxRequiredOnMoveLine || account.accountType.technicalTypeSelect == 'income' || account.accountType.technicalTypeSelect == 'charge' || account.accountType.technicalTypeSelect == 'tax' || account.accountType.technicalTypeSelect == 'immobilisation'" colSpan="6" form-view="tax-line-form" grid-view="tax-line-grid" domain="self.endDate > :date OR self.endDate IS NULL" readonlyIf="!account.isTaxAuthorizedOnMoveLine" requiredIf="account.isTaxRequiredOnMoveLine"/>
 				<field name="account.accountType.technicalTypeSelect" hidden="true"/>
 				<field name="reimbursementStatusSelect" showIf="id &amp;&amp; move.statusSelect > 1 &amp;&amp; reimbursementStatusSelect != 0" readonly="true" selection="move.line.reimbursement.status.select"/>
 				<field name="exportedDirectDebitOk" hidden="true" readonly="true"/>
@@ -290,8 +290,8 @@
 					</editor>
 				</field>
 			</panel>
-			<panel name="othersPanel" title="Others" showIf="move.statusSelect == 2 || move.statusSelect == 3 || taxLine != null" readonly="true">
-					<field name="taxLine" canEdit="false" readonlyIf="!account.isTaxAuthorizedOnMoveLine" showIf="account.accountType.technicalTypeSelect == 'income' || account.accountType.technicalTypeSelect == 'charge' || account.accountType.technicalTypeSelect == 'tax' || account.accountType.technicalTypeSelect == 'immobilisation'" colSpan="6" form-view="tax-line-form" grid-view="tax-line-grid" domain="self.endDate > :date OR self.endDate IS NULL"/>
+			<panel name="othersPanel" title="Others" showIf="account.isTaxRequiredOnMoveLine || move.statusSelect == 2 || move.statusSelect == 3 || taxLine != null" readonly="true">
+					<field name="taxLine" canEdit="false" readonlyIf="!account.isTaxAuthorizedOnMoveLine" showIf="account.isTaxRequiredOnMoveLine || account.accountType.technicalTypeSelect == 'income' || account.accountType.technicalTypeSelect == 'charge' || account.accountType.technicalTypeSelect == 'tax' || account.accountType.technicalTypeSelect == 'immobilisation'" colSpan="6" form-view="tax-line-form" grid-view="tax-line-grid" domain="self.endDate > :date OR self.endDate IS NULL" requiredIf="account.isTaxRequiredOnMoveLine"/>
 					<field name="account.accountType.technicalTypeSelect" hidden="true"/>
 					<field name="reimbursementStatusSelect" showIf="id &amp;&amp; move.statusSelect > 1 &amp;&amp; reimbursementStatusSelect != 0" readonly="true" selection="move.line.reimbursement.status.select"/>
 					<field name="exportedDirectDebitOk" hidden="true"  readonly="true"/>
