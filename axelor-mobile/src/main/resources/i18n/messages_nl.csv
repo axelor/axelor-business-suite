@@ -1,6 +1,5 @@
 "key","message","comment","context"
 "App Mobile","App Mobiel",,
-"Apps permissions","Toestemmingen voor apps",,
 "CRM","CRM",,
 "Contacts","Contacten",,
 "Customers","Klanten",,
@@ -9,6 +8,7 @@
 "Leads","Leads",,
 "Leave","Verlof",,
 "Leaves","Bladeren",,
+"Mobile app permissions",,,
 "Mobile apps","Mobiele apps",,
 "Offline record limit","Offline record limiet",,
 "Products","Producten",,

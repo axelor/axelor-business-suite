@@ -1,6 +1,5 @@
 "key","message","comment","context"
 "App Mobile","App Mobile",,
-"Apps permissions","Permissões de aplicativos",,
 "CRM","CRM",,
 "Contacts","Contactos",,
 "Customers","Clientes",,
@@ -9,6 +8,7 @@
 "Leads","Leads",,
 "Leave","Deixar",,
 "Leaves","Folhas",,
+"Mobile app permissions",,,
 "Mobile apps","Aplicativos móveis",,
 "Offline record limit","Limite de registro off-line",,
 "Products","Produtos",,
