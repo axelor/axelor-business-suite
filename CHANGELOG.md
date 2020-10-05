@@ -12,6 +12,7 @@
 - ACCOUNTING REPORT : Rework fixed asset summary report
 - Stock config : set all the booleans of the stock move printing settings section by default to true.
 - Base App Service : getTodayDate method now take a required timezone parameter to fix time shift. The old getTodayDate method is now deprecated.
+- ANALYTIC MOVE LINE: set default values for analytic move line when created from MoveLine.
 
 ## Bug Fixes
 - Move : Fix NPE when changing date.

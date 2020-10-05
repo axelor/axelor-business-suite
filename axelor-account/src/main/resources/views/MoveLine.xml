@@ -11,11 +11,11 @@
   	<hilite color="info" if="$get('move.statusSelect') == 1"/>
   	<hilite color="danger" if="$get('move.statusSelect') == 4"/>
     <field name="name" width="135"/>
-    <field name="date" width="90" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
+    <field name="date" width="90" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution,action-move-line-method-set-analytic-move-line-date"/>
  		<field name="move.period" width="100" canView="false"/>
     <field name="move.journal" width="140"/>
     <field name="partner" form-view="partner-form" grid-view="partner-grid"/>
-    <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-compute-analytic-distribution"/>
+    <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-set-analytic-move-line-account-type-select,action-move-line-method-compute-analytic-distribution"/>
     <field name="account.analyticDistributionAuthorized" hidden="true"/>
     <field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
     <field name="move.company" form-view="company-form" grid-view="company-grid" width="120" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
@@ -40,9 +40,9 @@
 		<field name="account.isTaxAuthorizedOnMoveLine" hidden="true"/>
 		<field name="account.analyticDistributionAuthorized" hidden="true"/>
 		<field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
-		<field name="date" width="100" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
+		<field name="date" width="100" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution,action-move-line-method-set-analytic-move-line-date"/>
         <field name="partner" form-view="partner-form" grid-view="partner-grid" onSelect="action-account-move-line-partner-group" width="120" canEdit="false" readonlyIf="amountPaid &gt; 0"/>
-        <field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" width="200" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-move-line-method-compute-analytic-distribution"/>
+        <field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" width="200" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-move-line-method-set-analytic-move-line-account-type-select,action-move-line-method-compute-analytic-distribution"/>
         <field name="debit" onChange="action-record-account-moveline-debit-onchange,action-group-account-moveline-debitcredit-onchange" width="90" readonlyIf="amountPaid &gt; 0"/>
         <field name="credit" onChange="action-record-account-moveline-credit-onchange,action-group-account-moveline-debitcredit-onchange" width="90" readonlyIf="amountPaid &gt; 0"/>
 		<field name="amountRemaining" hidden="true" width="150"/>
@@ -61,10 +61,10 @@
 		<hilite color="info" if="$get('move.statusSelect') == 1"/>
 		<hilite color="danger" if="$get('move.statusSelect') == 4"/>
     <field name="name" width="135"/>
-    <field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
+    <field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution,action-move-line-method-set-analytic-move-line-date"/>
  		<field name="move.period" canView="false"/>
     <field name="partner" form-view="partner-form" grid-view="partner-grid"/>
-    <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-compute-analytic-distribution"/>
+    <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-set-analytic-move-line-account-type-select,action-move-line-method-compute-analytic-distribution"/>
     <field name="account.analyticDistributionAuthorized" hidden="true"/>
     <field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
     <field name="move.company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
@@ -86,11 +86,11 @@
     	<hilite color="info" if="$get('move.statusSelect') == 1"/>
     	<hilite color="danger" if="$get('move.statusSelect') == 4"/>
         <field name="name" width="135"/>
-        <field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
+        <field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution,action-move-line-method-set-analytic-move-line-date"/>
 		<field name="move.period" canView="false"/>
         <field name="move.journal"/>
         <field name="description"/>
-        <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-compute-analytic-distribution"/>
+        <field name="account" form-view="account-form" grid-view="account-grid" onChange="action-move-line-method-set-analytic-move-line-account-type-select,action-move-line-method-compute-analytic-distribution"/>
         <field name="account.analyticDistributionAuthorized" hidden="true"/>
         <field name="account.analyticDistributionRequiredOnMoveLines" hidden="true"/>
         <field name="debit" aggregate="sum"/>
@@ -144,12 +144,12 @@
 				</viewer>
 			</field>
 			<panel name="datesPanel" colSpan="12">
-				<field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
+				<field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution,action-move-line-method-set-analytic-move-line-date"/>
 				<field name="dueDate" showIf="dueDate"/>
 				<field name="originDate"/>
 			</panel>
 			<field name="partner" readonlyIf="amountPaid &gt; 0" form-view="partner-form" grid-view="partner-grid" onSelect="action-move-line-attrs-domain-partner" canEdit="false"/>
-	        <field name="account" readonlyIf="amountPaid &gt; 0" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" onChange="action-move-line-method-compute-analytic-distribution,action-move-line-attrs-show-tax-amount"/>
+	        <field name="account" readonlyIf="amountPaid &gt; 0" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" onChange="action-move-line-method-set-analytic-move-line-account-type-select,action-move-line-method-compute-analytic-distribution,action-move-line-attrs-show-tax-amount"/>
 	        <field name="debit" readonlyIf="credit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" onChange="action-group-account-moveline-debitcredit-onchange" colSpan="3"/>
 	        <field name="credit" readonlyIf="debit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" onChange="action-group-account-moveline-debitcredit-onchange" colSpan="3"/>
 			<field name="amountRemaining" colSpan="3"/>
@@ -243,12 +243,12 @@
 				</viewer>
 			</field>
 			<panel name="datesPanel" colSpan="12">
-				<field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution"/>
+				<field name="date" onChange="account-move-line-record-date-onchange,action-move-line-method-compute-analytic-distribution,action-move-line-method-set-analytic-move-line-date"/>
 				<field name="dueDate" showIf="dueDate"/>
 				<field name="originDate"/>
 			</panel>
 			<field name="partner" form-view="partner-form" grid-view="partner-grid" onSelect="action-move-line-attrs-domain-partner" canEdit="false" readonlyIf="amountPaid &gt; 0"/>
-			<field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-move-line-method-compute-analytic-distribution,action-move-line-attrs-show-tax-amount"/>
+			<field name="account" form-view="account-form" grid-view="account-grid" onSelect="action-move-line-attrs-domain-account" canEdit="false" readonlyIf="amountPaid &gt; 0" onChange="action-move-line-method-set-analytic-move-line-account-type-select,action-move-line-method-compute-analytic-distribution,action-move-line-attrs-show-tax-amount"/>
 			<field name="debit" onChange="action-group-account-moveline-debitcredit-onchange" readonlyIf="credit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" colSpan="3"/>
 			<field name="credit" onChange="action-group-account-moveline-debitcredit-onchange" readonlyIf="debit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" colSpan="3"/>
 			<field name="amountRemaining" colSpan="3"/>
@@ -339,7 +339,12 @@
 		<action name="action-move-line-debit-credit-clean"/>
 		<action name="action-move-line-method-compute-analytic-distribution"/>
 		<action name="action-move-line-record-set-currencyAmount"/>
+		<action name="action-method-move-line-set-analytic-move-line-amount"/>
 	</action-group>
+	
+	<action-method name="action-method-move-line-set-analytic-move-line-amount">
+    	<call class="com.axelor.apps.account.web.MoveLineController" method="setAnalyticMoveLineAmount"/>
+    </action-method>
     
      <action-group name="action-account-moveline-onload-group">
 		<action name="action-move-line-attrs-readonly"/>
@@ -362,6 +367,14 @@
     
     <action-method name="action-move-line-method-create-analytic-distribution">
 		<call class="com.axelor.apps.account.web.MoveLineController" method="createAnalyticDistributionWithTemplate"/>
+	</action-method>
+	
+	<action-method name="action-move-line-method-set-analytic-move-line-date">
+		<call class="com.axelor.apps.account.web.MoveLineController" method="setAnalyticMoveLineDate"/>
+	</action-method>
+	
+	<action-method name="action-move-line-method-set-analytic-move-line-account-type-select">
+		<call class="com.axelor.apps.account.web.MoveLineController" method="setAnalyticMoveLineAccountTypeSelect"/>
 	</action-method>
 
     <action-method name="action-method-account-moveline-usher-process">

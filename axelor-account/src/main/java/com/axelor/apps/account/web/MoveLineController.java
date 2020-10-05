@@ -17,6 +17,8 @@
  */
 package com.axelor.apps.account.web;
 
+import com.axelor.apps.account.db.AccountType;
+import com.axelor.apps.account.db.AnalyticMoveLine;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.repo.MoveLineRepository;
@@ -37,6 +39,8 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Singleton;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -205,6 +209,56 @@ public class MoveLineController {
     if (move != null) {
       String domain = Beans.get(MoveService.class).filterPartner(move);
       response.setAttr("partner", "domain", domain);
+    }
+  }
+
+  public void setAnalyticMoveLineAmount(ActionRequest request, ActionResponse response) {
+    MoveLine moveLine = request.getContext().asType(MoveLine.class);
+
+    if (moveLine.getAnalyticMoveLineList() != null
+        && !moveLine.getAnalyticMoveLineList().isEmpty()) {
+      for (AnalyticMoveLine analyticMoveLine : moveLine.getAnalyticMoveLineList()) {
+        analyticMoveLine.setAmount(
+            analyticMoveLine
+                .getPercentage()
+                .multiply(moveLine.getCredit().add(moveLine.getDebit()))
+                .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
+      }
+
+      response.setValue("analyticMoveLineList", moveLine.getAnalyticMoveLineList());
+    }
+  }
+
+  public void setAnalyticMoveLineDate(ActionRequest request, ActionResponse response) {
+    MoveLine moveLine = request.getContext().asType(MoveLine.class);
+
+    if (moveLine.getAnalyticMoveLineList() != null
+        && !moveLine.getAnalyticMoveLineList().isEmpty()) {
+
+      LocalDate date = moveLine.getDate();
+
+      for (AnalyticMoveLine analyticMoveLine : moveLine.getAnalyticMoveLineList()) {
+        analyticMoveLine.setDate(date);
+      }
+
+      response.setValue("analyticMoveLineList", moveLine.getAnalyticMoveLineList());
+    }
+  }
+
+  public void setAnalyticMoveLineAccountTypeSelect(ActionRequest request, ActionResponse response) {
+    MoveLine moveLine = request.getContext().asType(MoveLine.class);
+
+    if (moveLine.getAccount() != null
+        && moveLine.getAnalyticMoveLineList() != null
+        && !moveLine.getAnalyticMoveLineList().isEmpty()) {
+
+      AccountType AccountTypeSelect = moveLine.getAccount().getAccountType();
+
+      for (AnalyticMoveLine analyticMoveLine : moveLine.getAnalyticMoveLineList()) {
+        analyticMoveLine.setAccountType(AccountTypeSelect);
+      }
+
+      response.setValue("analyticMoveLineList", moveLine.getAnalyticMoveLineList());
     }
   }
 }

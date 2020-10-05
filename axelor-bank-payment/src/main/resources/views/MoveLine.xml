@@ -23,6 +23,7 @@
 		<action name="action-move-line-method-compute-analytic-distribution"/>
 		<action name="action-move-line-record-set-currencyAmount"/>
 		<action name="action-account-group-move-line-check-bank-reconcile-amount-debitcredit-on-change"/>
+		<action name="action-method-move-line-set-analytic-move-line-amount"/>
 	</action-group>
 	
 	<action-group name="action-account-group-move-line-check-bank-reconcile-amount-on-change">

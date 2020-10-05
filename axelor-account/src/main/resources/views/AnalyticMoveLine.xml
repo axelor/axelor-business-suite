@@ -53,7 +53,7 @@
 
     </form>
     
-    <form name="analytic-move-line-distribution-form" title="Analytic move line" model="com.axelor.apps.account.db.AnalyticMoveLine" onNew="action-analytic-move-line-attrs-set-original-piece-amount">
+    <form name="analytic-move-line-distribution-form" title="Analytic move line" model="com.axelor.apps.account.db.AnalyticMoveLine" onNew="action-analytic-move-line-attrs-set-original-piece-amount,action-analytic-move-line-method-set-default-value">
         <panel name="mainPanel" >
    	        <field name="analyticJournal" grid-view="analytic-journal-grid" form-view="analytic-journal-form"/>
 	        <field name="analyticAxis" form-view="analytic-axis-form" grid-view="analytic-axis-grid"/>
@@ -70,6 +70,10 @@
     
     <action-method name="action-analytic-move-line-method-compute-amount">
     	<call class="com.axelor.apps.account.web.AnalyticDistributionLineController" method="computeAmount"/>
+    </action-method>
+    
+    <action-method name="action-analytic-move-line-method-set-default-value">
+    	<call class="com.axelor.apps.account.web.AnalyticMoveLineController" method="setDefaultVaules"/>
     </action-method>
     
     <action-record name="action-analytic-move-line-record-currency" model="com.axelor.apps.account.db.AnalyticMoveLine">
