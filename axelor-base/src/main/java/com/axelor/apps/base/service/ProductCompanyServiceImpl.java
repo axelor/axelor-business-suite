@@ -67,36 +67,39 @@ public class ProductCompanyServiceImpl implements ProductCompanyService {
    */
   private Product findAppropriateProductCompany(
       Product originalProduct, String fieldName, Company company) throws AxelorException {
-    if (originalProduct == null) {
-      throw new AxelorException(
-          TraceBackRepository.CATEGORY_MISSING_FIELD,
-          I18n.get(IExceptionMessage.PRODUCT_COMPANY_NO_PRODUCT),
-          fieldName);
-    } else if (fieldName == null || fieldName.trim().equals("")) {
-      throw new AxelorException(
-          TraceBackRepository.CATEGORY_MISSING_FIELD,
-          I18n.get(IExceptionMessage.PRODUCT_COMPANY_NO_FIELD),
-          originalProduct.getFullName());
-    }
 
-    Product product = originalProduct;
+    if (appBaseService.getAppBase().getEnableMultiCompany()) {
+      if (originalProduct == null) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_MISSING_FIELD,
+            I18n.get(IExceptionMessage.PRODUCT_COMPANY_NO_PRODUCT),
+            fieldName);
+      } else if (fieldName == null || fieldName.trim().equals("")) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_MISSING_FIELD,
+            I18n.get(IExceptionMessage.PRODUCT_COMPANY_NO_FIELD),
+            originalProduct.getFullName());
+      }
 
-    if (company != null && originalProduct.getProductCompanyList() != null) {
-      for (ProductCompany productCompany : originalProduct.getProductCompanyList()) {
-        if (productCompany.getCompany().getId() == company.getId()) {
-          Set<MetaField> companySpecificFields =
-              appBaseService.getAppBase().getCompanySpecificProductFieldsList();
-          for (MetaField field : companySpecificFields) {
-            if (field.getName().equals(fieldName)) {
-              product = productCompany;
-              break;
+      Product product = originalProduct;
+      if (company != null && originalProduct.getProductCompanyList() != null) {
+        for (ProductCompany productCompany : originalProduct.getProductCompanyList()) {
+          if (productCompany.getCompany().getId() == company.getId()) {
+            Set<MetaField> companySpecificFields =
+                appBaseService.getAppBase().getCompanySpecificProductFieldsList();
+            for (MetaField field : companySpecificFields) {
+              if (field.getName().equals(fieldName)) {
+                product = productCompany;
+                break;
+              }
             }
+            break;
           }
-          break;
         }
       }
+      return product;
+    } else {
+      return originalProduct;
     }
-
-    return product;
   }
 }

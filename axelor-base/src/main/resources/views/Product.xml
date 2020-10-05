@@ -477,7 +477,7 @@
 	</action-attrs>
 	
 	<action-attrs name="action-product-attrs-enable-product-company-list">
-		<attribute name="hidden" for="productCompanyList" expr="eval: __config__.app.getApp('base').getCompanySpecificProductFieldsList().isEmpty()"/>
+		<attribute name="hidden" for="productCompanyList" expr="eval: __config__.app.getApp('base').getCompanySpecificProductFieldsList().isEmpty() || !__config__.app.getApp('base').getEnableMultiCompany()"/>
 	</action-attrs>
 
 	<action-group name="action-product-group-default-new">

@@ -15,6 +15,7 @@
 - DEBT RECOVERY CONFIGLINE : set the field partner category mandatory in debt recovery configline.
 
 ## Bug Fixes
+- App Base : Deactivating Multi Company now hide useless fields
 - Move : Fix NPE when changing date.
 - BATCH RH: corrected payroll preparation batch, now the batch is runnable.
 - Studio : Manage Custom model menu in export / import operation.

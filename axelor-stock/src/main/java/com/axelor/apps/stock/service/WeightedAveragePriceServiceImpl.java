@@ -66,37 +66,39 @@ public class WeightedAveragePriceServiceImpl implements WeightedAveragePriceServ
         break;
       }
     }
-    if (avgPriceHandledByCompany
-        && product.getProductCompanyList() != null
-        && !product.getProductCompanyList().isEmpty()) {
-      for (ProductCompany productCompany : product.getProductCompanyList()) {
-        Company company = productCompany.getCompany();
-        BigDecimal productAvgPrice = this.computeAvgPriceForCompany(product, company);
-        if (productAvgPrice.compareTo(BigDecimal.ZERO) == 0) {
-          continue;
-        }
+    if (appBaseService.getAppBase().getEnableMultiCompany()) {
+      if (avgPriceHandledByCompany
+          && product.getProductCompanyList() != null
+          && !product.getProductCompanyList().isEmpty()) {
+        for (ProductCompany productCompany : product.getProductCompanyList()) {
+          Company company = productCompany.getCompany();
+          BigDecimal productAvgPrice = this.computeAvgPriceForCompany(product, company);
+          if (productAvgPrice.compareTo(BigDecimal.ZERO) == 0) {
+            continue;
+          }
 
-        productCompanyService.set(product, "avgPrice", productAvgPrice, company);
-        if ((Integer) productCompanyService.get(product, "costTypeSelect", company)
-            == ProductRepository.COST_TYPE_AVERAGE_PRICE) {
-          productCompanyService.set(product, "costPrice", productAvgPrice, company);
-          if ((Boolean) productCompanyService.get(product, "autoUpdateSalePrice", company)) {
-            Beans.get(ProductService.class).updateSalePrice(product, company);
+          productCompanyService.set(product, "avgPrice", productAvgPrice, company);
+          if ((Integer) productCompanyService.get(product, "costTypeSelect", company)
+              == ProductRepository.COST_TYPE_AVERAGE_PRICE) {
+            productCompanyService.set(product, "costPrice", productAvgPrice, company);
+            if ((Boolean) productCompanyService.get(product, "autoUpdateSalePrice", company)) {
+              Beans.get(ProductService.class).updateSalePrice(product, company);
+            }
           }
         }
-      }
-    } else {
-      BigDecimal productAvgPrice = this.computeAvgPriceForCompany(product, null);
+      } else {
+        BigDecimal productAvgPrice = this.computeAvgPriceForCompany(product, null);
 
-      if (productAvgPrice.compareTo(BigDecimal.ZERO) == 0) {
-        return;
-      }
+        if (productAvgPrice.compareTo(BigDecimal.ZERO) == 0) {
+          return;
+        }
 
-      product.setAvgPrice(productAvgPrice);
-      if (product.getCostTypeSelect() == ProductRepository.COST_TYPE_AVERAGE_PRICE) {
-        product.setCostPrice(productAvgPrice);
-        if (product.getAutoUpdateSalePrice()) {
-          Beans.get(ProductService.class).updateSalePrice(product, null);
+        product.setAvgPrice(productAvgPrice);
+        if (product.getCostTypeSelect() == ProductRepository.COST_TYPE_AVERAGE_PRICE) {
+          product.setCostPrice(productAvgPrice);
+          if (product.getAutoUpdateSalePrice()) {
+            Beans.get(ProductService.class).updateSalePrice(product, null);
+          }
         }
       }
     }
