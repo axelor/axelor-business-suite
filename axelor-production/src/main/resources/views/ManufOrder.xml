@@ -208,6 +208,9 @@
 			<panel name="residualProductsPanel" title="Residual products" showIf="billOfMaterial != null &amp;&amp; billOfMaterial.prodResidualProductList.length > 0" if="__config__.app.getApp('production').getManageResidualProductOnBom()">
 				<field name="billOfMaterial.prodResidualProductList" title="Residual products" colSpan="12" grid-view="prod-residual-product-grid" form-view="prod-residual-product-form"/>
 			</panel>
+			<panel name="printingPanel" title="Printing">
+				<field name="hideReportDetails"/>
+			</panel>
 		</panel-tabs>
 		
 		<panel-mail name="mailPanel">

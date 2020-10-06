@@ -70,6 +70,8 @@
     <boolean name="outsourcing" title="Outsourcing"/>
     <many-to-one name="purchaseOrder" title="Purchase order" ref="com.axelor.apps.purchase.db.PurchaseOrder" />
     
+    <boolean name="hideReportDetails" title="Hide report details"/>
+
     <unique-constraint columns="manufOrderSeq,company"/>
 
 	<extra-code><![CDATA[

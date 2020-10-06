@@ -1,0 +1,6 @@
+---
+title: "Manufacturing Order: Provide way to hide description in report"
+type: feature
+description: |
+	In manufacturing order, Add boolean hideReportDetails, 
+	If it's true , in report printing other description will be hidden.
