@@ -50,9 +50,10 @@ public class ProjectedStockServiceImpl implements ProjectedStockService {
     Company company = Beans.get(CompanyRepository.class).find(companyId);
     StockLocation stockLocation = stockLocationRepository.find(stockLocationId);
     Mrp mrp = new Mrp();
-    mrp.setStockLocation(findStockLocation(company, stockLocation));
+    stockLocation = findStockLocation(company, stockLocation);
+    mrp.addStockLocationSetItem(stockLocation);
     // If a company has no stockLocation
-    if (mrp.getStockLocation() == null) {
+    if (mrp.getStockLocationSet() == null) {
       return Collections.emptyList();
     }
     mrp.addProductSetItem(product);

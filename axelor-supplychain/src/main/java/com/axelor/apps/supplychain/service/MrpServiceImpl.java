@@ -155,7 +155,7 @@ public class MrpServiceImpl implements MrpService {
     // TODO check that the different types used for purchase/manufOrder proposal are in stock type
     // TODO check that all types exist + override the method on production module
 
-    today = appBaseService.getTodayDate(mrp.getStockLocation().getCompany());
+    today = appBaseService.getTodayDate(mrp.getCompany());
 
     mrpRepository.save(mrp);
   }
@@ -180,10 +180,13 @@ public class MrpServiceImpl implements MrpService {
 
     // Initialize
     this.mrp = mrp;
+    List<StockLocation> tmpSlList = new ArrayList<>();
+    for (StockLocation stockLocation : mrp.getStockLocationSet()) {
+      tmpSlList.addAll(stockLocationService.getAllLocationAndSubLocation(stockLocation, false));
+    }
+
     List<StockLocation> slList =
-        stockLocationService.getAllLocationAndSubLocation(mrp.getStockLocation(), false).stream()
-            .filter(x -> !x.getIsNotInMrp())
-            .collect(Collectors.toList());
+        tmpSlList.stream().distinct().filter(x -> !x.getIsNotInMrp()).collect(Collectors.toList());
     this.stockLocationList = slList;
 
     this.assignProductAndLevel(this.getProductList());
@@ -1137,7 +1140,7 @@ public class MrpServiceImpl implements MrpService {
     mrp.addProductSetItem(product);
     if (stockLocation != null) {
       this.stockLocationList =
-          stockLocationService.getAllLocationAndSubLocation(mrp.getStockLocation(), false);
+          stockLocationService.getAllLocationAndSubLocation(stockLocation, false);
     } else if (company != null) {
       this.stockLocationList =
           stockLocationRepository

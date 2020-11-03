@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.3.xsd">
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
 	
     <grid name="mrp-grid" model="com.axelor.apps.supplychain.db.Mrp" title="MPS">
         <hilite if="statusSelect == 1" strong="true" color="warning"/>
@@ -9,14 +9,14 @@
         <field name="mrpSeq"/>
         <field name="createdOn"/>
         <field name="createdBy"/>
-        <field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="6"/>
-        <field name="stockLocation.company"/>
+        <field name="stockLocationFullNames" colSpan="6"/>
+        <field name="company" form-view="company-form" grid-view="company-grid"/>
         <field name="endDate" colSpan="6"/>
         <field name="statusSelect"/>
 	 </grid>
-    
-	<form name="mrp-form" model="com.axelor.apps.supplychain.db.Mrp" title="MPS" width="large"
-		onLoad="action-attrs-mrp-generate-all-proposals" onNew="action-mrp-record-onnew">
+
+	<form name="mrp-form" model="com.axelor.apps.supplychain.db.Mrp" title="Mrp" width="large"
+		onLoad="action-mrp-group-onload" onNew="action-mrp-group-onnew">
 	     <menubar>
 	     	<menu title="Tools" showTitle="true" icon="fa-wrench">
 	    		<item name="runCalculationItem" title="Run calculation"  showIf="statusSelect != 1" action="save,action-method-mrp-run-calculation" prompt="Are you sure you want run the calculation ? Calculation can take a long time."/>
@@ -38,26 +38,35 @@
 					</h3>
 				]]></viewer>
 			</field>
-	    </panel>
+			<field name="createdOn" colSpan="4"/>
+			<field name="createdBy" colSpan="4"/>
+			<field name="endDate" colSpan="4"/>
+				<field name="company" form-view="company-form" grid-view="company-grid"/>
+				<field name="stockLocationSet" widget="TagSelect" canNew="false" form-view="stock-location-form" grid-view="stock-location-grid"
+							 colSpan="6" domain="self.typeSelect != 3 AND (self.isNotInMrp = false OR self.isNotInMrp = null) AND self.company = :company"
+							 canEdit="false" onChange="action-mrp-record-set-stocklocation-fullname" showIf="company != null"/>
+			</panel>
 	    <panel name="filtersPanel" title="Filters" collapseIf="statusSelect != 0" colSpan="12">
-			<field name="id"/><spacer/>
-	        <field name="createdOn" colSpan="4"/>
-	        <field name="startDateTime" colSpan="4" readonly="true"/>
-	        <field name="endDateTime" colSpan="4" readonly="true"/>
-	        <field name="createdBy"/>
-	        <field name="endDate" colSpan="6" hideIf="mrpTypeSelect == 2"/>
-	        <field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid" colSpan="6" domain="self.typeSelect != 3 AND (self.isNotInMrp = false OR self.isNotInMrp = null)" canEdit="false"/>
-	        <field name="stockLocation.company"/>
-	        <field name="displayProductWithoutProposal" widget="boolean-switch"/>
-	        <panel-related name="productSetPanel" field="productSet" canEdit="false" form-view="product-form" grid-view="product-grid" canNew="false" colSpan="12" domain="self.productTypeSelect = 'storable' AND self.excludeFromMrp = false AND self.stockManaged = true AND dtype = 'Product'"/>
-	        <field name="mrpTypeSelect" hidden="true"/>
-	        <field name="year" showIf="mrpTypeSelect == 2" domain="self.typeSelect = 3" onChange="action-mrp-manuf-order-record-reset-period" form-view="year-manuf-order-form" grid-view="year-account-grid"/>
-	        <field name="period" showIf="mrpTypeSelect == 2" domain="self.year = :year" form-view="period-form" grid-view="period-grid"/>
-	        <panel-related name="productSetPanel" field="productSet" canEdit="false" form-view="product-form" grid-view="product-grid" canNew="false" colSpan="12" domain="self.productTypeSelect = 'storable' AND self.excludeFromMrp = false AND self.stockManaged = true AND (:mrpTypeSelect = 1 OR self.productSubTypeSelect = 1)"/>
-	        <panel-related name="productCategorySetPanel" field="productCategorySet" canEdit="false" form-view="product-category-form" grid-view="product-category-grid" canNew="false" colSpan="12"/>
-	        <panel-related name="productFamilySetPanel" field="productFamilySet" canEdit="false" form-view="product-family-form" grid-view="product-family-grid" canNew="false" colSpan="12"/>
-	        <panel-related name="saleOrderLineSetPanel" field="saleOrderLineSet" canEdit="false" form-view="sale-order-line-menu-form" grid-view="sale-order-line-menu-grid" canNew="false" colSpan="12" onSelect="action-mrp-attrs-sale-order-domain"/>
-	        <panel-related name="mrpForecastSetPanel" field="mrpForecastSet" form-view="mrp-forecast-form" grid-view="mrp-forecast-grid" colSpan="12" domain="self.statusSelect = 2 AND self.product.productTypeSelect = 'storable' AND self.product.excludeFromMrp = false AND self.forecastDate &gt;= :__date__  AND self.product.stockManaged = true AND (:mrpTypeSelect = 1 OR self.product.productSubTypeSelect = 1)"/>
+				<field name="id"/><spacer/>
+	      <field name="createdOn" colSpan="4"/>
+	      <field name="startDateTime" colSpan="4" readonly="true"/>
+	      <field name="endDateTime" colSpan="4" readonly="true"/>
+	      <field name="createdBy"/>
+				<field name="endDate" colSpan="6" hideIf="mrpTypeSelect == 2"/>
+				<field name="company" form-view="company-form" grid-view="company-grid" readonly="true"/>
+				<field name="stockLocationSet" widget="TagSelect" canNew="false" form-view="stock-location-form" grid-view="stock-location-grid"
+							 colSpan="6" domain="self.typeSelect != 3 AND (self.isNotInMrp = false OR self.isNotInMrp = null) AND self.company = :company"
+							 canEdit="false" onChange="action-mrp-record-set-stocklocation-fullname" showIf="company != null"/>
+	      <field name="displayProductWithoutProposal" widget="boolean-switch"/>
+	      <panel-related name="productSetPanel" field="productSet" canEdit="false" form-view="product-form" grid-view="product-grid" canNew="false" colSpan="12" domain="self.productTypeSelect = 'storable' AND self.excludeFromMrp = false AND self.stockManaged = true AND dtype = 'Product'"/>
+	      <field name="mrpTypeSelect" hidden="true"/>
+	      <field name="year" showIf="mrpTypeSelect == 2" domain="self.typeSelect = 3" onChange="action-mrp-manuf-order-record-reset-period" form-view="year-manuf-order-form" grid-view="year-account-grid"/>
+	      <field name="period" showIf="mrpTypeSelect == 2" domain="self.year = :year" form-view="period-form" grid-view="period-grid"/>
+	      <panel-related name="productSetPanel" field="productSet" canEdit="false" form-view="product-form" grid-view="product-grid" canNew="false" colSpan="12" domain="self.productTypeSelect = 'storable' AND self.excludeFromMrp = false AND self.stockManaged = true AND (:mrpTypeSelect = 1 OR self.productSubTypeSelect = 1)"/>
+	      <panel-related name="productCategorySetPanel" field="productCategorySet" canEdit="false" form-view="product-category-form" grid-view="product-category-grid" canNew="false" colSpan="12"/>
+	      <panel-related name="productFamilySetPanel" field="productFamilySet" canEdit="false" form-view="product-family-form" grid-view="product-family-grid" canNew="false" colSpan="12"/>
+	      <panel-related name="saleOrderLineSetPanel" field="saleOrderLineSet" canEdit="false" form-view="sale-order-line-menu-form" grid-view="sale-order-line-menu-grid" canNew="false" colSpan="12" onSelect="action-mrp-attrs-sale-order-domain"/>
+	      <panel-related name="mrpForecastSetPanel" field="mrpForecastSet" form-view="mrp-forecast-form" grid-view="mrp-forecast-grid" colSpan="12" domain="self.statusSelect = 2 AND self.product.productTypeSelect = 'storable' AND self.product.excludeFromMrp = false AND self.forecastDate &gt;= :__date__  AND self.product.stockManaged = true AND (:mrpTypeSelect = 1 OR self.product.productSubTypeSelect = 1)"/>
 	    </panel>
 	    <panel name="statusPanel" showIf="statusSelect == 1" colSpan="12">
 	        <field name="statusSelect" hidden="true"/>
@@ -73,6 +82,16 @@
 	 		<button name="generateProposalsBtn" title="Generate all proposals" onClick="action-method-mrp-generate-all-proposal,close"/>
 		 </panel>
 	 </form>
+
+	<action-group name="action-mrp-group-onnew">
+		<action name="action-mrp-record-set-company"/>
+		<action name="action-mrp-attrs-company-readonly"/>
+	</action-group>
+
+	<action-group name="action-mrp-group-onload">
+		<action name="action-attrs-mrp-generate-all-proposals"/>
+		<action name="action-mrp-attrs-company-readonly"/>
+	</action-group>
 
 	<action-method name="action-method-mrp-run-calculation">
 	    <call class="com.axelor.apps.supplychain.web.MrpController" method="runCalculation"/>
@@ -114,6 +133,10 @@
 	<action-attrs name="action-mrp-wizard-attrs-set-default-onnew">
 		<attribute name="value" for="$consolidateProposalsPerSupplier" expr="eval:true"/>
 	</action-attrs>
+	
+	<action-attrs name="action-mrp-attrs-company-readonly">
+		<attribute for="company" name="readonly" expr="eval: !__config__.app.getApp('base').getEnableMultiCompany()"/>
+	</action-attrs>
 
 	<action-attrs name="action-attrs-mrp-generate-all-proposals"
 		model="com.axelor.apps.supplychain.db.Mrp">
@@ -122,7 +145,7 @@
 	</action-attrs>
 	
 	<action-attrs name="action-mrp-attrs-sale-order-domain">
-  		<attribute name="domain" for="saleOrderLineSet" expr="eval: &quot;self.product.productTypeSelect = 'storable' AND self.product.excludeFromMrp = false AND self.product.stockManaged = true AND self.deliveryState != 3 AND self.saleOrder.company.id = ${stockLocation?.company?.id} AND self.saleOrder.stockLocation is not null AND (${mrpTypeSelect} = 1 OR self.product.productSubTypeSelect = 1)&quot;"/>
+  		<attribute name="domain" for="saleOrderLineSet" expr="eval: &quot;self.product.productTypeSelect = 'storable' AND self.product.excludeFromMrp = false AND self.product.stockManaged = true AND self.deliveryState != 3 AND self.saleOrder.company.id IN (${[0]+stockLocationSet?.collect{it -> it.company?.id}).join(',')}) AND self.saleOrder.stockLocation is not null AND (${mrpTypeSelect} = 1 OR self.product.productSubTypeSelect = 1)&quot;"/>
 	</action-attrs>
 	
 	<action-record name="action-mrp-record-onnew" model="com.axelor.apps.supplychain.db.Mrp">
@@ -132,7 +155,13 @@
 	<action-method name="action-method-mrp-undo-manual-changes">
 		<call class="com.axelor.apps.supplychain.web.MrpController" method="undoManualChanges"/>
 	</action-method>
+	
+	<action-record name="action-mrp-record-set-stocklocation-fullname" model="com.axelor.apps.supplychain.db.Mrp">
+		<field name="stockLocationFullNames" expr="eval: stockLocationSet?.collect{it -> it.name}.join(',')"/>
+	</action-record>
 
+	<action-record name="action-mrp-record-set-company" model="com.axelor.apps.supplychain.db.Mrp">
+		<field name="company" expr="eval: __user__.activeCompany"/>
+	</action-record>
+	
 </object-views>
-
-

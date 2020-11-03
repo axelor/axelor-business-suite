@@ -45,7 +45,7 @@ public class MrpManagementRepository extends MrpRepository {
 
     try {
       if (Strings.isNullOrEmpty(entity.getMrpSeq())) {
-        Company company = entity.getStockLocation().getCompany();
+        Company company = entity.getCompany();
         String seq =
             Beans.get(SequenceService.class)
                 .getSequenceNumber(SequenceRepository.SUPPLYCHAIN_MRP, company);

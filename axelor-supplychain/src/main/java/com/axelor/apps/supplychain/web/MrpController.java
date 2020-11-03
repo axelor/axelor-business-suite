@@ -114,10 +114,10 @@ public class MrpController {
   }
 
   private String getTimezone(Mrp mrp) {
-    if (mrp.getStockLocation() == null || mrp.getStockLocation().getCompany() == null) {
+    if (mrp.getStockLocationSet() == null || mrp.getCompany() == null) {
       return null;
     }
-    return mrp.getStockLocation().getCompany().getTimezone();
+    return mrp.getCompany().getTimezone();
   }
 
   /**

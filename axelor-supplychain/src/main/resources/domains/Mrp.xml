@@ -4,8 +4,9 @@
   <module name="supplychain" package="com.axelor.apps.supplychain.db"/>
  
   <entity name="Mrp" lang="java">
-  
-      <many-to-one name="stockLocation" ref="com.axelor.apps.stock.db.StockLocation" title="Stock location" required="true"/>
+
+      <many-to-one name="company" ref="com.axelor.apps.base.db.Company" title="Company" required="true"/>
+      <many-to-many name="stockLocationSet" ref="com.axelor.apps.stock.db.StockLocation" title="Stock locations"/>
       <many-to-many name="productSet" ref="com.axelor.apps.base.db.Product" title="Products"/>
       <many-to-many name="productCategorySet" ref="com.axelor.apps.base.db.ProductCategory" title="Product categories"/>
       <many-to-many name="productFamilySet" ref="com.axelor.apps.base.db.ProductFamily" title="Product families"/>
@@ -17,6 +18,7 @@
       <datetime name="endDateTime" title="Calculation End Date"/>
       <string name="mrpSeq" title="MRP number" readonly="true"/>
       <boolean name="displayProductWithoutProposal" title="Display product without proposal" default="false"/>
+      <string name="stockLocationFullNames" title="Stock locations"/>
       <integer name="mrpTypeSelect" title="MRP Type" selection="supplychain.mrp.mrp.type.select"/>
 
       <extra-code><![CDATA[
