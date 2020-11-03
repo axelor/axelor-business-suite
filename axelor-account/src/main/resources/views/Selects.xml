@@ -169,6 +169,7 @@
 		<option value="1">Classic invoice</option>
 		<option value="2">Advance payment invoice</option>
 		<option value="3">Balance invoice</option>
+		<option value="8">Interest invoice</option>
 	</selection>
 	
 	<selection name='iaccount.account.schedule.export.type.select'>
@@ -198,6 +199,7 @@
 		<option value="20">Realize fixed asset lines</option>
 		<option value="21">Close the annual accounts of the past year</option>
 		<option value="22">Open the annual accounts of the next year</option>
+		<option value="23">Invoice late payment fees</option>
 	</selection>
 	
 	<selection name="iaccount.account.batch.transfer.type.select">

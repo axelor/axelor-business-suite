@@ -145,6 +145,7 @@
 	<string name="proformaComments" title="Comment to display on proforma" large="true"/>
 
   <string name="headOfficeAddress" title="Head office address"/>
+  <boolean name="hidePenaltyText" title="Hide penalty legal text"/>
 
   	<unique-constraint columns="invoiceId,company"/>
 
@@ -173,6 +174,7 @@
 	    public static final int OPERATION_SUB_TYPE_DEFAULT = 1;
 	    public static final int OPERATION_SUB_TYPE_ADVANCE = 2;
 	    public static final int OPERATION_SUB_TYPE_BALANCE = 3;
+	    public static final int OPERATION_SUB_TYPE_INTEREST = 8;
 
 	    // REPORT TYPE
 		public static final int REPORT_TYPE_PROFORMA = 1;

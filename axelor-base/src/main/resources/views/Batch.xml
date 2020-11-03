@@ -63,6 +63,7 @@
     	<attribute name="hidden" for="showStockMoveBtn" expr="eval: __parent__?._model != 'com.axelor.apps.supplychain.db.SupplychainBatch' || __parent__?.actionSelect == __repo__(SupplychainBatch).ACTION_INVOICE_ORDERS"/>
     	<attribute name="hidden" for="showStockMoveLinesBtn" expr="eval: __parent__?._model != 'com.axelor.apps.supplychain.db.SupplychainBatch' || __parent__?.actionSelect == __repo__(SupplychainBatch).ACTION_INVOICE_ORDERS" />
     	<attribute name="hidden" for="showAccountMoveBtn" expr="(__parent__?._model != 'com.axelor.apps.supplychain.db.SupplychainBatch' || __parent__?.actionSelect != __repo__(SupplychainBatch).ACTION_ACCOUNTING_CUT_OFF) &amp;&amp; __parent__?._model != 'com.axelor.apps.account.db.AccountingBatch'"/>
+        <attribute name="hidden" for="showInterestInvoiceBtn" expr="eval: !(_parent?.actionSelect == 23)"/>
 
     </action-attrs>
 

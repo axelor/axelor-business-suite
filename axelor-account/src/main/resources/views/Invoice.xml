@@ -225,6 +225,7 @@
 	                            <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.operationSubTypeSelect == 5 && (record.operationTypeSelect == 1 || record.operationTypeSelect == 3)">Contract closing invoice</span>
 	                            <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.operationSubTypeSelect == 6 && (record.operationTypeSelect == 1 || record.operationTypeSelect == 3)">Subscription</span>
 	                            <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.operationSubTypeSelect == 7 && (record.operationTypeSelect == 1 || record.operationTypeSelect == 3)">Periodic contract</span>
+	                            <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="record.operationSubTypeSelect == 8 && (record.operationTypeSelect == 3)">Interest invoice</span>
 
 	                            <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" x-translate ng-show="(record.operationTypeSelect == 3 || record.operationTypeSelect == 4) && record.partner.factorizedCustomer">Factorized customer</span>
 
@@ -260,7 +261,7 @@
                 <field name="operationTypeSelect" hideIf="statusSelect &gt; 1 || partner != null || $readonly() || _operationTypeSelect != 3"
                     onChange="action-group-account-invoice-operationtype-onchange" selection-in="[3,4]"/>
             </panel>
-            <field name="operationSubTypeSelect" hideIf="statusSelect &gt; 1 || operationTypeSelect != 3 || $readonly()" showTitle="true"/>
+            <field name="operationSubTypeSelect" hideIf="statusSelect &gt; 1 || operationTypeSelect != 3 || $readonly()" showTitle="true" onChange="action-invoice-attrs-show-invoice-interests-button"/>
             <field name="company" canEdit="false" readonlyIf="statusSelect != 1 || partner != null" onChange="action-group-account-invoice-company-onchange" form-view="company-form" grid-view="company-grid"/>
             <field name="currency" colSpan="3" canEdit="false" onChange="action-invoice-group-currency-onchange" readonlyIf="statusSelect != 1 || (invoiceLineList &amp;&amp; invoiceLineList.length != 0)" form-view="currency-form" grid-view="currency-grid"/>
             <field name="priceList" colSpan="3" canEdit="false" onChange="action-invoice-record-hide-discount" readonlyIf="statusSelect != 1" onSelect="action-invoice-method-domain-priceList" form-view="price-list-form" grid-view="price-list-grid"/>
@@ -381,6 +382,7 @@ InvoiceSet.length > 0))"
 				<field name="displayTimesheetOnPrinting" if-module="axelor-business-project" hidden="true"/>
 				<field name="displayExpenseOnPrinting" if-module="axelor-business-project" hidden="true"/>
 				<field name="$language" title="Language" type="many-to-one" target="com.axelor.apps.base.db.Language" hidden="true"/>
+				<field name="hidePenaltyText" colSpan="6"/>
 				<panel name="descriptionToDisplayOnInvoicePanel" title="Comment to display on invoice" colSpan="12">
 				  <field name="note" widget="html" colSpan="12" showTitle="false"/>
 				</panel>
@@ -460,6 +462,7 @@ InvoiceSet.length > 0))"
             <button name="draftBtn" title="Draft" showIf="statusSelect == 4" onClick="save,action-invoice-record-draft,save,action-account-invoice-onload-group"/>
             <button name="addPaymentBtn" title="Register payment" showIf="(statusSelect == 3 || (statusSelect == 2 &amp;&amp; operationSubTypeSelect == 2)) &amp;&amp; amountRemaining > 0 &amp;&amp; !hasPendingPayments &amp;&amp; (operationTypeSelect == 3 || operationTypeSelect == 4 || !company.accountConfig.isManagePassedForPayment || ( (operationTypeSelect == 1 || (!company.accountConfig.isManagePFPInRefund || (company.accountConfig.isManagePFPInRefund &amp;&amp; operationTypeSelect == 2 ))) &amp;&amp; pfpValidateStatusSelect == 2))" colSpan="12" onClick="action-invoice-group-add-invoice-payment" if="!__config__.app.getApp('account').paymentVouchersOnInvoice"/>
             <button name="addPaymentBtn" title="Register payment" showIf="(statusSelect == 3 || (statusSelect == 2 &amp;&amp; operationSubTypeSelect == 2)) &amp;&amp; amountRemaining > 0 &amp;&amp; !hasPendingPayments &amp;&amp; (operationTypeSelect == 3 || operationTypeSelect == 4 || !company.accountConfig.isManagePassedForPayment || ( (operationTypeSelect == 1 || (!company.accountConfig.isManagePFPInRefund || (company.accountConfig.isManagePFPInRefund &amp;&amp; operationTypeSelect == 2 ))) &amp;&amp; pfpValidateStatusSelect == 2))" colSpan="12" onClick="save,action-invoice-view-register-payment-voucher" if="__config__.app.getApp('account').paymentVouchersOnInvoice"/>
+            <button name="invoiceInterestsBtn" title="Invoice interests" onClick="save,action-invoice-attrs-show-invoice-interests-button,action-account-method-interests-invoice" />
             <field name="validatedByUser" hidden="true" showIf="validatedByUser" colSpan="6" canView="false"/>
 			<field name="validatedDate" hidden="true" showIf="validatedDate" colSpan="6"/>
 			<field name="pfpValidatorUser" hidden="true" if="__config__.app.getApp('account').getActivatePassedForPayment()" showIf="company.accountConfig.isManagePassedForPayment &amp;&amp; (operationTypeSelect == 1 || company.accountConfig.isManagePFPInRefund &amp;&amp; operationTypeSelect == 2) &amp;&amp; statusSelect &gt; 1" readonlyIf="pfpValidateStatusSelect != 1" colSpan="6" onSelect="action-invoice-method-domain-pfp-validator-user-on-select" onChange="action-invoice-method-hide-send-email-pfp-btn,action-invoice-attrs-is-valid-pfp-validator-user" canEdit="false"/>
@@ -548,7 +551,7 @@ InvoiceSet.length > 0))"
 			</panel>
 			<panel name="datesPanel" title="Dates" readonlyIf="statusSelect == 3" canCollapse="true" collapseIf="true">
 				<field name="invoiceDate" onChange="action-invoice-record-due-date,action-invoice-record-estimated-payment-date" readonlyIf="ventilatedByUser || ventilatedDate"/>
-				<field name="dueDate" onChange="action-invoice-record-estimated-payment-date"/>
+				<field name="dueDate" onChange="action-invoice-record-estimated-payment-date,action-invoice-attrs-show-invoice-interests-button"/>
 				<field name="estimatedPaymentDate" readonly="true" if-module="axelor-cash-management"  if="__config__.app.isApp('cash-management')" colSpan="12"/>
 			</panel>
 		</panel-stack>
@@ -835,6 +838,7 @@ InvoiceSet.length > 0))"
 	    <action name="action-invoice-record-printing-fields" if="__config__.app.isApp('business-project')"/>
 			<action name="action-invoice-record-load-dummy-field-payment-voucher-on-invoice"/>
       <action name="action-invoice-record-set-dummy-field-language"/>
+      <action name="action-invoice-attrs-show-invoice-interests-button"/>
     </action-group>
 
     <action-group name="action-account-invoice-onload-group" >
@@ -852,6 +856,7 @@ InvoiceSet.length > 0))"
       <action name="action-invoice-attrs-is-valid-pfp-validator-user" if="__config__.app.getApp('account').getActivatePassedForPayment() &amp;&amp; (company.accountConfig.isManagePassedForPayment &amp;&amp; (operationTypeSelect == 1 || company.accountConfig.isManagePFPInRefund &amp;&amp; operationTypeSelect == 2)) "/>
     	<action name="action-invoice-method-hide-send-email-pfp-btn" if="__config__.app.getApp('account').getActivatePassedForPayment() &amp;&amp; (company.accountConfig.isManagePassedForPayment &amp;&amp; (operationTypeSelect == 1 || company.accountConfig.isManagePFPInRefund &amp;&amp; operationTypeSelect == 2)) "/>
       <action name="action-invoice-record-set-dummy-field-language"/>
+      <action name="action-invoice-attrs-show-invoice-interests-button"/>
     </action-group>
 
     <action-group name="action-group-account-invoice-operationtype-onchange">
@@ -1052,7 +1057,11 @@ InvoiceSet.length > 0))"
 	<action-method name="action-invoice-method-set-partner-domain">
         <call class="com.axelor.apps.account.web.InvoiceController" method="getInvoicePartnerDomain"/>
 	</action-method>
-
+	
+	<action-method name="action-account-method-interests-invoice">
+        <call class="com.axelor.apps.account.web.InvoiceController" method="getInterestInvoice"/>
+	</action-method>
+	
 	<action-attrs name="action-invoice-attrs-collapse-irrecoverable-group">
 		<attribute name="collapse" for="irrecoverableGroup" expr="eval: irrecoverableStatusSelect == null || irrecoverableStatusSelect == 0"/>
 	</action-attrs>
@@ -1087,6 +1096,10 @@ InvoiceSet.length > 0))"
     <action-attrs name="action-invoice-attrs-show-validate-button">
         <attribute name="hidden" expr="eval: (statusSelect != null &amp;&amp; statusSelect != 1) || __config__.app.getApp('invoice').getIsVentilationSkipped()" for="validateBtn"/>
         <attribute name="hidden" expr="eval: (statusSelect != null &amp;&amp; statusSelect != 1) || !__config__.app.getApp('invoice').getIsVentilationSkipped()" for="validateAndVentilateBtn"/>
+    </action-attrs>
+    
+    <action-attrs name="action-invoice-attrs-show-invoice-interests-button">
+        <attribute name="hidden" expr="eval: !(dueDate != null &amp;&amp; amountRemaining &gt; 0 &amp;&amp; __date__ &gt; dueDate &amp;&amp; operationSubTypeSelect != InvoiceRepository.OPERATION_SUB_TYPE_INTEREST &amp;&amp; operationTypeSelect == InvoiceRepository.OPERATION_TYPE_CLIENT_SALE)" for="invoiceInterestsBtn"/>
     </action-attrs>
 
 	<action-attrs name="action-invoice-attrs-change-create-refund-title">

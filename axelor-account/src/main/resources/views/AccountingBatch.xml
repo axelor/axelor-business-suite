@@ -75,6 +75,12 @@
 			<field name="accountSet" colSpan="12" form-view="account-form" grid-view="account-grid" widget="TagSelect" canNew="false" canEdit="false" domain="self.company = :company" requiredIf="actionSelect == 21"/> 
 <!-- 			<field name="journalSet" colSpan="12" form-view="journal-form" grid-view="journal-grid" widget="TagSelect" canNew="false" domain="self.company = :company"/> -->
 		</panel>
+		
+		<panel name="interestInvoicePanel" title="Interest invoice configuration" hideIf="actionSelect != 23">
+			<field name="paymentCondition"/>
+			<field name="interestInvoiceCompany" requiredIf="actionSelect == 23"/>
+		</panel>
+		
 		<panel name="informationPanel" title="Information"  >
 			<field name="createdOn" title="Created on"/>
 			<field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
@@ -92,6 +98,7 @@
 	    <button name="creditTransferBatchBtn" title="Credit Transfer Batch" showIf="actionSelect == 19" onClick="save,action-accounting-batch-method-action-credit-transfer" colSpan="12"/>
 	    <button name="realizeFixedAssetLinesBatchBtn" title="Realize Fixed asset lines Batch" showIf="actionSelect == 20" onClick="save,action-accounting-batch-group-realize-fixed-asset-lines" colSpan="12"/>
 	    <button name="closeAnnualAccountsBatchBtn" title="Start" showIf="actionSelect == 21" onClick="save,action-accounting-batch-group-close-annual-accounts" colSpan="12"/>
+	    <button name="interestInvoiceBatchBtn" title="Interest invoice batch" showIf="actionSelect == 23" onClick="save,action-accounting-batch-method-interest-invoice" colSpan="12"/>
 	</panel>
 </form>
 
@@ -144,6 +151,10 @@
 	
 	<action-method name="action-accounting-batch-method-action-move-line-export">
 		<call class="com.axelor.apps.account.web.AccountingBatchController" method="actionMoveLineExport"/>
+	</action-method>
+	
+	<action-method name="action-accounting-batch-method-interest-invoice">
+		<call class="com.axelor.apps.account.web.AccountingBatchController" method="getInterestInvoiceBatch"/>
 	</action-method>
 	
 	<action-method name="action-accounting-batch-method-action-credit-transfer">

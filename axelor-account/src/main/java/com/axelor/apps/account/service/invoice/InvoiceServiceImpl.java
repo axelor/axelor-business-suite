@@ -42,6 +42,7 @@ import com.axelor.apps.account.service.invoice.factory.CancelFactory;
 import com.axelor.apps.account.service.invoice.factory.ValidateFactory;
 import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.invoice.generator.InvoiceGenerator;
+import com.axelor.apps.account.service.invoice.generator.InvoiceLineGenerator;
 import com.axelor.apps.account.service.invoice.generator.invoice.RefundInvoice;
 import com.axelor.apps.account.service.invoice.print.InvoicePrintService;
 import com.axelor.apps.account.service.move.MoveToolService;
@@ -53,7 +54,9 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PriceList;
+import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.db.repo.BankDetailsRepository;
+import com.axelor.apps.base.db.repo.PriceListLineRepository;
 import com.axelor.apps.base.db.repo.PriceListRepository;
 import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.administration.SequenceService;
@@ -972,5 +975,79 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
         .setParameter(4, partner.getId())
         .getResultList()
         .size();
+  }
+
+  @Override
+  @Transactional
+  public Invoice generateInterestInvoice(Invoice invoice) throws AxelorException {
+
+    Product invoicingProduct = invoice.getCompany().getAccountConfig().getInterestProduct();
+
+    InvoiceGenerator invoiceGenerator =
+        new InvoiceGenerator(
+            InvoiceRepository.OPERATION_TYPE_CLIENT_SALE,
+            invoice.getCompany(),
+            invoice.getPaymentCondition(),
+            invoice.getPaymentMode(),
+            invoice.getAddress(),
+            invoice.getPartner(),
+            invoice.getContactPartner(),
+            invoice.getCurrency(),
+            invoice.getPriceList(),
+            invoice.getInternalReference(),
+            invoice.getExternalReference(),
+            invoice.getInAti(),
+            invoice.getCompanyBankDetails(),
+            invoice.getTradingName()) {
+
+          @Override
+          public Invoice generate() throws AxelorException {
+
+            return super.createInvoiceHeader();
+          }
+        };
+
+    Invoice interestInvoice = invoiceGenerator.generate();
+    interestInvoice.setAddressStr(invoice.getAddressStr());
+    interestInvoice.setOperationSubTypeSelect(InvoiceRepository.OPERATION_SUB_TYPE_INTEREST);
+
+    Long qty = LocalDate.now().toEpochDay() - invoice.getDueDate().toEpochDay();
+
+    InvoiceLineGenerator invoiceLineGenerator =
+        new InvoiceLineGenerator(
+            invoice,
+            invoicingProduct,
+            invoicingProduct.getName(),
+            invoice.getPaymentCondition().getDailyPenaltyRate(),
+            BigDecimal.ZERO,
+            invoice.getPaymentCondition().getDailyPenaltyRate(),
+            invoicingProduct.getDescription(),
+            new BigDecimal(qty),
+            invoicingProduct.getUnit(),
+            null,
+            InvoiceLineGenerator.DEFAULT_SEQUENCE,
+            BigDecimal.ZERO,
+            PriceListLineRepository.AMOUNT_TYPE_NONE,
+            BigDecimal.ZERO,
+            null,
+            false) {
+          @Override
+          public List<InvoiceLine> creates() throws AxelorException {
+
+            InvoiceLine invoiceLine = this.createInvoiceLine();
+
+            List<InvoiceLine> invoiceLines = new ArrayList<>();
+            invoiceLines.add(invoiceLine);
+
+            return invoiceLines;
+          }
+        };
+
+    List<InvoiceLine> invoiceLineList = invoiceLineGenerator.creates();
+    invoiceGenerator.populate(interestInvoice, invoiceLineList);
+
+    Beans.get(InvoiceRepository.class).save(interestInvoice);
+
+    return interestInvoice;
   }
 }

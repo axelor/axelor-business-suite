@@ -19,14 +19,19 @@ package com.axelor.apps.account.web;
 
 import com.axelor.apps.account.db.AccountingBatch;
 import com.axelor.apps.account.db.repo.AccountingBatchRepository;
+import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.batch.AccountingBatchService;
+import com.axelor.apps.account.service.batch.BatchInterestInvoice;
 import com.axelor.apps.base.db.Batch;
+import com.axelor.apps.base.db.Company;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
+import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Singleton;
+import com.google.inject.persist.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -210,5 +215,27 @@ public class AccountingBatchController {
     Map<String, Object> mapData = new HashMap<String, Object>();
     mapData.put("anomaly", batch.getAnomaly());
     response.setData(mapData);
+  }
+
+  @Transactional
+  public void getInterestInvoiceBatch(ActionRequest request, ActionResponse response)
+      throws Exception {
+
+    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
+    accountingBatch = Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId());
+
+    Company company = accountingBatch.getInterestInvoiceCompany();
+
+    if (company.getAccountConfig().getInterestProduct() == null) {
+      response.setError(I18n.get(IExceptionMessage.NO_INTEREST_PRODUCT));
+      return;
+    }
+
+    Batch batch = Beans.get(BatchInterestInvoice.class).run(accountingBatch);
+
+    if (batch != null) {
+      response.setFlash(batch.getComments());
+    }
+    response.setReload(true);
   }
 }

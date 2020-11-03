@@ -56,6 +56,9 @@
 <!--     <many-to-many name="journalSet" ref="Journal" title="Journals"/> -->
     <boolean name="allocatePerPartner" title="Allocate per partner"/>
 	 <string name="moveDescription" title="Move description"/>
+	 
+	 <many-to-one name="paymentCondition" title="Payment condition" ref="com.axelor.apps.account.db.PaymentCondition"/>
+	 <many-to-one name="interestInvoiceCompany" title="Interest invoice company" ref="com.axelor.apps.base.db.Company"/>
 
 	<!-- REALIZED FIXED ASSET LINES -->
 	<boolean name="updateAllRealizedFixedAssetLines" title="Update all realized fixed asset lines"/>

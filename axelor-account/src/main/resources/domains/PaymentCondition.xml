@@ -15,6 +15,7 @@
     <integer name="daySelect" title="Day (end of month)" selection="day.month.select"/>
     <boolean name="isFree" title="Free"/>
     <decimal name="advancePaymentNeeded" default="0" title="Percentage of advance payment"/>
+    <decimal name="dailyPenaltyRate" title="Daily penalty rate"/>
 
 	<extra-code><![CDATA[
 	
@@ -29,6 +30,11 @@
 		public static final int PERIOD_TYPE_MONTH = 2;
 	
 	]]></extra-code>
+	
+	<track>
+      <field name="dailyPenaltyRate"/>
+    </track>
+  
 
   </entity>
 

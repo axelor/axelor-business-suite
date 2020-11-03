@@ -62,7 +62,9 @@ import com.axelor.rpc.Context;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.inject.Singleton;
+import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -1012,5 +1014,35 @@ public class InvoiceController {
       response.setError(e.getMessage());
     }
     response.setAttr("partner", "domain", domain);
+  }
+
+  @Transactional
+  public void getInterestInvoice(ActionRequest request, ActionResponse response) throws Exception {
+
+    Invoice invoice =
+        Beans.get(InvoiceRepository.class).find((Long) request.getContext().get("id"));
+
+    if (invoice.getDueDate() == null) {
+      response.setError(I18n.get(IExceptionMessage.NO_DUE_DATE));
+      return;
+    }
+
+    if (invoice.getPaymentCondition() == null
+        || invoice.getPaymentCondition().getDailyPenaltyRate().compareTo(BigDecimal.ZERO) == 0) {
+      response.setError(I18n.get(IExceptionMessage.NO_PAYMENT_CONDITION_OR_DAILY_PENALTY_RATE));
+      return;
+    } else if (invoice.getCompany().getAccountConfig().getInterestProduct() == null) {
+      response.setError(I18n.get(IExceptionMessage.NO_INTEREST_PRODUCT));
+      return;
+    }
+
+    Invoice interestInvoice = Beans.get(InvoiceService.class).generateInterestInvoice(invoice);
+
+    response.setView(
+        ActionView.define(I18n.get(IExceptionMessage.INTEREST_INVOICE))
+            .model(Invoice.class.getName())
+            .add("form", "invoice-form")
+            .context("_showRecord", interestInvoice.getId())
+            .map());
   }
 }

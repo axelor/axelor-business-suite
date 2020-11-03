@@ -27,7 +27,8 @@
 			public static final String MOVE_LINE_EXPORT_ORIGIN = "moveLineExport";
 			public static final String IRRECOVERABLE = "irrecoverable";
 			public static final String CREDIT_TRANSFER = "creditTransfer"; 
-			public static final String REPORTED_BALANCE = "reportedBalance";   			
+			public static final String REPORTED_BALANCE = "reportedBalance"; 
+			public static final String INTEREST_INVOICE = "interestInvoice";  			
 			]]>
 		</extra-code>
 	

@@ -182,5 +182,10 @@
 		<bind to="reportTitle" column="name"/>
 		<bind to="company" column="company" search="self.importId = :company"/>
 	</input>
+	
+	<input file="base_product.csv" separator=";" type="com.axelor.apps.base.db.Product" search="self.importId = :importId" call="com.axelor.csv.script.ImportProduct:importProduct">
+		<bind to="startDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(startDate)" column="startDate"/>
+		<bind to="createdOn" eval="call:com.axelor.csv.script.ImportDateTime:importDate(startDate)" column="startDate"/>
+	</input>
 
 </csv-inputs>

@@ -817,15 +817,30 @@ public interface IExceptionMessage {
       "Please set a reported balance date on fiscal year" /*)*/;
 
   static final String ACCOUNT_CODE_ALREADY_IN_USE_FOR_COMPANY = /*$$(*/
-      "The account code %s is already used for the company %s, there cannot be two accounts with the same code for the same company." /*)*/;;
+      "The account code %s is already used for the company %s, there cannot be two accounts with the same code for the same company." /*)*/;
 
   static final String INVALID_ANALYTIC_MOVE_LINE = /*$$(*/
       "Invalid Analytic moveLines, some axes percentage values are higher than 100%." /*)*/;
+
+  static final String NO_PAYMENT_CONDITION_OR_DAILY_PENALTY_RATE = /*$$(*/
+      "This process require Payment condition and Daily penalty rate" /*)*/;
 
   /*Close annual account batch */
   static final String BATCH_CLOSE_ANNUAL_ACCOUNT_1 = /*$$(*/
       "%s : Error : You must configure accounts for the batch configurator %s" /*)*/;
 
+  static final String NO_INTEREST_PRODUCT = /*$$(*/
+      "Please set Interest product in account config" /*)*/;
+
   static final String BATCH_CLOSE_ANNUAL_ACCOUNT_2 = /*$$(*/
       "%s : Error : You must configure a year for the batch configurator %s" /*)*/;
+
+  static final String NO_DUE_DATE = /*$$(*/
+      "Please fill Due date to generate Interest invoice" /*)*/;
+
+  static final String INTEREST_INVOICE = /*$$(*/ "Interest Invoice" /*)*/;
+
+  static final String BATCH_INTEREST_INVOICE_1 = /*$$(*/ "Interest invoice's reporting" /*)*/;
+
+  static final String BATCH_INTEREST_INVOICE_2 = /*$$(*/ "* %s Invoice(s) created" /*)*/;
 }
