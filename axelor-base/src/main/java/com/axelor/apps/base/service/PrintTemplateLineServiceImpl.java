@@ -20,6 +20,7 @@ package com.axelor.apps.base.service;
 import com.axelor.app.internal.AppFilter;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Language;
+import com.axelor.apps.base.db.PrintTemplate;
 import com.axelor.apps.base.db.PrintTemplateLine;
 import com.axelor.apps.base.db.PrintTemplateLineTest;
 import com.axelor.apps.base.db.repo.PrintTemplateLineRepository;
@@ -35,17 +36,11 @@ import com.axelor.db.mapper.Mapper;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
-import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaModel;
-import com.axelor.meta.db.MetaSelect;
-import com.axelor.meta.db.MetaSelectItem;
-import com.axelor.meta.db.repo.MetaSelectItemRepository;
-import com.axelor.meta.db.repo.MetaSelectRepository;
 import com.axelor.rpc.Context;
 import com.axelor.tool.template.TemplateMaker;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -156,22 +151,20 @@ public class PrintTemplateLineServiceImpl implements PrintTemplateLineService {
   }
 
   @Override
-  public void addItemToReferenceSelection(MetaModel model) {
-    MetaSelect metaSelect =
-        Beans.get(MetaSelectRepository.class)
-            .findByName("print.template.line.test.reference.select");
-    List<MetaSelectItem> items = metaSelect.getItems();
-    if (items != null && !items.stream().anyMatch(x -> x.getValue().equals(model.getFullName()))) {
-      MetaSelectItem metaSelectItem = new MetaSelectItem();
-      metaSelectItem.setTitle(model.getName());
-      metaSelectItem.setValue(model.getFullName());
-      metaSelectItem.setSelect(metaSelect);
-      saveMetaSelectItem(metaSelectItem);
+  public MetaModel getMetaModel(PrintTemplateLine printTemplateLine) throws AxelorException {
+    PrintTemplate printTemplate = printTemplateLine.getPrintTemplate();
+    final int MAX_ITERATION = 100;
+    int c = 0;
+    while (printTemplate == null && c < MAX_ITERATION) {
+      printTemplateLine = printTemplateLine.getParent();
+      printTemplate = printTemplateLine.getPrintTemplate();
+      c++;
     }
-  }
-
-  @Transactional
-  public void saveMetaSelectItem(MetaSelectItem metaSelectItem) {
-    Beans.get(MetaSelectItemRepository.class).save(metaSelectItem);
+    if (c == MAX_ITERATION) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_INCONSISTENCY,
+          I18n.get(IExceptionMessage.PRINT_TEMPLATE_LINE_PARENT_LOOP));
+    }
+    return printTemplate.getMetaModel();
   }
 }

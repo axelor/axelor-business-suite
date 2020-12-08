@@ -40,8 +40,13 @@ import com.axelor.db.mapper.Mapper;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
+import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.meta.db.MetaModel;
+import com.axelor.meta.db.MetaSelect;
+import com.axelor.meta.db.MetaSelectItem;
+import com.axelor.meta.db.repo.MetaSelectItemRepository;
+import com.axelor.meta.db.repo.MetaSelectRepository;
 import com.axelor.rpc.Context;
 import com.axelor.tool.template.TemplateMaker;
 import com.google.inject.Inject;
@@ -125,6 +130,11 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
     print.setMetaFileField(printTemplate.getMetaFileField());
 
     if (!printTemplate.getHidePrintSettings()) {
+      print.setMarginTop(printTemplate.getMarginTop());
+      print.setMarginRight(printTemplate.getMarginRight());
+      print.setMarginBottom(printTemplate.getMarginBottom());
+      print.setMarginLeft(printTemplate.getMarginLeft());
+
       if (StringUtils.notEmpty(printTemplate.getPrintTemplatePdfHeader())) {
         maker.setTemplate(printTemplate.getPrintTemplatePdfHeader());
         print.setPrintPdfHeader(maker.make());
@@ -133,11 +143,23 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
       if (StringUtils.notEmpty(printTemplate.getPrintTemplatePdfFooter())) {
         maker.setTemplate(printTemplate.getPrintTemplatePdfFooter());
         print.setPrintPdfFooter(maker.make());
+        print.setFooterWidth(printTemplate.getFooterWidth());
         print.setFooterFontSize(printTemplate.getFooterFontSize());
         print.setFooterFontType(printTemplate.getFooterFontType());
         print.setFooterTextAlignment(printTemplate.getFooterTextAlignment());
         print.setIsFooterUnderLine(printTemplate.getIsFooterUnderLine());
         print.setFooterFontColor(printTemplate.getFooterFontColor());
+      }
+
+      print.setWithPagination(printTemplate.getWithPagination());
+      if (printTemplate.getWithPagination()) {
+        print.setPaginationWidth(printTemplate.getPaginationWidth());
+        print.setPaginationFontSize(printTemplate.getPaginationFontSize());
+        print.setPaginationFontType(printTemplate.getPaginationFontType());
+        print.setPaginationFontColor(printTemplate.getPaginationFontColor());
+        print.setPaginationTextAlignment(printTemplate.getPaginationTextAlignment());
+        print.setIsPaginationUnderLine(printTemplate.getIsPaginationUnderLine());
+        print.setPaginationTemplate(printTemplate.getPaginationTemplate());
       }
 
       print.setLogoPositionSelect(printTemplate.getLogoPositionSelect());
@@ -223,22 +245,22 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
           String title = null;
           String content = null;
 
+          addSequencesInContext(maker, level, seq, parent);
+          if (CollectionUtils.isNotEmpty(printTemplateLine.getTemplateContextList())) {
+            for (TemplateContext templateContext : printTemplateLine.getTemplateContextList()) {
+              Object result =
+                  templateContextService.computeTemplateContext(templateContext, scriptContext);
+              maker.addContext(templateContext.getName(), result);
+            }
+          }
+
           if (StringUtils.notEmpty(printTemplateLine.getTitle())) {
             maker.setTemplate(printTemplateLine.getTitle());
-            addSequencesInContext(maker, level, seq, parent);
             title = maker.make();
           }
 
           if (StringUtils.notEmpty(printTemplateLine.getContent())) {
             maker.setTemplate(printTemplateLine.getContent());
-            addSequencesInContext(maker, level, seq, parent);
-            if (CollectionUtils.isNotEmpty(printTemplateLine.getTemplateContextList())) {
-              for (TemplateContext templateContext : printTemplateLine.getTemplateContextList()) {
-                Object result =
-                    templateContextService.computeTemplateContext(templateContext, scriptContext);
-                maker.addContext(templateContext.getName(), result);
-              }
-            }
             content = maker.make();
           }
 
@@ -294,7 +316,8 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
         new TemplateMaker(timezone, locale, TEMPLATE_DELIMITER, TEMPLATE_DELIMITER);
 
     Class<? extends Model> myClass = (Class<? extends Model>) Class.forName(model);
-    maker.setContext(JPA.find(myClass, objectId), simpleModel);
+    Model modelObject = JPA.find(myClass, objectId);
+    maker.setContext(modelObject, simpleModel);
 
     return maker;
   }
@@ -314,5 +337,21 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
     LOG.debug("MetaFile to attach: {}", metaFiles);
 
     return metaFiles;
+  }
+
+  @Override
+  @Transactional
+  public void addItemToReferenceSelection(MetaModel model) {
+    MetaSelect metaSelect =
+        Beans.get(MetaSelectRepository.class)
+            .findByName("print.template.line.test.reference.select");
+    List<MetaSelectItem> items = metaSelect.getItems();
+    if (items != null && !items.stream().anyMatch(x -> x.getValue().equals(model.getFullName()))) {
+      MetaSelectItem metaSelectItem = new MetaSelectItem();
+      metaSelectItem.setTitle(model.getName());
+      metaSelectItem.setValue(model.getFullName());
+      metaSelectItem.setSelect(metaSelect);
+      Beans.get(MetaSelectItemRepository.class).save(metaSelectItem);
+    }
   }
 }

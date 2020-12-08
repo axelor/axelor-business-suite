@@ -20,10 +20,13 @@ package com.axelor.apps.base.service;
 import com.axelor.apps.base.db.Print;
 import com.axelor.apps.base.db.PrintTemplate;
 import com.axelor.exception.AxelorException;
+import com.axelor.meta.db.MetaModel;
 import java.io.IOException;
 
 public interface PrintTemplateService {
 
   public Print generatePrint(Long objectId, PrintTemplate printTemplate)
       throws AxelorException, IOException, ClassNotFoundException;
+
+  public void addItemToReferenceSelection(MetaModel model);
 }

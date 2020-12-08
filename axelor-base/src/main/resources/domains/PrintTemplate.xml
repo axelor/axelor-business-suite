@@ -27,12 +27,27 @@
         <decimal name="footerFontSize" title="Font Size"/>
         <string name="footerTextAlignment" title="Text Alignment" selection="base.print.settings.footer.text.alignment.select"/>
         <string name="footerFontType" title="Font Type" selection="base.print.settings.footer.font.select"/>
+        <decimal name="footerWidth" title="Footer width" default="450"/> 
         <string name="printTemplatePdfHeader" large="true" title="Template Header"/>
 		<string name="printTemplatePdfFooter" multiline="true" large="true" title="Template Footer"/>
 		<integer name="logoPositionSelect" title="Company Logo position" selection="printing.setting.logo.position"/>
 		<string name="footerFontColor" title="Font Color" selection="base.print.settings.footer.font.color.select"/>
 		<string name="headerContentWidth" title="Header Content Width"/>
 		<string name="logoWidth" title="Company Logo Width"/>
+		
+		<string name="marginTop" title="Margin top" default="50px"/>
+		<string name="marginRight" title="Margin right" default="80px"/>
+		<string name="marginBottom" title="Margin bottom" default="50px"/>
+		<string name="marginLeft" title="Margin left" default="80px"/>
+		
+		<boolean name="withPagination" title="With pagination"/>
+		<decimal name="paginationWidth" title="Footer width"/>
+		<string name="paginationFontType" title="Font type" selection="base.print.settings.footer.font.select"/>
+		<string name="paginationFontColor" title="Font Color" selection="base.print.settings.footer.font.color.select"/>
+		<string name="paginationTextAlignment" title="Text Alignment" selection="base.print.settings.footer.text.alignment.select"/>
+		<decimal name="paginationFontSize" title="Font size"/>
+		<boolean name="isPaginationUnderLine" title="UnderLine"/>
+		<string name="paginationTemplate" default="page %d/%d"/>
 		
     </entity>
 
