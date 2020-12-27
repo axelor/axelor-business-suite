@@ -1729,7 +1729,7 @@
 "Temporary filepath to import rejected records","Chemin du fichier d'import temporaire",,
 "Terms and Conditions","Conditions générales",,
 "The Move Balance must be positive","La balance de l'écriture doit être positive.",,
-"The move lines %s are reconciled and should not have been removed.","Les lignes d'écritures %s sont réconciliées et n'auraient pas dû être supprimées.",,
+"The move line %s can't be removed because it is reconciled with the move line %s","La ligne d'écriture %s ne peut être supprimée car elle est réconciliée avec la ligne d'écriture %s.",,
 "The account of a product could not be determined or is not filled. Please fill the missing account on invoice line %s","Le compte d’un produit n’a pas pu être déterminé ou n’est pas renseigné. Veuillez renseigner le compte sur la ligne de facture %s.",,
 "The accounting move line on the account %s can't have an amount equals to zero","L'écriture comptable sur le compte %s ne peut avoir un montant égale à zéro",,
 "The bank order linked to this invoice payment has already been carried out/rejected, and thus can't be canceled","L'ordre bancaire lié à ce paiement a déjà été réalisé/rejeté, vous ne pouvez donc annuler ce paiement",,
