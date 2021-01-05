@@ -1,4 +1,4 @@
-"importId";"name";"partner.importId";"lead.id";"currency.code";"expectedCloseDate";"amount";"opportunityType.id";"bestCase";"worstCase";"salesStageSelect";"probability";"nextStep";"description";"source.id";"company.id";"userImportId";"team.id";"orderByState"
+"importId";"name";"partner.importId";"lead.id";"currency.code";"expectedCloseDate";"amount";"opportunityType.id";"bestCase";"worstCase";"opportunityStatus.importId";"probability";"nextStep";"description";"source.id";"company.id";"userImportId";"team.id";"orderByState"
 1;"Maintenance annuelle - 1 ANNEE + Pack Classique - 12 U";;1;"EUR";"TODAY[-6M]";24140;1;28200;20800;2;39;;;3;1;9;1;2
 2;"Pack Classique - 10 U";;2;"EUR";"TODAY[-5M]";9225;1;10900;7800;2;42;;;6;1;11;2;2
 5;"Serveur haute performance - 5 U";;5;"EUR";"TODAY[-4M]";12500;1;15100;9400;6;93;;;11;1;9;1;6

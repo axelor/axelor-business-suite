@@ -175,6 +175,15 @@
 		<view type="grid" name="industry-sector-grid"/>
 		<view type="form" name="industry-sector-form"/>
 	</action-view>
+
+	<menuitem name="crm-conf-opportunity-status" parent="crm-conf"
+		title="Opportunity status" action="crm.conf.opportunity.status"/>
+
+	<action-view name="crm.conf.opportunity.status" title="Opportunity status"
+		model="com.axelor.apps.crm.db.OpportunityStatus" >
+		<view type="grid" name="opportunity-status-grid"/>
+		<view type="form" name="opportunity-status-form"/>
+	</action-view>
 	
 	<menuitem name="admin-root-batch-crm" parent="admin-root-batch"
 		title="CRM batches" action="admin.root.batch.crm" if="__config__.app.isApp('crm')" />

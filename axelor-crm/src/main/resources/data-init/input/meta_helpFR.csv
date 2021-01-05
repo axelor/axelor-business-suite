@@ -11,7 +11,7 @@
 "axelor-crm";"Lead";"lead-form";"source";"Permet de sélectionner la provenance du prospect à des fins statistiques. La liste de provenance est paramétrable dans les configurations du CRM."
 "axelor-crm";"Lead";"lead-form";"referredBy";"Permet de renseigner dans le cas de bouche à oreille, la personne ayant référé ce prospect. "
 "axelor-crm";"Opportunity";"opportunity-form";"opportunityType";"Permet de renseigner si cette opportunité provient d'un besoin créé pour le client (Nouveau), un besoin existant du client (Existant), ou un besoin récurrent du client. (Récurrent)"
-"axelor-crm";"Opportunity";"opportunity-form";"salesStageSelect";"Permet de renseigner à quelle étape du processus de vente l'opportunité se situe."
+"axelor-crm";"Opportunity";"opportunity-form";"opportunityStatus";"Permet de renseigner à quelle étape du processus de vente l'opportunité se situe."
 "axelor-crm";"Opportunity";"opportunity-form";"probability";"Probabilité estimée de réussite de la conversion de l'opportunité en affaire. Ce champ est particulièrement important afin de réaliser des estimations de chiffre d'affaire. De plus, les opportunités peuvent être prises en compte lors de la gestion du réapprovisionnement de stock, ainsi ces probabilités permettent une meilleure gestion de ces réapprovisionnements. "
 "axelor-crm";"Opportunity";"opportunity-form";"amount";"Montant estimé du chiffre d'affaire potentiel de l'opportunité. "
 "axelor-crm";"Opportunity";"opportunity-form";"bestCase";"Montant maximal estimé de chiffre d'affaire potentiel de l'opportunité. "

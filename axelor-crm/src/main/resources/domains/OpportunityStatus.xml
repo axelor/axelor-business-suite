@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+  <module name="crm" package="com.axelor.apps.crm.db"/>
+
+  <entity name="OpportunityStatus" lang="java">
+  
+    <string name="name" title="Name" required="true"/>
+    <integer name="sequence" title="Sequence"/>
+    <integer name="technicalTypeSelect" nullable="true" unique="true" title="Technical type select" selection="crm.opportunity.status.technical.type.select"/>
+    
+    <finder-method name="findByNextSequence" filter="self.sequence &gt; :sequence" using="sequence" orderBy="sequence"/>
+    <finder-method name="findByPreviousSequence" filter="self.sequence &lt; :sequence" using="sequence" orderBy="-sequence"/>
+    <finder-method name="findByTechnicalTypeSelect"  using="technicalTypeSelect" filter="self.technicalTypeSelect = :technicalTypeSelect"/>
+    
+    <extra-code>
+		<![CDATA[
+		// Technical Type Select
+			public static final int TECHNICAL_TYPE_NEW = 1;
+			public static final int TECHNICAL_TYPE_QUALIFICATION = 2;
+			public static final int TECHNICAL_TYPE_PROPOSITION = 3;
+			public static final int TECHNICAL_TYPE_NEGOTIATION = 4;
+			public static final int TECHNICAL_TYPE_CLOSED_WON = 5;
+			public static final int TECHNICAL_TYPE_CLOSED_LOST = 6;
+		]]>
+	</extra-code>
+    
+  </entity>
+
+</domain-models>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+    
+    <grid name="opportunity-status-grid" canMove="true" title="Opportunity statuses" orderBy="sequence" model="com.axelor.apps.crm.db.OpportunityStatus">
+        <field name="name"/>
+        <field name="technicalTypeSelect"/>  
+    </grid>
+    
+    <form name="opportunity-status-form" title="Opportunity status" model="com.axelor.apps.crm.db.OpportunityStatus" >
+        <panel name="mainPanel" >
+        	<field name="name"/>
+        	<field name="sequence"/>
+        	<field name="technicalTypeSelect"/>
+        </panel>    
+    </form>
+    
+</object-views>

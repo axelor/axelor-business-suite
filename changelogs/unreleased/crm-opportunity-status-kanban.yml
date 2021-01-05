@@ -1,0 +1,5 @@
+---
+title: "OPPORTUNITY : state"
+type: Feature
+description : |
+  Removed static selection field salesStageSelect and replaced it with M2O field opportunityStatus

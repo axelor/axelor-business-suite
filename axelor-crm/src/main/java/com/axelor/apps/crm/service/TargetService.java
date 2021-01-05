@@ -21,6 +21,7 @@ import com.axelor.apps.crm.db.Target;
 import com.axelor.apps.crm.db.TargetConfiguration;
 import com.axelor.apps.crm.db.repo.EventRepository;
 import com.axelor.apps.crm.db.repo.OpportunityRepository;
+import com.axelor.apps.crm.db.repo.OpportunityStatusRepository;
 import com.axelor.apps.crm.db.repo.TargetConfigurationRepository;
 import com.axelor.apps.crm.db.repo.TargetRepository;
 import com.axelor.apps.crm.exception.IExceptionMessage;
@@ -160,9 +161,9 @@ public class TargetService {
       Query q =
           JPA.em()
               .createQuery(
-                  "select SUM(op.amount) FROM Opportunity as op WHERE op.user = ?1 AND op.salesStageSelect = ?2 AND op.createdOn >= ?3 AND op.createdOn <= ?4 ");
+                  "select SUM(op.amount) FROM Opportunity as op WHERE op.user = ?1 AND op.opportunityStatus.technicalTypeSelect = ?2 AND op.createdOn >= ?3 AND op.createdOn <= ?4 ");
       q.setParameter(1, user);
-      q.setParameter(2, OpportunityRepository.SALES_STAGE_CLOSED_WON);
+      q.setParameter(2, OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_WON);
       q.setParameter(3, fromDateTime);
       q.setParameter(4, toDateTime);
 
@@ -212,11 +213,11 @@ public class TargetService {
           opportunityRepo
               .all()
               .filter(
-                  "self.user = ?1 AND self.createdOn >= ?2 AND self.createdOn <= ?3 AND self.salesStageSelect = ?4",
+                  "self.user = ?1 AND self.createdOn >= ?2 AND self.createdOn <= ?3 AND self.opportunityStatus.technicalTypeSelect = ?4",
                   user,
                   fromDateTime,
                   toDateTime,
-                  OpportunityRepository.SALES_STAGE_CLOSED_WON)
+                  OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_WON)
               .count();
 
       target.setOpportunityCreatedWon(opportunityCreatedWon.intValue());
@@ -225,9 +226,9 @@ public class TargetService {
       Query q =
           JPA.em()
               .createQuery(
-                  "select SUM(op.amount) FROM Opportunity as op WHERE op.team = ?1 AND op.salesStageSelect = ?2  AND op.createdOn >= ?3 AND op.createdOn <= ?4 ");
+                  "select SUM(op.amount) FROM Opportunity as op WHERE op.team = ?1 AND op.opportunityStatus.technicalTypeSelect = ?2  AND op.createdOn >= ?3 AND op.createdOn <= ?4 ");
       q.setParameter(1, team);
-      q.setParameter(2, OpportunityRepository.SALES_STAGE_CLOSED_WON);
+      q.setParameter(2, OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_WON);
       q.setParameter(3, fromDateTime);
       q.setParameter(4, toDateTime);
 
@@ -277,11 +278,11 @@ public class TargetService {
           opportunityRepo
               .all()
               .filter(
-                  "self.team = ?1 AND self.createdOn >= ?2 AND self.createdOn <= ?3 AND self.salesStageSelect = ?4",
+                  "self.team = ?1 AND self.createdOn >= ?2 AND self.createdOn <= ?3 AND self.opportunityStatus.technicalTypeSelect = ?4",
                   team,
                   fromDateTime,
                   toDateTime,
-                  OpportunityRepository.SALES_STAGE_CLOSED_WON)
+                  OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_WON)
               .count();
 
       target.setOpportunityCreatedWon(opportunityCreatedWon.intValue());

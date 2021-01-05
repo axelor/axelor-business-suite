@@ -7,7 +7,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect in (5, 6)</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect in (5,6)</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -16,7 +16,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect not in (5, 6)</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect not in (5,6)</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 	
@@ -24,7 +24,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="my-opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.user is null and self.salesStageSelect = 1</domain>
+		<domain>self.user is null and self.opportunityStatus.technicalTypeSelect = 1</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -33,7 +33,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="my-opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect in (5,6)  AND self.team = :active_team</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect in (5,6)  AND self.team = :active_team</domain>
 		<context name="active_team"
 			expr="call:com.axelor.apps.base.service.user.UserService:getUserActiveTeam()" />
 		<context name="_internalUserId" expr="eval:__user__.id"/>
@@ -43,7 +43,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="my-opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect not in (5,6)  AND self.team = :active_team</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect not in (5,6)  AND self.team = :active_team</domain>
 		<context name="active_team"
 			expr="call:com.axelor.apps.base.service.user.UserService:getUserActiveTeam()" />
 		<context name="_internalUserId" expr="eval:__user__.id"/>
@@ -55,7 +55,7 @@
 		title="Opportunities Won By Partner" model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-grid-group" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect = 5 AND self.partner is not null</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect = 5 AND self.partner is not null</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -63,7 +63,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-top-deal-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect not in (9, 10)</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect not in (5,6)</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -71,7 +71,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-top-deal-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect not in (9, 10) and self.user =:__user__</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect not in (5,6) and self.user =:__user__</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -79,7 +79,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-top-deal-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect not in (9, 10) and self.team =:active_team</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect not in (5,6) and self.team =:active_team</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 		<context name="active_team" expr="call:com.axelor.apps.base.service.user.UserService:getUserActiveTeam()"/>
 	</action-view>
@@ -88,7 +88,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-key-account-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect in (5, 6)</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect in (5,6)</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -96,7 +96,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-key-account-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect in (5, 6) and self.user =:__user__</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect in (5,6) and self.user =:__user__</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -104,7 +104,7 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-key-account-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect in (5, 6) and self.team =:active_team</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect in (5,6) and self.team =:active_team</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 		<context name="active_team" expr="call:com.axelor.apps.base.service.user.UserService:getUserActiveTeam()"/>
 	</action-view>
@@ -121,14 +121,14 @@
 		model="com.axelor.apps.crm.db.Opportunity">
 		<view type="grid" name="opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.updatedOn &gt; date(now())-30 and self.salesStageSelect = 6</domain>
+		<domain>self.updatedOn &gt; date(now())-30 and self.opportunityStatus.technicalTypeSelect = 6</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 	<action-view title="My Closed Opportunities" model="com.axelor.apps.crm.db.Opportunity"
 		name="dashlet.my.closed.opportunities">
 		<view type="grid" name="my-opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect in (5, 6) AND self.user =:__user__</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect in (5,6) AND self.user =:__user__</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 
@@ -136,7 +136,7 @@
 		name="dashlet.my.open.opportunities">
 		<view type="grid" name="my-opportunity-grid" />
 		<view type="form" name="opportunity-form" />
-		<domain>self.salesStageSelect NOT in (5, 6) AND self.user =:__user__</domain>
+		<domain>self.opportunityStatus.technicalTypeSelect not in (5,6) AND self.user =:__user__</domain>
 		<context name="_internalUserId" expr="eval:__user__.id"/>
 	</action-view>
 

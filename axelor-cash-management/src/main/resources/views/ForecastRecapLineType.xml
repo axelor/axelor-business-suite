@@ -22,7 +22,7 @@
             <field name="statusSelect" showIf="elementSelect == 2" widget="MultiSelect" selection="sale.order.status.select"/>
             <field name="statusSelect" showIf="elementSelect == 3" widget="MultiSelect" selection="purchase.purchase.order.status.select"/>
             <field name="statusSelect" widget="MultiSelect" selection="hrs.expenses.status.select" showIf="elementSelect == 4"/>
-            <field name="statusSelect" showIf="elementSelect == 6" selection="crm.opportunity.sales.stage.select" widget="MultiSelect"/>
+            <field name="statusSelect" showIf="elementSelect == 6" selection="crm.opportunity.status.technical.type.select" widget="MultiSelect"/>
             <field name="payDaySelect" showIf="elementSelect == 7"/>
             <field name="estimatedDuration" showIf="elementSelect == 2 || elementSelect == 3"/>
 	    </panel>

@@ -67,6 +67,10 @@ public interface IExceptionMessage {
   /** Opportunity */
   static final String LEAD_PARTNER = /*$$(*/ "Please select a lead" /*)*/;
 
+  static final String OPPORTUNITY_STATUS_NOT_FOUND = /*$$(*/
+      "No Opportunity status found with stage %s" /*)*/;
+  static final String NO_OPPORTUNITY_STATUS = /*$$(*/ "Opportunity status can't be null" /*)*/;
+
   /** Configuration */
   static final String CRM_CONFIG_1 = /*$$(*/
       "Please configure information for CRM for company %s" /*)*/;

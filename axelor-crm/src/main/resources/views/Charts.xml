@@ -9,26 +9,19 @@
 	    <dataset type="sql">
 	    <![CDATA[
             SELECT
-                SUM(self.amount) AS amount,
-                coalesce(nullif(message_value, ''), message_key) as _sale_stage
-            FROM
-                crm_opportunity self
-            LEFT JOIN
-                meta_select as selection ON selection.name = 'crm.opportunity.sales.stage.select'
-            LEFT JOIN
-                meta_select_item as selection_item ON selection_item.select_id = selection.id
-            LEFT JOIN
-                meta_translation ON selection_item.select_id = selection.id
+          		SUM(self.amount) AS amount,
+              	status.name as _sale_stage
+		    FROM
+		        crm_opportunity self
+			INNER JOIN 
+		    	crm_opportunity_status AS status ON status.id = self.opportunity_status
             JOIN
                 auth_user AS _user
                 ON _user.id = :__user__
-            WHERE
-                cast(selection_item.value as decimal) = self.sales_stage_select
-                AND message_key = selection_item.title AND meta_translation.language = _user.language
-            GROUP BY
-                selection_item.id, message_value, message_key
-            ORDER BY
-                selection_item.id
+			GROUP BY 
+				status.name,status.sequence
+			ORDER BY
+			   status.sequence
 	    ]]>
 	    </dataset>
 	    <category key="_sale_stage" type="text" title="Sales Stage"/>
@@ -40,25 +33,20 @@
 	    <![CDATA[
 			SELECT
 	          SUM(self.amount) AS amount,
-              coalesce(nullif(message_value, ''), message_key) as _sale_stage
+              status.name as _sale_stage
 		    FROM
 		        crm_opportunity self
-		    LEFT JOIN
-		        meta_select as selection ON selection.name = 'crm.opportunity.sales.stage.select'
-		    LEFT JOIN 
-		    	meta_select_item as selection_item ON selection_item.select_id = selection.id
-            LEFT JOIN
-                meta_translation ON selection_item.select_id = selection.id
+		    INNER JOIN 
+		    	crm_opportunity_status AS status ON status.id = self.opportunity_status	
             JOIN
                 auth_user AS _user
                 ON _user.id = :__user__
-			WHERE
-				cast(selection_item.value as decimal) = self.sales_stage_select AND self.sales_stage_select != 10		
-		        AND message_key = selection_item.title AND meta_translation.language = _user.language
-		    GROUP BY
-			   selection_item.id, message_value, message_key
+            WHERE 
+            	status.technical_type_select != 6    
+			GROUP BY 
+				status.name,status.sequence
 			ORDER BY
-			   selection_item.id
+			   status.sequence
 	    ]]>
 	    </dataset>
 	    <category key="_sale_stage" type="text" title="Sales Stage"/>
@@ -70,25 +58,20 @@
 	    <![CDATA[
 			SELECT
 	          SUM(self.amount) AS amount,
-              coalesce(nullif(message_value, ''), message_key) as _sale_stage
+              status.name as _sale_stage
 		    FROM
 		        crm_opportunity self
-		    LEFT JOIN
-		        meta_select as selection ON selection.name = 'crm.opportunity.sales.stage.select'
-		    LEFT JOIN 
-		    	meta_select_item as selection_item ON selection_item.select_id = selection.id
-            LEFT JOIN
-                meta_translation ON selection_item.select_id = selection.id
+		    INNER JOIN 
+		     	crm_opportunity_status AS status ON status.id = self.opportunity_status
             JOIN
                 auth_user AS _user
                 ON _user.id = :__user__
-			WHERE
-				cast(selection_item.value as decimal) = self.sales_stage_select	and self.sales_stage_select not in (9, 10)		
-                AND message_key = selection_item.title AND meta_translation.language = _user.language
-		    GROUP BY
-			   selection_item.id, message_value, message_key
+            WHERE 
+            	status.technical_type_select not in (5,6)   
+			GROUP BY 
+				status.name,status.sequence
 			ORDER BY
-			   selection_item.id
+			   status.sequence
 	    ]]>
 	    </dataset>
 	    <category key="_sale_stage" type="text" title="Sales Stage"/>
@@ -144,7 +127,11 @@
 			FROM
     			crm_opportunity self
  			JOIN
-    			base_source as Source ON self.source = Source.id and self.sales_stage_select = 5
+    			base_source as Source ON self.source = Source.id
+			INNER JOIN 
+    			crm_opportunity_status as status ON status.id = self.opportunity_status
+			WHERE
+			status.technical_type_select = 5
 			GROUP BY
     			_source
 			ORDER BY
@@ -182,29 +169,20 @@
 		    SELECT
                 SUM(self.amount) AS amount,
 			    src.name    AS source,
-			    coalesce(nullif(message_value, ''), message_key) as stage
+    		status.name as stage
 			FROM
 			    crm_opportunity self
             LEFT JOIN 
                 base_source src on src.id = self.source
-			LEFT JOIN
-	        	meta_select as selection ON selection.name = 'crm.opportunity.sales.stage.select'
-	    	LEFT JOIN 
-	    		meta_select_item as selection_item ON selection_item.select_id = selection.id
-            LEFT JOIN
-                meta_translation ON selection_item.select_id = selection.id
+			INNER JOIN
+		crm_opportunity_status AS status ON status.id = self.opportunity_status
             JOIN
                 auth_user AS _user
                 ON _user.id = :__user__
-			WHERE
-				selection_item.value = cast(self.sales_stage_select as char)
-                AND message_key = selection_item.title AND meta_translation.language = _user.language
 			GROUP BY
-			    selection_item.id,
-			    src.name, message_value, message_key
+			    status.name,status.sequence,src.name
 			ORDER BY
-			    selection_item.id,
-			    src.name
+			   status.sequence,src.name
 		    ]]>
 	    </dataset>
 	    <category key="source" type="text" title="Source"/>
@@ -214,35 +192,26 @@
 	<chart name="chart.opportunities.pipeline.next.90d" title="Pipeline next 90 days" stacked="true">
 		<dataset type="sql">
 		    <![CDATA[
-		SELECT  
-    		SUM(self.amount)    AS amount,
-            coalesce(nullif(message_value, ''), message_key) as stage,
-    		'Pipeline' as pipeline
-		FROM
-			crm_opportunity self
-		JOIN
-			meta_select as selection ON selection.name = 'crm.opportunity.sales.stage.select'
-		JOIN 
-	 		meta_select_item as selection_item ON selection_item.select_id = selection.id
-        LEFT JOIN
-            meta_translation ON selection_item.select_id = selection.id
-        JOIN
-            auth_user AS _user
-            ON _user.id = :__user__
-		WHERE
-			selection_item.value = cast(self.sales_stage_select as char)
-		AND
-    		self.expected_close_date < current_date+ interval '90 day' 
-		AND 
-    		self.sales_stage_select <9
-        AND
-            message_key = selection_item.title AND meta_translation.language = _user.language
-                
-		GROUP BY
-			selection_item.id, pipeline, message_value, message_key
-		ORDER BY
-			selection_item.id
-		    ]]>
+			SELECT
+	          SUM(self.amount) AS amount,
+              status.name as stage,
+			  'Pipeline' as pipeline
+		    FROM
+		        crm_opportunity self
+		    INNER JOIN 
+		    	crm_opportunity_status AS status ON status.id = self.opportunity_status
+            JOIN
+                auth_user AS _user
+                ON _user.id = :__user__
+			WHERE
+				self.expected_close_date < current_date+ interval '90 day' 
+			AND 
+				status.technical_type_select not in (5,6)
+			GROUP BY 
+				status.name,status.sequence,pipeline
+			ORDER BY
+			   status.sequence
+			]]>
 	    </dataset>
 	    <category key="pipeline" type="text" title="Pipeline"/>
 	    <series key="amount" groupBy="stage" type="bar" title="Amount"/>

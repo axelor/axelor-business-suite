@@ -36,6 +36,7 @@ import com.axelor.apps.cash.management.report.IReport;
 import com.axelor.apps.cash.management.translation.ITranslation;
 import com.axelor.apps.crm.db.Opportunity;
 import com.axelor.apps.crm.db.repo.OpportunityRepository;
+import com.axelor.apps.crm.db.repo.OpportunityStatusRepository;
 import com.axelor.apps.hr.db.Employee;
 import com.axelor.apps.hr.db.Expense;
 import com.axelor.apps.hr.db.repo.EmployeeHRRepository;
@@ -174,7 +175,9 @@ public class ForecastRecapService {
                 "self.company = ?1"
                     + (forecastRecap.getBankDetails() != null ? " AND self.bankDetails = ?2" : "")
                     + " AND self.expectedCloseDate BETWEEN ?3 AND ?4 AND self.saleOrderList IS EMPTY"
-                    + (statusList.isEmpty() ? "" : " AND self.salesStageSelect IN ?5"),
+                    + (statusList.isEmpty()
+                        ? ""
+                        : " AND self.opportunityStatus.technicalTypeSelect IN ?5"),
                 forecastRecap.getCompany(),
                 forecastRecap.getBankDetails(),
                 forecastRecap.getFromDate(),
@@ -306,7 +309,9 @@ public class ForecastRecapService {
                     appBaseService.getTodayDate(forecastRecap.getCompany()))
                 .setScale(2, RoundingMode.HALF_UP);
       }
-      if (opportunity.getSalesStageSelect() == 9) {
+      if (opportunity.getOpportunityStatus().getTechnicalTypeSelect() != null
+          && opportunity.getOpportunityStatus().getTechnicalTypeSelect()
+              == OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_WON) {
         if (mapExpected.containsKey(opportunity.getExpectedCloseDate())) {
           mapExpected.put(
               opportunity.getExpectedCloseDate(),

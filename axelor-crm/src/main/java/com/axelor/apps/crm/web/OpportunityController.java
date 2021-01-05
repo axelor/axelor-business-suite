@@ -19,13 +19,20 @@ package com.axelor.apps.crm.web;
 
 import com.axelor.apps.base.service.MapService;
 import com.axelor.apps.crm.db.Opportunity;
+import com.axelor.apps.crm.db.OpportunityStatus;
 import com.axelor.apps.crm.db.repo.OpportunityRepository;
+import com.axelor.apps.crm.db.repo.OpportunityStatusRepository;
+import com.axelor.apps.crm.exception.IExceptionMessage;
 import com.axelor.apps.crm.service.OpportunityService;
 import com.axelor.auth.AuthUtils;
 import com.axelor.common.ObjectUtils;
+import com.axelor.exception.AxelorException;
+import com.axelor.exception.ResponseMessageType;
+import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
+import com.axelor.meta.MetaStore;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -81,5 +88,60 @@ public class OpportunityController {
       TraceBackService.trace(e);
       response.setError(e.getMessage());
     }
+  }
+
+  public void setStageNew(ActionRequest request, ActionResponse response) {
+    try {
+      OpportunityStatus status =
+          findStatusByTypeSelect(OpportunityStatusRepository.TECHNICAL_TYPE_NEW);
+      response.setValue("opportunityStatus", status);
+    } catch (AxelorException e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
+  public void setStageNegotiation(ActionRequest request, ActionResponse response) {
+    try {
+      OpportunityStatus status =
+          findStatusByTypeSelect(OpportunityStatusRepository.TECHNICAL_TYPE_NEGOTIATION);
+      response.setValue("opportunityStatus", status);
+    } catch (AxelorException e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
+  public void setStageClosedWon(ActionRequest request, ActionResponse response) {
+    try {
+      OpportunityStatus status =
+          findStatusByTypeSelect(OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_WON);
+      response.setValue("opportunityStatus", status);
+    } catch (AxelorException e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
+  public void setStageClosedLost(ActionRequest request, ActionResponse response) {
+    try {
+      OpportunityStatus status =
+          findStatusByTypeSelect(OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_LOST);
+      response.setValue("opportunityStatus", status);
+    } catch (AxelorException e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
+  private OpportunityStatus findStatusByTypeSelect(Integer technicalTypeSelect)
+      throws AxelorException {
+    final String selectionName = "crm.opportunity.status.technical.type.select";
+    OpportunityStatus status =
+        Beans.get(OpportunityStatusRepository.class).findByTechnicalTypeSelect(technicalTypeSelect);
+    if (status == null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.OPPORTUNITY_STATUS_NOT_FOUND),
+          MetaStore.getSelectionItem(selectionName, Integer.toString(technicalTypeSelect))
+              .getLocalizedTitle());
+    }
+    return status;
   }
 }

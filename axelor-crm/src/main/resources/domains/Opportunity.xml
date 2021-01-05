@@ -15,7 +15,7 @@
     <many-to-one name="opportunityType" ref="com.axelor.apps.crm.db.OpportunityType" title="Type of need"/>
     <decimal name="bestCase" title="Best case"/>
     <decimal name="worstCase" title="Worst case"/>
-    <integer name="salesStageSelect" title="Sales stage" selection="crm.opportunity.sales.stage.select"/>
+    <many-to-one name="opportunityStatus" title="Sales stage" ref="com.axelor.apps.crm.db.OpportunityStatus"/>
     <decimal name="probability" title="Probability (%)"/>
     <string name="nextStep" title="Next step"/>
     <string name="description" large="true" title="Description"/>
@@ -31,28 +31,16 @@
   	<many-to-one name="team" ref="com.axelor.team.db.Team" title="Team"/>
   	
   	<many-to-one name="lostReason" ref="LostReason" title="Lost reason" />
-    <string name="lostReasonStr" title="Lost reason" large="true"/>
-	  <many-to-one name="tradingName" ref="com.axelor.apps.base.db.TradingName"/>
-	  <string name="opportunitySeq" title="Reference" readonly="true" unique="true"/>
-
-	<extra-code>
-		<![CDATA[
-		// Stage SELECT
-			public static final int SALES_STAGE_NEW = 1;
-			public static final int SALES_STAGE_QUALIFICATION = 2;
-			public static final int SALES_STAGE_PROPOSITION = 3;
-			public static final int SALES_STAGE_NEGOTIATION = 4;
-			public static final int SALES_STAGE_CLOSED_WON = 5;
-			public static final int SALES_STAGE_CLOSED_LOST = 6;
-		]]>
-	</extra-code>
-
+    	<string name="lostReasonStr" title="Lost reason" large="true"/>
+	<many-to-one name="tradingName" ref="com.axelor.apps.base.db.TradingName"/>
+	<string name="opportunitySeq" title="Reference" readonly="true" unique="true"/>
 
 	<track>
 	   <field name="name"/>
+	   <field name="opportunityStatus"/>
 	   <message if="true" on="CREATE">Opportunity created</message>
-	   <message if="salesStageSelect == 5" fields="salesStageSelect" tag="success">Opportunity won</message>
-	   <message if="salesStageSelect == 6" fields="salesStageSelect" tag="warning">Opportunity lost</message>
+	   <message if="opportunityStatus.technicalTypeSelect == 5" fields="opportunityStatus" tag="success">Opportunity won</message>
+	   <message if="opportunityStatus.technicalTypeSelect == 6" fields="opportunityStatus" tag="warning">Opportunity lost</message>
 	 </track>
 	 
   </entity>

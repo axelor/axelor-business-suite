@@ -23,7 +23,8 @@ import com.axelor.apps.base.db.repo.PriceListRepository;
 import com.axelor.apps.base.service.PartnerPriceListService;
 import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.apps.crm.db.Opportunity;
-import com.axelor.apps.crm.db.repo.OpportunityRepository;
+import com.axelor.apps.crm.db.OpportunityStatus;
+import com.axelor.apps.crm.db.repo.OpportunityStatusRepository;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.exception.AxelorException;
@@ -56,8 +57,13 @@ public class OpportunitySaleOrderServiceImpl implements OpportunitySaleOrderServ
 
     opportunity.addSaleOrderListItem(saleOrder);
 
-    if (opportunity.getSalesStageSelect() < OpportunityRepository.SALES_STAGE_PROPOSITION) {
-      opportunity.setSalesStageSelect(OpportunityRepository.SALES_STAGE_PROPOSITION);
+    if (opportunity.getOpportunityStatus().getTechnicalTypeSelect() != null
+        && opportunity.getOpportunityStatus().getTechnicalTypeSelect()
+            < OpportunityStatusRepository.TECHNICAL_TYPE_PROPOSITION) {
+      OpportunityStatus newStatus =
+          Beans.get(OpportunityStatusRepository.class)
+              .findByTechnicalTypeSelect(OpportunityStatusRepository.TECHNICAL_TYPE_PROPOSITION);
+      if (newStatus != null) opportunity.setOpportunityStatus(newStatus);
     }
 
     saleOrder.setTradingName(opportunity.getTradingName());

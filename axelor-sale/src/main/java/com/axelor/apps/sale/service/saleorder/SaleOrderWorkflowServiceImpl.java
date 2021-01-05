@@ -29,7 +29,8 @@ import com.axelor.apps.base.service.BlockingService;
 import com.axelor.apps.base.service.administration.SequenceService;
 import com.axelor.apps.base.service.user.UserService;
 import com.axelor.apps.crm.db.Opportunity;
-import com.axelor.apps.crm.db.repo.OpportunityRepository;
+import com.axelor.apps.crm.db.OpportunityStatus;
+import com.axelor.apps.crm.db.repo.OpportunityStatusRepository;
 import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
@@ -165,9 +166,11 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
 
     if (appSaleService.getAppSale().getCloseOpportunityUponSaleOrderConfirmation()) {
       Opportunity opportunity = saleOrder.getOpportunity();
-
-      if (opportunity != null) {
-        opportunity.setSalesStageSelect(OpportunityRepository.SALES_STAGE_CLOSED_WON);
+      OpportunityStatus statusClosedWon =
+          Beans.get(OpportunityStatusRepository.class)
+              .findByTechnicalTypeSelect(OpportunityStatusRepository.TECHNICAL_TYPE_CLOSED_WON);
+      if (opportunity != null && statusClosedWon != null) {
+        opportunity.setOpportunityStatus(statusClosedWon);
       }
     }
 

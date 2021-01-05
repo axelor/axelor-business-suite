@@ -27,7 +27,7 @@
         <option value="4">Urgent</option>
     </selection>
 
-	<selection name="crm.opportunity.sales.stage.select">
+	<selection name="crm.opportunity.status.technical.type.select">
 		<option value="1">crm.New</option>
 		<option value="2">Qualification</option>
 		<option value="3">Proposition</option>

@@ -11,7 +11,7 @@
 "axelor-crm";"Lead";"lead-form";"source";"Enables to select the prospect's source for statistical purposes. The source list can be customized in the CRM configuration. "
 "axelor-crm";"Lead";"lead-form";"referredBy";"Enables to specify the person who referred the prospect "
 "axelor-crm";"Opportunity";"opportunity-form";"opportunityType";"Specify whether this opportunity comes from a created need (New), an existing need from the customer (Existing) or a recurring need from the customer (Recurring)"
-"axelor-crm";"Opportunity";"opportunity-form";"salesStageSelect";"Enables to specify which step of the sale process corresponds to the opportunity's current status. "
+"axelor-crm";"Opportunity";"opportunity-form";"opportunityStatus";"Enables to specify which step of the sale process corresponds to the opportunity's current status. "
 "axelor-crm";"Opportunity";"opportunity-form";"probability";"Estimated probability of successfully converting the opportunity into a deal. This field is important to estimate the turnover. Opportunities can also be taken into account in the management of stock replenishment. "
 "axelor-crm";"Opportunity";"opportunity-form";"amount";"Estimated amount of potential revenue to be gained from the opportunity. "
 "axelor-crm";"Opportunity";"opportunity-form";"bestCase";"Maximum amount of potential revenue to be gained from the opportunity. "
