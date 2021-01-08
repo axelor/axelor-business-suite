@@ -19,6 +19,7 @@ package com.axelor.apps.base.service;
 
 import com.axelor.apps.base.db.PrintTemplateLine;
 import com.axelor.exception.AxelorException;
+import com.axelor.meta.CallMethod;
 import com.axelor.meta.db.MetaModel;
 import java.io.IOException;
 
@@ -28,5 +29,6 @@ public interface PrintTemplateLineService {
       Long objectId, MetaModel metaModel, PrintTemplateLine printTemplateLine)
       throws AxelorException, IOException, ClassNotFoundException;
 
-  public void addItemToReferenceSelection(MetaModel model);
+  @CallMethod
+  public MetaModel getMetaModel(PrintTemplateLine printTemplateLine) throws AxelorException;
 }

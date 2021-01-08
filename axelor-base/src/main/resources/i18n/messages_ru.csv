@@ -565,6 +565,7 @@
 "DMS Import",,,
 "Daily Work Hours","Часы ежедневной работы",,
 "Dashboard","Приборная панель",,
+"Data error: a print template line is its own parent.",,,
 "Data file","Файл данных",,
 "Data file doesn't exist",,,
 "Data file format is invalid",,,

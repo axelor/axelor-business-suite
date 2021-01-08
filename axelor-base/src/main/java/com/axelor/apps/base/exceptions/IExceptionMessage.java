@@ -413,6 +413,8 @@ public interface IExceptionMessage {
       "Error in print template line with sequence %s and title %s." /*)*/;
   public static final String PRINT_TEMPLATE_LINE_TEST_REFRESH = /*$$(*/
       "Refresh page to reflect changes in selection" /*)*/;
+  String PRINT_TEMPLATE_LINE_PARENT_LOOP = /*$$(*/
+      "Data error: a print template line is its own parent." /*)*/;
 
   /* Scheduler */
   public static final String QUARTZ_SCHEDULER_ENABLED = /*$$(*/

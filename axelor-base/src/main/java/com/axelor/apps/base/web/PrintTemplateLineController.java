@@ -19,11 +19,9 @@ package com.axelor.apps.base.web;
 
 import com.axelor.apps.base.db.PrintTemplateLineTest;
 import com.axelor.apps.base.db.repo.PrintTemplateLineTestRepository;
-import com.axelor.apps.base.exceptions.IExceptionMessage;
 import com.axelor.apps.base.service.PrintTemplateLineService;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
-import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaModel;
 import com.axelor.meta.db.repo.MetaModelRepository;
@@ -31,7 +29,6 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 
 public class PrintTemplateLineController {
 
@@ -57,18 +54,5 @@ public class PrintTemplateLineController {
     }
 
     response.setReload(true);
-  }
-
-  @SuppressWarnings("unchecked")
-  public void addItemToReferenceSelection(ActionRequest request, ActionResponse response) {
-    LinkedHashMap<String, Object> metaModelMap =
-        (LinkedHashMap<String, Object>) request.getContext().get("metaModel");
-    if (metaModelMap == null) {
-      return;
-    }
-    Long metaModelId = Long.parseLong(metaModelMap.get("id").toString());
-    MetaModel metaModel = Beans.get(MetaModelRepository.class).find(metaModelId);
-    Beans.get(PrintTemplateLineService.class).addItemToReferenceSelection(metaModel);
-    response.setNotify(I18n.get(IExceptionMessage.PRINT_TEMPLATE_LINE_TEST_REFRESH));
   }
 }

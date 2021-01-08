@@ -18,6 +18,8 @@
 package com.axelor.apps.base.service;
 
 import com.axelor.apps.base.db.Print;
+import com.axelor.common.ObjectUtils;
+import com.axelor.common.StringUtils;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.events.Event;
@@ -39,46 +41,107 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 public class TableFooterEventHandler implements IEventHandler {
-  protected Table tableFooter;
   protected Document doc;
   protected Print print;
+  protected Cell cellFooter;
 
   public TableFooterEventHandler(Document doc, Print print) throws IOException {
     this.doc = doc;
     this.print = print;
-    String footerTextAlignment = print.getFooterTextAlignment();
-    String footerFontColor = print.getFooterFontColor();
 
-    tableFooter = new Table(1);
+    cellFooter = new Cell();
+    cellFooter.setBorder(Border.NO_BORDER);
+    if (ObjectUtils.notEmpty(print.getFooterWidth())) {
+      cellFooter.setWidth(print.getFooterWidth().floatValue());
+    }
+
+    if (StringUtils.notEmpty(print.getPrintPdfFooter())) {
+      String footerTextAlignment = print.getFooterTextAlignment();
+      String footerFontColor = print.getFooterFontColor();
+
+      if (footerTextAlignment != null) {
+        this.setCellFooterTextAlignment(cellFooter, footerTextAlignment);
+      }
+      cellFooter.setFont(
+          PdfFontFactory.createFont(
+              print.getFooterFontType() != null
+                  ? print.getFooterFontType()
+                  : StandardFonts.TIMES_ROMAN));
+      cellFooter.setFontSize(
+          print.getFooterFontSize().compareTo(BigDecimal.ZERO) > 0
+              ? print.getFooterFontSize().floatValue()
+              : 10);
+      if (footerFontColor != null) {
+        this.setCellFooterFontColor(cellFooter, footerFontColor);
+      }
+      if (print.getIsFooterUnderLine()) {
+        cellFooter.setUnderline();
+      }
+      cellFooter.add(
+          new Paragraph(print.getPrintPdfFooter() != null ? print.getPrintPdfFooter() : ""));
+    }
+  }
+
+  public Table generateTableFooter(Event event) {
+    Table tableFooter = new Table(2);
+
+    tableFooter = new Table(2);
     tableFooter.setWidth(
         doc.getPdfDocument().getDefaultPageSize().getRight()
             - doc.getPdfDocument().getDefaultPageSize().getLeft()
             - doc.getLeftMargin()
             - doc.getRightMargin());
 
-    Cell cellFooter = new Cell();
-    cellFooter.setBorder(Border.NO_BORDER);
-    if (footerTextAlignment != null) {
-      this.setCellFooterTextAlignment(cellFooter, footerTextAlignment);
-    }
-    cellFooter.setFont(
-        PdfFontFactory.createFont(
-            print.getFooterFontType() != null
-                ? print.getFooterFontType()
-                : StandardFonts.TIMES_ROMAN));
-    cellFooter.setFontSize(
-        print.getFooterFontSize().compareTo(BigDecimal.ZERO) > 0
-            ? print.getFooterFontSize().floatValue()
-            : 10);
-    if (footerFontColor != null) {
-      this.setCellFooterFontColor(cellFooter, footerFontColor);
-    }
-    if (print.getIsFooterUnderLine()) {
-      cellFooter.setUnderline();
-    }
-    cellFooter.add(
-        new Paragraph(print.getPrintPdfFooter() != null ? print.getPrintPdfFooter() : ""));
+    tableFooter.setMarginTop(20);
+
     tableFooter.addCell(cellFooter);
+
+    if (print.getWithPagination()) {
+      Cell paginationCell = new Cell();
+      paginationCell.setBorder(Border.NO_BORDER);
+      if (ObjectUtils.notEmpty(print.getPaginationWidth())) {
+        paginationCell.setWidth(print.getPaginationWidth().floatValue());
+      }
+      String paginationTextAlignment = print.getPaginationTextAlignment();
+      if (paginationTextAlignment != null) {
+        this.setCellFooterTextAlignment(paginationCell, paginationTextAlignment);
+      }
+      try {
+        paginationCell.setFont(
+            PdfFontFactory.createFont(
+                print.getPaginationFontType() != null
+                    ? print.getPaginationFontType()
+                    : StandardFonts.TIMES_ROMAN));
+      } catch (IOException e) {
+        paginationCell.setFont(StandardFonts.TIMES_ROMAN);
+      }
+      paginationCell.setFontSize(
+          print.getPaginationFontSize().compareTo(BigDecimal.ZERO) > 0
+              ? print.getPaginationFontSize().floatValue()
+              : 10);
+      String paginationFontColor = print.getPaginationFontColor();
+      if (paginationFontColor != null) {
+        this.setCellFooterFontColor(paginationCell, paginationFontColor);
+      }
+      if (print.getIsPaginationUnderLine()) {
+        paginationCell.setUnderline();
+      }
+
+      PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
+      PdfDocument pdf = docEvent.getDocument();
+      PdfPage page = docEvent.getPage();
+      int pageNumber = pdf.getPageNumber(page);
+
+      paginationCell.add(
+          new Paragraph(
+              StringUtils.notEmpty(print.getPaginationTemplate())
+                  ? String.format(print.getPaginationTemplate(), pageNumber, pdf.getNumberOfPages())
+                  : ""));
+
+      tableFooter.addCell(paginationCell);
+    }
+
+    return tableFooter;
   }
 
   @SuppressWarnings("resource")
@@ -94,6 +157,7 @@ public class TableFooterEventHandler implements IEventHandler {
             pdfDoc.getDefaultPageSize().getBottom() - doc.getBottomMargin(),
             100,
             90);
+    Table tableFooter = generateTableFooter(event);
     new Canvas(canvas, pdfDoc, rect1).add(tableFooter);
   }
 

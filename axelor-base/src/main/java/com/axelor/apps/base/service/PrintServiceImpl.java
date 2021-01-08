@@ -43,7 +43,9 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -88,30 +90,25 @@ public class PrintServiceImpl implements PrintService {
       print = printRepo.find(print.getId());
       String html = generateHtml(print);
 
-      ByteArrayOutputStream pdfOutputStream = new ByteArrayOutputStream();
-      try (PdfDocument pdfDoc = new PdfDocument(new PdfWriter(pdfOutputStream))) {
+      ByteArrayOutputStream pdfOutputStreamWithoutFooter = new ByteArrayOutputStream();
+
+      try (PdfDocument pdfDoc = new PdfDocument(new PdfWriter(pdfOutputStreamWithoutFooter))) {
         pdfDoc.setDefaultPageSize(
             print.getDisplayTypeSelect() == PrintRepository.DISPLAY_TYPE_LANDSCAPE
                 ? PageSize.A4.rotate()
                 : PageSize.A4);
-
-        if (print.getPrintPdfFooter() != null && !print.getHidePrintSettings()) {
-          com.itextpdf.layout.Document doc = new com.itextpdf.layout.Document(pdfDoc);
-          pdfDoc.addEventHandler(
-              PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(doc, print));
-        }
 
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri(attachmentPath);
         HtmlConverter.convertToPdf(html, pdfDoc, converterProperties);
       }
 
+      InputStream pdfInputStream = addFooter(print, pdfOutputStreamWithoutFooter);
       String documentName =
           (StringUtils.notEmpty(print.getDocumentName()) ? print.getDocumentName() : "")
               + "-"
               + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
               + FILE_EXTENSION_PDF;
-      InputStream pdfInputStream = new ByteArrayInputStream(pdfOutputStream.toByteArray());
       MetaFile metaFile = metaFiles.upload(pdfInputStream, documentName);
       File file = MetaFiles.getPath(metaFile).toFile();
 
@@ -170,6 +167,20 @@ public class PrintServiceImpl implements PrintService {
     htmlBuilder.append("<title></title>");
     htmlBuilder.append("<meta charset=\"utf-8\"/>");
     htmlBuilder.append("<style type=\"text/css\">");
+    htmlBuilder.append("@page {");
+    if (StringUtils.notEmpty(print.getMarginTop())) {
+      htmlBuilder.append("margin-top: " + print.getMarginTop() + ";");
+    }
+    if (StringUtils.notEmpty(print.getMarginRight())) {
+      htmlBuilder.append("margin-right: " + print.getMarginRight() + ";");
+    }
+    if (StringUtils.notEmpty(print.getMarginBottom())) {
+      htmlBuilder.append("margin-bottom: " + print.getMarginBottom() + ";");
+    }
+    if (StringUtils.notEmpty(print.getMarginLeft())) {
+      htmlBuilder.append("margin-left: " + print.getMarginLeft() + ";");
+    }
+    htmlBuilder.append("}");
     htmlBuilder.append("</style>");
     htmlBuilder.append("</head>");
     htmlBuilder.append("<body>");
@@ -284,5 +295,32 @@ public class PrintServiceImpl implements PrintService {
     for (MetaFile metaFile : metaFiles) {
       Beans.get(MetaFiles.class).attach(metaFile, metaFile.getFileName(), print);
     }
+  }
+
+  public InputStream addFooter(Print print, ByteArrayOutputStream pdfOutputStreamWithoutFooter)
+      throws IOException {
+    InputStream pdfInputStreamFinal;
+
+    if (!print.getHidePrintSettings()
+        && (print.getPrintPdfFooter() != null || print.getWithPagination())) {
+
+      InputStream pdfInputStreamWithoutFooter =
+          new ByteArrayInputStream(pdfOutputStreamWithoutFooter.toByteArray());
+
+      ByteArrayOutputStream pdfOutputStreamFinal = new ByteArrayOutputStream();
+      PdfWriter pdfWriter = new PdfWriter(pdfOutputStreamFinal);
+      PdfDocument pdfDocFinal =
+          new PdfDocument(new PdfReader(pdfInputStreamWithoutFooter), pdfWriter);
+      Document doc = new Document(pdfDocFinal);
+      pdfDocFinal.addEventHandler(
+          PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(doc, print));
+      pdfDocFinal.close();
+
+      pdfInputStreamFinal = new ByteArrayInputStream(pdfOutputStreamFinal.toByteArray());
+    } else {
+      pdfInputStreamFinal = new ByteArrayInputStream(pdfOutputStreamWithoutFooter.toByteArray());
+    }
+
+    return pdfInputStreamFinal;
   }
 }

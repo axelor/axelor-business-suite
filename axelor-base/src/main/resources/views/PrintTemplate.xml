@@ -13,7 +13,8 @@
         <field name="language"/>
     </grid>
 
-    <form name="print-template-form" title="Print template" model="com.axelor.apps.base.db.PrintTemplate" width="large">
+    <form name="print-template-form" title="Print template" model="com.axelor.apps.base.db.PrintTemplate" width="large"
+    onSave="action-print-template-method-add-item-to-ref-select">
         <panel>
             <field name="name"/>
             <field name="metaModel" grid-view="meta-model-grid" form-view="meta-model-form"/>
@@ -27,6 +28,13 @@
             <field name="metaFileField" help="Name of the field in the model where to save the file"/>
             <field name="isEditable"/>
             <field name="attach"/>
+            <field name="withPagination"/>
+            <panel name="marginPanel" title="Margins" showIf="!hidePrintSettings" colSpan="12">
+                <field name="marginTop" colSpan="3"/>
+                <field name="marginRight" colSpan="3"/>
+                <field name="marginBottom" colSpan="3"/>
+                <field name="marginLeft" colSpan="3"/>
+            </panel>
             <panel name="headerSettingsPanel" title="Pdf Header Settings" showIf="!hidePrintSettings" colSpan="12">
             	<field name="printTemplatePdfHeader" showTitle="false" widget="html" colSpan="12"/>
             	<field name="logoPositionSelect" onChange="action-print-hide-logo-header-width-field" colSpan="4"/>
@@ -35,11 +43,21 @@
             </panel>
             <panel name="footerSettingsPanel" title="Pdf Footer Settings" showIf="!hidePrintSettings" colSpan="12">
             	<field name="printTemplatePdfFooter" colSpan="12"/>
-            	<field name="footerFontType" colSpan="4"/>
-                <field name="footerTextAlignment" colSpan="4"/>
-            	<field name="footerFontSize" colSpan="4"/>
-                <field name="footerFontColor" colSpan="4"/>
-                 <field name="isFooterUnderLine" colSpan="4"/>
+            	<field name="footerWidth" colSpan="3"/>
+            	<field name="footerFontType" colSpan="3"/>
+            	<field name="footerFontColor" colSpan="3"/>
+                <field name="footerTextAlignment" colSpan="3"/>
+            	<field name="footerFontSize" colSpan="3"/>                
+                <field name="isFooterUnderLine" colSpan="3"/>
+            </panel>
+            <panel name="paginationPanel" title="Pagination" showIf="withPagination" colSpan="12">
+                <field name="paginationTemplate" colSpan="12"/>
+                <field name="paginationWidth" colSpan="3"/>
+		        <field name="paginationFontType" colSpan="3"/>
+		        <field name="paginationFontColor" colSpan="3"/>
+		        <field name="paginationTextAlignment" colSpan="3"/>
+		        <field name="paginationFontSize" colSpan="3"/>
+		        <field name="isPaginationUnderLine" colSpan="3"/>		        
             </panel>
             <panel-related name="printTemplateLineListPanel" field="printTemplateLineList" grid-view="print-template-line-grid" form-view="print-template-line-form" colSpan="12" orderBy="sequence" canMove="true"/>
             <field name="birtTemplateSet" widget="TagSelect" grid-view="birt-template-grid" form-view="birt-template-form" colSpan="12"/>
@@ -106,5 +124,9 @@
     <action-method name="action-print-template-method-import-print-template">
     	<call class="com.axelor.apps.base.web.PrintTemplateController" method="importPrintTemplate"/>
     </action-method>
+    
+    <action-method name="action-print-template-method-add-item-to-ref-select">
+		<call class="com.axelor.apps.base.web.PrintTemplateController" method="addItemToReferenceSelection"/>
+	</action-method>
 
 </object-views>

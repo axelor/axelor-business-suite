@@ -7,7 +7,7 @@
 
     <entity name="PrintTemplateLineTest">
 
-        <string name="reference" title="Reference" />
+        <string name="reference" title="Reference" selection="print.template.line.test.reference.select"/>
         <integer name="referenceId" title="Reference Id" />
         <boolean name="conditionsResult" title="Conditions result" />
         <string name="contentResult" large="true" title="Content result" />

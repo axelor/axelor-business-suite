@@ -17,6 +17,13 @@
             <field name="documentName" title="Document name"/>
             <field name="formatSelect"/>
             <field name="displayTypeSelect"/>
+            <field name="withPagination"/>
+            <panel name="marginPanel" title="Margins" showIf="!hidePrintSettings" colSpan="12">
+                <field name="marginTop" colSpan="3"/>
+                <field name="marginRight" colSpan="3"/>
+                <field name="marginBottom" colSpan="3"/>
+                <field name="marginLeft" colSpan="3"/>
+            </panel>
             <panel name="headerSettingsPanel" title="Pdf Header Settings" showIf="!hidePrintSettings" colSpan="12">
             	<field name="printPdfHeader" showTitle="false" widget="html" colSpan="12"/>
             	<field name="logoPositionSelect" onChange="action-print-hide-logo-header-width-field" colSpan="4"/>
@@ -25,11 +32,21 @@
             </panel>
             <panel name="footerSettingsPanel" title="Pdf Footer Settings" showIf="!hidePrintSettings" colSpan="12">
             	<field name="printPdfFooter" colSpan="12"/>
-            	<field name="footerFontType" colSpan="4"/>
-                <field name="footerTextAlignment" colSpan="4"/>
-            	<field name="footerFontSize" colSpan="4"/>
-                <field name="footerFontColor" colSpan="4"/>
-                <field name="isFooterUnderLine" colSpan="4"/>
+            	<field name="footerWidth" colSpan="3"/>
+            	<field name="footerFontType" colSpan="3"/>
+            	<field name="footerFontColor" colSpan="3"/>
+                <field name="footerTextAlignment" colSpan="3"/>
+            	<field name="footerFontSize" colSpan="3"/>                
+                <field name="isFooterUnderLine" colSpan="3"/>
+            </panel>
+            <panel name="paginationPanel" title="Pagination" showIf="withPagination" colSpan="12">
+                <field name="paginationTemplate" colSpan="12"/>
+                <field name="paginationWidth" colSpan="3"/>
+		        <field name="paginationFontType" colSpan="3"/>
+		        <field name="paginationFontColor" colSpan="3"/>
+		        <field name="paginationTextAlignment" colSpan="3"/>
+		        <field name="paginationFontSize" colSpan="3"/>
+		        <field name="isPaginationUnderLine" colSpan="3"/>		        
             </panel>
             <panel-related name="printLineListPanel" field="printLineList" grid-view="print-line-grid" form-view="print-line-form" colSpan="12" orderBy="rank"/>
             <field name="metaModel" grid-view="meta-model-grid" form-view="meta-model-form" hidden="true"/>
