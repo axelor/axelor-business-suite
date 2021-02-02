@@ -102,4 +102,10 @@ public interface AppBaseService extends AppService {
    * @param manageMultiBanks the new value for the manageMultiBanks boolean
    */
   void setManageMultiBanks(boolean manageMultiBanks);
+
+  /**
+   * Get process timeout value. If the value is inferior or equal to 0, we return the default value
+   * (10 seconds).
+   */
+  int getProcessTimeout();
 }

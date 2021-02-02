@@ -38,17 +38,13 @@
   		</panel-tabs>
 
 		<panel name="actionsPanel" sidebar="true" title="Actions">
-			<button name="ebicsCertificateBatchBtn" title="Ebics certificate batch" onClick="save,action-bank-payment-batch-method-action-ebics-certificate" colSpan="12" showIf="actionSelect == 1"/>
-		    <button name="bankStatementBatchBtn" title="Bank Statement Batch" onClick="save,action-bank-payment-batch-method-action-bank-statement" colSpan="12"  showIf="actionSelect == 2"/>
+			<button name="ebicsCertificateBatchBtn" title="Ebics certificate batch" onClick="save,action-bank-payment-batch-method-run-batch" colSpan="12" showIf="actionSelect == 1"/>
+		    <button name="bankStatementBatchBtn" title="Bank Statement Batch" onClick="save,action-bank-payment-batch-method-run-batch" colSpan="12"  showIf="actionSelect == 2"/>
 		</panel>
 	</form>
 	
-	<action-method name="action-bank-payment-batch-method-action-ebics-certificate">
-		<call class="com.axelor.apps.bankpayment.web.BankPaymentBatchController" method="actionEbicsCertificate"/>
-	</action-method>
-
-	<action-method name="action-bank-payment-batch-method-action-bank-statement">
-		<call class="com.axelor.apps.bankpayment.web.BankPaymentBatchController" method="actionBankStatement" />
+	<action-method name="action-bank-payment-batch-method-run-batch">
+		<call class="com.axelor.apps.bankpayment.web.BankPaymentBatchController" method="runBatch" />
 	</action-method>
 
 	<search-filters name="bank-payment-batch-filters" model="com.axelor.apps.bankpayment.db.BankPaymentBatch" title="Bank payment batch filters">

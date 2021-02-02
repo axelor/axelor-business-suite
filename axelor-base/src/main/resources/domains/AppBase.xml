@@ -86,7 +86,10 @@
 
 	   	<one-to-many name="mailTemplateAssociationList" title="Email template list for notifications" ref="com.axelor.apps.base.db.MailTemplateAssociation"/>
 	   	<string name="geoNamesUrl" title="GeoNames URL"/>
-	   	
+
+
+		<integer name="processTimeout" default="10" title="Timeout for processes (seconds)" help="Maximum time before a process called by an user starts running in the background" min="1"/>
+
 		<extra-code>
 	   		<![CDATA[
 	   			public static final int DISCOUNT_SEPARATE = 1;

@@ -81,6 +81,9 @@ public interface IExceptionMessage {
   public static final String PERIOD_2 = /*$$(*/ "Period closed" /*)*/;
   public static final String PERIOD_3 = /*$$(*/ "Too much iterations." /*)*/;
   static final String PAY_PERIOD_CLOSED = /*$$(*/ "Warning : the pay period %s is closed." /*)*/;
+
+  String PERIOD_CLOSING_MESSAGE = /*$$(*/ "Period %s is now closed" /*)*/;
+  String PERIOD_CLOSING_EXCEPTION_MESSAGE = /*$$(*/ "Error when closing period %s" /*)*/;
   /** Abstract batch */
   String ABSTRACT_BATCH_1 = /*$$(*/ "This batch is not runnable!" /*)*/;
 
@@ -90,6 +93,12 @@ public interface IExceptionMessage {
   String ABSTRACT_BATCH_DONE_PLURAL = /*$$(*/ "%d records processed successfully," /*)*/;
   String ABSTRACT_BATCH_ANOMALY_SINGULAR = /*$$(*/ "%d anomaly." /*)*/;
   String ABSTRACT_BATCH_ANOMALY_PLURAL = /*$$(*/ "%d anomalies." /*)*/;
+
+  String ABSTRACT_BATCH_FINISHED_SUBJECT = /*$$(*/ "Batch %s is now finished" /*)*/;
+  String ABSTRACT_BATCH_FINISHED_DEFAULT_MESSAGE = /*$$(*/ "Batch execution is now finished" /*)*/;
+  String ABSTRACT_BATCH_MESSAGE_ON_EXCEPTION = /*$$(*/
+      "Error happened during batch execution" /*)*/;
+
   /** Indicator generator grouping service */
   public static final String INDICATOR_GENERATOR_GROUPING_1 = /*$$(*/
       "Error : no export path has been set" /*)*/;

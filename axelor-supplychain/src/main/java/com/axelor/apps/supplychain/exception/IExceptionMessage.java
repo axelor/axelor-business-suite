@@ -269,4 +269,14 @@ public interface IExceptionMessage {
 
   static final String SALE_ORDER_CLIENT_PARTNER_EXCEEDED_CREDIT = /*$$(*/
       "%s blocked : maximal accepted credit exceeded for %s." /*)*/;
+
+  /*
+   * MRP Service
+   */
+
+  String MRP_ERROR_WHILE_COMPUTATION = /*$$(*/ "Error during the computation of MRP %s" /*)*/;
+
+  String MRP_FINISHED_MESSAGE_SUBJECT = /*$$(*/ "MRP n°%s is now finished" /*)*/;
+  String MRP_FINISHED_MESSAGE_BODY = /*$$(*/
+      "The execution of MRP n°%s is now finished, you can click above to see the results." /*)*/;
 }

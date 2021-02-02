@@ -217,4 +217,14 @@ public class AppBaseServiceImpl extends AppServiceImpl implements AppBaseService
   public void setManageMultiBanks(boolean manageMultiBanks) {
     getAppBase().setManageMultiBanks(manageMultiBanks);
   }
+
+  @Override
+  public int getProcessTimeout() {
+    int processTimeout = getAppBase().getProcessTimeout();
+    if (processTimeout < 1) {
+      return 10;
+    } else {
+      return processTimeout;
+    }
+  }
 }

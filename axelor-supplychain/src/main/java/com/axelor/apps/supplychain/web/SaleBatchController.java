@@ -17,12 +17,13 @@
  */
 package com.axelor.apps.supplychain.web;
 
+import com.axelor.apps.base.callable.ControllerCallableTool;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.apps.sale.db.SaleBatch;
 import com.axelor.apps.sale.db.repo.SaleBatchRepository;
-import com.axelor.apps.supplychain.service.batch.BatchInvoicing;
 import com.axelor.apps.supplychain.service.batch.SaleBatchService;
 import com.axelor.exception.AxelorException;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -48,13 +49,21 @@ public class SaleBatchController {
     response.setData(mapData);
   }
 
-  public void actionInvoicing(ActionRequest request, ActionResponse response)
-      throws AxelorException {
-
-    SaleBatch saleBatch = request.getContext().asType(SaleBatch.class);
-    saleBatch = Beans.get(SaleBatchRepository.class).find(saleBatch.getId());
-    Batch batch = Beans.get(BatchInvoicing.class).run(saleBatch);
-    response.setFlash(batch.getComments());
-    response.setReload(true);
+  public void runBatch(ActionRequest request, ActionResponse response) {
+    try {
+      SaleBatch saleBatch = request.getContext().asType(SaleBatch.class);
+      saleBatch = Beans.get(SaleBatchRepository.class).find(saleBatch.getId());
+      SaleBatchService saleBatchService = Beans.get(SaleBatchService.class);
+      saleBatchService.setBatchModel(saleBatch);
+      ControllerCallableTool<Batch> controllerCallableTool = new ControllerCallableTool<>();
+      Batch batch = controllerCallableTool.runInSeparateThread(saleBatchService, response);
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    } finally {
+      response.setReload(true);
+    }
   }
 }

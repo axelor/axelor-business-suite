@@ -20,6 +20,7 @@ package com.axelor.apps.account.web;
 import com.axelor.apps.account.db.AccountingBatch;
 import com.axelor.apps.account.db.repo.AccountingBatchRepository;
 import com.axelor.apps.account.service.batch.AccountingBatchService;
+import com.axelor.apps.base.callable.ControllerCallableTool;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
@@ -41,18 +42,7 @@ public class AccountingBatchController {
    */
   public void actionDebtRecovery(ActionRequest request, ActionResponse response) {
 
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-
-    Batch batch = null;
-
-    if (accountingBatch.getActionSelect() == AccountingBatchRepository.ACTION_DEBT_RECOVERY) {
-      batch =
-          Beans.get(AccountingBatchService.class)
-              .debtRecovery(
-                  Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId()));
-    }
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+    runBatch(AccountingBatchRepository.ACTION_DEBT_RECOVERY, request, response);
   }
 
   /**
@@ -62,18 +52,7 @@ public class AccountingBatchController {
    * @param response
    */
   public void actionDoubtfulCustomer(ActionRequest request, ActionResponse response) {
-
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-
-    Batch batch = null;
-
-    batch =
-        Beans.get(AccountingBatchService.class)
-            .doubtfulCustomer(
-                Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId()));
-
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+    runBatch(AccountingBatchRepository.ACTION_DOUBTFUL_CUSTOMER, request, response);
   }
 
   /**
@@ -83,28 +62,7 @@ public class AccountingBatchController {
    * @param response
    */
   public void actionReimbursement(ActionRequest request, ActionResponse response) {
-
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-    AccountingBatchService accountingBatchService = Beans.get(AccountingBatchService.class);
-    AccountingBatchRepository accountingBatchRepository =
-        Beans.get(AccountingBatchRepository.class);
-
-    Batch batch = null;
-
-    if (accountingBatch.getReimbursementTypeSelect()
-        == AccountingBatchRepository.REIMBURSEMENT_TYPE_EXPORT) {
-      batch =
-          accountingBatchService.reimbursementExport(
-              accountingBatchRepository.find(accountingBatch.getId()));
-    } else if (accountingBatch.getReimbursementTypeSelect()
-        == AccountingBatchRepository.REIMBURSEMENT_TYPE_IMPORT) {
-      batch =
-          accountingBatchService.reimbursementImport(
-              accountingBatchRepository.find(accountingBatch.getId()));
-    }
-
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+    runBatch(AccountingBatchRepository.ACTION_REIMBURSEMENT, request, response);
   }
 
   /**
@@ -114,16 +72,7 @@ public class AccountingBatchController {
    * @param response
    */
   public void actionDirectDebit(ActionRequest request, ActionResponse response) {
-    try {
-      AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-      accountingBatch = Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId());
-      Batch batch = Beans.get(AccountingBatchService.class).directDebit(accountingBatch);
-      response.setFlash(batch.getComments());
-    } catch (Exception e) {
-      TraceBackService.trace(response, e);
-    } finally {
-      response.setReload(true);
-    }
+    runBatch(null, request, response);
   }
 
   /**
@@ -133,18 +82,7 @@ public class AccountingBatchController {
    * @param response
    */
   public void actionAccountingCustomer(ActionRequest request, ActionResponse response) {
-
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-
-    Batch batch = null;
-
-    batch =
-        Beans.get(AccountingBatchService.class)
-            .accountCustomer(
-                Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId()));
-
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+    runBatch(AccountingBatchRepository.ACTION_ACCOUNT_CUSTOMER, request, response);
   }
 
   /**
@@ -154,44 +92,43 @@ public class AccountingBatchController {
    * @param response
    */
   public void actionMoveLineExport(ActionRequest request, ActionResponse response) {
-
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-
-    Batch batch = null;
-
-    batch =
-        Beans.get(AccountingBatchService.class)
-            .moveLineExport(
-                Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId()));
-
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+    runBatch(AccountingBatchRepository.ACTION_MOVE_LINE_EXPORT, request, response);
   }
 
   public void actionCreditTransfer(ActionRequest request, ActionResponse response) {
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-    accountingBatch = Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId());
-    Batch batch = Beans.get(AccountingBatchService.class).creditTransfer(accountingBatch);
-    response.setFlash(batch.getComments());
-    response.setReload(true);
+    runBatch(AccountingBatchRepository.ACTION_CREDIT_TRANSFER, request, response);
   }
 
   public void actionRealizeFixedAssetLines(ActionRequest request, ActionResponse response) {
-
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-    accountingBatch = Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId());
-    Batch batch = Beans.get(AccountingBatchService.class).realizeFixedAssetLines(accountingBatch);
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+    runBatch(AccountingBatchRepository.ACTION_REALIZE_FIXED_ASSET_LINES, request, response);
   }
 
   public void actionCloseAnnualAccounts(ActionRequest request, ActionResponse response) {
+    runBatch(
+        AccountingBatchRepository.ACTION_CLOSE_ANNUAL_ACCOUNTS_OF_PAST_YEAR, request, response);
+  }
 
-    AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
-    accountingBatch = Beans.get(AccountingBatchRepository.class).find(accountingBatch.getId());
-    Batch batch = Beans.get(AccountingBatchService.class).closeAnnualAccounts(accountingBatch);
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+  public void runBatch(Integer actionSelect, ActionRequest request, ActionResponse response) {
+    try {
+
+      AccountingBatch accountingBatch = request.getContext().asType(AccountingBatch.class);
+      if (actionSelect != null && !actionSelect.equals(accountingBatch.getActionSelect())) {
+        return;
+      }
+      AccountingBatchService accountingBatchService = Beans.get(AccountingBatchService.class);
+      accountingBatchService.setBatchModel(accountingBatch);
+
+      ControllerCallableTool<Batch> batchControllerCallableTool = new ControllerCallableTool<>();
+      Batch batch =
+          batchControllerCallableTool.runInSeparateThread(accountingBatchService, response);
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    } finally {
+      response.setReload(true);
+    }
   }
 
   // WS

@@ -34,7 +34,7 @@
 		    </panel>
   		</panel-tabs>
   		<panel name="synchronizeBtnPanel" sidebar="true">
-  			<button name="synchronizeBtn" showIf="actionSelect == 2" title="Batch calendar synchronization" onClick="save,action-base-batch-method-synchronize-calendars"/>
+  			<button name="synchronizeBtn" showIf="actionSelect == 2" title="Batch calendar synchronization" onClick="save,action-base-batch-method-run-batch"/>
   		</panel>
     </form>
     
@@ -59,8 +59,8 @@
 		<call class="com.axelor.apps.base.web.BaseBatchController" method="actionTarget"/>
 	</action-method>
 
-	<action-method name="action-base-batch-method-synchronize-calendars">
-		<call class="com.axelor.apps.base.web.BaseBatchController" method="actionSynchronizeCalendars"/>
+	<action-method name="action-base-batch-method-run-batch">
+		<call class="com.axelor.apps.base.web.BaseBatchController" method="runBatch"/>
 	</action-method>
 	
     <!-- ACTION ATTRS -->

@@ -27,8 +27,8 @@
 			<panel-related name="batchListPanel" field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid"/>
 	    </panel>
   		<panel name="actionPanel" sidebar="true">
-  			<button name="updateTaskBtn" title="Update tasks" onClick="save,action-project-invoicing-assistant-batch-method-update-task" showIf="actionSelect == 1"/>
-            <button name="generateInvoicingProjectBtn" title="Generate invoicing projects" onClick="save,action-project-invoicing-assistant-batch-method-generate-inv-project" showIf="actionSelect == 2"/>
+  			<button name="updateTaskBtn" title="Update tasks" onClick="save,action-project-invoicing-assistant-batch-method-run-batch" showIf="actionSelect == 1"/>
+            <button name="generateInvoicingProjectBtn" title="Generate invoicing projects" onClick="save,action-project-invoicing-assistant-batch-method-run-batch" showIf="actionSelect == 2"/>
   		</panel>
     </form>
 
@@ -45,8 +45,8 @@
         <field name="deadlineDate" expr="eval: null" if="actionSelect == 1"/>
     </action-record>
 	
-	<action-method name="action-project-invoicing-assistant-batch-method-update-task">
-		<call class="com.axelor.apps.businessproject.web.ProjectInvoicingAssistantBatchController" method="actionUpdateTask"/>
+	<action-method name="action-project-invoicing-assistant-batch-method-run-batch">
+		<call class="com.axelor.apps.businessproject.web.ProjectInvoicingAssistantBatchController" method="runBatch"/>
 	</action-method>
 	
 	<action-method name="action-project-invoicing-assistant-batch-method-show-task">
@@ -55,10 +55,6 @@
 	
 	<action-method name="action-project-invoicing-assistant-batch-method-show-timesheet-line">
 		<call class="com.axelor.apps.businessproject.web.ProjectInvoicingAssistantBatchController" method="showUpdatedTimesheetLine"/>
-	</action-method>
-	
-	<action-method name="action-project-invoicing-assistant-batch-method-generate-inv-project">
-		<call class="com.axelor.apps.businessproject.web.ProjectInvoicingAssistantBatchController" method="actionGenerateInvoicingProject"/>
 	</action-method>
 	
 	<action-method name="action-project-invoicing-assistant-batch-method-show-inv-project">

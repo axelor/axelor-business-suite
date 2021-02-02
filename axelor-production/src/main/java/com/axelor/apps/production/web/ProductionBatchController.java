@@ -18,6 +18,7 @@
 package com.axelor.apps.production.web;
 
 import com.axelor.apps.ReportFactory;
+import com.axelor.apps.base.callable.ControllerCallableTool;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.apps.production.db.ProductionBatch;
 import com.axelor.apps.production.db.repo.ProductionBatchRepository;
@@ -26,6 +27,7 @@ import com.axelor.apps.production.service.batch.ProductionBatchService;
 import com.axelor.apps.production.translation.ITranslation;
 import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.exception.AxelorException;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.schema.actions.ActionView;
@@ -42,15 +44,24 @@ public class ProductionBatchController {
 
   private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  public void computeValuation(ActionRequest request, ActionResponse response) {
+  public void runBatch(ActionRequest request, ActionResponse response) {
+    try {
+      ProductionBatch productionBatch = request.getContext().asType(ProductionBatch.class);
+      ProductionBatchService productionBatchService = Beans.get(ProductionBatchService.class);
+      productionBatchService.setBatchModel(
+          Beans.get(ProductionBatchRepository.class).find(productionBatch.getId()));
+      ControllerCallableTool<Batch> controllerCallableTool = new ControllerCallableTool<>();
 
-    ProductionBatch productionBatch = request.getContext().asType(ProductionBatch.class);
-    productionBatch = Beans.get(ProductionBatchRepository.class).find(productionBatch.getId());
-    Batch batch = Beans.get(ProductionBatchService.class).computeValuation(productionBatch);
-    if (batch != null) {
-      response.setFlash(batch.getComments());
+      Batch batch = controllerCallableTool.runInSeparateThread(productionBatchService, response);
+
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    } finally {
+      response.setReload(true);
     }
-    response.setReload(true);
   }
 
   public void showValuation(ActionRequest request, ActionResponse response) throws AxelorException {

@@ -17,11 +17,12 @@
  */
 package com.axelor.apps.hr.web;
 
+import com.axelor.apps.base.callable.ControllerCallableTool;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.apps.hr.db.HrBatch;
-import com.axelor.apps.hr.db.repo.HrBatchRepository;
 import com.axelor.apps.hr.service.batch.HrBatchService;
 import com.axelor.exception.AxelorException;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -37,17 +38,23 @@ public class HrBatchController {
    * @param response
    * @throws AxelorException
    */
-  public void launchHrBatch(ActionRequest request, ActionResponse response) throws AxelorException {
+  public void launchHrBatch(ActionRequest request, ActionResponse response) {
 
-    HrBatch hrBatch = request.getContext().asType(HrBatch.class);
+    try {
+      HrBatch hrBatch = request.getContext().asType(HrBatch.class);
+      HrBatchService hrBatchService = Beans.get(HrBatchService.class);
+      hrBatchService.setBatchModel(hrBatch);
 
-    Batch batch =
-        Beans.get(HrBatchService.class)
-            .run(Beans.get(HrBatchRepository.class).find(hrBatch.getId()));
+      ControllerCallableTool<Batch> batchControllerCallableTool = new ControllerCallableTool<>();
+      Batch batch = batchControllerCallableTool.runInSeparateThread(hrBatchService, response);
 
-    if (batch != null) {
-      response.setFlash(batch.getComments());
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    } finally {
+      response.setReload(true);
     }
-    response.setReload(true);
   }
 }

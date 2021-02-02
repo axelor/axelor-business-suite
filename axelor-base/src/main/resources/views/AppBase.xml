@@ -44,6 +44,7 @@
 				<field name="document" widget="boolean-switch"/>
                 <field name="passwordChangedTemplate"/>
                 <field name="limitNumberTasksGenerated"/>
+				<field name="processTimeout"/>
                 <field name="enableMultiCompany" widget="boolean-switch" onChange="action-base-validate-multi-company-boolean"/>
                 <field name="storeStreets" widget="boolean-switch" />
                 <field name="isSharedAddress" widget="boolean-switch" />

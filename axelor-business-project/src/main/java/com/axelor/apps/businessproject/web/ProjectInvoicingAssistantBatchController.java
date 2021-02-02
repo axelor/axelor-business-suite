@@ -17,6 +17,7 @@
  */
 package com.axelor.apps.businessproject.web;
 
+import com.axelor.apps.base.callable.ControllerCallableTool;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.apps.base.db.repo.BatchRepository;
 import com.axelor.apps.businessproject.db.InvoicingProject;
@@ -36,7 +37,7 @@ import java.util.Map;
 
 public class ProjectInvoicingAssistantBatchController {
 
-  public void actionUpdateTask(ActionRequest request, ActionResponse response) {
+  public void runBatch(ActionRequest request, ActionResponse response) {
     try {
       ProjectInvoicingAssistantBatch projectInvoicingAssistantBatch =
           request.getContext().asType(ProjectInvoicingAssistantBatch.class);
@@ -44,11 +45,16 @@ public class ProjectInvoicingAssistantBatchController {
       projectInvoicingAssistantBatch =
           Beans.get(ProjectInvoicingAssistantBatchRepository.class)
               .find(projectInvoicingAssistantBatch.getId());
-
+      ProjectInvoicingAssistantBatchService projectInvoicingAssistantBatchService =
+          Beans.get(ProjectInvoicingAssistantBatchService.class);
+      projectInvoicingAssistantBatchService.setBatchModel(projectInvoicingAssistantBatch);
+      ControllerCallableTool<Batch> controllerCallableTool = new ControllerCallableTool<>();
       Batch batch =
-          Beans.get(ProjectInvoicingAssistantBatchService.class)
-              .updateTask(projectInvoicingAssistantBatch);
-      response.setFlash(batch.getComments());
+          controllerCallableTool.runInSeparateThread(
+              projectInvoicingAssistantBatchService, response);
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     } finally {
@@ -86,27 +92,6 @@ public class ProjectInvoicingAssistantBatchController {
 
     } catch (Exception e) {
       TraceBackService.trace(response, e);
-    }
-  }
-
-  public void actionGenerateInvoicingProject(ActionRequest request, ActionResponse response) {
-    try {
-      ProjectInvoicingAssistantBatch projectInvoicingAssistantBatch =
-          request.getContext().asType(ProjectInvoicingAssistantBatch.class);
-
-      projectInvoicingAssistantBatch =
-          Beans.get(ProjectInvoicingAssistantBatchRepository.class)
-              .find(projectInvoicingAssistantBatch.getId());
-
-      Batch batch =
-          Beans.get(ProjectInvoicingAssistantBatchService.class)
-              .generateInvoicingProject(projectInvoicingAssistantBatch);
-
-      response.setFlash(batch.getComments());
-    } catch (Exception e) {
-      TraceBackService.trace(response, e);
-    } finally {
-      response.setReload(true);
     }
   }
 

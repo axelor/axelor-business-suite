@@ -19,11 +19,11 @@
 		</panel>
 		<panel-tabs name="mainPanelTab">
 		  <panel name="eventReminderPanel" title="Event reminder page">
-		    <button name="eventReminderBatchBtn" title="Event reminder batch"   onClick="save,action-crm-batch-method-action-event-reminder"/>
+		    <button name="eventReminderBatchBtn" title="Event reminder batch"   onClick="save,action-crm-batch-method-run-batch"/>
 		  </panel>
 		  <panel name="targetPanel" title="Target page">
 		    <field name="targetConfigurationSet" colSpan="12" form-view="target-configuration-form" grid-view="target-configuration-grid"/>
-		    <button name="targetBatchBtn" title="Target batch" colSpan="4" onClick="save,action-crm-batch-method-action-target"/>
+		    <button name="targetBatchBtn" title="Target batch" colSpan="4" onClick="save,action-crm-batch-method-run-batch"/>
 		  </panel>
 		  <panel name="informationPanel" title="Information" >
 		    <field name="createdOn" title="Created on"/>
@@ -50,14 +50,9 @@
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
 	</action-record>
     
-    <!-- ACTION METHOD -->
-	<action-method name="action-crm-batch-method-action-event-reminder">
-		<call class="com.axelor.apps.crm.web.CrmBatchController" method="actionEventReminder"/>
-	</action-method>
-	
 	<!-- ACTION METHOD -->
-	<action-method name="action-crm-batch-method-action-target">
-		<call class="com.axelor.apps.crm.web.CrmBatchController" method="actionTarget"/>
+	<action-method name="action-crm-batch-method-run-batch">
+		<call class="com.axelor.apps.crm.web.CrmBatchController" method="runBatch"/>
 	</action-method>
 	
     <!-- ACTION ATTRS -->

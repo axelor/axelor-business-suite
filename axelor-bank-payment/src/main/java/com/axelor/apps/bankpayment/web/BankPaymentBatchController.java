@@ -19,8 +19,8 @@ package com.axelor.apps.bankpayment.web;
 
 import com.axelor.apps.bankpayment.db.BankPaymentBatch;
 import com.axelor.apps.bankpayment.db.repo.BankPaymentBatchRepository;
-import com.axelor.apps.bankpayment.service.batch.BatchBankStatement;
-import com.axelor.apps.bankpayment.service.batch.BatchEbicsCertificate;
+import com.axelor.apps.bankpayment.service.batch.BankPaymentBatchService;
+import com.axelor.apps.base.callable.ControllerCallableTool;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
@@ -29,27 +29,19 @@ import com.axelor.rpc.ActionResponse;
 
 public class BankPaymentBatchController {
 
-  public void launchBankPaymentBatch(ActionRequest request, ActionResponse response) {
-
-    BankPaymentBatch bankPaymentBatch = request.getContext().asType(BankPaymentBatch.class);
-    bankPaymentBatch = Beans.get(BankPaymentBatchRepository.class).find(bankPaymentBatch.getId());
-
-    Batch batch = Beans.get(BatchEbicsCertificate.class).ebicsCertificate(bankPaymentBatch);
-
-    if (batch != null) {
-      response.setFlash(batch.getComments());
-    }
-    response.setReload(true);
-  }
-
-  public void actionBankStatement(ActionRequest request, ActionResponse response) {
+  public void runBatch(ActionRequest request, ActionResponse response) {
     try {
       BankPaymentBatch bankPaymentBatch = request.getContext().asType(BankPaymentBatch.class);
-      bankPaymentBatch = Beans.get(BankPaymentBatchRepository.class).find(bankPaymentBatch.getId());
+      BankPaymentBatchService bankPaymentBatchService = Beans.get(BankPaymentBatchService.class);
+      bankPaymentBatchService.setBatchModel(
+          Beans.get(BankPaymentBatchRepository.class).find(bankPaymentBatch.getId()));
+      ControllerCallableTool<Batch> controllerCallableTool = new ControllerCallableTool<>();
 
-      Batch batch = Beans.get(BatchBankStatement.class).bankStatement(bankPaymentBatch);
+      Batch batch = controllerCallableTool.runInSeparateThread(bankPaymentBatchService, response);
 
-      if (batch != null) response.setFlash(batch.getComments());
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     } finally {

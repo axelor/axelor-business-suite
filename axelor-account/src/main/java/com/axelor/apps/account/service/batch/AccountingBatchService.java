@@ -70,6 +70,9 @@ public class AccountingBatchService extends AbstractBatchService {
       case AccountingBatchRepository.ACTION_REALIZE_FIXED_ASSET_LINES:
         batch = realizeFixedAssetLines(accountingBatch);
         break;
+      case AccountingBatchRepository.ACTION_CLOSE_ANNUAL_ACCOUNTS_OF_PAST_YEAR:
+        batch = closeAnnualAccounts(accountingBatch);
+        break;
       default:
         throw new AxelorException(
             TraceBackRepository.CATEGORY_INCONSISTENCY,

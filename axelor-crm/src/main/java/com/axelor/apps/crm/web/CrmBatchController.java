@@ -17,11 +17,13 @@
  */
 package com.axelor.apps.crm.web;
 
+import com.axelor.apps.base.callable.ControllerCallableTool;
 import com.axelor.apps.base.db.Batch;
 import com.axelor.apps.crm.db.CrmBatch;
 import com.axelor.apps.crm.db.repo.CrmBatchRepository;
 import com.axelor.apps.crm.service.batch.CrmBatchService;
 import com.axelor.exception.AxelorException;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -33,39 +35,28 @@ import java.util.Map;
 public class CrmBatchController {
 
   /**
-   * Lancer le batch de relance
+   * Called from batch form view, run the batch.
    *
    * @param request
    * @param response
    */
-  public void actionEventReminder(ActionRequest request, ActionResponse response) {
+  public void runBatch(ActionRequest request, ActionResponse response) {
+    try {
+      CrmBatch crmBatch = request.getContext().asType(CrmBatch.class);
+      CrmBatchService crmBatchService = Beans.get(CrmBatchService.class);
+      crmBatchService.setBatchModel(Beans.get(CrmBatchRepository.class).find(crmBatch.getId()));
+      ControllerCallableTool<Batch> controllerCallableTool = new ControllerCallableTool<>();
 
-    CrmBatch crmBatch = request.getContext().asType(CrmBatch.class);
+      Batch batch = controllerCallableTool.runInSeparateThread(crmBatchService, response);
 
-    Batch batch =
-        Beans.get(CrmBatchService.class)
-            .eventReminder(Beans.get(CrmBatchRepository.class).find(crmBatch.getId()));
-
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
-  }
-
-  /**
-   * Lancer le batch des objectifs
-   *
-   * @param request
-   * @param response
-   */
-  public void actionTarget(ActionRequest request, ActionResponse response) {
-
-    CrmBatch crmBatch = request.getContext().asType(CrmBatch.class);
-
-    Batch batch =
-        Beans.get(CrmBatchService.class)
-            .target(Beans.get(CrmBatchRepository.class).find(crmBatch.getId()));
-
-    if (batch != null) response.setFlash(batch.getComments());
-    response.setReload(true);
+      if (batch != null) {
+        response.setFlash(batch.getComments());
+      }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    } finally {
+      response.setReload(true);
+    }
   }
 
   // WS

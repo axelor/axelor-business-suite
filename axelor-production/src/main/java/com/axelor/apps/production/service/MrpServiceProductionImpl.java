@@ -21,7 +21,9 @@ import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.db.repo.ProductRepository;
 import com.axelor.apps.base.service.ProductCompanyService;
+import com.axelor.apps.base.service.UnitConversionService;
 import com.axelor.apps.base.service.app.AppBaseService;
+import com.axelor.apps.message.service.MailMessageService;
 import com.axelor.apps.production.db.BillOfMaterial;
 import com.axelor.apps.production.db.ManufOrder;
 import com.axelor.apps.production.db.OperationOrder;
@@ -31,6 +33,7 @@ import com.axelor.apps.production.exceptions.IExceptionMessage;
 import com.axelor.apps.production.service.app.AppProductionService;
 import com.axelor.apps.purchase.db.repo.PurchaseOrderLineRepository;
 import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
+import com.axelor.apps.sale.service.app.AppSaleService;
 import com.axelor.apps.stock.db.StockLocation;
 import com.axelor.apps.stock.db.StockMoveLine;
 import com.axelor.apps.stock.db.StockRules;
@@ -55,7 +58,6 @@ import com.axelor.db.JPA;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
-import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
@@ -70,16 +72,14 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
 
   private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-  protected AppBaseService appBaseService;
-
   protected ManufOrderRepository manufOrderRepository;
 
   protected ProductCompanyService productCompanyService;
 
+  protected AppProductionService appProductionService;
+
   @Inject
   public MrpServiceProductionImpl(
-      AppBaseService appBaseService,
-      AppProductionService appProductionService,
       MrpRepository mrpRepository,
       StockLocationRepository stockLocationRepository,
       ProductRepository productRepository,
@@ -91,12 +91,15 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
       StockRulesService stockRulesService,
       MrpLineService mrpLineService,
       MrpForecastRepository mrpForecastRepository,
-      ManufOrderRepository manufOrderRepository,
       StockLocationService stockLocationService,
-      ProductCompanyService productCompanyService) {
-
+      MailMessageService mailMessageService,
+      UnitConversionService unitConversionService,
+      AppBaseService appBaseService,
+      AppSaleService appSaleService,
+      ManufOrderRepository manufOrderRepository,
+      ProductCompanyService productCompanyService,
+      AppProductionService appProductionService) {
     super(
-        appProductionService,
         mrpRepository,
         stockLocationRepository,
         productRepository,
@@ -108,11 +111,14 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
         stockRulesService,
         mrpLineService,
         mrpForecastRepository,
-        stockLocationService);
-
-    this.appBaseService = appBaseService;
+        stockLocationService,
+        mailMessageService,
+        unitConversionService,
+        appBaseService,
+        appSaleService);
     this.manufOrderRepository = manufOrderRepository;
     this.productCompanyService = productCompanyService;
+    this.appProductionService = appProductionService;
   }
 
   @Override
@@ -120,7 +126,7 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
 
     super.completeMrp(mrp);
 
-    if (Beans.get(AppProductionService.class).isApp("production")) {
+    if (appProductionService.isApp("production")) {
       this.createManufOrderMrpLines();
       this.createMPSLines();
     }
@@ -389,7 +395,7 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
         mrpLineOriginList,
         relatedToSelectName);
 
-    if (!Beans.get(AppProductionService.class).isApp("production")) {
+    if (!appProductionService.isApp("production")) {
       return;
     }
     BillOfMaterial defaultBillOfMaterial = product.getDefaultBillOfMaterial();
@@ -437,7 +443,7 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
   protected MrpLineType getMrpLineTypeForProposal(
       StockRules stockRules, Product product, Company company) throws AxelorException {
 
-    if (!Beans.get(AppProductionService.class).isApp("production")) {
+    if (!appProductionService.isApp("production")) {
       return super.getMrpLineTypeForProposal(stockRules, product, company);
     }
 
@@ -464,7 +470,7 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
   @Override
   protected boolean isProposalElement(MrpLineType mrpLineType) {
 
-    if (!Beans.get(AppProductionService.class).isApp("production")) {
+    if (!appProductionService.isApp("production")) {
       return super.isProposalElement(mrpLineType);
     }
 
@@ -485,7 +491,7 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
   @Override
   protected void assignProductAndLevel(Product product) throws AxelorException {
 
-    if (!Beans.get(AppProductionService.class).isApp("production")) {
+    if (!appProductionService.isApp("production")) {
       super.assignProductAndLevel(product);
       return;
     }

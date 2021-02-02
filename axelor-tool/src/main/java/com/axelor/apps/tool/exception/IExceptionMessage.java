@@ -41,4 +41,7 @@ public interface IExceptionMessage {
   /** Pdf Tool */
   static final String BAD_COPY_NUMBER_ARGUMENT = /*$$(*/
       "The parameter copyNumber should be superior to 0." /*)*/;
+
+  // Callable Tool
+  String PROCESS_BEING_COMPUTED = /*$$(*/ "Computation in progress..." /*)*/;
 }

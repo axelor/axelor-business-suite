@@ -23,8 +23,16 @@ import com.axelor.apps.stock.db.StockLocation;
 import com.axelor.apps.supplychain.db.Mrp;
 import com.axelor.exception.AxelorException;
 import java.time.LocalDate;
+import java.util.concurrent.Callable;
 
-public interface MrpService {
+public interface MrpService extends Callable<Mrp> {
+
+  /**
+   * To call before using it as a callable.
+   *
+   * @param mrp a mrp managed by hibernate
+   */
+  public void setMrp(Mrp mrp);
 
   public void runCalculation(Mrp mrp) throws AxelorException;
 
@@ -33,6 +41,7 @@ public interface MrpService {
   public void reset(Mrp mrp);
 
   public void undoManualChanges(Mrp mrp);
+
   /**
    * Search for the end date of the mrp. If the end date field in mrp is blank, search in the lines
    * the last date.
@@ -47,11 +56,10 @@ public interface MrpService {
       throws AxelorException;
 
   /**
-   * Called when an exception occurred during the mrp computation. Save the exception message and
-   * reset the mrp.
+   * Called when an exception occurred during the mrp computation. Save the exception message.
    *
    * @param mrp a mrp after computation
    * @param e the exception thrown during the computation
    */
-  void onError(Mrp mrp, Exception e);
+  void saveErrorInMrp(Mrp mrp, Exception e);
 }

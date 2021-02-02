@@ -28,7 +28,7 @@
 		  <field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
 		  <field name="valuationDate"/>
 		  <spacer name="valuationDateSpacer" colSpan="6"/>
-		  <button name="computeValutionBatchBtn" title="Compute work in progress valuation" onClick="save,action-production-batch-method-compute-valuation"/>
+		  <button name="computeValuationBatchBtn" title="Compute work in progress valuation" onClick="save,action-production-batch-method-run-batch"/>
 		</panel>
 		<panel-tabs>    
 		  <panel name="descriptionPanel" title="Description">
@@ -48,8 +48,8 @@
 	  <field name="company" expr="eval: workshopStockLocation?.company" if="!company"/>
 	</action-record>
     
-	<action-method name="action-production-batch-method-compute-valuation">
-		<call class="com.axelor.apps.production.web.ProductionBatchController" method="computeValuation"/>
+	<action-method name="action-production-batch-method-run-batch">
+		<call class="com.axelor.apps.production.web.ProductionBatchController" method="runBatch"/>
 	</action-method>
 	
 	<action-method name="action-production-batch-method-show-valuation">

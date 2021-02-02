@@ -63,15 +63,15 @@
 		</panel-tabs>
 		<panel sidebar="true" name="actionsPanel" title="Actions">
 		    <button name="accountingCutOffBatchBtn" title="Run accounting cut-off" showIf="actionSelect == 1" onClick="save,action-supplychain-batch-group-accounting-cut-off" colSpan="12"/>
-		    <button name="invoiceOutgoingStockMoveBatchBtn" title="Invoice outgoing stock moves" showIf="actionSelect == 2"  onClick="save,action-supplychain-batch-method-invoice-outgoing-stock-moves" colSpan="12" if="__config__.app.getApp('supplychain').getGenerateInvoiceFromStockMove()"/>
-		    <button name="invoiceOrdersBatchBtn" title="Invoice orders" showIf="actionSelect == 3" onClick="save,action-supplychain-batch-method-invoice-orders" colSpan="12"/>
+		    <button name="invoiceOutgoingStockMoveBatchBtn" title="Invoice outgoing stock moves" showIf="actionSelect == 2"  onClick="save,action-supplychain-batch-method-run-batch" colSpan="12" if="__config__.app.getApp('supplychain').getGenerateInvoiceFromStockMove()"/>
+		    <button name="invoiceOrdersBatchBtn" title="Invoice orders" showIf="actionSelect == 3" onClick="save,action-supplychain-batch-method-run-batch" colSpan="12"/>
 		</panel>
 	</form>
 	
 	<!-- ACTION GROUP -->
 	<action-group name="action-supplychain-batch-group-accounting-cut-off">
 		<action name="action-supplychain-batch-validate-twice-in-a-month"/>
-		<action name="action-supplychain-batch-method-accounting-cut-off"/>
+		<action name="action-supplychain-batch-method-run-batch"/>
 	</action-group>
 	
 	<action-group name="action-group-supplychain-batch-group-onload">
@@ -102,16 +102,8 @@
 
     <!-- ACTION METHOD -->
 
-	<action-method name="action-supplychain-batch-method-invoice-outgoing-stock-moves">
-		<call class="com.axelor.apps.supplychain.web.SupplychainBatchController" method="invoiceOutgoingStockMoves"/>
-	</action-method>
-
-	<action-method name="action-supplychain-batch-method-invoice-orders">
-		<call class="com.axelor.apps.supplychain.web.SupplychainBatchController" method="invoiceOrders"/>
-	</action-method>
-	
-	<action-method name="action-supplychain-batch-method-accounting-cut-off">
-		<call class="com.axelor.apps.supplychain.web.SupplychainBatchController" method="accountingCutOff"/>
+	<action-method name="action-supplychain-batch-method-run-batch">
+		<call class="com.axelor.apps.supplychain.web.SupplychainBatchController" method="runBatch"/>
 	</action-method>
 
 
