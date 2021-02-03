@@ -1,0 +1,3 @@
+---
+title: "ACCOUNTING MOVE: add default false to boolean auto year closure move, allows to correct closing accounting year batch behavior."
+type: fix
