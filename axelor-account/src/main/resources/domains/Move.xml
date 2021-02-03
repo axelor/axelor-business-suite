@@ -33,7 +33,7 @@
     <date name="validationDate" title="Validation date"/>
     <integer name="technicalOriginSelect" title="Technical origin" required="true" readonly="true" selection="iaccount.move.technical.origin.select"/>
     <boolean name="adjustingMove" title="Adjusting Move" default="false"/>
-    <boolean name="autoYearClosureMove" title="Year closure move"/>
+    <boolean name="autoYearClosureMove" title="Year closure move" default="false"/>
    	<many-to-many name="batchSet" ref="com.axelor.apps.base.db.Batch" title="Batchs"/>
     <integer name="functionalOriginSelect" title="Functional origin" readonly="true" selection="iaccount.move.functional.origin.select"/>
 
