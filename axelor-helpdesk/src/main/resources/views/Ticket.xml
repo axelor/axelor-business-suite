@@ -69,11 +69,11 @@
 
 		    <panel name="timerPanel" title="Timer" showIf="id" hidden="true" sidebar="true" if="__config__.app.getApp('helpdesk').getManageTimer()">
 			    <button name="startTimerBtn" title="Start" icon="fa-play" colSpan="4" hidden="true"
-				    onClick="action-ticket-method-start-timer"/>
+				    onClick="save,action-ticket-method-start-timer"/>
 			    <button name="stopTimerBtn" title="Stop" icon="fa-pause" colSpan="4" hidden="true"
-				    onClick="action-ticket-method-stop-timer"/>
+				    onClick="save,action-ticket-method-stop-timer"/>
 			    <button name="cancelTimerBtn" title="Cancel" icon="fa-times-circle" colSpan="4"
-				    hidden="true" onClick="action-ticket-method-cancel-timer" css="btn-danger"/>
+				    hidden="true" onClick="save,action-ticket-method-cancel-timer" css="btn-danger"/>
 			    <field name="$_totalTimerDuration" type="decimal" readonly="true"
 				    title="Total duration (Hours)" colSpan="4"/>
 				<field name="realTotalDuration" colSpan="4"/>
@@ -97,7 +97,7 @@
 		<panel name="followupPanel" title="Follow-up" sidebar="true" canCollapse="true">
 			<field name="assignedToUser" colSpan="6" form-view="user-form" grid-view="user-grid"/>
 			<field name="responsibleUser" colSpan="6" form-view="user-form" grid-view="user-grid"/>
-			<field name="lead" colSpan="6" form-view="lead-form" grid-view="lead-grid" if-module="axelor-crm" if="__config__.app.isApp('crm')"/>
+			<field name="lead" domain="self.statusSelect != 5" colSpan="6" form-view="lead-form" grid-view="lead-grid" if-module="axelor-crm" if="__config__.app.isApp('crm')"/>
 		</panel>
 		<panel name="datesPanel" title="Dates" sidebar="true" canCollapse="true">
 			<field name="startDateT" colSpan="6" onChange="action-ticket-method-compute-from-start-date-time"/>

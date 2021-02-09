@@ -187,6 +187,7 @@ public class TicketController {
       Ticket ticket = request.getContext().asType(Ticket.class);
       Beans.get(TimerTicketService.class)
           .start(ticket, Beans.get(AppBaseService.class).getTodayDateTime().toLocalDateTime());
+      response.setReload(true);
     } catch (Exception e) {
       TraceBackService.trace(response, e, ResponseMessageType.ERROR);
     }
@@ -197,6 +198,7 @@ public class TicketController {
       Ticket ticket = request.getContext().asType(Ticket.class);
       Beans.get(TimerTicketService.class)
           .stop(ticket, Beans.get(AppBaseService.class).getTodayDateTime().toLocalDateTime());
+      response.setReload(true);
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }
