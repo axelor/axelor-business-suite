@@ -1,0 +1,6 @@
+---
+title: "MRP: create a buy proposal instead of a manufacturing proposal on missing default BOM."
+type: change
+description: |
+  Create a buy proposal if the product is missing a default bill of materials
+  and has a procurement method equals to buy or produce.

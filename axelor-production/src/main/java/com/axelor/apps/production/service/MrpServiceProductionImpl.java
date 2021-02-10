@@ -176,7 +176,7 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
 
     StockLocation stockLocation = manufOrder.getProdProcess().getStockLocation();
 
-    LocalDate maturityDate = null;
+    LocalDate maturityDate;
 
     if (manufOrder.getPlannedEndDateT() != null) {
       maturityDate = manufOrder.getPlannedEndDateT().toLocalDate();
@@ -416,21 +416,27 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
 
     if (mrp.getMrpTypeSelect() == MrpRepository.MRP_TYPE_MPS) {
       return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_MASTER_PRODUCTION_SCHEDULING);
-    } else {
-      if (stockRules != null) {
-        if (stockRules.getOrderAlertSelect() == StockRulesRepository.ORDER_ALERT_PRODUCTION_ORDER) {
-          return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_MANUFACTURING_PROPOSAL);
-        } else {
-          return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_PURCHASE_PROPOSAL);
-        }
-      }
+    }
 
-      if (ProductRepository.PROCUREMENT_METHOD_BUY.equals(
-          ((String) productCompanyService.get(product, "procurementMethodSelect", company)))) {
-        return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_PURCHASE_PROPOSAL);
-      } else {
+    if (stockRules != null) {
+      if (stockRules.getOrderAlertSelect() == StockRulesRepository.ORDER_ALERT_PRODUCTION_ORDER) {
         return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_MANUFACTURING_PROPOSAL);
+      } else {
+        return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_PURCHASE_PROPOSAL);
       }
+    }
+
+    switch ((String) productCompanyService.get(product, "procurementMethodSelect", company)) {
+      case ProductRepository.PROCUREMENT_METHOD_BUY:
+        return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_PURCHASE_PROPOSAL);
+      case ProductRepository.PROCUREMENT_METHOD_BUYANDPRODUCE:
+        return this.getMrpLineType(
+            productCompanyService.get(product, "defaultBillOfMaterial", company) != null
+                ? MrpLineTypeRepository.ELEMENT_MANUFACTURING_PROPOSAL
+                : MrpLineTypeRepository.ELEMENT_PURCHASE_PROPOSAL);
+      case ProductRepository.PROCUREMENT_METHOD_PRODUCE:
+      default:
+        return this.getMrpLineType(MrpLineTypeRepository.ELEMENT_MANUFACTURING_PROPOSAL);
     }
   }
 
