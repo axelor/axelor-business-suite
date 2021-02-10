@@ -6,7 +6,7 @@
     <module name="base" package="com.axelor.apps.base.db"/>
 
     <entity name="TradingName">
-        <string name="name"/>
+        <string name="name" namecolumn="true"/>
         <many-to-one name="logo" ref="com.axelor.meta.db.MetaFile"/>
         <many-to-many name="companySet" ref="com.axelor.apps.base.db.Company" title="Companies" mappedBy="tradingNameSet"/>
    		<many-to-one name="partner" ref="com.axelor.apps.base.db.Partner" title="Partner"/>

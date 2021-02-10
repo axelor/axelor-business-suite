@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.3.xsd">
+    
+    <grid name="product-trading-name-grid" title="Cost price list" model="com.axelor.apps.base.db.ProductTradingNameLine"  editable="true">
+		<field name="product" readonly="true" hidden="true"/>
+		<field name="tradingName" canEdit="false"/>
+		<field name="costPrice" readonlyIf="product.costTypeSelect != 1"/>
+		<field name="costTypeSelect" readonly="true"/>
+		<field name="product.costTypeSelect" readonly="true" hidden="true"/>
+    </grid>
+    
+    <form name="product-trading-name-form" title="Cost price" model="com.axelor.apps.base.db.ProductTradingNameLine">
+		<panel name="mainPanel" >
+			<field name="tradingName" canEdit="false"/>
+			<field name="costPrice" readonlyIf="product.costTypeSelect != 1"/>
+			<field name="costTypeSelect" readonly="true"/>
+			<field name="product" readonly="true" hidden="true"/>
+			<field name="product.costTypeSelect" readonly="true" hidden="true"/>
+		</panel>
+    </form>
+	
+</object-views>

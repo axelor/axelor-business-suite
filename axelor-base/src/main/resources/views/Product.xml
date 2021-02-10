@@ -208,11 +208,12 @@
 					</panel>
 		      	</panel>
 	      		<panel name="costsPanel" title="Costs" colSpan="6">
-			        <field name="costPrice" colSpan="6" readonlyIf="costTypeSelect != 1" onChange="action-product-record-compute-sale-price"/>
+			        <field name="costPrice" colSpan="6" readonlyIf="costTypeSelect != 1" onChange="action-product-record-compute-sale-price" hideIf="!__config__.app.getApp('base').getCostPriceByTradingName()"/>
 			        <field name="costTypeSelect" colSpan="6" onChange="action-product-group-cost-type-select-onchange"/>
 			        <field name="managPriceCoef" colSpan="12" onChange="action-product-record-compute-sale-price"/>
 					<field name="shippingCoef" onChange="action-product-group-cost-type-select-onchange" showIf="!defShipCoefByPartner &amp;&amp; purchasable" if-module="axelor-purchase" if="__config__.app.isApp('purchase')"/>
 					<field name="defShipCoefByPartner" onChange="action-product-method-supplier-catalog-coeff" hideIf="!purchasable" if-module="axelor-purchase" if="__config__.app.isApp('purchase')"/>
+	      			<panel-related name="productTradingNameLineListPanel" field="productTradingNameLineList" colSpan="12" form-view="product-trading-name-form" grid-view="product-trading-name-grid" hideIf="__config__.app.getApp('base').getCostPriceByTradingName()"/>
 	      		</panel>
 	      		<panel-related name="supplierCatalogListPanel" field="supplierCatalogList" form-view="supplier-catalog-form" grid-view="supplier-catalog-grid" title="Supplier catalog" showIf="purchasable" colSpan="12"
 	      		if-module="axelor-purchase" if="__config__.app.isApp('purchase') &amp;&amp; __config__.app.getApp('purchase').getManageSupplierCatalog()"/>
@@ -414,6 +415,7 @@
 		<action name="action-product-attrs-set-required-productCategory"/>
 		<action name="action-product-attrs-enable-product-company-list"/>
 		<action name="action-product-record-service-stock-managed"/>
+		<action name="action-product-method-new-product-trading-name-list"/>
     </action-group>
 
     <action-group name="action-group-base-product-producttype-onchange">
@@ -714,6 +716,10 @@
 
     <action-method name="action-product-method-set-anomaly">
         <call class="com.axelor.apps.base.web.ProductController" method="setPriceListLineAnomaly"/>
+    </action-method>
+    
+    <action-method name="action-product-method-new-product-trading-name-list">
+    	<call class="com.axelor.apps.base.web.ProductController" method="newProductTradingNameList"/>
     </action-method>
 
 </object-views>

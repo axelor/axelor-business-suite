@@ -87,6 +87,9 @@
 		<one-to-many name="accountManagementList"
 			ref="com.axelor.apps.account.db.AccountManagement" mappedBy="product"
 			title="Accounts configuration" />
+			
+		<one-to-many name="productTradingNameLineList" 
+		ref="com.axelor.apps.base.db.ProductTradingNameLine" mappedBy="product" title="Cost price list"/>
 
 		<integer name="versionSelect" title="Version"
 			selection="base.product.version.select" />

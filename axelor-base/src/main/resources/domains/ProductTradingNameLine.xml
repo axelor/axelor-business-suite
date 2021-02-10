@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.3.xsd">
+  
+	<module name="base" package="com.axelor.apps.base.db" />
+	
+		<entity name="ProductTradingNameLine" lang="java">
+		
+			<many-to-one name="product" ref="com.axelor.apps.base.db.Product"/>
+			<many-to-one name="tradingName" ref="com.axelor.apps.base.db.TradingName"/>
+			
+			<decimal name="costPrice" title="Cost price" precision="20"
+			scale="10" massUpdate="true" min="0" />
+			
+			<integer name="costTypeSelect" title="Cost type"
+			selection="base.product.cost.type.select" default="1"/>
+		
+		</entity>
+	
+		
+</domain-models>

@@ -19,7 +19,10 @@ package com.axelor.apps.base.web;
 
 import com.axelor.apps.ReportFactory;
 import com.axelor.apps.base.db.Product;
+import com.axelor.apps.base.db.ProductTradingNameLine;
+import com.axelor.apps.base.db.TradingName;
 import com.axelor.apps.base.db.repo.ProductRepository;
+import com.axelor.apps.base.db.repo.TradingNameRepository;
 import com.axelor.apps.base.exceptions.IExceptionMessage;
 import com.axelor.apps.base.report.IReport;
 import com.axelor.apps.base.service.PriceListService;
@@ -39,6 +42,7 @@ import com.axelor.rpc.ActionResponse;
 import com.google.common.base.Joiner;
 import com.google.inject.Singleton;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,6 +159,26 @@ public class ProductController {
       logger.debug("Printing " + name);
 
       response.setView(ActionView.define(name).add("html", fileLink).map());
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
+  }
+
+  public void newProductTradingNameList(ActionRequest request, ActionResponse response) {
+    try {
+      Product product = request.getContext().asType(Product.class);
+      List<TradingName> tradingNameList = Beans.get(TradingNameRepository.class).all().fetch();
+      List<ProductTradingNameLine> productTradingNameLineList =
+          new ArrayList<ProductTradingNameLine>();
+      if (tradingNameList != null && !tradingNameList.isEmpty()) {
+        for (TradingName tradingName : tradingNameList) {
+          ProductTradingNameLine productTradingNameLine = new ProductTradingNameLine();
+          productTradingNameLine.setTradingName(tradingName);
+          productTradingNameLine.setProduct(product);
+          productTradingNameLineList.add(productTradingNameLine);
+        }
+      }
+      response.setValue("productTradingNameLineList", productTradingNameLineList);
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }
