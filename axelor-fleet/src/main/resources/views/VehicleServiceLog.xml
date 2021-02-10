@@ -8,14 +8,16 @@
     </grid>
     <form name="vehicle-service-log-form" title="Vehicle Service Log" model="com.axelor.apps.fleet.db.VehicleServiceLog" width="large" >
     	<panel name="mainPanel" title="Information">
-    		<field name="vehicle" title="Vehicle">
-      			<editor>
-        			<field name="name" colSpan="12"/>
-        			<field name="vehicleOdometer"/>
-      			</editor>
-    		</field>
-      	 	<field name="date" />
-    		<field name="purchasePartner" />
+				<field name="vehicle" required="true"/>
+				<spacer colSpan="6"/>
+				<field name="vehicle" showTitle="false" x-show-icons="false" showIf="vehicle != null">
+					<editor x-viewer="true">
+						<field name="vehicleOdometer" title="Odometer"/>
+					</editor>
+				</field>
+				<spacer colSpan="6"/>
+				<field name="date" />
+				<field name="purchasePartner" />
     		<field name="invoiceRef" />
     		<field name="vendorPartner" />
     		<field name="notes" colSpan="12" />

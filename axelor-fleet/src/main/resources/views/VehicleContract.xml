@@ -11,18 +11,20 @@
        <field name="insurerPartner" />
     </grid>
     
-    <form name="vehicle-contract-form" title="Vehicle Contract" model="com.axelor.apps.fleet.db.VehicleContract" width="large" >
+    <form name="vehicle-contract-form" title="Vehicle Contract" model="com.axelor.apps.fleet.db.VehicleContract" width="large" 
+					onSave="action-fleet-validate-dates">
       <panel name="statusPanel" title="Status">
 			<field name="statusSelect" colSpan="12" widget="NavSelect" showTitle="false"/>      	
       </panel>
        <panel name="mainPanel">
      		<field name="name" hidden="true"/>
-     		<field name="vehicle" title="Vehicle" onChange="action-fleet-record-fill-contract-name">
-		      <editor>
-		        <field name="name" colSpan="12"/>
-		        <field name="vehicleOdometer"/>
+     		<field name="vehicle" onChange="action-fleet-record-fill-contract-name" required="true"/>
+     		<field name="vehicle" showTitle="false" x-show-icons="false" showIf="vehicle != null">
+		      <editor x-viewer="true">
+		        <field name="vehicleOdometer" title="Odometer"/>
 		      </editor>
 		    </field>
+				<spacer colSpan="6"/>
     		<panel name="contractDetailPanel" title="Contract details" itemSpan="12">
 	     		<field name="typeSelect"/>
 	     		<field name="activationCost"/>
@@ -54,5 +56,9 @@
     <action-record name="action-fleet-record-fill-contract-name" model="com.axelor.apps.fleet.db.VehicleContract">
     	<field name="name" expr="eval: vehicle != null ? vehicle.name : null"/>
     </action-record>
+	
+	<action-validate name="action-fleet-validate-dates">
+		<error message="Please select correct start and expiration dates" if="startDate > expiryDate"/>
+	</action-validate>
     
 </object-views>
