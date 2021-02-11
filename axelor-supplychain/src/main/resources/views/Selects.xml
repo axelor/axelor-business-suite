@@ -105,6 +105,11 @@
 		<option value="1">Left empty</option>
 		<option value="2">Current date + days</option>
 	</selection>
+	
+	<selection name="supplychain.mrplinetype.set.element.to.select">
+		<option value="1">Current date</option>
+		<option value="2">Current date + days</option>
+	</selection>
 
 	<selection name="supplychain.stock.move.invoicing.wizard.select">
       <option value="1">Invoice all</option>

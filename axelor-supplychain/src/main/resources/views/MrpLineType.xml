@@ -20,13 +20,19 @@
         	<field name="elementSelect"/>
         	<field name="typeSelect"/>
         	<field name="sequence"/>
-        	<field name="statusSelect" widget="MultiSelect" selection="purchase.purchase.order.status.select" showIf="elementSelect == 2"/>
-        	<field name="statusSelect" widget="MultiSelect" selection="sale.order.status.select" showIf="elementSelect == 3"/>
-        	<field name="statusSelect" widget="MultiSelect" selection="production.manuf.order.status.select" showIf="elementSelect == 6" if-module="axelor-production" if="__config__.app.isApp('production')"/>
+        	<panel name="statusSelectPanel" stacked="true" colSpan="12">
+	        	<field name="statusSelect" widget="MultiSelect" selection="purchase.purchase.order.status.select" showIf="elementSelect == 2"/>
+	        	<field name="statusSelect" widget="MultiSelect" selection="sale.order.status.select" showIf="elementSelect == 3"/>
+	        	<field name="statusSelect" widget="MultiSelect" selection="production.manuf.order.status.select" showIf="elementSelect == 6" if-module="axelor-production" if="__config__.app.isApp('production')"/>
+	   		</panel>
 	   		<field name="includeElementWithoutDate" showIf="$contains([2,3,6,7], elementSelect)"/>
 				<field name="ignoreEndDate" showIf="$contains([2, 6], elementSelect)"/>
 	   		<field name="applicationFieldSelect" widget="MultiSelect"/>
-	    </panel>
+			<panel name="selectDatePanel" colSpan="12">
+		    	<field name="setElementToSelect" showIf="[2,3,6,7].indexOf(elementSelect) != -1 &amp;&amp; includeElementWithoutDate"/>
+	 	        <field name="numberOfDays" showIf="includeElementWithoutDate &amp;&amp; setElementToSelect == 2"/>
+	    	</panel>
+		</panel>
 	 </form>
 	 
 </object-views>

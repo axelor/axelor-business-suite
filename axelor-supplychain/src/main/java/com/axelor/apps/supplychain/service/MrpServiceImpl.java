@@ -849,10 +849,33 @@ public class MrpServiceImpl implements MrpService {
     }
   }
 
+  /**
+   * This method allows to give a default value to maturity date if null, else return the original
+   * value. Also set any date in the past to today. <br>
+   * The default value is decided using the configuration in mrp line type.
+   *
+   * @param maturityDate a date that can be null.
+   * @param mrpLineType a mrp line type.
+   * @return updated maturity date or null.
+   */
   protected LocalDate computeMaturityDate(LocalDate maturityDate, MrpLineType mrpLineType) {
-    if ((maturityDate != null && maturityDate.isBefore(today))
-        || (maturityDate == null && mrpLineType.getIncludeElementWithoutDate())) {
+    if (maturityDate != null && maturityDate.isBefore(today)) {
+      return today;
+    }
+    if (maturityDate != null) {
+      return maturityDate;
+    }
+    // maturity date is null
+    if (!mrpLineType.getIncludeElementWithoutDate()) {
+      // do not include element with date set to null
+      return null;
+    }
+    // else fetch default value
+    if (mrpLineType.getSetElementToSelect() == MrpLineTypeRepository.CURRENT_DATE) {
       maturityDate = today;
+    } else if (mrpLineType.getSetElementToSelect()
+        == MrpLineTypeRepository.CURRENT_DATE_PLUS_DAYS) {
+      maturityDate = today.plusDays(mrpLineType.getNumberOfDays().longValue());
     }
     return maturityDate;
   }
