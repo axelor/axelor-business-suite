@@ -33,7 +33,9 @@ import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import com.google.inject.servlet.RequestScoped;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RequestScoped
@@ -133,7 +135,28 @@ public class WeightedAveragePriceServiceImpl implements WeightedAveragePriceServ
     if (qtyTot.compareTo(BigDecimal.ZERO) == 0) {
       return BigDecimal.ZERO;
     }
-    productAvgPrice = productAvgPrice.divide(qtyTot, scale, BigDecimal.ROUND_HALF_UP);
+    productAvgPrice = productAvgPrice.divide(qtyTot, scale, RoundingMode.HALF_UP);
     return productAvgPrice;
+  }
+
+  @Override
+  public BigDecimal getNotWeightedAveragePricePerCompany(Product product, Company company) {
+    String query =
+        "SELECT AVG(self.avgPrice) "
+            + "FROM StockLocationLine self "
+            + "WHERE self.product.id = :productId "
+            + "AND self.stockLocation.typeSelect != :typeVirtual "
+            + "AND self.stockLocation.company.id = :companyId";
+    BigDecimal avgResult =
+        BigDecimal.valueOf(
+            Optional.ofNullable(
+                    JPA.em()
+                        .createQuery(query, Double.class)
+                        .setParameter("productId", product.getId())
+                        .setParameter("typeVirtual", StockLocationRepository.TYPE_VIRTUAL)
+                        .setParameter("companyId", company.getId())
+                        .getSingleResult())
+                .orElse(0d));
+    return avgResult.setScale(appBaseService.getNbDecimalDigitForUnitPrice(), RoundingMode.HALF_UP);
   }
 }

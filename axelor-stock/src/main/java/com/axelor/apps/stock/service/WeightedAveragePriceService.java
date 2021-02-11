@@ -29,4 +29,15 @@ public interface WeightedAveragePriceService {
   public void computeAvgPriceForProduct(Product product) throws AxelorException;
 
   public BigDecimal computeAvgPriceForCompany(Product product, Company company);
+
+  /**
+   * Only used when we want to get WAP per company but there is no quantity available to compute the
+   * correct WAP. This method will simply take the average of WAP.
+   *
+   * @param product a product with the sum of quantities in stock locations from the given company
+   *     equals to 0
+   * @param company a company
+   * @return the average WAP from all stock location from the given company
+   */
+  BigDecimal getNotWeightedAveragePricePerCompany(Product product, Company company);
 }

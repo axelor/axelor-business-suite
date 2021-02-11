@@ -298,6 +298,9 @@ public class CostSheetLineServiceImpl implements CostSheetLineService {
 
     if (componentsValuationMethod == ProductRepository.COMPONENTS_VALUATION_METHOD_AVERAGE) {
       price = weightedAveragePriceService.computeAvgPriceForCompany(product, company);
+      if (price == null || price.compareTo(BigDecimal.ZERO) == 0) {
+        price = weightedAveragePriceService.getNotWeightedAveragePricePerCompany(product, company);
+      }
 
       if (price == null || price.compareTo(BigDecimal.ZERO) == 0) {
         price = (BigDecimal) productCompanyService.get(product, "costPrice", company);
@@ -307,6 +310,9 @@ public class CostSheetLineServiceImpl implements CostSheetLineService {
 
       if (price == null || price.compareTo(BigDecimal.ZERO) == 0) {
         price = weightedAveragePriceService.computeAvgPriceForCompany(product, company);
+      }
+      if (price == null || price.compareTo(BigDecimal.ZERO) == 0) {
+        price = weightedAveragePriceService.getNotWeightedAveragePricePerCompany(product, company);
       }
     }
 
