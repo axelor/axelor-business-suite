@@ -490,10 +490,13 @@ public class MrpServiceProductionImpl extends MrpServiceImpl {
       return;
     }
 
-    log.debug("Add of the product : {}", product.getFullName());
-    this.productMap.put(product.getId(), this.getMaxLevel(product, 0));
+    if (product.getDefaultBillOfMaterial() != null
+        && mrp.getStockLocation()
+            .getCompany()
+            .equals(product.getDefaultBillOfMaterial().getCompany())) {
+      log.debug("Add of the product : {}", product.getFullName());
+      this.productMap.put(product.getId(), this.getMaxLevel(product, 0));
 
-    if (product.getDefaultBillOfMaterial() != null) {
       this.assignProductLevel(product.getDefaultBillOfMaterial(), 0);
     }
   }
