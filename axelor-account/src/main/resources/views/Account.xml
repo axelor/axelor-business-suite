@@ -57,7 +57,7 @@
 				<field name="analyticDistributionAuthorized" widget="boolean-switch" colSpan="4"/>
 				<field name="analyticDistributionRequiredOnInvoiceLines" widget="boolean-switch" colSpan="4" showIf="analyticDistributionAuthorized"/>
 				<field name="analyticDistributionRequiredOnMoveLines" widget="boolean-switch" colSpan="4" showIf="analyticDistributionAuthorized"/>
-				<field name="isTaxAuthorizedOnMoveLine" widget="boolean-switch" colSpan="4"/>
+				<field name="isTaxAuthorizedOnMoveLine" widget="boolean-switch" colSpan="4" onChange="action-account-is-tax-authorized-on-move-line-onchange-record"/>
 				<field name="isTaxRequiredOnMoveLine" showIf="isTaxAuthorizedOnMoveLine" widget="boolean-switch" colSpan="4"/>
 			</panel>
 			<panel name="showMoveLinesPanel" colSpan="12" showIf="id">
@@ -151,6 +151,10 @@
     <action-record name="action-account-record-new-employee-account" model="com.axelor.apps.account.db.Account">
         <field name="parentAccount" expr="eval:__repo__(AccountConfig).all().filter('self.company = ?', __parent__.company).fetchOne().employeeAccount"/>
         <field name="accountType" expr="eval:__repo__(AccountConfig).all().filter('self.company = ?', __parent__.company).fetchOne().employeeAccount?.accountType"/>
+    </action-record>
+    
+    <action-record name="action-account-is-tax-authorized-on-move-line-onchange-record" model="com.axelor.apps.account.db.Account">
+        <field name="isTaxRequiredOnMoveLine" expr="false" if="isTaxAuthorizedOnMoveLine == false"/>
     </action-record>
     
     <action-method name="action-account-method-compute-balance">

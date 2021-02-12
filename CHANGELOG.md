@@ -204,6 +204,7 @@ Update operation order name with manufacturing order sequence when the manufactu
 - Manuf Order: fix issue when printing multiple manufacturing orders.
 When printing multiple manufacturing orders, operations from all orders were printed for each one.
 - Availability request: do not ask to allocate stock if the product is not managed in stock.
+- MOVE : fix for issue in updating analytic lines for validated move.
 - CostSheet: Add exception when purchase currency is needed in computation and missing in product.
 - WORK CENTER: Fix human resource list not set to null for machine only work center.
 - EmailAddress: Fix email address pattern.
