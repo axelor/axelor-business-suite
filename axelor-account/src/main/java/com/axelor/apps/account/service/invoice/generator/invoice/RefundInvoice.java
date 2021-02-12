@@ -52,7 +52,10 @@ public class RefundInvoice extends InvoiceGenerator implements InvoiceStrategy {
     Invoice refund = JPA.copy(invoice, true);
     InvoiceToolService.resetInvoiceStatusOnCopy(refund);
 
+    // Not all properties should be copied
     refund.setOperationTypeSelect(this.inverseOperationType(refund.getOperationTypeSelect()));
+    refund.setVentilatedByUser(null);
+    refund.setVentilatedDate(null);
 
     List<InvoiceLine> refundLines = new ArrayList<>();
     if (refund.getInvoiceLineList() != null) {
