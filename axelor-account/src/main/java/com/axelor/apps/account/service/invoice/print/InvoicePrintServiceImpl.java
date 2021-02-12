@@ -32,6 +32,7 @@ import com.axelor.apps.tool.ThrowConsumer;
 import com.axelor.apps.tool.file.PdfTool;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
+import com.axelor.common.StringUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -221,8 +222,13 @@ public class InvoicePrintServiceImpl implements InvoicePrintService {
       title += " " + invoice.getInvoiceId();
     }
 
-    ReportSettings reportSetting =
-        ReportFactory.createReport(IReport.INVOICE, title + " - ${date}");
+    String templateLink =
+        invoice.getInvoiceBirtTemplate() != null
+                && StringUtils.notBlank(invoice.getInvoiceBirtTemplate().getTemplateLink())
+            ? invoice.getInvoiceBirtTemplate().getTemplateLink()
+            : IReport.INVOICE;
+
+    ReportSettings reportSetting = ReportFactory.createReport(templateLink, title + " - ${date}");
 
     if (Strings.isNullOrEmpty(locale)) {
       String userLanguageCode =

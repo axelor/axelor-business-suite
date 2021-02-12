@@ -2,6 +2,16 @@
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+	<form id="account-incl-invoice-payment-partner-form" name="incl-invoice-payment-partner-form" title="Partner"
+				model="com.axelor.apps.base.db.Partner"
+				extension="true">
+		<extend target="//panel[@name='showInvoicesPanel']">
+			<insert position="after">
+				<field name="invoiceBirtTemplate" domain="self.metaModel.name = 'Invoice'"/>
+			</insert>
+		</extend>
+	</form>
     
 	<form name="incl-invoice-payment-partner-form" title="Partner" model="com.axelor.apps.base.db.Partner" onLoad="action-partner-attrs-show-specific-tax-note">
 	    <panel name="mainPanel" colSpan="12">

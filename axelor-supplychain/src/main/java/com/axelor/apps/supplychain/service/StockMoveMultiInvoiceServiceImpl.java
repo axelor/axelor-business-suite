@@ -582,6 +582,7 @@ public class StockMoveMultiInvoiceServiceImpl implements StockMoveMultiInvoiceSe
       SaleOrder saleOrder = saleOrderRepository.find(stockMove.getOriginId());
       dummyInvoice.setCurrency(saleOrder.getCurrency());
       dummyInvoice.setPartner(saleOrder.getClientPartner());
+      setBirtTemplate(dummyInvoice);
       dummyInvoice.setCompany(saleOrder.getCompany());
       dummyInvoice.setTradingName(saleOrder.getTradingName());
       dummyInvoice.setPaymentCondition(saleOrder.getPaymentCondition());
@@ -595,6 +596,7 @@ public class StockMoveMultiInvoiceServiceImpl implements StockMoveMultiInvoiceSe
     } else {
       dummyInvoice.setCurrency(stockMove.getCompany().getCurrency());
       dummyInvoice.setPartner(stockMove.getPartner());
+      setBirtTemplate(dummyInvoice);
       dummyInvoice.setCompany(stockMove.getCompany());
       dummyInvoice.setTradingName(stockMove.getTradingName());
       dummyInvoice.setAddress(stockMove.getToAddress());
@@ -618,6 +620,7 @@ public class StockMoveMultiInvoiceServiceImpl implements StockMoveMultiInvoiceSe
       PurchaseOrder purchaseOrder = purchaseOrderRepository.find(stockMove.getOriginId());
       dummyInvoice.setCurrency(purchaseOrder.getCurrency());
       dummyInvoice.setPartner(purchaseOrder.getSupplierPartner());
+      setBirtTemplate(dummyInvoice);
       dummyInvoice.setCompany(purchaseOrder.getCompany());
       dummyInvoice.setTradingName(purchaseOrder.getTradingName());
       dummyInvoice.setPaymentCondition(purchaseOrder.getPaymentCondition());
@@ -628,12 +631,19 @@ public class StockMoveMultiInvoiceServiceImpl implements StockMoveMultiInvoiceSe
     } else {
       dummyInvoice.setCurrency(stockMove.getCompany().getCurrency());
       dummyInvoice.setPartner(stockMove.getPartner());
+      setBirtTemplate(dummyInvoice);
       dummyInvoice.setCompany(stockMove.getCompany());
       dummyInvoice.setTradingName(stockMove.getTradingName());
       dummyInvoice.setAddress(stockMove.getFromAddress());
       dummyInvoice.setAddressStr(stockMove.getFromAddressStr());
     }
     return dummyInvoice;
+  }
+
+  private void setBirtTemplate(Invoice invoice) {
+    if (invoice.getPartner() != null) {
+      invoice.setInvoiceBirtTemplate(invoice.getPartner().getInvoiceBirtTemplate());
+    }
   }
 
   /**

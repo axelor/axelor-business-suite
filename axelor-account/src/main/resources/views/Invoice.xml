@@ -274,7 +274,7 @@
         </panel>
 
         <panel name="invoicingInfoPanel" title="Invoicing information" hideIf="company == null">
-            <field name="partner" colSpan="3" canEdit="false" readonlyIf="((operationTypeSelect == 3 || operationTypeSelect == 4) &amp;&amp; statusSelect != 1) || ((operationTypeSelect == 1 || operationTypeSelect == 2) &amp;&amp; (statusSelect != 1 || invoiceLineList.length > 0))"  onChange="action-group-account-invoice-partner-onchange,action-method-invoice-address-str" onSelect="action-invoice-method-set-partner-domain" form-view="partner-form" grid-view="partner-grid"/>
+            <field name="partner" colSpan="3" canEdit="false" readonlyIf="((operationTypeSelect == 3 || operationTypeSelect == 4) &amp;&amp; statusSelect != 1) || ((operationTypeSelect == 1 || operationTypeSelect == 2) &amp;&amp; (statusSelect != 1 || invoiceLineList.length > 0))"  onChange="action-group-account-invoice-partner-onchange,action-method-invoice-address-str,action-invoice-attrs-set-invoice-birt-template" onSelect="action-invoice-method-set-partner-domain" form-view="partner-form" grid-view="partner-grid"/>
             <field name="contactPartner" colSpan="3" canEdit="false" onSelect="action-set-partner-domain" domain="self.isContact = true AND :company member of self.companySet" readonlyIf="partner != null &amp;&amp; partner.partnerTypeSelect == 2" form-view="partner-contact-form" grid-view="partner-contact-grid"/>
             <field name="paymentMode" colSpan="3" canEdit="false" widget="SuggestBox" onSelect="action-set-payment-mode-domain" onChange="action-invoice-method-fill-company-bank-details,action-invoice-method-check-partner-bank-details-list" form-view="payment-mode-form" grid-view="payment-mode-grid"/>
             <field name="paymentCondition" colSpan="3" canEdit="false" readonlyIf="statusSelect == 3" widget="SuggestBox" onChange="action-invoice-record-due-date" form-view="payment-condition-form" grid-view="payment-condition-grid"/>
@@ -378,6 +378,7 @@ InvoiceSet.length > 0))"
 				<field name="printingSettings" onSelect="action-invoice-method-filter-printing-settings" canEdit="false"/>
 				<field name="groupProductsOnPrintings" if="__config__.app.getApp('base').getIsRegroupProductsOnPrintings()" colSpan="6"/>
 				<field name="invoicesCopySelect" colSpan="6" title="Invoices copy"/>
+				<field name="invoiceBirtTemplate" domain="self.metaModel.name = 'Invoice'"/>
 				<field name="hideDiscount" colSpan="6"/>
         		<field name="headOfficeAddress" if="__user__.activeCompany?.accountConfig?.displayHeadOfficeAddrOnInvoicePrinting"/>
         		<field name="specificNotes" colSpan="12" readonly="true" showIf="specificNotes"/>
@@ -945,6 +946,10 @@ InvoiceSet.length > 0))"
       <attribute name="domain" for="stockMoveSet" expr="eval: &quot;self.partner = :partner AND self.company = :company AND self.statusSelect = 3 AND self.typeSelect = 2&quot;" if="operationTypeSelect == 3 || operationTypeSelect == 4"/>
       <attribute name="domain" for="stockMoveSet" expr="eval: &quot;self.partner = :partner AND self.company = :company AND self.statusSelect = 3 AND self.typeSelect = 3&quot;" if="operationTypeSelect == 1 || operationTypeSelect == 2"/>
     </action-attrs>
+	
+	<action-attrs name="action-invoice-attrs-set-invoice-birt-template">
+		<attribute for="invoiceBirtTemplate" name="value" expr="eval: partner?.invoiceBirtTemplate"/>
+	</action-attrs>
 
 	<!-- ACTION RECORD -->
 

@@ -30,6 +30,9 @@
 		<boolean name="isFactor" title="Factor" />
 		<boolean name="factorizedCustomer" />
 		<string name="sellerCode" />
+
+      <many-to-one name="invoiceBirtTemplate" title="Invoice Birt Template" ref="com.axelor.apps.base.db.BirtTemplate"/>
+
     </entity>
 
 </domain-models>

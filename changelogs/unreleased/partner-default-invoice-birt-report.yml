@@ -1,0 +1,6 @@
+title: Partner Default Invoice Birt Report
+type: feature
+description: |
+  It's now possible to set a Model on BirtTemplates and to select an Invoice BirtTemplate on Partners.
+  On Invoices, the partner's Invoice BirtTemplate is retrieved and modifiable.
+  During the Invoice printing process, the Invoice is printed according to the BirtTemplace filled in it.

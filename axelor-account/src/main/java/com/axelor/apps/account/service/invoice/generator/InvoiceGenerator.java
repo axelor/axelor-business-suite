@@ -200,6 +200,8 @@ public abstract class InvoiceGenerator {
     }
     invoice.setPartner(partner);
 
+    invoice.setInvoiceBirtTemplate(partner.getInvoiceBirtTemplate());
+
     AccountingSituation accountingSituation =
         Beans.get(AccountingSituationService.class).getAccountingSituation(partner, company);
     if (accountingSituation != null) {

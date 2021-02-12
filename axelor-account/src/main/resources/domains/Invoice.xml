@@ -147,6 +147,8 @@
 
   <string name="headOfficeAddress" title="Head office address"/>
 
+    <many-to-one name="invoiceBirtTemplate" title="Invoice Birt Template" ref="com.axelor.apps.base.db.BirtTemplate"/>
+
   	<unique-constraint columns="invoiceId,company"/>
 
 	<extra-code><![CDATA[
