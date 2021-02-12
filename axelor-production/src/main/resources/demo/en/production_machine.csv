@@ -1,5 +1,5 @@
-"importId";"name";"serialNumber";"description";"startingDuration";"setupDuration";"stockLocation.importId";"machineType.code"
-10;"Pasting workbench";"ET0001";;60;0;1;ET
-20;"Electrical drilling machine";"VS0002";;60;0;1;VS
-30;"Multi-meter";"MM0001";;90;0;1;MM
-40;"Test workbench";"BT0001";;180;60;1;BT
+"importId";"name";"serialNumber";"description";"startingDuration";"setupDuration";"stockLocation.importId";"machineType.code";"picture_fileName"
+10;"Pasting workbench";"ET0001";;60;0;1;ET;"img/machines/ET0001.jpg"
+20;"Electrical drilling machine";"VS0002";;60;0;1;VS;"img/machines/VS0002.jpg"
+30;"Multi-meter";"MM0001";;90;0;1;MM;"img/machines/MM0001.jpg"
+40;"Test workbench";"BT0001";;180;60;1;BT;"img/machines/BT0001.jpg"
