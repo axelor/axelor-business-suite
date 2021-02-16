@@ -6,8 +6,6 @@
 	<selection name="forecast.opportunities.type.select">
 		<option value="1">No</option>
 		<option value="2">Base</option>
-		<option value="3">Worst</option>
-		<option value="4">Best</option>
 	</selection>
 	
 	<selection name="display.type.select">

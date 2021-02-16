@@ -12,9 +12,6 @@
     <many-to-one name="currency" ref="com.axelor.apps.base.db.Currency" title="Currency"/>
    	<date name="expectedCloseDate" title="Expected close date"/>
     <decimal name="amount" title="Amount"/>
-    <many-to-one name="opportunityType" ref="com.axelor.apps.crm.db.OpportunityType" title="Type of need"/>
-    <decimal name="bestCase" title="Best case"/>
-    <decimal name="worstCase" title="Worst case"/>
     <integer name="salesStageSelect" title="Sales stage" selection="crm.opportunity.sales.stage.select"/>
     <decimal name="probability" title="Probability (%)"/>
     <string name="nextStep" title="Next step"/>

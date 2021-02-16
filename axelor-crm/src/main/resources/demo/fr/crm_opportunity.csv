@@ -1,33 +1,33 @@
-"importId";"name";"partner.importId";"lead.id";"currency.code";"expectedCloseDate";"amount";"opportunityType.id";"bestCase";"worstCase";"salesStageSelect";"probability";"nextStep";"description";"source.id";"company.id";"userImportId";"team.id";"orderByState"
-1;"Maintenance annuelle - 1 ANNEE + Pack Classique - 12 U";;1;"EUR";"TODAY[-6M]";24140;1;28200;20800;2;39;;;3;1;9;1;2
-2;"Pack Classique - 10 U";;2;"EUR";"TODAY[-5M]";9225;1;10900;7800;2;42;;;6;1;11;2;2
-5;"Serveur haute performance - 5 U";;5;"EUR";"TODAY[-4M]";12500;1;15100;9400;6;93;;;11;1;9;1;6
-8;"Projet - 1 U";;8;"EUR";"TODAY[-3M]";8000;1;9000;6100;2;48;;;7;1;12;2;2
-9;"Chef de projet - 10 JR(S) + Consultant - 9 JR(S)";;9;"EUR";"TODAY[-3M]";12000;1;13600;10300;1;66;;;10;1;11;2;1
-10;"Projet - 1 U";;10;"EUR";"TODAY[-2M]";10000;1;11600;7700;2;74;;;11;1;8;3;2
-11;"Imprimante Jet d'encre - 4 U";;11;"EUR";"TODAY[-2M]";2961;1;3800;2200;3;90;;;3;1;10;1;3
-12;"Pack Classique - 7 U";;12;"EUR";"TODAY[-2M]";16605;1;20800;14600;1;48;;;6;1;8;3;1
-13;"Serveur classique - 4 U";;13;"EUR";"TODAY[-1M]";15000;1;17900;12600;1;25;;;7;1;12;2;1
-14;"Imprimante Laser - 9 U";;14;"EUR";"TODAY[-1M]";4290;1;5500;3500;1;66;;;3;1;11;2;1
-17;"Pack Performance - 6 U";;17;"EUR";"TODAY[-21d]";20230;1;22500;17000;2;34;;;6;1;11;2;2
-18;"Serveur classique - 5 U + Serveur haute performance - 6 U";;18;"EUR";"TODAY[-21d]";41000;1;49200;32000;2;45;;;6;1;11;2;2
-19;"Imprimante Jet d'encre - 6 U + Imprimante Laser - 10 U";;19;"EUR";"TODAY[-21d]";11112;1;12400;9400;1;69;;;7;1;8;3;1
-20;"Chef de projet - 10 JR(S)";;20;"EUR";"TODAY[-21d]";5000;1;5900;4200;3;23;;;10;1;9;1;3
-21;"Consultant - 9 JR(S)";;21;"EUR";"TODAY[-14d]";4800;1;5500;3700;2;94;;;11;1;13;3;2
-22;"Maintenance annuelle - 1 ANNEE";;22;"EUR";"TODAY[-14d]";2000;1;2600;1700;6;58;;;11;1;12;2;6
-23;"Chef de projet - 4 JR(S) + Consultant - 20 JR(S)";;23;"EUR";"TODAY[-14d]";21000;1;25800;16600;3;79;;;7;1;11;2;3
-24;"Pack Performance - 5 U";;24;"EUR";"TODAY[-14d]";20230;1;23500;17000;3;62;;;6;1;9;1;3
-25;"Pack Classique - 10 U";;25;"EUR";"TODAY[-14d]";18450;1;23600;14400;1;78;;;7;1;;2;1
-26;"Ecran LED HD 24 pouces - 7 U";;26;"EUR";"TODAY[-14d]";1000;1;1300;800;1;74;;;11;1;;3;1
-27;"Ecran LED HD 22 pouces - 7 U + Imprimante Laser - 13 U";;27;"EUR";"TODAY[-14d]";7864;1;9000;5500;2;58;;;3;1;;1;2
-28;"Projet - 1 U";;28;"EUR";"TODAY[-7d]";8000;1;9900;7000;2;78;;;3;1;;1;2
-29;"Chef de projet - 9 JR(S)";;29;"EUR";"TODAY[-7d]";8000;1;10000;6600;1;61;;;6;1;;3;1
-30;"Imprimante Jet d'encre - 6 U + Ecran LED HD 22 pouces - 8 U";;30;"EUR";"TODAY[-7d]";2316;1;2800;1800;3;57;;;6;1;;3;3
-31;"Pack Classique - 18 U + Imprimante Jet d'encre - 2 U";20;;"EUR";"TODAY[-4M-7d]";33868;1;37300;29500;5;84;;;12;1;11;2;5
-32;"Imprimante Jet d'encre - 14 U + Serveur classique - 1 U";44;;"EUR";"TODAY[-3M-7d]";6106;3;7900;5300;5;74;;;12;1;12;2;5
-33;"Imprimante Laser - 8 U + Serveur haute performance - 5 U";132;;"EUR";"TODAY[-2M-7d]";15932;3;20100;13700;5;90;;;12;1;11;2;5
-34;"Pack Performance - 10 U";77;;"EUR";"TODAY[-1M-7d]";110000;3;125400;77000;4;100;;;12;1;12;2;4
-35;"Consultant - 11 JR(S)";88;;"EUR";"TODAY[-28d]";8800;3;10400;7000;5;47;;;12;1;9;1;5
-36;"Chef de projet - 10 JR(S) + Maintenance annuelle - 1 ANNEE";132;;"EUR";"TODAY[-21d]";12000;3;15200;10000;4;99;;;12;1;8;3;4
-37;"Projet - 1 U + Chef de projet - 2 JR(S)";136;;"EUR";"TODAY[-14d]";10000;1;12200;8300;4;54;;;12;1;8;3;4
-38;"Imprimante Laser - 6 U + Ecran LED HD 24 pouces - 10 U";148;;"EUR";"TODAY[-7d]";5861;1;7400;5200;3;59;;;12;1;13;3;3
+"importId";"name";"partner.importId";"lead.id";"currency.code";"expectedCloseDate";"amount";"salesStageSelect";"probability";"nextStep";"description";"source.id";"company.id";"userImportId";"team.id";"orderByState"
+1;"Maintenance annuelle - 1 ANNEE + Pack Classique - 12 U";;1;"EUR";"TODAY[-6M]";24140;2;39;;;3;1;9;1;2
+2;"Pack Classique - 10 U";;2;"EUR";"TODAY[-5M]";9225;2;42;;;6;1;11;2;2
+5;"Serveur haute performance - 5 U";;5;"EUR";"TODAY[-4M]";12500;6;93;;;11;1;9;1;6
+8;"Projet - 1 U";;8;"EUR";"TODAY[-3M]";8000;2;48;;;7;1;12;2;2
+9;"Chef de projet - 10 JR(S) + Consultant - 9 JR(S)";;9;"EUR";"TODAY[-3M]";12000;1;66;;;10;1;11;2;1
+10;"Projet - 1 U";;10;"EUR";"TODAY[-2M]";10000;2;74;;;11;1;8;3;2
+11;"Imprimante Jet d'encre - 4 U";;11;"EUR";"TODAY[-2M]";2961;3;90;;;3;1;10;1;3
+12;"Pack Classique - 7 U";;12;"EUR";"TODAY[-2M]";16605;1;48;;;6;1;8;3;1
+13;"Serveur classique - 4 U";;13;"EUR";"TODAY[-1M]";15000;1;25;;;7;1;12;2;1
+14;"Imprimante Laser - 9 U";;14;"EUR";"TODAY[-1M]";4290;1;66;;;3;1;11;2;1
+17;"Pack Performance - 6 U";;17;"EUR";"TODAY[-21d]";20230;2;34;;;6;1;11;2;2
+18;"Serveur classique - 5 U + Serveur haute performance - 6 U";;18;"EUR";"TODAY[-21d]";41000;2;45;;;6;1;11;2;2
+19;"Imprimante Jet d'encre - 6 U + Imprimante Laser - 10 U";;19;"EUR";"TODAY[-21d]";11112;1;69;;;7;1;8;3;1
+20;"Chef de projet - 10 JR(S)";;20;"EUR";"TODAY[-21d]";5000;3;23;;;10;1;9;1;3
+21;"Consultant - 9 JR(S)";;21;"EUR";"TODAY[-14d]";4800;2;94;;;11;1;13;3;2
+22;"Maintenance annuelle - 1 ANNEE";;22;"EUR";"TODAY[-14d]";2000;6;58;;;11;1;12;2;6
+23;"Chef de projet - 4 JR(S) + Consultant - 20 JR(S)";;23;"EUR";"TODAY[-14d]";21000;3;79;;;7;1;11;2;3
+24;"Pack Performance - 5 U";;24;"EUR";"TODAY[-14d]";20230;3;62;;;6;1;9;1;3
+25;"Pack Classique - 10 U";;25;"EUR";"TODAY[-14d]";18450;1;78;;;7;1;;2;1
+26;"Ecran LED HD 24 pouces - 7 U";;26;"EUR";"TODAY[-14d]";1000;1;74;;;11;1;;3;1
+27;"Ecran LED HD 22 pouces - 7 U + Imprimante Laser - 13 U";;27;"EUR";"TODAY[-14d]";7864;2;58;;;3;1;;1;2
+28;"Projet - 1 U";;28;"EUR";"TODAY[-7d]";8000;2;78;;;3;1;;1;2
+29;"Chef de projet - 9 JR(S)";;29;"EUR";"TODAY[-7d]";8000;1;61;;;6;1;;3;1
+30;"Imprimante Jet d'encre - 6 U + Ecran LED HD 22 pouces - 8 U";;30;"EUR";"TODAY[-7d]";2316;3;57;;;6;1;;3;3
+31;"Pack Classique - 18 U + Imprimante Jet d'encre - 2 U";20;;"EUR";"TODAY[-4M-7d]";33868;5;84;;;12;1;11;2;5
+32;"Imprimante Jet d'encre - 14 U + Serveur classique - 1 U";44;;"EUR";"TODAY[-3M-7d]";6106;5;74;;;12;1;12;2;5
+33;"Imprimante Laser - 8 U + Serveur haute performance - 5 U";132;;"EUR";"TODAY[-2M-7d]";15932;5;90;;;12;1;11;2;5
+34;"Pack Performance - 10 U";77;;"EUR";"TODAY[-1M-7d]";110000;4;100;;;12;1;12;2;4
+35;"Consultant - 11 JR(S)";88;;"EUR";"TODAY[-28d]";8800;5;47;;;12;1;9;1;5
+36;"Chef de projet - 10 JR(S) + Maintenance annuelle - 1 ANNEE";132;;"EUR";"TODAY[-21d]";12000;4;99;;;12;1;8;3;4
+37;"Projet - 1 U + Chef de projet - 2 JR(S)";136;;"EUR";"TODAY[-14d]";10000;4;54;;;12;1;8;3;4
+38;"Imprimante Laser - 6 U + Ecran LED HD 24 pouces - 10 U";148;;"EUR";"TODAY[-7d]";5861;3;59;;;12;1;13;3;3

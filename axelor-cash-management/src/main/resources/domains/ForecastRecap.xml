@@ -29,8 +29,6 @@
 	   
 		public static final int OPPORTUNITY_TYPE_NO = 1;
 		public static final int OPPORTUNITY_TYPE_BASE = 2;
-		public static final int OPPORTUNITY_TYPE_WORST = 3;
-		public static final int OPPORTUNITY_TYPE_BEST = 4;
 	
 	]]></extra-code>
   </entity>

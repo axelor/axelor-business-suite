@@ -39,7 +39,6 @@
 		<bind column="subject" to="subjectTeam"/>
 	</input>
 	
-	<input file="crm_opportunityType.csv" separator=";" type="com.axelor.apps.crm.db.OpportunityType" search="self.code = :code"/>
 	
 	<input file="crm_opportunity.csv" separator=";" type="com.axelor.apps.crm.db.Opportunity" search="self.importId = :importId"
 				 call="com.axelor.csv.script.ImportOpportunity:importOpportunity">

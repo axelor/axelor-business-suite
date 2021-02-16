@@ -1,39 +1,39 @@
-"importId";"name";"partner.importId";"lead.id";"currency.code";"expectedCloseDate";"amount";"opportunityType.id";"bestCase";"worstCase";"salesStageSelect";"probability";"nextStep";"description";"source.id";"company.id";"userImportId";"team.id";"orderByState"
-1;"Annual Maintenance - 1 ANNEE + Pack Classic - 12 U";;1;"EUR";"TODAY[-6M]";24140;1;28200;20800;2;39;;;3;1;9;1;2
-2;"Pack Classic - 10 U";;2;"EUR";"TODAY[-5M]";9225;1;10900;7800;2;42;;;6;1;11;2;2
-3;"Pack Performance - 6 U";;3;"EUR";"TODAY[-5M]";28900;1;36700;23700;1;27;;;7;1;11;2;1
-4;"Classic server - 6 U";;4;"EUR";"TODAY[-4M]";10500;1;13200;8900;3;81;;;10;1;11;2;3
-5;"High Performance Server - 5 U";;5;"EUR";"TODAY[-4M]";12500;1;15100;9400;6;93;;;11;1;9;1;6
-6;"InkJet Printer - 4 U";;6;"EUR";"TODAY[-3M]";1974;1;2500;1800;2;24;;;3;1;12;2;2
-7;"Laser Printer - 5 U + InkJet Printer - 8 U";;7;"EUR";"TODAY[-3M]";8696;1;11000;7200;2;79;;;6;1;12;2;2
-8;"Project - 1 U";;8;"EUR";"TODAY[-3M]";8000;1;9000;6100;2;48;;;7;1;12;2;2
-9;"Project Manager - 10 JR(S) + Consultant - 9 JR(S)";;9;"EUR";"TODAY[-3M]";12000;1;13600;10300;1;66;;;10;1;11;2;1
-10;"Project - 1 U";;10;"EUR";"TODAY[-2M]";10000;1;11600;7700;2;74;;;11;1;8;3;2
-11;"InkJet Printer - 4 U";;11;"EUR";"TODAY[-2M]";2961;1;3800;2200;3;90;;;3;1;10;1;3
-12;"Pack Classic - 7 U";;12;"EUR";"TODAY[-2M]";16605;1;20800;14600;1;48;;;6;1;8;3;1
-13;"Classic server - 4 U";;13;"EUR";"TODAY[-1M]";15000;1;17900;12600;1;25;;;7;1;12;2;1
-14;"Laser Printer - 9 U";;14;"EUR";"TODAY[-1M]";4290;1;5500;3500;1;66;;;3;1;11;2;1
-15;"LED Screen HD 22 inch - 6 U + LED Screen HD 24 inch - 13 U";;15;"EUR";"TODAY[-21d]";3150;1;3700;2300;2;33;;;6;1;11;2;2
-16;"Project - 1 U";;16;"EUR";"TODAY[-21d]";13000;1;16000;10700;2;22;;;3;1;11;2;2
-17;"Pack Performance - 6 U";;17;"EUR";"TODAY[-21d]";20230;1;22500;17000;2;34;;;6;1;11;2;2
-18;"Classic server - 5 U + High Performance Server - 6 U";;18;"EUR";"TODAY[-21d]";41000;1;49200;32000;2;45;;;6;1;11;2;2
-19;"InkJet Printer - 6 U + Laser Printer - 10 U";;19;"EUR";"TODAY[-21d]";11112;1;12400;9400;1;69;;;7;1;8;3;1
-20;"Project Manager - 10 JR(S)";;20;"EUR";"TODAY[-21d]";5000;1;5900;4200;3;23;;;10;1;9;1;3
-21;"Consultant - 9 JR(S)";;21;"EUR";"TODAY[-14d]";4800;1;5500;3700;2;94;;;11;1;13;3;2
-22;"Annual Maintenance - 1 ANNEE";;22;"EUR";"TODAY[-14d]";2000;1;2600;1700;6;58;;;11;1;12;2;6
-23;"Project Manager - 4 JR(S) + Consultant - 20 JR(S)";;23;"EUR";"TODAY[-14d]";21000;1;25800;16600;3;79;;;7;1;11;2;3
-24;"Pack Performance - 5 U";;24;"EUR";"TODAY[-14d]";20230;1;23500;17000;3;62;;;6;1;9;1;3
-25;"Pack Classic - 10 U";;25;"EUR";"TODAY[-14d]";18450;1;23600;14400;1;78;;;7;1;;2;1
-26;"LED Screen HD 24 inch - 7 U";;26;"EUR";"TODAY[-14d]";1000;1;1300;800;1;74;;;11;1;;3;1
-27;"LED Screen HD 22 inch - 7 U + Laser Printer - 13 U";;27;"EUR";"TODAY[-14d]";7864;1;9000;5500;2;58;;;3;1;;1;2
-28;"Project - 1 U";;28;"EUR";"TODAY[-7d]";8000;1;9900;7000;2;78;;;3;1;;1;2
-29;"Project Manager - 9 JR(S)";;29;"EUR";"TODAY[-7d]";8000;1;10000;6600;1;61;;;6;1;;3;1
-30;"InkJet Printer - 6 U + LED Screen HD 22 inch - 8 U";;30;"EUR";"TODAY[-7d]";2316;1;2800;1800;3;57;;;6;1;;3;3
-31;"Pack Classic - 18 U + InkJet Printer - 2 U";20;;"EUR";"TODAY[-4M-7d]";33868;1;37300;29500;5;84;;;12;1;11;2;5
-32;"InkJet Printer - 14 U + Classic server - 1 U";44;;"EUR";"TODAY[-3M-7d]";6106;3;7900;5300;5;74;;;12;1;12;2;5
-33;"Laser Printer - 8 U + High Performance Server - 5 U";70;;"EUR";"TODAY[-2M-7d]";15932;3;20100;13700;5;90;;;12;1;11;2;5
-34;"Pack Performance - 10 U";77;;"EUR";"TODAY[-1M-7d]";110000;3;125400;77000;4;100;;;12;1;12;2;4
-35;"Consultant - 11 JR(S)";88;;"EUR";"TODAY[-28d]";8800;3;10400;7000;5;47;;;12;1;9;1;5
-36;"Project Manager - 10 JR(S) + Annual Maintenance - 1 ANNEE";132;;"EUR";"TODAY[-21d]";12000;3;15200;10000;4;99;;;12;1;8;3;4
-37;"Project - 1 U + Project Manager - 2 JR(S)";136;;"EUR";"TODAY[-14d]";10000;1;12200;8300;4;54;;;12;1;8;3;4
-38;"Laser Printer - 6 U + LED Screen HD 24 inch - 10 U";148;;"EUR";"TODAY[-7d]";5861;1;7400;5200;6;59;;;12;1;13;3;6
+"importId";"name";"partner.importId";"lead.id";"currency.code";"expectedCloseDate";"amount";"salesStageSelect";"probability";"nextStep";"description";"source.id";"company.id";"userImportId";"team.id";"orderByState"
+1;"Annual Maintenance - 1 ANNEE + Pack Classic - 12 U";;1;"EUR";"TODAY[-6M]";24140;2;39;;;3;1;9;1;2
+2;"Pack Classic - 10 U";;2;"EUR";"TODAY[-5M]";9225;2;42;;;6;1;11;2;2
+3;"Pack Performance - 6 U";;3;"EUR";"TODAY[-5M]";28900;1;27;;;7;1;11;2;1
+4;"Classic server - 6 U";;4;"EUR";"TODAY[-4M]";10500;3;81;;;10;1;11;2;3
+5;"High Performance Server - 5 U";;5;"EUR";"TODAY[-4M]";12500;6;93;;;11;1;9;1;6
+6;"InkJet Printer - 4 U";;6;"EUR";"TODAY[-3M]";1974;2;24;;;3;1;12;2;2
+7;"Laser Printer - 5 U + InkJet Printer - 8 U";;7;"EUR";"TODAY[-3M]";8696;2;79;;;6;1;12;2;2
+8;"Project - 1 U";;8;"EUR";"TODAY[-3M]";8000;2;48;;;7;1;12;2;2
+9;"Project Manager - 10 JR(S) + Consultant - 9 JR(S)";;9;"EUR";"TODAY[-3M]";12000;1;66;;;10;1;11;2;1
+10;"Project - 1 U";;10;"EUR";"TODAY[-2M]";10000;2;74;;;11;1;8;3;2
+11;"InkJet Printer - 4 U";;11;"EUR";"TODAY[-2M]";2961;3;90;;;3;1;10;1;3
+12;"Pack Classic - 7 U";;12;"EUR";"TODAY[-2M]";16605;1;48;;;6;1;8;3;1
+13;"Classic server - 4 U";;13;"EUR";"TODAY[-1M]";15000;1;25;;;7;1;12;2;1
+14;"Laser Printer - 9 U";;14;"EUR";"TODAY[-1M]";4290;1;66;;;3;1;11;2;1
+15;"LED Screen HD 22 inch - 6 U + LED Screen HD 24 inch - 13 U";;15;"EUR";"TODAY[-21d]";3150;2;33;;;6;1;11;2;2
+16;"Project - 1 U";;16;"EUR";"TODAY[-21d]";13000;2;22;;;3;1;11;2;2
+17;"Pack Performance - 6 U";;17;"EUR";"TODAY[-21d]";20230;2;34;;;6;1;11;2;2
+18;"Classic server - 5 U + High Performance Server - 6 U";;18;"EUR";"TODAY[-21d]";41000;2;45;;;6;1;11;2;2
+19;"InkJet Printer - 6 U + Laser Printer - 10 U";;19;"EUR";"TODAY[-21d]";11112;1;69;;;7;1;8;3;1
+20;"Project Manager - 10 JR(S)";;20;"EUR";"TODAY[-21d]";5000;3;23;;;10;1;9;1;3
+21;"Consultant - 9 JR(S)";;21;"EUR";"TODAY[-14d]";4800;2;94;;;11;1;13;3;2
+22;"Annual Maintenance - 1 ANNEE";;22;"EUR";"TODAY[-14d]";2000;6;58;;;11;1;12;2;6
+23;"Project Manager - 4 JR(S) + Consultant - 20 JR(S)";;23;"EUR";"TODAY[-14d]";21000;3;79;;;7;1;11;2;3
+24;"Pack Performance - 5 U";;24;"EUR";"TODAY[-14d]";20230;3;62;;;6;1;9;1;3
+25;"Pack Classic - 10 U";;25;"EUR";"TODAY[-14d]";18450;1;78;;;7;1;;2;1
+26;"LED Screen HD 24 inch - 7 U";;26;"EUR";"TODAY[-14d]";1000;1;74;;;11;1;;3;1
+27;"LED Screen HD 22 inch - 7 U + Laser Printer - 13 U";;27;"EUR";"TODAY[-14d]";7864;2;58;;;3;1;;1;2
+28;"Project - 1 U";;28;"EUR";"TODAY[-7d]";8000;2;78;;;3;1;;1;2
+29;"Project Manager - 9 JR(S)";;29;"EUR";"TODAY[-7d]";8000;1;61;;;6;1;;3;1
+30;"InkJet Printer - 6 U + LED Screen HD 22 inch - 8 U";;30;"EUR";"TODAY[-7d]";2316;3;57;;;6;1;;3;3
+31;"Pack Classic - 18 U + InkJet Printer - 2 U";20;;"EUR";"TODAY[-4M-7d]";33868;5;84;;;12;1;11;2;5
+32;"InkJet Printer - 14 U + Classic server - 1 U";44;;"EUR";"TODAY[-3M-7d]";6106;5;74;;;12;1;12;2;5
+33;"Laser Printer - 8 U + High Performance Server - 5 U";70;;"EUR";"TODAY[-2M-7d]";15932;5;90;;;12;1;11;2;5
+34;"Pack Performance - 10 U";77;;"EUR";"TODAY[-1M-7d]";110000;4;100;;;12;1;12;2;4
+35;"Consultant - 11 JR(S)";88;;"EUR";"TODAY[-28d]";8800;5;47;;;12;1;9;1;5
+36;"Project Manager - 10 JR(S) + Annual Maintenance - 1 ANNEE";132;;"EUR";"TODAY[-21d]";12000;4;99;;;12;1;8;3;4
+37;"Project - 1 U + Project Manager - 2 JR(S)";136;;"EUR";"TODAY[-14d]";10000;4;54;;;12;1;8;3;4
+38;"Laser Printer - 6 U + LED Screen HD 24 inch - 10 U";148;;"EUR";"TODAY[-7d]";5861;6;59;;;12;1;13;3;6

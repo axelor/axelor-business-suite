@@ -197,32 +197,6 @@ public class ForecastRecapService {
                         .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP),
                     today)
                 .setScale(2, RoundingMode.HALF_UP);
-      } else if (forecastRecap.getOpportunitiesTypeSelect()
-          == ForecastRecapRepository.OPPORTUNITY_TYPE_BEST) {
-        amountCompanyCurr =
-            currencyService
-                .getAmountCurrencyConvertedAtDate(
-                    opportunity.getCurrency(),
-                    opportunity.getCompany().getCurrency(),
-                    opportunity
-                        .getBestCase()
-                        .multiply(opportunity.getProbability())
-                        .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP),
-                    today)
-                .setScale(2, RoundingMode.HALF_UP);
-
-      } else {
-        amountCompanyCurr =
-            currencyService
-                .getAmountCurrencyConvertedAtDate(
-                    opportunity.getCurrency(),
-                    opportunity.getCompany().getCurrency(),
-                    opportunity
-                        .getWorstCase()
-                        .multiply(opportunity.getProbability())
-                        .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP),
-                    today)
-                .setScale(2, RoundingMode.HALF_UP);
       }
       this.createForecastRecapLine(
           opportunity.getExpectedCloseDate(),
@@ -276,31 +250,6 @@ public class ForecastRecapService {
                     opportunity.getCompany().getCurrency(),
                     opportunity
                         .getAmount()
-                        .multiply(opportunity.getProbability())
-                        .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP),
-                    appBaseService.getTodayDate(forecastRecap.getCompany()))
-                .setScale(2, RoundingMode.HALF_UP);
-      } else if (forecastRecap.getOpportunitiesTypeSelect()
-          == ForecastRecapRepository.OPPORTUNITY_TYPE_BEST) {
-        amountCompanyCurr =
-            currencyService
-                .getAmountCurrencyConvertedAtDate(
-                    opportunity.getCurrency(),
-                    opportunity.getCompany().getCurrency(),
-                    opportunity
-                        .getBestCase()
-                        .multiply(opportunity.getProbability())
-                        .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP),
-                    appBaseService.getTodayDate(forecastRecap.getCompany()))
-                .setScale(2, RoundingMode.HALF_UP);
-      } else {
-        amountCompanyCurr =
-            currencyService
-                .getAmountCurrencyConvertedAtDate(
-                    opportunity.getCurrency(),
-                    opportunity.getCompany().getCurrency(),
-                    opportunity
-                        .getWorstCase()
                         .multiply(opportunity.getProbability())
                         .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP),
                     appBaseService.getTodayDate(forecastRecap.getCompany()))

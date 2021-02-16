@@ -1435,7 +1435,7 @@ where ForecastRecap.id = ?
                             <structure>
                                 <property name="paramName">param_1</property>
                                 <simple-property-list name="expression">
-                                    <value type="javascript">['ForecastOpportunitiesType.no','ForecastOpportunitiesType.base','ForecastOpportunitiesType.worst','ForecastOpportunitiesType.best'][row["opportunitiestypeselect"]-1]</value>
+                                    <value type="javascript">['ForecastOpportunitiesType.no','ForecastOpportunitiesType.base'][row["opportunitiestypeselect"]-1]</value>
                                 </simple-property-list>
                             </structure>
                         </list-property>
