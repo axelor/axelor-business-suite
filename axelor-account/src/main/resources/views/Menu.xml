@@ -522,6 +522,15 @@
 		<view-param name="search-filters" value="tax-filters"/>
 	</action-view>
 	
+	<menuitem name="account-conf-financial-product-family" parent="account-conf-financial"
+		title="Product Families" action="account.conf.financial.product.family"/>
+		
+	<action-view name="account.conf.financial.product.family" title="Product Families"
+		model="com.axelor.apps.base.db.ProductFamily">
+		<view type="grid" name="product-family-grid"/>
+		<view type="form" name="product-family-form"/>
+	</action-view>
+	
 	<menuitem name="account-conf-analytic" parent="account-conf"
 		title="Analytic" />
 

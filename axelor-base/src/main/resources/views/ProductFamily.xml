@@ -15,8 +15,10 @@
 		<panel name="mainPanel" >
 	        <field name="name"/>
 	        <field name="code" x-bind="{{code|unaccent|uppercase}}" />
+	        
 	        <panel-related name="accountManagementListPanel" field="accountManagementList" grid-view="account-management-product-grid" form-view="account-management-form"
 	        domain="self.typeSelect = 1" colSpan="12"/>
+	        
 	        <panel name="salesTurnoverPanel" title="Sales Turnover" hideIf="fromMenu == null" if-module="axelor-supplychain" colSpan="12" if="__config__.app.isApp('supplychain')">    
 				<panel-dashlet name="salesTurnOverPanel" height="350" action="dashlet.family.sales.turnover.per.month" colSpan="12"/>
 	  		</panel>
@@ -29,5 +31,4 @@
 		<domain>self.productFamily.id = :_productFamilyId AND dtype = 'Product'</domain>
 		<context name="_productFamilyId" expr="eval: __this__.id"/>
 	</action-view>
-	
 </object-views>

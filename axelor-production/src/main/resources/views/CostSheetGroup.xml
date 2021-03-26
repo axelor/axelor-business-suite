@@ -2,13 +2,13 @@
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.3.xsd">
-    
+
     <grid name="cost-sheet-group-grid" title="Cost sheet groups" model="com.axelor.apps.production.db.CostSheetGroup">
 	    <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
   		<field name="name"/>
   		<field name="costTypeSelect"/>
     </grid>
-    
+
 	<form name="cost-sheet-group-form" title="Cost sheet group" model="com.axelor.apps.production.db.CostSheetGroup" width="large">
 	  <panel name="mainPanel">
 	    <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
@@ -24,5 +24,5 @@
   		</panel>
 	  </panel>
 	</form>
-	
+
 </object-views>
