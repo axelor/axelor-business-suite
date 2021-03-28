@@ -9,10 +9,11 @@
 		  onNew="action-expense-line-default, action-kilometric-allowance-record-default">
 		<hilite if="untaxedAmount == 0" color="danger"/>
 		<field name="project" requiredIf="toInvoice" canView="false" onSelect="action-expense-line-attrs-domain-project" widget="SuggestBox" width="150" onChange="action-expense-line-attrs-project-on-change"/>
-		<field name="expenseProduct" canView="false" onSelect="action-expense-line-attrs-set-product-domain" widget="SuggestBox" form-view="product-expense-form" grid-view="product-expense-grid" width="200"/>
+		<field name="expenseProduct" canView="false" onSelect="action-expense-line-attrs-set-product-domain" onChange="action-expense-line-method-get-tax-profile,action-expense-line-attrs-tax-profile-on-change,action-expense-on-change-tax-untaxt-amount, action-expense-line-method-compute-analytic-distribution,action-expense-on-change-tax-untaxt-amount" widget="SuggestBox" form-view="product-expense-form" grid-view="product-expense-grid" width="200"/>
 		<field name="expenseDate" onChange="action-expense-line-validate-expenseDate" width="120"/>
 		<field name="user" hidden="true" form-view="user-form" grid-view="user-grid" onSelect="action-expense-line-attrs-company"/>
-		<field name="totalAmount" aggregate="sum" onChange="action-expense-on-change-tax-untaxt-amount" width="170"/>
+		<field name="taxProfile" onChange="action-expense-line-attrs-tax-profile-on-change,action-expense-on-change-tax-untaxt-amount, action-expense-line-method-compute-analytic-distribution,action-expense-on-change-tax-untaxt-amount" readonlyIf="expenseProduct.blockExpenseTax"/>
+		<field name="totalAmount" aggregate="sum" onChange="action-expense-line-attrs-tax-profile-on-change,action-expense-on-change-tax-untaxt-amount" width="170"/>
 		<field name="totalTax" aggregate="sum" readonlyIf="expenseProduct.blockExpenseTax" width="80"
 			onChange="action-expense-on-change-tax-untaxt-amount, action-expense-line-method-compute-analytic-distribution"/>
         <field name="toInvoice"/>
@@ -55,7 +56,8 @@
 			<field name="project" requiredIf="toInvoice" edit-icon="false" canEdit="false" onSelect="action-expense-line-attrs-domain-project" widget="SuggestBox" form-view="project-form" grid-view="project-grid"/>
 			<field name="expenseProduct" edit-icon="false" canEdit="false" onSelect="action-expense-line-attrs-set-product-domain" widget="SuggestBox" form-view="product-expense-form" grid-view="product-expense-grid"/>
 			<field name="expenseDate" onChange="action-expense-line-validate-expenseDate"/>
-			<field name="totalAmount" onChange="action-expense-on-change-untaxt-amount, action-expense-line-method-compute-analytic-distribution"/>
+			<field name="taxProfile"  onChange="action-expense-line-attrs-tax-profile-on-change,action-expense-on-change-tax-untaxt-amount, action-expense-line-method-compute-analytic-distribution,action-expense-on-change-tax-untaxt-amount" readonlyIf="expenseProduct.blockExpenseTax"/>
+			<field name="totalAmount" onChange="action-expense-line-attrs-tax-profile-on-change,action-expense-on-change-untaxt-amount, action-expense-line-method-compute-analytic-distribution"/>
 			<field name="totalTax" onChange="action-expense-on-change-tax-untaxt-amount, action-expense-line-method-compute-analytic-distribution" readonlyIf="expenseProduct.blockExpenseTax == true"/>
 			<field name="untaxedAmount" />
             <field name="toInvoice" colSpan="3"/>
@@ -186,5 +188,13 @@
 
 	<action-attrs name="action-expense-line-attrs-project-on-change">
 		<attribute name="value" for="toInvoice" expr="eval: project?.isInvoicingExpenses" if="__config__.app.isApp('business-project')"/>
+	</action-attrs>
+	
+	<action-method name="action-expense-line-method-get-tax-profile">
+		<call class="com.axelor.apps.hr.web.expense.ExpenseController" method="getTaxProfile"/>
+	</action-method>
+	
+	<action-attrs name="action-expense-line-attrs-tax-profile-on-change">
+		<attribute name="value" for="totalTax" expr="eval: taxProfile?.activeTaxLine?.value*totalAmount" if ="!expenseProduct?.blockExpenseTax &amp;&amp; taxProfile?.activeTaxLine?.value != null"/>
 	</action-attrs>
 </object-views>

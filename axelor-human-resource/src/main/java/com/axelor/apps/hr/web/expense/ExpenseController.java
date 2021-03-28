@@ -700,4 +700,18 @@ public class ExpenseController {
       TraceBackService.trace(response, e);
     }
   }
+
+  public void getTaxProfile(ActionRequest request, ActionResponse response) throws AxelorException {
+    try {
+      ExpenseLine expenseLine = request.getContext().asType(ExpenseLine.class);
+      Expense expense = expenseLine.getExpense();
+      if (expense == null) {
+        setExpense(request, expenseLine);
+      }
+      expenseLine = Beans.get(ExpenseService.class).getTaxProfile(expenseLine);
+      response.setValue("taxProfile", expenseLine.getTaxProfile());
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
+  }
 }

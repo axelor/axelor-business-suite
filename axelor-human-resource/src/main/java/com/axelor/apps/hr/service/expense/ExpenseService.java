@@ -134,4 +134,6 @@ public interface ExpenseService {
   public Move createMoveForExpensePayment(Expense expense) throws AxelorException;
 
   public Expense updateMoveDateAndPeriod(Expense expense);
+
+  public ExpenseLine getTaxProfile(ExpenseLine expenseLine) throws AxelorException;
 }

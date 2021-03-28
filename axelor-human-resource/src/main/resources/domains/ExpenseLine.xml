@@ -31,6 +31,8 @@
         <string name="fromCity" title="Starting city" />
         <string name="toCity" title="Arriving city" />
         
+        <many-to-one name="taxProfile" ref="com.axelor.apps.account.db.Tax" title="Tax profile"/>
+        
         <string name="fullName" namecolumn="true">
 			<![CDATA[
 	  		String fullName = "";

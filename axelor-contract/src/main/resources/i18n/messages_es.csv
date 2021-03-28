@@ -198,6 +198,5 @@
 "You cannot remove a line which has been already invoiced.","No puede eliminar una línea que ya ha sido facturada.",,
 "You cannot terminate a contract before version activation date.","No puede rescindir un contrato antes de la fecha de activación de la versión.",,
 "You need to save your contract for add lines.","Necesita guardar su contrato para agregar líneas.",,
-"com.axelor.apps.contract.batch.service.BatchContractService","com.axelor.apps.contract.batch.service.BatchContractService",,
 "com.axelor.apps.contract.batch.service.BatchContractService",,,
 "value:Contract","valor: contrato",,

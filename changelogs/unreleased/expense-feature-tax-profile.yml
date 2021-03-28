@@ -1,0 +1,5 @@
+---
+title: "Expense: Added a tax profile for each expense line to compute taxes when generating a move."
+type: feature
+description: |
+  When generating a move from an expense, one move line is now created for each different tax profile (instead of one move line for all taxes).
