@@ -159,6 +159,7 @@
 		<!-- Account Report -->
 		<integer name="lineMinBeforeLongReportGenerationMessageNumber" title="Number of lines minimum before long report generation message appears" min="0" help="Minimal number of lines required to display a confirmation message when you try to export an accounting report. Value 0 is equal to no message"  default="10000"/>
 
+		<many-to-one name="interestProduct" ref="com.axelor.apps.base.db.Product" title="Product for interest invoices"/>
 
     <finder-method name="findByCompany" using="company"/>
 

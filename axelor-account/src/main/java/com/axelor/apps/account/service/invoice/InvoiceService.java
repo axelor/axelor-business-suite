@@ -283,4 +283,6 @@ public interface InvoiceService {
   public User getPfpValidatorUser(Invoice invoice);
 
   public String getPfpValidatorUserDomain(Invoice invoice);
+
+  public Invoice generateInterestInvoice(Invoice invoice) throws AxelorException;
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+    
+    <form id="account-batch-form" name="batch-form" title="Batch" model="com.axelor.apps.base.db.Batch" extension="true">
+    	
+    	<extend target="//button[@name='showAccountingSituationBtn']">
+    		<insert position="before">
+    			<button if-module="axelor-account" name="showInterestInvoiceBtn" title="Interest invoices" hidden="true" colSpan="4" onClick="action-batch-show-invoice,close"/>
+    		</insert>
+    	</extend>
+		
+    </form>
+    
+</object-views>
