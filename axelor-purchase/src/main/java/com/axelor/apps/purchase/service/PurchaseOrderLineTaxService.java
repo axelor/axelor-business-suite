@@ -133,7 +133,8 @@ public class PurchaseOrderLineTaxService {
       if (purchaseOrderLineTax.getTaxLine() != null)
         taxTotal =
             purchaseOrderToolService.computeAmount(
-                exTaxBase, purchaseOrderLineTax.getTaxLine().getValue());
+                exTaxBase,
+                purchaseOrderLineTax.getTaxLine().getValue().divide(new BigDecimal(100)));
       purchaseOrderLineTax.setTaxTotal(taxTotal);
       purchaseOrderLineTax.setInTaxTotal(purchaseOrderLineTax.getExTaxBase().add(taxTotal));
 

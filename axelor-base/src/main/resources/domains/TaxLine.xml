@@ -10,7 +10,7 @@
     <many-to-one name="tax" ref="Tax" title="Tax" />
     <date name="startDate" title="Application start Date" required="true"/>
     <date name="endDate" title="Run off Date" />
-    <decimal name="value" title="Rate" scale="3" precision="20" min="0"/>
+    <decimal name="value" title="Rate" scale="10" precision="20" min="0" max="100"/>
     
     <string name="name" namecolumn="true" title="Name">
 	    <![CDATA[

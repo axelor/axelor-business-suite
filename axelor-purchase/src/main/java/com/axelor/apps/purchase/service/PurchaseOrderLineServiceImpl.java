@@ -102,7 +102,7 @@ public class PurchaseOrderLineServiceImpl implements PurchaseOrderLineService {
     BigDecimal taxRate = BigDecimal.ZERO;
 
     if (purchaseOrderLine.getTaxLine() != null) {
-      taxRate = purchaseOrderLine.getTaxLine().getValue();
+      taxRate = purchaseOrderLine.getTaxLine().getValue().divide(new BigDecimal(100));
     }
 
     if (!purchaseOrder.getInAti()) {
@@ -555,23 +555,35 @@ public class PurchaseOrderLineServiceImpl implements PurchaseOrderLineService {
 
     if (!purchaseOrder.getInAti()) {
       exTaxTotal = computeAmount(purchaseOrderLine.getQty(), priceDiscounted);
-      inTaxTotal = exTaxTotal.add(exTaxTotal.multiply(purchaseOrderLine.getTaxLine().getValue()));
+      inTaxTotal =
+          exTaxTotal.add(
+              exTaxTotal.multiply(
+                  purchaseOrderLine.getTaxLine().getValue().divide(new BigDecimal(100))));
       companyExTaxTotal = this.getCompanyExTaxTotal(exTaxTotal, purchaseOrder);
       companyInTaxTotal =
           companyExTaxTotal.add(
-              companyExTaxTotal.multiply(purchaseOrderLine.getTaxLine().getValue()));
+              companyExTaxTotal.multiply(
+                  purchaseOrderLine.getTaxLine().getValue().divide(new BigDecimal(100))));
 
     } else {
       inTaxTotal = computeAmount(purchaseOrderLine.getQty(), priceDiscounted);
       exTaxTotal =
           inTaxTotal.divide(
-              purchaseOrderLine.getTaxLine().getValue().add(BigDecimal.ONE),
+              purchaseOrderLine
+                  .getTaxLine()
+                  .getValue()
+                  .divide(new BigDecimal(100))
+                  .add(BigDecimal.ONE),
               2,
               BigDecimal.ROUND_HALF_UP);
       companyInTaxTotal = this.getCompanyExTaxTotal(inTaxTotal, purchaseOrder);
       companyExTaxTotal =
           companyInTaxTotal.divide(
-              purchaseOrderLine.getTaxLine().getValue().add(BigDecimal.ONE),
+              purchaseOrderLine
+                  .getTaxLine()
+                  .getValue()
+                  .divide(new BigDecimal(100))
+                  .add(BigDecimal.ONE),
               2,
               BigDecimal.ROUND_HALF_UP);
     }
@@ -626,9 +638,13 @@ public class PurchaseOrderLineServiceImpl implements PurchaseOrderLineService {
     }
 
     if (priceIsAti) {
-      price = price.divide(taxLine.getValue().add(BigDecimal.ONE), 2, BigDecimal.ROUND_HALF_UP);
+      price =
+          price.divide(
+              taxLine.getValue().divide(new BigDecimal(100)).add(BigDecimal.ONE),
+              2,
+              BigDecimal.ROUND_HALF_UP);
     } else {
-      price = price.add(price.multiply(taxLine.getValue()));
+      price = price.add(price.multiply(taxLine.getValue().divide(new BigDecimal(100))));
     }
     return price;
   }

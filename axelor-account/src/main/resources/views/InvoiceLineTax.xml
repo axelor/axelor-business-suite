@@ -9,11 +9,11 @@
 		<field name="taxTotal" aggregate="sum"/>
     </grid>
     
-    <form name="invoice-line-tax-form" title="Tax Line" model="com.axelor.apps.account.db.InvoiceLineTax"  >
+    <form name="invoice-line-tax-form" title="Tax Line" model="com.axelor.apps.account.db.InvoiceLineTax" onLoad="action-base-attrs-set-tax-line-scale" onNew="action-base-attrs-set-tax-line-scale">
     	<panel name="mainPanel" >
     		<field name="taxLine" canEdit="false" grid-view="tax-line-grid" form-view="tax-line-form"/>
 			<field name="taxLine.tax.name"/>
-			<field name="taxLine.value"/>
+			<field name="taxLine.value" />
 			<field name="exTaxBase"/>
 			<field name="taxTotal"/>
 			<field name="inTaxTotal"/>

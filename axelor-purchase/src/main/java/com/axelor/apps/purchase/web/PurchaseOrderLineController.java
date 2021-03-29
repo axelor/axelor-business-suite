@@ -287,7 +287,10 @@ public class PurchaseOrderLineController {
 
     try {
       BigDecimal price = purchaseOrderLine.getPrice();
-      BigDecimal inTaxPrice = price.add(price.multiply(purchaseOrderLine.getTaxLine().getValue()));
+      BigDecimal inTaxPrice =
+          price.add(
+              price.multiply(
+                  purchaseOrderLine.getTaxLine().getValue().divide(new BigDecimal(100))));
 
       response.setValue("inTaxPrice", inTaxPrice);
 

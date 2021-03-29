@@ -66,11 +66,14 @@ public class InvoiceLineController {
 
           if (!invoice.getInAti()) {
             exTaxTotal = InvoiceLineManagement.computeAmount(qty, priceDiscounted);
-            inTaxTotal = exTaxTotal.add(exTaxTotal.multiply(taxRate));
+            inTaxTotal = exTaxTotal.add(exTaxTotal.multiply(taxRate.divide(new BigDecimal(100))));
           } else {
             inTaxTotal = InvoiceLineManagement.computeAmount(qty, priceDiscounted);
             exTaxTotal =
-                inTaxTotal.divide(taxRate.add(BigDecimal.ONE), 2, BigDecimal.ROUND_HALF_UP);
+                inTaxTotal.divide(
+                    taxRate.divide(new BigDecimal(100)).add(BigDecimal.ONE),
+                    2,
+                    BigDecimal.ROUND_HALF_UP);
           }
 
           companyExTaxTotal = invoiceLineService.getCompanyExTaxTotal(exTaxTotal, invoice);

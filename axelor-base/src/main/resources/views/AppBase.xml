@@ -18,8 +18,9 @@
 			<panel name="configurationPanel" title="Configuration" colSpan="12">
     	    	<field name="defaultPartnerLanguage" />
     		    <field name="enableTradingNamesManagement" widget="boolean-switch"/>
-    	    	<field name="activateSendingEmail" widget="boolean-switch"/>
-    	    	<field name="emailAccountByUser" widget="boolean-switch"/>
+    	    	<field name="activateSendingEmail" widget="boolean-switch" colSpan="3"/>
+    	    	<field name="emailAccountByUser" widget="boolean-switch" colSpan="3"/>
+    	    	<field name="nbDecimalDigitForTaxRate"/>
     	    	<field name="productInAtiSelect"/>
     	    	<field name="nbDecimalDigitForUnitPrice" colSpan="3"/>
    	    		<field name="nbDecimalDigitForQty" colSpan="3"/>

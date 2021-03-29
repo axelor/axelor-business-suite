@@ -508,7 +508,7 @@ public class AccountingCutOffServiceImpl implements AccountingCutOffService {
 
     BigDecimal currencyTaxAmount =
         InvoiceLineManagement.computeAmount(
-            productMoveLine.getCurrencyAmount(), taxLine.getValue());
+            productMoveLine.getCurrencyAmount(), taxLine.getValue().divide(new BigDecimal(100)));
 
     MoveLine taxMoveLine =
         moveLineService.createMoveLine(

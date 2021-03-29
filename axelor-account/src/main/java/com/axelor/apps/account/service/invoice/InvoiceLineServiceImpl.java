@@ -284,9 +284,13 @@ public class InvoiceLineServiceImpl implements InvoiceLineService {
     }
 
     if (priceIsAti) {
-      price = price.divide(taxLine.getValue().add(BigDecimal.ONE), 2, BigDecimal.ROUND_HALF_UP);
+      price =
+          price.divide(
+              taxLine.getValue().divide(new BigDecimal(100)).add(BigDecimal.ONE),
+              2,
+              BigDecimal.ROUND_HALF_UP);
     } else {
-      price = price.add(price.multiply(taxLine.getValue()));
+      price = price.add(price.multiply(taxLine.getValue().divide(new BigDecimal(100))));
     }
     return price;
   }

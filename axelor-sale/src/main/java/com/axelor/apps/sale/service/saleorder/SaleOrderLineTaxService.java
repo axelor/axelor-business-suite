@@ -111,7 +111,8 @@ public class SaleOrderLineTaxService {
       BigDecimal taxTotal = BigDecimal.ZERO;
       if (saleOrderLineTax.getTaxLine() != null) {
         taxTotal =
-            saleOrderToolService.computeAmount(exTaxBase, saleOrderLineTax.getTaxLine().getValue());
+            saleOrderToolService.computeAmount(
+                exTaxBase, saleOrderLineTax.getTaxLine().getValue().divide(new BigDecimal(100)));
         saleOrderLineTax.setTaxTotal(taxTotal);
       }
       saleOrderLineTax.setInTaxTotal(exTaxBase.add(taxTotal));

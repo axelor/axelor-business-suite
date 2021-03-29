@@ -178,7 +178,7 @@ public class StockMoveLineServiceImpl implements StockMoveLineService {
           unitPrice.setScale(appBaseService.getNbDecimalDigitForUnitPrice(), RoundingMode.HALF_UP);
       unitPriceUntaxed =
           unitPrice.divide(
-              taxRate.add(BigDecimal.ONE),
+              taxRate.divide(new BigDecimal(100)).add(BigDecimal.ONE),
               appBaseService.getNbDecimalDigitForUnitPrice(),
               RoundingMode.HALF_UP);
     } else {
@@ -186,7 +186,7 @@ public class StockMoveLineServiceImpl implements StockMoveLineService {
           unitPrice.setScale(appBaseService.getNbDecimalDigitForUnitPrice(), RoundingMode.HALF_UP);
       unitPriceTaxed =
           unitPrice
-              .multiply(taxRate.add(BigDecimal.ONE))
+              .multiply(taxRate.divide(new BigDecimal(100)).add(BigDecimal.ONE))
               .setScale(appBaseService.getNbDecimalDigitForUnitPrice(), RoundingMode.HALF_UP);
     }
     return this.createStockMoveLine(

@@ -268,7 +268,7 @@ public abstract class InvoiceLineGenerator extends InvoiceLineManagement {
 
     BigDecimal taxRate = BigDecimal.ZERO;
     if (taxLine != null) {
-      taxRate = taxLine.getValue();
+      taxRate = taxLine.getValue().divide(new BigDecimal(100));
     }
 
     if (!invoice.getInAti()) {

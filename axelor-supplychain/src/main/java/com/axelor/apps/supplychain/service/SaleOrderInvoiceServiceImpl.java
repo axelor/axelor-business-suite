@@ -333,7 +333,8 @@ public class SaleOrderInvoiceServiceImpl implements SaleOrderInvoiceService {
         TaxLine taxLine = saleOrderLineTax.getTaxLine();
         BigDecimal lineAmountToInvoiceInclTax =
             (taxLine != null)
-                ? lineAmountToInvoice.add(lineAmountToInvoice.multiply(taxLine.getValue()))
+                ? lineAmountToInvoice.add(
+                    lineAmountToInvoice.multiply(taxLine.getValue().divide(new BigDecimal(100))))
                 : lineAmountToInvoice;
 
         InvoiceLineGenerator invoiceLineGenerator =

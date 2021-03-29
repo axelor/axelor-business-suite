@@ -195,7 +195,7 @@ public class AccountClearanceService {
     move.getMoveLineList().add(debitMoveLine);
 
     // Credit MoveLine 77. (profit account)
-    BigDecimal divid = taxRate.add(BigDecimal.ONE);
+    BigDecimal divid = taxRate.divide(new BigDecimal(100)).add(BigDecimal.ONE);
     BigDecimal profitAmount =
         amount
             .divide(divid, AppBaseService.DEFAULT_NB_DECIMAL_DIGITS, RoundingMode.HALF_EVEN)

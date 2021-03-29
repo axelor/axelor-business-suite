@@ -10,7 +10,7 @@
 	<many-to-one name="moveLine" ref="com.axelor.apps.account.db.MoveLine" title="Move line" readonly="true" initParam="true"/>
 	<many-to-one name="originTaxLine" ref="com.axelor.apps.account.db.TaxLine" title="Origin tax line" readonly="true" initParam="true"/>
 	<many-to-one name="reconcile" ref="com.axelor.apps.account.db.Reconcile" title="Reconcile" readonly="true" initParam="true"/>
-	<decimal name="taxRate" title="Rate" scale="3" precision="20" initParam="true"/>
+	<decimal name="taxRate" title="Rate" scale="10" precision="20" initParam="true"/>
 	<decimal name="taxAmount" scale="2" precision="20"  title="Tax amount" readonly="true"/>
 	<decimal name="detailPaymentAmount" scale="2" precision="20" readonly="true" initParam="true"/>
 	<date name="date" column="date_val" title="Date" readonly="true" initParam="true"/>

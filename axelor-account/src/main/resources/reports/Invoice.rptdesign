@@ -253,7 +253,7 @@ reportContext.getDesignHandle().findMasterPage("Simple MasterPage").getStyle().b
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="Watermark" id="5644">
+        <scalar-parameter name="Watermark" id="5725">
             <property name="valueType">static</property>
             <property name="isRequired">false</property>
             <property name="dataType">string</property>
@@ -3274,7 +3274,7 @@ where Invoice.id = ? AND InvoicePayment.status_select=1;]]></xml-property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
         </style>
-        <style name="NewStyle2" id="5645">
+        <style name="NewStyle2" id="5726">
             <property name="backgroundPositionX">center</property>
             <property name="backgroundPositionY">center</property>
             <property name="backgroundRepeat">no-repeat</property>
@@ -4183,7 +4183,7 @@ where Invoice.id = ? AND InvoicePayment.status_select=1;]]></xml-property>
                                     <property name="contentType">html</property>
                                     <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :&amp;nbsp;]]></text-property>
                                 </text>
-                                <data id="5646">
+                                <data id="5727">
                                     <structure name="dateTimeFormat">
                                         <property name="category">Short Date</property>
                                         <property name="pattern">Short Date</property>
@@ -5440,7 +5440,7 @@ vars["in_total"] = vars["temp_in_total"];
                                         <property name="fontSize">8pt</property>
                                         <property name="textAlign">center</property>
                                         <property name="contentType">html</property>
-                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">row["taxvalue"]</VALUE-OF>]]></text-property>
+                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00' %'{RoundingMode=HALF_UP}">row["taxvalue"]</VALUE-OF>]]></text-property>
                                     </text>
                                 </cell>
                                 <cell id="5391">
@@ -6622,7 +6622,7 @@ vars["in_total"] = vars["temp_in_total"];
                                                     <text id="4714">
                                                         <property name="textAlign">right</property>
                                                         <property name="contentType">html</property>
-                                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">row["value"]</VALUE-OF>]]></text-property>
+                                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00' %'{RoundingMode=HALF_UP}">row["value"]</VALUE-OF>]]></text-property>
                                                     </text>
                                                 </cell>
                                                 <cell id="4715">

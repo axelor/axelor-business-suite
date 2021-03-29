@@ -50,7 +50,7 @@
 
         <integer name="typeSelect" title="Type" selection="line.type.select"/>
 
-        <decimal name="taxRate" scale="3" precision="20" readonly="true"/>
+        <decimal name="taxRate" scale="10" precision="20" readonly="true"/>
         <string name="taxCode" readonly="true"/>
         <string name="name" title="Name" search="invoice,productName">
             <![CDATA[

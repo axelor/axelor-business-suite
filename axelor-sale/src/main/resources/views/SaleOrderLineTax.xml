@@ -9,7 +9,7 @@
 		<field name="taxTotal" aggregate="sum"/>
     </grid>
     
-    <form name="sale-order-line-tax-form" title="SO Tax line" model="com.axelor.apps.sale.db.SaleOrderLineTax">
+    <form name="sale-order-line-tax-form" title="SO Tax line" model="com.axelor.apps.sale.db.SaleOrderLineTax" onLoad="action-base-attrs-set-tax-line-scale" onNew="action-base-attrs-set-tax-line-scale">
 	   	<panel name="mainPanel" >
 	    	<field name="taxLine" canEdit="false" grid-view="tax-line-grid" form-view="tax-line-form"/>
 			<field name="taxLine.tax.name"/>

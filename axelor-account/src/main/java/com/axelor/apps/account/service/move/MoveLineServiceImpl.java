@@ -1178,9 +1178,13 @@ public class MoveLineServiceImpl implements MoveLineService {
               newOrUpdatedMoveLine = map.get(newSourceTaxLineKey);
             }
             newOrUpdatedMoveLine.setDebit(
-                newOrUpdatedMoveLine.getDebit().add(debit.multiply(taxLine.getValue())));
+                newOrUpdatedMoveLine
+                    .getDebit()
+                    .add(debit.multiply(taxLine.getValue().divide(new BigDecimal(100)))));
             newOrUpdatedMoveLine.setCredit(
-                newOrUpdatedMoveLine.getCredit().add(credit.multiply(taxLine.getValue())));
+                newOrUpdatedMoveLine
+                    .getCredit()
+                    .add(credit.multiply(taxLine.getValue().divide(new BigDecimal(100)))));
           }
 
           newMap.put(newSourceTaxLineKey, newOrUpdatedMoveLine);
@@ -1201,8 +1205,8 @@ public class MoveLineServiceImpl implements MoveLineService {
       MoveLine newOrUpdatedMoveLine) {
 
     newOrUpdatedMoveLine.setSourceTaxLine(taxLine);
-    newOrUpdatedMoveLine.setDebit(debit.multiply(taxLine.getValue()));
-    newOrUpdatedMoveLine.setCredit(credit.multiply(taxLine.getValue()));
+    newOrUpdatedMoveLine.setDebit(debit.multiply(taxLine.getValue().divide(new BigDecimal(100))));
+    newOrUpdatedMoveLine.setCredit(credit.multiply(taxLine.getValue().divide(new BigDecimal(100))));
     newOrUpdatedMoveLine.setDescription(taxLine.getTax().getName());
     newOrUpdatedMoveLine.setDate(date);
 

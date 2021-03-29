@@ -730,7 +730,7 @@ public class IrrecoverableService {
 
     BigDecimal amount = paymentScheduleLine.getInTaxAmount();
 
-    BigDecimal divid = taxRate.add(BigDecimal.ONE);
+    BigDecimal divid = taxRate.divide(new BigDecimal(100)).add(BigDecimal.ONE);
 
     // Montant hors-Taxe
     BigDecimal irrecoverableAmount =
@@ -988,7 +988,7 @@ public class IrrecoverableService {
     BigDecimal taxRate = taxService.getTaxRate(tax, appAccountService.getTodayDate(company));
 
     // Debit MoveLine 654. (irrecoverable account)
-    BigDecimal divid = taxRate.add(BigDecimal.ONE);
+    BigDecimal divid = taxRate.divide(new BigDecimal(100)).add(BigDecimal.ONE);
     BigDecimal irrecoverableAmount =
         amount
             .divide(divid, 6, RoundingMode.HALF_EVEN)

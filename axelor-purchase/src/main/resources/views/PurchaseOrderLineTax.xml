@@ -9,7 +9,7 @@
 		<field name="taxTotal"/>
     </grid>
     
-    <form name="purchase-order-line-tax-form" title="PO Tax line" model="com.axelor.apps.purchase.db.PurchaseOrderLineTax">
+    <form name="purchase-order-line-tax-form" title="PO Tax line" model="com.axelor.apps.purchase.db.PurchaseOrderLineTax" onLoad="action-base-attrs-set-tax-line-scale" onNew="action-base-attrs-set-tax-line-scale">
 	  <panel name="mainPanel">
 	    <field name="taxLine" canEdit="false" grid-view="tax-line-grid" form-view="tax-line-form"/>
 	    <field name="taxLine.tax.name"/>

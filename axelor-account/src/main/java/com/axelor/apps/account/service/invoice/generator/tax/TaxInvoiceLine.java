@@ -186,7 +186,7 @@ public class TaxInvoiceLine extends TaxGenerator {
 
     for (InvoiceLineTax invoiceLineTax : map.values()) {
 
-      BigDecimal taxValue = invoiceLineTax.getTaxLine().getValue();
+      BigDecimal taxValue = invoiceLineTax.getTaxLine().getValue().divide(new BigDecimal(100));
       // Dans la devise de la facture
       BigDecimal exTaxBase =
           (invoiceLineTax.getReverseCharged())

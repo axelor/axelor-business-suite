@@ -262,7 +262,7 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
     BigDecimal subTotalCostPrice = BigDecimal.ZERO;
 
     if (saleOrderLine.getTaxLine() != null) {
-      taxRate = saleOrderLine.getTaxLine().getValue();
+      taxRate = saleOrderLine.getTaxLine().getValue().divide(new BigDecimal(100));
     }
 
     if (!saleOrder.getInAti()) {
@@ -452,9 +452,13 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
     }
 
     if (priceIsAti) {
-      price = price.divide(taxLine.getValue().add(BigDecimal.ONE), 2, BigDecimal.ROUND_HALF_UP);
+      price =
+          price.divide(
+              taxLine.getValue().divide(new BigDecimal(100)).add(BigDecimal.ONE),
+              2,
+              BigDecimal.ROUND_HALF_UP);
     } else {
-      price = price.add(price.multiply(taxLine.getValue()));
+      price = price.add(price.multiply(taxLine.getValue().divide(new BigDecimal(100))));
     }
     return price;
   }

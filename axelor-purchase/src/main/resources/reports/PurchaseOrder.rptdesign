@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">queryText</property>
@@ -3271,7 +3271,7 @@ from base_app_base]]></xml-property>
                                                 <property name="contentType">html</property>
                                                 <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :&amp;nbsp;]]></text-property>
                                             </text>
-                                            <data id="4633">
+                                            <data id="4638">
                                                 <structure name="dateTimeFormat">
                                                     <property name="category">Short Date</property>
                                                     <property name="pattern">Short Date</property>
@@ -3327,7 +3327,7 @@ from base_app_base]]></xml-property>
                                                 <property name="contentType">html</property>
                                                 <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF> :&amp;nbsp;]]></text-property>
                                             </text>
-                                            <data id="4634">
+                                            <data id="4639">
                                                 <structure name="dateTimeFormat">
                                                     <property name="category">Short Date</property>
                                                     <property name="pattern">Short Date</property>
@@ -5899,7 +5899,7 @@ row["first_name"]
                                             </structure>
                                         </list-property>
                                         <property name="contentType">html</property>
-                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">row["TaxValue"]</VALUE-OF>]]></text-property>
+                                        <text-property name="content"><![CDATA[<VALUE-OF format="###0.00' %'{RoundingMode=HALF_UP}">row["TaxValue"]</VALUE-OF>]]></text-property>
                                     </text>
                                 </cell>
                                 <cell id="3437">
@@ -6674,7 +6674,7 @@ row["first_name"]
                                     <property name="showIfBlank">false</property>
                                     <property name="canShrink">false</property>
                                     <property name="overflow">hidden</property>
-                                    <data id="4635">
+                                    <data id="4640">
                                         <property name="fontSize">8pt</property>
                                         <structure name="dateTimeFormat">
                                             <property name="category">Short Date</property>
@@ -7549,7 +7549,7 @@ row["first_name"]
                                                 <text id="3539">
                                                     <property name="textAlign">right</property>
                                                     <property name="contentType">html</property>
-                                                    <text-property name="content"><![CDATA[<VALUE-OF format="###0.00%{RoundingMode=HALF_UP}">row["value"]</VALUE-OF>]]></text-property>
+                                                    <text-property name="content"><![CDATA[<VALUE-OF format="###0.00' %'{RoundingMode=HALF_UP}">row["value"]</VALUE-OF>]]></text-property>
                                                 </text>
                                             </cell>
                                             <cell id="3500">

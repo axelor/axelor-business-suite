@@ -8,12 +8,12 @@
     	<hilite color="danger" if="$moment(endDate).diff(todayDate,'days') &lt; 0"/>
     	<hilite color="success" if="$moment(startDate).diff(todayDate,'days') &lt;= 0 &amp;&amp; ($moment(endDate).diff(todayDate,'days') &gt;= 0 || endDate == null)"/>
     	<field name="tax" form-view="tax-form" grid-view="tax-grid"/>
-    	<field name="value"/>
+    	<field name="value" x-scale="2"/>
         <field name="startDate"/>
         <field name="endDate"/>
     </grid>
     
-    <form name="tax-line-form" title="Tax Rate" model="com.axelor.apps.account.db.TaxLine">
+    <form name="tax-line-form" title="Tax Rate" model="com.axelor.apps.account.db.TaxLine" onNew="action-base-attrs-set-tax-line-value-scale" onLoad="action-base-attrs-set-tax-line-value-scale">
         <panel name="mainPanel">
         	<field name="tax" readonly="true" form-view="tax-form" grid-view="tax-grid"/>
 	        <field name="value"/>
@@ -26,16 +26,29 @@
     <grid name="tax-line-tax-grid" title="Tax Rates" model="com.axelor.apps.account.db.TaxLine">
         <field name="startDate"/>
         <field name="endDate"/>
-        <field name="value"/>
+        <field name="value" x-scale="2"/>
     </grid>
 
-    <form name="tax-line-tax-form" title="Tax Rate" model="com.axelor.apps.account.db.TaxLine" onNew="action-base-record-new-tax-line-tax">
+    <form name="tax-line-tax-form" title="Tax Rate" model="com.axelor.apps.account.db.TaxLine" onNew="action-base-group-tax-line-onnew" onLoad="action-base-attrs-set-tax-line-value-scale">
         <panel name="mainPanel">
 	        <field name="value"/>
 	        <field name="startDate" onChange="action-tax-line-condition-dates"/>
 	        <field name="endDate" onChange="action-tax-line-condition-dates"/>
         </panel>
     </form>
+
+	<action-attrs name="action-base-attrs-set-tax-line-value-scale">
+		<attribute name="scale" for="value" expr="eval: __config__.app.getApp('base').getNbDecimalDigitForTaxRate()"/>
+	</action-attrs>
+	
+	<action-attrs name="action-base-attrs-set-tax-line-scale">
+		<attribute name="scale" for="taxLine.value" expr="eval: __config__.app.getApp('base').getNbDecimalDigitForTaxRate()"/>
+	</action-attrs>
+
+	<action-group name="action-base-group-tax-line-onnew">
+		<action name="action-base-attrs-set-tax-line-value-scale"/>
+		<action name="action-base-record-new-tax-line-tax"/>
+	</action-group>
     
     <action-record name="action-base-record-new-tax-line-tax" model="com.axelor.apps.account.db.TaxLine">
 		<field name="tax" expr="eval: __parent__"/>

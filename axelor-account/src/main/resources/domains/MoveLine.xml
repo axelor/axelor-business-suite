@@ -61,7 +61,7 @@
     <long name="partnerId"/>
     <long name="accountId"/>
     
-    <decimal name="taxRate"  scale="3" precision="20" readonly="true"/>
+    <decimal name="taxRate"  scale="10" precision="20" readonly="true"/>
     <string name="taxCode" readonly="true"/>
       
     <decimal name="taxAmount" scale="2" precision="20" title="Tax amount" readonly="true"/>
