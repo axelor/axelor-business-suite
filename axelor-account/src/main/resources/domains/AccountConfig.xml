@@ -31,6 +31,7 @@
 		<!-- ACCOUNT -->
 		<many-to-one name="customerAccount" ref="com.axelor.apps.account.db.Account" title="Customer account"/>
 		<many-to-one name="supplierAccount" ref="com.axelor.apps.account.db.Account" title="Supplier account"/>
+		<many-to-one name="fixedAssetSupplierAccount" ref="com.axelor.apps.account.db.Account" title="Fixed asset supplier account"/>
 		<many-to-one name="doubtfulCustomerAccount" ref="com.axelor.apps.account.db.Account" title="Doubtful customers account"/>
 		<many-to-one name="employeeAccount" ref="com.axelor.apps.account.db.Account" title="Employee account"/>
 		<many-to-one name="irrecoverableAccount" ref="com.axelor.apps.account.db.Account" title="Irrecoverable account"/>

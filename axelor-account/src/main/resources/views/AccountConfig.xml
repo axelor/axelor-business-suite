@@ -40,6 +40,8 @@
 					<panel title="AccountConfig.Suppliers" colSpan="12">
 						<field name="supplierAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect ='payable'" grid-view="account-grid" form-view="account-form"
 							   help="Select the default supplier account to be used in purchase invoices. It will also be used as parent account if automatic account creation is enabled."/>
+						<field name="fixedAssetSupplierAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect ='payable'"
+									 grid-view="account-grid" form-view="account-form"/>
 						<field name="supplierAccountPrefix" help="Prefix to be prepended on supplier accounts' codes, the code will be [prefix]PARTNERNAME"
 							   showIf="partnerAccountGenerationModeSelect == 1" requiredIf="partnerAccountGenerationModeSelect == 1"/>
 						<field name="supplierAccountSequence" help="Sequence to be used to generate supplier accounts' codes" canNew="true" canEdit="true"

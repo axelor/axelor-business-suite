@@ -18,11 +18,13 @@
 package com.axelor.apps.account.service;
 
 import com.axelor.apps.account.db.Account;
+import com.axelor.apps.account.db.AccountConfig;
 import com.axelor.apps.account.db.AccountManagement;
 import com.axelor.apps.account.db.AnalyticDistributionTemplate;
 import com.axelor.apps.account.db.FiscalPosition;
 import com.axelor.apps.account.db.FixedAssetCategory;
 import com.axelor.apps.account.exception.IExceptionMessage;
+import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.service.tax.AccountManagementServiceImpl;
@@ -31,6 +33,7 @@ import com.axelor.apps.base.service.tax.TaxService;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
+import com.axelor.inject.Beans;
 import com.axelor.meta.CallMethod;
 import com.google.inject.Inject;
 import java.lang.invoke.MethodHandles;
@@ -111,7 +114,8 @@ public class AccountManagementServiceAccountImpl extends AccountManagementServic
    */
   @CallMethod
   protected Account getProductAccount(
-      Product product, Company company, boolean isPurchase, boolean fixedAsset, int configObject) {
+      Product product, Company company, boolean isPurchase, boolean fixedAsset, int configObject)
+      throws AxelorException {
 
     AccountManagement accountManagement = this.getAccountManagement(product, company, configObject);
 
@@ -121,6 +125,19 @@ public class AccountManagementServiceAccountImpl extends AccountManagementServic
       if (isPurchase) {
         if (fixedAsset) {
           account = accountManagement.getPurchFixedAssetsAccount();
+
+          if (account == null) {
+            AccountConfig accountConfig =
+                Beans.get(AccountConfigService.class).getAccountConfig(company);
+            account = accountConfig.getFixedAssetSupplierAccount();
+            if (account == null) {
+              throw new AxelorException(
+                  TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+                  I18n.get(IExceptionMessage.ACCOUNT_CONFIG_46),
+                  I18n.get(com.axelor.apps.base.exceptions.IExceptionMessage.EXCEPTION),
+                  company.getName());
+            }
+          }
         } else {
           account = accountManagement.getPurchaseAccount();
         }
@@ -155,7 +172,7 @@ public class AccountManagementServiceAccountImpl extends AccountManagementServic
    * Get the product analytic distribution template
    *
    * @param product
-   * @param compan
+   * @param company
    * @param configObject Specify if we want get the tax from the product or its product family
    *     <li>1 : product
    *     <li>2 : product family
