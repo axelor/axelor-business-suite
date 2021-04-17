@@ -493,5 +493,16 @@
         <option value="2">Cash</option>
         <option value="3">Bill of Exchange</option>
     </selection>
+    
+    <selection name="accounting.report.type.comparison.select">
+        <option value="1">No comparison</option>
+        <option value="2">Previous year</option>
+        <option value="3">Same period on previous year</option>
+    </selection>
+    
+    <selection name="accounting.report.type.no.of.periods.select">
+        <option value="1">1</option>
+        <option value="2">2</option>
+    </selection>
 
 </object-views>

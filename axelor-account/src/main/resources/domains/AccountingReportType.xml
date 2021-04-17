@@ -15,6 +15,17 @@
     <one-to-many name="accountingReportConfigLineList" title="Rules" ref="com.axelor.apps.account.db.AccountingReportConfigLine"
                  mappedBy="reportType"/>
     <many-to-one name="company" ref="com.axelor.apps.base.db.Company" title="Company" required="true"/>
+    <integer name="comparison" title="Comparison" selection="accounting.report.type.comparison.select"/>
+    <integer name="noOfPeriods" title="Number of periods" default="1" selection="accounting.report.type.no.of.periods.select"/>
+    
+     <extra-code><![CDATA[
+	
+	   	// Comparison
+		public static final int COMPARISON_NO_COMPARISON = 1;
+		public static final int COMPARISON_PREVIOUS_YEAR = 2;
+		public static final int COMPARISON_SAME_PERIOD_ON_PREVIOUS_YEAR = 3;
+		
+	]]></extra-code>
 
   </entity>
 </domain-models>

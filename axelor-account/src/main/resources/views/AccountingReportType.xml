@@ -22,6 +22,8 @@
 				<field name="typeSelect" validIf="typeSelect > 0" showIf="reportExportTypeSelect == 2" selection-in="[1000,1001,1006,1007,1008,1009,1010]"/>
 			</panel>
 			<field name="reportTitle" requiredIf="typeSelect == 3000" colSpan="12" showIf="reportExportTypeSelect == 1 &amp;&amp; typeSelect == 3000"/>
+			<field name="comparison" showIf="typeSelect == 3000" onChange="action-accounting-report-type-attrs-comparison-onchange"/>
+			<field name="noOfPeriods" showIf="typeSelect == 3000"/>
 			<panel-related name="accountingReportTypeAccountingReportConfigLineListPanel" field="accountingReportConfigLineList" colSpan="12"
 										 form-view="accounting-report-config-line-form" grid-view="accounting-report-config-line-grid" showIf="typeSelect == 3000"/>
 		</panel>
@@ -35,6 +37,12 @@
 		<field name="reportTitle" expr="eval: null"/>
 		<field name="typeSelect" expr="3000" if="reportExportTypeSelect == 1"/>
 	</action-record>
+	
+	<action-attrs name="action-accounting-report-type-attrs-comparison-onchange" model="com.axelor.apps.account.db.AccountingReportType">
+	   <attribute name="value" for="noOfPeriods" expr="eval: 1" if="comparison == 1"/>
+	   <attribute name="selection-in" for="noOfPeriods" expr="[1]" if="comparison == 1"/>
+	   <attribute name="selection-in" for="noOfPeriods" expr="" if="comparison != 1"/>
+	</action-attrs>
 
 	<action-record name="action-accounting-report-type-record-default-on-new" model="com.axelor.apps.account.db.AccountingReportType">
 		<field name="company" expr="eval: __user__.activeCompany"/>

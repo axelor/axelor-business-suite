@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">odaDriverClass</property>
@@ -383,6 +383,12 @@ ON MoveLine.account = Account.id
 LEFT JOIN account_move as Move
 ON MoveLine.move = Move.id
 
+LEFT JOIN base_period as Period
+ON Move.period = Period.id
+
+LEFT JOIN base_year as Year
+ON Period.year = Year.id
+
 LEFT JOIN account_accounting_report_partner_set as PartnerSet
 ON PartnerSet.account_accounting_report = Report.id
 
@@ -390,7 +396,11 @@ WHERE Report.id = ?
 	AND (Report.date_from    IS NULL OR MoveLine.date_val IS NULL OR MoveLine.date_val >= Report.date_from)
 	AND (Report.date_to      IS NULL OR MoveLine.date_val IS NULL OR MoveLine.date_val <= Report.date_to)
 	AND (Report.journal      IS NULL OR Move.journal 	  IS NULL OR Move.journal   	= Report.journal)
-	AND (Report.period	     IS NULL OR Move.period 	  IS NULL OR Move.period		= Report.period)
+	AND (Report.period	     IS NULL OR Move.period 	  IS NULL OR Move.period		= Report.period OR (Move.period IN (Select id FROM base_period WHERE from_date = Report.date_from - interval '1 year' AND to_date = Report.date_to - interval '1 year') AND ReportType.comparison = 3))
+    AND ((date_part('day',Year.to_date) = 31 AND 
+	date_part('day',Year.from_date) = 01 AND 
+    ((date_part('year',Year.from_date) = date_part('year', current_date - interval '2 year') AND date_part('month', Year.from_date) = 04 AND date_part('year',Year.to_date) = date_part('year', current_date - interval '1 year') AND date_part('month', Year.to_date) = 03) OR (
+	date_part('year',Year.from_date) = date_part('year', current_date - interval '1 year') AND date_part('month', Year.from_date) = 01 AND date_part('year', Year.to_date) = date_part('year', current_date - interval '1 year') AND date_part('month', Year.to_date) = 12)) AND ReportType.comparison = 2) OR ReportType.comparison <> 2)
 	AND (Report.payment_mode IS NULL OR Move.payment_mode IS NULL OR Move.payment_mode  = Report.payment_mode)
 	AND (PartnerSet.account_accounting_report IS NULL OR MOVE.Partner IS NULL OR Move.partner = PartnerSet.partner_set)
 	AND (MoveLine.id 	     IS NULL OR (
