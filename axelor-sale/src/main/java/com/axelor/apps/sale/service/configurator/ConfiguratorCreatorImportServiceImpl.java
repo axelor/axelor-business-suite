@@ -194,11 +194,8 @@ public class ConfiguratorCreatorImportServiceImpl implements ConfiguratorCreator
    */
   protected void updateAttributeNameInFormulas(
       ConfiguratorCreator creator, String oldName, String newName) throws AxelorException {
-    if (creator.getConfiguratorProductFormulaList() != null) {
-      updateAttributeNameInFormulas(creator.getConfiguratorProductFormulaList(), oldName, newName);
-    }
-    if (creator.getConfiguratorSOLineFormulaList() != null) {
-      updateAttributeNameInFormulas(creator.getConfiguratorSOLineFormulaList(), oldName, newName);
+    if (creator.getConfiguratorFormulaList() != null) {
+      updateAttributeNameInFormulas(creator.getConfiguratorFormulaList(), oldName, newName);
     }
   }
 
@@ -210,9 +207,7 @@ public class ConfiguratorCreatorImportServiceImpl implements ConfiguratorCreator
    * @param newAttributeName
    */
   protected void updateAttributeNameInFormulas(
-      List<? extends ConfiguratorFormula> formulas,
-      String oldAttributeName,
-      String newAttributeName) {
+      List<ConfiguratorFormula> formulas, String oldAttributeName, String newAttributeName) {
 
     formulas.forEach(
         configuratorFormula ->

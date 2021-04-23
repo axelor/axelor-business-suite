@@ -144,19 +144,14 @@
          <bind node="contextFieldValue" to="contextFieldValue"/>
        </bind>
 
-       <bind node="configuratorProductFormulaList/configuratorProductFormula" to="configuratorProductFormulaList">
-         <bind node="metaField" to="metaField" search="self.name = :metaField and self.metaModel.name = 'Product'" />
+       <bind node="configuratorFormulaList/configuratorFormula" to="configuratorFormulaList">
+         <bind node="metaField" to="metaField"
+           search="self.name = :metaField AND ((:typeSelect = 1 AND self.metaModel.name = 'Product') OR (:typeSelect = 2 AND self.metaModel.name = 'SaleOrderLine'))"/>
          <bind node="formula" to="formula"/>
          <bind node="showOnConfigurator" to="showOnConfigurator"/>
-         <bind node="configuratorCreatorImportId" to="productCreator" search="self.importId = :configCreatorImportId" create="false">
-         	<bind node="text()" to="importId" alias="configCreatorImportId"/>
-         </bind>
-       </bind>
-
-       <bind node="configuratorSOLineFormulaList/configuratorSOLineFormula" to="configuratorSOLineFormulaList">
-         <bind node="metaField" to="metaField" search="self.name = :metaField and self.metaModel.name = 'SaleOrderLine'"/>
-         <bind node="formula" to="formula"/>
-         <bind node="showOnConfigurator" to="showOnConfigurator"/>
+         <bind node="typeSelect" to="typeSelect"/>
+         <bind node="freeIndicatorName" to="freeIndicatorName"/>
+         <bind node="freeIndicatorTitle" to="freeIndicatorTitle"/>
          <bind node="updateFromSelect" to="updateFromSelect"/>
          <bind node="configuratorCreatorImportId" to="soLineCreator" search="self.importId = :configCreatorImportId" create="false">
            <bind node="text()" to="importId" alias="configCreatorImportId"/>

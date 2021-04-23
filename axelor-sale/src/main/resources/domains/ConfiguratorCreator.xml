@@ -10,12 +10,9 @@
         <string name="name" title="Name" required="true"/>
         <one-to-many name="attributes" ref="com.axelor.meta.db.MetaJsonField" title="Attributes"/>
         <one-to-many name="indicators" ref="com.axelor.meta.db.MetaJsonField" title="Indicators"/>
-        <one-to-many name="configuratorProductFormulaList" mappedBy="productCreator"
+        <one-to-many name="configuratorFormulaList" mappedBy="creator"
                      title="Configurator formula list"
-                     ref="com.axelor.apps.sale.db.ConfiguratorProductFormula"/>
-        <one-to-many name="configuratorSOLineFormulaList" mappedBy="soLineCreator"
-                     title="Configurator formula list"
-                     ref="com.axelor.apps.sale.db.ConfiguratorSOLineFormula"/>
+                     ref="com.axelor.apps.sale.db.ConfiguratorFormula"/>
         <many-to-many name="authorizedUserSet" title="Authorized users"
                      ref="com.axelor.auth.db.User"/>
         <many-to-many name="authorizedGroupSet" title="Authorized groups"
