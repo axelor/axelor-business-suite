@@ -17,7 +17,7 @@
 			<field name="company"/>
 			<field name="reportExportTypeSelect" validIf="reportExportTypeSelect > 0" onChange="action-accounting-report-type-record-typeselect-onchange"/>
 			<panel colSpan="6" stacked="true">
-				<field name="typeSelect" validIf="typeSelect > 0" showIf="reportExportTypeSelect == 1" selection-in="[1,2,3,4,5,6,7,10,11,12,13,14,15,16,17,18,2000,2001,3000]"
+				<field name="typeSelect" validIf="typeSelect > 0" showIf="reportExportTypeSelect == 1" selection-in="[1,2,3,4,5,6,7,10,11,12,13,14,15,16,17,18,19,20,2000,2001,3000]"
 							 onChange="action-accounting-report-type-method-default-name"/>
 				<field name="typeSelect" validIf="typeSelect > 0" showIf="reportExportTypeSelect == 2" selection-in="[1000,1001,1006,1007,1008,1009,1010]"/>
 			</panel>

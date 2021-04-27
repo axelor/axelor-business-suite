@@ -79,6 +79,8 @@
 		public static final int REPORT_ANALYTIC_GENERAL_LEDGER = 2001;
 		public static final int REPORT_ACQUISITIONS = 16;
 		public static final int REPORT_GROSS_VALUES_AND_DEPRECIATION = 17;
+		public static final int REPORT_FEES_DECLARATION_PREPERATORY_PROCESS = 19;
+		public static final int REPORT_FEES_DECLARATION_SUPPORT = 20;
 		public static final int REPORT_CUSTOM_STATE = 3000;
 
 		// EXPORT TYPE SELECT

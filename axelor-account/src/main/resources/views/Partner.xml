@@ -15,6 +15,7 @@
 	        <field name="fiscalPosition" canEdit="false" form-view="fiscal-position-form" grid-view="fiscal-position-grid" onChange="action-partner-attrs-show-specific-tax-note,action-partner-method-get-default-specific-tax-note"/>
             <field name="specificTaxNote" colSpan="12" hidden="true"/>
 	        <field name="analyticDistributionTemplate" canNew="true"/>
+	        <field name="das2Activity" form-view="das2-activity-form" grid-view="das2-activity-grid"/>
 	        <panel name="showInvoicesPanel" colSpan="6" hideIf="isEmployee">
 	    		<button name="showAllInvoicesBtn" title="Show invoices"  onClick="save,action-partner-view-partner-invoice"/>
         		<button name="showUnpaidInvoiceBtn" title="View all unpaid invoices"  onClick="save,action-partner-view-show-unpaid-invoice"/>

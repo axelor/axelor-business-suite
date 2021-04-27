@@ -209,6 +209,15 @@ public class AccountingReportServiceImpl implements AccountingReportService {
         this.addParams("self.credit > 0");
         this.addParams("(self.account is null OR self.account.reconcileOk = 'true')");
       }
+      if (accountingReport.getReportType().getTypeSelect()
+          == AccountingReportRepository.REPORT_FEES_DECLARATION_SUPPORT) {
+        this.addParams("self.serviceTypeCode is not null AND self.das2ActivityName is not null");
+      }
+      if (accountingReport.getReportType().getTypeSelect()
+          == AccountingReportRepository.REPORT_FEES_DECLARATION_PREPERATORY_PROCESS) {
+        this.addParams(
+            "self.serviceTypeCode is not null AND self.serviceType.amountToReport is not true AND self.das2ActivityName is not null");
+      }
     }
 
     if (this.compareReportType(

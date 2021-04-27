@@ -159,6 +159,8 @@
 			<field name="description" colSpan="12"/>
 			<field name="taxAmount" hidden="true"/>
 			<field name="account.reconcileOk" hidden="true" />
+			<field name="serviceType" form-view="service-type-form" grid-view="service-type-grid"/>
+			<field name="das2Activity" form-view="das2-activity-form" grid-view="das2-activity-grid"/>
 		</panel>
 		<panel-tabs name="mainPanelTab">
 			<panel-related name="debitReconcileListPanel" showIf="id &amp;&amp; (account.reconcileOk &amp;&amp; (move.statusSelect == 2 || move.statusSelect == 3)) &amp;&amp; $number(debit) &gt; 0.00" field="debitReconcileList" form-view="reconcile-form" grid-view="move-line-reconcile-grid" canNew="false" canRemove="false"/>
@@ -256,8 +258,10 @@
 			<field name="credit" onChange="action-group-account-moveline-debitcredit-onchange" readonlyIf="debit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" colSpan="3"/>
 			<field name="amountRemaining" colSpan="3"/>
 			<field name="amountPaid" colSpan="3" hideIf="!account.reconcileOk || move.statusSelect == 1 || move.statusSelect == 4"/>
-			<field name="origin" colSpan="12"/>
-			<field name="description" colSpan="12"/>
+			<field name="origin" colSpan="6"/>
+			<field name="serviceType" form-view="service-type-form" grid-view="service-type-grid" colSpan="3"/>
+			<field name="das2Activity" form-view="das2-activity-form" grid-view="das2-activity-grid" colSpan="3"/>
+			<field name="description" colSpan="6"/>
 			<field name="taxAmount" hidden="true"/>
 			<field name="move.statusSelect" hidden="true"/>
 			<field name="account.reconcileOk" hidden="true"/>

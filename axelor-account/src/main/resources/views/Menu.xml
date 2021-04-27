@@ -368,7 +368,25 @@
 		<view type="grid" name="accounting-report-type-grid"/>
 		<view type="form" name="accounting-report-type-form"/>
 	</action-view>
+
+	<menuitem name="account-root-accounting-conf-service-types" parent="account-conf-reporting"
+						title="Service types" action="account.conf.reporting.accounting.service.types"/>
+
+	<action-view name="account.conf.reporting.accounting.service.types"
+							 title="Service types" model="com.axelor.apps.account.db.ServiceType">
+		<view type="grid" name="service-type-grid"/>
+		<view type="form" name="service-type-form"/>
+	</action-view>
 	
+	<menuitem name="account-root-accounting-conf-das2-activity" parent="account-conf-reporting"
+						title="DAS2 activities" action="account.conf.reporting.accounting.das2.activity"/>
+
+	<action-view name="account.conf.reporting.accounting.das2.activity"
+							 title="DAS2 activities" model="com.axelor.apps.account.db.Das2Activity">
+		<view type="grid" name="das2-activity-grid"/>
+		<view type="form" name="das2-activity-form"/>
+	</action-view>
+		
 	<menuitem name="account-root-budget-management" parent="account-root"  if="__config__.app.isApp('budget')"
 		title="Budget Preparation" order="25"/>
 	

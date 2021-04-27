@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+	
+    <grid name="service-type-grid" title="Service types" model="com.axelor.apps.account.db.ServiceType" orderBy="name">
+        <field name="name"/>
+        <field name="code"/>
+        <field name="n4dsCode"/>
+        <field name="amountToReport"/>
+    </grid>
+    
+    <form name="service-type-form" title="Service type" model="com.axelor.apps.account.db.ServiceType"  >
+        <panel name="mainPanel">
+        	<field name="name"/>
+        	<field name="code"/>
+        	<field name="n4dsCode"/>
+        	<field name="amountToReport"/>
+        </panel>
+    </form>
+</object-views>

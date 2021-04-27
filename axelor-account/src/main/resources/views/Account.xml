@@ -50,7 +50,7 @@
 				<field name="accountType" required="true" form-view="account-type-form" grid-view="account-type-grid"/>
 				<field name="company" required="true" canEdit="false" widget="SuggestBox" onChange="action-account-validate" readonlyIf="parentAccount != null" form-view="company-form" grid-view="company-grid"/>
 				<field name="parentAccount" onChange="action-account-validate" domain="self.company = :company" form-view="account-form" grid-view="account-grid"/>
-				<spacer name="parentAccountSpacer" colSpan="6"/>
+				<field name="serviceType" form-view="service-type-form" grid-view="service-type-grid"/>
 				<field name="useForPartnerBalance" widget="boolean-switch" colSpan="3"/>
 				<field name="reconcileOk" widget="boolean-switch" colSpan="3"/>
 				<field name="compatibleAccountSet" widget="TagSelect" showIf="reconcileOk"/>

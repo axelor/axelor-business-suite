@@ -56,6 +56,10 @@
     <string name="accountName" readonly="true"/>
     <string name="partnerFullName" readonly="true"/>
     <string name="partnerSeq" readonly="true"/>
+    <many-to-one name="serviceType" ref="ServiceType" title="Service type" readonly="true"/>
+    <string name="serviceTypeCode" title="Service type code" readonly="true"/>
+    <many-to-one name="das2Activity" ref="com.axelor.apps.account.db.Das2Activity" title="DAS2 activity" readonly="true"/>
+    <string name="das2ActivityName" title="DAS2 activity name" readonly="true"/>
     
 <!--     Used for update partner balances when we change the partner of a move line in daybook mode -->
     <long name="partnerId"/>
