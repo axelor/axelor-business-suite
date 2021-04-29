@@ -3,9 +3,36 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
     <module name="sale" package="com.axelor.apps.sale.db"/>
-    <entity name="ConfiguratorFormula" lang="java" strategy="JOINED">
+    <entity name="ConfiguratorFormula" lang="java">
         <many-to-one name="metaField" ref="com.axelor.meta.db.MetaField"/>
         <string name="formula" title="Formula" large="true"/>
         <boolean name="showOnConfigurator" title="Show on configurator"/>
+        <many-to-one name="creator" ref="com.axelor.apps.sale.db.ConfiguratorCreator"/>
+        <integer name="typeSelect" selection="configurator.formula.type.select" title="Type"/>
+        <string name="freeIndicatorName" title="Field name"/>
+        <string name="freeIndicatorTitle" title="Field title"/>
+        <integer name="updateFromSelect" title="Update from" default="0" selection="configurator.update.sale.order.line"/>
+
+
+        <string name="fieldName" title="Field"><![CDATA[
+            if (typeSelect == null) {
+              return "";
+            } else if (typeSelect == ConfiguratorFormulaRepository.TYPE_PRODUCT
+                || typeSelect == ConfiguratorFormulaRepository.TYPE_SALE_ORDER_LINE) {
+              return (metaField != null ? metaField.getName() : "");
+            } else if (typeSelect == ConfiguratorFormulaRepository.TYPE_INFO) {
+              return freeIndicatorName;
+            } else {
+              return "";
+            }
+          ]]></string>
+
+        <extra-imports>import com.axelor.apps.sale.db.repo.ConfiguratorFormulaRepository;</extra-imports>
+        <extra-code><![CDATA[
+            public static final int TYPE_PRODUCT = 1;
+            public static final int TYPE_SALE_ORDER_LINE = 2;
+            public static final int TYPE_INFO = 3;
+        ]]></extra-code>
+
     </entity>
 </domain-models>

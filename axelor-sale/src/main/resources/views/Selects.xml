@@ -84,4 +84,11 @@
     <option value="doc">Word</option>
     <option value="pdf">PDF</option>
   </selection>
+
+	<selection name="configurator.formula.type.select">
+		<option value="1">Product</option>
+		<option value="2">Sale order line</option>
+		<option value="3">Free indicator</option>
+	</selection>
+
 </object-views>

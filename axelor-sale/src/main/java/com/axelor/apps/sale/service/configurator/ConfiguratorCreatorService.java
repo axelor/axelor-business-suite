@@ -64,13 +64,6 @@ public interface ConfiguratorCreatorService {
   void init(ConfiguratorCreator creator);
 
   /**
-   * Add required fields of Product to the formula list
-   *
-   * @param creator
-   */
-  void addRequiredFormulas(ConfiguratorCreator creator);
-
-  /**
    * Activates the creator and saves it.
    *
    * @param creator

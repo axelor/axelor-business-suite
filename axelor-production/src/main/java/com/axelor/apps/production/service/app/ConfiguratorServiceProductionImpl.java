@@ -24,6 +24,7 @@ import com.axelor.apps.production.service.configurator.ConfiguratorBomService;
 import com.axelor.apps.sale.db.Configurator;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.SaleOrderLine;
+import com.axelor.apps.sale.service.configurator.ConfiguratorFormulaService;
 import com.axelor.apps.sale.service.configurator.ConfiguratorServiceImpl;
 import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
@@ -34,8 +35,9 @@ import com.google.inject.persist.Transactional;
 public class ConfiguratorServiceProductionImpl extends ConfiguratorServiceImpl {
 
   @Inject
-  public ConfiguratorServiceProductionImpl(AppBaseService appBaseService) {
-    super(appBaseService);
+  public ConfiguratorServiceProductionImpl(
+      AppBaseService appBaseService, ConfiguratorFormulaService configuratorFormulaService) {
+    super(appBaseService, configuratorFormulaService);
   }
 
   /**
