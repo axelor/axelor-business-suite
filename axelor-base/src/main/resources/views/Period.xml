@@ -2,114 +2,145 @@
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.3.xsd">
-    
-    <grid name="period-grid" title="Period" model="com.axelor.apps.base.db.Period" orderBy="-fromDate">
-        <field name="name"/>
-        <field name="code" x-bind="{{code|unaccent|uppercase}}" />
-        <field name="year" title="Fiscal year" form-view="year-form" grid-view="year-grid"/>
-        <field name="fromDate"/>
-        <field name="toDate"/>
-        <field name="year.company" form-view="company-form" readonly="true"/>
-        <field name="statusSelect"/>
-    </grid>
-    
-    <form name="period-form" title="Period" model="com.axelor.apps.base.db.Period" onLoad="action-attrs-period-hide-linked-adjusting-moves-dashlet">
-	    <panel name="mainPanel" readonlyIf="statusSelect == 2">
-	        <field name="name"/>
-	    	<field name="code" x-bind="{{code|unaccent|uppercase}}"  colSpan="3"/>
-        	<field name="year" title="Fiscal year" form-view="year-form" grid-view="year-grid" domain="self.typeSelect = 1"/>
-			<field name="year.company" form-view="company-form" readonly="true" colSpan="3"/>
-			<field name="year.statusSelect"/>
-			<field name="year.typeSelect"/>
-			<field name="fromDate" colSpan="3" required="true"/>
-	    	<field name="toDate" colSpan="3" required="true"/>
-	    	<field name="allowExpenseCreation" if-module="axelor-human-resource" if="__config__.app.isApp('expense')" />
-    	</panel>
-		<panel-dashlet  action="action-view-period-linked-adjusting-moves-dashlet" name="linkedAdjustingMovesPanel"/>
-    	<panel name="actionsPanel" sidebar="true">
-			  <field name="statusSelect" colSpan="6"/>
-        <field name="closureDateTime" colSpan="6" showIf="statusSelect == 2"/>
-        <button name="closeBtn" title="Close period" onClick="action-period-group-close" hideIf="statusSelect == 2 || $popup()" prompt="Closing a period brings irrevocable integration of a move in Moves book"/>
-        <button name="adjustBtn" title="Adjust period" onClick="action-validate-period-is-adjusting-year,action-method-period-adjust" showIf="statusSelect == 2 &amp;&amp; year.statusSelect == 2 &amp;&amp; !$popup()" />
-        <button name="openBtn" title="Open period" onClick="save,action-period-record-status-open,save" showIf="statusSelect == 2 &amp;&amp; year.statusSelect == 1 &amp;&amp; !$popup()"/>
-    	</panel>
-    </form>
-    
-    <form name="period-year-form" title="Period" model="com.axelor.apps.base.db.Period" onLoad="action-attrs-period-hide-linked-adjusting-moves-dashlet">
-	    <panel name="mainPanel" readonlyIf="statusSelect == 2">
-	        <field name="name"/>
-	    	<field name="code" x-bind="{{code|unaccent|uppercase}}"  colSpan="3"/>
-        	<field name="year" title="Fiscal year" form-view="year-form" grid-view="year-grid" domain="self.typeSelect = 1"/>
-			<field name="year.company" form-view="company-form" readonly="true" colSpan="3"/>
-			<field name="year.statusSelect"/>
-			<field name="year.typeSelect"/>
-			<field name="fromDate" onChange="action-period-year-on-change-from-date-validate" colSpan="3"/>
-			<field name="toDate" onChange="action-period-year-on-change-to-date-validate" colSpan="3"/>
-	    	<field name="allowExpenseCreation" if-module="axelor-human-resource" if="__config__.app.isApp('expense')" />
-    	</panel>
-		<panel-dashlet action="action-view-period-linked-adjusting-moves-dashlet" name="linkedAdjustingMovesPanel"/>
-    	<panel name="actionsPanel" sidebar="true">
-        <field name="statusSelect" colSpan="6"/>
-        <field name="closureDateTime" colSpan="6" showIf="statusSelect == 2"/>
-        <button name="closeBtn" title="Close period" onClick="action-period-group-close" hideIf="statusSelect == 2 || $popup()" prompt="Closing a period brings irrevocable integration of a move in Moves book"/>
-        <button name="adjustBtn" title="Adjust period" onClick="action-validate-period-is-adjusting-year,action-method-period-adjust" showIf="statusSelect == 2 &amp;&amp; year.statusSelect == 2 &amp;&amp; !$popup()" />
-        <button name="openBtn" title="Open period" onClick="save,action-period-record-status-open,save" showIf="statusSelect == 2 &amp;&amp; year.statusSelect == 1 &amp;&amp; !$popup()"/>
-    	</panel>
-    </form>
-    
+
+	<grid name="period-grid" title="Period"
+		model="com.axelor.apps.base.db.Period" orderBy="-fromDate">
+		<field name="name" />
+		<field name="code" x-bind="{{code|unaccent|uppercase}}" />
+		<field name="year" title="Fiscal year" form-view="year-form"
+			grid-view="year-grid" />
+		<field name="fromDate" />
+		<field name="toDate" />
+		<field name="year.company" form-view="company-form"
+			readonly="true" />
+		<field name="statusSelect" />
+	</grid>
+
+	<form name="period-form" title="Period"
+		model="com.axelor.apps.base.db.Period"
+		onLoad="action-attrs-period-hide-linked-adjusting-moves-dashlet"
+		onNew="action-period-record-new-period">
+		<panel name="mainPanel" readonlyIf="statusSelect == 2">
+			<field name="name" />
+			<field name="code" x-bind="{{code|unaccent|uppercase}}"
+				colSpan="3" />
+			<field name="year" title="Fiscal year" form-view="year-form"
+				grid-view="year-grid" domain="self.typeSelect = 1" />
+			<field name="year.company" form-view="company-form"
+				readonly="true" colSpan="3" />
+			<field name="year.statusSelect" />
+			<field name="year.typeSelect" />
+			<field name="fromDate" colSpan="3"
+				onChange="action-period-year-on-change-from-date-validate"
+				required="true" />
+			<field name="toDate" colSpan="3"
+				onChange="action-period-year-on-change-to-date-validate"
+				required="true" />
+			<field name="allowExpenseCreation"
+				if-module="axelor-human-resource"
+				if="__config__.app.isApp('expense')" />
+		</panel>
+		<panel-dashlet
+			action="action-view-period-linked-adjusting-moves-dashlet"
+			name="linkedAdjustingMovesPanel" />
+		<panel name="actionsPanel" sidebar="true">
+			<field name="statusSelect" colSpan="6" />
+			<field name="closureDateTime" colSpan="6"
+				showIf="statusSelect == 2" />
+			<button name="closeBtn" title="Close period"
+				onClick="action-period-group-close"
+				hideIf="statusSelect == 2 || $popup()"
+				prompt="Closing a period brings irrevocable integration of a move in Moves book" />
+			<button name="adjustBtn" title="Adjust period"
+				onClick="action-validate-period-is-adjusting-year,action-method-period-adjust"
+				showIf="statusSelect == 2 &amp;&amp; year.statusSelect == 2 &amp;&amp; !$popup()" />
+			<button name="openBtn" title="Open period"
+				onClick="save,action-period-record-status-open,save"
+				showIf="statusSelect == 2 &amp;&amp; year.statusSelect == 1 &amp;&amp; !$popup()" />
+		</panel>
+	</form>
+
 	<action-group name="action-period-group-close">
-		<action name="save"/>
-		<action name="action-method-period-close"/>
+		<action name="save" />
+		<action name="action-method-period-close" />
 	</action-group>
 
 	<action-method name="action-method-period-close">
-		<call class="com.axelor.apps.base.web.PeriodController" method="close"/>
+		<call class="com.axelor.apps.base.web.PeriodController"
+			method="close" />
 	</action-method>
 
 	<action-method name="action-method-period-adjust">
-		<call class="com.axelor.apps.base.web.PeriodController" method="adjust"/>
+		<call class="com.axelor.apps.base.web.PeriodController"
+			method="adjust" />
 	</action-method>
 
-	<action-view name="action-view-period-linked-adjusting-moves-dashlet" title="Linked Adjusting Moves" model="com.axelor.apps.account.db.Move">
-		<view type="grid" name="move-grid"/>
-		<view type="form" name="move-form"/>
+	<action-view
+		name="action-view-period-linked-adjusting-moves-dashlet"
+		title="Linked Adjusting Moves" model="com.axelor.apps.account.db.Move">
+		<view type="grid" name="move-grid" />
+		<view type="form" name="move-form" />
 		<domain>self.period.id = :id AND self.adjustingMove = true</domain>
 	</action-view>
 
-	<action-attrs name="action-attrs-period-hide-linked-adjusting-moves-dashlet">
-		<attribute for="linkedAdjustingMovesPanel" name="hidden" expr="eval: __repo__(AdjustHistory).all().filter('self.period.id = ?', id).fetch().size() == 0"/>
+
+
+	<action-attrs
+		name="action-attrs-period-hide-linked-adjusting-moves-dashlet">
+		<attribute for="linkedAdjustingMovesPanel" name="hidden"
+			expr="eval: __repo__(AdjustHistory).all().filter('self.period.id = ?', id).fetch().size() == 0" />
 	</action-attrs>
 
-	<action-validate name="action-validate-period-is-adjusting-year">
-		<error message="Year is not in adjusting mode" if="year.statusSelect != 3"/>
+
+
+	<action-validate
+		name="action-validate-period-is-adjusting-year">
+		<error message="Year is not in adjusting mode"
+			if="year.statusSelect != 3" />
 	</action-validate>
 
-	<action-validate name="action-period-year-on-change-from-date-validate">
+	<action-validate
+		name="action-period-year-on-change-from-date-validate">
 		<error message="The from date is incorrect"
-			   if="fromDate != null &amp;&amp; fromDate &lt; __parent__.fromDate ||
+			if="fromDate != null &amp;&amp; __parent__ == null ||
+			   	   fromDate != null &amp;&amp; fromDate &lt; __parent__.fromDate ||
 			   	   fromDate != null &amp;&amp; fromDate &gt; __parent__.toDate ||
 			   	   fromDate != null &amp;&amp; toDate != null &amp;&amp; fromDate &gt; toDate"
-			   action="action-period-year-on-change-from-date"/>
+			action="action-period-year-on-change-from-date" />
 	</action-validate>
 
-	<action-attrs name="action-period-year-on-change-from-date">
-		<attribute for="fromDate" name="value" expr="eval: null"/>
+	<action-attrs
+		name="action-period-year-on-change-from-date">
+		<attribute for="fromDate" name="value" expr="eval: null" />
 	</action-attrs>
 
-	<action-validate name="action-period-year-on-change-to-date-validate">
+	<action-validate
+		name="action-period-year-on-change-to-date-validate">
 		<error message="The to date is incorrect"
-			   if="toDate != null &amp;&amp; toDate &gt; __parent__.toDate ||
+			if="toDate != null &amp;&amp; __parent__ == null ||
+			   	   toDate != null &amp;&amp; toDate &gt; __parent__.toDate ||
 			       toDate != null &amp;&amp; toDate &lt; __parent__.fromDate ||
 			       toDate != null &amp;&amp; fromDate != null &amp;&amp; toDate &lt; fromDate"
-			   action="action-period-year-on-change-to-date"/>
+			action="action-period-year-on-change-to-date" />
 	</action-validate>
 
-	<action-attrs name="action-period-year-on-change-to-date">
-		<attribute for="toDate" name="value" expr="eval: null"/>
+
+	<action-attrs name="action-period-record-new-period">
+		<attribute name="value" for="year" expr="eval:__parent__"
+			if="__parent__?._model == 'com.axelor.apps.base.db.Year'" />
+		<attribute name="hidden" for="year"
+			expr="eval: __parent__?._model == 'com.axelor.apps.base.db.Year'" />
 	</action-attrs>
 
-     <action-record name="action-period-record-status-open" model="com.axelor.apps.base.db.Period">
-    	<field name="statusSelect" expr="eval: __repo__(Period).STATUS_OPENED"/>
-     </action-record>
-    
+
+	<action-attrs name="action-period-year-on-change-to-date">
+		<attribute for="toDate" name="value" expr="eval: null" />
+	</action-attrs>
+
+	<action-record name="action-period-record-status-open"
+		model="com.axelor.apps.base.db.Period">
+		<field name="statusSelect"
+			expr="eval: __repo__(Period).STATUS_OPENED" />
+	</action-record>
+
 </object-views>

@@ -21,7 +21,7 @@
 	        <field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid" canEdit="false"/>
 	        <field name="typeSelect" readonly="true" />
 	    </panel>
-	    <panel-related name="periodListPanel" field="periodList" colSpan="12" readonlyIf="statusSelect == 2" form-view="period-year-form" grid-view="period-grid"/>
+	    <panel-related name="periodListPanel" field="periodList" colSpan="12" readonlyIf="statusSelect == 2" onChange="save" form-view="period-form" grid-view="period-grid"/>
 	    <panel sidebar="true" name="periodsGenerationAssistantPanel" title="Periods generation assistant" hideIf="statusSelect == 2">
 			<field name="periodDurationSelect"/>
 			<button name="generatePeriodsBtn" title="Generate periods" onClick="action-year-group-generate-period-click" />

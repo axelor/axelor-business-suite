@@ -15,7 +15,7 @@
                 <field name="toDate" colSpan="3" readonlyIf="periodList.length > 0"/>
             </panel>
         </panel>
-        <panel-related name="periodListPanel" field="periodList" colSpan="12" readonlyIf="statusSelect == 2" form-view="period-year-form" grid-view="period-grid"/>
+        <panel-related name="periodListPanel" field="periodList" colSpan="12" readonlyIf="statusSelect == 2" onChange="save" form-view="period-form" grid-view="period-grid"/>
         <panel name="selectPanel" sidebar="true" readonlyIf="statusSelect == 2">
             <field name="typeSelect" readonly="true" colSpan="6"/>
             <field name="statusSelect" colSpan="6"/>
