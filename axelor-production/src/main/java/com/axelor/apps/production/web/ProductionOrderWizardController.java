@@ -53,6 +53,7 @@ public class ProductionOrderWizardController {
               Beans.get(AppProductionService.class).getTodayDateTime(), startDateT)
           < 0) {
         response.setError(I18n.get(IExceptionMessage.PRODUCTION_ORDER_5));
+        return;
       }
     }
 
@@ -67,6 +68,7 @@ public class ProductionOrderWizardController {
                   Beans.get(AppProductionService.class).getTodayDateTime(), endDateT)
               < 0) {
         response.setError(I18n.get(IExceptionMessage.PRODUCTION_ORDER_5));
+        return;
       }
     }
 
