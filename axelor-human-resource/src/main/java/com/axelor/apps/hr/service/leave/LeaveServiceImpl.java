@@ -22,6 +22,7 @@ import com.axelor.apps.base.db.DayPlanning;
 import com.axelor.apps.base.db.EventsPlanning;
 import com.axelor.apps.base.db.ICalendarEvent;
 import com.axelor.apps.base.db.WeeklyPlanning;
+import com.axelor.apps.base.db.repo.DayPlanningRepository;
 import com.axelor.apps.base.db.repo.ICalendarEventRepository;
 import com.axelor.apps.base.ical.ICalendarService;
 import com.axelor.apps.base.service.app.AppBaseService;
@@ -50,12 +51,15 @@ import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.mail.MessagingException;
+import org.apache.commons.collections.CollectionUtils;
 
 public class LeaveServiceImpl implements LeaveService {
 
@@ -757,9 +761,7 @@ public class LeaveServiceImpl implements LeaveService {
   @Transactional(rollbackOn = {Exception.class})
   public void validate(LeaveRequest leaveRequest) throws AxelorException {
 
-    if (leaveRequest.getLeaveReason().getUnitSelect() == LeaveReasonRepository.UNIT_SELECT_DAYS) {
-      isOverlapped(leaveRequest);
-    }
+    isOverlapped(leaveRequest);
     if (leaveRequest.getLeaveReason().getManageAccumulation()) {
       manageValidateLeaves(leaveRequest);
     }
@@ -937,7 +939,9 @@ public class LeaveServiceImpl implements LeaveService {
                 leaveRequest.getUser(),
                 LeaveRequestRepository.STATUS_VALIDATED)
             .fetch();
+    manageLeaveTime(leaveRequest);
     for (LeaveRequest leaveRequest2 : leaveRequestList) {
+      manageLeaveTime(leaveRequest2);
       if (isOverlapped(leaveRequest, leaveRequest2)) {
         throw new AxelorException(
             leaveRequest,
@@ -947,11 +951,99 @@ public class LeaveServiceImpl implements LeaveService {
     }
   }
 
+  protected void manageLeaveTime(LeaveRequest leaveRequest) {
+
+    if (leaveRequest.getLeaveReason().getUnitSelect() != LeaveReasonRepository.UNIT_SELECT_DAYS
+        || leaveRequest.getUser() == null
+        || leaveRequest.getUser().getEmployee() == null
+        || leaveRequest.getUser().getEmployee().getWeeklyPlanning() == null
+        || CollectionUtils.isEmpty(
+            leaveRequest.getUser().getEmployee().getWeeklyPlanning().getWeekDays())) {
+      return;
+    }
+
+    List<DayPlanning> dayPlannings =
+        leaveRequest.getUser().getEmployee().getWeeklyPlanning().getWeekDays();
+    manageLeaveFromTime(leaveRequest, dayPlannings);
+    manageLeaveToTime(leaveRequest, dayPlannings);
+  }
+
+  protected void manageLeaveFromTime(LeaveRequest leaveRequest, List<DayPlanning> dayPlannings) {
+
+    DayOfWeek fromDayOfWeek = leaveRequest.getFromDateT().getDayOfWeek();
+    String fromWeekName = getWeekName(fromDayOfWeek.getValue());
+    Optional<DayPlanning> fromDayPlanningOpt =
+        dayPlannings.stream().filter(day -> day.getName().equals(fromWeekName)).findFirst();
+    if (fromDayPlanningOpt.isPresent()) {
+      LocalTime fromTime = null;
+      switch (leaveRequest.getStartOnSelect()) {
+        case LeaveRequestRepository.SELECT_MORNING:
+          fromTime = fromDayPlanningOpt.get().getMorningFrom();
+          break;
+        case LeaveRequestRepository.SELECT_AFTERNOON:
+          fromTime = fromDayPlanningOpt.get().getAfternoonFrom();
+          break;
+      }
+      if (fromTime != null) {
+        leaveRequest.setFromDateT(
+            leaveRequest
+                .getFromDateT()
+                .withHour(fromTime.getHour())
+                .withMinute(fromTime.getMinute()));
+      }
+    }
+  }
+
+  protected void manageLeaveToTime(LeaveRequest leaveRequest, List<DayPlanning> dayPlannings) {
+
+    DayOfWeek toDayOfWeek = leaveRequest.getToDateT().getDayOfWeek();
+    String toWeekName = getWeekName(toDayOfWeek.getValue());
+    Optional<DayPlanning> toDayPlanningOpt =
+        dayPlannings.stream().filter(day -> day.getName().equals(toWeekName)).findFirst();
+    if (toDayPlanningOpt.isPresent()) {
+      LocalTime toTime = null;
+      switch (leaveRequest.getEndOnSelect()) {
+        case LeaveRequestRepository.SELECT_MORNING:
+          toTime = toDayPlanningOpt.get().getMorningTo();
+          break;
+        case LeaveRequestRepository.SELECT_AFTERNOON:
+          toTime = toDayPlanningOpt.get().getAfternoonTo();
+          break;
+      }
+      if (toTime != null) {
+        leaveRequest.setToDateT(
+            leaveRequest.getToDateT().withHour(toTime.getHour()).withMinute(toTime.getMinute()));
+      }
+    }
+  }
+
+  protected String getWeekName(int weekNumber) {
+    switch (weekNumber) {
+      case 1:
+        return DayPlanningRepository.WEEK_MONDAY;
+      case 2:
+        return DayPlanningRepository.WEEK_TUESDAY;
+      case 3:
+        return DayPlanningRepository.WEEK_WEDNESDAY;
+      case 4:
+        return DayPlanningRepository.WEEK_THURSDAY;
+      case 5:
+        return DayPlanningRepository.WEEK_FRIDAY;
+      case 6:
+        return DayPlanningRepository.WEEK_SATURDAY;
+      default:
+        return DayPlanningRepository.WEEK_SUNDAY;
+    }
+  }
+
   protected boolean isOverlapped(LeaveRequest request1, LeaveRequest request2) {
 
-    if (isDatesNonOverlapped(request1, request2)
-        || isSelectsNonOverlapped(request1, request2)
-        || isSelectsNonOverlapped(request2, request1)) {
+    if ((request1.getLeaveReason().getUnitSelect() == LeaveReasonRepository.UNIT_SELECT_DAYS
+            && (isDatesNonOverlapped(request1, request2)
+                || isSelectsNonOverlapped(request1, request2)
+                || isSelectsNonOverlapped(request2, request1)))
+        || (request1.getLeaveReason().getUnitSelect() == LeaveReasonRepository.UNIT_SELECT_HOURS
+            && isDatesNonOverlapped(request1, request2))) {
       return false;
     }
 

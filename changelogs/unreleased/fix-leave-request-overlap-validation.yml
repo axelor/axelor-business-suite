@@ -1,0 +1,3 @@
+---
+title: "LeaveRequest: Don't allow to validate the Leave Request if validated leave request is exist for that duration."
+type: fix

@@ -20,6 +20,19 @@
     <time name="afternoonFrom" title="2nd Period From"/>
     <time name="afternoonTo" title="To"/>
     <integer name="sequence" title="Seq."/>
+
+    <extra-code>
+	<![CDATA[
+		public static final String WEEK_MONDAY = "monday";
+		public static final String WEEK_TUESDAY = "tuesday";
+		public static final String WEEK_WEDNESDAY = "wednesday";
+		public static final String WEEK_THURSDAY = "thursday";
+		public static final String WEEK_FRIDAY = "friday";
+		public static final String WEEK_SATURDAY = "saturday";
+		public static final String WEEK_SUNDAY = "sunday";
+	]]>
+	</extra-code>
+
   </entity>
   
 </domain-models>
