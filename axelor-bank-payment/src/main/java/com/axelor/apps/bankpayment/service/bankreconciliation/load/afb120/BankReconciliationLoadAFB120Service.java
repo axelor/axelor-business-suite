@@ -94,9 +94,12 @@ public class BankReconciliationLoadAFB120Service extends BankReconciliationLoadS
    * @return the filter.
    */
   protected String getBankStatementLinesFilter(
-      boolean includeOtherBankStatements, boolean includeBankStatement) {
+      boolean includeOtherBankStatements,
+      boolean includeBankStatement,
+      boolean isLineTypeMovement) {
 
-    return super.getBankStatementLinesFilter(includeOtherBankStatements, includeBankStatement)
+    return super.getBankStatementLinesFilter(
+            includeOtherBankStatements, includeBankStatement, isLineTypeMovement)
         + " and self.lineTypeSelect = :lineTypeSelect";
   }
 
@@ -107,7 +110,7 @@ public class BankReconciliationLoadAFB120Service extends BankReconciliationLoadS
     return JPA.all(BankStatementLineAFB120.class)
         .filter(
             getBankStatementLinesFilter(
-                bankReconciliation.getIncludeOtherBankStatements(), includeBankStatement))
+                bankReconciliation.getIncludeOtherBankStatements(), includeBankStatement, true))
         .bind("bankDetails", bankReconciliation.getBankDetails())
         .bind("currency", bankReconciliation.getCurrency())
         .bind("statusImported", BankStatementRepository.STATUS_IMPORTED)
@@ -127,7 +130,7 @@ public class BankReconciliationLoadAFB120Service extends BankReconciliationLoadS
     return JPA.all(BankStatementLineAFB120.class)
         .filter(
             getBankStatementLinesFilter(
-                bankReconciliation.getIncludeOtherBankStatements(), includeBankStatement))
+                bankReconciliation.getIncludeOtherBankStatements(), includeBankStatement, false))
         .bind("bankDetails", bankReconciliation.getBankDetails())
         .bind("currency", bankReconciliation.getCurrency())
         .bind("statusImported", BankStatementRepository.STATUS_IMPORTED)
@@ -147,7 +150,7 @@ public class BankReconciliationLoadAFB120Service extends BankReconciliationLoadS
     return JPA.all(BankStatementLineAFB120.class)
         .filter(
             getBankStatementLinesFilter(
-                bankReconciliation.getIncludeOtherBankStatements(), includeBankStatement))
+                bankReconciliation.getIncludeOtherBankStatements(), includeBankStatement, false))
         .bind("bankDetails", bankReconciliation.getBankDetails())
         .bind("currency", bankReconciliation.getCurrency())
         .bind("statusImported", BankStatementRepository.STATUS_IMPORTED)
