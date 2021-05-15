@@ -209,7 +209,7 @@
 		<attribute name="readonly" for="description" expr="eval: __parent__?.statusSelect &gt; 1"/>
 		<attribute name="readonly" for="projectPanel" expr="eval: __parent__?.statusSelect &gt; 1"/>
 		<attribute name="readonly" for="analyticDistributionPanel" expr="eval: __parent__?.statusSelect &gt; 2"/>
-		<attribute name="readonly" for="budgetPanel" expr="eval: __parent__?.statusSelect &gt; 1"/>
+		<attribute name="readonly" for="configurationPanel" expr="eval: __parent__?.statusSelect &gt; 2"/>
 
 		<attribute name="readonly" for="accountingPanel" expr="eval: __parent__?.statusSelect &gt; 2"/>
 	</action-attrs>

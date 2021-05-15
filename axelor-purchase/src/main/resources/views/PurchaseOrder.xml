@@ -155,7 +155,7 @@
 				<panel-related name="timetableListPanel" field="timetableList" colSpan="12" grid-view="timetable-grid-purchase" form-view="timetable-form-purchase" onChange="action-purchase-order-method-update-amount-to-be-spread-over-the-timetable" if-module="axelor-supplychain"/>
 			</panel>
 			<panel name="budgetDistributionPanel" title="Budget distribution" if="__config__.app.isApp('budget')" if-module="axelor-supplychain" showIf="statusSelect &lt;= 4">
-				<field name="budget" showIf="statusSelect &lt;= 2"/>
+				<field name="budget" showIf="statusSelect &lt;= 2" domain="self.statusSelect = 2 and self.budgetLineList IS NOT EMPTY"/>
 				<button name="applyToAllBtn" title="Apply to all" onClick="save,action-purchase-order-budget-distribution-apply-to-all,save" readonlyIf="!budget" showIf="statusSelect &lt;= 2"/>
 			    <panel-dashlet name="budgetDistributionPanel" action="action-supplychain-budget-distribuion-view-budget-distribution" colSpan="12" showIf="statusSelect &gt;= 3 &amp;&amp; statusSelect &lt;= 4" readonly="true"/>
 			</panel>

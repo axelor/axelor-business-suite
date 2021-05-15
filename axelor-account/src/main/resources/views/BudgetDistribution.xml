@@ -37,7 +37,7 @@
 
 	<form name="invoice-budget-distribution-form" title="Budget distribution" model="com.axelor.apps.account.db.BudgetDistribution" width="large" onLoad="action-budget-distribution-attrs-budget-amount-available">
 		<panel name="mainPanel" >
-			<field name="budget" readonly="true"/>
+			<field name="budget" readonly="true" domain="self.statusSelect = 2 and self.budgetLineList IS NOT EMPTY"/>
 			<field name="invoiceLine.product" readonly="true" domain="self.dtype = 'Product'"/>
 			<field name="budgetAmountAvailable" readonly="true"/>
 			<field name="amount" readonly="true"/>
@@ -48,7 +48,7 @@
 
 	<form name="invoice-budget-distribution-complete-form" title="Budget distribution" model="com.axelor.apps.account.db.BudgetDistribution" width="large" onLoad="action-budget-distribution-attrs-budget-amount-available">
 		<panel name="mainPanel" >
-			<field name="budget" readonly="true"/>
+			<field name="budget" readonly="true" domain="self.statusSelect = 2 and self.budgetLineList IS NOT EMPTY"/>
 			<field name="invoiceLine.product" readonly="true" domain="self.dtype = 'Product'"/>
 			<field name="invoiceLine.invoice" readonly="true"/>
 			<field name="invoiceLine.invoice.validatedDate" readonly="true"/>

@@ -17,6 +17,7 @@
  */
 package com.axelor.apps.supplychain.db.repo;
 
+import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.base.service.app.AppService;
 import com.axelor.apps.purchase.db.PurchaseOrder;
 import com.axelor.apps.purchase.db.PurchaseOrderLine;
@@ -56,8 +57,10 @@ public class PurchaseOrderSupplychainRepository extends PurchaseOrderManagementR
 
   @Override
   public PurchaseOrder save(PurchaseOrder purchaseOrder) {
-
-    if (appService.isApp("supplychain")) {
+    AppAccountService appAccountService = Beans.get(AppAccountService.class);
+    if (appService.isApp("supplychain")
+        && appAccountService.isApp("budget")
+        && !appAccountService.getAppBudget().getManageMultiBudget()) {
       Beans.get(PurchaseOrderSupplychainService.class).generateBudgetDistribution(purchaseOrder);
     }
     return super.save(purchaseOrder);

@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -156,19 +157,60 @@ public class PurchaseOrderServiceSupplychainImpl extends PurchaseOrderServiceImp
   @Transactional
   @Override
   public void generateBudgetDistribution(PurchaseOrder purchaseOrder) {
-    if (purchaseOrder.getPurchaseOrderLineList() != null) {
-      for (PurchaseOrderLine purchaseOrderLine : purchaseOrder.getPurchaseOrderLineList()) {
-        if (purchaseOrderLine.getBudget() != null
-            && (purchaseOrderLine.getBudgetDistributionList() == null
-                || purchaseOrderLine.getBudgetDistributionList().isEmpty())) {
+    List<PurchaseOrderLine> purchaseOrderLines = purchaseOrder.getPurchaseOrderLineList();
+    List<Budget> updateBudgetList = new ArrayList<>();
+
+    if (!CollectionUtils.isEmpty(purchaseOrderLines)) {
+
+      for (PurchaseOrderLine purchaseOrderLine : purchaseOrderLines) {
+        Budget purchaseOrderLineBudget = purchaseOrderLine.getBudget();
+        List<BudgetDistribution> budgetDistributions =
+            purchaseOrderLine.getBudgetDistributionList();
+
+        if (!CollectionUtils.isEmpty(budgetDistributions)) {
+          BudgetDistribution tempBudgetDistribution = null;
+
+          for (BudgetDistribution budgetDistribution : budgetDistributions) {
+            Budget budget = budgetDistribution.getBudget();
+
+            if (purchaseOrderLineBudget != null) {
+
+              if (!purchaseOrderLineBudget.equals(budget)) {
+                updateBudgetList.add(budget);
+                updateBudgetList.add(purchaseOrderLineBudget);
+                budgetDistribution.setBudget(purchaseOrderLineBudget);
+                budgetDistribution.setAmount(purchaseOrderLine.getCompanyExTaxTotal());
+              }
+
+              tempBudgetDistribution = budgetDistribution;
+            } else {
+              updateBudgetList.add(budget);
+            }
+          }
+          purchaseOrderLine.clearBudgetDistributionList();
+
+          if (tempBudgetDistribution != null) {
+            purchaseOrderLine.addBudgetDistributionListItem(tempBudgetDistribution);
+          }
+        } else if (purchaseOrderLineBudget != null) {
           BudgetDistribution budgetDistribution = new BudgetDistribution();
-          budgetDistribution.setBudget(purchaseOrderLine.getBudget());
+          budgetDistribution.setBudget(purchaseOrderLineBudget);
           budgetDistribution.setAmount(purchaseOrderLine.getCompanyExTaxTotal());
           purchaseOrderLine.addBudgetDistributionListItem(budgetDistribution);
+          updateBudgetList.add(purchaseOrderLineBudget);
         }
       }
-      // purchaseOrderRepo.save(purchaseOrder);
     }
+
+    if (!CollectionUtils.isEmpty(updateBudgetList)
+        && !purchaseOrder.getStatusSelect().equals(PurchaseOrderRepository.STATUS_DRAFT)
+        && !purchaseOrder.getStatusSelect().equals(PurchaseOrderRepository.STATUS_REQUESTED)) {
+      for (Budget budget : updateBudgetList) {
+        budgetSupplychainService.updateLines(budget);
+        budgetSupplychainService.computeTotalAmountCommitted(budget);
+      }
+    }
+    // purchaseOrderRepo.save(purchaseOrder);
   }
 
   @Transactional(rollbackOn = {Exception.class})

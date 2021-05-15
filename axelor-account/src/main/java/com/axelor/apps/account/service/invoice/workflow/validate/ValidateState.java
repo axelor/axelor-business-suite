@@ -17,6 +17,7 @@
  */
 package com.axelor.apps.account.service.invoice.workflow.validate;
 
+import com.axelor.apps.account.db.Budget;
 import com.axelor.apps.account.db.BudgetDistribution;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
@@ -36,6 +37,9 @@ import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
 
 public class ValidateState extends WorkflowInvoice {
 
@@ -123,17 +127,55 @@ public class ValidateState extends WorkflowInvoice {
     workflowValidationService.afterValidation(invoice);
   }
 
-  private void generateBudgetDistribution(Invoice invoice) {
-    if (invoice.getInvoiceLineList() != null) {
-      for (InvoiceLine invoiceLine : invoice.getInvoiceLineList()) {
-        if (invoiceLine.getBudget() != null
-            && (invoiceLine.getBudgetDistributionList() == null
-                || invoiceLine.getBudgetDistributionList().isEmpty())) {
+  public void generateBudgetDistribution(Invoice invoice) {
+    List<InvoiceLine> invoiceLines = invoice.getInvoiceLineList();
+    List<Budget> updateBudgetList = new ArrayList<>();
+
+    if (!CollectionUtils.isEmpty(invoiceLines)) {
+
+      for (InvoiceLine invoiceLine : invoiceLines) {
+        List<BudgetDistribution> budgetDistributions = invoiceLine.getBudgetDistributionList();
+        Budget invoiceLineBudget = invoiceLine.getBudget();
+
+        if (!CollectionUtils.isEmpty(budgetDistributions)) {
+          BudgetDistribution tempBudgetDistribution = null;
+
+          for (BudgetDistribution budgetDistribution : budgetDistributions) {
+            Budget budget = budgetDistribution.getBudget();
+
+            if (invoiceLineBudget != null) {
+
+              if (!invoiceLineBudget.equals(budget)) {
+                updateBudgetList.add(budget);
+                updateBudgetList.add(invoiceLineBudget);
+                budgetDistribution.setBudget(invoiceLineBudget);
+                budgetDistribution.setAmount(invoiceLine.getCompanyExTaxTotal());
+              }
+
+              tempBudgetDistribution = budgetDistribution;
+            } else {
+              updateBudgetList.add(budget);
+            }
+          }
+          invoiceLine.clearBudgetDistributionList();
+
+          if (tempBudgetDistribution != null) {
+            invoiceLine.addBudgetDistributionListItem(tempBudgetDistribution);
+          }
+        } else if (invoiceLineBudget != null) {
           BudgetDistribution budgetDistribution = new BudgetDistribution();
-          budgetDistribution.setBudget(invoiceLine.getBudget());
+          budgetDistribution.setBudget(invoiceLineBudget);
           budgetDistribution.setAmount(invoiceLine.getCompanyExTaxTotal());
           invoiceLine.addBudgetDistributionListItem(budgetDistribution);
+          updateBudgetList.add(invoiceLineBudget);
         }
+      }
+    }
+
+    if (!CollectionUtils.isEmpty(updateBudgetList)) {
+      for (Budget budget : updateBudgetList) {
+        budgetService.updateLines(budget);
+        budgetService.computeTotalAmountRealized(budget);
       }
     }
   }

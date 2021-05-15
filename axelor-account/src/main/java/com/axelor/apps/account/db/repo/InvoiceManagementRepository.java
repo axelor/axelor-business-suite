@@ -20,8 +20,10 @@ package com.axelor.apps.account.db.repo;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoicePayment;
 import com.axelor.apps.account.db.SubrogationRelease;
+import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.invoice.InvoiceService;
 import com.axelor.apps.account.service.invoice.InvoiceToolService;
+import com.axelor.apps.account.service.invoice.workflow.validate.ValidateState;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
 import java.time.LocalDate;
@@ -43,6 +45,7 @@ public class InvoiceManagementRepository extends InvoiceRepository {
   @Override
   public Invoice save(Invoice invoice) {
     try {
+      AppAccountService appAccountService = Beans.get(AppAccountService.class);
       List<InvoicePayment> invoicePayments = invoice.getInvoicePaymentList();
       if (CollectionUtils.isNotEmpty(invoicePayments)) {
         LocalDate latestPaymentDate =
@@ -55,6 +58,19 @@ public class InvoiceManagementRepository extends InvoiceRepository {
                 .max(LocalDate::compareTo)
                 .orElse(null);
         invoice.setPaymentDate(latestPaymentDate);
+      }
+
+      if ((invoice
+                  .getOperationTypeSelect()
+                  .equals(InvoiceRepository.OPERATION_TYPE_SUPPLIER_PURCHASE)
+              || invoice
+                  .getOperationTypeSelect()
+                  .equals(InvoiceRepository.OPERATION_TYPE_SUPPLIER_REFUND))
+          && appAccountService.isApp("budget")
+          && !appAccountService.getAppBudget().getManageMultiBudget()
+          && !invoice.getStatusSelect().equals(InvoiceRepository.STATUS_DRAFT)
+          && !invoice.getStatusSelect().equals(InvoiceRepository.STATUS_CANCELED)) {
+        Beans.get(ValidateState.class).generateBudgetDistribution(invoice);
       }
 
       invoice = super.save(invoice);

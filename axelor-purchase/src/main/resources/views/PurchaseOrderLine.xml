@@ -425,7 +425,6 @@
 	<action-attrs name="action-purchase-order-line-attrs-readonly-form">
 		<attribute name="readonly" for="informationsPanel" expr="eval: __parent__?.statusSelect &gt; 2"/>
 		<attribute name="readonly" for="supplierRequestsPanel" expr="eval: __parent__?.statusSelect &gt; 2"/>
-		<attribute name="readonly" for="budgetDistributionPanel" expr="eval: __parent__?.statusSelect &gt; 2"/>
 		<attribute name="readonly" for="projectPanel" expr="eval: __parent__?.statusSelect &gt; 3"/>
 		<attribute name="readonly" for="budgetPanel" expr="eval: __parent__?.statusSelect &gt; 2"/>
 		<attribute name="readonly" for="deliveryInformationPanel" expr="eval: __parent__?.statusSelect &gt; 3"/>
