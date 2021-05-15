@@ -584,7 +584,8 @@ public class CostSheetServiceImpl implements CostSheetService {
             consumedStockMoveLineList,
             calculationDate,
             previousCostSheetDate,
-            calculationTypeSelect);
+            calculationTypeSelect,
+            true);
 
     for (List<Object> keys : consumedStockMoveLinePerProductAndUnit.keySet()) {
 
@@ -599,13 +600,10 @@ public class CostSheetServiceImpl implements CostSheetService {
 
       BigDecimal valuationQty = BigDecimal.ZERO;
 
-      if (calculationTypeSelect == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS) {
+      BigDecimal plannedConsumeQty =
+          computeTotalQtyPerUnit(toConsumeProdProductList, product, unit);
 
-        BigDecimal plannedConsumeQty =
-            computeTotalQtyPerUnit(toConsumeProdProductList, product, unit);
-
-        valuationQty = realQty.subtract(plannedConsumeQty.multiply(ratio));
-      }
+      valuationQty = realQty.subtract(plannedConsumeQty.multiply(ratio));
 
       valuationQty =
           valuationQty.setScale(appBaseService.getNbDecimalDigitForQty(), RoundingMode.HALF_UP);
@@ -641,7 +639,8 @@ public class CostSheetServiceImpl implements CostSheetService {
             producedStockMoveLineList,
             calculationDate,
             previousCostSheetDate,
-            calculationTypeSelect);
+            calculationTypeSelect,
+            false);
 
     for (List<Object> keys : producedStockMoveLinePerProductAndUnit.keySet()) {
 
@@ -681,7 +680,8 @@ public class CostSheetServiceImpl implements CostSheetService {
       List<StockMoveLine> stockMoveLineList,
       LocalDate calculationDate,
       LocalDate previousCostSheetDate,
-      int calculationType) {
+      int calculationType,
+      boolean isConsumed) {
 
     Map<List<Object>, BigDecimal> stockMoveLinePerProductAndUnitMap = new HashMap<>();
 
@@ -693,10 +693,22 @@ public class CostSheetServiceImpl implements CostSheetService {
 
       StockMove stockMove = stockMoveLine.getStockMove();
 
-      if (stockMove == null
-          || StockMoveRepository.STATUS_REALIZED
-              != stockMoveLine.getStockMove().getStatusSelect()) {
+      if (stockMove == null) {
         continue;
+      }
+
+      int status = stockMove.getStatusSelect();
+
+      if (isConsumed) {
+        if ((calculationType == CostSheetRepository.CALCULATION_WORK_IN_PROGRESS
+                || calculationType == CostSheetRepository.CALCULATION_PARTIAL_END_OF_PRODUCTION)
+            && status != StockMoveRepository.STATUS_REALIZED) {
+          continue;
+        }
+      } else {
+        if (status != StockMoveRepository.STATUS_REALIZED) {
+          continue;
+        }
       }
 
       if ((calculationType == CostSheetRepository.CALCULATION_PARTIAL_END_OF_PRODUCTION
