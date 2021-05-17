@@ -391,6 +391,8 @@
 "Pipeline by Stage and Type",,,
 "Pipeline next 90 days",,,
 "Planned",,,
+"Planned end date",,,
+"Planned start date",,,
 "Please complete the contact address.",,,
 "Please complete the partner address.",,,
 "Please configure all templates in CRM configuration for company %s",,,

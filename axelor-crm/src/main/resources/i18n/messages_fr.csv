@@ -391,6 +391,8 @@
 "Pipeline by Stage and Type","Pipeline par Etape par Type",,
 "Pipeline next 90 days","Pipeline à 90 jrs.",,
 "Planned","Planifié",,
+"Planned end date","Date de fin planifiée",,
+"Planned start date","Date de début planifiée",,
 "Please complete the contact address.","Merci de compléter l'adresse du contact.",,
 "Please complete the partner address.","Merci de compléter l'adresse du tiers.",,
 "Please configure all templates in CRM configuration for company %s","Merci de configurer tous les modèles de mails dans la configuration CRM pour la société %s",,
