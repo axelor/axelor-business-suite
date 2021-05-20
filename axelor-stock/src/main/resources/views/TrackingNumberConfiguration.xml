@@ -51,6 +51,7 @@
 		        <field name="saleQtyByTracking" colSpan="12" readonlyIf="hasSaleAutoSelectTrackingNbr"/>
 		    </panel>
 		</panel>
+		<panel-dashlet name="trackingNumberProductPanel" title="Product" showIf="id" action="action-dashlet-tracking-number-configuration-product" canSearch="true" colSpan="12" />
     </form>
     
     <action-record name="action-tracking-number-config-record-default" model="com.axelor.apps.stock.db.TrackingNumberConfiguration">
@@ -87,5 +88,12 @@
     <action-validate name="action-tracking-number-validate-qty">
         <error message="The quantity by lot must be greater than 0" if="purchaseQtyByTracking+productionQtyByTracking+saleQtyByTracking &lt;= 0" />
     </action-validate>
+    
+    <action-view name="action-dashlet-tracking-number-configuration-product" title="Product" model="com.axelor.apps.base.db.Product">
+        <view type="grid" name="product-grid"/>
+        <view type="form" name="product-form"/>
+        <domain>self.trackingNumberConfiguration.id = :trackingNumberConfigurationId</domain>
+        <context name="trackingNumberConfigurationId" expr="eval: id"/>
+   </action-view> 
     
 </object-views>
