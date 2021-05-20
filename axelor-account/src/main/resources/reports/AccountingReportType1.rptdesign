@@ -454,7 +454,7 @@ MoveLine.date_val, MoveLine.partner_full_name as partner,
 CONCAT(MoveLine.account_code, ' ', MoveLine.account_name) as account,
 MoveLine.debit, MoveLine.credit, ReconcileGroup.code as reconcile_group_code, MoveLine.due_date, Journal.code as journal_code,
 Account.code as account_code , Account.name as account_name , Move.reference as move_sequence,
-MoveLine.amount_remaining
+ABS(MoveLine.amount_remaining) as amount_remaining
 from public.account_accounting_report as AccountingReport
 left outer join public.account_accounting_report_type as ReportType on (AccountingReport.report_type = ReportType.id)
 left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
@@ -497,7 +497,7 @@ AND (AccountingReport.display_closing_accounting_moves is true
 AND (AccountingReport.display_opening_accounting_moves is true 
 	OR(AccountingReport.display_opening_accounting_moves is false 
 		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 1)))
-AND (MoveLine.amount_remaining > 0 OR not AccountingReport.display_only_not_completely_lettered_move_lines)
+AND (ABS(MoveLine.amount_remaining) > 0 OR not AccountingReport.display_only_not_completely_lettered_move_lines)
 order by account, MoveLine.date_val, MoveLine.name]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="AccountingReportDS" id="489">

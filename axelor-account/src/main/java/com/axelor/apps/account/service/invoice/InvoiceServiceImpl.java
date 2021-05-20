@@ -675,7 +675,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
         continue;
       }
       for (MoveLine moveLine : moveLineList) {
-        BigDecimal amountRemaining = moveLine.getAmountRemaining();
+        BigDecimal amountRemaining = moveLine.getAmountRemaining().abs();
         if (amountRemaining != null && amountRemaining.compareTo(BigDecimal.ZERO) > 0) {
           return false;
         }

@@ -433,7 +433,7 @@ row["amount_remaining"]/row["countmoveline"]
 AccountingReport.ref, MoveLine.credit, MoveLine.debit,
 Invoice.invoice_id as invoice_name, InvoiceReconciled.invoice_id as "invoice_reconciled_name",  
 ReportedBalanceLine.amount as "ReportedBalanceAmount", YYear.reported_balance_date, 
-AccountingReport.date_from, Reconcile.amount as amountReconciled, MoveLine.amount_remaining, count(Reconcile.id) as countMoveLine   
+AccountingReport.date_from, Reconcile.amount as amountReconciled, ABS(MoveLine.amount_remaining) as amount_remaining, count(Reconcile.id) as countMoveLine   
 from public.account_accounting_report as AccountingReport 
 left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
 left outer join public.account_move as Move on (MoveLine.move = Move.id)
@@ -470,7 +470,7 @@ AND (AccountingReport.display_opening_accounting_moves is true
 	OR(AccountingReport.display_opening_accounting_moves is false 
 		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 1)))
 group by MoveLine.name,MoveLine.partner_full_name,MoveLine.partner_seq,AccountingReport.ref,MoveLine.credit,MoveLine.debit,Invoice.invoice_id,
-InvoiceReconciled.invoice_id,ReportedBalanceLine.amount,YYear.reported_balance_date,AccountingReport.date_from,Reconcile.amount,MoveLine.amount_remaining]]></xml-property>
+InvoiceReconciled.invoice_id,ReportedBalanceLine.amount,YYear.reported_balance_date,AccountingReport.date_from,Reconcile.amount,ABS(MoveLine.amount_remaining)]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="AccountingReportDS" id="489">
             <property name="nullsOrdering">nulls lowest</property>

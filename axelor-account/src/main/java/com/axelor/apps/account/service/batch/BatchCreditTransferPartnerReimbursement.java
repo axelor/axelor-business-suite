@@ -130,7 +130,7 @@ public class BatchCreditTransferPartnerReimbursement extends BatchStrategy {
             .all()
             .filter(
                 "self.account.reconcileOk = true AND (self.move.statusSelect = ?1 OR self.move.statusSelect = ?2) "
-                    + "AND self.amountRemaining > 0 AND self.credit > 0 "
+                    + "AND self.amountRemaining != 0 AND self.credit > 0 "
                     + "AND self.move.partner = ?3 AND self.move.company = ?4 "
                     + "AND self.reimbursementStatusSelect = ?5",
                 MoveRepository.STATUS_VALIDATED,

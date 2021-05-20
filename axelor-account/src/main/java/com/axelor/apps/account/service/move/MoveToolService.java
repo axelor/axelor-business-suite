@@ -157,7 +157,7 @@ public class MoveToolService {
       return moveLineRepository
           .all()
           .filter(
-              "self.move = ?1 AND self.account = ?2 AND self.credit > 0 AND self.amountRemaining > 0",
+              "self.move = ?1 AND self.account = ?2 AND self.credit > 0 AND self.amountRemaining != 0",
               invoice.getMove(),
               invoice.getPartnerAccount())
           .fetchOne();
@@ -192,7 +192,7 @@ public class MoveToolService {
    */
   public MoveLine getCustomerMoveLineByLoop(Invoice invoice) throws AxelorException {
     if (invoice.getRejectMoveLine() != null
-        && invoice.getRejectMoveLine().getAmountRemaining().compareTo(BigDecimal.ZERO) > 0) {
+        && invoice.getRejectMoveLine().getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0) {
       return invoice.getRejectMoveLine();
     } else {
       return this.getInvoiceCustomerMoveLineByLoop(invoice);
@@ -212,7 +212,7 @@ public class MoveToolService {
    */
   public MoveLine getCustomerMoveLineByQuery(Invoice invoice) throws AxelorException {
     if (invoice.getRejectMoveLine() != null
-        && invoice.getRejectMoveLine().getAmountRemaining().compareTo(BigDecimal.ZERO) > 0) {
+        && invoice.getRejectMoveLine().getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0) {
       return invoice.getRejectMoveLine();
     } else {
       return this.getInvoiceCustomerMoveLineByQuery(invoice);
@@ -253,7 +253,7 @@ public class MoveToolService {
   public BigDecimal getTotalCreditAmount(List<MoveLine> creditMoveLineList) {
     BigDecimal totalCredit = BigDecimal.ZERO;
     for (MoveLine moveLine : creditMoveLineList) {
-      totalCredit = totalCredit.add(moveLine.getAmountRemaining());
+      totalCredit = totalCredit.add(moveLine.getAmountRemaining().abs());
     }
     return totalCredit;
   }
@@ -267,7 +267,7 @@ public class MoveToolService {
   public BigDecimal getTotalDebitAmount(List<MoveLine> debitMoveLineList) {
     BigDecimal totalDebit = BigDecimal.ZERO;
     for (MoveLine moveLine : debitMoveLineList) {
-      totalDebit = totalDebit.add(moveLine.getAmountRemaining());
+      totalDebit = totalDebit.add(moveLine.getAmountRemaining().abs());
     }
     return totalDebit;
   }
@@ -323,7 +323,7 @@ public class MoveToolService {
       for (MoveLine moveLine : originalInvoice.getMove().getMoveLineList()) {
         if (moveLine.getAccount().getUseForPartnerBalance()
             && moveLine.getDebit().compareTo(BigDecimal.ZERO) > 0
-            && moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0) {
+            && moveLine.getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0) {
           return moveLine;
         }
       }
@@ -348,7 +348,7 @@ public class MoveToolService {
       //			MoveLine moveLine2 = this.getCustomerMoveLineByQuery(invoice);
 
       if (moveLine != null) {
-        inTaxTotalRemaining = inTaxTotalRemaining.add(moveLine.getAmountRemaining());
+        inTaxTotalRemaining = inTaxTotalRemaining.add(moveLine.getAmountRemaining().abs());
 
         if (isMinus) {
           inTaxTotalRemaining = inTaxTotalRemaining.negate();
@@ -413,7 +413,7 @@ public class MoveToolService {
         || move.getStatusSelect() == MoveRepository.STATUS_ACCOUNTED) {
       for (MoveLine moveLine : move.getMoveLineList()) {
         if (moveLine.getCredit().compareTo(BigDecimal.ZERO) > 0
-            && moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0
+            && moveLine.getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0
             && moveLine.getAccount().getUseForPartnerBalance()) {
           moveLineList.add(moveLine);
         }

@@ -84,12 +84,20 @@
     </string>
     <decimal name="amountRemaining" title="To pay / To use" >
     	<![CDATA[
-    	if (account != null && account.getReconcileOk()){
-		    if (credit.compareTo(BigDecimal.ZERO) == 1) return credit.subtract(amountPaid);
-		    else if (debit.compareTo(BigDecimal.ZERO) == 1) return debit.subtract(amountPaid);
-		    else return BigDecimal.ZERO;
-	    }
-		else return BigDecimal.ZERO;
+      if (account != null && account.getReconcileOk()) {
+        BigDecimal minus = new BigDecimal(-1);
+        if (credit.signum() > 0) {
+          return credit.subtract(amountPaid).multiply(minus);
+        } else if (debit.signum() > 0) {
+          return debit.subtract(amountPaid);
+        }
+        else {
+          return BigDecimal.ZERO;
+        }
+      }
+      else {
+       return BigDecimal.ZERO;
+      }
 	    ]]>
     </decimal>
 

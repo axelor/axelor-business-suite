@@ -125,7 +125,7 @@ public class MoveLineController {
           MoveLine moveLine = Beans.get(MoveLineRepository.class).find(it.longValue());
           if ((moveLine.getMove().getStatusSelect() == MoveRepository.STATUS_VALIDATED
                   || moveLine.getMove().getStatusSelect() == MoveRepository.STATUS_ACCOUNTED)
-              && moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0) {
+              && moveLine.getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0) {
             moveLineList.add(moveLine);
           }
         }

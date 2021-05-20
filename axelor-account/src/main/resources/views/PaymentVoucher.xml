@@ -171,7 +171,7 @@
 	</action-attrs>
 	
 	<action-attrs name="action-pv-moveLine-domain">
-		<attribute name="domain" for="moveLine" expr="eval: &quot;self.account.useForPartnerBalance = 't' and self.partner.id = ${partner?.id?: 0} and (self.move.statusSelect = 2 or self.move.statusSelect = 3) and self.amountRemaining &gt; 0.0  and self.credit &gt; 0.0&quot;"/>
+		<attribute name="domain" for="moveLine" expr="eval: &quot;self.account.useForPartnerBalance = 't' and self.partner.id = ${partner?.id?: 0} and (self.move.statusSelect = 2 or self.move.statusSelect = 3) and self.amountRemaining != 0 and self.credit &gt; 0.0&quot;"/>
 	</action-attrs>
 
 	<action-attrs name="action-attrs-payment-voucher-hidden-bank-details">

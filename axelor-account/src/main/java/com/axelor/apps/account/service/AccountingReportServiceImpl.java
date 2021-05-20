@@ -190,7 +190,7 @@ public class AccountingReportServiceImpl implements AccountingReportService {
       if (accountingReport.getReportType().getTypeSelect()
           == AccountingReportRepository.REPORT_AGED_BALANCE) {
         this.addParams("(self.account is null OR self.account.reconcileOk = 'true')");
-        this.addParams("self.amountRemaining > 0 AND self.debit > 0");
+        this.addParams("self.amountRemaining != 0 AND self.debit > 0");
       }
 
       if (accountingReport.getReportType().getTypeSelect()
@@ -260,7 +260,7 @@ public class AccountingReportServiceImpl implements AccountingReportService {
       if (accountingReport.getReportType().getTypeSelect()
               >= AccountingReportRepository.REPORT_PARNER_GENERAL_LEDGER
           && accountingReport.getDisplayOnlyNotCompletelyLetteredMoveLines()) {
-        this.addParams("self.amountRemaining > 0");
+        this.addParams("self.amountRemaining != 0");
       }
     }
 

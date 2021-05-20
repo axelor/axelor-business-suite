@@ -52,7 +52,7 @@ public class MoveDueService {
       for (MoveLine moveLine : originalInvoice.getMove().getMoveLineList()) {
         if (moveLine.getAccount().getUseForPartnerBalance()
             && moveLine.getDebit().compareTo(BigDecimal.ZERO) > 0
-            && moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0) {
+            && moveLine.getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0) {
           return moveLine;
         }
       }

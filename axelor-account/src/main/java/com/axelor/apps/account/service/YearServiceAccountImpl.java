@@ -239,9 +239,9 @@ public class YearServiceAccountImpl extends YearServiceImpl {
     BigDecimal reportedBalanceAmount = BigDecimal.ZERO;
     for (MoveLine moveLine : moveLineList) {
       if (moveLine.getDebit().compareTo(BigDecimal.ZERO) > 0) {
-        reportedBalanceAmount = reportedBalanceAmount.subtract(moveLine.getAmountRemaining());
+        reportedBalanceAmount = reportedBalanceAmount.subtract(moveLine.getAmountRemaining().abs());
       } else if (moveLine.getCredit().compareTo(BigDecimal.ZERO) > 0) {
-        reportedBalanceAmount = reportedBalanceAmount.add(moveLine.getAmountRemaining());
+        reportedBalanceAmount = reportedBalanceAmount.add(moveLine.getAmountRemaining().abs());
       }
     }
     if (log.isDebugEnabled()) {

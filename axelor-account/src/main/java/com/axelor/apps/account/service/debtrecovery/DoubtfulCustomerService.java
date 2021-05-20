@@ -149,7 +149,7 @@ public class DoubtfulCustomerService {
 
     for (MoveLine moveLine : move.getMoveLineList()) {
       if (moveLine.getAccount().getUseForPartnerBalance()
-          && moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0
+          && moveLine.getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0
           && moveLine.getAccount() != doubtfulCustomerAccount
           && moveLine.getDebit().compareTo(BigDecimal.ZERO) > 0) {
         invoicePartnerMoveLine = moveLine;
@@ -160,7 +160,7 @@ public class DoubtfulCustomerService {
     BigDecimal amountRemaining = BigDecimal.ZERO;
     MoveLine creditMoveLine = null;
     if (invoicePartnerMoveLine != null) {
-      amountRemaining = invoicePartnerMoveLine.getAmountRemaining();
+      amountRemaining = invoicePartnerMoveLine.getAmountRemaining().abs();
 
       // Debit move line on partner account
       creditMoveLine =
@@ -249,7 +249,7 @@ public class DoubtfulCustomerService {
                 moveLine.getMove().getPaymentMode(),
                 MoveRepository.TECHNICAL_ORIGIN_AUTOMATIC);
 
-    BigDecimal amountRemaining = moveLine.getAmountRemaining();
+    BigDecimal amountRemaining = moveLine.getAmountRemaining().abs();
 
     // Ecriture au crédit sur le 411
     MoveLine creditMoveLine =

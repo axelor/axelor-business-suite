@@ -310,7 +310,7 @@ public class PaymentScheduleServiceImpl implements PaymentScheduleService {
           && invoice.getMove().getMoveLineList() != null) {
         for (MoveLine moveLine : invoice.getMove().getMoveLineList()) {
           if (moveLine.getAccount().getUseForPartnerBalance()
-              && moveLine.getAmountRemaining().compareTo(BigDecimal.ZERO) > 0
+              && moveLine.getAmountRemaining().abs().compareTo(BigDecimal.ZERO) > 0
               && moveLine.getDebit().compareTo(BigDecimal.ZERO) > 0) {
             moveLines.add(moveLine);
           }

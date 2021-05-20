@@ -113,7 +113,7 @@ public class PaymentVoucherCreateService {
             invoice,
             customerMoveLine,
             customerMoveLine.getDebit(),
-            customerMoveLine.getAmountRemaining(),
+            customerMoveLine.getAmountRemaining().abs(),
             amount));
 
     paymentVoucher.setPayVoucherElementToPayList(lines);
