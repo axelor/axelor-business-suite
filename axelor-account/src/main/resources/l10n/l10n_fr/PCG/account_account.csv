@@ -400,10 +400,10 @@
 418100;418000;"Clients - Factures à établir ";"receivable";"true";"true";;
 418800;418000;"Clients - Intérêts courus";"receivable";"true";"true";;
 419000;410;"Clients créditeurs";"receivable";;;;
-419100;419000;"Clients - Avances et acomptes reçus sur commandes";"debt";"true";"true";;
-419600;419000;"Clients - Dettes pour emballages et matériels consignés ";"debt";"true";"true";;
-419700;419000;"Clients - Autres avoirs ";"debt";"true";"true";;
-419800;419000;"Rabais, remises, ristournes à accorder et autres avoirs à établir";"debt";"true";"true";;
+419100;419000;"Clients - Avances et acomptes reçus sur commandes";"receivable";"true";"true";;
+419600;419000;"Clients - Dettes pour emballages et matériels consignés ";"receivable";"true";"true";;
+419700;419000;"Clients - Autres avoirs ";"receivable";"true";"true";;
+419800;419000;"Rabais, remises, ristournes à accorder et autres avoirs à établir";"receivable";"true";"true";;
 420;"CL4";"Personnel et comptes rattachés";"view";;;;
 421000;420;"Personnel - Rémunérations dues";"debt";;;;
 422000;420;"Comités d'entreprise d'établissement ";"debt";"true";"true";;
