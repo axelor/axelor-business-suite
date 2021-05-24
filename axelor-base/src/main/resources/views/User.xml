@@ -43,10 +43,10 @@
 	          	<field name="noHelp" widget="inline-checkbox" colSpan="3"/>
 	        	<field name="change" title="Change password?" showIf="id &amp;&amp; !$readonly()" widget="boolean"/>
 		       	<panel showIf="change || !id" colSpan="12" itemSpan="12" name="allPasswordsPanel" title="">
-					<field name="oldPassword" title="Your password" placeholder="your password" widget="password" requiredIf="change || !id"/>
+					<field name="oldPassword" title="Your current password" placeholder="your current password" help="Current password of the logged in user" widget="password" requiredIf="change || !id"/>
 		            <panel name="passwordPanel" itemSpan="12">
-		     			<field name="newPassword" title="New password" placeholder="new password" widget="password" requiredIf="change || !id" validIf="(!change &amp;&amp; id) || newPassword.length >= 4" onChange="action-user-validate-password"/>
-						<field name="chkPassword" title="Confirm password" placeholder="confirm password" widget="password" requiredIf="change || !id" validIf="chkPassword === newPassword"/>
+		     			<field name="newPassword" title="New password" placeholder="new password" help="New password of the user" widget="password" requiredIf="change || !id" validIf="(!change &amp;&amp; id) || newPassword.length >= 4" onChange="action-user-validate-password"/>
+						<field name="chkPassword" title="Confirm new password" placeholder="confirm new password" help="Confirm new password of the user (must be identical to the new password)" widget="password" requiredIf="change || !id" validIf="chkPassword === newPassword"/>
 		       			<label name="passwordPatternDescriptionLabel" css="label-danger"/>
 		            </panel>
 		            <panel name="passwordOptionsPanel" showIf="code != $user">
@@ -117,10 +117,10 @@
 						<field name="forcePasswordChange" showIf="id &amp;&amp; !$readonly()" widget="boolean"/>
 	          <field name="change" title="Change password?" showIf="id &amp;&amp; !$readonly()" widget="boolean"/>
 	          <panel showIf="change || !id" colSpan="12" itemSpan="12" name="allPasswordsPanel">
-	            <field name="oldPassword" title="Your password" placeholder="your password" widget="password" requiredIf="change || !id"/>
+	            <field name="oldPassword" title="Your current password" placeholder="your current password" help="Current password of the logged in user" widget="password" requiredIf="change || !id"/>
 	            <panel name="passwordPanel" itemSpan="12">
-	              <field name="newPassword" title="New password" placeholder="new password" widget="password" requiredIf="change || !id" validIf="(!change &amp;&amp; id) || newPassword.length >= 4" onChange="action-user-validate-password"/>
-	              <field name="chkPassword" title="Confirm password" placeholder="confirm password" widget="password" requiredIf="change || !id" validIf="chkPassword === newPassword"/>
+	              <field name="newPassword" title="New password" placeholder="new password" help="New password of the user" widget="password" requiredIf="change || !id" validIf="(!change &amp;&amp; id) || newPassword.length >= 4" onChange="action-user-validate-password"/>
+	              <field name="chkPassword" title="Confirm new password" placeholder="confirm new password" help="Confirm new password of the user (must be identical to the new password)" widget="password" requiredIf="change || !id" validIf="chkPassword === newPassword"/>
 	              <label name="passwordPatternDescriptionLabel" css="label-danger"/>
 	            </panel>
 	            <panel name="passwordOptionsPanel" showIf="code != $user" itemSpan="4">
@@ -206,10 +206,10 @@
 			<field name="singleTab" widget="inline-checkbox"/>
 			<field name="change" title="Change password?" widget="inline-checkbox"/>
 			<panel name="allPasswordsPanel" showIf="change" itemSpan="12">
-				<field name="oldPassword" title="Current password" placeholder="current password" widget="password" requiredIf="change" />
+				<field name="oldPassword" title="Current password" placeholder="current password" help="Current password of the user" widget="password" requiredIf="change" />
                 <panel name="passwordPanel" itemSpan="12">
-                  <field name="newPassword" title="New password" placeholder="new password" widget="password" requiredIf="change" validIf="!change || newPassword.length >= 4"/>
-                  <field name="chkPassword" title="Confirm password" placeholder="confirm password" widget="password" requiredIf="change" validIf="chkPassword === newPassword"/>
+                  <field name="newPassword" title="New password" placeholder="new password" help="New password of the user" widget="password" requiredIf="change" validIf="!change || newPassword.length >= 4"/>
+                  <field name="chkPassword" title="Confirm new password" placeholder="confirm new password" help="Confirm new password of the user (must be identical to the new password)" widget="password" requiredIf="change" validIf="chkPassword === newPassword"/>
                   <label name="passwordPatternDescriptionLabel" css="label-italic"/>
                 </panel>
                 <panel name="passwordOptionsPanel" hidden="true">
