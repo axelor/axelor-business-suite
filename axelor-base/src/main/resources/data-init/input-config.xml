@@ -61,5 +61,15 @@
 
 	<input file="meta_schedule.csv" separator=";" type="com.axelor.meta.db.MetaSchedule"/>
 
+	<input file="base_advanced_import.csv" separator=";" type="com.axelor.apps.base.db.AdvancedImport" search="self.importId = :importId" call="com.axelor.csv.script.ImportAdvancedImportConfiguration:importAdvancedImportFile"/>
+
+	<input file="base_file_tab.csv" separator=";" type="com.axelor.apps.base.db.FileTab" search="self.importId = :importId">
+		<bind column="searchFieldSet" to="searchFieldSet" search="self.importId in :searchFieldSet" eval="searchFieldSet.split('\\|') as List"/>
+	</input>
+
+	<input file="base_file_field.csv" separator=";" type="com.axelor.apps.base.db.FileField" search="self.importId = :importId">
+		<bind column="importFieldName" to="importField" search="self.name = :importFieldName AND self.metaModel.name = :metaModelName" />
+	</input>
+
 </csv-inputs>
 	

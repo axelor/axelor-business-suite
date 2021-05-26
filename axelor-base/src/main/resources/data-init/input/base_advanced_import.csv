@@ -1,0 +1,3 @@
+"importId";"name";"languageSelect";"isHeader";"fileSeparator";"isConfigInFile";"isFileTabConfigAdded";"isValidateValue";"nbOfFirstLineIgnore";"importFile";"statusSelect";"fileExtension"
+1;"Basic advanced import";"en";"true";;"false";"false";"false";0;"basic_import.xlsx";1;"xlsx"
+2;"Partner advanced import";"en";"true";";";"false";"false";"false";0;"partners_to_import.csv";1;"csv"
