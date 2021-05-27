@@ -1861,6 +1861,8 @@
 "Show invoices","Voir factures associées",,
 "Show mail","Voir mails associés",,
 "Show move lines","Voir les lignes d'écriture",,
+"Show simulated moves","Montrer les écritures simulées",,
+"Simulated","Simulé",,
 "Situation","État",,
 "Skip ventilation","Sauter la ventilation",,
 "So many accounting operations are used on this move, so move can't be canceled","Trop d'opérations comptables ont été réalisées sur cette écriture, elle ne peut donc être annulée",,

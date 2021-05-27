@@ -56,6 +56,7 @@
     <many-to-one name="analyticDistributionTemplate" ref="com.axelor.apps.account.db.AnalyticDistributionTemplate" title="Analytic Distribution Template"/>
     
     <boolean name="subtotalByAnalyticDistribution" title="Subtotal by analytic distribution"/>
+    <boolean name="showSimulatedMove" title="Show simulated moves"/>
 
 	<unique-constraint columns="ref,company"/>
     

@@ -47,6 +47,7 @@
 		public static final int STATUS_ACCOUNTED = 2;
 		public static final int STATUS_VALIDATED = 3;
 		public static final int STATUS_CANCELED = 4;
+		public static final int STATUS_SIMULATED = 5;
 		
 		// TECHNICAL ORIGIN SELECT
 		public static final int TECHNICAL_ORIGIN_ENTRY = 1;

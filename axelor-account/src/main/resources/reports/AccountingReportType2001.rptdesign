@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.8.0.v201806261756</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">odaURL</property>
@@ -523,8 +523,7 @@ AnalyticJournal.company = AccountingReport.company
 AND (AccountingReport.analytic_journal IS NULL OR AccountingReport.analytic_journal  = AnalyticJournal.id)  
 AND AnalyticMoveLine.type_select = 3
 AND  Move.ignore_in_accounting_ok = false 
-AND (Move.status_select = 3 OR Move.status_select = 2)
-
+AND (Move.status_select = 3 OR Move.status_select = 2 OR (Move.status_select = 5 AND AccountingReport.show_simulated_move))
 AND (AccountTypeSet.account_type_set IS NULL OR AccountTypeSet.account_type_set = AccountType.id)
 AND (AnalyticAccountSet.analytic_account_set IS NULL OR AnalyticAccountSet.analytic_account_set = AnalyticAccount.id)
 AND (AnalyticAxisSet.analytic_axis_set IS NULL OR AnalyticAxisSet.analytic_axis_set = AnalyticAxis.id)

@@ -65,6 +65,7 @@
                                 <span class="label label-warning" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.statusSelect == 2" x-translate>Daybook</span>
                                 <span class="label label-success" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.statusSelect == 3" x-translate>Validated</span>
                                 <span class="label label-important" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.statusSelect == 4" x-translate>Canceled</span>
+                                <span class="label label-info" style="margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.statusSelect == 5" x-translate>Simulated</span>
 
                                 <span class="label label-default" style="background-color: #337AB7; margin: 5px 0 !important; display: inline-table; line-height: initial;" ng-show="record.adjustingMove" x-translate>Adjusting Move</span>
                             </h4>

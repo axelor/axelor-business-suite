@@ -232,8 +232,13 @@ public class AccountingReportServiceImpl implements AccountingReportService {
         "(self.move.statusSelect = "
             + MoveRepository.STATUS_ACCOUNTED
             + " OR self.move.statusSelect = "
-            + MoveRepository.STATUS_VALIDATED
-            + ")");
+            + MoveRepository.STATUS_VALIDATED);
+
+    if (accountingReport.getShowSimulatedMove()) {
+      this.addParams(" OR self.move.statusSelect = " + MoveRepository.STATUS_SIMULATED + ")");
+    } else {
+      this.addParams(")");
+    }
 
     // FOR EXPORT ONLY :
     if (accountingReport.getReportType() != null) {

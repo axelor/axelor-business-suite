@@ -131,6 +131,7 @@
 		<option value='2'>Accounted</option>
 		<option value='3'>Validated</option>
 		<option value='4'>Canceled</option>
+		<option value='5'>Simulated</option>
 	</selection>
 	
 	<selection name='iaccount.move.technical.origin.select'>

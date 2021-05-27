@@ -211,6 +211,7 @@
 							<span class="label label-warning" style="margin: 0 !important; display: inline-table; line-height: initial;" ng-show="record.move.statusSelect == 2" x-translate>Accounted</span>
 							<span class="label label-success" style="margin: 0 !important; display: inline-table; line-height: initial;" ng-show="record.move.statusSelect == 3" x-translate>Validated</span>
 							<span class="label label-important" style="margin: 0 !important; display: inline-table; line-height: initial;" ng-show="record.move.statusSelect == 4" x-translate>Canceled</span>
+							<span class="label label-info" style="margin: 0 !important; display: inline-table; line-height: initial;" ng-show="record.move.statusSelect == 5" x-translate>Simulated</span>
 						</h4>
 					]]>
 				</viewer>

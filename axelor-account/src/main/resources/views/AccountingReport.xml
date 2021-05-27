@@ -68,6 +68,7 @@
 				<field name="globalByDate" hideIf="[1,3,4,5,10,11,12,13,14,15,16,17].indexOf(reportType.typeSelect) != -1" onChange="action-accounting-report-record-global-by-date" />
 				<field name="globalByPartner" hideIf="reportType.typeSelect != 3 &amp;&amp; reportType.typeSelect != 7" onChange="action-accounting-report-record-global-by-partner" />
 				<field name="detailed" hideIf="reportType.typeSelect != 4" onChange="action-accounting-report-record-detailed" />
+				<field name="showSimulatedMove" />
 				<separator title="Balance sheet entries" colSpan="12" showIf="reportType.typeSelect != 5 &amp;&amp; reportType.typeSelect != 16 &amp;&amp; reportType.typeSelect != 17"/>
 				<field name="displayClosingAccountingMoves" showIf="reportType.typeSelect != 5 &amp;&amp; reportType.typeSelect != 16 &amp;&amp; reportType.typeSelect != 17"/>
 				<field name="displayOpeningAccountingMoves" showIf="reportType.typeSelect != 5 &amp;&amp; reportType.typeSelect != 16 &amp;&amp; reportType.typeSelect != 17"/>

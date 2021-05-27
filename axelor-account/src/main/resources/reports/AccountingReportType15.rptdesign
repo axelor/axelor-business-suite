@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.8.0.v201806261756</property>
     <list-property name="userProperties">
         <structure>
             <property name="name">Data Cube.MoveLineDS.x</property>
@@ -429,7 +429,7 @@ LEFT JOIN public.account_tax_line as TaxLine on (TaxPaymentMoveLine.origin_tax_l
 LEFT JOIN public.account_tax as Tax on (TaxLine.tax = Tax.id)
 WHERE AccountingReport.id = ?
 AND  Move.ignore_in_accounting_ok = false 
-AND (Move.status_select = 3 OR Move.status_select = 2)
+AND (Move.status_select = 3 OR Move.status_select = 2 OR (Move.status_select = 5 AND AccountingReport.show_simulated_move))
 AND Tax.type_select = 1	
 AND AccountingReport.currency = Move.company_currency
 AND MoveLine.date_val >= AccountingReport.date_from

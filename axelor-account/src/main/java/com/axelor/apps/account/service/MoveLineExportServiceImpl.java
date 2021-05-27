@@ -905,6 +905,7 @@ public class MoveLineExportServiceImpl implements MoveLineExportService {
       dateQueryStr += " AND self.accountingOk = false ";
     }
     dateQueryStr += " AND self.ignoreInAccountingOk = false AND self.journal.notExportOk = false ";
+
     dateQueryStr +=
         String.format(
             " AND (self.statusSelect = %s OR self.statusSelect = %s) ",
@@ -1326,7 +1327,6 @@ public class MoveLineExportServiceImpl implements MoveLineExportService {
         String.format(
             " AND (self.move.statusSelect = %s OR self.move.statusSelect = %s) ",
             MoveRepository.STATUS_VALIDATED, MoveRepository.STATUS_ACCOUNTED);
-
     Query queryDate =
         JPA.em()
             .createQuery(
