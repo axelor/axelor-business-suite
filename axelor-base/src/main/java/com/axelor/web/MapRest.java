@@ -136,7 +136,6 @@ public class MapRest {
       }
 
       ArrayNode arrayNode = nodeFactory.arrayNode();
-      String pinColor = getPinColor(partner);
 
       List<PartnerAddress> partnerAddressList =
           partner.getPartnerAddressList() != null
@@ -171,9 +170,6 @@ public class MapRest {
             objectNode.put("emailAddress", partner.getEmailAddress().getAddress());
           }
         }
-
-        objectNode.put("pinColor", pinColor);
-        objectNode.put("pinChar", getPinChar(partnerAddress));
 
         arrayNode.add(objectNode);
       }
@@ -269,8 +265,6 @@ public class MapRest {
           objectNode.put("emailAddress", prospect.getEmailAddress().getAddress());
         }
 
-        objectNode.put("pinColor", "red");
-        objectNode.put("pinChar", "P");
         arrayNode.add(objectNode);
       }
 
@@ -316,8 +310,6 @@ public class MapRest {
           objectNode.put("emailAddress", supplier.getEmailAddress().getAddress());
         }
 
-        objectNode.put("pinColor", "purple");
-        objectNode.put("pinChar", "S");
         arrayNode.add(objectNode);
       }
 
@@ -374,25 +366,5 @@ public class MapRest {
     }
 
     return fullName;
-  }
-
-  protected String getPinColor(Partner partner) {
-    return partner.getIsProspect() ? "red" : "orange";
-  }
-
-  protected String getPinChar(PartnerAddress partnerAddress) {
-    if (partnerAddress.getIsDefaultAddr()) {
-      return "";
-    }
-
-    if (partnerAddress.getIsInvoicingAddr()) {
-      return I18n.get(ITranslation.PIN_CHAR_INVOICING);
-    }
-
-    if (partnerAddress.getIsDeliveryAddr()) {
-      return I18n.get(ITranslation.PIN_CHAR_DELIVERY);
-    }
-
-    return "";
   }
 }

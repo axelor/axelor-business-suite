@@ -21,10 +21,6 @@ public interface ITranslation {
 
   public static final String PREFIX = "MapRest.";
 
-  public static final String PIN_CHAR_DEFAULT = /*$$(*/ "MapRest.PinCharDefault" /*)*/;
-  public static final String PIN_CHAR_INVOICING = /*$$(*/ "MapRest.PinCharInvoicing" /*)*/;
-  public static final String PIN_CHAR_DELIVERY = /*$$(*/ "MapRest.PinCharDelivery" /*)*/;
-
   public static final String DEFAULT = /*$$(*/ "MapRest.Default" /*)*/;
   public static final String INVOICING = /*$$(*/ "MapRest.Invoicing" /*)*/;
   public static final String DELIVERY = /*$$(*/ "MapRest.Delivery" /*)*/;
