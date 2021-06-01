@@ -20,9 +20,9 @@
 			<field name="code" x-bind="{{code|unaccent|uppercase}}" colSpan="3"/>
 			<field name="company" widget="SuggestBox" form-view="company-form" required="true" colSpan="3" grid-view="company-grid"/>
 			<panel name="datesPanel" title="Dates" colSpan="12">
-				<field name="fromDate" colSpan="3" readonlyIf="periodList.length > 0"/>
+				<field name="fromDate" colSpan="3" readonlyIf="periodList.length > 0" onChange="action-year-account-set-reported-balance-date"/>
 				<field name="toDate" colSpan="3" readonlyIf="periodList.length > 0"/>
-				<field name="reportedBalanceDate" required="true" colSpan="3"/>
+				<field name="reportedBalanceDate" required="true" colSpan="3" help="This date will be copied when selecting the fiscal onto the export batch to automatically generate the accounting entries for yearly closure and/or opening. In general, this is the first day of the next fiscal year."/>
 			</panel>
 		</panel>
 		<panel-related name="periodListPanel" field="periodList" colSpan="12" readonlyIf="statusSelect == 2" form-view="period-year-form" grid-view="period-grid"/>
@@ -34,7 +34,7 @@
 			<button name="closeBtn" title="Close fiscal year" onClick="action-group-account-year-close-click" hideIf="statusSelect == 2" prompt="The closing of a fiscal year brings irrevocable integration of a move in Moves book" readonlyIf="!id"/>
 			<button name="adjustBtn" title="Adjust fiscal year" onClick="action-group-account-year-adjust-click" showIf="statusSelect == 2"/>
 		</panel>
-		<panel sidebar="true" name="periodsGenerationAssistantPanel" title="Periods generation assistant" hideIf="statusSelect == 2" readonlyIf="!id">
+		<panel sidebar="true" name="periodsGenerationAssistantPanel" title="Periods generation assistant" hideIf="statusSelect == 2 || statusSelect == 3" readonlyIf="!id">
 			<field name="periodDurationSelect"/>
 			<button name="generatePeriodsBtn" title="Generate periods" onClick="action-year-group-generate-period-click" />
 		</panel>
@@ -67,6 +67,11 @@
     	<field name="company"  expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
     	<field name="typeSelect"  expr="eval:1"/>
+    </action-record>
+    
+    <action-record name="action-year-account-set-reported-balance-date" model="com.axelor.apps.base.db.Year">
+    	<field name="toDate" if="typeSelect ==  1" expr="eval: fromDate.with(java.time.temporal.TemporalAdjusters.lastDayOfYear())"/>
+    	<field name="reportedBalanceDate" if="typeSelect ==  1" expr="eval: fromDate.with(java.time.temporal.TemporalAdjusters.lastDayOfYear()).plusDays(1)"/>   	
     </action-record>
     
     <action-method name="action-year-close-method">

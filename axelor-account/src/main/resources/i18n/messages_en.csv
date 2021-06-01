@@ -1940,6 +1940,7 @@
 "There's no accounting situation.",,,
 "This batch requires the bank payment module.",,,
 "This batch requires the human resources module.",,,
+"This date will be copied when selecting the fiscal onto the export batch to automatically generate the accounting entries for yearly closure and/or opening. In general, this is the first day of the next fiscal year.",,,
 "This move %s can not be archived because it is linked to another piece named %s.",,,
 "This move line %s can not be archived because it is linked to another piece named %s.",,,
 "Timetable line %s",,,

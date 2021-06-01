@@ -1940,6 +1940,7 @@
 "There's no accounting situation.","Pas de situation comptable.",,
 "This batch requires the bank payment module.","Ce batch nécessite le module des paiements bancaires.",,
 "This batch requires the human resources module.","Ce batch nécessite le module des ressources humaines.",,
+"This date will be copied when selecting the fiscal onto the export batch to automatically generate the accounting entries for yearly closure and/or opening. In general, this is the first day of the next fiscal year.","Cette date sera reprise lors de la sélection de l'année fiscale sur les batchs comptables permettant de générer automatiquement les écritures de clôture et/ou ouverture. En général il s'agit du premier jour de l'année fiscale suivante.",,
 "This move %s can not be archived because it is linked to another piece named %s.","Cette écriture %s ne peut pas être archivée car elle est liée à une autre pièce nommée %s.",,
 "This move line %s can not be archived because it is linked to another piece named %s.","Cette ligne d' écriture %s ne peut pas être archivée car elle est liée à une autre pièce nommée %s.",,
 "Timetable line %s","Ligne d'échéancier %s",,

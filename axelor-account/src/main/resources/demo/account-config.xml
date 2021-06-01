@@ -163,5 +163,7 @@
 		<bind to="product" column="product" search="self.code = :product" if="!product.empty"/>
 		<bind to="moveTemplate" column="moveTemplate" search="self.importId = :moveTemplate"/>
 	</input>
+	
+	<input file="base_year.csv" separator=";" search="self.importId = :importId" type="com.axelor.apps.base.db.Year"/>
     
 </csv-inputs>
