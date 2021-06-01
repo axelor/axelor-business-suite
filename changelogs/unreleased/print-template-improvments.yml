@@ -1,0 +1,8 @@
+---
+title: "PrintTemplate & PrintTemplateLine : several UI improvments"
+type: fix
+description: |
+  Illustrative sentence added to the top of the line template to explain the different possibilities.
+  The help explanations of the 'content' 'conditions' & 'title' text areas have been modified.
+  A new text area 'Notes' has been added to the line template to help distinguish lines the grid.
+  The column 'conditions' is now dispayed in the grid.

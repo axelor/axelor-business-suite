@@ -33,7 +33,6 @@
 		<string name="footerFontColor" title="Font Color" selection="base.print.settings.footer.font.color.select"/>
 		<string name="headerContentWidth" title="Header Content Width"/>
 		<string name="logoWidth" title="Company Logo Width"/>
-		
     </entity>
 
 </domain-models>

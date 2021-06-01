@@ -3,10 +3,12 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
-    <grid name="print-template-line-grid" title="Print template lines" model="com.axelor.apps.base.db.PrintTemplateLine">
-        <field name="sequence" width="100"/>
+    <grid name="print-template-line-grid" title="Print template lines" model="com.axelor.apps.base.db.PrintTemplateLine" x-row-height="80">
+        <field name="sequence" width="80"/>
         <field name="title" widget="html"/>
-        <field name="ignoreTheLine"/>
+        <field name="ignoreTheLine" width="150"/>
+        <field name="conditions"/>
+        <field name="notes"/>
         <button name="testTemplateLineBtn" title="Test" icon="fa-file-text-o" onClick="save,action-print-template-line-view-open-test-line"/>
     </grid>
 
@@ -18,11 +20,15 @@
             <field name="ignoreTheLine" colSpan="2"/>
             <field name="nbColumns"/>
             <field name="isWithPageBreakAfter" colSpan="2"/>
-            <field name="title" widget="html" colSpan="12" help="String template" hideIf="isSignature"/>
-            <field name="content" widget="html" colSpan="12" help="String template" hideIf="isSignature"/>
+            <field name="title" widget="html" colSpan="12" hideIf="isSignature"
+                   help="Here you can write the title of the PDF to print using string template method. For example : A look at $EmploymentContrat.company.name$ 's potential future projects."/>
+            <field name="content" widget="html" colSpan="12" hideIf="isSignature"
+                   help="Here you can write text using string template method (as in email models). This text will display in the generated PDF. For example : The company $EmploymentContrat.payCompany$ and the employee $EmploymentContract.employee$ agreed on the following points."/>
             <panel-related name="templateContextPanel" field="templateContextList" colSpan="12"/>
-            <field name="conditions" widget="CodeEditor" x-code-syntax="groovy" colSpan="12" help="Groovy conditions"/>
+            <field name="conditions" widget="CodeEditor" x-code-syntax="groovy" colSpan="12"
+                   help="Here you can write display conditions in groovy. For example : contractType?.name = &quot;CDI&quot; &amp;&amp; partTime true"/>
             <panel-related name="printTemplateLineListPanel" field="printTemplateLineList" grid-view="print-template-line-grid" form-view="print-template-line-form" colSpan="12" orderBy="sequence" canMove="true"/>
+            <field name="notes" colSpan="12"/>
             <button name="testTemplateLineBtn" title="Test" icon="fa-file-text-o" onClick="save,action-print-template-line-view-open-test-line" showIf="id" colSpan="4" colOffset="4"/>
    			<field name="parent" hidden="true"/>
         </panel>

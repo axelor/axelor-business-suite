@@ -39,7 +39,7 @@
                 <field name="footerTextAlignment" colSpan="4"/>
             	<field name="footerFontSize" colSpan="4"/>
                 <field name="footerFontColor" colSpan="4"/>
-                 <field name="isFooterUnderLine" colSpan="4"/>
+                <field name="isFooterUnderLine" colSpan="4"/>
             </panel>
             <panel-related name="printTemplateLineListPanel" field="printTemplateLineList" grid-view="print-template-line-grid" form-view="print-template-line-form" colSpan="12" orderBy="sequence" canMove="true"/>
             <field name="birtTemplateSet" widget="TagSelect" grid-view="birt-template-grid" form-view="birt-template-form" colSpan="12"/>
