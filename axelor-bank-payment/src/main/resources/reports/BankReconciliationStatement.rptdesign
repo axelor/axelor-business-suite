@@ -1005,7 +1005,6 @@ AND BankStatementLine.operation_date <= AccountingReport.date_val
 AND(AccountingReportBankDetailsSet.bank_details_set is null OR AccountingReportBankDetailsSet.bank_details_set = BankStatementLine.bank_details)
 AND AccountingReport.company = Company.id
 AND BankReconciliation.validated_date is not null
-AND BankStatementLine.amount_remain_to_reconcile > 0
 AND BankStatementLine.line_type_select = 2
 group by BankStatementLine.id,
 BankStatementLine.sequence,
@@ -1469,7 +1468,7 @@ LIMIT 1) as BankAmountTable
 CROSS JOIN
 (Select coalesce(SUM(UnreconcileAmountTableSup.totalunreconcileAmount),0) as finalTotalunreconcileAmount
 from
-(select SUM(MoveLine.debit - MoveLine.credit) as totalunreconcileAmount
+(select SUM(MoveLine.debit + MoveLine.credit) as totalunreconcileAmount
 from public.account_accounting_report as AccountingReport
 left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
 left outer join public.bankpayment_bank_reconciliation_line as BankReconciliationLine on MoveLine.id = BankReconciliationLine.move_line
@@ -1494,7 +1493,7 @@ AND Move.ignore_in_accounting_ok in (false,null)
 UNION
 select coalesce(SUM(coalesce(UnreconcileAmountTable.unreconcileAmount,0)),0) as totalUnreconcileAmount
 from(
-SELECT (MoveLine.debit - MoveLine.credit) 
+SELECT (MoveLine.debit + MoveLine.credit) 
 - SUM(CASE WHEN BankReconciliationLine.is_posted = true AND BankReconciliation.validated_date <=  AccountingReport.date_val THEN BankReconciliationLine.credit+BankReconciliationLine.debit ELSE 0 END) as unreconcileAmount
 from public.account_accounting_report as AccountingReport
 left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
@@ -1518,8 +1517,7 @@ AND Move.status_select not in (1,4)
 AND AccountType.technical_type_select like 'cash'
 AND BankReconciliation.validated_date is not null
 AND Move.ignore_in_accounting_ok in (false,null)
-group by MoveLine.debit,
-MoveLine.credit
+group by MoveLine.id
 HAVING SUM(CASE WHEN BankReconciliationLine.is_posted = true AND BankReconciliation.validated_date <=  AccountingReport.date_val THEN BankReconciliationLine.credit+BankReconciliationLine.debit ELSE 0 END) < (MoveLine.debit + MoveLine.credit)) as UnreconcileAmountTable) as UnreconcileAmountTableSup)
 as UnreconcileAmountTableSupSup
 ]]></xml-property>
