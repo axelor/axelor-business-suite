@@ -29,10 +29,12 @@ import com.axelor.apps.hr.db.repo.EmploymentContractRepository;
 import com.axelor.apps.hr.report.IReport;
 import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.apps.tool.file.CsvTool;
+import com.axelor.dms.db.DMSFile;
 import com.axelor.exception.AxelorException;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.MetaFiles;
+import com.axelor.meta.db.MetaFile;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import java.io.File;
@@ -72,7 +74,8 @@ public class EmploymentContractService {
     return version;
   }
 
-  public void exportEmploymentContract(EmploymentContract employmentContract) throws IOException {
+  public MetaFile exportEmploymentContract(EmploymentContract employmentContract)
+      throws IOException {
     List<String[]> list = new ArrayList<>();
 
     this.employmentContractExportSilae(employmentContract, list);
@@ -88,7 +91,8 @@ public class EmploymentContractService {
     Path path = Paths.get(filePath + System.getProperty("file.separator") + fileName);
 
     try (InputStream is = new FileInputStream(path.toFile())) {
-      Beans.get(MetaFiles.class).attach(is, fileName, employmentContract);
+      DMSFile dmsFile = Beans.get(MetaFiles.class).attach(is, fileName, employmentContract);
+      return dmsFile.getMetaFile();
     }
   }
 

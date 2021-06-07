@@ -22,6 +22,8 @@ import com.axelor.apps.hr.db.repo.EmploymentContractRepository;
 import com.axelor.apps.hr.service.EmploymentContractService;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
+import com.axelor.meta.db.MetaFile;
+import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Singleton;
@@ -56,8 +58,19 @@ public class EmploymentContractController {
         Beans.get(EmploymentContractRepository.class)
             .find(request.getContext().asType(EmploymentContract.class).getId());
 
-    Beans.get(EmploymentContractService.class).exportEmploymentContract(employmentContract);
+    MetaFile metaFile =
+        Beans.get(EmploymentContractService.class).exportEmploymentContract(employmentContract);
 
+    response.setView(
+        ActionView.define(metaFile.getFileName())
+            .add(
+                "html",
+                "ws/rest/com.axelor.meta.db.MetaFile/"
+                    + metaFile.getId()
+                    + "/content/download?v="
+                    + metaFile.getVersion())
+            .param("download", "true")
+            .map());
     response.setReload(true);
   }
 }
