@@ -11,17 +11,17 @@
 		<field name="createdBy" form-view="user-form" grid-view="user-grid"/>
 	</grid>
  
-	<form onNew="action-accounting-batch-record-on-new" name="accounting-batch-form" title="Accounting Batch" model="com.axelor.apps.account.db.AccountingBatch"
-		onLoad="action-accounting-batch-group-on-load">
+	<form onNew="action-accounting-batch-group-on-new" name="accounting-batch-form" title="Accounting Batch" model="com.axelor.apps.account.db.AccountingBatch"
+		onLoad="action-accounting-batch-attrs-set-show-debt-recovery-by-trading-name-field">
 		<panel name="mainPanel" >
-			<field name="actionSelect" onChange="action-accounting-batch-record-default-currency"/>
+			<field name="actionSelect" onChange="action-accounting-batch-group-action-select-on-change"/>
 			<field name="code" x-bind="{{code|unaccent|uppercase}}" onChange="action-base-batch-condition-check-unique-code"/>
-			<field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid" onChange="action-accounting-batch-attrs-set-empty-year-and-accountset-value"/>
+			<field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid" onChange="action-accounting-batch-group-company-on-change"/>
 			<field name="bankDetails" hideIf="actionSelect &amp;&amp; ([14,15,16,17,18,21].indexOf(actionSelect) &gt; -1 || (actionSelect == 11 &amp;&amp; reimbursementTypeSelect == 2) || (actionSelect == 12 &amp;&amp; directDebitDataTypeSelect == 2))" widget="SuggestBox" onSelect="action-accounting-batch-attrs-bank-details-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
-			<field name="company.tradingNameSet" colSpan="12" hidden="true"/>
-			<field name="isDebtRecoveryByTradingName" readonlyIf="company.tradingNameSet == null || company.tradingNameSet.length == 0" onChange="action-accounting-batch-attrs-display-trading-name-set"/>
-			<field name="tradingNameSet" colSpan="12" grid-view="trading-name-grid" form-view="trading-name-form" domain=":company member of self.companySet" canNew="false" canEdit="false"/>
+			<field name="isDebtRecoveryByTradingName" onChange="action-accounting-batch-attrs-set-trading-name-set" showIf="$showDebtRecoveryByTradingNameField" hidden="true"/>
+			<field name="tradingNameSet" colSpan="12" grid-view="trading-name-grid" form-view="trading-name-form" domain=":company member of self.companySet" canNew="false" canEdit="false" showIf="isDebtRecoveryByTradingName &amp;&amp; $showDebtRecoveryByTradingNameField" hidden="true"/>
 			<field name="archived" title="Archived"/>
+			<field name="$showDebtRecoveryByTradingNameField" type="boolean" hidden="true"/>
 		</panel>
 		<panel-tabs name="mainPanelTab">
 			<panel name="reimbursementPagePanel" title="Reimbursement configuration" hideIf="actionSelect != 11">
@@ -111,9 +111,23 @@
 		<action name="action-accounting-batch-method-action-fixed-asset-lines-realize"/>
 	</action-group>
 	
-	<action-group name="action-accounting-batch-group-on-load">
-		<action name="action-accounting-batch-attrs-trading-names-management"/>
-		<action name="action-accounting-batch-attrs-display-trading-name-set"/>
+	<action-group name="action-accounting-batch-group-on-new">
+		<action name="action-accounting-batch-record-on-new"/>
+		<action name="action-accounting-batch-attrs-set-show-debt-recovery-by-trading-name-field"/>
+	</action-group>
+	
+	<action-group name="action-accounting-batch-group-action-select-on-change">
+		<action name="action-accounting-batch-record-default-currency"/>
+		<action name="action-accounting-batch-attrs-set-show-debt-recovery-by-trading-name-field"/>
+		<action name="action-accounting-batch-attrs-set-is-debt-recovery-by-trading-name"/>
+		<action name="action-accounting-batch-attrs-set-trading-name-set"/>
+	</action-group>
+	
+	<action-group name="action-accounting-batch-group-company-on-change">
+		<action name="action-accounting-batch-attrs-set-empty-year-and-accountset-value"/>
+		<action name="action-accounting-batch-attrs-set-show-debt-recovery-by-trading-name-field"/>
+		<action name="action-accounting-batch-attrs-set-is-debt-recovery-by-trading-name"/>
+		<action name="action-accounting-batch-attrs-set-trading-name-set"/>
 	</action-group>
     
     
@@ -191,12 +205,16 @@
     	<attribute name="value" expr="eval: null" for="year,accountSet"/>
     </action-attrs>
     
-    <action-attrs name="action-accounting-batch-attrs-trading-names-management">
-    	<attribute name="hidden" for="isDebtRecoveryByTradingName" expr="!__config__.app.getApp('base').enableTradingNamesManagement"/>
+    <action-attrs name="action-accounting-batch-attrs-set-show-debt-recovery-by-trading-name-field">
+    	<attribute name="value" for="$showDebtRecoveryByTradingNameField" expr="eval: __config__.app.getApp('base').enableTradingNamesManagement &amp;&amp; actionSelect == 14 &amp;&amp; company?.tradingNameSet?.size() > 0"/>
     </action-attrs>
     
-    <action-attrs name="action-accounting-batch-attrs-display-trading-name-set">
-    	<attribute name="hidden" for="tradingNameSet" expr="!(__config__.app.getApp('base').enableTradingNamesManagement &amp;&amp; isDebtRecoveryByTradingName)"/>
+    <action-attrs name="action-accounting-batch-attrs-set-trading-name-set">
+    	<attribute name="value" for="tradingNameSet" expr="eval: null" if="tradingNameSet?.size() != 0"/>
+    </action-attrs>
+    
+    <action-attrs name="action-accounting-batch-attrs-set-is-debt-recovery-by-trading-name">
+    	<attribute name="value" for="isDebtRecoveryByTradingName" expr="eval: false" if="!__config__.app.getApp('base').enableTradingNamesManagement || actionSelect != 14 || company?.tradingNameSet?.size() == 0"/>
     </action-attrs>
 
     <search-filters name="accounting-batch-filters" model="com.axelor.apps.account.db.AccountingBatch" title="Accounting batch filters">

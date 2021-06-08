@@ -70,7 +70,6 @@
 		public static final int ACTION_CREDIT_TRANSFER = 19;
 		public static final int ACTION_REALIZE_FIXED_ASSET_LINES = 20;
 		public static final int ACTION_CLOSE_ANNUAL_ACCOUNTS_OF_PAST_YEAR = 21;
-		public static final int ACTION_OPEN_ANNUAL_ACCOUNTS_OF_NEXT_YEAR = 22;
 		
 		// REIMBURSEMENT TYPE
 		public static final int REIMBURSEMENT_TYPE_EXPORT = 1;
