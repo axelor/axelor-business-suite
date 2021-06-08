@@ -238,9 +238,9 @@
 	</action-attrs>
 
 	<action-attrs name="action-invoice-line-attrs-set-product-domain-onselect">
-  		<attribute if="__parent__?.operationTypeSelect &lt; 3  &amp;&amp; __config__.app.isApp('purchase')  &amp;&amp;  __config__.app.getApp('purchase').getManageSupplierCatalog()" name="domain" expr="eval: isFilterOnSupplier ? &quot; self.isModel = false and self.id IN (SELECT product.id FROM SupplierCatalog WHERE supplierPartner.id = ${__parent__?.partner?.id}) AND purchasable = true &quot; : &quot; self.isModel = false AND self.dtype = 'Product' AND purchasable = true &quot;" for="product"/>
-  		<attribute  name="domain"  for="product" expr="eval: &quot; self.isModel = false AND self.dtype = 'Product' AND self.sellable = true &quot;" if="__parent__?.operationTypeSelect > 2"/>
-  		<attribute  name="domain"  for="product" expr="eval: &quot; self.isModel = false AND dtype = 'Product' AND self.purchasable = true &quot;" if="__parent__?.operationTypeSelect &lt; 3"/>
+  		<attribute name="domain"  for="product" expr="eval: &quot; self.isModel = false AND self.dtype = 'Product' AND self.sellable = true &quot;" if="__parent__?.operationTypeSelect > 2"/>
+  		<attribute name="domain"  for="product" expr="eval: &quot; self.isModel = false AND self.dtype = 'Product' AND self.purchasable = true &quot;" if="__parent__?.operationTypeSelect &lt; 3"/>
+  		<attribute name="domain" expr="eval: &quot; self.isModel = false and self.id IN (SELECT product.id FROM SupplierCatalog WHERE supplierPartner.id = ${__parent__?.partner?.id}) AND purchasable = true &quot;" for="product" if="__parent__?.operationTypeSelect &lt; 3  &amp;&amp; __config__.app.isApp('purchase')  &amp;&amp;  __config__.app.getApp('purchase').getManageSupplierCatalog() &amp;&amp; isFilterOnSupplier"/>
 	</action-attrs>
 
     <!-- ACTION GROUPs -->
