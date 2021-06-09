@@ -28,7 +28,7 @@
 	<form model="com.axelor.apps.helpdesk.db.Ticket" title="Ticket" name="ticket-form" onNew="action-ticket-group-on-new" onLoad="action-ticket-group-timer-process">
 		<panel name="mainPanel" colSpan="12">
 			<field name="statusSelect" colSpan="8" readonly="true" widget="NavSelect" showTitle="false" onChange="action-record-to-set-progress-select"/>
-			<field name="slaPolicy.name" showTitle="false" hideIf="statusSelect >= slaPolicy.reachStageSelect" colSpan="4">
+			<field name="slaPolicy.name" showTitle="false" hideIf="statusSelect >= slaPolicy.reachStageSelect" colSpan="4" if="__config__.app.getApp('helpdesk')?.getIsSla()">
 				<viewer><![CDATA[
 					<h4 style="text-align: right;">
 			        	<span class="label label-important" ng-if="record.slaPolicy">{{record.slaPolicy.name}}</span>
@@ -89,7 +89,7 @@
 
 		<panel name="characteristicsPanel" title="Characteristics" sidebar="true" canCollapse="true">
 			<field name="ticketType" colSpan="12"/>
-			<field name="slaPolicy" colSpan="12" hideIf="statusSelect >= slaPolicy.reachStageSelect" readonly="true"/>
+			<field name="slaPolicy" colSpan="12" hideIf="statusSelect >= slaPolicy.reachStageSelect" readonly="true" if="__config__.app.getApp('helpdesk')?.getIsSla()"/>
 			<field name="prioritySelect" colSpan="6" widget="single-select"/>
 			<field name="deadlineDateT" colSpan="6"/>
 			<field name="isSlaCompleted" hidden="true"/>
