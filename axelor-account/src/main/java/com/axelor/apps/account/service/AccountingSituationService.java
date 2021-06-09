@@ -88,6 +88,24 @@ public interface AccountingSituationService {
   Account getEmployeeAccount(Partner partner, Company company) throws AxelorException;
 
   /**
+   * Get holdback customer account from accounting situation or account config.
+   *
+   * @param partner
+   * @param company
+   * @return
+   */
+  Account getHoldBackCustomerAccount(Partner partner, Company company) throws AxelorException;
+
+  /**
+   * Get holdback supplier account from accounting situation or account config.
+   *
+   * @param partner
+   * @param company
+   * @return
+   */
+  Account getHoldBackSupplierAccount(Partner partner, Company company) throws AxelorException;
+
+  /**
    * Return bank details for sales to <code>partner</code> (took from SaleOrder.xml).
    *
    * @param company

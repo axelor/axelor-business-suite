@@ -19,6 +19,7 @@ package com.axelor.apps.account.service.payment.invoice.payment;
 
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoicePayment;
+import com.axelor.apps.account.db.InvoiceTerm;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.PaymentMode;
@@ -29,6 +30,7 @@ import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.db.repo.ReconcileRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.app.AppAccountService;
+import com.axelor.apps.account.service.invoice.InvoiceTermService;
 import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Currency;
@@ -52,18 +54,24 @@ public class InvoicePaymentCreateServiceImpl implements InvoicePaymentCreateServ
   protected InvoicePaymentToolService invoicePaymentToolService;
   protected CurrencyService currencyService;
   protected AppBaseService appBaseService;
+  protected InvoiceTermPaymentService invoiceTermPaymentService;
+  protected InvoiceTermService invoiceTermService;
 
   @Inject
   public InvoicePaymentCreateServiceImpl(
       InvoicePaymentRepository invoicePaymentRepository,
       InvoicePaymentToolService invoicePaymentToolService,
       CurrencyService currencyService,
-      AppBaseService appBaseService) {
+      AppBaseService appBaseService,
+      InvoiceTermPaymentService invoiceTermPaymentService,
+      InvoiceTermService invoiceTermService) {
 
     this.invoicePaymentRepository = invoicePaymentRepository;
     this.invoicePaymentToolService = invoicePaymentToolService;
     this.currencyService = currencyService;
     this.appBaseService = appBaseService;
+    this.invoiceTermPaymentService = invoiceTermPaymentService;
+    this.invoiceTermService = invoiceTermService;
   }
 
   /**
@@ -133,6 +141,8 @@ public class InvoicePaymentCreateServiceImpl implements InvoicePaymentCreateServ
       invoicePayment.setCompanyBankDetails(companyBankDetails);
     }
     computeAdvancePaymentImputation(invoicePayment, paymentMove);
+    invoiceTermPaymentService.createInvoicePaymentTerms(invoicePayment);
+    invoiceTermService.updateInvoiceTermsPaidAmount(invoicePayment);
     invoice.addInvoicePaymentListItem(invoicePayment);
     invoicePaymentToolService.updateAmountPaid(invoice);
     invoicePaymentRepository.save(invoicePayment);
@@ -246,7 +256,8 @@ public class InvoicePaymentCreateServiceImpl implements InvoicePaymentCreateServ
 
   @Override
   @Transactional
-  public InvoicePayment createInvoicePayment(Invoice invoice, BankDetails companyBankDetails) {
+  public InvoicePayment createInvoicePayment(Invoice invoice, BankDetails companyBankDetails)
+      throws AxelorException {
     InvoicePayment invoicePayment =
         createInvoicePayment(
             invoice,
@@ -256,28 +267,35 @@ public class InvoicePaymentCreateServiceImpl implements InvoicePaymentCreateServ
             invoice.getPaymentMode(),
             InvoicePaymentRepository.TYPE_PAYMENT);
     invoicePayment.setCompanyBankDetails(companyBankDetails);
+    invoiceTermPaymentService.createInvoicePaymentTerms(invoicePayment);
+    invoiceTermService.updateInvoiceTermsPaidAmount(invoicePayment);
     return invoicePaymentRepository.save(invoicePayment);
   }
 
   @Transactional
   public InvoicePayment createInvoicePayment(
-      Invoice invoice,
+      InvoiceTerm invoiceTerm,
       PaymentMode paymentMode,
       BankDetails companyBankDetails,
       LocalDate paymentDate,
       LocalDate bankDepositDate,
-      String chequeNumber) {
+      String chequeNumber)
+      throws AxelorException {
     InvoicePayment invoicePayment =
         createInvoicePayment(
-            invoice,
-            invoice.getInTaxTotal().subtract(invoice.getAmountPaid()),
+            invoiceTerm.getInvoice(),
+            invoiceTerm.getAmountRemaining(),
             paymentDate,
-            invoice.getCurrency(),
+            invoiceTerm.getInvoice().getCurrency(),
             paymentMode,
             InvoicePaymentRepository.TYPE_PAYMENT);
     invoicePayment.setCompanyBankDetails(companyBankDetails);
     invoicePayment.setBankDepositDate(bankDepositDate);
     invoicePayment.setChequeNumber(chequeNumber);
+    invoicePayment.addInvoiceTermPaymentListItem(
+        invoiceTermPaymentService.createInvoiceTermPayment(
+            invoicePayment, invoiceTerm, invoiceTerm.getAmountRemaining()));
+    invoiceTermService.updateInvoiceTermsPaidAmount(invoicePayment);
     return invoicePaymentRepository.save(invoicePayment);
   }
 
@@ -299,11 +317,18 @@ public class InvoicePaymentCreateServiceImpl implements InvoicePaymentCreateServ
     for (Long invoiceId : invoiceList) {
 
       Invoice invoice = invoiceRepository.find(invoiceId);
-      InvoicePayment invoicePayment =
-          this.createInvoicePayment(
-              invoice, paymentMode, companyBankDetails, paymentDate, bankDepositDate, chequeNumber);
-      invoicePaymentList.add(invoicePayment);
-      invoice.addInvoicePaymentListItem(invoicePayment);
+      for (InvoiceTerm invoiceTerm : invoice.getInvoiceTermList()) {
+        InvoicePayment invoicePayment =
+            this.createInvoicePayment(
+                invoiceTerm,
+                paymentMode,
+                companyBankDetails,
+                paymentDate,
+                bankDepositDate,
+                chequeNumber);
+        invoicePaymentList.add(invoicePayment);
+        invoice.addInvoicePaymentListItem(invoicePayment);
+      }
       invoicePaymentToolService.updateAmountPaid(invoice);
     }
 

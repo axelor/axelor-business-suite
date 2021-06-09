@@ -6,20 +6,17 @@
     <grid name="payment-condition-grid" title="Payment Condition" model="com.axelor.apps.account.db.PaymentCondition">
         <field name="name"/>
         <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
-        <field name="typeSelect"/>
-        <field name="paymentTime"/>
         <field name="isFree"/>
     </grid>
     
-    <form name="payment-condition-form" title="Payment Condition" model="com.axelor.apps.account.db.PaymentCondition"  >
+    <form name="payment-condition-form" title="Payment Condition" model="com.axelor.apps.account.db.PaymentCondition"
+        onSave="action-payment-condition-validate-payment-percentage">
       <panel name="mainPanel" >
         <field name="name"/>
-	      <field name="code" x-bind="{{code|unaccent|uppercase}}" colSpan="3"/>
-			  <field name="isFree" colSpan="3"/>
-        <field name="typeSelect" colSpan="6"/>
-        <field name="paymentTime" colSpan="6"/>
-        <field name="periodTypeSelect" colSpan="6"/>
-        <field name="daySelect" colSpan="6" showIf="typeSelect == 4"/>
+	    <field name="code" x-bind="{{code|unaccent|uppercase}}" colSpan="3"/>
+		<field name="isFree" colSpan="3"/>
+        <panel-related colSpan="12" name="paymentConditionLineListPanel" title="Payment condition lines" field="paymentConditionLineList" 
+        	grid-view="payment-condition-line-grid" form-view="payment-condition-line-form"/>
         <field name="advancePaymentNeeded" if="__config__.app.getApp('supplychain')?.manageAdvancePaymentsFromPaymentConditions"/>
       </panel>
     </form>
@@ -27,5 +24,15 @@
     <search-filters name="payment-condition-filters" model="com.axelor.apps.account.db.PaymentCondition" title="Payment condition filters">
     	<field name="advancePaymentNeeded" hidden="true" if="!(__config__.app.isApp('supplychain') &amp;&amp; __config__.app.getApp('supplychain')?.manageAdvancePaymentsFromPaymentConditions)"/>
     </search-filters>
+    
+    <action-validate name="action-payment-condition-validate-payment-percentage">
+    	<error message="The sum of line percentages (payment percentage) must be equal to 100" if="eval: paymentConditionLineList?.collect(){ it?.paymentPercentage }?.sum() != 100"/>
+    </action-validate>
+    
+    <action-record name="action-payment-schedule-record-in-tax-amount"
+		model="com.axelor.apps.account.db.PaymentSchedule">
+		<field name="inTaxAmount"
+			expr="eval: invoiceSet?.collect(){ it?.companyInTaxTotalRemaining }?.sum()" />
+	</action-record>
     
 </object-views>

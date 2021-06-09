@@ -3,7 +3,7 @@
   
   <module name="account" package="com.axelor.apps.account.db"/>
 
-  <entity sequential="true" name="Invoice" lang="java">
+  <entity sequential="true" name="InvoiceTerm" lang="java">
     
     <date name="estimatedPaymentDate" title="Estimated payment date"/>
 	

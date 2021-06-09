@@ -3,15 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
     
-	<grid name="timetable-template-line-grid" title="Timetable template lines" model="com.axelor.apps.supplychain.db.TimetableTemplateLine" orderBy="paymentCondition.id">
-		<field name="paymentCondition"/>
+	<grid name="timetable-template-line-grid" title="Timetable template lines" model="com.axelor.apps.supplychain.db.TimetableTemplateLine">
+		<field name="typeSelect"/>
+        <field name="paymentTime"/>
+        <field name="periodTypeSelect"/>
 		<field name="percentage"/>		
 	</grid>
 	
 	<form name="timetable-template-line-form" title="Timetable template line" model="com.axelor.apps.supplychain.db.TimetableTemplateLine">
 		<panel name="mainPanel">
-			<field name="paymentCondition"/>
-			<field name="percentage"/>
+			 <field name="typeSelect" colSpan="6"/>
+             <field name="paymentTime" colSpan="6"/>
+             <field name="periodTypeSelect" colSpan="6"/>
+             <field name="daySelect" colSpan="6" showIf="typeSelect == 4"/>
+			 <field name="percentage"/>
 		</panel>
 	</form>
 	

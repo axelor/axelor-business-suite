@@ -103,6 +103,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   protected InvoiceLineService invoiceLineService;
   protected AccountConfigService accountConfigService;
   protected MoveToolService moveToolService;
+  protected InvoiceTermService invoiceTermService;
 
   @Inject
   public InvoiceServiceImpl(
@@ -115,7 +116,8 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
       PartnerService partnerService,
       InvoiceLineService invoiceLineService,
       AccountConfigService accountConfigService,
-      MoveToolService moveToolService) {
+      MoveToolService moveToolService,
+      InvoiceTermService invoiceTermService) {
 
     this.validateFactory = validateFactory;
     this.ventilateFactory = ventilateFactory;
@@ -127,6 +129,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     this.invoiceLineService = invoiceLineService;
     this.accountConfigService = accountConfigService;
     this.moveToolService = moveToolService;
+    this.invoiceTermService = invoiceTermService;
   }
 
   // WKF
@@ -154,15 +157,24 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
   }
 
   @Override
-  public Account getPartnerAccount(Invoice invoice) throws AxelorException {
+  public Account getPartnerAccount(Invoice invoice, boolean isHoldBack) throws AxelorException {
+
     if (invoice.getCompany() == null
         || invoice.getOperationTypeSelect() == null
         || invoice.getOperationTypeSelect() == 0
-        || invoice.getPartner() == null) return null;
+        || invoice.getPartner() == null) {
+      return null;
+    }
     AccountingSituationService situationService = Beans.get(AccountingSituationService.class);
-    return InvoiceToolService.isPurchase(invoice)
-        ? situationService.getSupplierAccount(invoice.getPartner(), invoice.getCompany())
-        : situationService.getCustomerAccount(invoice.getPartner(), invoice.getCompany());
+    if (InvoiceToolService.isPurchase(invoice)) {
+      return isHoldBack
+          ? situationService.getHoldBackSupplierAccount(invoice.getPartner(), invoice.getCompany())
+          : situationService.getSupplierAccount(invoice.getPartner(), invoice.getCompany());
+    } else {
+      return isHoldBack
+          ? situationService.getHoldBackCustomerAccount(invoice.getPartner(), invoice.getCompany())
+          : situationService.getCustomerAccount(invoice.getPartner(), invoice.getCompany());
+    }
   }
 
   public Journal getJournal(Invoice invoice) throws AxelorException {
@@ -523,6 +535,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     List<InvoiceLine> invoiceLines = this.getInvoiceLinesFromInvoiceList(invoiceList);
     invoiceGenerator.populate(invoiceMerged, invoiceLines);
     this.setInvoiceForInvoiceLines(invoiceLines, invoiceMerged);
+    invoiceTermService.computeInvoiceTerms(invoiceMerged);
     invoiceRepo.save(invoiceMerged);
     return invoiceMerged;
   }

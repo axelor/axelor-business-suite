@@ -38,6 +38,8 @@
 			<field name="pfpValidatorUser" required="true" domain=":company member of self.companySet and self.isPfpValidator = true" canEdit="false" showIf="company.accountConfig.isManagePassedForPayment" if="__config__.app.getApp('account').getActivatePassedForPayment()"/>
 			<field name="company.accountConfig" hidden="true" if="__config__.app.getApp('account').getActivatePassedForPayment()"/>
 			<field name="company.accountConfig.isManagePassedForPayment" hidden="true" if="__config__.app.getApp('account').getActivatePassedForPayment()"/>
+			<field name="holdBackCustomerAccount" form-view="customer-account-form" grid-view="account-grid" canNew="true"/>
+			<field name="holdBackSupplierAccount" form-view="supplier-account-form" grid-view="account-grid" canNew="true"/>
 		</panel>
 		<panel name="customerBalancePanel" title="Customer balance" itemSpan="4">
 			<field name="balanceCustAccount"/>
@@ -96,6 +98,8 @@
        		<field name="employeeAccount" form-view="account-form" grid-view="account-grid"/>
 			<field name="companyInBankDetails" hidden="true" widget="SuggestBox" onSelect="action-account-accounting-situation-set-inbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
 			<field name="companyOutBankDetails" hidden="true" widget="SuggestBox" onSelect="action-account-accounting-situation-set-outbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
+			<field name="holdBackCustomerAccount" form-view="customer-account-form" grid-view="account-grid" canNew="true"/>
+			<field name="holdBackSupplierAccount" form-view="supplier-account-form" grid-view="account-grid" canNew="true"/>
 		</panel>
 	    	
 		<panel name="customerBalancePanel" title="Customer balance"  itemSpan="4" >
@@ -169,6 +173,10 @@
 	<action-record name="action-account-accounting-situation-default-set" model="com.axelor.apps.account.db.AccountingSituation">
 	    <field name="company"  expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
+    	<field name="holdBackCustomerAccount"  expr="eval:__user__.activeCompany?.accountConfig?.holdBackCustomerAccount" if="__user__.activeCompany != null"/>
+    	<field name="holdBackCustomerAccount"  expr="eval:__repo__(Company).all().fetchOne()?.accountConfig?.holdBackCustomerAccount" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
+    	<field name="holdBackSupplierAccount"  expr="eval:__user__.activeCompany?.accountConfig?.holdBackSupplierAccount" if="__user__.activeCompany != null"/>
+    	<field name="holdBackSupplierAccount"  expr="eval:__repo__(Company).all().fetchOne()?.accountConfig?.holdBackSupplierAccount" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
 	</action-record>
 
 	<action-method name="action-accounting-situation-method-set-default-mail">

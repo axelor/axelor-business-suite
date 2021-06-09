@@ -421,6 +421,42 @@ public class AccountingSituationServiceImpl implements AccountingSituationServic
   }
 
   @Override
+  public Account getHoldBackCustomerAccount(Partner partner, Company company)
+      throws AxelorException {
+    Account account = null;
+    AccountingSituation accountingSituation = getAccountingSituation(partner, company);
+
+    if (accountingSituation != null) {
+      account = accountingSituation.getHoldBackCustomerAccount();
+    }
+
+    if (account == null) {
+      AccountConfig accountConfig = accountConfigService.getAccountConfig(company);
+      account = accountConfigService.getHoldBackCustomerAccount(accountConfig);
+    }
+
+    return account;
+  }
+
+  @Override
+  public Account getHoldBackSupplierAccount(Partner partner, Company company)
+      throws AxelorException {
+    Account account = null;
+    AccountingSituation accountingSituation = getAccountingSituation(partner, company);
+
+    if (accountingSituation != null) {
+      account = accountingSituation.getHoldBackSupplierAccount();
+    }
+
+    if (account == null) {
+      AccountConfig accountConfig = accountConfigService.getAccountConfig(company);
+      account = accountConfigService.getHoldBackSupplierAccount(accountConfig);
+    }
+
+    return account;
+  }
+
+  @Override
   public Account getEmployeeAccount(Partner partner, Company company) throws AxelorException {
     Account account = null;
     AccountingSituation accountingSituation = getAccountingSituation(partner, company);

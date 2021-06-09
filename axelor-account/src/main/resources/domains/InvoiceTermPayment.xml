@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+  <module name="account" package="com.axelor.apps.account.db"/>
+
+  <entity name="InvoiceTermPayment" lang="java">
+  
+  	<many-to-one name="invoicePayment" ref="com.axelor.apps.account.db.InvoicePayment" title="Payment"/>
+  	<many-to-one name="invoiceTerm" ref="com.axelor.apps.account.db.InvoiceTerm" title="Invoice term"/>
+  	<decimal name="paidAmount" title="Paid amount"/>
+  	
+  </entity>
+  
+</domain-models>

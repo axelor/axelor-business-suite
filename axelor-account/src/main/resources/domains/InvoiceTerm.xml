@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+  <module name="account" package="com.axelor.apps.account.db"/>
+
+  <entity name="InvoiceTerm" lang="java">
+  
+  	<many-to-one name="invoice" ref="com.axelor.apps.account.db.Invoice" title="Invoice" required="true"/>
+  	<date name="dueDate" title="Due date"/>
+  	<boolean name="isPaid" title="Paid" default="false"/>
+  	<boolean name="isHoldBack" title="Holdback" default="false"/>
+  	<decimal name="amount" title="Amount"/>
+  	<decimal name="amountRemaining" title="Amount remaining"/>
+  	<many-to-one name="paymentConditionLine" ref="com.axelor.apps.account.db.PaymentConditionLine" title="Payment condition line" required="true"/>
+  	<many-to-one name="moveLine" ref="com.axelor.apps.account.db.MoveLine" title="Move line" readonly="true"/>
+  	
+  	<string name="name" namecolumn="true" search="invoice,dueDate,amount" title="Name">
+            <![CDATA[
+            if( invoice != null ){
+               if (dueDate != null) {
+            	 return invoice.getInvoiceId() + "_" + dueDate + "_" + amount;
+               }
+               else {
+                 return invoice.getInvoiceId() + "_" + amount;
+               }
+            } else { 
+            return null; 
+            }
+	    ]]>
+    </string>
+        
+  </entity>
+  
+</domain-models>

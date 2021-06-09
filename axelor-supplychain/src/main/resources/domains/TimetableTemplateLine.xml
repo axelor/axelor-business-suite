@@ -5,7 +5,10 @@
   
   <entity name="TimetableTemplateLine" lang="java">
 	
-	<many-to-one name="paymentCondition" ref="com.axelor.apps.account.db.PaymentCondition" title="Time limit" required="true"/>
+	<integer name="typeSelect" title="Type" selection="account.payment.condition.type.select" required="true"/>
+    <integer name="periodTypeSelect" title="Period type" selection="account.payment.condition.period.type.select" default="1"/>
+    <integer name="paymentTime" title="Payment period (N days / Month)"/>
+    <integer name="daySelect" title="Day (end of month)" selection="day.month.select"/>
 	<decimal name="percentage" scale="2" precision="5" max="100" min="0" required="true"/>
 	<many-to-one name="timetableTemplate" ref="com.axelor.apps.supplychain.db.TimetableTemplate"/>
 	

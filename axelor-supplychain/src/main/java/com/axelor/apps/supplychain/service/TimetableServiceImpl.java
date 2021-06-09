@@ -105,7 +105,13 @@ public class TimetableServiceImpl implements TimetableService {
     for (TimetableTemplateLine templateLine : template.getTimetableTemplateLineList()) {
       Timetable timetable = new Timetable();
       timetable.setEstimatedDate(
-          InvoiceToolService.getDueDate(templateLine.getPaymentCondition(), computationDate));
+          InvoiceToolService.getDueDate(
+              templateLine.getTypeSelect(),
+              templateLine.getPaymentTime(),
+              templateLine.getPeriodTypeSelect(),
+              templateLine.getDaySelect(),
+              computationDate));
+
       timetable.setPercentage(templateLine.getPercentage());
       timetable.setAmount(
           exTaxTotal.multiply(templateLine.getPercentage()).divide(BigDecimal.valueOf(100)));

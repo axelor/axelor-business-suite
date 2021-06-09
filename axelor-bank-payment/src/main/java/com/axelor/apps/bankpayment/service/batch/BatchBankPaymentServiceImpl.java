@@ -206,7 +206,8 @@ public class BatchBankPaymentServiceImpl implements BatchBankPaymentService {
   protected void createBankOrders(Batch batch, Reconcile reconcile)
       throws AxelorException, JAXBException, IOException, DatatypeConfigurationException {
 
-    for (InvoicePayment invoicePayment : invoicePaymentRepo.findByReconcile(reconcile).fetch()) {
+    for (InvoicePayment invoicePayment :
+        invoicePaymentRepo.findByReconcileId(reconcile.getId()).fetch()) {
       if (invoicePayment.getBankOrder() != null) {
         continue;
       }

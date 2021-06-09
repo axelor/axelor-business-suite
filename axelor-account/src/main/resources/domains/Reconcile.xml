@@ -22,6 +22,8 @@
 
     <many-to-one name="reconcileGroup" ref="com.axelor.apps.account.db.ReconcileGroup"/>
     
+    <many-to-one name="invoicePayment" ref="InvoicePayment" title="Invoice payment" readonly="true"/>
+    
     <unique-constraint columns="reconcileSeq,company"/>
 
     <finder-method name="findByMoveLines" using="debitMoveLine,creditMoveLine"/>

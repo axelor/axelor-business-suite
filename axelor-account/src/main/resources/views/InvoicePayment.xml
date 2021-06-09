@@ -20,10 +20,18 @@
         model="com.axelor.apps.account.db.InvoicePayment"
         onNew="action-invoice-payment-group-new"
         onLoad="action-attrs-invoice-payment-hide-trading-name">
+        <panel name="invoiceTermToPay" hidden="true" showIf="invoice.invoiceTermList.length &gt; 1 &amp;&amp; id == null &amp;&amp; invoice.operationTypeSelect != 4 &amp;&amp; invoice.operationTypeSelect != 2">
+        	<field name="$invoiceTerms" title="Unpaid invoice terms" type="one-to-many" target="com.axelor.apps.account.db.InvoiceTerm" 
+        	grid-view="invoice-term-grid" form-view="invoice-term-form" readonly="true" colSpan="12"/>
+        	<button onClick="action-invoice-payement-method-add-invoice-terms-to-pay" name="selectInvoiceTermTopayBtn" title="Add selected invoice terms to pay"/>
+        </panel>
+        <panel-related name="invoiceTermPaymentPanel" field="invoiceTermPaymentList"
+        grid-view="invoice-term-payment-grid" form-view="invoice-term-payment-form" colSpan="12" readonly="true"
+        	hidden="true" showIf="invoice.invoiceTermList.length &gt; 1 &amp;&amp; invoice.operationTypeSelect != 4 &amp;&amp; invoice.operationTypeSelect != 2"/>
 		<panel name="mainPanel" readonlyIf="statusSelect != 0">
 			<field name="typeSelect" showIf="id" colSpan="12" />
-            <field name="amount"/>
-            <field name="currency" canEdit="false"
+            <field name="amount" onChange="action-invoice-payement-method-update-invoice-terms-to-pay"/>
+            <field name="currency" onChange="action-invoice-payement-method-update-invoice-terms-to-pay" canEdit="false"
                 form-view="currency-form" grid-view="currency-grid"/>
             <field name="paymentMode" canEdit="false"
                 onChange="action-invoice-payment-method-fill-bank-details"
@@ -86,6 +94,7 @@
 		<action name="action-invoice-payment-record-new"/>
 		<action name="action-invoice-payment-attrs-new"/>
 		<action name="action-invoice-payment-method-new"/>
+		<action name="action-invoice-payment-method-load-invoice-terms"/>
 		<action name="action-attrs-invoice-payment-hide-trading-name"/>
 	</action-group>
 	
@@ -125,7 +134,11 @@
 	<action-method name="action-invoice-payment-method-new">
         <call class="com.axelor.apps.account.web.InvoicePaymentController" method="filterPaymentMode"/>
 	</action-method>
-
+	
+	<action-method name="action-invoice-payment-method-load-invoice-terms">
+        <call class="com.axelor.apps.account.web.InvoicePaymentController" method="loadInvoiceTerms"/>
+	</action-method>
+	
     <action-method name="action-invoice-payment-method-cancel">
         <call class="com.axelor.apps.account.web.InvoicePaymentController" method="cancelInvoicePayment"/>
     </action-method>
@@ -144,6 +157,14 @@
 	
 	<action-method name="action-invoice-payment-method-check-and-save">
 		<call class="com.axelor.apps.account.web.InvoicePaymentController" method="checkConditionBeforeSave"/>
+	</action-method>
+	
+	<action-method name="action-invoice-payement-method-add-invoice-terms-to-pay">
+		<call class="com.axelor.apps.account.web.InvoicePaymentController" method="addSelectedInvoiceTermsToPay"/>
+	</action-method>
+	
+		<action-method name="action-invoice-payement-method-update-invoice-terms-to-pay">
+		<call class="com.axelor.apps.account.web.InvoicePaymentController" method="updateInvoiceTermsToPay"/>
 	</action-method>
 	
 </object-views>

@@ -95,6 +95,10 @@
 				<panel name="expensePanel" title="Expense" colSpan="12">
 					<field name="expenseTaxAccount" domain="self.company = :company" if-module="axelor-human-resource" grid-view="account-grid" form-view="account-form" if="__config__.app.isApp('expense')"/>
 				</panel>
+				<panel name="holdBackPanel" title="Holdback" colSpan="12">
+				    <field name="holdBackCustomerAccount" domain="self.company = :company" form-view="account-form" grid-view="account-grid"/>
+			        <field name="holdBackSupplierAccount" domain="self.company = :company" form-view="account-form" grid-view="account-grid"/>
+				</panel>
 				<panel name="accountingReportPanel" title="Accounting reports" colSpan="12">
       	    		<field name="lineMinBeforeLongReportGenerationMessageNumber"/>
       			</panel>

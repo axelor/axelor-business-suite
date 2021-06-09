@@ -40,6 +40,8 @@
 		<many-to-one name="factorCreditAccount" ref="com.axelor.apps.account.db.Account"/>
 		<many-to-one name="yearOpeningAccount" ref="com.axelor.apps.account.db.Account" title="Year opening account"/>
 		<many-to-one name="yearClosureAccount" ref="com.axelor.apps.account.db.Account" title="Year closure account"/>
+		<many-to-one name="holdBackCustomerAccount" ref="com.axelor.apps.account.db.Account" title="Holdback Customer account"/>
+		<many-to-one name="holdBackSupplierAccount" ref="com.axelor.apps.account.db.Account" title="Holdback Supplier account"/>
 		
 
         <!-- Automatic account creation for partners -->

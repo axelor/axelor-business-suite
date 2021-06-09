@@ -311,6 +311,30 @@ public class AccountConfigService {
     return accountConfig.getEmployeeAccount();
   }
 
+  public Account getHoldBackCustomerAccount(AccountConfig accountConfig) throws AxelorException {
+
+    if (accountConfig.getHoldBackCustomerAccount() == null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.ACCOUNT_CONFIG_46),
+          I18n.get(com.axelor.apps.base.exceptions.IExceptionMessage.EXCEPTION),
+          accountConfig.getCompany().getName());
+    }
+    return accountConfig.getHoldBackCustomerAccount();
+  }
+
+  public Account getHoldBackSupplierAccount(AccountConfig accountConfig) throws AxelorException {
+
+    if (accountConfig.getHoldBackSupplierAccount() == null) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.ACCOUNT_CONFIG_47),
+          I18n.get(com.axelor.apps.base.exceptions.IExceptionMessage.EXCEPTION),
+          accountConfig.getCompany().getName());
+    }
+    return accountConfig.getHoldBackCustomerAccount();
+  }
+
   public Account getAdvancePaymentAccount(AccountConfig accountConfig) throws AxelorException {
 
     if (accountConfig.getAdvancePaymentAccount() == null) {

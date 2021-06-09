@@ -36,7 +36,7 @@
     
     <!-- Dates -->
     <date name="invoiceDate" title="Invoice Date" />
-    <date name="dueDate" title="Due Date"/>
+    <date name="dueDate" title="Next due date"/>
     <date name="originDate" title="Origin date"/>
     <date name="paymentDate" title="Payment date" />
     
@@ -85,6 +85,9 @@
     <many-to-one name="interbankCodeLine" ref="com.axelor.apps.account.db.InterbankCodeLine" title="Rejection reason"/>
     <decimal name="directDebitAmount" title="Debited amount" readonly="true"/> 
     <many-to-one name="paymentMove" ref="com.axelor.apps.account.db.Move" title="Payment Move"/>
+    
+    <!-- Invoice terms -->
+    <one-to-many name="invoiceTermList" ref="com.axelor.apps.account.db.InvoiceTerm" mappedBy="invoice" title="Invoice terms"/>
     
 	<!--  Impression -->
 	<integer name="invoicesCopySelect" default="1" selection="grade.1.up.to.10.select"/>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+    
+    <grid name="payment-condition-line-grid" title="Payment condition lines" model="com.axelor.apps.account.db.PaymentConditionLine">
+        <field name="typeSelect"/>
+        <field name="paymentTime"/>
+        <field name="periodTypeSelect"/>
+        <field name="paymentPercentage"/>
+        <field name="isHoldback"/>
+    </grid>
+    
+    <form name="payment-condition-line-form" title="Payment condition line" model="com.axelor.apps.account.db.PaymentConditionLine" 
+    	onNew="action-payment-condition-line-record-new" >
+      <panel name="mainPanel" >
+        <field name="typeSelect" colSpan="6"/>
+        <field name="paymentTime" colSpan="6"/>
+        <field name="periodTypeSelect" colSpan="6"/>
+        <field name="daySelect" colSpan="6" showIf="typeSelect == 4"/>
+        <field name="isHoldback" onChange="action-payment-condition-line-record-compute-percentage"/>
+        <field name="paymentPercentage"/>
+      </panel>
+    </form>
+    
+    <action-record name="action-payment-condition-line-record-compute-percentage" model="com.axelor.apps.account.db.PaymentConditionLine">
+    	<field name="paymentPercentage"  expr="eval:__user__.activeCompany?.saleConfig?.defaultHoldBackPercentage" if="__user__.activeCompany != null"/>
+    	<field name="paymentPercentage"  expr="eval:__repo__(Company).all().fetchOne()?.saleConfig?.defaultHoldBackPercentage" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
+    </action-record>
+    
+    <action-record name="action-payment-condition-line-record-new" model="com.axelor.apps.account.db.PaymentConditionLine">
+    	<field name="paymentPercentage" expr="100" if="eval: __parent__?.paymentConditionLineList == null || __parent__?.paymentConditionLineList.size() == 0"/>
+    </action-record>
+    
+</object-views>

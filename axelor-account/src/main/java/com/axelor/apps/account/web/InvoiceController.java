@@ -28,6 +28,7 @@ import com.axelor.apps.account.service.AccountingSituationService;
 import com.axelor.apps.account.service.IrrecoverableService;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.invoice.InvoiceService;
+import com.axelor.apps.account.service.invoice.InvoiceTermService;
 import com.axelor.apps.account.service.invoice.InvoiceToolService;
 import com.axelor.apps.account.service.invoice.print.InvoicePrintService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentCreateService;
@@ -63,12 +64,14 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.inject.Singleton;
 import java.lang.invoke.MethodHandles;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -227,6 +230,45 @@ public class InvoiceController {
     Beans.get(InvoiceService.class).cancel(invoice);
     response.setFlash(I18n.get(IExceptionMessage.INVOICE_1));
     response.setReload(true);
+  }
+
+  public void computeInvoiceTerms(ActionRequest request, ActionResponse response) {
+    Invoice invoice = request.getContext().asType(Invoice.class);
+    try {
+      if (invoice.getExTaxTotal().compareTo(BigDecimal.ZERO) == 0
+          || invoice.getPaymentCondition() == null) {
+        return;
+      }
+      invoice = Beans.get(InvoiceTermService.class).computeInvoiceTerms(invoice);
+      response.setValues(invoice);
+
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
+  }
+
+  public void computeInvoiceTermsDueDates(ActionRequest request, ActionResponse response) {
+    Invoice invoice = request.getContext().asType(Invoice.class);
+    try {
+      if (CollectionUtils.isEmpty(invoice.getInvoiceTermList())) {
+        return;
+      }
+      if (InvoiceToolService.isPurchase(invoice) && invoice.getOriginDate() != null) {
+
+        invoice = Beans.get(InvoiceTermService.class).setDueDates(invoice, invoice.getOriginDate());
+
+      } else if (!InvoiceToolService.isPurchase(invoice) && invoice.getInvoiceDate() != null) {
+
+        invoice =
+            Beans.get(InvoiceTermService.class).setDueDates(invoice, invoice.getInvoiceDate());
+      } else {
+        return;
+      }
+      response.setValues(invoice);
+
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
   }
 
   /**

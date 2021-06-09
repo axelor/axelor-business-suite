@@ -1,0 +1,12 @@
+---
+title: "Account : Manage invoice Terms in invoice and hold back"
+type: feature
+description: |
+  - Add Payment condition lines in payment condition 
+  - Add invoice Terms management in invoices
+  - Manage invoice terms payment
+  - Manage holdback payment and terms in invoice : when hold back, we use a specific account configuration
+  - Manage invoice Payments using invoice terms
+  - Update in ForecastRecap Process : use invoice terms when looking for invoices
+  - Update TimetableTemplateLine to use directly paymentcondition fields (type, period type, day,..)
+  - Invoice ventilation : generate  move line for each invoice term

@@ -19,6 +19,7 @@ package com.axelor.apps.account.service.payment.invoice.payment;
 
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoicePayment;
+import com.axelor.apps.account.db.InvoiceTerm;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.PaymentMode;
@@ -42,6 +43,7 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +71,7 @@ public class InvoicePaymentToolServiceImpl implements InvoicePaymentToolService 
   public void updateAmountPaid(Invoice invoice) throws AxelorException {
 
     invoice.setAmountPaid(computeAmountPaid(invoice));
-    invoice.setAmountRemaining(invoice.getInTaxTotal().subtract(invoice.getAmountPaid()));
+    invoice.setAmountRemaining(computeAmountRemaining(invoice));
     updateHasPendingPayments(invoice);
     invoiceRepo.save(invoice);
     log.debug("Invoice : {}, amount paid : {}", invoice.getInvoiceId(), invoice.getAmountPaid());
@@ -79,6 +81,28 @@ public class InvoicePaymentToolServiceImpl implements InvoicePaymentToolService 
   @Transactional
   public void updateHasPendingPayments(Invoice invoice) {
     invoice.setHasPendingPayments(checkPendingPayments(invoice));
+  }
+
+  protected BigDecimal computeAmountRemaining(Invoice invoice) throws AxelorException {
+
+    BigDecimal amountRemaining = BigDecimal.ZERO;
+
+    if (CollectionUtils.isEmpty(invoice.getInvoiceTermList())) {
+      return amountRemaining;
+    }
+
+    for (InvoiceTerm invoiceTerm : invoice.getInvoiceTermList()) {
+      amountRemaining = amountRemaining.add(invoiceTerm.getAmountRemaining());
+    }
+
+    boolean isMinus = moveToolService.isMinus(invoice);
+    if (isMinus) {
+      amountRemaining = amountRemaining.negate();
+    }
+
+    log.debug("Amount remaining total : {}", amountRemaining);
+
+    return amountRemaining;
   }
 
   protected BigDecimal computeAmountPaid(Invoice invoice) throws AxelorException {

@@ -31,6 +31,18 @@
 		<context name="_operationTypeSelect" expr="eval:4"/>
 		<context name="todayDate" expr="eval:__config__.app.getTodayDate(__user__.activeCompany)" />
 	</action-view>
+	
+	<menuitem name="invoice-root-custinvoice-terms" parent="invoice-root" order="11"
+		title="Cust. Invoice terms" action="invoice.root.custinvoice.terms" />
+
+	<action-view name="invoice.root.custinvoice.terms" title="Cust. Invoice terms"
+		model="com.axelor.apps.account.db.InvoiceTerm">
+		<view type="grid" name="invoice-term-grid"/>
+		<view type="form" name="invoice-term-form"/>
+		<domain>self.invoice.operationTypeSelect = 3</domain>
+		<context name="_operationTypeSelect" expr="eval:3"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate(__user__.activeCompany)" />
+	</action-view>
 			
 	<menuitem name="invoice-root-purchase-supinvoices" parent="invoice-root" order="15"
 		title="Suppl. Invoices" action="invoice.root.purchase.supinvoices" />
@@ -87,8 +99,19 @@
 		<domain>self.operationTypeSelect = 2</domain>
 		<context name="_operationTypeSelect" expr="eval:2"/>
 		<context name="todayDate" expr="eval:__config__.app.getTodayDate(__user__.activeCompany)" />
-	</action-view>	
+	</action-view>
 		
+	<menuitem name="invoice-root-purchase-supinvoice-terms" parent="invoice-root" order="21"
+		title="Suppl. Invoice terms" action="invoice.root.purchase.invoice.terms" />
+
+	<action-view name="invoice.root.purchase.invoice.terms" title="Suppl. Invoice terms"
+		model="com.axelor.apps.account.db.InvoiceTerm">
+		<view type="grid" name="invoice-term-grid"/>
+		<view type="form" name="invoice-term-form"/>
+		<domain>self.invoice.operationTypeSelect = 2</domain>
+		<context name="_operationTypeSelect" expr="eval:2"/>
+		<context name="todayDate" expr="eval:__config__.app.getTodayDate(__user__.activeCompany)" />
+	</action-view>	
 		
 	<menuitem name="account-root-payment-schedule" title="Payment Schedule" order="25" if-module="axelor-bank-payment"
               parent="invoice-root" if="__config__.app.getApp('bank-payment')?.manageDirectDebitPayment"/>

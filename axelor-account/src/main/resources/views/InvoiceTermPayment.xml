@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+    
+    <grid name="invoice-term-payment-grid" title="Invoice term payments" model="com.axelor.apps.account.db.InvoiceTermPayment" canNew="false">
+    	<field name="invoiceTerm"/>
+	    <field name="paidAmount"/>
+	</grid>
+	
+    <form name="invoice-term-payment-form" title="Invoice term payment"
+        model="com.axelor.apps.account.db.InvoiceTermPayment">
+		<panel name="mainPanel" readonly="true">
+			<field name="invoiceTerm" form-view="invoice-term-form" grid-view="invoice-term-grid"/>
+	    	<field name="paidAmount"/>
+		</panel>
+	</form>
+</object-views>
+	

@@ -199,7 +199,8 @@ public class PaymentScheduleLineBankPaymentServiceImpl extends PaymentScheduleLi
         continue;
       }
 
-      for (InvoicePayment invoicePayment : invoicePaymentRepo.findByReconcile(reconcile).fetch()) {
+      for (InvoicePayment invoicePayment :
+          invoicePaymentRepo.findByReconcileId(reconcile.getId()).fetch()) {
         invoicePaymentCancelService.cancel(invoicePayment);
       }
     }

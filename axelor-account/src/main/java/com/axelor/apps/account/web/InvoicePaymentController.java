@@ -19,13 +19,19 @@ package com.axelor.apps.account.web;
 
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoicePayment;
+import com.axelor.apps.account.db.InvoiceTerm;
+import com.axelor.apps.account.db.InvoiceTermPayment;
 import com.axelor.apps.account.db.PaymentMode;
 import com.axelor.apps.account.db.repo.InvoicePaymentRepository;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
+import com.axelor.apps.account.db.repo.InvoiceTermRepository;
+import com.axelor.apps.account.exception.IExceptionMessage;
+import com.axelor.apps.account.service.invoice.InvoiceTermService;
 import com.axelor.apps.account.service.move.MoveCustAccountService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentCancelService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentCreateService;
 import com.axelor.apps.account.service.payment.invoice.payment.InvoicePaymentToolService;
+import com.axelor.apps.account.service.payment.invoice.payment.InvoiceTermPaymentService;
 import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
@@ -36,15 +42,18 @@ import com.axelor.common.ObjectUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.ResponseMessageType;
 import com.axelor.exception.service.TraceBackService;
+import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;
+import org.apache.commons.collections.CollectionUtils;
 
 @Singleton
 public class InvoicePaymentController {
@@ -173,7 +182,6 @@ public class InvoicePaymentController {
     }
     response.setReload(true);
   }
-
   /**
    * Method that check the invoice payment before save and save. Only use when add payment is used
    * in invoice
@@ -185,6 +193,97 @@ public class InvoicePaymentController {
     try {
       InvoicePayment invoicePayment = request.getContext().asType(InvoicePayment.class);
       Beans.get(InvoicePaymentToolService.class).checkConditionBeforeSave(invoicePayment);
+    } catch (Exception e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
+  /**
+   * Method that loads unpaid invoice terms and init invoiceTermPayments
+   *
+   * @param request
+   * @param response
+   */
+  public void loadInvoiceTerms(ActionRequest request, ActionResponse response) {
+    try {
+      InvoicePayment invoicePayment = request.getContext().asType(InvoicePayment.class);
+      List<InvoiceTerm> invoiceTerms =
+          Beans.get(InvoiceTermService.class)
+              .getUnpaidInvoiceTermsFiltered(invoicePayment.getInvoice());
+      if (CollectionUtils.isEmpty(invoiceTerms)) {
+        return;
+      }
+      InvoiceTermPaymentService invoiceTermPaymentService =
+          Beans.get(InvoiceTermPaymentService.class);
+      List<InvoiceTermPayment> invoiceTermPayments =
+          invoiceTermPaymentService.initInvoiceTermPayments(invoicePayment, invoiceTerms);
+      response.setValue("$invoiceTerms", invoiceTerms);
+      response.setValue("invoiceTermPaymentList", invoiceTermPayments);
+      response.setValue(
+          "amount",
+          invoiceTermPaymentService.computeInvoicePaymentAmount(
+              invoicePayment, invoiceTermPayments));
+    } catch (Exception e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public void addSelectedInvoiceTermsToPay(ActionRequest request, ActionResponse response) {
+    try {
+      InvoicePayment invoicePayment = request.getContext().asType(InvoicePayment.class);
+      if (request.getContext().get("invoiceTerms") != null) {
+        List<InvoiceTerm> selectedInvoiceTerms = Lists.newArrayList();
+        InvoiceTermRepository invoiceTermRepo = Beans.get(InvoiceTermRepository.class);
+
+        List<Map> invoiceTermsMap = (List<Map>) request.getContext().get("invoiceTerms");
+        for (Map map : invoiceTermsMap) {
+          if (map.get("selected") != null && ((boolean) map.get("selected"))) {
+            selectedInvoiceTerms.add(invoiceTermRepo.find(new Long((Integer) map.get("id"))));
+          }
+        }
+        if (selectedInvoiceTerms.isEmpty()) {
+          response.setError(I18n.get(IExceptionMessage.INVOICE_PAYMENT_MISSING_TERM_LINE));
+        } else {
+          selectedInvoiceTerms =
+              Beans.get(InvoiceTermService.class)
+                  .filterInvoiceTermsByHoldBack(selectedInvoiceTerms);
+          InvoiceTermPaymentService invoiceTermPaymentService =
+              Beans.get(InvoiceTermPaymentService.class);
+          List<InvoiceTermPayment> invoiceTermPayments =
+              invoiceTermPaymentService.initInvoiceTermPayments(
+                  invoicePayment, selectedInvoiceTerms);
+          response.setValue("invoiceTermPaymentList", invoiceTermPayments);
+          response.setValue(
+              "amount",
+              invoiceTermPaymentService.computeInvoicePaymentAmount(
+                  invoicePayment, invoiceTermPayments));
+        }
+      }
+
+    } catch (Exception e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
+  public void updateInvoiceTermsToPay(ActionRequest request, ActionResponse response) {
+    try {
+      InvoicePayment invoicePayment = request.getContext().asType(InvoicePayment.class);
+      BigDecimal amount = invoicePayment.getAmount();
+      List<InvoiceTerm> invoiceTerms =
+          Beans.get(InvoiceTermService.class)
+              .getUnpaidInvoiceTermsFiltered(invoicePayment.getInvoice());
+      if (!CollectionUtils.isEmpty(invoiceTerms)) {
+        response.setValue("$invoiceTerms", invoiceTerms);
+
+        List<InvoiceTermPayment> invoiceTermPayments = Lists.newArrayList();
+        if (amount.compareTo(BigDecimal.ZERO) > 0) {
+          invoiceTermPayments =
+              Beans.get(InvoiceTermPaymentService.class)
+                  .initInvoiceTermPaymentsWithAmount(invoicePayment, invoiceTerms, amount);
+        }
+        response.setValue("invoiceTermPaymentList", invoiceTermPayments);
+      }
     } catch (Exception e) {
       TraceBackService.trace(response, e, ResponseMessageType.ERROR);
     }

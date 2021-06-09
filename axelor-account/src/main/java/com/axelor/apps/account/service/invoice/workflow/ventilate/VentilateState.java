@@ -28,6 +28,7 @@ import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.fixedasset.FixedAssetService;
 import com.axelor.apps.account.service.invoice.InvoiceService;
+import com.axelor.apps.account.service.invoice.InvoiceTermService;
 import com.axelor.apps.account.service.invoice.InvoiceToolService;
 import com.axelor.apps.account.service.invoice.workflow.WorkflowInvoice;
 import com.axelor.apps.account.service.move.MoveService;
@@ -70,6 +71,8 @@ public class VentilateState extends WorkflowInvoice {
 
   protected FixedAssetService fixedAssetService;
 
+  protected InvoiceTermService invoiceTermService;
+
   @Inject
   public VentilateState(
       SequenceService sequenceService,
@@ -79,7 +82,8 @@ public class VentilateState extends WorkflowInvoice {
       InvoiceRepository invoiceRepo,
       WorkflowVentilationService workflowService,
       UserService userService,
-      FixedAssetService fixedAssetService) {
+      FixedAssetService fixedAssetService,
+      InvoiceTermService invoiceTermService) {
     this.sequenceService = sequenceService;
     this.moveService = moveService;
     this.accountConfigService = accountConfigService;
@@ -88,6 +92,7 @@ public class VentilateState extends WorkflowInvoice {
     this.workflowService = workflowService;
     this.userService = userService;
     this.fixedAssetService = fixedAssetService;
+    this.invoiceTermService = invoiceTermService;
   }
 
   @Override
@@ -128,7 +133,7 @@ public class VentilateState extends WorkflowInvoice {
   protected void setPartnerAccount() throws AxelorException {
     // Partner account is actually set upon validation but we keep this for backward compatibility
     if (invoice.getPartnerAccount() == null) {
-      Account account = Beans.get(InvoiceService.class).getPartnerAccount(invoice);
+      Account account = Beans.get(InvoiceService.class).getPartnerAccount(invoice, false);
 
       if (account == null) {
         throw new AxelorException(
@@ -178,9 +183,10 @@ public class VentilateState extends WorkflowInvoice {
           I18n.get(IExceptionMessage.VENTILATE_STATE_FUTURE_ORIGIN_DATE));
     }
 
+    this.setInvoiceTermDueDates();
     if ((invoice.getPaymentCondition() != null && !invoice.getPaymentCondition().getIsFree())
         || invoice.getDueDate() == null) {
-      invoice.setDueDate(this.getDueDate());
+      invoice.setDueDate(InvoiceToolService.getDueDate(invoice));
     }
   }
 
@@ -238,14 +244,13 @@ public class VentilateState extends WorkflowInvoice {
     }
   }
 
-  protected LocalDate getDueDate() throws AxelorException {
+  protected void setInvoiceTermDueDates() throws AxelorException {
 
     if (InvoiceToolService.isPurchase(invoice)) {
 
-      return InvoiceToolService.getDueDate(invoice.getPaymentCondition(), invoice.getOriginDate());
+      invoiceTermService.setDueDates(invoice, invoice.getOriginDate());
     }
-
-    return InvoiceToolService.getDueDate(invoice.getPaymentCondition(), invoice.getInvoiceDate());
+    invoiceTermService.setDueDates(invoice, invoice.getInvoiceDate());
   }
 
   protected void setMove() throws AxelorException {
