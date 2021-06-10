@@ -16,6 +16,10 @@
 	
 	<input file="production_workCenter.csv" separator=";" type="com.axelor.apps.production.db.WorkCenter"/>
 	
+	<input file="production_workCenterGroup.csv" separator=";" type="com.axelor.apps.production.db.WorkCenterGroup">
+		<bind to="workCenterSet" column="workCenterSet_importId" search="self.importId =:workCenterSet_importId" update="true" />
+	</input>
+	
 	<input file="production_prodHumanResource.csv" separator=";" type="com.axelor.apps.production.db.ProdHumanResource"/>
 	
 	<input file="production_prodProcess.csv" separator=";" type="com.axelor.apps.production.db.ProdProcess">
