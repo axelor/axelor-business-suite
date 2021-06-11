@@ -633,25 +633,33 @@
     <action-view name="action-project-view-per-section-kanban" title="Tasks" model="com.axelor.apps.project.db.ProjectTask">
       <view type="kanban" name="task-per-section-kanban"/>
       <view type="form" name="project-task-form"/>
-      <domain>self.project.id = :_id</domain>
+      <domain>self.typeSelect = :_typeSelect AND self.project.id = :_id</domain>
+      <context name="_project" expr="eval:__this__"/>
+      <context name="_typeSelect" expr="eval: __repo__(ProjectTask).TYPE_TASK"/>
     </action-view>
 
     <action-view name="action-project-view-per-status-calendar" title="Task Calendar" model="com.axelor.apps.project.db.ProjectTask">
         <view type="calendar" name="project-task-per-status-calendar"/>
         <view type="form" name="project-task-form"/>
-        <domain>self.project.id = :_id</domain>
+        <domain>self.typeSelect = :_typeSelect AND self.project.id = :_id</domain>
+        <context name="_project" expr="eval:__this__"/>
+        <context name="_typeSelect" expr="eval: __repo__(ProjectTask).TYPE_TASK"/>
     </action-view>
 
     <action-view name="action-project-view-per-section-calendar" title="Task Calendar" model="com.axelor.apps.project.db.ProjectTask">
         <view type="calendar" name="project-task-per-section-calendar"/>
         <view type="form" name="project-task-form"/>
-        <domain>self.project.id = :_id</domain>
+        <domain>self.typeSelect = :_typeSelect AND self.project.id = :_id</domain>
+        <context name="_project" expr="eval:__this__"/>
+        <context name="_typeSelect" expr="eval: __repo__(ProjectTask).TYPE_TASK"/>
     </action-view>
 
     <action-view name="action-project-view-per-user-calendar" title="Task Calendar" model="com.axelor.apps.project.db.ProjectTask">
         <view type="calendar" name="project-task-per-user-calendar"/>
         <view type="form" name="project-task-form"/>
-        <domain>self.project.id = :_id</domain>
+        <domain>self.typeSelect = :_typeSelect AND self.project.id = :_id</domain>
+        <context name="_project" expr="eval:__this__"/>
+        <context name="_typeSelect" expr="eval: __repo__(ProjectTask).TYPE_TASK"/>
     </action-view>
 
     <action-attrs name="action-project-task-attrs-project-filter-status">

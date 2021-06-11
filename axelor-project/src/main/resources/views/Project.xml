@@ -345,7 +345,7 @@
 					<field name="isShowKanbanPerStatus" colSpan="4" widget="inline-checkbox" showIf="isShowStatus"/>
 					<field name="isShowKanbanPerSection" colSpan="4" widget="inline-checkbox" showIf="isShowSection"/>
 					<field name="isShowCalendarPerStatus" colSpan="4" widget="inline-checkbox"/>
-					<field name="isShowCalendarPerSection" colSpan="4" widget="inline-checkbox"/>
+					<field name="isShowCalendarPerSection" colSpan="4" widget="inline-checkbox" showIf="isShowSection"/>
 					<field name="isShowCalendarPerUser" colSpan="4" widget="inline-checkbox"/>
 				</panel>	
 			</panel>
@@ -750,9 +750,10 @@
 	</action-attrs>
 	
 	<action-view name="action-project-dashlet-activity" title="Activity" model="com.axelor.apps.project.db.ProjectActivity">
-	    <view type="grid" name="project-activity-grid"/>
+		<view type="cards" name="project-activity-card"/>
 	    <view type="form" name="project-activity-form"/>
 	    <domain>self.project.id = :id</domain>
+	    <context name="_fromProjectDashlet" expr="eval: true"/>
 	</action-view>
 
     <action-view name="project.wiki.all" title="Wikis (${name})" model="com.axelor.apps.project.db.Wiki">
@@ -819,6 +820,7 @@
 	
 	<action-record name="action-project-record-section-reset-values" model="com.axelor.apps.project.db.Project">
 	  <field name="isShowKanbanPerSection" expr="eval: false" if="!isShowSection"/>
+	  <field name="isShowCalendarPerSection" expr="eval: false" if="!isShowSection"/>
 	</action-record>
 	
 	<action-record name="action-project-record-is-show-timespent-reset-values" model="com.axelor.apps.project.db.Project">

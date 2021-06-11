@@ -78,9 +78,20 @@ public class ProjectActivityServiceImpl implements ProjectActivityService {
 
   @Transactional
   @Override
+  public void createProjectProjectActivity(Map<String, Object> dataMap) {
+    Project project = getBean(dataMap, Project.class);
+    ProjectActivity projectActivity = getProjectActivity(dataMap, project, project);
+    if (projectActivity != null) {
+      projectActivity.setRecordTitle(project.getName());
+      projectActivityRepo.save(projectActivity);
+    }
+  }
+
+  @Transactional
+  @Override
   public void createTaskProjectActivity(Map<String, Object> dataMap) {
     ProjectTask task = getBean(dataMap, ProjectTask.class);
-    ProjectActivity projectActivity = getDefaultActivity(dataMap, task.getProject(), task);
+    ProjectActivity projectActivity = getProjectActivity(dataMap, task.getProject(), task);
     if (projectActivity != null) {
       projectActivity.setRecordTitle(task.getName());
       projectActivityRepo.save(projectActivity);
@@ -91,7 +102,7 @@ public class ProjectActivityServiceImpl implements ProjectActivityService {
   @Override
   public void createWikiProjectActivity(Map<String, Object> dataMap) {
     Wiki wiki = getBean(dataMap, Wiki.class);
-    ProjectActivity projectActivity = getDefaultActivity(dataMap, wiki.getProject(), wiki);
+    ProjectActivity projectActivity = getProjectActivity(dataMap, wiki.getProject(), wiki);
     if (projectActivity != null) {
       projectActivity.setRecordTitle(wiki.getTitle());
       projectActivityRepo.save(projectActivity);
@@ -102,21 +113,26 @@ public class ProjectActivityServiceImpl implements ProjectActivityService {
   @Override
   public void createTopicProjectActivity(Map<String, Object> dataMap) {
     Topic topic = getBean(dataMap, Topic.class);
-    ProjectActivity projectActivity = getDefaultActivity(dataMap, topic.getProject(), topic);
+    ProjectActivity projectActivity = getProjectActivity(dataMap, topic.getProject(), topic);
     if (projectActivity != null) {
       projectActivity.setRecordTitle(topic.getTitle());
       projectActivityRepo.save(projectActivity);
     }
   }
 
-  protected ProjectActivity getDefaultActivity(
+  protected ProjectActivity getProjectActivity(
       Map<String, Object> dataMap, Project project, Model model) {
     String activity = getActivity(dataMap, model);
     if (StringUtils.isBlank(activity)) {
       return null;
     }
-    ProjectActivity projectActivity = new ProjectActivity();
+    ProjectActivity projectActivity = getDefaultActivity(project, model);
     projectActivity.setActivity(activity);
+    return projectActivity;
+  }
+
+  protected ProjectActivity getDefaultActivity(Project project, Model model) {
+    ProjectActivity projectActivity = new ProjectActivity();
     if (model.getId() == null && project != null) {
       project = projectRepo.find(project.getId());
     }
@@ -144,7 +160,10 @@ public class ProjectActivityServiceImpl implements ProjectActivityService {
         Object newValue = toProxy(property, me.getValue());
         if (!isEqual(oldValue, newValue)) {
           activity.append(getTitle(property) + " : ");
-          activity.append(format(property, oldValue) + ">>");
+          String oldFomattedValue = format(property, oldValue);
+          if (!StringUtils.isEmpty(oldFomattedValue)) {
+            activity.append(oldFomattedValue + ">>");
+          }
           activity.append(format(property, newValue) + "\n");
         }
       }
@@ -219,7 +238,7 @@ public class ProjectActivityServiceImpl implements ProjectActivityService {
 
   protected String getTitle(Property property) {
     String title = property.getTitle();
-    if (title == null) {
+    if (StringUtils.isEmpty(title)) {
       title = Inflector.getInstance().humanize(property.getName());
     }
     return I18n.get(title);

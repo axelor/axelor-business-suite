@@ -48,6 +48,10 @@
 	  		public static final int STATUS_VALIDATED = 3;
 	  		public static final int STATUS_REFUSED = 4;
 	  		public static final int STATUS_CANCELED = 5;
+	  		
+	  		public static final String TIME_LOGGING_DAYS = "days";
+	  		public static final String TIME_LOGGING_HOURS = "hours";
+	  		public static final String TIME_LOGGING_MINUTES = "minutes";
 	  ]]>
       </extra-code>
       <track>

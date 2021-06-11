@@ -17,6 +17,7 @@
  */
 package com.axelor.apps.project.observer;
 
+import com.axelor.apps.project.db.Project;
 import com.axelor.apps.project.db.ProjectTask;
 import com.axelor.apps.project.db.Topic;
 import com.axelor.apps.project.db.Wiki;
@@ -32,6 +33,19 @@ import java.util.Map;
 import javax.inject.Named;
 
 public class ProjectActivityObserver {
+
+  @SuppressWarnings("unchecked")
+  public void onSaveProject(
+      @Observes @Named(RequestEvent.SAVE) @EntityType(Project.class) PreRequest event) {
+    Map<String, Object> dataMap = event.getRequest().getData();
+    if (dataMap != null) {
+      Beans.get(ProjectActivityService.class).createProjectProjectActivity(dataMap);
+    } else {
+      List<Object> records = event.getRequest().getRecords();
+      Beans.get(ProjectActivityService.class)
+          .createProjectProjectActivity((HashMap<String, Object>) records.get(0));
+    }
+  }
 
   @SuppressWarnings("unchecked")
   public void onSaveTask(

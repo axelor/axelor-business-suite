@@ -51,7 +51,7 @@ public class ProjectController {
             .getTaskView(
                 project,
                 "My open tasks",
-                "self.assignedTo = :__user__ AND self.status.isCompleted = false AND self.typeSelect = :typeSelect AND self.project = :_project",
+                "self.assignedTo = :__user__ AND self.status.isCompleted = false AND self.typeSelect = :_typeSelect AND self.project = :_project",
                 context);
     response.setView(view);
   }
@@ -65,7 +65,7 @@ public class ProjectController {
             .getTaskView(
                 project,
                 "My tasks",
-                "self.createdBy = :__user__ AND self.typeSelect = :typeSelect AND self.project = :_project",
+                "self.createdBy = :__user__ AND self.typeSelect = :_typeSelect AND self.project = :_project",
                 context);
     response.setView(view);
   }
@@ -79,7 +79,7 @@ public class ProjectController {
             .getTaskView(
                 project,
                 "All open tasks",
-                "self.status.isCompleted = false AND self.typeSelect = :typeSelect AND self.project = :_project",
+                "self.status.isCompleted = false AND self.typeSelect = :_typeSelect AND self.project = :_project",
                 context);
     response.setView(view);
   }
@@ -93,7 +93,7 @@ public class ProjectController {
             .getTaskView(
                 project,
                 "All tasks",
-                "self.typeSelect = :typeSelect AND self.project = :_project",
+                "self.typeSelect = :_typeSelect AND self.project = :_project",
                 context);
     response.setView(view);
   }
@@ -109,7 +109,7 @@ public class ProjectController {
   protected Map<String, Object> getTaskContext(Project project) {
     Map<String, Object> context = new HashMap<>();
     context.put("_project", project);
-    context.put("typeSelect", ProjectTaskRepository.TYPE_TASK);
+    context.put("_typeSelect", ProjectTaskRepository.TYPE_TASK);
     return context;
   }
 

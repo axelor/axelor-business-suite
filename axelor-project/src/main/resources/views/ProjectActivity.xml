@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
-
+	
+	<cards name="project-activity-card" model="com.axelor.apps.project.db.ProjectActivity" orderBy="-doneOn" canEdit="false" canDelete="false" title="Project Activities">
+		<field name="project"/>
+		<field name="objectUpdated"/>
+		<field name="recordTitle"/>
+		<field name="user"/>
+		<field name="doneOn"/>
+		<field name="activity"/>
+		<template>
+		<![CDATA[
+		    <div>
+		    	<div style="margin-top: 2%;margin-bottom:0;">
+					<span style="font-size: 14px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"> 
+							<strong x-translate>Object updated</strong><span>&nbsp; : &nbsp; </span><span>{{ objectUpdated }}</span> 		
+					</span>
+				</div>
+				<div style="margin-top: 1%;margin-bottom:0;">
+					<span style="font-size: 14px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+							<strong x-translate>Record title</strong><span> &nbsp; : &nbsp; </span><span>{{ recordTitle }}</span> 
+					</span>
+				</div>	
+				<div style="margin-top: 1%;margin-bottom:0;">
+					<span style="font-size: 14px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+						<strong x-translate>Activity</strong><span> &nbsp; : &nbsp; </span>
+						<pre style="margin-top: 0.5%;margin-bottom:0;"  style="font-size: 10px;"> {{activity}} </pre>
+					</span>
+				</div>
+				<div style="margin-top: 1.5%;">
+					<a>
+						<span  style="font-size: 14px;text-align: left;"> {{user.fullName}} </span>	
+					</a>	
+					<span class="label label-default pull-right" style="margin-top: 0%;background-color: #16918f;color: #fff; font-size: 10px;"> {{ $fmt('doneOn') }} </span>
+				</div>
+			 </div> 
+		]]>
+		</template>
+	</cards>
+	
+	
 	<grid name="project-activity-grid" title="Project Activities" model="com.axelor.apps.project.db.ProjectActivity" orderBy="-doneOn" canNew="false" canEdit="false">
 		<field name="project"/>
 		<field name="objectUpdated"/>
@@ -12,7 +50,7 @@
 	
 	<form name="project-activity-form" title="Project Activity" model="com.axelor.apps.project.db.ProjectActivity" canNew="false" canEdit="false">
 		<panel name="mainPanel">
-		 <field name="project" form-view="project-form" grid-view="project-grid"/>
+		 <field name="project" form-view="project-form" grid-view="project-grid" hideIf="_fromProjectDashlet"/>
 		 <field name="objectUpdated"/>
 		 <field name="recordTitle"/>
 		 <field name="user" form-view="user-form" grid-view="user-grid"/>

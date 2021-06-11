@@ -15,17 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.axelor.apps.project.service;
+package com.axelor.apps.hr.service.project;
 
 import java.util.Map;
 
-public interface ProjectActivityService {
+public interface ProjectActivityHRService {
 
-  public void createProjectProjectActivity(Map<String, Object> dataMap);
-
-  public void createTaskProjectActivity(Map<String, Object> dataMap);
-
-  public void createWikiProjectActivity(Map<String, Object> dataMap);
-
-  public void createTopicProjectActivity(Map<String, Object> dataMap);
+  public void createTimesheetLineProjectActivity(Map<String, Object> dataMap);
 }

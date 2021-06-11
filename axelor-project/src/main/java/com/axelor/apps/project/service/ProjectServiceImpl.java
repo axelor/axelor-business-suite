@@ -257,7 +257,7 @@ public class ProjectServiceImpl implements ProjectService {
             .add("kanban", "project-task-kanban")
             .add("grid", "project-task-grid")
             .add("form", "project-task-form")
-            .domain("self.typeSelect = :typeSelect AND self.project = :_project")
+            .domain("self.typeSelect = :_typeSelect AND self.project = :_project")
             .param("kanban-hide-columns", getStatusColumnsTobeExcluded(project));
 
     if (ObjectUtils.notEmpty(context)) {

@@ -2,7 +2,7 @@
 title: Project and task major changes
 type: feature
 description: |
-  Track task,wiki,topic activity
+  Track project,task,wiki,topic,timesheet line activity
   Improve timesheet workflow validation
   Add support to create custom status for project and task
   Add ability to create custom field for project and per project
