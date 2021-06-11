@@ -352,7 +352,7 @@
       <panel name="businessProjectPanel" title="Business project" if="__config__.app.isApp('business-project') &amp;&amp; __config__.app.getApp('business-project').getGenerateProjectOrder()" if-module="axelor-business-project">
         <field name="$_projectGeneratorType" title="Type of project's elements generated" x-enum-type="com.axelor.apps.project.db.ProjectGeneratorType"/>
         <field name="$_elementStartDate" title="Start date" widget="date-time" type="datetime"/>
-        <field name="project" canEdit="false" domain="self.clientPartner = :clientPartner" form-view="project-form" grid-view="project-grid"/>
+        <field name="project" canEdit="false" domain="self.clientPartner = :clientPartner" form-view="project-sale-order-form" grid-view="project-grid" title="Business projects"/>
         <field name="toInvoiceViaTask" hidden="true" showIf="$_projectGeneratorType == 'TASK_BY_LINE' || $_projectGeneratorType == 'TASK_TEMPLATE'"/>
         <panel name="projectDetailsPanel" colSpan="12">
           <button name="updateLinesBtn" title="Update lines with selected project" onClick="save,action-business-project-sale-order-method-update-lines,save" readonlyIf="!project"/>
