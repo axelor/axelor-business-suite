@@ -26,4 +26,6 @@ public interface ITranslation {
 
   public static final String PICKING_STOCK_MOVE_NOTE = /*$$(*/ "PickingStockMove.note"; /*)*/
   public static final String STOCK_ON_TIME_DELIVERIES = /*$$(*/ "OnTime Deliveries"; /*)*/
+
+  String MANUAL_CORRECTION = /*$$(*/ "value:Manual correction"; /*)*/
 }

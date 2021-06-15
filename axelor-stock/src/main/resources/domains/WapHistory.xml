@@ -11,6 +11,13 @@
     <decimal name="wap" title="WAP" precision="20" scale="10" readonly="true" initParam="true"/>
     <decimal name="qty" title="Quantity" precision="20" scale="10" readonly="true" initParam="true"/>
     <many-to-one name="unit" ref="com.axelor.apps.base.db.Unit" title="Unit" readonly="true" initParam="true"/>
+    <string name="origin" title="Origin" readonly="true" translatable="true" initParam="true"/>
     <many-to-one name="stockMoveLine" ref="com.axelor.apps.stock.db.StockMoveLine" title="Stock move line" readonly="true" initParam="true"/>
+
+    <extra-code><![CDATA[
+      //origin
+      public static final String ORIGIN_MANUAL_CORRECTION = "Manual correction";
+    ]]></extra-code>
   </entity>
+
 </domain-models>

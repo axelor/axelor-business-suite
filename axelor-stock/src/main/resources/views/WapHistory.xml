@@ -8,6 +8,7 @@
     <field name="wap"/>
     <field name="qty" x-scale="2"/>
     <field name="unit"/>
+    <field name="origin"/>
   </grid>
 
   <form name="wap-history-form" title="WAP history" model="com.axelor.apps.stock.db.WapHistory"
@@ -17,7 +18,8 @@
       <field name="wap"/>
       <field name="qty"/>
       <field name="unit"/>
-      <field name="stockMoveLine" showIf="stockMoveLine" form-view="stock-move-line-all-form" grid-view="stock-move-line-grid"/>
+      <field name="origin" colSpan="12" showIf="!stockMoveLine"/>
+      <field name="stockMoveLine.stockMove" title="Origin" colSpan="12" showIf="stockMoveLine" form-view="stock-move-form" grid-view="stock-move-grid"/>
     </panel>
   </form>
   

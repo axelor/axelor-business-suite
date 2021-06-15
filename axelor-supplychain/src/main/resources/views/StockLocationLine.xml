@@ -28,5 +28,13 @@
         <context name="location" expr="eval: __stockLocationIdList"/>
         <context name="companyId" expr="eval: company?.id "/>
     </action-view>
-    
+
+  <action-method name="action-stock-location-line-allocate-all">
+    <call class="com.axelor.apps.supplychain.web.StockLocationLineController" method="allocateAll"/>
+  </action-method>
+
+  <action-method name="action-stock-location-line-deallocate-all">
+    <call class="com.axelor.apps.supplychain.web.StockLocationLineController" method="deallocateAll"/>
+  </action-method>
+
 </object-views>	
