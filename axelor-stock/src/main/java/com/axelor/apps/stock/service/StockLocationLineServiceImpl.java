@@ -26,17 +26,13 @@ import com.axelor.apps.stock.db.StockLocationLine;
 import com.axelor.apps.stock.db.StockMoveLine;
 import com.axelor.apps.stock.db.StockRules;
 import com.axelor.apps.stock.db.TrackingNumber;
-import com.axelor.apps.stock.db.WapHistory;
 import com.axelor.apps.stock.db.repo.StockLocationLineRepository;
 import com.axelor.apps.stock.db.repo.StockLocationRepository;
 import com.axelor.apps.stock.db.repo.StockMoveLineRepository;
 import com.axelor.apps.stock.db.repo.StockMoveRepository;
 import com.axelor.apps.stock.db.repo.StockRulesRepository;
-import com.axelor.apps.stock.db.repo.WapHistoryRepository;
 import com.axelor.apps.stock.exception.IExceptionMessage;
 import com.axelor.apps.tool.StringTool;
-import com.axelor.auth.AuthUtils;
-import com.axelor.auth.db.User;
 import com.axelor.db.Query;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
@@ -50,7 +46,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +62,7 @@ public class StockLocationLineServiceImpl implements StockLocationLineService {
 
   protected AppBaseService appBaseService;
 
-  protected WapHistoryRepository wapHistoryRepo;
+  protected WapHistoryService wapHistoryService;
 
   protected UnitConversionService unitConversionService;
 
@@ -77,13 +72,13 @@ public class StockLocationLineServiceImpl implements StockLocationLineService {
       StockRulesService stockRulesService,
       StockMoveLineRepository stockMoveLineRepository,
       AppBaseService appBaseService,
-      WapHistoryRepository wapHistoryRepo,
+      WapHistoryService wapHistoryService,
       UnitConversionService unitConversionService) {
     this.stockLocationLineRepo = stockLocationLineRepo;
     this.stockRulesService = stockRulesService;
     this.stockMoveLineRepository = stockMoveLineRepository;
     this.appBaseService = appBaseService;
-    this.wapHistoryRepo = wapHistoryRepo;
+    this.wapHistoryService = wapHistoryService;
     this.unitConversionService = unitConversionService;
   }
 
@@ -772,18 +767,6 @@ public class StockLocationLineServiceImpl implements StockLocationLineService {
   public void updateWap(
       StockLocationLine stockLocationLine, BigDecimal wap, StockMoveLine stockMoveLine) {
     stockLocationLine.setAvgPrice(wap);
-    wapHistoryRepo.save(
-        new WapHistory(
-            stockLocationLine,
-            appBaseService.getTodayDate(
-                stockLocationLine.getStockLocation() != null
-                    ? stockLocationLine.getStockLocation().getCompany()
-                    : Optional.ofNullable(AuthUtils.getUser())
-                        .map(User::getActiveCompany)
-                        .orElse(null)),
-            wap,
-            stockLocationLine.getCurrentQty(),
-            stockLocationLine.getUnit(),
-            stockMoveLine));
+    wapHistoryService.saveWapHistory(stockLocationLine, stockMoveLine);
   }
 }

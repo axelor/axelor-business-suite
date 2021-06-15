@@ -20,7 +20,7 @@
     	<panel name="mainPanel">
 	        <field name="product" canEdit="false" form-view="product-form" grid-view="product-grid" domain="self.dtype = 'Product'"/>
 	        <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
-            <field name="avgPrice" colSpan="3" readonlyIf="!$isAvgPriceEditable"/>
+            <field name="avgPrice" colSpan="3" onChange="action-stock-location-line-group-avg-price-onchange" readonlyIf="!$isAvgPriceEditable"/>
             <field name="$isAvgPriceEditable" hidden="true" type="boolean"/>
             <button name="updateAvgPriceBtn" title="Update average price" onClick="action-stock-location-line-attrs-update-avg-price"  colSpan="3" hideIf="( stockLocation &amp;&amp; stockLocation.typeSelect == 3 ) || $readonly() || (!$readonly() &amp;&amp; $isAvgPriceEditable)"/>
             <field name="rack"/>
@@ -69,7 +69,7 @@
             <field name="currentQty" colSpan="4"/>
             <field name="futureQty" colSpan="4"/>
             <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
-            <field name="avgPrice" colSpan="3" readonlyIf="!$isAvgPriceEditable"/>
+            <field name="avgPrice" onChange="action-stock-location-line-group-avg-price-onchange" colSpan="3" readonlyIf="!$isAvgPriceEditable"/>
             <field name="$isAvgPriceEditable" hidden="true" type="boolean"/>
             <button name="updateAvgPriceBtn" title="Update average price" onClick="action-stock-location-line-attrs-update-avg-price"  colSpan="3" hideIf="( stockLocation &amp;&amp; stockLocation.typeSelect == 3 ) || $readonly() || (!$readonly() &amp;&amp; $isAvgPriceEditable)"/>
             <field name="rack"/>
@@ -92,7 +92,7 @@
 	        <field name="product" form-view="product-form" grid-view="product-grid" domain="self.dtype = 'Product'"/>
 	        <field name="stockLocation" form-view="stock-location-form" grid-view="stock-location-grid"/>
 	        <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
-            <field name="avgPrice" colSpan="3" readonlyIf="!$isAvgPriceEditable"/>
+            <field name="avgPrice" onChange="action-stock-location-line-group-avg-price-onchange" colSpan="3" readonlyIf="!$isAvgPriceEditable"/>
             <field name="$isAvgPriceEditable" hidden="true" type="boolean"/>
             <button name="updateAvgPriceBtn" title="Update average price" onClick="action-stock-location-line-attrs-update-avg-price"  colSpan="3" hideIf="( stockLocation &amp;&amp; stockLocation.typeSelect == 3 ) || $readonly() || (!$readonly() &amp;&amp; $isAvgPriceEditable)"/>
 	        <field name="lastFutureStockMoveDate"/>
@@ -141,7 +141,7 @@
 	        <field name="currentQty"/>
 	        <field name="futureQty"/>
 	        <field name="unit" form-view="unit-form" grid-view="unit-grid"/>
-            <field name="avgPrice"/>
+            <field name="avgPrice" onChange="action-stock-location-line-group-avg-price-onchange"/>
             <field name="reservedQty" if-module="axelor-supplychain" if="__config__.app.getApp('supplychain').getManageStockReservation()"/>
 	        <field name="trackingNumber" domain="self.product = :product"/>
             <field name="rack"/>
@@ -167,6 +167,11 @@
     
     <action-group name="action-stock-location-line-group-onnew">
     	<action name="action-stock-location-line-attrs-scale-and-precision"/>
+    </action-group>
+
+    <action-group name="action-stock-location-line-group-avg-price-onchange">
+      <action name="save"/>
+      <action name="action-stock-location-line-method-add-wap-history-line"/>
     </action-group>
     
     <action-view name="action-stock-location-line-view-product-qty" title="Location content" model="com.axelor.apps.stock.db.StockLocationLine">
@@ -246,12 +251,7 @@
 		<context name="_stockLocationLineId" expr="eval: id"/>
     </action-view>
 
-	<action-method name="action-stock-location-line-allocate-all">
-	  <call class="com.axelor.apps.supplychain.web.StockLocationLineController" method="allocateAll"/>
-	</action-method>
-
-	<action-method name="action-stock-location-line-deallocate-all">
-	  <call class="com.axelor.apps.supplychain.web.StockLocationLineController" method="deallocateAll"/>
-	</action-method>
-
+  <action-method name="action-stock-location-line-method-add-wap-history-line">
+    <call class="com.axelor.apps.stock.web.StockLocationLineController" method="addWapHistoryLine"/>
+  </action-method>
 </object-views>
