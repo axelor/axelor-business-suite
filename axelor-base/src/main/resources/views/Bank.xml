@@ -18,12 +18,12 @@
 		<panel name="mainPanel">
 			<field name="fullName" colSpan="12" showTitle="false" css="label-bold bold large">
 				<editor x-show-titles="false">
-					<field name="code" x-bind="{{code|unaccent|uppercase}}" colSpan="3" placeholder="BIC"  pattern="^[A-Z]{4}[A-Z]{2}[0-9A-Z]{2}([0-9A-Z]{3})?$"/>
+					<field name="code" x-bind="{{code|unaccent|uppercase}}" colSpan="3" placeholder="BIC" onChange="action-bank-condition-check-code-pattern"/>
 					<field name="bankName" colSpan="9" placeholder="Bank Name"/>
 				</editor>
 			</field>
 
-			<field name="bankDetailsTypeSelect"/>
+			<field name="bankDetailsTypeSelect" onChange="action-bank-condition-check-code-pattern"/>
 		</panel>
 		<panel name="addressPanel">
 			<field name="bankAddressList" colSpan="12">
@@ -42,4 +42,9 @@
 			<field name="branchIdentifier" colSpan="3"/>
 		</panel>
 	</form>
+
+   <action-condition name="action-bank-condition-check-code-pattern">
+      <check field="code" error="Code doesn't match required BIC pattern"
+         if="bankDetailsTypeSelect !=0 &amp;&amp; !code?.matches('^[A-Z]{4}[A-Z]{2}[0-9A-Z]{2}([0-9A-Z]{3})?$')"/>
+   </action-condition>
 </object-views>
