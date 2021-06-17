@@ -60,7 +60,11 @@ public class DepositSlipServiceImpl implements DepositSlipService {
     confirmPayments(depositSlip);
 
     ReportSettings settings =
-        ReportFactory.createReport(getReportName(depositSlip), getFilename(depositSlip));
+        ReportFactory.createReport(
+            getReportType(depositSlip),
+            depositSlip.getCompany(),
+            getReportName(depositSlip),
+            getFilename(depositSlip));
     settings.addParam("DepositSlipId", depositSlip.getId());
     settings.addParam("Locale", ReportSettings.getPrintingLocale(null));
     settings.addParam(
@@ -108,11 +112,26 @@ public class DepositSlipServiceImpl implements DepositSlipService {
     }
   }
 
+  protected String getReportType(DepositSlip depositSlip) throws AxelorException {
+    switch (depositSlip.getPaymentModeTypeSelect()) {
+      case PaymentModeRepository.TYPE_CHEQUE:
+        return "accountChequeDepositSlip";
+      case PaymentModeRepository.TYPE_CASH:
+        return "accountCacheDepositSlip";
+      default:
+        throw new AxelorException(
+            depositSlip,
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            IExceptionMessage.DEPOSIT_SLIP_UNSUPPORTED_PAYMENT_MODE_TYPE);
+    }
+  }
+
   private void compute(DepositSlip depositSlip) {
     if (depositSlip.getPaymentVoucherList() != null) {
       List<PaymentVoucher> paymentVoucherList = depositSlip.getPaymentVoucherList();
       BigDecimal totalAmount =
-          paymentVoucherList.stream()
+          paymentVoucherList
+              .stream()
               .map(PaymentVoucher::getPaidAmount)
               .reduce(BigDecimal.ZERO, BigDecimal::add);
       depositSlip.setTotalAmount(totalAmount);

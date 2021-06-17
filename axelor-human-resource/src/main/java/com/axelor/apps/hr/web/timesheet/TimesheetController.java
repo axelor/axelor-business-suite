@@ -508,7 +508,7 @@ public class TimesheetController {
     String name = I18n.get("Timesheet") + " " + timesheet.getFullName().replace("/", "-");
 
     String fileLink =
-        ReportFactory.createReport(IReport.TIMESHEET, name)
+        ReportFactory.createReport("hrTimesheet", timesheet.getCompany(), IReport.TIMESHEET, name)
             .addParam("TimesheetId", timesheet.getId())
             .addParam(
                 "Timezone",

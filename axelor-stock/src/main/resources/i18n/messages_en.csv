@@ -475,6 +475,7 @@
 "Picking order is edited",,,
 "Picking order printing detailed",,,
 "Picking printed",,,
+"Picking stock move",,,
 "PickingStockMove.aspect","Aspect",,
 "PickingStockMove.code","Code",,
 "PickingStockMove.customerCode","Customer code",,

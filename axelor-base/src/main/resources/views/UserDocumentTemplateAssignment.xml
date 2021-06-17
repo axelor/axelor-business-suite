@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.3.xsd">
+
+   <grid title="Document templates" name="company-document-template-assignment-grid" model="com.axelor.apps.base.db.UserDocumentTemplateAssignment">
+		<field name="type"/>
+		<field name="template"/>
+   </grid>
+
+   <form name="user-document-template-assignment-form" title="User document template" model="com.axelor.apps.base.db.UserDocumentTemplateAssignment" onNew="action-user-document-template-assignment-record-user-on-new">
+		<panel name="mainPanel">
+			<field name="user" hidden="true"/>
+			<field name="company"/>
+			<field name="type" onChange="action-user-document-template-assignment-type-domain"/>
+			<field name="template" canNew="true" canEdit="true"/>
+		</panel>
+   </form>
+
+   <action-record name="action-user-document-template-assignment-record-user-on-new" model="com.axelor.apps.base.db.UserDocumentTemplateAssignment">
+      <field name="user" expr="eval: __parent__"/>
+   </action-record>
+
+   <action-attrs name="action-user-document-template-assignment-type-domain">
+      <attribute name="domain" for="template" expr="eval: &quot;self.type = '${type}'&quot;"/>
+   </action-attrs>
+</object-views>

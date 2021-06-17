@@ -749,7 +749,11 @@ public class ForecastRecapServiceImpl implements ForecastRecapService {
     String title = I18n.get(ITranslation.CASH_MANAGEMENT_REPORT_TITLE);
     title += "-" + forecastRecap.getForecastRecapSeq();
 
-    return ReportFactory.createReport(IReport.FORECAST_RECAP, title + "-${date}")
+    return ReportFactory.createReport(
+            "cashManagementForecastRecap",
+            forecastRecap.getCompany(),
+            IReport.FORECAST_RECAP,
+            title + "-${date}")
         .addParam("ForecastRecapId", forecastRecap.getId())
         .addParam(
             "Timezone",

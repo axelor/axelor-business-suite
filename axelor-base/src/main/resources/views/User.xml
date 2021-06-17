@@ -188,17 +188,22 @@
         	<panel name="emailSignaturePanel" colSpan="12" title="Email signature">
         		<field name="emailSignature" widget="Html" x-lite="true" height="9" colSpan="12"/>
         	</panel>
-        </panel-tabs>
+         <panel-related name="emailAccountListPanel" field="emailAccountList" if="__config__.app.getApp('base').getEmailAccountByUser()" colSpan="12" form-view="mail-account-form" grid-view="mail-account-grid"/>
+			<panel name="printPanel" title="Printing">
+            <field name="userDocuTemplateAssignList" grid-view="user-document-template-assignment-grid" form-view="user-document-template-assignment-form"
+               canNew="true" canEdit="true" colSpan="12"/>
+         </panel>
+      </panel-tabs>
 
-        <panel name="transientPasswordPanel" hidden="true" colSpan="12">
-          <field name="transientPassword"/>
-        </panel>
+      <panel name="transientPasswordPanel" hidden="true" colSpan="12">
+         <field name="transientPassword"/>
+      </panel>
 
-        <panel-mail name="mailsPanel">
-					<mail-messages limit="4"/>
-					<mail-followers/>
-		    </panel-mail>
-    </form>
+      <panel-mail name="mailsPanel">
+			<mail-messages limit="4"/>
+			<mail-followers/>
+      </panel-mail>
+   </form>
 
     <form name="user-preferences-form" id="base-user-preferences-form" title="Preferences" model="com.axelor.auth.db.User" 
         onSave="com.axelor.apps.base.web.UserController:validate" onNew="action-user-attrs" onLoad="action-user-attrs">

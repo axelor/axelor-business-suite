@@ -156,4 +156,11 @@
         <option value="2">Stock location content</option>
     </selection>
 
+	<selection name="base.document.template.type.select" id="stock.document.template.type.select">
+		<option value="stockStockMove">Stock move</option>
+		<option value="stockPickingStockMove">Picking stock move</option>
+		<option value="stockConformityCertificate">Conformity certificate</option>
+		<option value="stockInventory">Inventory</option>
+		<option value="stockStockLocation">Stock location</option>
+	</selection>
 </object-views>

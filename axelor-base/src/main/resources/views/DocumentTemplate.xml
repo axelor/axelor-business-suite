@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.3.xsd">
+
+	<grid name="document-template-grid" title="Document Templates" model="com.axelor.apps.base.db.DocumentTemplate">
+		<field name="type"/>
+		<field name="title"/>
+		<field name="engine"/>
+   </grid>
+
+   <form name="document-template-form" title="Document Template" model="com.axelor.apps.base.db.DocumentTemplate" 
+      onNew="action-document-template-record-type-on-new,action-document-template-method-type-change">
+		<panel name="mainPanel">
+			<field name="type" onChange="action-document-template-method-type-change"/>
+			<field name="title"/>
+			<field name="templateFile" widget="binary-link" onChange="action-document-template-record-engine-on-template-file-change"/>
+			<field name="engine"/>
+		</panel>
+   </form>
+
+    <action-record name="action-document-template-record-type-on-new" model="com.axelor.apps.base.db.DocumentTemplate">
+        <field name="type" expr="eval:__parent__.type" if="__parent__?._model == 'com.axelor.apps.base.db.DocumentTemplateAssignment'"/>
+    </action-record>
+
+    <action-method name="action-document-template-method-type-change" model="com.axelor.apps.base.db.DocumentTemplate">
+        <call class="com.axelor.apps.base.web.DocumentTemplateController" method="getDefaultTitle"/>
+    </action-method>
+
+    <action-record name="action-document-template-record-engine-on-template-file-change" model="com.axelor.apps.base.db.DocumentTemplate">
+        <field name="engine" expr="eval: templateFile?.fileName?.toLowerCase().endsWith('.jrxml') ? 'JASPER' : 'BIRT'"/>
+    </action-record>
+</object-views>

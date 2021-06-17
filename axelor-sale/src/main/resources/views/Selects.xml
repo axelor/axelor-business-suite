@@ -84,4 +84,8 @@
     <option value="doc">Word</option>
     <option value="pdf">PDF</option>
   </selection>
+  
+   <selection name="base.document.template.type.select" id="sale.document.template.type.select">
+      <option value="saleSaleOrder">Sale order</option>
+	</selection>
 </object-views>

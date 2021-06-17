@@ -70,13 +70,15 @@ public class ManufOrderPrintServiceImpl implements ManufOrderPrintService {
   @Override
   public ReportSettings prepareReportSettings(ManufOrder manufOrder) {
     String title = getFileName(manufOrder);
-    ReportSettings reportSetting = ReportFactory.createReport(IReport.MANUF_ORDER, title);
+    ReportSettings reportSetting =
+        ReportFactory.createReport(
+            "productionManufOrder", manufOrder.getCompany(), IReport.MANUF_ORDER, title);
     return reportSetting
         .addParam("Locale", ReportSettings.getPrintingLocale(null))
+        .addParam("ManufOrderId", manufOrder.getId().toString())
         .addParam(
             "Timezone",
             manufOrder.getCompany() != null ? manufOrder.getCompany().getTimezone() : null)
-        .addParam("ManufOrderId", manufOrder.getId().toString())
         .addParam(
             "activateBarCodeGeneration",
             Beans.get(AppBaseService.class).getAppBase().getActivateBarCodeGeneration())

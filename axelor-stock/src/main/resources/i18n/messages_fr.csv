@@ -475,6 +475,7 @@
 "Picking order is edited","Bon de prépa édité",,
 "Picking order printing detailed","Bon de préparation détaillé",,
 "Picking printed","Bon de prépa édité",,
+"Picking stock move",,,
 "PickingStockMove.aspect","Aspect",,
 "PickingStockMove.code","Code",,
 "PickingStockMove.customerCode","Code client",,

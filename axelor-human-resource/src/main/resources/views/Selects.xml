@@ -214,4 +214,13 @@
         <option value="7">Hardship allowance</option>    
     </selection>
 
+   <selection name="base.document.template.type.select" id="hr.document.template.type.select">
+      <option value="hrEmploymentContract">Employment contract</option>
+      <option value="hrExpense">Expense</option>
+      <option value="hrTimesheet">Timesheet</option>
+      <option value="hrEmployeeBonusManagement">Employee bonus management</option>
+      <option value="hrEmployeeAnnualReport">Employee annual report</option>
+      <option value="hrLunchVoucherManagementMonthly">Lunch vouchers monthly report</option>
+      <option value="hrLunchVoucherAdvance">Launch voucher advance</option>
+   </selection>
 </object-views>

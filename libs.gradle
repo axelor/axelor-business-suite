@@ -55,3 +55,9 @@ libs.google_api_services_people = dependencies.create('com.google.apis:google-ap
 libs.mockito = 'org.mockito:mockito-core:3.3.3'
 
 libs.pac4j_core = "org.pac4j:pac4j-core:3.8.3"
+
+libs.jasper_reports = dependencies.create('net.sf.jasperreports:jasperreports:6.14.0') {
+  exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+}
+libs.lowagie_itext = 'com.lowagie:itext:2.1.7'
+libs.jasper_reports_fonts = 'net.sf.jasperreports:jasperreports-fonts:6.14.0'

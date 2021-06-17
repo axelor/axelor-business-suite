@@ -50,7 +50,11 @@ public class EmploymentContractService {
     String name =
         employmentContract.getFullName() + "_" + employmentContract.getEmploymentContractVersion();
 
-    ReportFactory.createReport(IReport.EMPLYOMENT_CONTRACT, name + "-${date}")
+    ReportFactory.createReport(
+            "hrEmploymentContract",
+            employmentContract.getPayCompany(),
+            IReport.EMPLYOMENT_CONTRACT,
+            name + "-${date}")
         .addParam("ContractId", employmentContract.getId())
         .addParam(
             "Timezone",

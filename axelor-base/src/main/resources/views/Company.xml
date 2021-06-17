@@ -62,7 +62,6 @@
 	    	</panel>
 	    	<panel name="configurationsPanel" title="Configurations">
 	  			<field name="currency" canEdit="false" form-view="currency-form" grid-view="currency-grid"/>
-	  			<field name="printingSettings" canNew="true" required="true" form-view="printing-setting-form" grid-view="printing-setting-grid"/>
 	  			<field name="defaultPartnerTypeSelect"/>
 	  			<field name="defaultPartnerCategorySelect"/>
 	  			<field name="customerPaymentDelay" if-module="axelor-cash-management" if="__config__.app.isApp('cash-management')"/>
@@ -81,6 +80,11 @@
 	    	<panel name="orderBloquedMessagePanel" title="Order Bloqued Message" if-module="axelor-sale" if="__config__.app.isApp('sale')">
 	      		<field name="orderBloquedMessage"/>
 	    	</panel>
+			<panel name="printPanel" title="Printing">
+				<field name="printingSettings" canNew="true" canEdit="true" required="true" form-view="printing-setting-form" grid-view="printing-setting-grid"/>
+				<field name="companyDocuTemplateAssignList" grid-view="company-document-template-assignment-grid" canNew="true" colSpan="12"
+               form-view="company-document-template-assignment-form"/>
+			</panel>
 	  	</panel-tabs>
    	</form>
     

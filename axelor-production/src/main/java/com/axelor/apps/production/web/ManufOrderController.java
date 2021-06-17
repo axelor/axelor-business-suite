@@ -353,7 +353,11 @@ public class ManufOrderController {
       String prodProcessLable = manufOrder.getProdProcess().getName();
 
       String fileLink =
-          ReportFactory.createReport(IReport.PROD_PROCESS, prodProcessLable + "-${date}")
+          ReportFactory.createReport(
+                  "productionProdProcess",
+                  manufOrder.getProdProcess().getCompany(),
+                  IReport.PROD_PROCESS,
+                  prodProcessLable + "-${date}")
               .addParam("Locale", ReportSettings.getPrintingLocale(null))
               .addParam(
                   "Timezone",

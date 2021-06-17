@@ -181,6 +181,16 @@
 		<view type="form" name="import-export-interface-form"/>
 	</action-view>
 
+	<menuitem name="admin-root-general-document-template"
+        parent="admin-root-general" title="Document templates"
+        action="admin.root.general.document.template"/>
+
+    <action-view name="admin.root.general.document.template"
+        title="Document templates" model="com.axelor.apps.base.db.DocumentTemplate">
+        <view type="grid" name="document-template-grid"/>
+        <view type="form" name="document-template-form"/>
+    </action-view>
+
 	<menuitem name="referential-root" title="Referential" order="15"
 		parent="admin-root" if="__config__.app.isApp('base')" />
 	<menuitem name="referential-root-partners" parent="referential-root"
