@@ -27,6 +27,7 @@ import com.axelor.apps.crm.db.report.IReport;
 import com.axelor.apps.crm.exception.IExceptionMessage;
 import com.axelor.apps.crm.service.LeadService;
 import com.axelor.apps.report.engine.ReportSettings;
+import com.axelor.auth.AuthUtils;
 import com.axelor.csv.script.ImportLeadConfiguration;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
@@ -93,7 +94,11 @@ public class LeadController {
       }
 
       String fileLink =
-          ReportFactory.createReport(IReport.LEAD, title + "-${date}")
+          ReportFactory.createReport(
+                  "crmLead",
+                  AuthUtils.getUser().getActiveCompany(),
+                  IReport.LEAD,
+                  title + "-${date}")
               .addParam("LeadId", leadIds)
               .addParam("Timezone", getTimezone(lead))
               .addParam("Locale", ReportSettings.getPrintingLocale(lead.getPartner()))

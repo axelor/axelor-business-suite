@@ -11,6 +11,7 @@
         <many-to-one name="metaModel" title="Model" ref="com.axelor.meta.db.MetaModel"/>
         <string name="documentName" title="Document name"/>
         <many-to-one name="company" title="Company" ref="com.axelor.apps.base.db.Company"/>
+        <many-to-one name="printSettings" title="Print settings" ref="com.axelor.apps.base.db.PrintingSettings"/>
         <one-to-many name="printTemplateLineList" title="Content lines" ref="com.axelor.apps.base.db.PrintTemplateLine" mappedBy="printTemplate" orderBy="sequence"/>
         <many-to-one name="language" title="Language" ref="com.axelor.apps.base.db.Language"/>
         <many-to-many name="birtTemplateSet" title="Birt templates" ref="com.axelor.apps.base.db.BirtTemplate"/>

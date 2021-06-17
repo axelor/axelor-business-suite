@@ -566,6 +566,7 @@
 "Production config (${ name })","Configuration production (${ name })",,
 "Production configuration","Configuration de la production",,
 "Production configurations","Configs. Production",,
+"Production cost sheet",,,
 "Production forecast","Prévisions de production",,
 "Production note","Commentaire production",,
 "Production order","Ordre de production",,

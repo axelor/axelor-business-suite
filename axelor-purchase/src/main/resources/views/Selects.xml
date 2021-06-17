@@ -42,4 +42,7 @@
 		<option value="com.axelor.apps.purchase.service.ABCAnalysisServicePurchaseImpl">Purchase</option>
 	</selection>
 	
+	<selection name="base.document.template.type.select" id="purchase.document.template.type.select">
+		<option value="purchaseOrder">Purchase order</option>
+	</selection>
 </object-views>

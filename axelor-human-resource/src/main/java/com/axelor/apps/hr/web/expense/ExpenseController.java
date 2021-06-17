@@ -303,7 +303,7 @@ public class ExpenseController {
     String name = I18n.get("Expense") + " " + expense.getFullName().replace("/", "-");
 
     String fileLink =
-        ReportFactory.createReport(IReport.EXPENSE, name)
+        ReportFactory.createReport("hrExpense", expense.getCompany(), IReport.EXPENSE, name)
             .addParam("ExpenseId", expense.getId())
             .addParam(
                 "Timezone",

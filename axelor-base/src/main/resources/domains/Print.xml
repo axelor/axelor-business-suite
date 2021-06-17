@@ -10,6 +10,7 @@
         <string name="documentName" title="Document name" namecolumn="true"/>
         <many-to-one name="metaModel" title="Model" ref="com.axelor.meta.db.MetaModel"/>
         <many-to-one name="company" title="Company" ref="com.axelor.apps.base.db.Company"/>
+        <many-to-one name="printSettings" title="Print settings" ref="com.axelor.apps.base.db.PrintingSettings"/>
         <one-to-many name="printLineList" title="Content lines" ref="com.axelor.apps.base.db.PrintLine" mappedBy="print" orderBy="rank"/>
         <many-to-one name="language" title="Language" ref="com.axelor.apps.base.db.Language"/>
         <boolean name="hidePrintSettings" title="Hide print settings" hidden="true"/>

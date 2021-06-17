@@ -38,7 +38,11 @@ public class RawMaterialRequirementServiceImpl implements RawMaterialRequirement
   public String print(RawMaterialRequirement rawMaterialRequirement) throws AxelorException {
     String name = String.format("%s - ${date}", I18n.get(RAW_MATERIAL_REPORT_TITLE));
     ReportSettings reportSetting =
-        ReportFactory.createReport(IReport.RAW_MATERIAL_REQUIREMENT, name);
+        ReportFactory.createReport(
+            "productionRawMaterialRequirement",
+            rawMaterialRequirement.getCompany(),
+            IReport.RAW_MATERIAL_REQUIREMENT,
+            name);
 
     String locale = ReportSettings.getPrintingLocale(null);
     return reportSetting

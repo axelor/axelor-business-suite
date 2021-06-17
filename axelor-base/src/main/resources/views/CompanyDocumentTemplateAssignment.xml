@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.3.xsd">
+
+   <grid title="Document templates" name="company-document-template-assignment-grid" model="com.axelor.apps.base.db.CompanyDocumentTemplateAssignment">
+		<field name="type"/>
+		<field name="template"/>
+   </grid>
+
+   <form name="company-document-template-assignment-form" title="Company document template" model="com.axelor.apps.base.db.CompanyDocumentTemplateAssignment" onNew="action-company-document-template-assignment-record-company-on-new">
+		<panel name="mainPanel">
+			<field name="company" hidden="true"/>
+			<field name="type" onChange="action-company-document-template-assignment-type-domain"/>
+			<field name="template" canNew="true" canEdit="true"/>
+		</panel>
+   </form>
+
+   <action-record name="action-company-document-template-assignment-record-company-on-new" model="com.axelor.apps.base.db.CompanyDocumentTemplateAssignment">
+      <field name="company" expr="eval: __parent__"/>
+   </action-record>
+
+   <action-attrs name="action-company-document-template-assignment-type-domain">
+      <attribute name="domain" for="template" expr="eval: &quot;self.type = '${type}'&quot;"/>
+   </action-attrs>
+</object-views>

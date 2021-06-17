@@ -626,4 +626,13 @@
 		<option value="com.axelor.apps.account.db.PaymentCondition" data-grid="payment-condition-grid" data-form="payment-condition-form">Payment condition</option>
 	</selection>
 
+     <selection name="base.document.template.type.select" id="base.document.template.type.select">
+		<option value="partner">Partner</option>
+		<option value="clientSituation">Client situation</option>
+		<option value="messagePdf">PDF message</option>
+		<option value="productSheet">Product sheet</option>
+		<option value="companyPhoneBook">Company phone book</option>
+		<option value="contactPhoneBook">Contact phone book</option>
+		<option value="productCatalog">Product catalog</option>
+	</selection>
 </object-views>

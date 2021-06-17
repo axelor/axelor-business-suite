@@ -93,7 +93,8 @@ public class StockMovePrintServiceImpl implements StockMovePrintService {
     AppBase appBase = appBaseService.getAppBase();
 
     ReportSettings reportSetting =
-        ReportFactory.createReport(IReport.STOCK_MOVE, title + " - ${date}");
+        ReportFactory.createReport(
+            "stockStockMove", stockMove.getCompany(), IReport.STOCK_MOVE, title + " - ${date}");
     return reportSetting
         .addParam("StockMoveId", stockMove.getId())
         .addParam(

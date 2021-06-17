@@ -35,4 +35,8 @@ dependencies {
 	implementation libs.google_api_services_people
 
 	implementation libs.pac4j_core
+
+	implementation libs.jasper_reports
+	implementation libs.jasper_reports_fonts
+	implementation libs.lowagie_itext
 }

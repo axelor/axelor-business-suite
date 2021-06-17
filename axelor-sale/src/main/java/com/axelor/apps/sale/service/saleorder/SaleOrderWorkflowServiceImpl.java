@@ -203,7 +203,11 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
       }
     }
 
-    ReportFactory.createReport(IReport.SALES_ORDER, this.getFileName(saleOrder) + "-${date}")
+    ReportFactory.createReport(
+            "saleSaleOrder",
+            saleOrder.getCompany(),
+            IReport.SALES_ORDER,
+            this.getFileName(saleOrder) + "-${date}")
         .addParam("Locale", ReportSettings.getPrintingLocale(saleOrder.getClientPartner()))
         .addParam(
             "Timezone",

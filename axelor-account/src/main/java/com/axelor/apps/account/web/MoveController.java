@@ -236,7 +236,8 @@ public class MoveController {
     String moveName = move.getReference().toString();
 
     String fileLink =
-        ReportFactory.createReport(IReport.ACCOUNT_MOVE, moveName + "-${date}")
+        ReportFactory.createReport(
+                "accountMove", move.getCompany(), IReport.ACCOUNT_MOVE, moveName + "-${date}")
             .addParam("Locale", ReportSettings.getPrintingLocale(null))
             .addParam(
                 "Timezone", move.getCompany() != null ? move.getCompany().getTimezone() : null)

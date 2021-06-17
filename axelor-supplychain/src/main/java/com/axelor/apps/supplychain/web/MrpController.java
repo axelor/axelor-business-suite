@@ -95,7 +95,11 @@ public class MrpController {
 
     try {
       String fileLink =
-          ReportFactory.createReport(IReport.MRP_WEEKS, name)
+          ReportFactory.createReport(
+                  "supplychainMrpWeeks",
+                  mrp.getStockLocation().getCompany(),
+                  IReport.MRP_WEEKS,
+                  name)
               .addParam("mrpId", mrp.getId())
               .addParam("Timezone", getTimezone(mrp))
               .addParam("Locale", ReportSettings.getPrintingLocale(null))
@@ -132,7 +136,8 @@ public class MrpController {
 
     try {
       String fileLink =
-          ReportFactory.createReport(IReport.MRP_LIST, name)
+          ReportFactory.createReport(
+                  "supplychainMrpList", mrp.getStockLocation().getCompany(), IReport.MRP_LIST, name)
               .addParam("mrpId", mrp.getId())
               .addParam("Timezone", getTimezone(mrp))
               .addParam("Locale", ReportSettings.getPrintingLocale(null))
