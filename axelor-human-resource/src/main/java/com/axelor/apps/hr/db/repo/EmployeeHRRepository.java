@@ -27,9 +27,37 @@ import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.inject.Beans;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Objects;
 
 public class EmployeeHRRepository extends EmployeeRepository {
+
+  @Override
+  public Map<String, Object> populate(Map<String, Object> json, Map<String, Object> context) {
+    if (json != null && json.get("id") != null) {
+      Long id = (Long) json.get("id");
+      if (id != null) {
+        Employee employee = super.find(id);
+        AppBaseService appBaseService = Beans.get(AppBaseService.class);
+        LocalDate today =
+            appBaseService.getTodayDate(
+                employee.getUser() != null
+                    ? employee.getUser().getActiveCompany()
+                    : AuthUtils.getUser().getActiveCompany());
+        if (employee.getLeavingDate() == null
+            && employee.getHireDate() != null
+            && employee.getHireDate().compareTo(today.minusDays(30)) > 0) {
+          json.put("$employeeStatus", "new");
+        } else if (employee.getLeavingDate() != null
+            && employee.getLeavingDate().compareTo(today) < 0) {
+          json.put("$employeeStatus", "former");
+        } else {
+          json.put("$employeeStatus", "active");
+        }
+      }
+    }
+    return super.populate(json, context);
+  }
 
   @Override
   public Employee save(Employee entity) {
