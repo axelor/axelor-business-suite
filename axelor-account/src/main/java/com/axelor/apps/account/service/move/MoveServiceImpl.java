@@ -36,6 +36,7 @@ import com.axelor.apps.account.service.invoice.InvoiceToolService;
 import com.axelor.apps.account.service.payment.PaymentService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
+import com.axelor.common.ObjectUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -540,24 +541,26 @@ public class MoveServiceImpl implements MoveService {
   public Map<String, Object> computeTotals(Move move) {
 
     Map<String, Object> values = new HashMap<>();
-    if (move.getMoveLineList() == null || move.getMoveLineList().isEmpty()) {
-      return values;
+    List<MoveLine> moveLineList = move.getMoveLineList();
+
+    int totalLines = 0;
+    BigDecimal totalDebit = BigDecimal.ZERO;
+    BigDecimal totalCredit = BigDecimal.ZERO;
+    BigDecimal difference = BigDecimal.ZERO;
+
+    if (ObjectUtils.notEmpty(moveLineList)) {
+      totalLines = moveLineList.size();
+
+      for (MoveLine moveLine : moveLineList) {
+        totalDebit = totalDebit.add(moveLine.getDebit());
+        totalCredit = totalCredit.add(moveLine.getCredit());
+      }
+      difference = totalDebit.subtract(totalCredit);
     }
-    values.put("$totalLines", move.getMoveLineList().size());
 
-    BigDecimal totalDebit =
-        move.getMoveLineList().stream()
-            .map(MoveLine::getDebit)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    values.put("$totalLines", totalLines);
     values.put("$totalDebit", totalDebit);
-
-    BigDecimal totalCredit =
-        move.getMoveLineList().stream()
-            .map(MoveLine::getCredit)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
     values.put("$totalCredit", totalCredit);
-
-    BigDecimal difference = totalDebit.subtract(totalCredit);
     values.put("$difference", difference);
 
     return values;

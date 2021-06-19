@@ -29,6 +29,7 @@ import com.axelor.apps.account.service.move.MoveService;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.Wizard;
 import com.axelor.apps.base.service.CurrencyService;
+import com.axelor.common.ObjectUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
@@ -227,6 +228,23 @@ public class MoveLineController {
       response.setValue("currencyRate", currencyRate);
     } catch (AxelorException e) {
       TraceBackService.trace(response, e);
+    }
+  }
+
+  public void getCreditDebitBalance(ActionRequest request, ActionResponse response) {
+    Move move = request.getContext().getParent().asType(Move.class);
+    List<MoveLine> moveLineList = move.getMoveLineList();
+    if (ObjectUtils.isEmpty(moveLineList)) {
+      return;
+    }
+    BigDecimal diff =
+        moveLineList.stream()
+            .map(line -> line.getCredit().subtract(line.getDebit()))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    if (diff.signum() > 0) {
+      response.setValue("debit", diff);
+    } else {
+      response.setValue("credit", diff.negate());
     }
   }
 }
