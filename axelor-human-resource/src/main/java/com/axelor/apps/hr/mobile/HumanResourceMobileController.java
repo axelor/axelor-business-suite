@@ -376,9 +376,12 @@ public class HumanResourceMobileController {
     try {
       Map<String, Object> requestData = request.getData();
       User user = AuthUtils.getUser();
-      Project project =
-          Beans.get(ProjectRepository.class)
-              .find(new Long(request.getData().get("project").toString()));
+      Object projectId = requestData.get("project");
+      Project project = null;
+      if (projectId != null) {
+        project = Beans.get(ProjectRepository.class).find(new Long(projectId.toString()));
+      }
+
       Product product =
           Beans.get(ProductRepository.class)
               .find(new Long(request.getData().get("activity").toString()));
