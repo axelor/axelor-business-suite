@@ -32,6 +32,7 @@ import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.PersistenceException;
@@ -54,6 +55,7 @@ public class MoveManagementRepository extends MoveRepository {
       throw new PersistenceException(e);
     }
     copy.setStatusSelect(STATUS_NEW);
+    copy.setTechnicalOriginSelect(MoveRepository.TECHNICAL_ORIGIN_ENTRY);
     copy.setReference(null);
     copy.setExportNumber(null);
     copy.setExportDate(null);
@@ -80,6 +82,10 @@ public class MoveManagementRepository extends MoveRepository {
     moveLine.setDate(date);
     moveLine.setExportedDirectDebitOk(false);
     moveLine.setReimbursementStatusSelect(MoveLineRepository.REIMBURSEMENT_STATUS_NULL);
+    moveLine.setReconcileGroup(null);
+    moveLine.setAmountPaid(BigDecimal.ZERO);
+    moveLine.setTaxPaymentMoveLineList(null);
+    moveLine.setTaxAmount(BigDecimal.ZERO);
 
     List<AnalyticMoveLine> analyticMoveLineList = moveLine.getAnalyticMoveLineList();
 
