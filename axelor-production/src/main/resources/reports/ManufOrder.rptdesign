@@ -296,8 +296,15 @@
                 </structure>
                 <structure>
                     <property name="columnName">mo_comment_from_sale_order</property>
-                    <property name="alias">mo_comment_from_sale_order</property>
                     <property name="analysis">dimension</property>
+                    <text-property name="displayName">mo_comment_from_sale_order</text-property>
+                    <text-property name="heading">mo_comment_from_sale_order</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">sale_orders_full_name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">sale_orders_full_name</text-property>
+                    <text-property name="heading">sale_orders_full_name</text-property>
                 </structure>
             </list-property>
             <list-property name="filter">
@@ -405,7 +412,7 @@
                     </structure>
                     <structure>
                         <property name="position">19</property>
-                        <property name="name">sale_order</property>
+                        <property name="name">sale_orders_full_name</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
@@ -418,114 +425,133 @@
                     <property name="name">id</property>
                     <property name="nativeName">id</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">note</property>
                     <property name="nativeName">note</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">logo_path</property>
                     <property name="nativeName">logo_path</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">logo_height</property>
                     <property name="nativeName">logo_height</property>
                     <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">logo_width</property>
                     <property name="nativeName">logo_width</property>
                     <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">manuf_order_seq</property>
                     <property name="nativeName">manuf_order_seq</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">bom_name</property>
                     <property name="nativeName">bom_name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">product_name</property>
                     <property name="nativeName">product_name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">product_code</property>
                     <property name="nativeName">product_code</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">qty</property>
                     <property name="nativeName">qty</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
                     <property name="name">unit_code</property>
                     <property name="nativeName">unit_code</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
                     <property name="name">prod_process</property>
                     <property name="nativeName">prod_process</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
                     <property name="name">planned_start_datet</property>
                     <property name="nativeName">planned_start_datet</property>
                     <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
                     <property name="name">bar_code</property>
                     <property name="nativeName">bar_code</property>
                     <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
                     <property name="position">15</property>
                     <property name="name">barcode_picture</property>
                     <property name="nativeName">barcode_picture</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">16</property>
                     <property name="name">status_select</property>
                     <property name="nativeName">status_select</property>
                     <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">17</property>
                     <property name="name">is_cons_pro_on_operation</property>
                     <property name="nativeName">is_cons_pro_on_operation</property>
                     <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
                 </structure>
                 <structure>
                     <property name="position">18</property>
                     <property name="name">mo_comment_from_sale_order</property>
                     <property name="nativeName">mo_comment_from_sale_order</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">19</property>
-                    <property name="name">sale_order</property>
-                    <property name="nativeName">sale_order</property>
+                    <property name="name">sale_orders_full_name</property>
+                    <property name="nativeName">sale_orders_full_name</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[SELECT ManufOrder.id,ManufOrder.note AS note, MetaFile.file_path AS logo_path,
@@ -533,7 +559,7 @@ Company.height as logo_height,
 Company.width as logo_width,
 ManufOrder.manuf_order_seq, BOM.name as bom_name, Product.name as product_name,
 Product.code as product_code, ManufOrder.qty, Unit.label_to_printing as unit_code, ProdProcess.name as prod_process, ManufOrder.planned_start_datet,Product.bar_code as bar_code,
-BarCodeFile.file_path as barcode_picture, ManufOrder.status_select, ManufOrder.is_cons_pro_on_operation, ManufOrder.mo_comment_from_sale_order, SaleOrder.full_name as sale_order
+BarCodeFile.file_path as barcode_picture, ManufOrder.status_select, ManufOrder.is_cons_pro_on_operation, ManufOrder.mo_comment_from_sale_order, SaleOrder.full_name as sale_orders_full_name  
 FROM production_manuf_order AS ManufOrder
 LEFT JOIN base_company AS Company ON (Company.id = ManufOrder.company)
 LEFT JOIN meta_file AS MetaFile ON (MetaFile.id = Company.logo)
@@ -542,7 +568,8 @@ LEFT JOIN base_product as Product ON (Product.id = BOM.product)
 left join meta_file as BarCodeFile on (BarCodeFile.id = Product.bar_code)
 LEFT JOIN base_unit AS Unit ON (Unit.id = BOM.unit)
 LEFT JOIN production_prod_process AS ProdProcess ON (ProdProcess.id = BOM.prod_process)
-LEFT JOIN sale_sale_order AS SaleOrder ON (SaleOrder.id = ManufOrder.sale_order)
+LEFT JOIN production_manuf_order_sale_order_set saleOrderSet ON saleOrderSet.production_manuf_order = ManufOrder.id 
+LEFT JOIN sale_sale_order AS SaleOrder ON SaleOrder.id = saleOrderSet.sale_order_set
 WHERE ManufOrder.id IN (@INJECTID)]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -801,10 +828,135 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <property name="isOutput">false</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">manuf_order_id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">priority</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">prod_process_line</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">planned_start_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">planned_end_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">real_start_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">real_end_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">status_select</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">machine_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">print_planned_date_on_manuf_order</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[this.queryText = this.queryText.replace('@INJECTID', params["ManufOrderId"])]]></method>
             <property name="dataSource">Data Source</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">manuf_order_id</property>
+                    <property name="nativeName">manuf_order_id</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">priority</property>
+                    <property name="nativeName">priority</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">prod_process_line</property>
+                    <property name="nativeName">prod_process_line</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">planned_start_datet</property>
+                    <property name="nativeName">planned_start_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">planned_end_datet</property>
+                    <property name="nativeName">planned_end_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">real_start_datet</property>
+                    <property name="nativeName">real_start_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">real_end_datet</property>
+                    <property name="nativeName">real_end_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">status_select</property>
+                    <property name="nativeName">status_select</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">machine_name</property>
+                    <property name="nativeName">machine_name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">print_planned_date_on_manuf_order</property>
+                    <property name="nativeName">print_planned_date_on_manuf_order</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[SELECT 
 	ManufOrder.id as manuf_order_id, OperationOrderLine.id, OperationOrderLine.priority, ProdProcessLine.name as prod_process_line,
 	OperationOrderLine.planned_start_datet, OperationOrderLine.planned_end_datet, OperationOrderLine.real_start_datet,
@@ -833,10 +985,223 @@ WHERE ManufOrder.id IN (@INJECTID) AND MetaSelectItem.value = cast ( OperationOr
             <list-property name="columnHints"/>
             <list-property name="filter"/>
             <list-property name="parameters"/>
-            <structure name="cachedMetaData"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">manuf_order_id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">priority</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">prod_process_line</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">planned_start_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">planned_end_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">real_start_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">real_end_datet</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">machine_serial</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">description_id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">description_prio</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">file_path</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">description</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">is_cons_pro_on_operation</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">bar_code_path</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">operation_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">bar_code</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">work_center_code</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">work_center_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
             <method name="beforeOpen"><![CDATA[this.queryText = this.queryText.replace('@INJECTID', params["ManufOrderId"])]]></method>
             <property name="dataSource">Data Source</property>
-            <list-property name="resultSet"/>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">manuf_order_id</property>
+                    <property name="nativeName">manuf_order_id</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">priority</property>
+                    <property name="nativeName">priority</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">prod_process_line</property>
+                    <property name="nativeName">prod_process_line</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">planned_start_datet</property>
+                    <property name="nativeName">planned_start_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">planned_end_datet</property>
+                    <property name="nativeName">planned_end_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">real_start_datet</property>
+                    <property name="nativeName">real_start_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">real_end_datet</property>
+                    <property name="nativeName">real_end_datet</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">machine_serial</property>
+                    <property name="nativeName">machine_serial</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">description_id</property>
+                    <property name="nativeName">description_id</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">description_prio</property>
+                    <property name="nativeName">description_prio</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">file_path</property>
+                    <property name="nativeName">file_path</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">description</property>
+                    <property name="nativeName">description</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">is_cons_pro_on_operation</property>
+                    <property name="nativeName">is_cons_pro_on_operation</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">bar_code_path</property>
+                    <property name="nativeName">bar_code_path</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">operation_name</property>
+                    <property name="nativeName">operation_name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">bar_code</property>
+                    <property name="nativeName">bar_code</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">work_center_code</property>
+                    <property name="nativeName">work_center_code</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">work_center_name</property>
+                    <property name="nativeName">work_center_name</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <xml-property name="queryText"><![CDATA[SELECT 
 	ManufOrder.id as manuf_order_id, OperationOrderLine.id, OperationOrderLine.priority, ProdProcessLine.id as prod_process_line,
 	OperationOrderLine.planned_start_datet, OperationOrderLine.planned_end_datet, OperationOrderLine.real_start_datet,
@@ -1659,12 +2024,6 @@ WHERE manufOrder.id = ?;]]></xml-property>
                     <expression name="expression" type="javascript">dataSetRow["mo_comment_from_sale_order"]</expression>
                     <property name="dataType">string</property>
                 </structure>
-                <structure>
-                    <property name="name">sale_order</property>
-                    <text-property name="displayName">sale_order</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["sale_order"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
             </list-property>
             <column id="4231">
                 <property name="width">11.135416666666666in</property>
@@ -1997,42 +2356,74 @@ WHERE manufOrder.id = ?;]]></xml-property>
                                                 </text>
                                             </cell>
                                             <cell id="4759">
-                                                <text id="4767">
-                                                    <property name="marginTop">1pt</property>
-                                                    <property name="marginLeft">2pt</property>
-                                                    <property name="textAlign">left</property>
-                                                    <property name="display">inline</property>
-                                                    <property name="dataSet">TranslateDS</property>
-                                                    <list-property name="paramBindings">
-                                                        <structure>
-                                                            <property name="paramName">param_1</property>
-                                                            <simple-property-list name="expression">
-                                                                <value type="javascript">"ManufOrder.origin"</value>
-                                                            </simple-property-list>
-                                                        </structure>
-                                                    </list-property>
-                                                    <list-property name="boundDataColumns">
-                                                        <structure>
-                                                            <property name="name">key</property>
-                                                            <text-property name="displayName">key</text-property>
-                                                            <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
-                                                            <property name="dataType">string</property>
-                                                        </structure>
-                                                        <structure>
-                                                            <property name="name">translation</property>
-                                                            <text-property name="displayName">translation</text-property>
-                                                            <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
-                                                            <property name="dataType">string</property>
-                                                        </structure>
-                                                    </list-property>
-                                                    <property name="contentType">html</property>
-                                                    <text-property name="content"><![CDATA[<B><VALUE-OF>row["translation"]</VALUE-OF></B> : &amp;nbsp;]]></text-property>
-                                                </text>
-                                                <text id="4851">
-                                                    <property name="display">inline</property>
-                                                    <property name="contentType">html</property>
-                                                    <text-property name="content"><![CDATA[<VALUE-OF>row["sale_order"]</VALUE-OF>]]></text-property>
-                                                </text>
+                                                <grid id="4933">
+                                                    <property name="width">4.84909090909091cm</property>
+                                                    <column id="4934">
+                                                        <property name="width">0.7972027972027972in</property>
+                                                    </column>
+                                                    <column id="4935">
+                                                        <property name="width">1.1118881118881119in</property>
+                                                    </column>
+                                                    <row id="4936">
+                                                        <cell id="4937">
+                                                            <text id="4767">
+                                                                <property name="marginTop">1pt</property>
+                                                                <property name="marginLeft">2pt</property>
+                                                                <property name="textAlign">left</property>
+                                                                <property name="display">inline</property>
+                                                                <property name="dataSet">TranslateDS</property>
+                                                                <list-property name="paramBindings">
+                                                                    <structure>
+                                                                        <property name="paramName">param_1</property>
+                                                                        <simple-property-list name="expression">
+                                                                            <value type="javascript">"ManufOrder.origin"</value>
+                                                                        </simple-property-list>
+                                                                    </structure>
+                                                                </list-property>
+                                                                <list-property name="boundDataColumns">
+                                                                    <structure>
+                                                                        <property name="name">key</property>
+                                                                        <text-property name="displayName">key</text-property>
+                                                                        <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
+                                                                        <property name="dataType">string</property>
+                                                                    </structure>
+                                                                    <structure>
+                                                                        <property name="name">translation</property>
+                                                                        <text-property name="displayName">translation</text-property>
+                                                                        <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
+                                                                        <property name="dataType">string</property>
+                                                                    </structure>
+                                                                </list-property>
+                                                                <property name="contentType">html</property>
+                                                                <text-property name="content"><![CDATA[<B><VALUE-OF>row["translation"]</VALUE-OF></B> :]]></text-property>
+                                                            </text>
+                                                        </cell>
+                                                        <cell id="4938">
+                                                            <table id="4923">
+                                                                <property name="display">inline</property>
+                                                                <property name="dataSet">ManufOrderDS</property>
+                                                                <list-property name="boundDataColumns">
+                                                                    <structure>
+                                                                        <property name="name">sale_orders_full_name</property>
+                                                                        <text-property name="displayName">sale_orders_full_name</text-property>
+                                                                        <expression name="expression" type="javascript">dataSetRow["sale_orders_full_name"]</expression>
+                                                                        <property name="dataType">string</property>
+                                                                    </structure>
+                                                                </list-property>
+                                                                <column id="4932"/>
+                                                                <detail>
+                                                                    <row id="4927">
+                                                                        <cell id="4928">
+                                                                            <data id="4929">
+                                                                                <property name="resultSetColumn">sale_orders_full_name</property>
+                                                                            </data>
+                                                                        </cell>
+                                                                    </row>
+                                                                </detail>
+                                                            </table>
+                                                        </cell>
+                                                    </row>
+                                                </grid>
                                             </cell>
                                             <cell id="4760">
                                                 <text id="4769">
