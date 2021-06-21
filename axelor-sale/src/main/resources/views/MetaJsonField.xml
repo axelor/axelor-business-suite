@@ -82,6 +82,9 @@
 		<panel name="widgetAttributesPanel" title="Widget Attributes" sidebar="true">
 			<field name="widgetAttrs" widget="json-raw" />
 		</panel>
+		<panel name="attributesHelpPanel" title="Help" sidebar="true">
+			<panel-include view="incl-help-meta-json-field"/>
+		</panel>
     </form>
     
 	<grid name="sale-json-field-grid" title="Custom fields" model="com.axelor.meta.db.MetaJsonField" edit-icon="true">
@@ -89,6 +92,34 @@
 	  <field name="title"/>
 	  <field name="type"/>
 	</grid>
+	
+	<form name="incl-help-meta-json-field" model="com.axelor.meta.db.MetaJsonField" title="Help" >
+    	<panel name="helpPanel" title="Help" showTitle="false">
+      		<field name="$helpViewer" showTitle="false" readonly="true" colSpan="12" >
+        		<viewer><![CDATA[
+					<h4 id="tab">tab</h4>
+					<p><span x-translate>Specify whether given custom field is panel-tab or not. Default value is false (true or false).</span></p>
+					<h4 id="width">width</h4>
+					<p><span x-translate>The width can be specified as percentage or fixed value.The fix width can be either in 'px' or 'em', 'px' is assumed if not specified.</span></p>
+					<h4 id="colSpan">colSpan</h4>
+					<p><span x-translate>Specify the number of columns taken by the widget (1,2,..12). Default value is 6.</span></p>
+					<h4 id="validIf">validIf</h4>
+					<p><span x-translate>A JavaScript boolean expression against the current form values.</span></p>
+					<h4 id="itemSpan">itemSpan</h4>
+					<p><span x-translate>Specify the default span for child items. Default value is 6.</span></p>
+					<h4 id="collapseIf">collapseIf</h4>
+					<p><span x-translate>Specify a boolean expression to collapse/expend this panel.</span></p>
+					<h4 id="canCollapse">canCollapse</h4>
+					<p><span x-translate>Specify whether the panel is collapsible. Default value is false (true or false).</span></p>
+					<h4 id="showTitle">showTitle</h4>
+					<p><span x-translate>Specify whether to show the title. Default value is true (true or false).</span></p>
+					<h4 id="css">css</h4>
+					<p><span x-translate>Custom css class to apply.</span></p>
+					]]>
+        		</viewer>
+      		</field>
+    	</panel>
+  	</form>
 	
 	<action-attrs name="action-configurator-set-json-field-default" >
     	<attribute name="value"	for="model" expr="eval:'com.axelor.apps.sale.db.Configurator'" if="__parent__._model == 'com.axelor.apps.sale.db.ConfiguratorCreator'"/>
