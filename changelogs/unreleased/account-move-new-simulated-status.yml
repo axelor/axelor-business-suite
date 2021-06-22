@@ -2,4 +2,5 @@
 title: "Move :  add new simulated status"
 type: feature
 description: |
-  Possibility to show simulated moves in accounting reports
+  - Possibility to show simulated moves in accounting reports 
+  - Add 'Activate Simulated Moves' in AccountConfig of company 

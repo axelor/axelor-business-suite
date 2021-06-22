@@ -24,7 +24,7 @@
 	</grid>
 
 	<form name="accounting-report-form" title="Accounting report" model="com.axelor.apps.account.db.AccountingReport"
-		onNew="action-accounting-report-record-default">
+		onNew="action-accounting-report-group-on-new">
 		<panel name="mainPanel" >
 			<field name="ref" readonly="true" />
 			<field name="date" readonlyIf="statusSelect == 2 &amp;&amp; reportType.typeSelect != 18" onChange="action-accounting-report-date-change-validate"/>
@@ -165,6 +165,11 @@
 	    <action name="action-accounting-report-method-get-account"/>
 	    <action name="action-accounting-report-record-reset"/>
 	</action-group>
+	
+	<action-group name="action-accounting-report-group-on-new">
+	    <action name="action-accounting-report-record-default"/>
+	    <action name="action-accounting-report-attrs-on-new"/>
+	</action-group>
 
 <!--     ACTION ATTRS -->
 	    
@@ -179,6 +184,10 @@
 
 	<action-attrs name="action-accounting-report-attrs-accountset-domain" model="com.axelor.apps.account.db.AccountingReport">
 		<attribute for="accountSet" name="domain" expr="eval: &quot; self.company = :company AND ((${reportType?.typeSelect} = 18 AND self.accountType.technicalTypeSelect = 'cash') OR (${reportType?.typeSelect} &lt;&gt; 18 AND (${reportType?.typeSelect} &lt;&gt; 6 OR self.useForPartnerBalance = true))) &quot;"/>
+	</action-attrs>
+	
+	<action-attrs name="action-accounting-report-attrs-on-new">
+	    <attribute name="hidden" for="displaySimulatedMove" expr="eval: !__repo__(AccountConfig).all().filter('self.company = ?', __user__.activeCompany ? __user__.activeCompany : __repo__(Company).all().fetchOne())?.fetchOne().isActivateSimulatedMove"/>
 	</action-attrs>
 
 <!-- 	ACTION RECORD -->
