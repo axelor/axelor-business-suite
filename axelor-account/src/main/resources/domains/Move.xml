@@ -37,7 +37,9 @@
    	<many-to-many name="batchSet" ref="com.axelor.apps.base.db.Batch" title="Batchs"/>
     <integer name="functionalOriginSelect" title="Functional origin" readonly="true" selection="iaccount.move.functional.origin.select"/>
     <many-to-one name="tradingName" ref="com.axelor.apps.base.db.TradingName" title="Trading name"></many-to-one>
-
+	<date name="originDate" title="Origin date"/>
+	<string name="origin" title="Origin"/>
+	<string name="description" title="Description"/>
     <unique-constraint columns="reference,company"/>
     
     <extra-code><![CDATA[

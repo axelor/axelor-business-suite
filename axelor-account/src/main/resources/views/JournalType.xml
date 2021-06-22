@@ -5,11 +5,13 @@
     <grid name="journal-type-grid" title="Journal Type" model="com.axelor.apps.account.db.JournalType">
         <field name="name"/>
         <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
+        <field name="technicalTypeSelect"/>
     </grid>
     <form name="journal-type-form" title="Journal Type" model="com.axelor.apps.account.db.JournalType"  >
         <panel name="mainPanel" >
         	<field name="name"/>
         	<field name="code" x-bind="{{code|unaccent|uppercase}}"/>
+        	<field name="technicalTypeSelect"/>
         	<field name="isDisplayBalances" widget="boolean-switch"/>
         </panel>
         <panel-related field="accountTypeSet" name="accountTypeSetPanel" colSpan="12" canNew="false" canEdit="false" showIf="isDisplayBalances"/>

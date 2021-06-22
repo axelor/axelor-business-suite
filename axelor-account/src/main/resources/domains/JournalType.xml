@@ -11,7 +11,18 @@
     <string name="code" title="Code" min="2" required="true" unique="true"/>
     <boolean name="isDisplayBalances" title="Display the balances"/>
     <many-to-many name="accountTypeSet" ref="com.axelor.apps.account.db.AccountType" title="Balance computations on the following accounts"/>
+	<integer name="technicalTypeSelect" title="Technical type" selection="account.journal.type.technical.type.select"/>
   
+  <extra-code><![CDATA[
+		
+		// TECHNICAL TYPE SELECT
+		public static final int TECHNICAL_TYPE_SELECT_EXPENSE = 1;
+		public static final int TECHNICAL_TYPE_SELECT_SALE = 2;
+		public static final int TECHNICAL_TYPE_SELECT_CREDIT_NOTE = 3;
+		public static final int TECHNICAL_TYPE_SELECT_TREASURY = 4;
+		public static final int TECHNICAL_TYPE_SELECT_OTHER = 5;
+  
+  ]]></extra-code>
   </entity>
 
 </domain-models>

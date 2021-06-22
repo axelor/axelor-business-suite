@@ -33,6 +33,8 @@
 			<field name="companyInBankDetails" hidden="true" widget="SuggestBox" onSelect="action-account-accounting-situation-set-inbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
 			<field name="companyOutBankDetails" hidden="true" widget="SuggestBox" onSelect="action-account-accounting-situation-set-outbd-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
 			<field name="customerAccount" form-view="customer-account-form" grid-view="account-grid" canNew="true"/>
+			<field name="defaultExpenseAccount" form-view="employee-account-form" grid-view="account-grid" domain="self.accountType.technicalTypeSelect ='charge'" canNew="true" />
+			<field name="defaultIncomeAccount" form-view="employee-account-form" grid-view="account-grid" domain="self.accountType.technicalTypeSelect = 'income'" canNew="true" />
 			<field name="supplierAccount" form-view="supplier-account-form" grid-view="account-grid" canNew="true"/>
 			<field name="employeeAccount" form-view="employee-account-form" grid-view="account-grid" canNew="true" />
 			<field name="pfpValidatorUser" required="true" domain=":company member of self.companySet and self.isPfpValidator = true" canEdit="false" showIf="company.accountConfig.isManagePassedForPayment" if="__config__.app.getApp('account').getActivatePassedForPayment()"/>

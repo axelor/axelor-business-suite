@@ -463,6 +463,20 @@
 		<option value="isFactor">Factor</option>
 	</selection>
 	
+	<selection name="account.journal.type.technical.type.select">
+		<option value="1">Expense</option>
+		<option value="2">Sale</option>
+		<option value="3">Credit note</option>
+		<option value="4">Treasury</option>
+		<option value="5">Other</option>
+	</selection>
+	
+	<selection name="account.account.common.position.select">
+		<option value="0">Empty</option>
+		<option value="1">Credit</option>
+		<option value="2">Debit</option>
+	</selection>
+	
 	<selection name='iaccount.move.functional.origin.select'>
 		<option value='1'>Opening</option>
 		<option value='2'>Closure</option>

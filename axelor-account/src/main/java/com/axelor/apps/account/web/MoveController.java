@@ -379,4 +379,16 @@ public class MoveController {
       TraceBackService.trace(response, e);
     }
   }
+
+  public void generateCounterpart(ActionRequest request, ActionResponse response) {
+
+    try {
+      Move moveView = request.getContext().asType(Move.class);
+      moveView.addMoveLineListItem(
+          Beans.get(MoveService.class).createCounterpartMoveLine(moveView));
+      response.setValue("moveLineList", moveView.getMoveLineList());
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
+  }
 }

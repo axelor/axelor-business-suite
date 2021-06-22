@@ -26,6 +26,7 @@ import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.Reconcile;
 import com.axelor.apps.account.db.repo.AnalyticMoveLineRepository;
+import com.axelor.apps.account.db.repo.JournalTypeRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.db.repo.ReconcileRepository;
 import com.axelor.apps.account.service.AnalyticMoveLineService;
@@ -38,6 +39,7 @@ import com.axelor.apps.account.service.payment.PaymentService;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.repo.PriceListRepository;
+import com.axelor.apps.base.service.CurrencyService;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -47,6 +49,7 @@ import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,6 +75,7 @@ public class MoveServiceImpl implements MoveService {
   protected MoveExcessPaymentService moveExcessPaymentService;
   protected AccountConfigService accountConfigService;
   protected MoveRepository moveRepository;
+  protected CurrencyService currencyService;
 
   protected AppAccountService appAccountService;
 
@@ -88,7 +92,8 @@ public class MoveServiceImpl implements MoveService {
       PaymentService paymentService,
       MoveExcessPaymentService moveExcessPaymentService,
       MoveRepository moveRepository,
-      AccountConfigService accountConfigService) {
+      AccountConfigService accountConfigService,
+      CurrencyService currencyService) {
 
     this.moveLineService = moveLineService;
     this.moveCreateService = moveCreateService;
@@ -101,6 +106,7 @@ public class MoveServiceImpl implements MoveService {
     this.moveExcessPaymentService = moveExcessPaymentService;
     this.moveRepository = moveRepository;
     this.accountConfigService = accountConfigService;
+    this.currencyService = currencyService;
 
     this.appAccountService = appAccountService;
   }
@@ -644,5 +650,104 @@ public class MoveServiceImpl implements MoveService {
       }
     }
     return move;
+  }
+
+  @Override
+  public MoveLine createCounterpartMoveLine(Move move) {
+    MoveLine moveLine = new MoveLine();
+    moveLine.setDate(move.getDate());
+    moveLine.setOrigin(move.getOrigin());
+    moveLine.setOriginDate(move.getOriginDate());
+    moveLine.setDescription(move.getDescription());
+    moveLine.setPartner(move.getPartner());
+    Account accountingAccount = null;
+    if (move.getJournal()
+            .getJournalType()
+            .getTechnicalTypeSelect()
+            .equals(JournalTypeRepository.TECHNICAL_TYPE_SELECT_EXPENSE)
+        || move.getJournal()
+            .getJournalType()
+            .getTechnicalTypeSelect()
+            .equals(JournalTypeRepository.TECHNICAL_TYPE_SELECT_SALE)) {
+
+      for (int i = 0; i < move.getPartner().getAccountingSituationList().size(); i++) {
+        if (move.getPartner().getAccountingSituationList().get(i).equals(move.getCompany())) {
+          if (move.getJournal()
+              .getJournalType()
+              .getTechnicalTypeSelect()
+              .equals(JournalTypeRepository.TECHNICAL_TYPE_SELECT_EXPENSE))
+            accountingAccount =
+                move.getPartner().getAccountingSituationList().get(i).getSupplierAccount();
+          else if (move.getJournal()
+              .getJournalType()
+              .getTechnicalTypeSelect()
+              .equals(JournalTypeRepository.TECHNICAL_TYPE_SELECT_SALE))
+            accountingAccount =
+                move.getPartner().getAccountingSituationList().get(i).getCustomerAccount();
+        }
+      }
+    } else if (move.getJournal()
+        .getJournalType()
+        .getTechnicalTypeSelect()
+        .equals(JournalTypeRepository.TECHNICAL_TYPE_SELECT_TREASURY)) {
+      if (move.getPaymentMode() != null)
+        for (int i = 0; i < move.getPaymentMode().getAccountManagementList().size(); i++) {
+          if (move.getPaymentMode()
+              .getAccountManagementList()
+              .get(0)
+              .getCompany()
+              .equals(move.getCompany())) {
+            accountingAccount =
+                move.getPaymentMode().getAccountManagementList().get(0).getCashAccount();
+          }
+        }
+    }
+    if (accountingAccount == null) {
+      if (move.getJournal()
+          .getJournalType()
+          .getTechnicalTypeSelect()
+          .equals(JournalTypeRepository.TECHNICAL_TYPE_SELECT_EXPENSE))
+        accountingAccount = move.getCompany().getAccountConfig().getSupplierAccount();
+      else if (move.getJournal()
+          .getJournalType()
+          .getTechnicalTypeSelect()
+          .equals(JournalTypeRepository.TECHNICAL_TYPE_SELECT_SALE))
+        accountingAccount = move.getCompany().getAccountConfig().getCustomerAccount();
+    }
+    if (accountingAccount != null) moveLine.setAccount(accountingAccount);
+
+    BigDecimal amount = BigDecimal.ZERO;
+    for (MoveLine line : move.getMoveLineList()) {
+      amount = amount.add(line.getCredit());
+      amount = amount.subtract(line.getDebit());
+    }
+    if (amount.compareTo(BigDecimal.ZERO) == -1) {
+      moveLine.setCredit(amount.abs());
+    } else {
+      moveLine.setDebit(amount.abs());
+    }
+    if (!move.getCurrency().equals(move.getCompany().getCurrency())) {
+      BigDecimal unratedAmount = BigDecimal.ZERO;
+      try {
+        System.err.println(move.getMoveLineList().size());
+        if (move.getMoveLineList().size() == 0)
+          moveLine.setCurrencyRate(
+              currencyService.getCurrencyConversionRate(
+                  move.getCurrency(), move.getCompany().getCurrency()));
+        else moveLine.setCurrencyRate(move.getMoveLineList().get(0).getCurrencyRate());
+        if (!moveLine.getDebit().equals(BigDecimal.ZERO)) {
+          unratedAmount = moveLine.getDebit();
+        }
+        if (!moveLine.getCredit().equals(BigDecimal.ZERO)) {
+          unratedAmount = moveLine.getCredit();
+        }
+        moveLine.setCurrencyAmount(
+            unratedAmount.divide(moveLine.getCurrencyRate(), MathContext.DECIMAL128));
+      } catch (AxelorException e) {
+        e.printStackTrace();
+      }
+    }
+
+    return moveLine;
   }
 }

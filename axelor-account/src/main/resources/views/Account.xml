@@ -6,10 +6,12 @@
 	<grid name="account-grid" title="Accounting.Accounts" model="com.axelor.apps.account.db.Account">
 	  <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
 	  <field name="name"/>
-    <field name="accountType" form-view="account-type-form" grid-view="account-type-grid"/> 
+	  <field name="accountType" form-view="account-type-form" grid-view="account-type-grid"/> 
+	  <field name="commonPosition"/>
 	  <field name="reconcileOk"/>
 	  <field name="parentAccount" form-view="account-form" grid-view="account-grid"/>
 	  <field name="company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
+	  <field name="defaultTax" hidden="true"/>
 	</grid>
 	
 	<grid name="account-simple-grid" title="Accounting.Accounts" model="com.axelor.apps.account.db.Account">
@@ -48,6 +50,7 @@
 			</panel>
 			<panel name="settingsPanel" title="Settings" colSpan="12">
 				<field name="accountType" required="true" form-view="account-type-form" grid-view="account-type-grid"/>
+				<field name="commonPosition"/>
 				<field name="company" required="true" canEdit="false" widget="SuggestBox" onChange="action-account-validate" readonlyIf="parentAccount != null" form-view="company-form" grid-view="company-grid"/>
 				<field name="parentAccount" onChange="action-account-validate" domain="self.company = :company" form-view="account-form" grid-view="account-grid"/>
 				<spacer name="parentAccountSpacer" colSpan="6"/>
@@ -59,6 +62,7 @@
 				<field name="analyticDistributionRequiredOnMoveLines" widget="boolean-switch" colSpan="4" showIf="analyticDistributionAuthorized"/>
 				<field name="isTaxAuthorizedOnMoveLine" widget="boolean-switch" colSpan="4" onChange="action-account-record-uncheck-tax-required"/>
 				<field name="isTaxRequiredOnMoveLine" showIf="isTaxAuthorizedOnMoveLine" widget="boolean-switch" colSpan="4"/>
+				<field name="defaultTax" showIf="isTaxAuthorizedOnMoveLine"/>
 			</panel>
 			<panel name="showMoveLinesPanel" colSpan="12" showIf="id">
 				<button name="showMoveLineBtn" title="Show move lines" colSpan="3" onClick="action-account-view-show-move-lines"/>

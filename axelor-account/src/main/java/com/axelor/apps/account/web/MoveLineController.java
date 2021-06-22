@@ -17,11 +17,17 @@
  */
 package com.axelor.apps.account.web;
 
+import com.axelor.apps.account.db.Account;
 import com.axelor.apps.account.db.AccountConfig;
+import com.axelor.apps.account.db.AccountingSituation;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
+import com.axelor.apps.account.db.TaxEquiv;
+import com.axelor.apps.account.db.TaxLine;
+import com.axelor.apps.account.db.repo.JournalTypeRepository;
 import com.axelor.apps.account.db.repo.MoveLineRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
+import com.axelor.apps.account.db.repo.PaymentModeRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.IrrecoverableService;
 import com.axelor.apps.account.service.app.AppAccountService;
@@ -29,8 +35,10 @@ import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.move.MoveLineService;
 import com.axelor.apps.account.service.move.MoveService;
 import com.axelor.apps.base.db.Currency;
+import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.Wizard;
 import com.axelor.apps.base.service.CurrencyService;
+import com.axelor.common.ObjectUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
@@ -44,6 +52,7 @@ import com.google.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Singleton
 public class MoveLineController {
@@ -223,8 +232,12 @@ public class MoveLineController {
         Currency currency = move.getCurrency();
         Currency companyCurrency = move.getCompanyCurrency();
         if (currency != null && companyCurrency != null && !currency.equals(companyCurrency)) {
-          currencyRate =
-              Beans.get(CurrencyService.class).getCurrencyConversionRate(currency, companyCurrency);
+          System.err.println(move.getMoveLineList().size());
+          if (move.getMoveLineList().size() == 0)
+            currencyRate =
+                Beans.get(CurrencyService.class)
+                    .getCurrencyConversionRate(currency, companyCurrency);
+          else currencyRate = move.getMoveLineList().get(0).getCurrencyRate();
         }
       }
       response.setValue("currencyRate", currencyRate);
@@ -245,6 +258,82 @@ public class MoveLineController {
       }
     } catch (AxelorException e) {
       TraceBackService.trace(response, e);
+    }
+  }
+
+  public void loadAccountInformation(ActionRequest request, ActionResponse response) {
+    Context parentContext = request.getContext().getParent();
+    MoveLine moveLine = request.getContext().asType(MoveLine.class);
+    if (parentContext != null) {
+      Move move = parentContext.asType(Move.class);
+      Partner partner = move.getPartner();
+
+      if (ObjectUtils.isEmpty(partner)) {
+        response.setError(I18n.get("Please select a partner"));
+      } else {
+        List<AccountingSituation> accountConfigs =
+            partner.getAccountingSituationList().stream()
+                .filter(
+                    accountingSituation ->
+                        accountingSituation.getCompany().equals(move.getCompany()))
+                .collect(Collectors.toList());
+        Account accountingAccount = null;
+        if (move.getJournal().getJournalType().getTechnicalTypeSelect()
+            == JournalTypeRepository.TECHNICAL_TYPE_SELECT_EXPENSE) {
+          if (accountConfigs.size() > 0) {
+            accountingAccount = accountConfigs.get(0).getDefaultExpenseAccount();
+          }
+        } else if (move.getJournal().getJournalType().getTechnicalTypeSelect()
+            == JournalTypeRepository.TECHNICAL_TYPE_SELECT_SALE) {
+          if (accountConfigs.size() > 0)
+            accountingAccount = accountConfigs.get(0).getDefaultIncomeAccount();
+        } else if (move.getJournal().getJournalType().getTechnicalTypeSelect()
+            == JournalTypeRepository.TECHNICAL_TYPE_SELECT_TREASURY) {
+          if (move.getPaymentMode() != null) {
+            if (move.getPaymentMode().getInOutSelect().equals(PaymentModeRepository.IN)) {
+              if (accountConfigs.size() > 0) {
+                accountingAccount = accountConfigs.get(0).getCustomerAccount();
+              }
+            } else if (move.getPaymentMode().getInOutSelect().equals(PaymentModeRepository.OUT)) {
+              if (accountConfigs.size() > 0) {
+                accountingAccount = accountConfigs.get(0).getSupplierAccount();
+              }
+            }
+          }
+        }
+        if (accountingAccount != null) {
+          response.setValue("account", accountingAccount);
+          if (!accountingAccount.getUseForPartnerBalance()) {
+            response.setValue("partner", null);
+          }
+        }
+        if (ObjectUtils.isEmpty(partner.getFiscalPosition())) {
+          if (accountingAccount != null)
+            if (accountingAccount.getDefaultTax() != null)
+              response.setValue("taxLine", accountingAccount.getDefaultTax());
+        } else {
+          List<TaxLine> taxLineList;
+          TaxLine taxLine = null;
+          for (TaxEquiv taxEquiv : partner.getFiscalPosition().getTaxEquivList()) {
+            if (accountingAccount != null)
+              if (taxEquiv.getFromTax().equals(accountingAccount.getDefaultTax())) {
+                taxLine = taxEquiv.getToTax().getActiveTaxLine();
+                if (taxLine == null || !taxLine.getStartDate().isBefore(moveLine.getDate())) {
+                  taxLineList =
+                      taxEquiv.getToTax().getTaxLineList().stream()
+                          .filter(
+                              tl ->
+                                  !moveLine.getDate().isBefore(tl.getEndDate())
+                                      && !tl.getStartDate().isAfter(moveLine.getDate()))
+                          .collect(Collectors.toList());
+                  if (taxLineList.size() > 0) taxLine = taxLineList.get(0);
+                }
+                break;
+              }
+          }
+          if (taxLine != null) response.setValue("taxLine", taxLine);
+        }
+      }
     }
   }
 }

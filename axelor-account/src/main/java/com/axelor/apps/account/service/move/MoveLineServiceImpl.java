@@ -1182,7 +1182,9 @@ public class MoveLineServiceImpl implements MoveLineService {
             newOrUpdatedMoveLine.setCredit(
                 newOrUpdatedMoveLine.getCredit().add(credit.multiply(taxLine.getValue())));
           }
-
+          newOrUpdatedMoveLine.setOrigin(move.getOrigin());
+          newOrUpdatedMoveLine.setDescription(move.getDescription());
+          newOrUpdatedMoveLine.setOriginDate(move.getOriginDate());
           newMap.put(newSourceTaxLineKey, newOrUpdatedMoveLine);
         }
       }

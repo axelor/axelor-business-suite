@@ -15,6 +15,8 @@
         <many-to-one name="company" ref="com.axelor.apps.base.db.Company" title="Company"/>
         <many-to-many name="compatibleAccountSet" ref="com.axelor.apps.account.db.Account" title="Compatible Accounts"/>
         <boolean name="useForPartnerBalance" title="Use for partner balance" massUpdate="true"/>
+        <integer name="commonPosition" selection="account.account.common.position.select" required="true" massUpdate="true"/>
+        <many-to-one name="defaultTax" ref="com.axelor.apps.account.db.Tax" />
         <string name="label" namecolumn="true" search="code,name,company" title="Full name">
             <![CDATA[
 	    if(company != null)
