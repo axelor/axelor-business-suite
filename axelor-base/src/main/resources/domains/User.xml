@@ -50,6 +50,9 @@
     
     <string name="emailSignature" title="Email signature" large="true"/>
     
+    <boolean name="isEmailSyncEnable" title="Enable email sync" default="false"/>
+    <string name="emailSyncRelatedType" title="Email sync related type"/>
+    
     <many-to-one name="tradingName" ref="com.axelor.apps.base.db.TradingName" title="Trading name"></many-to-one>
 
     <finder-method name="findByCode" using="code" filter="LOWER(self.code) = LOWER(:code)"/>    

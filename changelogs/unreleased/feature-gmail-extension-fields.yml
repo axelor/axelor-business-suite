@@ -1,0 +1,6 @@
+---
+title: "Add fields for Gmail extension"
+description: |
+  Message: Add new field 'Thread ID'
+  User: Add new field 'Enable email sync'
+type: feature

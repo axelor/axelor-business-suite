@@ -138,6 +138,7 @@
           <panel-related name="rolesPanel" field="roles" form-view="role-form" grid-view="role-grid" showIf="[1,5].indexOf(stepStatusSelect) > -1"/>
           <panel name="parentPermissionsPanel" title="Permissions" showIf="[1,5].indexOf(stepStatusSelect) > -1">
     		<field name="appPermissions" widget="MultiSelect" if="__config__.app.isApp('mobile')"/>
+	        <field name="isEmailSyncEnable" widget="boolean-switch"/>
 	        <panel-related name="permissionsPanel" field="permissions" grid-view="simple-permission-grid" form-view="permission-form" colSpan="12"/>
     	  </panel>
           <panel-related name="metaPermissionsPanel" field="metaPermissions" showIf="[1,5].indexOf(stepStatusSelect) > -1"/>
