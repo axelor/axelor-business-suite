@@ -378,7 +378,7 @@ public abstract class InvoiceLineGenerator extends InvoiceLineManagement {
    * @param unitDisplay Unité à afficher.
    * @return L'unité à utiliser.
    */
-  protected Unit unit(Unit unit, Unit displayUnit) {
+  protected Unit getUnit(Unit unit, Unit displayUnit) {
 
     Unit resUnit = unit;
 
