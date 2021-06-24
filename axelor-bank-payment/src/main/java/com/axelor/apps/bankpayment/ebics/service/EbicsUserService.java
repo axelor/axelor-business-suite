@@ -191,7 +191,7 @@ public class EbicsUserService {
     int blockSize;
     ByteArrayOutputStream outputStream;
 
-    cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding", BouncyCastleProvider.PROVIDER_NAME);
+    cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", BouncyCastleProvider.PROVIDER_NAME);
     cipher.init(
         Cipher.DECRYPT_MODE, ebicsService.getPrivateKey(user.getE002Certificate().getPrivateKey()));
     blockSize = cipher.getBlockSize();
