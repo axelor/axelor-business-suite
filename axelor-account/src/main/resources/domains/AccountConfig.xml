@@ -162,6 +162,7 @@
 		
 		<!-- Move Line -->
 		<boolean name="isDescriptionRequired" title="Description required"/>
+		<boolean name="isActivateSimulatedMove" title="Activate Simulated Moves ?" help="Field used to activate the Simulated status on the Move entries. Simulated move have no direct accounting impact but can be optionally used on accounting reports to perform simulations."/>
 
 		<!-- Late payment blocking  -->
 		<boolean name="hasLatePaymentAccountBlocking" title="Late payment account blocking"/>

@@ -412,4 +412,11 @@ public class MoveValidateService {
       return "" + partner.getId();
     }
   }
+
+  @Transactional(rollbackOn = {Exception.class})
+  public void simulate(Move move) throws AxelorException {
+    this.validate(move);
+    move.setStatusSelect(MoveRepository.STATUS_SIMULATED);
+    moveRepository.save(move);
+  }
 }

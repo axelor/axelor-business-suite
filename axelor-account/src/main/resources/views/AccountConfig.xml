@@ -7,7 +7,7 @@
 		<field name="company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
 	</grid>
 
-	<form name="account-config-form" title="Account configuration" model="com.axelor.apps.account.db.AccountConfig" onNew="action-account-config-record-default" width="large">
+	<form name="account-config-form" title="Account configuration" model="com.axelor.apps.account.db.AccountConfig" onNew="action-account-config-record-default" onSave="action-account-config-group-on-save" width="large">
 		<toolbar>
 			<button name="showInvoiceBtn" title="Invoices" onClick="save,action-company-view-invoice"/>
 		</toolbar>
@@ -19,8 +19,9 @@
 
 			<field name="hasChartImported"/>
 			<field name="allowRemovalValidatedMove"/>
-			<field name="generateMoveForAdvancePayment"/>
-			<field name="accountingDaybook"/>
+			<field name="generateMoveForAdvancePayment" colSpan="4"/>
+			<field name="accountingDaybook" colSpan="4"/>
+			<field name="isActivateSimulatedMove" colSpan="4"/>
 		</panel>
 
 		<panel-tabs name="mainPanelTab">
@@ -292,5 +293,18 @@
 		<context name="_showRecord" expr="eval: __self__.accountConfig?.id"/>
 		<context name="_company" expr="eval: __this__"/>
 	</action-view>
-
+	
+	<action-group name="action-account-config-group-on-save">
+	    <action name="action-account-config-validate-is-activate-simulated-move"/>
+	    <action name="action-account-config-method-remove-simultated-moves"/>
+	</action-group>
+	
+	<action-validate name="action-account-config-validate-is-activate-simulated-move" model="com.axelor.apps.account.db.AccountConfig">
+	    <alert message="By deactivating simulated moves, all moves (including move lines) in this status will be deleted for the company ${company.name}. Do you wish to continue ?" if="!isActivateSimulatedMove &amp;&amp; __repo__(AccountConfig).all().fetchOne().getIsActivateSimulatedMove()"/>
+	</action-validate>
+	
+	<action-method name="action-account-config-method-remove-simultated-moves">
+	    <call class="com.axelor.apps.account.web.AccountConfigController" method="removeSimulatedMoves"/>
+	</action-method>
+	
 </object-views>

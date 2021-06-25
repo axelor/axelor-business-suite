@@ -21,6 +21,7 @@ import com.axelor.apps.account.db.AnalyticMoveLine;
 import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.exception.IExceptionMessage;
+import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.account.service.move.MoveSequenceService;
 import com.axelor.apps.account.service.move.MoveValidateService;
 import com.axelor.apps.base.db.Period;
@@ -40,37 +41,41 @@ public class MoveManagementRepository extends MoveRepository {
 
   @Override
   public Move copy(Move entity, boolean deep) {
-
     Move copy = super.copy(entity, deep);
 
-    copy.setDate(Beans.get(AppBaseService.class).getTodayDate(copy.getCompany()));
-
-    Period period = null;
     try {
-      period =
+      copy.setDate(Beans.get(AppBaseService.class).getTodayDate(copy.getCompany()));
+
+      Period period =
           Beans.get(PeriodService.class)
               .getActivePeriod(copy.getDate(), entity.getCompany(), YearRepository.TYPE_FISCAL);
+      copy.setStatusSelect(STATUS_NEW);
+      if (Beans.get(AccountConfigService.class)
+              .getAccountConfig(entity.getCompany())
+              .getIsActivateSimulatedMove()
+          && entity.getStatusSelect() == STATUS_SIMULATED) {
+        copy.setStatusSelect(STATUS_SIMULATED);
+      }
+      copy.setReference(null);
+      copy.setExportNumber(null);
+      copy.setExportDate(null);
+      copy.setAccountingReport(null);
+      copy.setValidationDate(null);
+      copy.setPeriod(period);
+      copy.setAccountingOk(false);
+      copy.setIgnoreInDebtRecoveryOk(false);
+      copy.setPaymentVoucher(null);
+      copy.setRejectOk(false);
+      copy.setInvoice(null);
+
+      List<MoveLine> moveLineList = copy.getMoveLineList();
+
+      if (moveLineList != null) {
+        moveLineList.forEach(moveLine -> resetMoveLine(moveLine, copy.getDate()));
+      }
     } catch (AxelorException e) {
+      TraceBackService.traceExceptionFromSaveMethod(e);
       throw new PersistenceException(e);
-    }
-    int statusSelect = entity.getStatusSelect() == STATUS_SIMULATED ? STATUS_SIMULATED : STATUS_NEW;
-    copy.setStatusSelect(statusSelect);
-    copy.setReference(null);
-    copy.setExportNumber(null);
-    copy.setExportDate(null);
-    copy.setAccountingReport(null);
-    copy.setValidationDate(null);
-    copy.setPeriod(period);
-    copy.setAccountingOk(false);
-    copy.setIgnoreInDebtRecoveryOk(false);
-    copy.setPaymentVoucher(null);
-    copy.setRejectOk(false);
-    copy.setInvoice(null);
-
-    List<MoveLine> moveLineList = copy.getMoveLineList();
-
-    if (moveLineList != null) {
-      moveLineList.forEach(moveLine -> resetMoveLine(moveLine, copy.getDate()));
     }
 
     return copy;

@@ -23,6 +23,7 @@ import com.axelor.apps.account.db.repo.AccountRepository;
 import com.axelor.apps.account.db.repo.AccountingReportRepository;
 import com.axelor.apps.account.service.AccountingReportServiceImpl;
 import com.axelor.apps.account.service.app.AppAccountService;
+import com.axelor.apps.account.service.config.AccountConfigService;
 import com.axelor.apps.bankpayment.report.IReport;
 import com.axelor.apps.base.service.BankDetailsService;
 import com.axelor.apps.report.engine.ReportSettings;
@@ -37,8 +38,9 @@ public class AccountingReportBankPaymentServiceImpl extends AccountingReportServ
   public AccountingReportBankPaymentServiceImpl(
       AppAccountService appBaseService,
       AccountingReportRepository accountingReportRepo,
-      AccountRepository accountRepo) {
-    super(appBaseService, accountingReportRepo, accountRepo);
+      AccountRepository accountRepo,
+      AccountConfigService accountConfigService) {
+    super(appBaseService, accountingReportRepo, accountRepo, accountConfigService);
   }
 
   @Override

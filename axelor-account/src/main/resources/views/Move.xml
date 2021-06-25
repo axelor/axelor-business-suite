@@ -41,6 +41,7 @@
             <button name="printBtn" title="Print Move" icon="fa-print" onClick="save,action-account-move-method-print-move"/>
             <button name="reverseBtn" title="Reverse" icon="fa-exchange" onClick="save,action-move-view-open-generate-reverse-wizard" showIf="id != null &amp;&amp; statusSelect != 5"/>
             <button name="deleteMoveBtn" title="delete" icon="fa-trash" onClick="action-move-method-delete-move" showIf="id != null"/>
+            <button name="simulateBtn" title="Simulate" hidden="true" onClick="action-group-move-simulate-btn-on-click"/>
         </toolbar>
 
         <panel name="mainPanel" readonlyIf="statusSelect == 3" colSpan="12">
@@ -217,6 +218,7 @@
 		<action name="action-move-is-hidden-move-line-list-viewer-attrs-method"/>
 		<action name="action-attrs-move-hide-trading-name"/>
 		<action name="action-move-attrs-hide-move-line-reconcile-group-in-draft-cancel-status"/>
+		<action name="action-attrs-move-hide-simulate-btn"/>
 	</action-group>
 
     <action-group name="action-group-account-move-validate-click">
@@ -236,7 +238,7 @@
 
    	<!-- ACTION RECORD -->
     <action-record name="default-move-record" model="com.axelor.apps.account.db.Move">
-    	<field name="statusSelect" expr="eval: 5" if="_isSimulatedMove"/>
+    	<field name="statusSelect" expr="eval: 5" if="_isSimulatedMove &amp;&amp; __repo__(AccountConfig).all().filter('self.company = ?', __user__.activeCompany ? __user__.activeCompany : __repo__(Company).all().fetchOne())?.fetchOne().isActivateSimulatedMove"/>
 		<field name="company"  expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
 		<field name="getInfoFromFirstMoveLineOk" expr="eval: true"/>
@@ -376,6 +378,19 @@
 	<action-attrs name="action-attrs-move-hide-trading-name" model="com.axelor.apps.account.db.Move">
 		<attribute name="hidden" for="tradingName"  expr="eval: !__config__.app.getApp('base').getEnableTradingNamesManagement()"/>
 	</action-attrs>
+	
+	<action-group name="action-group-move-simulate-btn-on-click">
+	    <action name="action-move-method-simulate"/>
+	    <action name="save"/>
+	</action-group>
+	
+	<action-attrs name="action-attrs-move-hide-simulate-btn" model="com.axelor.apps.account.db.Move">
+	    <attribute name="hidden" for="simulateBtn" expr="eval: statusSelect != 1 || !__repo__(AccountConfig).all().filter('self.company = ?', company).fetchOne()?.isActivateSimulatedMove"/>
+	</action-attrs>
+	
+	<action-method name="action-move-method-simulate">
+	    <call class="com.axelor.apps.account.web.MoveController" method="simulate"/>
+	</action-method>
 
 	<search-filters name="move-filters" model="com.axelor.apps.account.db.Move" title="Move filters">
 		<field name="company" hidden="true" if="!__config__.app.getApp('base').getEnableMultiCompany()"/>

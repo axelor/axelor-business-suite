@@ -63,6 +63,18 @@ public class MoveController {
     }
   }
 
+  public void simulate(ActionRequest request, ActionResponse response) {
+
+    Move move = request.getContext().asType(Move.class);
+    move = Beans.get(MoveRepository.class).find(move.getId());
+    try {
+      Beans.get(MoveService.class).getMoveValidateService().simulate(move);
+      response.setReload(true);
+    } catch (Exception e) {
+      TraceBackService.trace(response, e, ResponseMessageType.ERROR);
+    }
+  }
+
   public void updateLines(ActionRequest request, ActionResponse response) {
 
     Move move = request.getContext().asType(Move.class);
