@@ -2741,7 +2741,7 @@ group by ProductCategory.id , ProductCategory.name]]></xml-property>
                                                                             <structure>
                                                                                 <property name="paramName">param_1</property>
                                                                                 <simple-property-list name="expression">
-                                                                                    <value type="javascript">'value:'+row._outer._outer["description"]</value>
+                                                                                    <value type="javascript">'value:'+row._outer["description"]</value>
                                                                                 </simple-property-list>
                                                                             </structure>
                                                                         </list-property>
@@ -2764,7 +2764,7 @@ group by ProductCategory.id , ProductCategory.name]]></xml-property>
                                                                         <text-property name="content"><![CDATA[<div style=" width: 550px; word-wrap: break-word; ">
 <VALUE-OF>if(row["translation"] != null){row["translation"]}
           else{ 
-               if(row._outer["description"] != null) {row._outer["description"]}
+               row._outer._outer["description"]
               } 
 </VALUE-OF>
 </div>
@@ -3208,7 +3208,7 @@ group by ProductCategory.id , ProductCategory.name]]></xml-property>
                                                                         <structure>
                                                                             <property name="paramName">param_1</property>
                                                                             <simple-property-list name="expression">
-                                                                                <value type="javascript">'value:'+row._outer._outer["description"]</value>
+                                                                                <value type="javascript">'value:'+row._outer["description"]</value>
                                                                             </simple-property-list>
                                                                         </structure>
                                                                     </list-property>
@@ -3231,7 +3231,7 @@ group by ProductCategory.id , ProductCategory.name]]></xml-property>
                                                                     <text-property name="content"><![CDATA[<div style=" width: 550px; word-wrap: break-word; ">
 <VALUE-OF>if(row["translation"] != null){row["translation"]}
           else{ 
-               if(row._outer["description"] != null) {row._outer["description"]}
+               row._outer._outer["description"]
               } 
 </VALUE-OF>
 </div>
