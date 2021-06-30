@@ -1,0 +1,3 @@
+---
+title: "INVENTORY : Fix check duplicate product internal server error when there is more than one duplicated products"
+type: fix

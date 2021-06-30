@@ -45,8 +45,6 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.Path;
 import java.util.List;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import org.eclipse.birt.core.exception.BirtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,22 +220,21 @@ public class InventoryController {
 
   public void checkDuplicateProduct(ActionRequest request, ActionResponse response)
       throws AxelorException {
-    Inventory inventory = request.getContext().asType(Inventory.class);
-
-    Query query =
-        JPA.em()
-            .createQuery(
-                "select COUNT(*) FROM InventoryLine self WHERE self.inventory.id = :invent GROUP BY self.product, self.trackingNumber HAVING COUNT(self) > 1");
-
     try {
-      query.setParameter("invent", inventory.getId()).getSingleResult();
-
-      throw new AxelorException(
-          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
-          I18n.get(IExceptionMessage.INVENTORY_PRODUCT_TRACKING_NUMBER_ERROR));
-
-    } catch (NoResultException e) {
-      // if control came here means no duplicate product.
+      Inventory inventory = request.getContext().asType(Inventory.class);
+      if (JPA.em()
+              .createQuery(
+                  "SELECT COUNT(*) FROM InventoryLine self WHERE self.inventory.id = :inventoryId GROUP BY self.product, self.trackingNumber HAVING COUNT(self) > 1")
+              .setParameter("inventoryId", inventory.getId())
+              .getResultList()
+              .size()
+          > 0) {
+        throw new AxelorException(
+            TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+            I18n.get(IExceptionMessage.INVENTORY_PRODUCT_TRACKING_NUMBER_ERROR));
+      }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
     }
   }
 }
