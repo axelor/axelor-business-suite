@@ -64,8 +64,7 @@
 	          				<field name="fullName" readonly="true"/>
 	          				<field name="fixedPhone" />
 	          				<field name="mobilePhone"/>
-	          				<field name="fax"/>
-	                        <field name="emailAddress" form-view="email-address-simple-form" canNew="!emailAddress" canSelect="false" canRemove="false" placeholder="Email address"/>
+	          				<field name="emailAddress" form-view="email-address-simple-form" canNew="!emailAddress" canSelect="false" canRemove="false" placeholder="Email address"/>
 	        			</editor>
 	      			</field>
     		 	</panel>
@@ -154,8 +153,7 @@
           				<field name="fullName" readonly="true"/>
           				<field name="fixedPhone" />
           				<field name="mobilePhone"/>
-          				<field name="fax"/>
-                        <field name="emailAddress" form-view="email-address-simple-form" canNew="!emailAddress" canSelect="false" canRemove="false" placeholder="Email address"/>
+          				<field name="emailAddress" form-view="email-address-simple-form" canNew="!emailAddress" canSelect="false" canRemove="false" placeholder="Email address"/>
         			</editor>
       			</field>
     		 </panel>

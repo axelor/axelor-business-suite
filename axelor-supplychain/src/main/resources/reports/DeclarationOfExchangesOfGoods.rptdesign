@@ -250,12 +250,6 @@
                     <text-property name="heading">contact_fixed_phone</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">contact_fax</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">contact_fax</text-property>
-                    <text-property name="heading">contact_fax</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">contact_email_address</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">contact_email_address</text-property>
@@ -349,11 +343,6 @@
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">contact_fax</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">12</property>
                         <property name="name">contact_email_address</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -433,13 +422,6 @@
                 </structure>
                 <structure>
                     <property name="position">11</property>
-                    <property name="name">contact_fax</property>
-                    <property name="nativeName">contact_fax</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">12</property>
                     <property name="name">contact_email_address</property>
                     <property name="nativeName">contact_email_address</property>
                     <property name="dataType">string</property>
@@ -457,7 +439,6 @@ CompanyAddress.addressl4 company_address_l4,
 CompanyAddress.addressl6 company_address_l6,
 ContactUser.full_name contact_full_name,
 ContactPartner.fixed_phone contact_fixed_phone,
-ContactPartner.fax contact_fax,
 coalesce(ContactEmailAddress.address, ContactUser.email) contact_email_address
 from supplychain_declaration_of_exchanges DeclarationOfExchanges
 left join base_period Period
@@ -2206,12 +2187,6 @@ order by StockMove.real_date, StockMoveLine.id]]></xml-property>
                             <property name="dataType">string</property>
                         </structure>
                         <structure>
-                            <property name="name">contact_fax</property>
-                            <text-property name="displayName">contact_fax</text-property>
-                            <expression name="expression" type="javascript">dataSetRow["contact_fax"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
                             <property name="name">contact_email_address</property>
                             <text-property name="displayName">contact_email_address</text-property>
                             <expression name="expression" type="javascript">dataSetRow["contact_email_address"]</expression>
@@ -2313,12 +2288,6 @@ ENTRE ÉTATS MEMBRES DE LA COMMUNAUTÉ EUROPÉENNE]]></text-property>
                                         <property name="name">contact_fixed_phone</property>
                                         <text-property name="displayName">contact_fixed_phone</text-property>
                                         <expression name="expression" type="javascript">dataSetRow["contact_fixed_phone"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">contact_fax</property>
-                                        <text-property name="displayName">contact_fax</text-property>
-                                        <expression name="expression" type="javascript">dataSetRow["contact_fax"]</expression>
                                         <property name="dataType">string</property>
                                     </structure>
                                     <structure>
@@ -2592,26 +2561,16 @@ ENTRE ÉTATS MEMBRES DE LA COMMUNAUTÉ EUROPÉENNE]]></text-property>
                                 <row id="4120">
                                     <cell id="4121">
                                         <text id="4136">
-                                            <property name="contentType">auto</property>
+                                            <property name="contentType">html</property>
                                             <text-property name="content"><![CDATA[Téléphone :]]></text-property>
                                         </text>
                                     </cell>
                                     <cell id="4122">
+                                    	<property name="colSpan">3</property>
+                                    	<property name="rowSpan">1</property>
                                         <text id="4144">
                                             <property name="contentType">html</property>
                                             <text-property name="content"><![CDATA[<VALUE-OF>row["contact_fixed_phone"]</VALUE-OF>]]></text-property>
-                                        </text>
-                                    </cell>
-                                    <cell id="4123">
-                                        <text id="4138">
-                                            <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[Télécopie :]]></text-property>
-                                        </text>
-                                    </cell>
-                                    <cell id="4124">
-                                        <text id="4145">
-                                            <property name="contentType">html</property>
-                                            <text-property name="content"><![CDATA[<VALUE-OF>row["contact_fax"]</VALUE-OF>]]></text-property>
                                         </text>
                                     </cell>
                                 </row>

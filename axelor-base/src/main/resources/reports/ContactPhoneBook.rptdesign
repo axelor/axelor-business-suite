@@ -209,16 +209,11 @@
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">fax</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
                         <property name="name">mobile_phone</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">10</property>
                         <property name="name">contact_picture</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -277,18 +272,12 @@
                 </structure>
                 <structure>
                     <property name="position">9</property>
-                    <property name="name">fax</property>
-                    <property name="nativeName">fax</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
                     <property name="name">mobile_phone</property>
                     <property name="nativeName">mobile_phone</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">10</property>
                     <property name="name">contact_picture</property>
                     <property name="nativeName">contact_picture</property>
                     <property name="dataType">string</property>
@@ -297,7 +286,7 @@
             <xml-property name="queryText"><![CDATA[select ContactPartner.partner_type_select, string_agg(Partner.name, ', ') as "CompanyName",
 EmailAddress.address as email, ContactPartner.name as "PartnerName", Upper(SUBSTRING(ContactPartner.name, 1, 1)) as "FirstChar", 
 ContactPartner.first_name as "PartnerFirstName", ContactPartner.is_contact, ContactPartner.fixed_phone,
-ContactPartner.fax, ContactPartner.mobile_phone, TEXTCAT(?,MetaFile.file_path) as contact_picture
+ContactPartner.mobile_phone, TEXTCAT(?,MetaFile.file_path) as contact_picture
 from base_partner as Partner
 left outer join base_partner_contact_partner_set as ContactSet on (ContactSet.base_partner = Partner.id)
 left outer join base_partner as ContactPartner on (ContactSet.contact_partner_set = ContactPartner.id and ContactPartner.partner_type_select = 2)
@@ -306,7 +295,7 @@ left join meta_file as MetaFile on (MetaFile.id = ContactPartner.picture)
 where ContactPartner.name != '' and Partner.partner_type_select = 1
 group by ContactPartner.partner_type_select,  EmailAddress.address, ContactPartner.name, "FirstChar", 
 ContactPartner.first_name, ContactPartner.is_contact, ContactPartner.fixed_phone, ContactPartner.mobile_phone,
-ContactPartner.fax,contact_picture order by ContactPartner.name]]></xml-property>
+contact_picture order by ContactPartner.name]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -405,12 +394,6 @@ ContactPartner.fax,contact_picture order by ContactPartner.name]]></xml-property
                     <text-property name="heading">email</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">fax</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">fax</text-property>
-                    <text-property name="heading">fax</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">fixed_phone1</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">fixed_phone1</text-property>
@@ -466,21 +449,16 @@ ContactPartner.fax,contact_picture order by ContactPartner.name]]></xml-property
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">fax</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
                         <property name="name">fixed_phone1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">6</property>
                         <property name="name">logo_height</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">7</property>
                         <property name="name">logo_width</property>
                         <property name="dataType">integer</property>
                     </structure>
@@ -518,34 +496,27 @@ ContactPartner.fax,contact_picture order by ContactPartner.name]]></xml-property
                 </structure>
                 <structure>
                     <property name="position">5</property>
-                    <property name="name">fax</property>
-                    <property name="nativeName">fax</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
                     <property name="name">fixed_phone1</property>
                     <property name="nativeName">fixed_phone1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">6</property>
                     <property name="name">logo_height</property>
                     <property name="nativeName">logo_height</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">7</property>
                     <property name="name">logo_width</property>
                     <property name="nativeName">logo_width</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select MetaFile.file_path as logo_path, Address.full_name, Partner.web_site, Email.name as email, Partner.fax,
+            <xml-property name="queryText"><![CDATA[select MetaFile.file_path as logo_path, Address.full_name, Partner.web_site, Email.name as email,
 Partner.fixed_phone as fixed_phone1, Company.height as logo_height, Company.width as logo_width
 from auth_user as AuthUser 
 left outer join base_company as Company on (AuthUser.active_company = Company.id)
@@ -793,12 +764,6 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="name">fax</property>
-                    <text-property name="displayName">fax</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">fixed_phone</property>
                     <text-property name="displayName">fixed_phone</text-property>
                     <expression name="expression" type="javascript">dataSetRow["fixed_phone"]</expression>
@@ -863,12 +828,6 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                                     <property name="name">email</property>
                                     <text-property name="displayName">email</text-property>
                                     <expression name="expression" type="javascript">dataSetRow["email"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">fax</property>
-                                    <text-property name="displayName">fax</text-property>
-                                    <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
                                     <property name="dataType">string</property>
                                 </structure>
                                 <structure>
@@ -2166,12 +2125,6 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                                         <property name="dataType">integer</property>
                                     </structure>
                                     <structure>
-                                        <property name="name">fax</property>
-                                        <text-property name="displayName">fax</text-property>
-                                        <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
                                         <property name="name">Rank</property>
                                         <text-property name="displayName">Rank</text-property>
                                         <property name="dataType">integer</property>
@@ -2410,31 +2363,6 @@ row["PartnerFirstName"]
                                                                     </text>
                                                                 </cell>
                                                             </row>
-                                                            <row id="4733">
-                                                                <cell id="4734">
-                                                                    <text id="4735">
-                                                                        <property name="fontSize">10pt</property>
-                                                                        <property name="fontWeight">normal</property>
-                                                                        <property name="color">#000000</property>
-                                                                        <property name="marginLeft">5pt</property>
-                                                                        <property name="textAlign">left</property>
-                                                                        <property name="contentType">html</property>
-                                                                        <text-property name="content"><![CDATA[<VALUE-OF>if(row["fax"] != null){"Fax : "}</VALUE-OF>]]></text-property>
-                                                                    </text>
-                                                                </cell>
-                                                                <cell id="4736">
-                                                                    <text id="4737">
-                                                                        <property name="fontSize">10pt</property>
-                                                                        <property name="fontWeight">normal</property>
-                                                                        <property name="color">#000000</property>
-                                                                        <property name="marginLeft">-1pt</property>
-                                                                        <property name="textAlign">left</property>
-                                                                        <property name="contentType">html</property>
-                                                                        <text-property name="content"><![CDATA[<VALUE-OF>if(row["is_contact"] == true || row["partner_type_select"] == "2"){
-if(row["fax"] != null){row["fax"]}}</VALUE-OF>]]></text-property>
-                                                                    </text>
-                                                                </cell>
-                                                            </row>
                                                             <row id="4738">
                                                                 <cell id="4739">
                                                                     <text id="4740">
@@ -2525,12 +2453,6 @@ if(row["fax"] != null){row["fax"]}}</VALUE-OF>]]></text-property>
                                         <text-property name="displayName">is_contact</text-property>
                                         <expression name="expression" type="javascript">dataSetRow["is_contact"]</expression>
                                         <property name="dataType">integer</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">fax</property>
-                                        <text-property name="displayName">fax</text-property>
-                                        <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
-                                        <property name="dataType">string</property>
                                     </structure>
                                     <structure>
                                         <property name="name">Rank</property>
@@ -2795,31 +2717,6 @@ row["PartnerFirstName"]
                                                                         <property name="textAlign">left</property>
                                                                         <property name="contentType">html</property>
                                                                         <text-property name="content"><![CDATA[<VALUE-OF>row["mobile_phone"]</VALUE-OF>]]></text-property>
-                                                                    </text>
-                                                                </cell>
-                                                            </row>
-                                                            <row id="4663">
-                                                                <cell id="4664">
-                                                                    <text id="4665">
-                                                                        <property name="fontSize">10pt</property>
-                                                                        <property name="fontWeight">normal</property>
-                                                                        <property name="color">#000000</property>
-                                                                        <property name="marginLeft">5pt</property>
-                                                                        <property name="textAlign">left</property>
-                                                                        <property name="contentType">html</property>
-                                                                        <text-property name="content"><![CDATA[<VALUE-OF>if(row["fax"] != null){"Fax : "}</VALUE-OF>]]></text-property>
-                                                                    </text>
-                                                                </cell>
-                                                                <cell id="4666">
-                                                                    <text id="4667">
-                                                                        <property name="fontSize">10pt</property>
-                                                                        <property name="fontWeight">normal</property>
-                                                                        <property name="color">#000000</property>
-                                                                        <property name="marginLeft">-1pt</property>
-                                                                        <property name="textAlign">left</property>
-                                                                        <property name="contentType">html</property>
-                                                                        <text-property name="content"><![CDATA[<VALUE-OF>if(row["is_contact"] == true || row["partner_type_select"] == "2"){
-if(row["fax"] != null){row["fax"]}}</VALUE-OF>]]></text-property>
                                                                     </text>
                                                                 </cell>
                                                             </row>

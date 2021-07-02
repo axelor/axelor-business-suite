@@ -1,3 +1,3 @@
 "title";"modelSelect";"status";"metaModel";"typeSelect";"tabName";"path";"fields"
-"Partner data config";"com.axelor.apps.base.db.Partner";1;"Partner";0;"Partner";;"titleSelect,name,firstName,partnerSeq,emailAddress,fax,fixedPhone,mobilePhone,webSite,department,description"
+"Partner data config";"com.axelor.apps.base.db.Partner";1;"Partner";0;"Partner";;"titleSelect,name,firstName,partnerSeq,emailAddress,fixedPhone,mobilePhone,webSite,department,description"
 "Partner data config";"com.axelor.apps.base.db.Partner";1;"Partner";0;"Contact";"mainPartner";"titleSelect,name,firstName,mainAddress,emailAddress,fixedPhone"

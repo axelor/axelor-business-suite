@@ -254,12 +254,6 @@
                     <text-property name="heading">fixed_phone</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">fax</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">fax</text-property>
-                    <text-property name="heading">fax</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">mobile_phone</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">mobile_phone</text-property>
@@ -379,46 +373,41 @@
                     </structure>
                     <structure>
                         <property name="position">12</property>
-                        <property name="name">fax</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
                         <property name="name">mobile_phone</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">13</property>
                         <property name="name">email_address</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">14</property>
                         <property name="name">web_site</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">15</property>
                         <property name="name">internal_user_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">16</property>
                         <property name="name">team_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">18</property>
+                        <property name="position">17</property>
                         <property name="name">balance_cust_account</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">19</property>
+                        <property name="position">18</property>
                         <property name="name">balance_due_cust_account</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">19</property>
                         <property name="name">balance_due_debt_recovery_cust_account</property>
                         <property name="dataType">decimal</property>
                     </structure>
@@ -505,62 +494,55 @@
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">fax</property>
-                    <property name="nativeName">fax</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">13</property>
                     <property name="name">mobile_phone</property>
                     <property name="nativeName">mobile_phone</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">13</property>
                     <property name="name">email_address</property>
                     <property name="nativeName">email_address</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
+                    <property name="position">14</property>
                     <property name="name">web_site</property>
                     <property name="nativeName">web_site</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">16</property>
+                    <property name="position">15</property>
                     <property name="name">internal_user_name</property>
                     <property name="nativeName">internal_user_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">17</property>
+                    <property name="position">16</property>
                     <property name="name">team_name</property>
                     <property name="nativeName">team_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">18</property>
+                    <property name="position">17</property>
                     <property name="name">balance_cust_account</property>
                     <property name="nativeName">balance_cust_account</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">19</property>
+                    <property name="position">18</property>
                     <property name="name">balance_due_cust_account</property>
                     <property name="nativeName">balance_due_cust_account</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">20</property>
+                    <property name="position">19</property>
                     <property name="name">balance_due_debt_recovery_cust_account</property>
                     <property name="nativeName">balance_due_debt_recovery_cust_account</property>
                     <property name="dataType">decimal</property>
@@ -569,7 +551,7 @@
             </list-property>
             <xml-property name="queryText"><![CDATA[select Partner.id, MetaFile.file_path as logo_path, Company.height as logo_height, Company.width as logo_width, Partner.title_select , Partner.partner_type_select, Partner.first_name as partner_first_name,
 Partner.name as partner_name, Partner.partner_seq, InvoicingAddress.full_name as invoicing_full_name,
-Partner.fixed_phone, Partner.fax, Partner.mobile_phone, EmailAddress.address as email_address, Partner.web_site, 
+Partner.fixed_phone, Partner.mobile_phone, EmailAddress.address as email_address, Partner.web_site, 
 AuthUser.name as internal_user_name, Team.name as team_name,
 AccountingSituation.balance_cust_account, AccountingSituation.balance_due_cust_account, AccountingSituation.balance_due_debt_recovery_cust_account
 from base_partner as Partner
@@ -1934,12 +1916,6 @@ $func$ LANGUAGE plpgsql;
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">fax</property>
-                    <text-property name="displayName">fax</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">mobile_phone</property>
                     <text-property name="displayName">mobile_phone</text-property>
                     <expression name="expression" type="javascript">dataSetRow["mobile_phone"]</expression>
@@ -2388,8 +2364,8 @@ row["partner_first_name"]
                                 <property name="paramName">param_1</property>
                                 <simple-property-list name="expression">
                                     <value type="javascript">if(row["partner_type_select"] == "1"){
-"ClientSituation.fax"
-}else{
+"ClientSituation.website"
+}else if(row["partner_type_select"] == "2"){
 "ClientSituation.mobile"
 }</value>
                                 </simple-property-list>
@@ -2419,7 +2395,7 @@ row["partner_first_name"]
                         <property name="marginTop">2pt</property>
                         <property name="contentType">html</property>
                         <text-property name="content"><![CDATA[<VALUE-OF>if(row["partner_type_select"] == "1"){
-row["fax"]
+row["web_site"]
 }else if(row["partner_type_select"] == "2"){
 row["mobile_phone"]
 }</VALUE-OF>]]></text-property>
@@ -2475,52 +2451,8 @@ row["mobile_phone"]
                 <cell id="4036">
                     <property name="colSpan">1</property>
                     <property name="rowSpan">1</property>
-                    <text id="4106">
-                        <property name="marginTop">0pt</property>
-                        <property name="marginLeft">0pt</property>
-                        <property name="textAlign">left</property>
-                        <property name="dataSet">TranslateDS</property>
-                        <list-property name="paramBindings">
-                            <structure>
-                                <property name="paramName">param_1</property>
-                                <simple-property-list name="expression">
-                                    <value type="javascript">if(row["partner_type_select"] == "1"){
-"ClientSituation.website"
-}else if(row["partner_type_select"] == "2"){
-"ClientSituation.fax"
-}</value>
-                                </simple-property-list>
-                            </structure>
-                        </list-property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">key</property>
-                                <text-property name="displayName">key</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">translation</property>
-                                <text-property name="displayName">translation</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                        <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<B><U><VALUE-OF>row["translation"]</VALUE-OF></U> : </B>]]></text-property>
-                    </text>
                 </cell>
-                <cell id="4105">
-                    <text id="4108">
-                        <property name="marginTop">1pt</property>
-                        <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<VALUE-OF>if(row["partner_type_select"] == "1"){
-row["web_site"]
-}else if(row["partner_type_select"] == "2"){
-row["fax"]
-}</VALUE-OF>]]></text-property>
-                    </text>
-                </cell>
+                <cell id="4105"/>
             </row>
             <row id="4052">
                 <property name="height">0.555625cm</property>
@@ -5738,12 +5670,6 @@ default:
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">fax</property>
-                    <text-property name="displayName">fax</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">mobile_phone</property>
                     <text-property name="displayName">mobile_phone</text-property>
                     <expression name="expression" type="javascript">dataSetRow["mobile_phone"]</expression>
@@ -5971,12 +5897,6 @@ default:
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">fax</property>
-                                <text-property name="displayName">fax</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
                                 <property name="name">mobile_phone</property>
                                 <text-property name="displayName">mobile_phone</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["mobile_phone"]</expression>
@@ -6132,12 +6052,6 @@ default:
                                 <property name="name">fixed_phone</property>
                                 <text-property name="displayName">fixed_phone</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["fixed_phone"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">fax</property>
-                                <text-property name="displayName">fax</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
@@ -6299,12 +6213,6 @@ default:
                                 <property name="name">fixed_phone</property>
                                 <text-property name="displayName">fixed_phone</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["fixed_phone"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">fax</property>
-                                <text-property name="displayName">fax</text-property>
-                                <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>

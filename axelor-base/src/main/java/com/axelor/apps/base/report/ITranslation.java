@@ -32,7 +32,6 @@ public interface ITranslation {
   public static final String CLIENT_SITUATION_FIXED_PHONE = /*$$(*/
       "ClientSituation.fixedPhone"; /*)*/
   public static final String CLIENT_SITUATION_EMAIL = /*$$(*/ "ClientSituation.email"; /*)*/
-  public static final String CLIENT_SITUATION_FAX = /*$$(*/ "ClientSituation.fax"; /*)*/
   public static final String CLIENT_SITUATION_MOBILE = /*$$(*/ "ClientSituation.mobile"; /*)*/
   public static final String CLIENT_SITUATION_WEBSITE = /*$$(*/ "ClientSituation.website"; /*)*/
   public static final String CLIENT_SITUATION_NAME = /*$$(*/ "ClientSituation.name"; /*)*/

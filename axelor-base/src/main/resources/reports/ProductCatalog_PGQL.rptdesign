@@ -462,12 +462,6 @@ order by ProductFamily.name, ProductCategory.name
                     <text-property name="heading">email</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">fax</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">fax</text-property>
-                    <text-property name="heading">fax</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">fixed_phone</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">fixed_phone</text-property>
@@ -523,21 +517,16 @@ order by ProductFamily.name, ProductCategory.name
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">fax</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
                         <property name="name">fixed_phone</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">6</property>
                         <property name="name">logo_height</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">7</property>
                         <property name="name">logo_width</property>
                         <property name="dataType">integer</property>
                     </structure>
@@ -575,34 +564,27 @@ order by ProductFamily.name, ProductCategory.name
                 </structure>
                 <structure>
                     <property name="position">5</property>
-                    <property name="name">fax</property>
-                    <property name="nativeName">fax</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
                     <property name="name">fixed_phone</property>
                     <property name="nativeName">fixed_phone</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">6</property>
                     <property name="name">logo_height</property>
                     <property name="nativeName">logo_height</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">7</property>
                     <property name="name">logo_width</property>
                     <property name="nativeName">logo_width</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select MetaFile.file_path as logo_path, Address.full_name, Partner.web_site, Email.address as email, Partner.fax, Partner.fixed_phone,
+            <xml-property name="queryText"><![CDATA[select MetaFile.file_path as logo_path, Address.full_name, Partner.web_site, Email.address as email, Partner.fixed_phone,
 Company.height as logo_height, Company.width as logo_width
 from auth_user as AuthUser 
 left outer join base_company as Company on (AuthUser.active_company = Company.id)
@@ -1861,12 +1843,6 @@ group by ProductCategory.id , ProductCategory.name]]></xml-property>
                     <property name="name">email</property>
                     <text-property name="displayName">email</text-property>
                     <expression name="expression" type="javascript">dataSetRow["email"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">fax</property>
-                    <text-property name="displayName">fax</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -3862,12 +3838,6 @@ group by ProductCategory.id , ProductCategory.name]]></xml-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">fax</property>
-                    <text-property name="displayName">fax</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["fax"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
                     <property name="name">fixed_phone</property>
                     <text-property name="displayName">fixed_phone</text-property>
                     <expression name="expression" type="javascript">dataSetRow["fixed_phone"]</expression>
@@ -3924,7 +3894,6 @@ group by ProductCategory.id , ProductCategory.name]]></xml-property>
                         <property name="textAlign">center</property>
                         <property name="contentType">html</property>
                         <text-property name="content"><![CDATA[Tél : <VALUE-OF>row["fixed_phone"]</VALUE-OF><br>
-Fax : <VALUE-OF>row["fax"]</VALUE-OF><br>
 Email : <VALUE-OF>row["email"]</VALUE-OF>]]></text-property>
                     </text>
                     <text id="3723"/>

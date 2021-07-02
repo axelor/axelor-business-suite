@@ -79,7 +79,6 @@
             </editor>
 					</field>
 					<field name="fixedPhone" colSpan="3"/>
-					<field name="fax" colSpan="3"/>
 					<field name="linkedInProfile" colSpan="3" widget="url"/>
 					<label name="linkedinLabel" title="&lt;a class='fa fa-linkedin' href='http://www.linkedin.com' target='_blank' /&gt;" colSpan="2"/>
 				</panel>

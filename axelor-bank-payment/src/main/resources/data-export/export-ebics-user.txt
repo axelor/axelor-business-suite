@@ -138,7 +138,6 @@
 				<hostId>${u.ebicsPartner?.ebicsBank?.hostId}</hostId>
 				<name>${u.ebicsPartner?.ebicsBank?.name}</name>
 				<url>${u.ebicsPartner?.ebicsBank?.url}</url>
-				<fax>${u.ebicsPartner?.ebicsBank?.fax}</fax>
 				<emailAddress>${u.ebicsPartner?.ebicsBank?.emailAddress}</emailAddress>
 				<language>${u.ebicsPartner?.ebicsBank?.language?.code}</language>
 				<protocolSelect>${u.ebicsPartner?.ebicsBank?.protocolSelect}</protocolSelect>

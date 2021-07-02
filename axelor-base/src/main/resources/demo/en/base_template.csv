@@ -5,7 +5,6 @@ A ce jour voici les informations dont nous disposons : </p>
  
 <p>Téléphone fixe : $Partner.fixedPhone$<br/>
 Mobile : $Partner.mobilePhone$<br/>
-Fax : $Partner.fax$<br/>
 Email : $Partner.emailAddress.address$<br/>
 Adresse : <br/>
 $Partner.mainInvoicingAddress.fullName$<br/></p>
@@ -20,7 +19,6 @@ We are currently proceeding to an update of  our contact database. Can you pleas
  
 <p>Fixed phone : $Partner.fixedPhone$<br/>
 Mobile : $Partner.mobilePhone$<br/>
-Fax : $Partner.fax$<br/>
 Email : $Partner.emailAddress.address$<br/>
 Address : <br/>
 $Partner.mainInvoicingAddress.fullName$</p>

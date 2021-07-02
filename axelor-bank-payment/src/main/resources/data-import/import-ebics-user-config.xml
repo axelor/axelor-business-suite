@@ -20,7 +20,6 @@
 	   		<bind node="name" to="name" />
 	   		<bind node="fullName" to="fullName"/>
 	   		<bind node="url" to="url"/>
-			<bind node="fax" to="fax" />
 			<bind node="emailAddress" to="emailAddress" />
 	   		<bind node="language" to="language" search="self.code = :code"/>
 	   		<bind node="bank" to="bank" search="self.code = :code"  update="false">

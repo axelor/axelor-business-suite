@@ -11,7 +11,6 @@
 	<string name="name" title="Name"/>
   
 	<many-to-one name="bank" ref="com.axelor.apps.base.db.Bank" required="true"/>
-	<string name="fax" title="Fax"/>
 	<string name="emailAddress" title="Email"/>
     <string name="url" title="URL"/>
 	
@@ -33,7 +32,6 @@
 	   <field name="hostId" on="UPDATE"/>
 	   <field name="name" on="UPDATE"/>
 	   <field name="bank" on="UPDATE"/>
-	   <field name="fax" on="UPDATE"/>
 	   <field name="emailAddress" on="UPDATE"/>
 	   <field name="url" on="UPDATE"/>
 	   <field name="language" on="UPDATE"/>

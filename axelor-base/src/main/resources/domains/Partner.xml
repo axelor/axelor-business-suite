@@ -36,7 +36,6 @@
     
     <!-- From contact -->
     <one-to-one name="emailAddress" ref="com.axelor.apps.message.db.EmailAddress" title="Email"/>
-    <string name="fax" title="Fax"/>
     <string name="fixedPhone" title="Fixed phone"/>
     <string name="mobilePhone" title="Mobile phone"/>
     <string name="webSite" title="Website"/>
