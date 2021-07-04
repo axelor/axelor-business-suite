@@ -7,7 +7,7 @@
 
   <entity name="BankOrderFileFormatCountry" lang="java" sequential="true">
   
-	<many-to-one name="bankOrderFileFormat" ref="com.axelor.apps.bankpayment.db.BankOrderFileFormat" title="Bank order file format"/>
+	<many-to-one name="bankOrderFileFormat" ref="com.axelor.apps.bankpayment.db.BankOrderFileFormat" title="Bank order file format" column="boFileFormat"/>
 	<many-to-one name="country" ref="com.axelor.apps.base.db.Country" title="Country"/>
 	<boolean name="receiverAddressRequired" title="Receiver address required"/>
 

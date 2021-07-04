@@ -6,7 +6,7 @@
 
     <entity name="ConfiguratorProdProcessLine" lang="java">
         <many-to-one name="configuratorProdProcess" title="Production process"
-                     ref="com.axelor.apps.production.db.ConfiguratorProdProcess"/>
+                     ref="com.axelor.apps.production.db.ConfiguratorProdProcess" column="confProdProcess"/>
         <string name="name" title="Label"/>
         <integer name="priority" title="Priority"/>
         <many-to-one required="true" name="workCenter" ref="com.axelor.apps.production.db.WorkCenter" title="Work center"/>
