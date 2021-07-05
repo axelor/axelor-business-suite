@@ -22,6 +22,7 @@ import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.apps.hr.db.*;
 import com.axelor.apps.hr.db.repo.*;
 import com.axelor.apps.hr.service.config.HRConfigService;
+import com.axelor.auth.AuthUtils;
 import com.axelor.common.ObjectUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
@@ -36,9 +37,11 @@ import com.google.inject.persist.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class LunchVoucherMgtServiceImpl implements LunchVoucherMgtService {
 
@@ -65,6 +68,21 @@ public class LunchVoucherMgtServiceImpl implements LunchVoucherMgtService {
     this.lunchVoucherAdvanceService = lunchVoucherAdvanceService;
     this.hrConfigService = hrConfigService;
     this.appBaseService = appBaseService;
+  }
+
+  protected boolean isEmployeeFormerNewOrArchived(
+      Employee employee, LunchVoucherMgt lunchVoucherMgt) {
+    Objects.requireNonNull(employee);
+    LocalDate today =
+        appBaseService.getTodayDate(
+            employee.getUser() != null
+                ? employee.getUser().getActiveCompany()
+                : AuthUtils.getUser().getActiveCompany());
+    return (employee.getLeavingDate() != null
+            && employee.getLeavingDate().compareTo(lunchVoucherMgt.getLeavePeriod().getFromDate())
+                < 0)
+        || (employee.getHireDate() != null && employee.getHireDate().compareTo(today) > 0)
+        || (employee.getArchived() != null && employee.getArchived());
   }
 
   @Override
@@ -94,7 +112,7 @@ public class LunchVoucherMgtServiceImpl implements LunchVoucherMgtService {
             .fetch();
     for (Employee employee : employeeList) {
       if (employee != null) {
-        if (EmployeeHRRepository.isEmployeeFormerNewOrArchived(employee)) {
+        if (isEmployeeFormerNewOrArchived(employee, lunchVoucherMgt)) {
           continue;
         }
         LunchVoucherMgtLine lunchVoucherMgtLine = obtainLineFromEmployee(employee, lunchVoucherMgt);

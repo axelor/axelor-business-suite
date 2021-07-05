@@ -214,4 +214,10 @@
         <option value="7">Hardship allowance</option>    
     </selection>
 
+	<selection name="hr.employee.employee.status.select">
+		<option value="new">New employee</option>
+		<option value="former">Former employee</option>
+		<option value="active">Active employee</option>
+	</selection>
+
 </object-views>

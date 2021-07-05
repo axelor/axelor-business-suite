@@ -20,6 +20,7 @@
 	<grid name="employee-lite-grid" title="Employee" model="com.axelor.apps.hr.db.Employee">
 		 <field name="contactPartner" grid-view="partner-contact-grid" form-view="partner-contact-form"/>
 		 <field name="managerUser" form-view="user-form" grid-view="user-grid" />
+     <field name="$employeeStatus" title="Employee status" selection="hr.employee.employee.status.select" type="string"/>
 		 <field name="mainEmploymentContract.companyDepartment" form-view="company-department-form" grid-view="company-department-grid"/>
 	</grid>
 
