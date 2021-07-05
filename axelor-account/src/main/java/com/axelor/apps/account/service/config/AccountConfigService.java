@@ -22,9 +22,11 @@ import com.axelor.apps.account.db.AccountConfig;
 import com.axelor.apps.account.db.DebtRecoveryConfigLine;
 import com.axelor.apps.account.db.Journal;
 import com.axelor.apps.account.db.JournalType;
+import com.axelor.apps.account.db.Move;
 import com.axelor.apps.account.db.PaymentMode;
 import com.axelor.apps.account.db.Tax;
 import com.axelor.apps.account.db.repo.AccountConfigRepository;
+import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Sequence;
@@ -32,9 +34,13 @@ import com.axelor.apps.message.db.Template;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
+import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
 import java.util.List;
 
 public class AccountConfigService {
+
+  @Inject protected MoveRepository moveRepo;
 
   public AccountConfig getAccountConfig(Company company) throws AxelorException {
 
@@ -597,5 +603,20 @@ public class AccountConfigService {
     }
 
     return accountConfig.getFactorDebitAccount();
+  }
+
+  @Transactional
+  public void removeSimulatedMoves(Company company) {
+    List<Move> moveList =
+        moveRepo
+            .all()
+            .filter(
+                "self.company = ?1 AND self.statusSelect = ?2",
+                company,
+                MoveRepository.STATUS_SIMULATED)
+            .fetch();
+    for (Move move : moveList) {
+      moveRepo.remove(move);
+    }
   }
 }

@@ -12,9 +12,9 @@
 	</grid>
  
 	<form onNew="action-accounting-batch-record-on-new" name="accounting-batch-form" title="Accounting Batch" model="com.axelor.apps.account.db.AccountingBatch"
-		onLoad="action-accounting-batch-group-on-load">
+		onLoad="action-accounting-batch-group-on-load, action-accounting-batch-attrs-is-deleted-simulated-move">
 		<panel name="mainPanel" >
-			<field name="actionSelect" onChange="action-accounting-batch-record-default-currency"/>
+			<field name="actionSelect" onChange="action-accounting-batch-group-action-select-on-change"/>
 			<field name="code" x-bind="{{code|unaccent|uppercase}}" onChange="action-base-batch-condition-check-unique-code"/>
 			<field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid" onChange="action-accounting-batch-attrs-set-empty-year-and-accountset-value"/>
 			<field name="bankDetails" hideIf="actionSelect &amp;&amp; ([14,15,16,17,18,21].indexOf(actionSelect) &gt; -1 || (actionSelect == 11 &amp;&amp; reimbursementTypeSelect == 2) || (actionSelect == 12 &amp;&amp; directDebitDataTypeSelect == 2))" widget="SuggestBox" onSelect="action-accounting-batch-attrs-bank-details-domain" form-view="bank-details-form" grid-view="bank-details-grid"/>
@@ -76,7 +76,8 @@
 	    		<field name="year.toDate" showIf="closeYear" hidden="true"/>
 	    		<field name="year.reportedBalanceDate" showIf="openYear" hidden="true"/>
 	    		<field name="moveDescription"/>
-				<field name="accountSet" colSpan="12" form-view="account-form" grid-view="account-grid" widget="TagSelect" canNew="false" canEdit="false" domain="self.company = :company"/> 
+				<field name="accountSet" colSpan="12" form-view="account-form" grid-view="account-grid" widget="TagSelect" canNew="false" canEdit="false" domain="self.company = :company"/>
+				<field name="isDeleteSimulatedMove" readonlyIf="isDeleteSimulatedMove"/> 
 	<!-- 			<field name="journalSet" colSpan="12" form-view="journal-form" grid-view="journal-grid" widget="TagSelect" canNew="false" domain="self.company = :company"/> -->
 			</panel>
 			<panel name="informationPanel" title="Information"  >
@@ -115,6 +116,12 @@
 		<action name="action-accounting-batch-attrs-trading-names-management"/>
 		<action name="action-accounting-batch-attrs-display-trading-name-set"/>
 	</action-group>
+	
+	<action-group name="action-accounting-batch-group-action-select-on-change">
+		<action name="action-accounting-batch-record-default-currency"/>
+		<action name="action-accounting-batch-record-set-is-delete-simulated-move"/>
+		<action name="action-accounting-batch-attrs-is-deleted-simulated-move"/>
+	</action-group>
     
     
     <!-- ACTION RECORD -->
@@ -125,6 +132,10 @@
 		<field name="createdBy" expr="eval:__user__"/>
 		<field name="company"  expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
+	</action-record>
+	
+	<action-record name="action-accounting-batch-record-set-is-delete-simulated-move" model="com.axelor.apps.account.db.AccountingBatch">
+    	<field name="isDeleteSimulatedMove" expr="eval: __repo__(AccountConfig).all().filter('self.company = ?', __user__.activeCompany ? __user__.activeCompany : __repo__(Company).all().fetchOne())?.fetchOne().isActivateSimulatedMove"/>
 	</action-record>
     
     <action-record name="action-accounting-batch-record-default-currency" model="com.axelor.apps.account.db.AccountingBatch">
@@ -201,6 +212,10 @@
     
     <action-attrs name="action-accounting-batch-attrs-display-trading-name-set">
     	<attribute name="hidden" for="tradingNameSet" expr="!(__config__.app.getApp('base').enableTradingNamesManagement &amp;&amp; isDebtRecoveryByTradingName)"/>
+    </action-attrs>
+    
+    <action-attrs name="action-accounting-batch-attrs-is-deleted-simulated-move">
+        <attribute name="hidden" for="isDeleteSimulatedMove" expr="eval: actionSelect != 21 || !__repo__(AccountConfig).all().filter('self.company = ?', __user__.activeCompany ? __user__.activeCompany : __repo__(Company).all().fetchOne()).fetchOne().isActivateSimulatedMove"/>
     </action-attrs>
 
     <search-filters name="accounting-batch-filters" model="com.axelor.apps.account.db.AccountingBatch" title="Accounting batch filters">

@@ -148,7 +148,7 @@
 	</action-view>
 	
 	<menuitem name="account-root-move-moves-simulated" parent="account-root-move"
-		title="Moves Simulated" action="account.root.move.moves.simulated" order="15"/>
+		title="Moves Simulated" action="account.root.move.moves.simulated" order="15" if="__repo__(AccountConfig).all().filter('self.company = ?', __user__.activeCompany ? __user__.activeCompany : __repo__(Company).all().fetchOne()).fetchOne()?.isActivateSimulatedMove"/>
 
 	<action-view name="account.root.move.moves.simulated" title="Moves Simulated"
 		model="com.axelor.apps.account.db.Move" >
@@ -159,7 +159,7 @@
 	</action-view>
 	
 	<menuitem name="account-root-move-move-line-simulated" parent="account-root-move"
-		title="Move Lines Simulated" action="account.root.move.move.line.simulated" order="20"/>
+		title="Move Lines Simulated" action="account.root.move.move.line.simulated" order="20" if="__repo__(AccountConfig).all().filter('self.company = ?', __user__.activeCompany ? __user__.activeCompany : __repo__(Company).all().fetchOne()).fetchOne()?.isActivateSimulatedMove"/>
 
 	<action-view name="account.root.move.move.line.simulated" title="Move Lines Simulated"
 		model="com.axelor.apps.account.db.MoveLine" >

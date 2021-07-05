@@ -236,7 +236,7 @@
 
    	<!-- ACTION RECORD -->
     <action-record name="default-move-record" model="com.axelor.apps.account.db.Move">
-    	<field name="statusSelect" expr="eval: 5" if="_isSimulatedMove"/>
+    	<field name="statusSelect" expr="eval: 5" if="_isSimulatedMove &amp;&amp; __repo__(AccountConfig).all().filter('self.company = ?', __user__.activeCompany ? __user__.activeCompany : __repo__(Company).all().fetchOne())?.fetchOne().isActivateSimulatedMove"/>
 		<field name="company"  expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
     	<field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
 		<field name="getInfoFromFirstMoveLineOk" expr="eval: true"/>

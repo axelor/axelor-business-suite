@@ -53,6 +53,7 @@
 	<boolean name="closeYear" title="Close the year accounts"/>
 	<many-to-one name="year" ref="com.axelor.apps.base.db.Year" title="Year"/>
     <many-to-many name="accountSet" ref="Account" title="Accounting.Accounts"/>
+    <boolean name="isDeleteSimulatedMove" title="Delete simulated moves" help="All Simulated move attached to the fiscal year about to be closed will be deleted"/>
 <!--     <many-to-many name="journalSet" ref="Journal" title="Journals"/> -->
     <boolean name="allocatePerPartner" title="Allocate per partner"/>
 	 <string name="moveDescription" title="Move description"/>

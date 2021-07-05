@@ -75,14 +75,18 @@ public class AccountingReportServiceImpl implements AccountingReportService {
   protected List<Object> params = new ArrayList<>();
   protected int paramNumber = 1;
 
+  protected AccountConfigService accountConfigService;
+
   @Inject
   public AccountingReportServiceImpl(
       AppAccountService appBaseService,
       AccountingReportRepository accountingReportRepo,
-      AccountRepository accountRepo) {
+      AccountRepository accountRepo,
+      AccountConfigService accountConfigService) {
     this.accountingReportRepo = accountingReportRepo;
     this.accountRepo = accountRepo;
     this.appBaseService = appBaseService;
+    this.accountConfigService = accountConfigService;
   }
 
   private Boolean compareReportType(AccountingReport accountingReport, int type) {
@@ -232,7 +236,10 @@ public class AccountingReportServiceImpl implements AccountingReportService {
     List<Integer> statusSelects = new ArrayList<>();
     statusSelects.add(MoveRepository.STATUS_ACCOUNTED);
     statusSelects.add(MoveRepository.STATUS_VALIDATED);
-    if (accountingReport.getDisplaySimulatedMove()) {
+    if (accountConfigService
+            .getAccountConfig(accountingReport.getCompany())
+            .getIsActivateSimulatedMove()
+        && accountingReport.getDisplaySimulatedMove()) {
       statusSelects.add(MoveRepository.STATUS_SIMULATED);
     }
 
