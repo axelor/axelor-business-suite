@@ -244,4 +244,39 @@ public class AccountingReportController {
 
     response.setView(actionViewBuilder.map());
   }
+
+  /**
+   * @param request
+   * @param response
+   */
+  public void generateDocumentation(ActionRequest request, ActionResponse response) {
+    try {
+      AccountingReport accountingReport = request.getContext().asType(AccountingReport.class);
+      accountingReport = accountingReportRepo.find(accountingReport.getId());
+
+      if (accountingReport.getExportTypeSelect() == null
+          || accountingReport.getExportTypeSelect().isEmpty()
+          || accountingReport.getTypeSelect() == 0) {
+        response.setFlash(I18n.get(IExceptionMessage.ACCOUNTING_REPORT_4));
+        response.setReload(true);
+        return;
+      }
+      accountingReportService.setPublicationDateTime(accountingReport);
+
+      String name = "FEC Documentation " + accountingReport.getRef();
+
+      String fileLink =
+          ReportFactory.createReport("DescriptiveDocumentationFEC.rptdesign", name + "-${date}")
+              .addParam("AccountingReportId", accountingReport.getId())
+              .addParam("Locale", ReportSettings.getPrintingLocale(null))
+              .addFormat("odt")
+              .toAttach(accountingReport)
+              .generate()
+              .getFileLink();
+
+      response.setView(ActionView.define(name).add("html", fileLink).map());
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
+  }
 }

@@ -499,6 +499,34 @@ public interface ITranslation {
       /*$$(*/ "AccountingReportType17.year_start_value"; /*)*/
   public static final String ACCOUNTING_REPORT_17_DEPRECIATION_CHARGE =
       /*$$(*/ "AccountingReportType17.depreciation_charge"; /*)*/
+
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_TAX_REGIME =
+      /*$$(*/ "DescriptiveDocumentationFEC.taxRegime"; /*)*/
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_FILE_TYPE =
+      /*$$(*/ "DescriptiveDocumentationFEC.fileType"; /*)*/
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_ENCODING =
+      /*$$(*/ "DescriptiveDocumentationFEC.encoding"; /*)*/
+  public static final String
+      ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_COLUMN_SEPARATION_CHARACTERS =
+          /*$$(*/ "DescriptiveDocumentationFEC.columnSeparationCharacters"; /*)*/
+  public static final String
+      ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_LINE_SEPARATION_CHARACTERS =
+          /*$$(*/ "DescriptiveDocumentationFEC.lineSeparationCharacters"; /*)*/
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_VOID_FIELD_CHARACTERS =
+      /*$$(*/ "DescriptiveDocumentationFEC.voidFieldCharacters"; /*)*/
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_LENGTH =
+      /*$$(*/ "DescriptiveDocumentationFEC.length"; /*)*/
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_CODIFICATION =
+      /*$$(*/ "DescriptiveDocumentationFEC.codification"; /*)*/
+  public static final String
+      ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_SPECIFIC_ACCOUNTING_RULES =
+          /*$$(*/ "DescriptiveDocumentationFEC.specificAccountingRules"; /*)*/
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_FEC_FILE_ANOMALIES =
+      /*$$(*/ "DescriptiveDocumentationFEC.FECFileAnomalies"; /*)*/
+
+  public static final String ACCOUNTING_EXPORT_DESCRIPTIVE_DOCUMENTATION_FEC_TITLE =
+      /*$$(*/ "DescriptiveDocumentationFEC.title"; /*)*/
+
   public static final String INVOICE_REPORT_HEAD_OFFICE_ADDR = /*$$(*/
       "Invoice.headOfficeAddress"; /*)*/
 }
