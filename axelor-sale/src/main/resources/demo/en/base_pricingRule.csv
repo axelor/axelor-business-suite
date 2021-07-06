@@ -1,0 +1,3 @@
+"importId";"typeSelect";"concernedModel";"name";"formula";"fieldToPopulate"
+1;1;"SaleOrderLine";"Partner category";"saleOrder.clientPartner.partnerCategory.code";
+2;2;"SaleOrderLine";"Price markup rate";"product.salePrice * pricingLine.resultParam1";"price"

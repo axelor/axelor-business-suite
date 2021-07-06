@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+	<grid model="com.axelor.apps.base.db.PricingRule" title="Pricing rules" name="pricing-rule-grid" orderBy="typeSelect,name">
+		<field name="name" />
+		<field name="concernedModel" />
+		<field name="company" />
+		<field name="typeSelect" />
+		<field name="formula" />
+		<field name="fieldToPopulate" />
+	</grid>
+
+	<form model="com.axelor.apps.base.db.PricingRule" title="Pricing rule" name="pricing-rule-form" width="large">
+		<panel name="mainPanel">
+			<field name="name" />
+			<field name="concernedModel" onChange="action-pricing-rule-attrs-field-to-populate-clear" />
+			<field name="company" />
+			<field name="typeSelect" onChange="action-pricing-rule-attrs-field-to-populate-clear" />
+			<field name="fieldTypeSelect" showIf="typeSelect == 1"/>
+			<field name="operatorSelect" showIf="typeSelect == 1 &amp;&amp; fieldTypeSelect != 0"/>
+			<field name="formula" widget="CodeEditor" x-code-syntax="groovy" colSpan="12" />
+			<field name="fieldToPopulate" domain="self.metaModel = :concernedModel" showIf="typeSelect == 2" />
+		</panel>
+	</form>
+
+	<action-attrs name="action-pricing-rule-attrs-field-to-populate-clear">
+		<attribute name="value" for="fieldToPopulate" expr="eval: null" />
+	</action-attrs>
+
+</object-views>

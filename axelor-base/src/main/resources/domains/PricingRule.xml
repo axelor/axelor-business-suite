@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="base" package="com.axelor.apps.base.db" />
+
+	<entity name="PricingRule" lang="java">
+
+		<string name="name" title="Name" />
+		<many-to-one name="concernedModel" ref="com.axelor.meta.db.MetaModel" title="Concerned model" />
+		<integer name="typeSelect" title="Type" selection="base.pricing.rule.type.select" />
+		<string name="formula" title="Formula"/>
+		<many-to-one name="company" ref="com.axelor.apps.base.db.Company" title="Company" />
+		<many-to-one name="fieldToPopulate" ref="com.axelor.meta.db.MetaField" title="Field to populate" />
+		<integer name="fieldTypeSelect" title="Field type" selection="base.pricing.rule.field.type.select"/>
+		<integer name="operatorSelect" title="Operator" selection="base.pricing.rule.operator.select"/>
+
+		<extra-code><![CDATA[
+			//TYPE SELECT
+			public static final int PRICING_RULE_TYPE_CLASSIFICATION = 1;
+			public static final int PRICING_RULE_TYPE_RESULT = 2;
+			
+			//FIELD TYPE SELECT
+			public static final int FIELD_TYPE_INTEGER = -1;
+			public static final int FIELD_TYPE_STRING = 0;
+			public static final int FIELD_TYPE_DECIMAL = 1;
+			
+			//OPERATOR SELECT
+			public static final int OPERATOR_LESS_THAN = -1;
+			public static final int OPERATOR_EQUAL = 0;
+			public static final int OPERATOR_GREATER_THAN = 1;
+			
+     	]]></extra-code>
+
+	</entity>
+
+</domain-models>

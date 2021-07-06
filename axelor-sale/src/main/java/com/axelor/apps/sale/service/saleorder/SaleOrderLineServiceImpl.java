@@ -24,9 +24,14 @@ import com.axelor.apps.account.db.TaxLine;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.PriceList;
 import com.axelor.apps.base.db.PriceListLine;
+import com.axelor.apps.base.db.Pricing;
+import com.axelor.apps.base.db.PricingLine;
+import com.axelor.apps.base.db.PricingRule;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.db.Unit;
 import com.axelor.apps.base.db.repo.PriceListLineRepository;
+import com.axelor.apps.base.db.repo.PricingRepository;
+import com.axelor.apps.base.db.repo.PricingRuleRepository;
 import com.axelor.apps.base.service.CurrencyService;
 import com.axelor.apps.base.service.PriceListService;
 import com.axelor.apps.base.service.ProductCategoryService;
@@ -48,6 +53,8 @@ import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.sale.service.app.AppSaleService;
 import com.axelor.apps.sale.translation.ITranslation;
 import com.axelor.common.ObjectUtils;
+import com.axelor.db.EntityHelper;
+import com.axelor.db.mapper.Mapper;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
@@ -55,17 +62,22 @@ import com.axelor.inject.Beans;
 import com.axelor.meta.loader.ModuleManager;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
+import com.axelor.script.GroovyScriptHelper;
 import com.google.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,12 +112,16 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
   }
 
   @Inject protected ProductCategoryService productCategoryService;
-
+  @Inject protected PricingRepository pricingRepository;
   @Inject protected ProductCompanyService productCompanyService;
 
   @Override
   public void computeProductInformation(SaleOrderLine saleOrderLine, SaleOrder saleOrder)
       throws AxelorException {
+
+    // Reset fields which are going to recalculate in this method
+    resetProductInformation(saleOrderLine);
+
     if (!saleOrderLine.getEnableFreezeFields()) {
       saleOrderLine.setProductName(saleOrderLine.getProduct().getName());
     }
@@ -121,6 +137,10 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
 
   @Override
   public void fillPrice(SaleOrderLine saleOrderLine, SaleOrder saleOrder) throws AxelorException {
+
+    // Populate fields from pricing scale before starting process of fillPrice
+    computePricingScale(saleOrder, saleOrderLine);
+
     fillTaxInformation(saleOrderLine, saleOrder);
     saleOrderLine.setCompanyCostPrice(this.getCompanyCostPrice(saleOrder, saleOrderLine));
     BigDecimal exTaxPrice;
@@ -369,8 +389,14 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
 
     Boolean productInAti =
         (Boolean) productCompanyService.get(product, "inAti", saleOrder.getCompany());
-    BigDecimal productSalePrice =
-        (BigDecimal) productCompanyService.get(product, "salePrice", saleOrder.getCompany());
+
+    // Consider price if already computed from pricing scale else get it from product
+    BigDecimal productSalePrice = saleOrderLine.getPrice();
+
+    if (productSalePrice.compareTo(BigDecimal.ZERO) == 0) {
+      productSalePrice =
+          (BigDecimal) productCompanyService.get(product, "salePrice", saleOrder.getCompany());
+    }
 
     BigDecimal price =
         (productInAti == resultInAti)
@@ -997,5 +1023,282 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
       newComplementarySOLines.add(complementarySOLine);
     }
     return complementarySOLine;
+  }
+
+  @Override
+  public void computePricingScale(SaleOrder saleOrder, SaleOrderLine orderLine) {
+    if (orderLine.getProduct() == null) {
+      return;
+    }
+
+    // (1) Get the Pricing
+    Pricing pricing = getRelatedPricing(orderLine.getProduct(), saleOrder);
+    if (pricing == null
+        || pricing.getClass1PricingRule() == null
+        || pricing.getResult1PricingRule() == null) {
+      return;
+    }
+
+    // (2) Compute the classification formulas
+    // (3) Search the Pricing Line
+    Context scriptContext = null;
+    try {
+      scriptContext =
+          new Context(
+              Mapper.toMap(orderLine), Class.forName(pricing.getConcernedModel().getFullName()));
+    } catch (Exception e) {
+      TraceBackService.trace(e);
+    }
+
+    scriptContext.put("saleOrder", EntityHelper.getEntity(saleOrder));
+    GroovyScriptHelper scriptHelper = new GroovyScriptHelper(scriptContext);
+
+    PricingLine pricingLine =
+        searchPricingLine(
+            pricing,
+            new Object[] {
+              computeClassificationFormula(scriptHelper, pricing.getClass1PricingRule()),
+              computeClassificationFormula(scriptHelper, pricing.getClass2PricingRule()),
+              computeClassificationFormula(scriptHelper, pricing.getClass3PricingRule()),
+              computeClassificationFormula(scriptHelper, pricing.getClass4PricingRule())
+            });
+
+    if (pricingLine == null) {
+      return;
+    }
+
+    // (4) Compute the result formulas
+    // (6) Apply the results
+    scriptContext.put("pricingLine", EntityHelper.getEntity(pricingLine));
+    scriptHelper = new GroovyScriptHelper(scriptContext);
+
+    computeResultFormulaAndApply(scriptHelper, pricing, orderLine);
+  }
+
+  public Pricing getRelatedPricing(Product product, SaleOrder saleOrder) {
+
+    StringBuilder filter = new StringBuilder();
+
+    filter.append("(self.product = :product");
+
+    if (product.getParentProduct() != null) {
+      filter.append(" OR self.product = :parentProduct");
+    }
+
+    if (product.getProductCategory() != null) {
+      filter.append(" OR self.productCategory = :productCategory");
+    }
+
+    filter.append(
+        ") AND self.previousPricing = null AND self.company = :company AND self.startDate <= :todayDate AND self.concernedModel.name = :modelName");
+
+    return pricingRepository
+        .all()
+        .filter(filter.toString())
+        .bind("product", product)
+        .bind("productCategory", product.getProductCategory())
+        .bind("parentProduct", product.getParentProduct())
+        .bind("company", saleOrder.getCompany())
+        .bind("todayDate", appBaseService.getTodayDate(saleOrder.getCompany()))
+        .bind("modelName", SaleOrderLine.class.getSimpleName())
+        .fetchOne();
+  }
+
+  public Object computeClassificationFormula(
+      GroovyScriptHelper scriptHelper, PricingRule classPricingRule) {
+
+    return classPricingRule != null ? scriptHelper.eval(classPricingRule.getFormula()) : null;
+  }
+
+  private List<Integer[]> getFieldTypeAndOperator(Pricing pricing) {
+    PricingRule class1PricingRule = pricing.getClass1PricingRule();
+    PricingRule class2PricingRule = pricing.getClass2PricingRule();
+    PricingRule class3PricingRule = pricing.getClass3PricingRule();
+    PricingRule class4PricingRule = pricing.getClass4PricingRule();
+
+    return Arrays.asList(
+        new Integer[] {
+          class1PricingRule != null ? class1PricingRule.getFieldTypeSelect() : 0,
+          class1PricingRule != null ? class1PricingRule.getOperatorSelect() : 0
+        },
+        new Integer[] {
+          class2PricingRule != null ? class2PricingRule.getFieldTypeSelect() : 0,
+          class2PricingRule != null ? class2PricingRule.getOperatorSelect() : 0
+        },
+        new Integer[] {
+          class3PricingRule != null ? class3PricingRule.getFieldTypeSelect() : 0,
+          class3PricingRule != null ? class3PricingRule.getOperatorSelect() : 0
+        },
+        new Integer[] {
+          class4PricingRule != null ? class4PricingRule.getFieldTypeSelect() : 0,
+          class4PricingRule != null ? class4PricingRule.getOperatorSelect() : 0
+        });
+  }
+
+  public PricingLine searchPricingLine(Pricing pricing, Object[] ruleValues) {
+    Object ruleValue1 = ruleValues[0];
+    Object ruleValue2 = ruleValues[1];
+    Object ruleValue3 = ruleValues[2];
+    Object ruleValue4 = ruleValues[3];
+
+    List<Integer[]> fieldTypeAndOpList = getFieldTypeAndOperator(pricing);
+
+    Stream<PricingLine> pricingLineStream =
+        Optional.ofNullable(pricing.getPricingLineList()).orElse(Collections.emptyList()).stream();
+
+    if (ruleValue4 != null) {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine ->
+                  checkClassificationParam(
+                          fieldTypeAndOpList.get(0)[0],
+                          fieldTypeAndOpList.get(0)[1],
+                          pricingLine.getClassificationIntParam1(),
+                          pricingLine.getClassificationDecParam1(),
+                          pricingLine.getClassificationParam1(),
+                          ruleValue1)
+                      && checkClassificationParam(
+                          fieldTypeAndOpList.get(1)[0],
+                          fieldTypeAndOpList.get(1)[1],
+                          pricingLine.getClassificationIntParam2(),
+                          pricingLine.getClassificationDecParam2(),
+                          pricingLine.getClassificationParam2(),
+                          ruleValue2)
+                      && checkClassificationParam(
+                          fieldTypeAndOpList.get(2)[0],
+                          fieldTypeAndOpList.get(2)[1],
+                          pricingLine.getClassificationIntParam3(),
+                          pricingLine.getClassificationDecParam3(),
+                          pricingLine.getClassificationParam3(),
+                          ruleValue3)
+                      && checkClassificationParam(
+                          fieldTypeAndOpList.get(3)[0],
+                          fieldTypeAndOpList.get(3)[1],
+                          pricingLine.getClassificationIntParam4(),
+                          pricingLine.getClassificationDecParam4(),
+                          pricingLine.getClassificationParam4(),
+                          ruleValue4));
+
+    } else if (ruleValue3 != null) {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine ->
+                  checkClassificationParam(
+                          fieldTypeAndOpList.get(0)[0],
+                          fieldTypeAndOpList.get(0)[1],
+                          pricingLine.getClassificationIntParam1(),
+                          pricingLine.getClassificationDecParam1(),
+                          pricingLine.getClassificationParam1(),
+                          ruleValue1)
+                      && checkClassificationParam(
+                          fieldTypeAndOpList.get(1)[0],
+                          fieldTypeAndOpList.get(1)[1],
+                          pricingLine.getClassificationIntParam2(),
+                          pricingLine.getClassificationDecParam2(),
+                          pricingLine.getClassificationParam2(),
+                          ruleValue2)
+                      && checkClassificationParam(
+                          fieldTypeAndOpList.get(2)[0],
+                          fieldTypeAndOpList.get(2)[1],
+                          pricingLine.getClassificationIntParam3(),
+                          pricingLine.getClassificationDecParam3(),
+                          pricingLine.getClassificationParam3(),
+                          ruleValue3));
+
+    } else if (ruleValue2 != null) {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine ->
+                  checkClassificationParam(
+                          fieldTypeAndOpList.get(0)[0],
+                          fieldTypeAndOpList.get(0)[1],
+                          pricingLine.getClassificationIntParam1(),
+                          pricingLine.getClassificationDecParam1(),
+                          pricingLine.getClassificationParam1(),
+                          ruleValue1)
+                      && checkClassificationParam(
+                          fieldTypeAndOpList.get(1)[0],
+                          fieldTypeAndOpList.get(1)[1],
+                          pricingLine.getClassificationIntParam2(),
+                          pricingLine.getClassificationDecParam2(),
+                          pricingLine.getClassificationParam2(),
+                          ruleValue2));
+
+    } else if (ruleValue1 != null) {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine ->
+                  checkClassificationParam(
+                      fieldTypeAndOpList.get(0)[0],
+                      fieldTypeAndOpList.get(0)[1],
+                      pricingLine.getClassificationIntParam1(),
+                      pricingLine.getClassificationDecParam1(),
+                      pricingLine.getClassificationParam1(),
+                      ruleValue1));
+    }
+
+    Optional<PricingLine> pricingLineValue = pricingLineStream.findFirst();
+
+    return pricingLineValue.isPresent() ? pricingLineValue.get() : null;
+  }
+
+  private boolean checkClassificationParam(
+      int classRuleFieldType,
+      int classRuleOperator,
+      int intParam,
+      BigDecimal decParam,
+      String strParam,
+      Object value) {
+
+    switch (classRuleFieldType) {
+      case PricingRuleRepository.FIELD_TYPE_INTEGER:
+        return checkRuleOperator(classRuleOperator, intParam, value);
+
+      case PricingRuleRepository.FIELD_TYPE_DECIMAL:
+        return checkRuleOperator(classRuleOperator, decParam, value);
+
+      default:
+        String strVal = value != null ? value.toString() : null;
+        return strParam.equals(strVal);
+    }
+  }
+
+  private boolean checkRuleOperator(int classRuleOperator, Object param, Object value) {
+    switch (classRuleOperator) {
+      case PricingRuleRepository.OPERATOR_LESS_THAN:
+        return param instanceof Integer
+            ? ((int) param) < ((int) value)
+            : ((BigDecimal) param).compareTo((BigDecimal) value) < 0;
+
+      case PricingRuleRepository.OPERATOR_GREATER_THAN:
+        return param instanceof Integer
+            ? ((int) param) > ((int) value)
+            : ((BigDecimal) param).compareTo((BigDecimal) value) > 0;
+
+      default:
+        return param instanceof Integer
+            ? ((int) param) == ((int) value)
+            : ((BigDecimal) param).compareTo((BigDecimal) value) == 0;
+    }
+  }
+
+  public void computeResultFormulaAndApply(
+      GroovyScriptHelper scriptHelper, Pricing pricing, SaleOrderLine orderLine) {
+
+    List<PricingRule> resultPricingRuleList = new ArrayList<>();
+    resultPricingRuleList.add(pricing.getResult1PricingRule());
+    resultPricingRuleList.add(pricing.getResult2PricingRule());
+    resultPricingRuleList.add(pricing.getResult3PricingRule());
+    resultPricingRuleList.add(pricing.getResult4PricingRule());
+
+    resultPricingRuleList.stream()
+        .filter(Objects::nonNull)
+        .forEach(
+            resultPricingRule ->
+                Mapper.of(SaleOrderLine.class)
+                    .set(
+                        orderLine,
+                        resultPricingRule.getFieldToPopulate().getName(),
+                        scriptHelper.eval(resultPricingRule.getFormula())));
   }
 }

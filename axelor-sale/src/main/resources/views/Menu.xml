@@ -335,4 +335,24 @@
 		<view type="dashboard" name="base.partner.list.dashboard" />
 	</action-view>
 
+	<!-- Pricing menus -->
+
+	<menuitem title="Pricing" name="sc-root-sale-pricing" parent="sc-root-sale"
+		order="35" action="sc.root.sale.pricing" />
+
+	<action-view name="sc.root.sale.pricing" title="Pricing"
+		model="com.axelor.apps.base.db.Pricing">
+		<view type="grid" name="pricing-grid" />
+		<view type="form" name="pricing-form" />
+	</action-view>
+
+	<menuitem title="Pricing rules" name="sc-root-sale-conf-pricing-rule"
+		parent="sc-root-sale-conf" order="25" action="sc.root.sale.conf.pricing.rule" />
+
+	<action-view name="sc.root.sale.conf.pricing.rule" title="Pricing rules"
+		model="com.axelor.apps.base.db.PricingRule">
+		<view type="grid" name="pricing-rule-grid" />
+		<view type="form" name="pricing-rule-form" />
+	</action-view>
+
 </object-views>

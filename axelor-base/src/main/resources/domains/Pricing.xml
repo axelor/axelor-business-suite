@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="base" package="com.axelor.apps.base.db" />
+
+	<entity name="Pricing" lang="java">
+
+		<string name="name" title="Name" />
+		<date name="startDate" title="Start date" />
+		<many-to-one name="company" ref="com.axelor.apps.base.db.Company"
+			title="Company" />
+		<many-to-one name="concernedModel" ref="com.axelor.meta.db.MetaModel"
+			title="Concerned model" />
+		<many-to-one name="class1PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Classification rule 1" />
+		<many-to-one name="class2PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Classification rule 2" />
+		<many-to-one name="class3PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Classification rule 3" />
+		<many-to-one name="class4PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Classification rule 4" />
+		<many-to-one name="result1PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Result rule 1" />
+		<many-to-one name="result2PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Result rule 2" />
+		<many-to-one name="result3PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Result rule 3" />
+		<many-to-one name="result4PricingRule" ref="com.axelor.apps.base.db.PricingRule"
+			title="Result rule 4" />
+		<many-to-one name="product" ref="com.axelor.apps.base.db.Product"
+			title="Product / Product model" />
+		<many-to-one name="productCategory"
+			ref="com.axelor.apps.base.db.ProductCategory" title="Product category" />
+		<many-to-one name="previousPricing" ref="com.axelor.apps.base.db.Pricing"
+			title="Previous pricing" />
+		<one-to-many name="pricingLineList" ref="com.axelor.apps.base.db.PricingLine"
+			mappedBy="pricing" title="Pricing lines" />
+
+	</entity>
+
+</domain-models>

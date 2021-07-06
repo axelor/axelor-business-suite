@@ -1,0 +1,4 @@
+title: "Sale/Purchase Pricing"
+type: feature
+description: |
+  The goal is to have a generic engine to compute a sale/purchase price depending on some parameters like partner characteristics, product characteristics, address, ... using groovy formulas.
