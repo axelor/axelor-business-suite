@@ -102,6 +102,7 @@
 - Payment voucher: fix confirm button display on credit card supplier payments.
 - General balance report : fix wrong sums when we filter on some accounts of the same branch
 - Remove Inconsistency in selections
+- MRP : NPE
 
 ## [5.0.7] - 2018-12-13
 ## Features

@@ -375,11 +375,13 @@ public class MrpServiceImpl implements MrpService {
 
     } else {
 
-      mrpLine =
-          mrpLineRepository.save(
-              this.createMrpLine(
-                  product, mrpLineType, reorderQty, maturityDate, BigDecimal.ZERO, stockLocation));
-      mrp.addMrpLineListItem(mrpLine);
+      MrpLine createdMrpLine =
+          this.createMrpLine(
+              product, mrpLineType, reorderQty, maturityDate, BigDecimal.ZERO, stockLocation);
+      if (createdMrpLine != null) {
+        mrpLine = mrpLineRepository.save(createdMrpLine);
+        mrp.addMrpLineListItem(mrpLine);
+      }
       mrpLine.setRelatedToSelectName(relatedToSelectName);
     }
 
@@ -556,7 +558,7 @@ public class MrpServiceImpl implements MrpService {
                       qty.scale(),
                       purchaseOrderLine.getProduct());
         }
-        mrp.addMrpLineListItem(
+        MrpLine mrpLine =
             this.createMrpLine(
                 purchaseOrderLine.getProduct(),
                 purchaseProposalMrpLineType,
@@ -564,7 +566,10 @@ public class MrpServiceImpl implements MrpService {
                 maturityDate,
                 BigDecimal.ZERO,
                 purchaseOrder.getStockLocation(),
-                purchaseOrderLine));
+                purchaseOrderLine);
+        if (mrpLine != null) {
+          mrp.addMrpLineListItem(mrpLine);
+        }
       }
     }
   }
@@ -630,7 +635,7 @@ public class MrpServiceImpl implements MrpService {
                       saleOrderLine.getQty().scale(),
                       saleOrderLine.getProduct());
         }
-        mrp.addMrpLineListItem(
+        MrpLine mrpLine =
             this.createMrpLine(
                 saleOrderLine.getProduct(),
                 saleForecastMrpLineType,
@@ -638,7 +643,10 @@ public class MrpServiceImpl implements MrpService {
                 maturityDate,
                 BigDecimal.ZERO,
                 saleOrder.getStockLocation(),
-                saleOrderLine));
+                saleOrderLine);
+        if (mrpLine != null) {
+          mrp.addMrpLineListItem(mrpLine);
+        }
       }
     }
   }
@@ -680,7 +688,7 @@ public class MrpServiceImpl implements MrpService {
               Beans.get(UnitConversionService.class)
                   .convert(mrpForecast.getUnit(), unit, qty, qty.scale(), mrpForecast.getProduct());
         }
-        mrp.addMrpLineListItem(
+        MrpLine mrpLine =
             this.createMrpLine(
                 mrpForecast.getProduct(),
                 saleForecastMrpLineType,
@@ -688,7 +696,10 @@ public class MrpServiceImpl implements MrpService {
                 maturityDate,
                 BigDecimal.ZERO,
                 mrpForecast.getStockLocation(),
-                mrpForecast));
+                mrpForecast);
+        if (mrpLine != null) {
+          mrp.addMrpLineListItem(mrpLine);
+        }
       }
     }
   }
@@ -851,16 +862,19 @@ public class MrpServiceImpl implements MrpService {
       BigDecimal cumulativeQty,
       StockLocation stockLocation,
       Model... models) {
-
-    return mrpLineService.createMrpLine(
-        product,
-        this.productMap.get(product.getId()),
-        mrpLineType,
-        qty,
-        maturityDate,
-        cumulativeQty,
-        stockLocation,
-        models);
+    productMap = null;
+    if (product != null && productMap != null) {
+      return mrpLineService.createMrpLine(
+          product,
+          this.productMap.get(product.getId()),
+          mrpLineType,
+          qty,
+          maturityDate,
+          cumulativeQty,
+          stockLocation,
+          models);
+    }
+    return null;
   }
 
   protected void copyMrpLineOrigins(MrpLine mrpLine, List<MrpLineOrigin> mrpLineOriginList) {
