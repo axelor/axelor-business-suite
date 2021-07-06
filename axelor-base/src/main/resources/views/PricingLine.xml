@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+	<grid name="pricing-line-grid" title="Pricing lines" model="com.axelor.apps.base.db.PricingLine" >
+		<field name="classificationIntParam1" />
+		<field name="classificationIntParam2" />
+		<field name="classificationIntParam3" />
+		<field name="classificationIntParam4" />
+		<field name="classificationParam1" />
+		<field name="classificationParam2" />
+		<field name="classificationParam3" />
+		<field name="classificationParam4" />
+		<field name="classificationDecParam1" />
+		<field name="classificationDecParam2" />
+		<field name="classificationDecParam3" />
+		<field name="classificationDecParam4" />
+		<field name="resultParam1" />
+		<field name="resultParam2" />
+		<field name="resultParam3" />
+		<field name="resultParam4" />
+	</grid>
+
+	<form name="pricing-line-form" model="com.axelor.apps.base.db.PricingLine" title="Pricing line"
+		onNew="action-pricing-line-group-attrs-onnew-onload"
+		onLoad="action-pricing-line-group-attrs-onnew-onload" width="large">
+
+		<panel name="mainPanel">
+			<panel name="classificationPanel" colSpan="12">
+				<field name="classificationIntParam1" />
+				<field name="classificationIntParam2" />
+				<field name="classificationIntParam3" />
+				<field name="classificationIntParam4" />
+				<field name="classificationParam1" />
+				<field name="classificationParam2" />
+				<field name="classificationParam3" />
+				<field name="classificationParam4" />
+				<field name="classificationDecParam1" />
+				<field name="classificationDecParam2" />
+				<field name="classificationDecParam3" />
+				<field name="classificationDecParam4" />
+			</panel>
+			<panel name="resultPanel" colSpan="12">
+				<field name="resultParam1" />
+				<field name="resultParam2" />
+				<field name="resultParam3" />
+				<field name="resultParam4" />
+			</panel>
+		</panel>
+
+	</form>
+
+	<action-attrs name="action-pricing-line-attrs-hide-fields">
+		<attribute name="hidden" for="classificationIntParam1"
+			expr="eval: __parent__.class1PricingRule == null || __parent__.class1PricingRule?.fieldTypeSelect != -1" />
+		<attribute name="hidden" for="classificationIntParam2"
+			expr="eval: __parent__.class2PricingRule == null || __parent__.class2PricingRule?.fieldTypeSelect != -1" />
+		<attribute name="hidden" for="classificationIntParam3"
+			expr="eval: __parent__.class3PricingRule == null || __parent__.class3PricingRule?.fieldTypeSelect != -1" />
+		<attribute name="hidden" for="classificationIntParam4"
+			expr="eval: __parent__.class4PricingRule == null || __parent__.class4PricingRule?.fieldTypeSelect != -1" />
+	
+		<attribute name="hidden" for="classificationParam1"
+			expr="eval: __parent__.class1PricingRule == null || __parent__.class1PricingRule?.fieldTypeSelect != 0" />
+		<attribute name="hidden" for="classificationParam2"
+			expr="eval: __parent__.class2PricingRule == null || __parent__.class2PricingRule?.fieldTypeSelect != 0" />
+		<attribute name="hidden" for="classificationParam3"
+			expr="eval: __parent__.class3PricingRule == null || __parent__.class3PricingRule?.fieldTypeSelect != 0" />
+		<attribute name="hidden" for="classificationParam4"
+			expr="eval: __parent__.class4PricingRule == null || __parent__.class4PricingRule?.fieldTypeSelect != 0" />
+			
+		<attribute name="hidden" for="classificationDecParam1"
+			expr="eval: __parent__.class1PricingRule == null || __parent__.class1PricingRule?.fieldTypeSelect != 1" />
+		<attribute name="hidden" for="classificationDecParam2"
+			expr="eval: __parent__.class2PricingRule == null || __parent__.class2PricingRule?.fieldTypeSelect != 1" />
+		<attribute name="hidden" for="classificationDecParam3"
+			expr="eval: __parent__.class3PricingRule == null || __parent__.class3PricingRule?.fieldTypeSelect != 1" />
+		<attribute name="hidden" for="classificationDecParam4"
+			expr="eval: __parent__.class4PricingRule == null || __parent__.class4PricingRule?.fieldTypeSelect != 1" />
+			
+		<attribute name="hidden" for="resultParam1"
+			expr="eval: __parent__.result1PricingRule == null" />
+		<attribute name="hidden" for="resultParam2"
+			expr="eval: __parent__.result2PricingRule == null" />
+		<attribute name="hidden" for="resultParam3"
+			expr="eval: __parent__.result3PricingRule == null" />
+		<attribute name="hidden" for="resultParam4"
+			expr="eval: __parent__.result4PricingRule == null" />
+	</action-attrs>
+
+	<action-attrs name="action-pricing-lines-attrs-change-titles">
+		<attribute name="title" for="classificationIntParam1"
+			expr="eval: __parent__.class1PricingRule?.name" if="__parent__.class1PricingRule?.fieldTypeSelect == -1"/>
+		<attribute name="title" for="classificationIntParam2"
+			expr="eval: __parent__.class2PricingRule?.name" if="__parent__.class2PricingRule?.fieldTypeSelect == -1"/>
+		<attribute name="title" for="classificationIntParam3"
+			expr="eval: __parent__.class3PricingRule?.name" if="__parent__.class3PricingRule?.fieldTypeSelect == -1"/>
+		<attribute name="title" for="classificationIntParam4"
+			expr="eval: __parent__.class4PricingRule?.name" if="__parent__.class4PricingRule?.fieldTypeSelect == -1"/>
+	
+		<attribute name="title" for="classificationParam1"
+			expr="eval: __parent__.class1PricingRule?.name" if="__parent__.class1PricingRule?.fieldTypeSelect == 0"/>
+		<attribute name="title" for="classificationParam2"
+			expr="eval: __parent__.class2PricingRule?.name" if="__parent__.class2PricingRule?.fieldTypeSelect == 0"/>
+		<attribute name="title" for="classificationParam3"
+			expr="eval: __parent__.class3PricingRule?.name" if="__parent__.class3PricingRule?.fieldTypeSelect == 0"/>
+		<attribute name="title" for="classificationParam4"
+			expr="eval: __parent__.class4PricingRule?.name" if="__parent__.class4PricingRule?.fieldTypeSelect == 0"/>
+			
+		<attribute name="title" for="classificationDecParam1"
+			expr="eval: __parent__.class1PricingRule?.name" if="__parent__.class1PricingRule?.fieldTypeSelect == 1"/>
+		<attribute name="title" for="classificationDecParam2"
+			expr="eval: __parent__.class2PricingRule?.name" if="__parent__.class2PricingRule?.fieldTypeSelect == 1"/>
+		<attribute name="title" for="classificationDecParam3"
+			expr="eval: __parent__.class3PricingRule?.name" if="__parent__.class3PricingRule?.fieldTypeSelect == 1"/>
+		<attribute name="title" for="classificationDecParam4"
+			expr="eval: __parent__.class4PricingRule?.name" if="__parent__.class4PricingRule?.fieldTypeSelect == 1"/>
+			
+		<attribute name="title" for="resultParam1"
+			expr="eval: __parent__.result1PricingRule?.name" />
+		<attribute name="title" for="resultParam2"
+			expr="eval: __parent__.result2PricingRule?.name" />
+		<attribute name="title" for="resultParam3"
+			expr="eval: __parent__.result3PricingRule?.name" />
+		<attribute name="title" for="resultParam4"
+			expr="eval: __parent__.result4PricingRule?.name" />
+	</action-attrs>
+
+	<action-group name="action-pricing-line-group-attrs-onnew-onload">
+		<action name="action-pricing-line-attrs-hide-fields" />
+		<action name="action-pricing-lines-attrs-change-titles" />
+	</action-group>
+
+</object-views>

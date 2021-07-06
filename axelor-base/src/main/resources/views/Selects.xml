@@ -626,4 +626,21 @@
 		<option value="com.axelor.apps.account.db.PaymentCondition" data-grid="payment-condition-grid" data-form="payment-condition-form">Payment condition</option>
 	</selection>
 
+	<selection name="base.pricing.rule.type.select">
+		<option value="1">Classification</option>
+		<option value="2">Result</option>
+	</selection>
+	
+	<selection name="base.pricing.rule.field.type.select">
+		<option value="-1">Integer</option>
+		<option value="0">String</option>
+		<option value="1">Decimal</option>
+	</selection>
+	
+	<selection name="base.pricing.rule.operator.select">
+		<option value="-1">&lt;</option>
+		<option value="0">=</option>
+		<option value="1">&gt;</option>
+	</selection>
+
 </object-views>

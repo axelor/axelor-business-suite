@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="base" package="com.axelor.apps.base.db" />
+
+	<entity name="PricingLine" lang="java">
+
+		<string name="classificationParam1" title="Classification param 1" />
+		<string name="classificationParam2" title="Classification param 2" />
+		<string name="classificationParam3" title="Classification param 3" />
+		<string name="classificationParam4" title="Classification param 4" />
+		
+		<integer name="classificationIntParam1" title="Classification param 1"/>
+		<integer name="classificationIntParam2" title="Classification param 2"/>
+		<integer name="classificationIntParam3" title="Classification param 3"/>
+		<integer name="classificationIntParam4" title="Classification param 4"/>
+		
+		<decimal name="classificationDecParam1" title="Classification param 1"/>
+		<decimal name="classificationDecParam2" title="Classification param 2"/>
+		<decimal name="classificationDecParam3" title="Classification param 3"/>
+		<decimal name="classificationDecParam4" title="Classification param 4"/>
+		
+		<decimal name="resultParam1" title="Result param 1" />
+		<decimal name="resultParam2" title="Result param 2" />
+		<decimal name="resultParam3" title="Result param 3" />
+		<decimal name="resultParam4" title="Result param 4" />
+		<many-to-one name="pricing" ref="com.axelor.apps.base.db.Pricing" title="Pricing" />
+
+	</entity>
+
+</domain-models>
