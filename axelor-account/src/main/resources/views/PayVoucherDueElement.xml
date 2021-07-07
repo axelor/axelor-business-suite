@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+<object-views xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://axelor.com/xml/ns/object-views"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
     <grid name="pay-voucher-due-element-grid" title="Invoices to pay" model="com.axelor.apps.account.db.PayVoucherDueElement" orderBy="moveLine.dueDate">
-        <field name="moveLine.dueDate"/>
+        <field name="dueDate"/>
+        <field name="invoice" form-view="invoice-form" grid-view="invoice-grid"/>
         <field name="moveLine" form-view="move-line-form" grid-view="move-line-grid"/>
-        <field name="moveLine.move.invoice"/>
         <field name="currency" form-view="currency-form" grid-view="currency-grid"/>
         <field name="dueAmount" aggregate="sum"/>
         <field name="paidAmount" aggregate="sum"/>
         <field name="amountRemaining" aggregate="sum"/>
     </grid>
-    <form name="pay-voucher-due-element-form" title="Invoices to pay" model="com.axelor.apps.account.db.PayVoucherDueElement"  >
-        <panel name="main" >
-        	<field name="moveLine" form-view="move-line-form" grid-view="move-line-grid"/>
-	        <field name="moveLine.move.invoice" grid-view="invoice-grid" form-view="invoice-form"/>
-	        <field name="moveLine.dueDate"/>
-	        <field name="currency" canEdit="false" form-view="currency-form" grid-view="currency-grid"/>
-	        <field name="dueAmount"/>
-	        <field name="paidAmount"/>
-	        <field name="amountRemaining"/>
+    <form name="pay-voucher-due-element-form" title="Invoices to pay" model="com.axelor.apps.account.db.PayVoucherDueElement">
+        <panel name="main">
+            <field name="moveLine" form-view="move-line-form" grid-view="move-line-grid" hideIf="moveLine == null"/>
+            <field name="invoice" grid-view="invoice-grid" form-view="invoice-form" hideIf="invoice == null"/>
+            <field name="dueDate"/>
+            <field name="currency" canEdit="false" form-view="currency-form" grid-view="currency-grid"/>
+            <field name="dueAmount"/>
+            <field name="paidAmount"/>
+            <field name="amountRemaining"/>
         </panel>
     </form>
 </object-views>

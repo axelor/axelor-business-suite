@@ -37,17 +37,13 @@ public class PaymentVoucherToolService {
     boolean isDebitToPay;
 
     switch (paymentVoucher.getOperationTypeSelect()) {
-      case PaymentVoucherRepository.OPERATION_TYPE_SUPPLIER_PURCHASE:
-        isDebitToPay = false;
-        break;
-      case PaymentVoucherRepository.OPERATION_TYPE_SUPPLIER_REFUND:
-        isDebitToPay = true;
-        break;
-      case PaymentVoucherRepository.OPERATION_TYPE_CLIENT_SALE:
-        isDebitToPay = true;
-        break;
+      case PaymentVoucherRepository.OPERATION_TYPE_SUPPLIER_PURCHASE: // fall-through
       case PaymentVoucherRepository.OPERATION_TYPE_CLIENT_REFUND:
         isDebitToPay = false;
+        break;
+      case PaymentVoucherRepository.OPERATION_TYPE_SUPPLIER_REFUND: // fall-through
+      case PaymentVoucherRepository.OPERATION_TYPE_CLIENT_SALE:
+        isDebitToPay = true;
         break;
 
       default:

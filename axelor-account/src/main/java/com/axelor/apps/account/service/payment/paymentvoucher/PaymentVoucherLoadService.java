@@ -24,6 +24,7 @@ import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.db.PayVoucherDueElement;
 import com.axelor.apps.account.db.PayVoucherElementToPay;
 import com.axelor.apps.account.db.PaymentVoucher;
+import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.db.repo.MoveLineRepository;
 import com.axelor.apps.account.db.repo.MoveRepository;
 import com.axelor.apps.account.db.repo.PayVoucherDueElementRepository;
@@ -45,6 +46,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
 
 public class PaymentVoucherLoadService {
 
@@ -52,18 +54,20 @@ public class PaymentVoucherLoadService {
   protected PaymentVoucherToolService paymentVoucherToolService;
   protected PayVoucherDueElementRepository payVoucherDueElementRepo;
   protected PaymentVoucherRepository paymentVoucherRepository;
+  protected InvoiceRepository invoiceRepository;
 
   @Inject
   public PaymentVoucherLoadService(
       CurrencyService currencyService,
       PaymentVoucherToolService paymentVoucherToolService,
       PayVoucherDueElementRepository payVoucherDueElementRepo,
-      PaymentVoucherRepository paymentVoucherRepository) {
-
+      PaymentVoucherRepository paymentVoucherRepository,
+      InvoiceRepository invoiceRepository) {
     this.currencyService = currencyService;
     this.paymentVoucherToolService = paymentVoucherToolService;
     this.payVoucherDueElementRepo = payVoucherDueElementRepo;
     this.paymentVoucherRepository = paymentVoucherRepository;
+    this.invoiceRepository = invoiceRepository;
   }
 
   /**
@@ -108,6 +112,22 @@ public class PaymentVoucherLoadService {
     return moveLines;
   }
 
+  private List<Invoice> getAdvancePayments(PaymentVoucher paymentVoucher) throws AxelorException {
+    return invoiceRepository
+        .all()
+        .filter(
+            "self.partner = ?1 "
+                + "and self.amountRemaining > 0 "
+                + "and self.operationSubTypeSelect = ?2 "
+                + "and self.statusSelect = ?3 "
+                + "and self.company = ?4 ",
+            paymentVoucher.getPartner(),
+            InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE,
+            InvoiceRepository.STATUS_VALIDATED,
+            paymentVoucher.getCompany())
+        .fetch();
+  }
+
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void searchDueElements(PaymentVoucher paymentVoucher) throws AxelorException {
 
@@ -122,6 +142,10 @@ public class PaymentVoucherLoadService {
     for (MoveLine moveLine : this.getMoveLines(paymentVoucher)) {
 
       paymentVoucher.addPayVoucherDueElementListItem(this.createPayVoucherDueElement(moveLine));
+    }
+
+    for (Invoice invoice : this.getAdvancePayments(paymentVoucher)) {
+      paymentVoucher.addPayVoucherDueElementListItem(this.createPayVoucherDueElement(invoice));
     }
 
     paymentVoucherRepository.save(paymentVoucher);
@@ -152,6 +176,18 @@ public class PaymentVoucherLoadService {
         payVoucherDueElement.getDueAmount().subtract(payVoucherDueElement.getPaidAmount()));
 
     payVoucherDueElement.setCurrency(move.getCurrency());
+
+    return payVoucherDueElement;
+  }
+
+  private PayVoucherDueElement createPayVoucherDueElement(Invoice invoice) throws AxelorException {
+    PayVoucherDueElement payVoucherDueElement = new PayVoucherDueElement();
+
+    payVoucherDueElement.setAdvanceInvoice(invoice);
+    payVoucherDueElement.setDueAmount(invoice.getInTaxTotal());
+    payVoucherDueElement.setPaidAmount(invoice.getAmountPaid());
+    payVoucherDueElement.setAmountRemaining(invoice.getAmountRemaining());
+    payVoucherDueElement.setCurrency(invoice.getCurrency());
 
     return payVoucherDueElement;
   }
@@ -223,6 +259,7 @@ public class PaymentVoucherLoadService {
 
     payVoucherElementToPay.setSequence(sequence);
     payVoucherElementToPay.setMoveLine(payVoucherDueElement.getMoveLine());
+    payVoucherElementToPay.setAdvanceInvoice(payVoucherDueElement.getAdvanceInvoice());
     payVoucherElementToPay.setTotalAmount(payVoucherDueElement.getDueAmount());
     payVoucherElementToPay.setRemainingAmount(payVoucherDueElement.getAmountRemaining());
     payVoucherElementToPay.setCurrency(payVoucherDueElement.getCurrency());
@@ -259,7 +296,7 @@ public class PaymentVoucherLoadService {
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
   public void resetImputation(PaymentVoucher paymentVoucher) throws AxelorException {
 
-    paymentVoucher.getPayVoucherElementToPayList().clear();
+    paymentVoucher.clearPayVoucherElementToPayList();
 
     this.searchDueElements(paymentVoucher);
   }
@@ -362,25 +399,36 @@ public class PaymentVoucherLoadService {
 
     paymentVoucher.setCompanyBankDetails(companyBankDetails);
     BigDecimal amount = BigDecimal.ZERO;
-    List<MoveLine> moveLineList = getMoveLines(paymentVoucher);
 
-    for (MoveLine moveLine : moveLineList) {
-      PayVoucherDueElement payVoucherDueElement = createPayVoucherDueElement(moveLine);
-      paymentVoucher.addPayVoucherDueElementListItem(payVoucherDueElement);
+    if (invoice.getOperationSubTypeSelect() == InvoiceRepository.OPERATION_SUB_TYPE_ADVANCE) {
+      paymentVoucher.setPaidAmount(invoice.getAmountRemaining());
+      amount = amount.add(invoice.getAmountRemaining());
 
-      if (invoice.equals(payVoucherDueElement.getMoveLine().getMove().getInvoice())) {
-        amount = amount.add(payVoucherDueElement.getAmountRemaining());
+      paymentVoucher.setPaidAmount(amount);
+      paymentVoucher.clearPayVoucherDueElementList();
+
+      paymentVoucher.addPayVoucherDueElementListItem(createPayVoucherDueElement(invoice));
+    } else {
+      List<MoveLine> moveLineList = getMoveLines(paymentVoucher);
+
+      for (MoveLine moveLine : moveLineList) {
+        PayVoucherDueElement payVoucherDueElement = createPayVoucherDueElement(moveLine);
+        paymentVoucher.addPayVoucherDueElementListItem(payVoucherDueElement);
+
+        if (invoice.equals(payVoucherDueElement.getMoveLine().getMove().getInvoice())) {
+          amount = amount.add(payVoucherDueElement.getAmountRemaining());
+        }
+      }
+
+      paymentVoucher.setPaidAmount(amount);
+      paymentVoucher.clearPayVoucherDueElementList();
+
+      for (MoveLine moveLine : moveLineList) {
+        paymentVoucher.addPayVoucherDueElementListItem(createPayVoucherDueElement(moveLine));
       }
     }
 
-    paymentVoucher.setPaidAmount(amount);
-    paymentVoucher.clearPayVoucherDueElementList();
-
-    for (MoveLine moveLine : moveLineList) {
-      paymentVoucher.addPayVoucherDueElementListItem(createPayVoucherDueElement(moveLine));
-    }
-
-    if (paymentVoucher.getPayVoucherDueElementList() == null) {
+    if (CollectionUtils.isEmpty(paymentVoucher.getPayVoucherDueElementList())) {
       return;
     }
 
@@ -391,7 +439,7 @@ public class PaymentVoucherLoadService {
         it.hasNext(); ) {
       PayVoucherDueElement payVoucherDueElement = it.next();
 
-      if (invoice.equals(payVoucherDueElement.getMoveLine().getMove().getInvoice())
+      if (invoice.equals(payVoucherDueElement.getInvoice())
           && paymentVoucher.getCurrency().equals(payVoucherDueElement.getCurrency())) {
         paymentVoucher.addPayVoucherElementToPayListItem(
             createPayVoucherElementToPay(payVoucherDueElement, ++sequence));

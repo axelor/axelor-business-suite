@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+<object-views xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://axelor.com/xml/ns/object-views"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
     <grid name="pay-voucher-element-to-pay-grid" title="Payment voucher invoices to pay" model="com.axelor.apps.account.db.PayVoucherElementToPay">
         <field name="sequence"/>
-        <field name="moveLine.move.invoice" grid-view="invoice-grid" form-view="invoice-form"/>
+        <field name="invoice" form-view="invoice-form" grid-view="invoice-grid"/>
         <field name="moveLine" form-view="move-line-form" grid-view="move-line-grid"/>
         <field name="currency" form-view="currency-form" grid-view="currency-grid"/>
         <field name="totalAmount" aggregate="sum"/>
         <field name="remainingAmount" aggregate="sum"/>
         <field name="remainingAmountAfterPayment" aggregate="sum"/>
-        <field name="amountToPay" aggregate="sum"/>  
+        <field name="amountToPay" aggregate="sum"/>
     </grid>
-    <form name="pay-voucher-element-to-pay-form" title="Payment voucher invoices to pay" model="com.axelor.apps.account.db.PayVoucherElementToPay"  >
-        <panel name="main" >
-        	<field name="sequence"/>
-	        <field name="moveLine.move.invoice" grid-view="invoice-grid" form-view="invoice-form"/>
-	        <field name="moveLine" form-view="move-line-form" grid-view="move-line-grid"/>
-	        <field name="currency" canEdit="false" form-view="currency-form" grid-view="currency-grid"/>
-	        <field name="totalAmount"/>
-	        <field name="remainingAmount"/>
-	        <field name="remainingAmountAfterPayment"/>
-	        <field name="amountToPay" onChange="save, action-method-account-payment-voucher-element-pay-amount"/>
-	        <field name="moveLineGenerated" form-view="move-line-form" grid-view="move-line-grid"/>
+    <form name="pay-voucher-element-to-pay-form" title="Payment voucher invoices to pay" model="com.axelor.apps.account.db.PayVoucherElementToPay">
+        <panel name="main">
+            <field name="sequence"/>
+            <field name="moveLine" form-view="move-line-form" grid-view="move-line-grid" hideIf="moveLine == null"/>
+            <field name="invoice" grid-view="invoice-grid" form-view="invoice-form" hideIf="invoice == null"/>
+            <field name="currency" canEdit="false" form-view="currency-form" grid-view="currency-grid"/>
+            <field name="totalAmount"/>
+            <field name="remainingAmount"/>
+            <field name="remainingAmountAfterPayment"/>
+            <field name="amountToPay" onChange="save, action-method-account-payment-voucher-element-pay-amount"/>
+            <field name="moveLineGenerated" form-view="move-line-form" grid-view="move-line-grid"/>
         </panel>
-        
     </form>
 
     <action-method name="action-method-account-payment-voucher-element-pay-amount">

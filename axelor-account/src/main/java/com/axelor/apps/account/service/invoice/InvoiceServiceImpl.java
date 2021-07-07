@@ -547,6 +547,13 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
     }
   }
 
+  /**
+   * Indicates if the provided advance payment is suitable to be bound to the given invoice.
+   * @param invoice Invoice to which the advance payment could be bound.
+   * @param candidateAdvancePayment Advance payment to check
+   * @return true if the candidate total amount is less or equals to the invoice's total amount
+   * @throws AxelorException
+   */
   protected boolean removeBecauseOfTotalAmount(Invoice invoice, Invoice candidateAdvancePayment)
       throws AxelorException {
     if (Beans.get(AccountConfigService.class)
@@ -567,6 +574,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
             .orElse(BigDecimal.ZERO);
     return totalAmount.compareTo(invoiceTotal) > 0;
   }
+
 
   protected boolean removeBecauseOfAmountRemaining(Invoice invoice, Invoice candidateAdvancePayment)
       throws AxelorException {
