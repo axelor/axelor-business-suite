@@ -37,6 +37,11 @@
    	<many-to-many name="batchSet" ref="com.axelor.apps.base.db.Batch" title="Batchs"/>
     <integer name="functionalOriginSelect" title="Functional origin" readonly="true" selection="iaccount.move.functional.origin.select"/>
     <many-to-one name="tradingName" ref="com.axelor.apps.base.db.TradingName" title="Trading name"></many-to-one>
+    
+    <string name="nameCompany" title="Company name" help="Field used to store the company name onto the move for legal purpose, in case some changes may be applied on the related company record to the move and if the fiscal year was already closed"/>
+    <string name="codeCompany" title="Company code" help="Field used to store the company code onto the move for legal purpose, in case some changes may be applied on the related company record to the move and if the fiscal year was already closed"/>
+    <string name="nameJournal" title="Journal name" help="Field used to store the journal name onto the move for legal purpose, in case some changes may be applied on the related journal record to the move and if the fiscal year was already closed"/>
+    <string name="codeJournal" title="Journal code" help="Field used to store the journal code onto the move for legal purpose, in case some changes may be applied on the related journal record to the move and if the fiscal year was already closed"/>
 
     <unique-constraint columns="reference,company"/>
     

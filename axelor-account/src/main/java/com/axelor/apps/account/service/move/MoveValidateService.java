@@ -242,6 +242,11 @@ public class MoveValidateService {
 
     this.updateValidateStatus(move, dayBookMode);
 
+    move.setCodeJournal(move.getJournal().getCode());
+    move.setNameJournal(move.getJournal().getName());
+    move.setCodeCompany(move.getCompany().getCode());
+    move.setNameCompany(move.getCompany().getName());
+
     moveRepository.save(move);
 
     if (updateCustomerAccount) {
