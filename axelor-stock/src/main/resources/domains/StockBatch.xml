@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
+
+    <module name="stock" package="com.axelor.apps.stock.db"/>
+
+    <entity name="StockBatch">
+
+        <!-- HEADER -->
+        <string name="code" title="Code" namecolumn="true" unique="true" required="true"/>
+        <enum name="action" ref="StockStockBatchAction" required="true" title="Action"/>
+        <many-to-one name="company" ref="com.axelor.apps.base.db.Company" required="true" title="Company"/>
+
+
+    </entity>
+    
+    <enum name="StockStockBatchAction">
+        <item name="RECOMPUTE_STOCK_VALUES" title="Stock values adjustment" help="Recomputes all stock values (quantity &amp; amount) for all locations"/>
+    </enum>
+
+</domain-models>

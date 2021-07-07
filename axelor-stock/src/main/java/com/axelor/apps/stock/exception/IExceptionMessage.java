@@ -168,4 +168,9 @@ public interface IExceptionMessage {
   String CANCEL_REASON_MISSING = /*$$(*/ "A cancel reason must be selected" /*)*/;
   String CANCEL_REASON_BAD_TYPE = /*$$(*/
       "The type of cancel reason doesn't match with stock move" /*)*/;
+
+  /*
+   * Batches
+   */
+  String BATCH_UNKNOWN_ACTION = /*$$(*/ "Unknown action for stock batch: %s" /*)*/;
 }

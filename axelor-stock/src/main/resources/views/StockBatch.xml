@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://axelor.com/xml/ns/object-views"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+    <grid name="stock-batch-grid" title="Stock batches" model="com.axelor.apps.stock.db.StockBatch">
+        <field name="actionSelect"/>
+        <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
+        <field name="company" form-view="company-form" grid-view="company-grid"/>
+        <field name="createdOn"/>
+        <field name="createdBy" form-view="user-form" grid-view="user-grid"/>
+    </grid>
+
+    <form onNew="action-stock-batch-record-on-new" name="stock-batch-form" title="Stock Batch"
+          model="com.axelor.apps.stock.db.StockBatch">
+        <panel name="main">
+            <field name="action"/>
+            <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
+            <field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid"/>
+            <field name="archived" title="Running" readonly="true"/>
+        </panel>
+        <panel name="information" title="Information">
+            <field name="createdOn" title="Created on"/>
+            <field name="createdBy" title="Created by" form-view="user-form" grid-view="user-grid"/>
+            <field name="description" showTitle="false"/>
+            <panel-related field="batchList" colSpan="12" form-view="batch-form" grid-view="batch-grid" readonly="true"/>
+        </panel>
+        <panel name="actions" sidebar="true" title="Actions">
+            <button name="recomputeStockValues" title="Recompute stock values" showIf="action == 'RECOMPUTE_STOCK_VALUES'" onClick="save,action-stock-batch-method-run-batch" colSpan="12"/>
+        </panel>
+    </form>
+
+    <action-record name="action-stock-batch-record-on-new" model="com.axelor.apps.stock.db.StockBatch">
+        <field name="company" expr="eval:__user__.activeCompany" if="__user__.activeCompany != null"/>
+        <field name="company" expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
+    </action-record>
+
+    <action-method name="action-stock-batch-method-run-batch">
+        <call class="com.axelor.apps.stock.web.StockBatchController" method="runBatch"/>
+    </action-method>
+</object-views>

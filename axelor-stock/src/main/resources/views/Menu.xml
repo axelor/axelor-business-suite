@@ -344,4 +344,11 @@
 		<context name="_xApplicationType" expr="eval: com.axelor.apps.stock.db.StockMove"/>
 	</action-view>
 
+    <menuitem name="root-stock-batch-base" parent="admin-root-batch" title="Stock batches" action="action.stock.batch.view.all" if="__config__.app.isApp('stock')"/>
+
+    <action-view name="action.stock.batch.view.all" title="Stock batches"  model="com.axelor.apps.stock.db.StockBatch">
+        <view type="grid" name="stock-batch-grid"/>
+        <view type="form" name="stock-batch-form"/>
+    </action-view>
+
 </object-views>
