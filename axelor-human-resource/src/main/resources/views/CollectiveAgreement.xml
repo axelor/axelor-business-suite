@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+	<grid name="collective-agreement-grid" title="Collective agreement" model="com.axelor.apps.hr.db.CollectiveAgreement">
+		<field name="code" width="150"/>
+		<field name="name" width="250"/>
+	</grid>
+
+	<form name="collective-agreement-form" title="Collective agreement" model="com.axelor.apps.hr.db.CollectiveAgreement">
+		<panel name="mainPanel">
+			<field name="code" />
+			<field name="name" />
+			<field name="weeklyWorkDuration"/>
+		</panel>
+	</form>
+
+</object-views>
+	

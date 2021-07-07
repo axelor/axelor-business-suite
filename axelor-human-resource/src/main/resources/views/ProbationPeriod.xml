@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+  <grid name="probation-period-grid" title="Probation periods" model="com.axelor.apps.hr.db.ProbationPeriod">
+    <field name="$collectiveAgreementSetNames" title="Collective agreements" readonly="true"/>
+    <field name="contractType" width="200"/>
+    <field name="$qualificationSetNames" title="Qualifications" readonly="true"/>    
+    <field name="isPreviouslyHired"/>
+    <field name="minimumDuration"/>
+    <field name="maximumDuration"/>    
+    <field name="probationPeriodDuration"/>
+    <field name="collectiveAgreementSet" hidden="true"/>
+    <field name="qualificationSet" hidden="true"/>    
+  </grid>
+
+  <form name="probation-period-form" title="Probation period" model="com.axelor.apps.hr.db.ProbationPeriod">
+    <panel name="mainPanel">
+      <field name="contractType" onChange="action-probation-period-record-contract-type-on-change" form-view="employment-contract-type-form" grid-view="employment-contract-type-grid"/>
+      <field name="contractSubType" onSelect="action-probation-period-attrs-contract-sub-type-set-domain" showIf="contractType != null &amp;&amp; contractType.employmentContractSubTypeList != null &amp;&amp; contractType.employmentContractSubTypeList.length &gt; 0"/>
+      <field name="collectiveAgreementSet" widget="TagSelect" form-view="collective-agreement-form" grid-view="collective-agreement-grid" colSpan="12"/>
+      <field name="qualificationSet" widget="TagSelect" form-view="qualification-form" grid-view="qualification-grid" onSelect="action-probation-period-attrs-qualification-set-on-select" colSpan="12"/>      
+      <field name="isPreviouslyHired"/>
+      <field name="minimumDuration" colSpan="3" showIf="contractType.name == 'CDD'" canNew="true" help="Contrat duration must be &gt; to this duration"/>
+      <field name="maximumDuration" colSpan="3" showIf="contractType.name == 'CDD'" canNew="true" help="Contrat duration must be &lt;= to this duration"/>      
+      <field name="probationPeriodDuration" required="true" form-view="duration-form" grid-view="duration-grid" canNew="true"/>
+      <field name="comments" colSpan="12" />
+      <field name="contractType.employmentContractSubTypeList" hidden="true"/>
+    </panel>
+  </form>
+  
+  <action-attrs name="action-probation-period-attrs-qualification-set-on-select">
+  		<attribute name="domain" expr="eval: (collectiveAgreementSet !=  null &amp;&amp; collectiveAgreementSet?.size() &gt; 0) ? &quot;self.collectiveAgreement.id IN (${collectiveAgreementSet?.collect{it.id}?.join(',')})&quot; : &quot;self.collectiveAgreement.id IN (null)&quot;" for="qualificationSet"/>
+  </action-attrs>
+  
+  <action-attrs name="action-probation-period-attrs-contract-sub-type-set-domain">
+  		<attribute name="domain" expr="eval: &quot;self.id IN (${contractType?.employmentContractSubTypeList?.collect{it.id}?.join(',')})&quot;" for="contractSubType"/>
+  </action-attrs>
+  
+  <action-record name="action-probation-period-record-contract-type-on-change" model="com.axelor.apps.hr.db.ProbationPeriod">
+  		<field name="contractSubType" expr="eval: null"/>
+  </action-record>
+  
+</object-views>

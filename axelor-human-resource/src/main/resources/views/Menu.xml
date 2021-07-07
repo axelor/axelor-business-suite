@@ -97,13 +97,6 @@
 	    <view type="form" name="employee-bonus-type-form"/>
 	</action-view>
 
-	<menuitem name="hr-employment-contract-type" parent="hr-root-emp-mgt-conf" title="Employment contract type" action="employment.contract.type.all"/>
-
-	<action-view name="employment.contract.type.all" title="Employment contract type" model="com.axelor.apps.hr.db.EmploymentContractType">
-		<view type="grid" name="employment-contract-type-grid"/>
-	    <view type="form" name="employment-contract-type-form"/>
-	</action-view>
-
 	<menuitem name="hr-conf-payroll-year" parent="hr-root-emp-mgt-conf" title="Payroll years" action="hr.conf.payroll.year"/>
 
 	<action-view name="hr.conf.payroll.year" title="Payroll years"
@@ -446,5 +439,82 @@
 	<menuitem name="top-menu-hr-my-leave-request" parent="top-menu-hr" title="My leave request" action="edit.leave.request" top="true" if="__config__.app.isApp('leave')"/>
 
 	<menuitem name="top-menu-hr--my-extra-hours" parent="top-menu-hr" title="My extra hours" action="edit.extra.hours" top="true" if="__config__.app.isApp('exthrs')"  />
+	
+	<!-- Employment Amendment Related Menus -->
+	<menuitem name="hr-root-configuration" parent="hr-root" title="Configuration" order="21" icon="fa-cog" />
+	
+	<menuitem name="hr-root-configuration-employments" parent="hr-root-configuration" title="Employments" order="1"/>
+	
+	<menuitem name="hr-root-configuration-collective-agreement" parent="hr-root-configuration-employments" title="Collective agreement" action="hr.root.configuration.collective.agreement" order="1"/>
+	<action-view name="hr.root.configuration.collective.agreement" title="Collective agreement" model="com.axelor.apps.hr.db.CollectiveAgreement">	
+		<view name="collective-agreement-grid" type="grid" />
+		<view name="collective-agreement-form" type="form" />	
+	</action-view>
+	
+	<menuitem name="hr-root-configuration-qualification" parent="hr-root-configuration-employments" title="Qualification"  action="hr.root.configuration.qualification" order="5"/>
+	<action-view name="hr.root.configuration.qualification" title="Qualification" model="com.axelor.apps.hr.db.Qualification">
+		<view name="qualification-grid" type="grid" />
+		<view name="qualification-form" type="form" />		
+	</action-view>
+	
+	<menuitem name="hr-root-configuration-qualification-level" parent="hr-root-configuration-employments" title="Qualification Level" action="hr.root.configuration.qualification.level" order="10"/>
+	<action-view name="hr.root.configuration.qualification.level" title="Qualification Level" model="com.axelor.apps.hr.db.QualificationLevel">
+		<view name="qualification-level-grid" type="grid" />
+		<view name="qualification-level-form" type="form" />		
+	</action-view>
+	
+	<menuitem name="hr-root-configuration-pay-grid" parent="hr-root-configuration-employments" title="Pay Grid" action="hr.root.configuration.pay.grid" order="15"/>
+	<action-view name="hr.root.configuration.pay.grid" title="Pay Grid" model="com.axelor.apps.hr.db.PayGrid">
+		<view name="pay-grid-grid" type="grid" />
+		<view name="pay-grid-form" type="form" />	
+	</action-view>
+	
+	<menuitem name="hr-root-configuration-employments-all" parent="hr-root-configuration-employments" title="Employments" action="hr.root.configuration.employments" order="20"/>	
+	<action-view name="hr.root.configuration.employments" title="Employments" model="com.axelor.apps.hr.db.Employment">
+		<view type="grid" name="employment-grid" />
+		<view type="form" name="employment-form" />
+	</action-view>
+
+	<menuitem name="hr-root-configuration-analytic" parent="hr-root-configuration" title="Analytic" order="5"/>
+	
+	<menuitem name="hr-root-configuration-activity" parent="hr-root-configuration-analytic" title="Activity" action="hr.root.configuration.activity" order="1"/>	
+	<action-view name="hr.root.configuration.activity" title="Activity" model="com.axelor.apps.valvital.db.Activity">
+		<view type="grid" name="activity-grid" />
+		<view type="form" name="activity-form" />
+	</action-view>
+	
+	<menuitem id="hr-company-department-all" name="company-department-all" parent="hr-root-configuration-analytic" title="Departments"	action="company.department.all" order="5"/>
+	    
+    <menuitem name="hr-root-configuration-analytic-code" parent="hr-root-configuration-analytic" title="Analytic code" action="hr.root.configuration.analytic.code" order="10"/>
+	<action-view name="hr.root.configuration.analytic.code" title="Analytic Code" model="com.axelor.apps.hr.db.AnalyticCode">
+		<view type="grid" name="analytic-code-grid" />
+		<view type="form" name="analytic-code-form" />
+	</action-view>
+	
+	<menuitem name="hr-root-configuration-employment-contract-amendment" parent="hr-root-configuration" title="Employment contracts/Contract amendments" order="10"/>
+	
+	<menuitem name="hr-root-configuration-contract-type" title="Contract types" parent="hr-root-configuration-employment-contract-amendment" action="hr.root.configuration.contract.type" order="1"/>
+	<action-view name="hr.root.configuration.contract.type" title="Contract types" model="com.axelor.apps.hr.db.EmploymentContractType">
+		<view type="grid" name="employment-contract-type-grid"/>
+		<view type="form" name="employment-contract-type-form"/>
+	</action-view>
+
+	<menuitem name="hr-employment-contract-type" parent="hr-root-configuration-employment-contract-amendment" title="Amendment type" action="employment.amendment.type.all" order="5"/>	
+	<action-view name="employment.amendment.type.all" title="Amendment type" model="com.axelor.apps.hr.db.EmploymentAmendmentType">
+		<view type="grid" name="employment-amendment-type-grid"/>
+		<view type="form" name="employment-amendment-type-form"/>
+	</action-view>
+	
+	<menuitem name="hr-root-emp-mgt-probation-period" parent="hr-root-configuration-employment-contract-amendment" title="Probation periods" action="hr.root.emp.mgt.probation.period" order="10"/>  
+    <action-view name="hr.root.emp.mgt.probation.period" title="Probation periods" model="com.axelor.apps.hr.db.ProbationPeriod">
+        <view type="grid" name="probation-period-grid"/>
+        <view type="form" name="probation-period-form"/>
+    </action-view>
+
+	<menuitem name="all-employment-amendment" parent="hr-root-emp-mgt" title="Amendment" action="employment.amendment.all"/>	
+	<action-view name="employment.amendment.all" title="Amendment" model="com.axelor.apps.hr.db.EmploymentAmendment">
+		<view type="grid" name="employment-amendment-grid"/>
+		<view type="form" name="employment-amendment-form"/>
+	</action-view>
 
 </object-views>

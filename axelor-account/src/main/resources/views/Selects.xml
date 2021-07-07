@@ -331,29 +331,29 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="account.sequence.generic.code.select">
-		<option value="move">Move</option>
-		<option value="invoice">Invoice</option>
-		<option value="paymentSchedule">Payment schedule</option>
-		<option value="paymentVoucher">Payment voucher</option>
-		<option value="debit">Direct debit</option>
-		<option value="accountingReport">Accounting reports</option>
-		<option value="reimbursement">Reimbursements</option>
-		<option value="paymentVoucherReceiptNo">Receipt N°(Payment voucher)</option>
-		<option value="accountClearance">Overpayment clearance</option>
-		<option value="irrecoverable">Shift to irrecoverable</option>
-		<option value="chequeReject">Cheque reject</option>
-		<option value="saleInterface">Sale interface</option>
-		<option value="refundInterface">Refund interface</option>
-		<option value="treasuryInterface">Treasury interface</option>
-		<option value="purchaseInterface">Purchase interface</option>
-		<option value="moveLineExport">Accounting export</option>
-		<option value="analyticReport">Analytic report</option>
-		<option value="reconcile">Reconcile</option>
-		<option value="reconcileGroupDraft">Reconcile Group (Draft)</option>
-		<option value="reconcileGroupFinal">Reconcile Group (Final)</option>
-		<option value="depositSlip">Deposit slip</option>
-		<option value="subrogationRelease">Subrogation release</option>
-		<option value="partnerAccount">Partner account</option>
+		<option value="move" order="95">Move</option>
+		<option value="invoice" order="75">Invoice</option>
+		<option value="paymentSchedule" order="120">Payment schedule</option>
+		<option value="paymentVoucher" order="125">Payment voucher</option>
+		<option value="debit" order="45">Direct debit</option>
+		<option value="accountingReport" order="10">Accounting reports</option>
+		<option value="reimbursement" order="210">Reimbursements</option>
+		<option value="paymentVoucherReceiptNo" order="180">Receipt N°(Payment voucher)</option>
+		<option value="accountClearance" order="105">Overpayment clearance</option>
+		<option value="irrecoverable" order="225">Shift to irrecoverable</option>
+		<option value="chequeReject" order="25">Cheque reject</option>
+		<option value="saleInterface" order="215">Sale interface</option>
+		<option value="refundInterface" order="205">Refund interface</option>
+		<option value="treasuryInterface" order="245">Treasury interface</option>
+		<option value="purchaseInterface" order="150">Purchase interface</option>
+		<option value="moveLineExport" order="5">Accounting export</option>
+		<option value="analyticReport" order="15">Analytic report</option>
+		<option value="reconcile" order="190">Reconcile</option>
+		<option value="reconcileGroupDraft" order="195">Reconcile Group (Draft)</option>
+		<option value="reconcileGroupFinal" order="200">Reconcile Group (Final)</option>
+		<option value="depositSlip" order="40">Deposit slip</option>
+		<option value="subrogationRelease" order="230">Subrogation release</option>
+		<option value="partnerAccount" order="115">Partner account</option>
 	</selection>
 
 	<selection name="account.notification.item.type.select">

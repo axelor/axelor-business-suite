@@ -27,7 +27,7 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="cash.management.sequence.generic.code.select">
-		<option value="forecastRecap">Forecast Recap</option>
+		<option value="forecastRecap" order="60">Forecast Recap</option>
 	</selection>
   
 	<selection name="forecast.recap.report.type.select">

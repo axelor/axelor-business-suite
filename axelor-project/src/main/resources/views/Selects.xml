@@ -43,7 +43,7 @@
 	</selection>
 
 	<selection name="sequence.generic.code.select" id="project.sequence.generic.code.select">
-		<option value="project">Project</option>
+		<option value="project" order="145">Project</option>
 	</selection>
 
 </object-views>

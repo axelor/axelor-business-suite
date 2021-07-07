@@ -61,7 +61,7 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="sale.sequence.generic.code.select">
-		<option value="saleOrder">Sales order</option>
+		<option value="saleOrder" order="220">Sales order</option>
 	</selection>
 	
 	<selection name="sale.order.fill.saleman.select">

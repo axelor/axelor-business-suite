@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+    <module name="human-resource" package="com.axelor.apps.hr.db" />
+
+    <entity name="EmploymentAmendment" lang="java" >
+    	<string name="ref" title="Ref."/>        
+        <many-to-one name="employee" ref="com.axelor.apps.hr.db.Employee" title="Employee"/>
+        <many-to-one name="payCompany" ref="com.axelor.apps.base.db.Company" title="Pay Company" required="true"/>
+        <integer name="employmentContractVersion" title="Amendment" default="0"/>
+        <date name="amendmentDate" title="Amendment Date"/>
+        <integer name="status" title="Status" selection="hr.employment.contract.status"/>
+        <many-to-many name="amendmentTypeSet" ref="com.axelor.apps.hr.db.EmploymentAmendmentType" title="Amendment types" />
+        <date name="startDate" title="EmploymentAmendment.startDate"/>
+        <date name="endDate" title="End date"/>
+        <time name="startTime" title="Start time"/>
+        <string name="duration" title="Duration"/>
+        <string name="trialPeriodDuration" title="Trial period duration"/>
+        <string name="position" title="Position"/>
+        <string name="coefficient" title="Coefficient"/>
+        <decimal name="weeklyDuration" title="Weekly duration"/>
+        <decimal name="hourlyGrossSalary" title="Hourly gross salary"/>
+        <string name="endContractDetails" title="Details"/>
+        <many-to-one name="endOfContractReason" ref="com.axelor.apps.hr.db.EndOfContractReason" title="End of contract reason"/>
+        <date name="signatureDate" title="Signature date"/>
+        <string name="hoursDistribution" title="Hours distribution" large="true"/>
+        <integer name="executiveStatusSelect" selection="hr.employment.contract.executiveStatus.select" title="Executive status"/>
+        <decimal name="minMonthlyRemuneration" title="Min monthly remuneration"/>
+        <many-to-one name="employmentContractTemplate" ref="com.axelor.apps.hr.db.EmploymentContractTemplate" title="Employment contract template" />
+        <string name="employment" title="Employment"/>
+		<decimal name="annualGrossSalary" title="Annual gross salary"/>
+		<decimal name="monthlyGlobalCost" title="Monthly global cost"/>
+		<many-to-many name="otherCostsEmployeeSet" title="Others" ref="com.axelor.apps.hr.db.OtherCostsEmployee"/>
+		<string name="replacementReason" title="Reason for Replacement" selection="hr.employment.contract.replacement.reason.select" />
+        <string name="timeReason" title="Reason for increase in activity" />        
+        <many-to-one name="replacedEmployee" title="Replaced Employee" ref="com.axelor.apps.hr.db.Employee" />
+        <many-to-one name="leaveReason" ref="com.axelor.apps.hr.db.LeaveReason" title="Leave Reason"/>   
+        <many-to-one name="trialPeriod" title="Trial period duration" ref="com.axelor.apps.hr.db.ProbationPeriod"/>
+        <many-to-one name="seniorityDuration" title="Seniority" ref="com.axelor.apps.base.db.Duration"/>  
+        <many-to-one name="qualification" title="Qualification" ref="com.axelor.apps.hr.db.Qualification"/>
+        <many-to-one name="qualificationLevel" title="Qualification Level" ref="com.axelor.apps.hr.db.QualificationLevel"/>       
+        <many-to-one name="payGrid" title="Pay Grid" ref="com.axelor.apps.hr.db.PayGrid" />
+        <many-to-one name="collectiveAgreement" ref="com.axelor.apps.hr.db.CollectiveAgreement" title="Collective agreement"/>
+        <boolean name="partTime" title="Part Time" />
+        <decimal name="defMonthlyGrossSalary" title="Definitive monthly gross salary" />
+        <many-to-one name="employments" title="EmploymentAmendment.Employments" ref="com.axelor.apps.hr.db.Employment" />   
+        <boolean name="isDefMonthlyGrossSalaryUpdated" title="Definitive monthly gross salary updated"/>
+        <boolean name="overBudget" title="Over budget"/>
+        <string name="contractNumber" title="Contract Number"/>
+        <decimal name="monthlyDuration" title="Monthly Duration"/>
+        <date name="creationDate" title="Creation date"/>
+        <integer name="signatureStatus" title="Signature Status" selection="hr.employment.contract.signature.status.select"/>
+        <many-to-one name="originalContract" title="Original Contract" ref="com.axelor.apps.hr.db.EmploymentContract"/>
+        <many-to-one name="site" title="Company Site" ref="com.axelor.apps.hr.db.Site"/>
+        <boolean name="temporary" title="Temporary"/>
+        <many-to-one name="analyticCode" title="Analytic code" ref="com.axelor.apps.hr.db.AnalyticCode"/>        
+        <date name="terminationDate" title="Termination date"/>
+        <string name="employmentAmendmentReference" title="Reference"/>
+        <string name="fullName" namecolumn="true">
+            <![CDATA[
+            String fullName = "";	  		
+
+	  		if (employee != null) {
+	  		    fullName += employee.getName();
+	  		}
+	  		if (startDate != null) {
+	  		    fullName += (fullName.isEmpty()?"":"-")+startDate.toString();
+	  		}
+	  		if (endDate != null) {
+	  		    fullName += (fullName.isEmpty()?"":"-")+endDate.toString();
+	  		}
+	  		return fullName;
+	  	]]>
+        </string>
+        <date name="initialEndDate" title="Initial end date"/>
+        <date name="extensionEndDate" title="Extension until" />
+        <many-to-many name="weeklyPlanning" title="EmploymentContract.weeklyPlanning" ref="com.axelor.apps.base.db.WeeklyPlanning"/> 
+        <boolean name="probationaryPeriod" title="Probationary period"/>
+        <string name="probationDuration" title="Probation duration"/>
+        <date name="fromDate" title="From date"/>
+        <date name="toDate" title="To date"/>       
+
+        <extra-code><![CDATA[
+
+            // EXECUTIVE STATUS SELECT
+            public static final int EXECUTIVE_STATUS_EXECUTIVE = 1;
+            public static final int EXECUTIVE_STATUS_NON_EXECUTIVE = 2;
+
+            // STATUS SELECT
+            public static final int STATUS_IN_TRIAL = 1;
+            public static final int STATUS_ACTIVE = 2;
+            public static final int STATUS_CLOSED = 3;
+            public static final int STATUS_VALIDATED = 4;
+        ]]>
+        </extra-code>
+        
+    </entity>
+
+</domain-models>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+  <module name="human-resource" package="com.axelor.apps.hr.db"/>
+
+  <entity name="PayGrid" lang="java" cacheable="true">  
+  
+	<many-to-one name="collectiveAgreement" title="Collective agreement" ref="com.axelor.apps.hr.db.CollectiveAgreement"/>
+	<many-to-one name="qualification" title="Qualification" ref="com.axelor.apps.hr.db.Qualification"/>
+	<many-to-one name="qualificationLevel" title="Qualification Level" ref="com.axelor.apps.hr.db.QualificationLevel"/>
+	<decimal name="convMonthlyRate" title="Conventional Monthly Rate" />
+	<decimal name="convHourlyRate" title="Conventional Hourly Rate" />
+	<decimal name="hourlyComplement" title="Hourly complement" />
+	
+  </entity>
+  
+</domain-models>

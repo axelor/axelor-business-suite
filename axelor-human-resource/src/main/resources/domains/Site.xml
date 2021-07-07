@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+  <module name="human-resource" package="com.axelor.apps.hr.db"/>
+
+  <entity name="Site" lang="java">
+  	<string name="name" title="Name"/>
+  	<many-to-one name="company" ref="com.axelor.apps.base.db.Company" />
+  	<string name="workArea" title="Work area"/>
+  	<many-to-one name="urssafCompany" title="Urssaf company" ref="com.axelor.apps.hr.db.UrssafCompany"/>
+  	<string name="registrationCode" title="Registration code"/>
+  	<string name="healthService" title="Health service"/>
+	<many-to-one name="healthServiceAddress" title="Health service address" ref="com.axelor.apps.base.db.Address"/>
+  </entity>
+
+</domain-models>

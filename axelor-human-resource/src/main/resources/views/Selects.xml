@@ -168,8 +168,9 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="hr.sequence.generic.code.select">
-		<option value="expense">Expense</option>
-		<option value="employmentContract">Employment contract</option>
+		<option value="expense" order="55">Expense</option>
+		<option value="employmentContract" order="50">Employment contract</option>
+		<option value="employmentAmendment" order="49">Employment amendment</option>
 	</selection>
 	
 	<selection id="hr.object.data.config.model.select" name="object.data.config.model.select">
@@ -203,5 +204,25 @@
 		<option value='reminder'>Reminder</option>
 		<option value="leaveManagement">Leave management</option>
 	</selection>
+	
+	<selection name="hr.employment.contract.replacement.reason.select">
+		<option value="full">Full</option>
+		<option value="partial">Partial</option>
+	</selection>
+	
+	<selection name="hr.employment.contract.signature.status.select">
+      <option value="1">Non Signed</option>
+      <option value="2">Manually Signed</option>
+      <option value="3">Signed with Docusign</option>
+    </selection>
+    
+    <selection name="hr.employment.amendment.type.type.select">
+        <option value="1">Early termination</option>
+        <option value="2">EmploymentAmendmentType.endDate</option>
+        <option value="3">Contract extension</option>
+        <option value="4">Change of position</option>
+        <option value="5">Working time modification</option>
+        <option value="6">Salary change</option>        
+    </selection>
 
 </object-views>

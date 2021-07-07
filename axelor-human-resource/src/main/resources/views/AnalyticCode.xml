@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+	<grid model="com.axelor.apps.hr.db.AnalyticCode" title="Analytic code" name="analytic-code-grid">
+		<field name="company" width="250"/>
+		<field name="activity" width="150"/>
+		<field name="companyService" width="150"/>
+		<field name="analyticValue" width="150"/>
+	</grid>
+
+	<form name="analytic-code-form" title="Analytic code" model="com.axelor.apps.hr.db.AnalyticCode" onSave="action-validate-analytic-code-on-save">
+		<panel name="mainPanel">
+			<field name="company" target-name="analyticPart" form-view="company-form" grid-view="company-grid" colSpan="4" onChange="action-analytic-code-record-compute-analytic-value" required="true"/>
+			<field name="activity" target-name="code" form-view="activity-form" grid-view="activity-grid" colSpan="4" onChange="action-analytic-code-record-compute-analytic-value" required="true"/>
+			<field name="companyService" target-name="code" form-view="company-department-form" grid-view="company-department-grid" colSpan="4" onChange="action-analytic-code-record-compute-analytic-value" required="true"/>
+			<field name="analyticValue" readonly="true"/>
+		</panel>
+	</form>
+	
+	<action-validate name="action-validate-analytic-code-on-save">
+  		<error if="(__this__?.id == null &amp;&amp; __repo__(AnalyticCode).all().filter('analyticValue = ?1',analyticValue).fetchOne() != null) || (__this__?.id != null &amp;&amp; (__repo__(AnalyticCode).all().filter('analyticValue = ?1',analyticValue).fetchOne() != null &amp;&amp; __repo__(AnalyticCode).all().filter('analyticValue = ?1',analyticValue).fetchOne() != __this__))" message="the analytical code already exists"/>
+	</action-validate>
+	
+	<action-record name="action-analytic-code-record-compute-analytic-value" model="com.axelor.apps.hr.db.AnalyticCode">
+       <field name="analyticValue" expr="eval: '' + (company?.analyticPart ?: '') + (activity?.code ?: '') + (companyService?.code ?: '')"/>       
+    </action-record>
+	
+</object-views>

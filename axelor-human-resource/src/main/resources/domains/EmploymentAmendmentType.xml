@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+    <module name="human-resource" package="com.axelor.apps.hr.db" />
+
+    <entity name="EmploymentAmendmentType" lang="java">
+       	<integer name="typeSelect" title="Type" selection="hr.employment.amendment.type.type.select"/>
+    	<string name="name" title="EmploymentAmendmentType.name"/>
+        <many-to-many name="contractTypeSet" title="Contract type" ref="com.axelor.apps.hr.db.EmploymentContractType"/>
+        <many-to-many name="companySet" title="EmploymentAmendmentType.companies" ref="com.axelor.apps.base.db.Company"/>
+        <boolean name="allCompanies" title="All companies"/>
+        <many-to-many name="employmentContractSubTypeSet" title="Contract sub type" ref="com.axelor.apps.hr.db.EmploymentContractSubType"/>
+        
+        <extra-code><![CDATA[
+	
+	   	//TYPE SELECT
+	   	public static final int TYPE_EARLY_TERMINATION = 1;
+	   	public static final int TYPE_END_DATE = 2;
+	   	public static final int TYPE_CONTRACT_EXTENSION = 3;
+	   	public static final int TYPE_CHANGE_OF_POSITION = 4;
+	   	public static final int TYPE_WORKING_TIME_MODIFICATION = 5;
+	   	public static final int TYPE_SALARY_CHANGE = 6;  	
+	   	
+	    ]]></extra-code>
+    </entity>
+
+</domain-models>

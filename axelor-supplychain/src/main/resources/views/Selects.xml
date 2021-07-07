@@ -97,7 +97,7 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="supplychain.sequence.generic.code.select">
-		<option value="mrp">MRP</option>
+		<option value="mrp" order="85">MRP</option>
 	</selection>	
 	
 	<selection name="supplychain.estimated.date.select">

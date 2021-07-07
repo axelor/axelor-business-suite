@@ -12,6 +12,7 @@
         //SEQUENCE SELECT
   		public static final String EXPENSE = "expense";
   		public static final String EMPLOYMENT_CONTRACT = "employmentContract";
+  		public static final String EMPLOYMENT_AMENDMENT = "employmentAmendment";
         
      ]]></extra-code>
     

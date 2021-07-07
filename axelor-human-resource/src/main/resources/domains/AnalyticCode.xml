@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+	<module name="human-resource" package="com.axelor.apps.hr.db" />
+	<entity name="AnalyticCode" lang="java">
+		<many-to-one name="company" ref="com.axelor.apps.base.db.Company" title="Company"/>
+		<many-to-one name="companyService" ref="com.axelor.apps.base.db.CompanyDepartment" title="AnalyticCode.companyService" />
+		<many-to-one name="activity" ref="com.axelor.apps.hr.db.Activity" title="Activity"/>
+		<string name="analyticValue" title="Analytic code" namecolumn="true" search="company,companyService,activity"/>	
+  	</entity>
+</domain-models>

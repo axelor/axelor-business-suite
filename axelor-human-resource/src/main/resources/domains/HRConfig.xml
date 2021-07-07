@@ -73,7 +73,12 @@
     <boolean name="enableDPAE" title="Enable DPAE" default="false"/>
     <string name="healthService" title="Health service"/>
     <many-to-one name="healthServiceAddress" title="Health service address" ref="com.axelor.apps.base.db.Address"/>
-
+    
+    <!-- EMPLOYMENT AMENDMENT -->
+	<many-to-one name="validationDemandAmendmentTemplate" title="Validation demand amendment template" ref="com.axelor.apps.message.db.Template"/>
+	<many-to-one name="overBudgetAmendmentTemplate" title="Over budget amendment template" ref="com.axelor.apps.message.db.Template"/>
+	<many-to-one name="validationDenialAmendmentTemplate" title="Validation denial amendment template" ref="com.axelor.apps.message.db.Template"/>
+	
   	 <track>
   	    <field name="company" on="UPDATE"/>
 	    <field name="kilometricExpenseProduct" on="UPDATE"/>

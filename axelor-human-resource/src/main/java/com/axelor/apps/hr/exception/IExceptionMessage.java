@@ -222,4 +222,7 @@ public interface IExceptionMessage {
 
   static final String NO_TIMESHEET_FOUND_FOR_EMPLOYEE = /*$$(*/
       "No time sheet found for employee %s" /*)*/;
+
+  static final String EMPLOYMENT_AMENDMENT_NO_SEQUENCE = /*$$(*/
+      "Please, configure a sequence for the employment amendment" /*)*/;
 }

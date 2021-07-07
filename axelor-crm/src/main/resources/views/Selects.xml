@@ -148,7 +148,7 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="crm.sequence.generic.code.select">
-		<option value="opportunity">Opportunity</option>
+		<option value="opportunity" order="100">Opportunity</option>
 	</selection>
 
 </object-views>

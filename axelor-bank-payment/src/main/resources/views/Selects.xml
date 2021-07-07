@@ -225,7 +225,7 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="bankpayment.sequence.generic.code.select">
-		<option value="bankOrder">Bank order</option>
+		<option value="bankOrder" order="20">Bank order</option>
 	</selection>
 	
 	<selection name="meta.schedule.batch.service.select" id="bank.payment.meta.schedule.batch.service.select">

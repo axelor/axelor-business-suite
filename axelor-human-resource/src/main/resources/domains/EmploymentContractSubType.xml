@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+	<module name="human-resource" package="com.axelor.apps.hr.db"/>
+
+	<entity name="EmploymentContractSubType" lang="java">
+
+	   <string name="code" title="Code" namecolumn="true"/>
+	   <string name="description" title="EmploymentContractSubType.description" large="true" namecolumn="true"/>
+	   	
+   	</entity>
+
+</domain-models>

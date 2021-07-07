@@ -6,7 +6,10 @@
     <module name="human-resource" package="com.axelor.apps.hr.db"/>
 
     <entity name="EmploymentContractType" lang="java">
-    	<string name="name" title="Name" required="true" />
+    	<string name="name" title="EmploymentContractType.name" required="true" />
+    	<string name="description" title="EmploymentContractType.description"/>
+    	<boolean name="isNoLongerUsed" title="No longer used" default="false"/>
+    	<one-to-many name="employmentContractSubTypeList" ref="com.axelor.apps.hr.db.EmploymentContractSubType" title="Contract sub type"/>
     </entity>
 
 </domain-models>

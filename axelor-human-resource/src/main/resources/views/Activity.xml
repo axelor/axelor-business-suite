@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+	<grid name="activity-grid" title="Activity" model="com.axelor.apps.hr.db.Activity" orderBy="code">
+		<field name="code" width="150"/>
+		<field name="name"/>
+	</grid>
+
+	<form name="activity-form" title="Activity" model="com.axelor.apps.hr.db.Activity">
+		<panel name="mainPanel">
+			<field name="code"/>
+			<field name="name"/>
+		</panel>
+	</form>
+</object-views>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+  <module name="human-resource" package="com.axelor.apps.hr.db"/>
+
+  <entity name="UrssafCompany">
+  	<string name="name" title="Name"/>
+  	<many-to-one name="address" title="Address" ref="com.axelor.apps.base.db.Address"/>
+  	<one-to-many name="siteList" title="Sites" ref="com.axelor.apps.hr.db.Site" mappedBy="urssafCompany"/>
+  	<one-to-one name="emailAddress" ref="com.axelor.apps.message.db.EmailAddress" title="Email address"/>
+  	<string name="dpaeId" title="DpaeID"/>
+  </entity>
+
+</domain-models>

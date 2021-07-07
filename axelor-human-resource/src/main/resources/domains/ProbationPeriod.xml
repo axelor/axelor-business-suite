@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+  <module name="human-resource" package="com.axelor.apps.hr.db"/>
+
+  <entity name="ProbationPeriod" lang="java" cacheable="true">  
+  
+	<many-to-many name="collectiveAgreementSet" title="Collective agreements" ref="com.axelor.apps.hr.db.CollectiveAgreement"/>
+	<many-to-one name="contractType" title="Contract type" ref="com.axelor.apps.hr.db.EmploymentContractType"/>    
+    <many-to-many name="qualificationSet" title="Qualifications" ref="com.axelor.apps.hr.db.Qualification" />	
+    <boolean name="isPreviouslyHired" title="Previously hired"/>    
+    <many-to-one name="probationPeriodDuration" title="Probation period duration" ref="com.axelor.apps.base.db.Duration"/>
+    <string name="comments" title="Comments" large="true"/>
+    <many-to-one name="contractSubType" title="Contract sub type" ref="com.axelor.apps.hr.db.EmploymentContractSubType"/>
+    <many-to-one name="minimumDuration" title="ProbationPeriod.minimumDuration" ref="com.axelor.apps.base.db.Duration"/>
+    <many-to-one name="maximumDuration" title="ProbationPeriod.maximumDuration" ref="com.axelor.apps.base.db.Duration"/>
+    <string name="name" title="Name" namecolumn="true">    
+    <![CDATA[
+    	String name = "";
+    	if (probationPeriodDuration != null && probationPeriodDuration.getName() != null){
+    		name += probationPeriodDuration.getName();
+    	}    	
+    	return name;
+	    ]]>
+    </string>
+    
+  </entity>
+  
+</domain-models>

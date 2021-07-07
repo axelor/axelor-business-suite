@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+	<module name="human-resource" package="com.axelor.apps.hr.db" />
+
+	<entity name="CollectiveAgreement" lang="java" cacheable="true">
+
+		<string name="code" />
+		<string name="name" translatable="true" />
+		<string name="fullName" namecolumn="true">
+	<![CDATA[                  
+	        String fullName = "";
+            if(code != null) fullName = code;
+            if(name != null) fullName += (fullName.isEmpty()?"":" - ") + name;
+            return fullName;
+              ]]>
+		</string>
+		<integer name="weeklyWorkDuration" title="Weekly work duration"/>
+	</entity>
+
+</domain-models>

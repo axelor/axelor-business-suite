@@ -1,3 +1,4 @@
 "importId";"code";"name";"nextNum";"padding";"prefixe";"suffixe";"toBeAdded";"yearlyResetOk"
 207;"expense";"Expense N°";1;4;"EXP%YY%FM";;1;1
 208;"employmentContract";"Employment Contract";1;4;"EMPCONTRACT";;1;1
+209;"employmentAmendment";"Employment Amendment";1;4;"EXP%YY%FM";;1;1

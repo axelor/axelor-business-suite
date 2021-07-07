@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.2.xsd">
+
+	<module name="human-resource" package="com.axelor.apps.hr.db" />
+
+	<entity name="Qualification" lang="java" cacheable="true">
+
+		<string name="code" />
+		<string name="name" />
+		<string name="fullName" namecolumn="true">
+	<![CDATA[                  
+	        String fullName = "";
+            if(code != null) fullName = code;
+            if(name != null) fullName += (fullName.isEmpty()?"":" - ") + name;
+            return fullName;
+              ]]>
+		</string>
+		<one-to-many name="qualificationLevelList" title="Qualification Level" ref="com.axelor.apps.hr.db.QualificationLevel" mappedBy="qualification"/>
+        <many-to-one name="collectiveAgreement" title="Collective agreement" ref="com.axelor.apps.hr.db.CollectiveAgreement"/>
+        <integer name="executiveStatusSelect" title="Executive status" selection="hr.employment.contract.executiveStatus.select"/>
+	</entity>
+
+</domain-models>

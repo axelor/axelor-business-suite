@@ -45,6 +45,10 @@ import com.axelor.apps.hr.db.repo.TimesheetLineRepository;
 import com.axelor.apps.hr.db.repo.TimesheetRepository;
 import com.axelor.apps.hr.db.repo.TimesheetTimerHRRepository;
 import com.axelor.apps.hr.db.repo.UserHRRepository;
+import com.axelor.apps.hr.service.EmploymentAmendmentService;
+import com.axelor.apps.hr.service.EmploymentAmendmentServiceImpl;
+import com.axelor.apps.hr.service.EmploymentAmendmentTypeService;
+import com.axelor.apps.hr.service.EmploymentAmendmentTypeServiceImpl;
 import com.axelor.apps.hr.service.app.AppHumanResourceService;
 import com.axelor.apps.hr.service.app.AppHumanResourceServiceImpl;
 import com.axelor.apps.hr.service.app.AppTimesheetService;
@@ -123,5 +127,7 @@ public class HumanResourceModule extends AxelorModule {
     bind(TimesheetReportService.class).to(TimesheetReportServiceImpl.class);
     bind(EmploymentContractRepository.class).to(EmploymentContractHRRepository.class);
     bind(AppTimesheetService.class).to(AppTimesheetServiceImpl.class);
+    bind(EmploymentAmendmentService.class).to(EmploymentAmendmentServiceImpl.class);
+    bind(EmploymentAmendmentTypeService.class).to(EmploymentAmendmentTypeServiceImpl.class);
   }
 }

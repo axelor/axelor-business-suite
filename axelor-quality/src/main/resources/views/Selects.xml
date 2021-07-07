@@ -36,8 +36,8 @@
 	</selection>
 	
 	<selection name="sequence.generic.code.select" id="quality.sequence.generic.code.select">
-		<option value="qualityAlert">Quality alert</option>
-		<option value="qualityControl">Quality control</option>
+		<option value="qualityAlert" order="165">Quality alert</option>
+		<option value="qualityControl" order="170">Quality control</option>
 	</selection>
 	
 	<selection name="team.type.select" id="quality.team.type.select">

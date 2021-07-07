@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+	<grid name="employment-amendment-grid" title="Amendments" model="com.axelor.apps.hr.db.EmploymentAmendment" canNew="false">
+	 <field name="employee"/>	 
+	 <field name="payCompany" form-view="company-form" grid-view="company-grid"/>
+	 <field name="collectiveAgreement" form-view="collective-agreement-form" grid-view="collective-agreement-grid"/>
+     <field name="employments" form-view="employment-form" grid-view="employment-grid"/>
+     <field name="startDate"/>
+     <field name="status"/>
+	</grid>
+	
+	<grid name="employment-amendment-employment-contract-grid" title="Amendments" model="com.axelor.apps.hr.db.EmploymentAmendment">
+	 <field name="employee"/>	 
+	 <field name="payCompany" form-view="company-form" grid-view="company-grid"/>
+	 <field name="collectiveAgreement" form-view="collective-agreement-form" grid-view="collective-agreement-grid"/>
+     <field name="employments" form-view="employment-form" grid-view="employment-grid"/>
+     <field name="startDate"/>
+     <field name="status"/>
+	</grid>
+
+	<form name="employment-amendment-form" title="Amendment" model="com.axelor.apps.hr.db.EmploymentAmendment" onLoad="action-employment-amendment-record-fill-hidden-boolean-types,action-employment-amendment-attrs-set-probationary-period,action-employment-amendment-attrs-empty-fields" canNew="false">
+	  <menubar>
+	    <menu title="Tools" showTitle="true" icon="fa-wrench">	      
+	      <item title="Print contract" action="save,action-print-template-method-open-print"/>
+          <item title="Create DocuSign envelope" action="save,action-docusign-envelope-method-create-envelope" showIf="status == 4"/>
+	    </menu>
+	  </menubar>
+	  
+	  <panel name="statusPanel" title="Status" showTitle="false" >
+	    <field name="status" showTitle="false" colSpan="6" widget="NavSelect" readonly="true"/>
+	  </panel>
+	  
+	  <panel name="actionsPanel" sidebar="true">
+         <button name="activeBtn" title="EmploymentAmmendment.Active" showIf="status == 1 &amp;&amp; ($hasPayRole || $hasAdminValvitalRole)" onClick="action-employment-amendment-record-active,save,action-employment-amendment-method-send-email-on-active"/>
+         <button name="validateBtn" title="Validate" showIf="status == 2 &amp;&amp; ($hasControlerRole || (($hasPayRole || $hasAdminValvitalRole) &amp;&amp; !overBudget))" onClick="action-employment-amendment-record-validate,save"/>
+         <button name="overBudgetEmailBtn" title="Validate" showIf="status == 2 &amp;&amp; (($hasPayRole || $hasAdminValvitalRole) &amp;&amp; overBudget)" onClick="action-employment-amendment-record-validate,save,action-employment-amendment-method-send-email-on-validate" css="btn-success"/>
+         <button name="refuseBtn" title="Refuse" css="btn-danger" icon="fa-times" showIf="status == 2 &amp;&amp; ($hasControlerRole || $hasPayRole || $hasAdminValvitalRole)" onClick="action-employment-amendment-record-refuse,save,action-employment-amendment-method-send-email-on-refuse"/>
+         <button name="closeBtn" title="EmploymentAmmendment.Closed" onClick="action-employment-amendment-record-close,save" showIf="employee.contactPartner.emailAddress &amp;&amp; !$hasControlerRole &amp;&amp; status != 3"/>
+         <field name="$hasControlerRole" type="boolean" hidden="true"/>
+         <field name="$hasPayRole" type="boolean" hidden="true"/>
+         <field name="$hasAdminValvitalRole" type="boolean" hidden="true"/>
+         <field name="employee.contactPartner.emailAddress" hidden="true"/>
+      </panel>
+	  
+	  <panel name="generalDetailsPanel" sidebar="true">
+	    <field name="contractNumber" colSpan="6" readonly="true"/>
+        <field name="employee" hideIf="$popup()" colSpan="6" readonly="true"/>
+        <field name="employee.matricule" colSpan="6"/>
+        <field name="payCompany" colSpan="6" onChange="action-employment-amendment-group-weekly-and-monthly-duration-default" readonly="true"/>
+        <field name="site" colSpan="6" readonly="true"/>
+        <field name="collectiveAgreement" colSpan="6" onChange="action-employment-amendment-group-change-pay-grid,action-employment-amendment-group-weekly-and-monthly-duration-default" readonly="true"/>
+        <field name="creationDate" colSpan="6" readonly="true"/>
+        <panel name="originalContractPanel" title="Initial contract" colSpan="12" readonly="true">
+          <field name="originalContract" hideIf="$popup()" colSpan="6" />
+          <field name="creationDate" colSpan="6" />
+          <field name="originalContract.signatureDate" colSpan="6" />
+	      <field name="originalContract.signatureStatus" colSpan="6" />         
+          <field name="originalContract.contractType" hidden="true"/>          
+        </panel>
+        <field name="overBudget" colSpan="6" readonly="true"/>
+        <field name="probationaryPeriod" colSpan="6"/>        
+	  </panel>
+	  
+	  <panel name="mainPanel" colSpan="12">
+	    <field name="employmentAmendmentReference" showTitle="false" readonly="true" colSpan="12">
+	      <viewer depends="employmentAmendmentReference"><![CDATA[
+			<h3>
+				{{record.employmentAmendmentReference}}
+			</h3>
+	      ]]></viewer>
+	    </field>
+	    <field name="amendmentTypeSet" widget="TagSelect" canNew="false" onSelect="action-employment-amendment-attrs-set-domain-amendment-type-set" onChange="action-employment-amendment-record-fill-hidden-boolean-types,action-employment-amendment-record-initial-end-date-init,action-employment-amendment-attrs-set-probationary-period,action-employment-amendment-attrs-empty-fields"/>	    
+	    
+	    <field name="$isEarlyTermination" type="boolean" hidden="true"/>
+	    <field name="$isEndDate" type="boolean" hidden="true"/>
+	    <field name="$isContractExtension" type="boolean" hidden="true"/>
+	    <field name="$isChangeOfPosition" type="boolean" hidden="true"/>
+	    <field name="$isWorkingTimeModification" type="boolean" hidden="true"/>
+	    <field name="$isSalaryChange" type="boolean" hidden="true"/>
+	    
+	    <panel name="earlyTerminationPanel" title="Early termination" colSpan="12" showIf="$isEarlyTermination">
+	       <field name="terminationDate"/>
+	    </panel>
+	    
+	    <panel name="contractExtensionPanel" title="Contract extension" colSpan="12" showIf="$isContractExtension">
+	       <field name="initialEndDate"/>
+	       <field name="extensionEndDate" onChange="action-employment-amendment-validate-extension-end-date-onchange"/>
+	    </panel>
+	    
+	    <panel name="contractDatesPanel" title="Contract dates" colSpan="12" hideIf="amendmentTypeSet == null || $isEarlyTermination">
+	         <field name="temporary" colSpan="3"/>
+	         <spacer colSpan="9"/>
+	         <field name="startDate" title="Contract start date" colSpan="3"/>
+	         <field name="endDate" title="Contract end date" showIf="originalContract.contractType.name != 'CDI' &amp;&amp; temporary" colSpan="3"/>
+	         <field name="seniorityDuration" showIf="originalContract.contractType.name == 'CDI'" colSpan="3"/>
+	         <spacer colSpan="3"/>	         
+	    </panel>
+	    	  
+	    <panel name="probationaryPeriodPanel" title="Probationary period" showIf="probationaryPeriod" colSpan="12">
+	         <field name="probationDuration" colSpan="4"/>
+	         <field name="fromDate" colSpan="4"/>
+	         <field name="toDate" colSpan="4"/>
+	    </panel>
+	    
+	    <panel name="changeOfPositionPanel" title="Change of position" colSpan="12" showIf="$isChangeOfPosition">	       
+	         <field name="employments" title="Employment" colSpan="4" domain="self.collectiveAgreement = :collectiveAgreement AND ((:payCompany member of self.companySet) OR (self.isAllCompanies = true))" onChange="action-employment-amendment-record-employments-on-change"/>	         
+	         <field name="qualification" colSpan="4" readonlyIf="!employments" form-view="qualification-form" grid-view="qualification-grid" domain="self IN (SELECT qual from Employment emp INNER JOIN emp.qualificationSet qual WHERE emp = :employments)" onChange="action-employment-amendment-group-qualification-on-change"/>
+		     <field name="qualificationLevel" colSpan="4" readonlyIf="!qualification" form-view="qualification-level-form" grid-view="qualification-level-grid" domain="self.qualification = :qualification AND self IN (SELECT qualLevel from Employment emp INNER JOIN emp.qualificationLevelSet qualLevel WHERE emp = :employments)"
+			        onChange="action-employment-amendment-group-change-pay-grid"/>
+	         <field name="payGrid.convHourlyRate" colSpan="4"/>
+	         <field name="payGrid.convMonthlyRate" colSpan="4"/>
+	         <field name="payGrid.hourlyComplement" colSpan="4" showIf="payGrid.hourlyComplement != null &amp;&amp; payGrid.hourlyComplement != 0"/>
+	         <field name="payGrid" hidden="true" colSpan="4"/>	       
+	    </panel>
+	    
+	    <panel name="salaryChangePanel" title="Salary change" colSpan="12" showIf="$isChangeOfPosition || $isSalaryChange">
+	       <field name="defMonthlyGrossSalary"/>
+	       <field name="isDefMonthlyGrossSalaryUpdated" hidden="true"/>
+	    </panel>
+	    
+	    <panel name="workingTimeModificationPanel" title="Working time modification" colSpan="12" showIf="$isWorkingTimeModification">
+	       <field name="partTime" colSpan="4" onChange="action-employment-amendment-group-weekly-and-monthly-duration-default"/>
+	       <field name="weeklyDuration" title="Weekly Duration" readonlyIf="!partTime" colSpan="4" onChange="action-employment-amendment-record-compute-monthly-duration"/>
+	       <field name="monthlyDuration" colSpan="4" readonlyIf="partTime == null || partTime == false"/>	       
+	       <panel-related field="weeklyPlanning" showIf="partTime" canNew="weeklyPlanning == null || weeklyPlanning.length &lt; 4" onChange="action-employment-amendment-group-weekly-and-monthly-duration-default" canSelect="false"/>
+	    </panel>
+	    
+	    <panel name="signaturePanel" title="Signature" colSpan="12">
+		   <field name="signatureDate" colSpan="4"/>
+		   <field name="signatureStatus" colSpan="4"/>
+		</panel>
+	   </panel>
+	</form>
+		
+	<action-record name="action-employment-amendment-record-amendment-type-on-change" model="com.axelor.apps.hr.db.EmploymentAmendment">
+		<field name="contractTerms,replacementReason,replacedEmployee,leaveReason"  expr="eval: null" if="originalContract?.contractType?.name == 'CDD' "/>
+		<field name="timeReason,replacementReason,replacedEmployee,leaveReason"  expr="eval: null" if="originalContract?.contractType?.name == 'CS' "/>
+		<field name="contractTerms,timeReason"  expr="eval: null" if="originalContract?.contractType?.name == 'CDR' "/>
+		<field name="contractTerms,timeReason,replacementReason,replacedEmployee,leaveReason" expr="eval: null" if="originalContract?.contractType?.name == 'CDI'" />
+		<field name="weeklyDuration" expr="eval: 35"/>				
+	</action-record>
+    
+    <action-view name="action-employment-amendment-view" title="Amendments" model="com.axelor.apps.hr.db.EmploymentAmendment">
+    	<view type="form" name="employment-amendment-form"/>
+        <view-param name="popup" value="true"/>
+        <view-param name="show-toolbar" value="true"/>
+  		<view-param name="show-confirm" value="true" />
+    	<context name="_showRecord" expr="eval: id"/>
+    </action-view>
+	
+	<action-group name="action-employment-amendment-group-change-pay-grid">
+		<action name="action-employment-amendment-record-set-pay-grid" />
+		<action name="action-employment-amendment-record-set-def-monthly-gross-salary" />
+	</action-group>
+	
+	<action-record name="action-employment-amendment-record-set-pay-grid" model="com.axelor.apps.hr.db.EmploymentAmendment">
+		<field name="payGrid" expr="eval: __repo__(PayGrid).all().filter('self.collectiveAgreement = ?1 and self.qualification = ?2 and self.qualificationLevel = ?3',collectiveAgreement,qualification,qualificationLevel).fetchOne()" />	    
+	</action-record>	
+	
+	<action-record name="action-employment-amendment-record-set-def-monthly-gross-salary" model="com.axelor.apps.hr.db.EmploymentAmendment">
+		<field name="defMonthlyGrossSalary" expr="eval: payGrid?.convMonthlyRate " if="!isDefMonthlyGrossSalaryUpdated"/>	    
+	</action-record>
+	
+	<!-- RM#28998 -->
+	
+	<action-record name="action-employment-amendment-record-fill-hidden-boolean-types" model="com.axelor.apps.hr.db.EmploymentAmendment">
+	  <field name="$isEarlyTermination" expr="eval: null" if="eval: amendmentTypeSet == null || amendmentTypeSet?.find{it.typeSelect == 1} == null"/>
+	  <field name="$isEarlyTermination" expr="eval: true" if="eval: amendmentTypeSet != null &amp;&amp; !amendmentTypeSet.isEmpty() &amp;&amp; amendmentTypeSet?.find{it.typeSelect == 1} != null"/>
+	  <field name="$isEndDate" expr="eval: null" if="eval: amendmentTypeSet == null || amendmentTypeSet?.find{it.typeSelect == 2} == null"/>
+	  <field name="$isEndDate" expr="eval: true" if="eval: amendmentTypeSet != null &amp;&amp; !amendmentTypeSet.isEmpty() &amp;&amp; amendmentTypeSet?.find{it.typeSelect == 2} != null"/>
+	  <field name="$isContractExtension" expr="eval: null" if="eval: amendmentTypeSet == null || amendmentTypeSet?.find{it.typeSelect == 3} == null"/>
+	  <field name="$isContractExtension" expr="eval: true" if="eval: amendmentTypeSet != null &amp;&amp; !amendmentTypeSet.isEmpty() &amp;&amp; amendmentTypeSet?.find{it.typeSelect == 3} != null"/>
+	  <field name="$isChangeOfPosition" expr="eval: null" if="eval: amendmentTypeSet == null || amendmentTypeSet?.find{it.typeSelect == 4} == null"/>
+	  <field name="$isChangeOfPosition" expr="eval: true" if="eval: amendmentTypeSet != null &amp;&amp; !amendmentTypeSet.isEmpty() &amp;&amp; amendmentTypeSet?.find{it.typeSelect == 4} != null"/>
+	  <field name="$isWorkingTimeModification" expr="eval: null" if="eval: amendmentTypeSet == null || amendmentTypeSet?.find{it.typeSelect == 5} == null"/>
+	  <field name="$isWorkingTimeModification" expr="eval: true" if="eval: amendmentTypeSet != null &amp;&amp; !amendmentTypeSet.isEmpty() &amp;&amp; amendmentTypeSet?.find{it.typeSelect == 5} != null"/>
+	  <field name="$isSalaryChange" expr="eval: null" if="eval: amendmentTypeSet == null || amendmentTypeSet?.find{it.typeSelect == 6} == null"/>
+	  <field name="$isSalaryChange" expr="eval: true" if="eval: amendmentTypeSet != null &amp;&amp; !amendmentTypeSet.isEmpty() &amp;&amp; amendmentTypeSet?.find{it.typeSelect == 6} != null"/>
+	  <field name="$hasControlerRole" expr="eval: __user__?.roles.contains(__repo__(Role).all().filter('self.name=?','Controleur').fetchOne())" if="id != null"/>
+      <field name="$hasPayRole" expr="eval: __user__?.roles.contains(__repo__(Role).all().filter('self.name=?','Paie').fetchOne())" if="id != null"/>
+      <field name="$hasAdminValvitalRole" expr="eval: __user__?.roles.contains(__repo__(Role).all().filter('self.name=?','Valvital Admin').fetchOne())"/>
+	</action-record> 
+	
+	<action-record name="action-employment-amendment-record-initial-end-date-init" model="com.axelor.apps.hr.db.EmploymentAmendment">
+	  <field name="initialEndDate" expr="eval: null" if="initialEndDate != null &amp;&amp; !$isEarlyTermination"/>    
+      <field name="initialEndDate" expr="eval: originalContract.endDate" if="initialEndDate == null &amp;&amp; $isEarlyTermination"/>
+    </action-record>
+	
+	<action-validate name="action-employment-amendment-validate-extension-end-date-onchange">
+		<error message="The extension date is incorrect"
+			   if="initialEndDate != null &amp;&amp; extensionEndDate != null &amp;&amp; initialEndDate &gt; extensionEndDate"
+			   action="action-employment-amendment-validate-extension-end-date-null"/>
+	</action-validate>
+	
+	<action-attrs name="action-employment-amendment-validate-extension-end-date-null">
+		<attribute for="extensionEndDate" name="value" expr="eval: null"/>
+	</action-attrs>
+	
+	<action-attrs name="action-employment-amendment-attrs-empty-fields">
+		<attribute name="value" for="extensionDate" expr="eval: null" if="!$isEarlyTermination"/>
+		<attribute name="value" for="qualification" expr="eval: null" if="!$isChangeOfPosition"/>
+		<attribute name="value" for="terminationDate" expr="eval: null" if="!$isEarlyTermination"/>
+		<attribute name="value" for="partTime" expr="eval: false" if="!$isWorkingTimeModification"/>
+		<attribute name="value" for="defMonthlyGrossSalary" expr="eval: 0" if="!$isSalaryChange"/>
+	</action-attrs>
+	
+	<!-- END RM#28998 -->
+	
+	<!-- RM#29001 -->
+	<action-attrs name="action-employment-amendment-attrs-set-domain-amendment-type-set">
+       <attribute for="amendmentTypeSet" name="domain" if="_parent == null" expr="eval: &quot; (self.allCompanies = true OR ${payCompany?.id} MEMBER OF self.companySet) AND (self.contractTypeSet is empty OR ${originalContract?.contractType?.id} MEMBER OF self.contractTypeSet) &quot;"/>
+       <attribute for="amendmentTypeSet" name="domain" if="_parent" expr="eval: &quot; (self.allCompanies = true OR ${payCompany?.id} MEMBER OF self.companySet) AND (self.contractTypeSet is empty OR ${_parent?.contractType?.id} MEMBER OF self.contractTypeSet) &quot;"/>
+    </action-attrs>
+    <!-- END RM#29001 -->
+    
+    <action-attrs name="action-employment-amendment-attrs-set-probationary-period">
+       <attribute for="probationaryPeriod" name="hidden" expr="eval: amendmentTypeSet?.find{it.typeSelect == 4} != null ? false:true"/>
+    </action-attrs>
+    
+    <action-record name="action-employment-amendment-record-employments-on-change" model="com.axelor.apps.hr.db.EmploymentAmendment">     
+      <field name="qualification" expr="eval: null" if="qualification != null &amp;&amp; !(employments?.qualificationSet?.contains(qualification))"/>
+      <field name="qualificationLevel" expr="eval: null" if="qualificationLevel != null &amp;&amp; !(employments?.qualificationLevelSet?.contains(qualificationLevel))"/>
+    </action-record>
+    
+    <action-group name="action-employment-amendment-group-qualification-on-change">
+        <action name="action-employment-amendment-record-qualification-level-init" />
+		<action name="action-employment-amendment-group-change-pay-grid" />		
+	</action-group>
+	
+	<action-record name="action-employment-amendment-record-qualification-level-init" model="com.axelor.apps.hr.db.EmploymentAmendment">     
+      <field name="qualificationLevel" expr="eval: null" if="qualificationLevel?.qualification != qualification"/>
+    </action-record>
+    
+    <action-group name="action-employment-amendment-group-weekly-and-monthly-duration-default">
+		<action name="action-employment-amendment-record-weekly-duration-default" />
+		<action name="action-employment-amendment-method-compute-weekly-duration" if="weeklyPlanning"/>
+		<action name="action-employment-amendment-record-compute-monthly-duration" />
+	</action-group>
+		
+	<action-record name="action-employment-amendment-record-weekly-duration-default" model="com.axelor.apps.hr.db.EmploymentAmendment">	    
+		<field name="weeklyDuration" expr="eval: partTime ? null : collectiveAgreement?.weeklyWorkDuration"/>		
+	</action-record>
+	
+	<action-record name="action-employment-amendment-record-compute-monthly-duration" model="com.axelor.apps.hr.db.EmploymentAmendment">
+       <field name="monthlyDuration" expr="eval: weeklyDuration?.multiply(13/3)"/>
+    </action-record>
+    
+    <action-record name="action-employment-amendment-record-active" model="com.axelor.apps.hr.db.EmploymentAmendment">
+      <field name="status" expr="eval: __repo__(EmploymentAmendment).STATUS_ACTIVE"/>
+    </action-record>
+  
+    <action-record name="action-employment-amendment-record-validate" model="com.axelor.apps.hr.db.EmploymentAmendment">
+      <field name="status" expr="eval: __repo__(EmploymentAmendment).STATUS_VALIDATED"/>
+    </action-record>
+    
+    <action-record name="action-employment-amendment-record-refuse" model="com.axelor.apps.hr.db.EmploymentAmendment">
+      <field name="status" expr="eval: __repo__(EmploymentAmendment).STATUS_IN_TRIAL"/>
+    </action-record>
+    
+    <action-record name="action-employment-amendment-record-close" model="com.axelor.apps.hr.db.EmploymentAmendment">
+      <field name="status" expr="eval: __repo__(EmploymentAmendment).STATUS_CLOSED"/>
+    </action-record>    
+
+    <action-method name="action-employment-amendment-method-send-email-on-active">
+      <call class="com.axelor.apps.hr.web.EmploymentAmendmentController" method="sendEmailOnActive"/>
+    </action-method>
+  
+    <action-method name="action-employment-amendment-method-send-email-on-validate">
+      <call class="com.axelor.apps.hr.web.EmploymentAmendmentController" method="sendEmailOnValidate"/>
+    </action-method>
+    
+    <action-method name="action-employment-amendment-method-send-email-on-refuse">
+      <call class="com.axelor.apps.hr.web.EmploymentAmendmentController" method="sendEmailOnRefuse"/>
+    </action-method>
+     
+    <action-method name="action-employment-amendment-method-compute-weekly-duration">
+  	  <call class="com.axelor.apps.hr.web.EmploymentAmendmentController" method="computeWeeklyDuration"/>
+    </action-method>
+
+</object-views>

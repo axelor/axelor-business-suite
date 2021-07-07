@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+	<grid name="qualification-grid" title="Qualification" model="com.axelor.apps.hr.db.Qualification">
+        <field name="collectiveAgreement" width="250"/>
+		<field name="code" width="150"/>
+		<field name="name" width="250"/>
+	</grid>
+	
+	<grid name="qualification-employment-grid" title="Qualification" model="com.axelor.apps.hr.db.Qualification">
+		<field name="code" width="150"/>
+		<field name="name" width="250"/>
+	</grid>
+
+	<form name="qualification-form" title="Qualification" model="com.axelor.apps.hr.db.Qualification">
+		<panel name="qualificationMainPanel" >
+            <field name="collectiveAgreement" form-view="collective-agreement-form" grid-view="collective-agreement-grid"/>
+            <spacer/>
+			<field name="code" />
+			<field name="name" />
+			<field name="executiveStatusSelect"/>		
+		</panel>
+		<panel-related name="qualificationLevelPanel" field="qualificationLevelList" form-view="qualification-level-form" grid-view="qualification-level-grid" title="Qualification levels"/>
+	</form>
+
+</object-views>
+	

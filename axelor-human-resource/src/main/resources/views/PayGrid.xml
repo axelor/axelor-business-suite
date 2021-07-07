@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.2.xsd">
+
+	<grid name="pay-grid-grid" title="Pay Grid" model="com.axelor.apps.hr.db.PayGrid">
+		<field name="collectiveAgreement" width="250"/>
+		<field name="qualification" width="250"/>
+		<field name="qualificationLevel" width="250"/>
+		<field name="convMonthlyRate" width="150"/>
+		<field name="convHourlyRate" width="150"/>
+		<field name="hourlyComplement" width="150"/>
+	</grid>
+
+	<form name="pay-grid-form" title="Pay Grid"	model="com.axelor.apps.hr.db.PayGrid">
+		<panel name="payGridMainPanel">
+			<field name="collectiveAgreement" />
+			<field name="qualification" domain="self.collectiveAgreement = :collectiveAgreement"/>
+			<field name="qualificationLevel" domain="self.qualification = :qualification AND self.collectiveAgreement = :collectiveAgreement" />
+			<field name="convMonthlyRate" />
+			<field name="convHourlyRate" />
+			<field name="hourlyComplement" />
+		</panel>
+	</form>
+
+</object-views>
+	
