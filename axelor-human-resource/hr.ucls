@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.0" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.axelor.apps.hr.db.KilometricAllowanceRate" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/KilometricAllowanceRate.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="144" width="313" x="2361" y="2141"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.axelor.apps.hr.db.EmployeeBonusMgtLine" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmployeeBonusMgtLine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="216" width="225" x="1110" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.axelor.apps.hr.db.EmploymentContract" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmploymentContract.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="540" width="325" x="1150" y="2141"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.axelor.apps.hr.db.PublicHolidayDay" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/PublicHolidayDay.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="162" width="229" x="2111" y="2721"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.axelor.apps.hr.db.LunchVoucherMgtLine" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LunchVoucherMgtLine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="288" width="209" x="1412" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.axelor.apps.hr.db.HrBatch" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/HrBatch.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="378" width="241" x="2003" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.axelor.apps.hr.db.LunchVoucherMgt" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LunchVoucherMgt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="324" width="292" x="1501" y="329"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.axelor.apps.hr.db.OtherCostsEmployee" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/OtherCostsEmployee.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="108" width="147" x="912" y="2721"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.axelor.apps.hr.db.EmployeeAdvance" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmployeeAdvance.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="234" width="323" x="528" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="com.axelor.apps.hr.db.Expense" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/Expense.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="666" width="323" x="872" y="3211"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="com.axelor.apps.hr.db.EmployeeBonusMgt" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmployeeBonusMgt.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="198" width="311" x="704" y="329"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="com.axelor.apps.hr.db.TSTimer" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/TSTimer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="252" width="182" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.axelor.apps.hr.db.ExtraHours" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/ExtraHours.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="270" width="229" x="1754" y="1309"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="com.axelor.apps.hr.db.LeaveLine" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LeaveLine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="234" width="260" x="2735" y="2141"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="com.axelor.apps.hr.db.TimesheetLine" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/TimesheetLine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="288" width="157" x="41" y="329"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="com.axelor.apps.hr.db.ExpenseLine" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/ExpenseLine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="450" width="305" x="1745" y="2721"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="com.axelor.apps.hr.db.PublicHolidayPlanning" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/PublicHolidayPlanning.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="126" width="247" x="2053" y="2141"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="com.axelor.apps.hr.db.PayrollPreparation" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/PayrollPreparation.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="522" width="311" x="1150" y="329"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="com.axelor.apps.hr.db.EmploymentContractTemplate" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmploymentContractTemplate.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="144" width="199" x="1099" y="2721"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="com.axelor.apps.hr.db.EndOfContractReason" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EndOfContractReason.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="90" width="153" x="1338" y="2721"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="com.axelor.apps.hr.db.Employee" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/Employee.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="792" width="302" x="1412" y="1309"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="com.axelor.apps.hr.db.LunchVoucherAdvance" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LunchVoucherAdvance.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="198" width="234" x="1515" y="2141"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="com.axelor.apps.hr.db.LeaveManagement" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LeaveManagement.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="234" width="133" x="2847" y="1309"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="com.axelor.apps.hr.db.EmployeeBonusType" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmployeeBonusType.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="180" width="191" x="297" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="com.axelor.apps.hr.db.LeaveRequest" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LeaveRequest.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="450" width="180" x="2807" y="329"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="com.axelor.apps.hr.db.ExtraHoursLine" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/ExtraHoursLine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="198" width="209" x="1754" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="com.axelor.apps.hr.db.LeaveReason" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LeaveReason.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="216" width="200" x="2695" y="2721"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="com.axelor.apps.hr.db.KilometricAllowanceRule" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/KilometricAllowanceRule.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="162" width="269" x="2517" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="com.axelor.apps.hr.db.LeaveManagementBatchRule" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/LeaveManagementBatchRule.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="144" width="193" x="2284" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="com.axelor.apps.hr.db.EmployeeAdvanceUsage" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmployeeAdvanceUsage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="126" width="213" x="638" y="1309"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="com.axelor.apps.hr.db.PayrollLeave" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/PayrollLeave.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="180" width="209" x="2807" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="com.axelor.apps.hr.db.KilometricLog" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/KilometricLog.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="144" width="203" x="1789" y="2141"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="com.axelor.apps.hr.db.KilometricAllowParam" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/KilometricAllowParam.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="108" width="152" x="2071" y="3211"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="com.axelor.apps.hr.db.Timesheet" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/Timesheet.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="342" width="216" x="41" y="891"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="com.axelor.apps.hr.db.EmploymentContractType" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/EmploymentContractType.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="90" width="174" x="1531" y="2721"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="com.axelor.apps.hr.db.HRConfig" project="axelor-human-resource" 
+    file="/axelor-human-resource/build/src-gen/com/axelor/apps/hr/db/HRConfig.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="774" width="360" x="2361" y="1309"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <association id="37">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="38" name="employmentContractList"/>      
+      <multiplicity id="39" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="40">    
+    <end type="SOURCE" refId="21" navigable="true">      
+      <attribute id="41" name="kilometricLogList"/>      
+      <multiplicity id="42" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true">      
+      <attribute id="43" name="employee"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="46" name="payrollPreparation"/>      
+      <multiplicity id="47" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="49" name="hrConfig"/>      
+      <multiplicity id="50" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <bendpoint x="1119" y="329"/>    
+    <bendpoint x="1119" y="891"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="52" name="employee"/>      
+      <multiplicity id="53" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <bendpoint x="2816" y="891"/>    
+    <bendpoint x="2816" y="1309"/>    
+    <end type="SOURCE" refId="25" navigable="false">      
+      <attribute id="55" name="leaveLine"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="58" name="leaveManagementList"/>      
+      <multiplicity id="59" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="23" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <bendpoint x="2704" y="2141"/>    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="61" name="toJustifyLeaveReason"/>      
+      <multiplicity id="62" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="63">    
+    <end type="SOURCE" refId="9" navigable="true">      
+      <attribute id="64" name="employeeAdvanceUsageList"/>      
+      <multiplicity id="65" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true">      
+      <attribute id="66" name="employeeAdvance"/>      
+      <multiplicity id="67" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="68">    
+    <end type="SOURCE" refId="10" navigable="true">      
+      <attribute id="69" name="expenseLineList"/>      
+      <multiplicity id="70" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true">      
+      <attribute id="71" name="expense"/>      
+      <multiplicity id="72" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="73">    
+    <end type="SOURCE" refId="9" navigable="true">      
+      <attribute id="74" name="employee"/>      
+      <multiplicity id="75" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true">      
+      <attribute id="76" name="employeeAdvanceList"/>      
+      <multiplicity id="77" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="78">    
+    <bendpoint x="1040" y="891"/>    
+    <bendpoint x="1040" y="1309"/>    
+    <bendpoint x="1040" y="2141"/>    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="79" name="otherCostsEmployeeSet"/>      
+      <multiplicity id="80" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="81">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="82" name="timesheetLine"/>      
+      <multiplicity id="83" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="84">    
+    <end type="SOURCE" refId="3" navigable="true">      
+      <attribute id="85" name="employee"/>      
+      <multiplicity id="86" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true">      
+      <attribute id="87" name="mainEmploymentContract"/>      
+      <multiplicity id="88" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="89">    
+    <bendpoint x="764" y="2141"/>    
+    <bendpoint x="764" y="2721"/>    
+    <end type="SOURCE" refId="30" navigable="true">      
+      <attribute id="90" name="expense"/>      
+      <multiplicity id="91" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true">      
+      <attribute id="92" name="employeeAdvanceUsageList"/>      
+      <multiplicity id="93" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="94">    
+    <end type="SOURCE" refId="2" navigable="true">      
+      <attribute id="95" name="payrollPreparation"/>      
+      <multiplicity id="96" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true">      
+      <attribute id="97" name="employeeBonusMgtLineList"/>      
+      <multiplicity id="98" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="99">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="100" name="kilometricAllowParam"/>      
+      <multiplicity id="101" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="102">    
+    <bendpoint x="3025" y="329"/>    
+    <bendpoint x="3025" y="891"/>    
+    <bendpoint x="3025" y="1309"/>    
+    <bendpoint x="3025" y="2141"/>    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="103" name="leaveReason"/>      
+      <multiplicity id="104" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="105">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="106" name="extraHours"/>      
+      <multiplicity id="107" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="108">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="109" name="otherCostsEmployeeSet"/>      
+      <multiplicity id="110" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="111">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="112" name="employeeBonusType"/>      
+      <multiplicity id="113" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="114">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="115" name="publicHolidayDayList"/>      
+      <multiplicity id="116" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="117">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="118" name="extraHoursLineList"/>      
+      <multiplicity id="119" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="120">    
+    <end type="SOURCE" refId="32" navigable="false">      
+      <attribute id="121" name="expenseLineList"/>      
+      <multiplicity id="122" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="123">    
+    <bendpoint x="2330" y="1309"/>    
+    <bendpoint x="2330" y="2141"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="124" name="leaveReason"/>      
+      <multiplicity id="125" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="126">    
+    <end type="SOURCE" refId="15" navigable="true">      
+      <attribute id="127" name="timesheet"/>      
+      <multiplicity id="128" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true">      
+      <attribute id="129" name="timesheetLineList"/>      
+      <multiplicity id="130" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="131">    
+    <bendpoint x="1290" y="891"/>    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="132" name="employee"/>      
+      <multiplicity id="133" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="134">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="135" name="endOfContractReason"/>      
+      <multiplicity id="136" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="137">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="138" name="publicHolidayPlanning"/>      
+      <multiplicity id="139" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="140">    
+    <bendpoint x="2751" y="1309"/>    
+    <end type="SOURCE" refId="28" navigable="true">      
+      <attribute id="141" name="kilometricAllowanceRate"/>      
+      <multiplicity id="142" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true">      
+      <attribute id="143" name="kilometricAllowanceRuleList"/>      
+      <multiplicity id="144" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="145">    
+    <end type="SOURCE" refId="18" navigable="true">      
+      <attribute id="146" name="extraHoursLineList"/>      
+      <multiplicity id="147" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true">      
+      <attribute id="148" name="payrollPreparation"/>      
+      <multiplicity id="149" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="150">    
+    <end type="SOURCE" refId="2" navigable="true">      
+      <attribute id="151" name="employeeBonusMgt"/>      
+      <multiplicity id="152" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true">      
+      <attribute id="153" name="employeeBonusMgtLineList"/>      
+      <multiplicity id="154" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="155">    
+    <bendpoint x="1159" y="891"/>    
+    <bendpoint x="1159" y="1309"/>    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="156" name="employmentContract"/>      
+      <multiplicity id="157" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="158">    
+    <end type="SOURCE" refId="29" navigable="true">      
+      <attribute id="159" name="hrConfig"/>      
+      <multiplicity id="160" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true">      
+      <attribute id="161" name="leaveManagementBatchRuleList"/>      
+      <multiplicity id="162" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="163">    
+    <end type="SOURCE" refId="16" navigable="true">      
+      <attribute id="164" name="kilometricExpense"/>      
+      <multiplicity id="165" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true">      
+      <attribute id="166" name="kilometricExpenseLineList"/>      
+      <multiplicity id="167" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="168">    
+    <bendpoint x="881" y="2721"/>    
+    <bendpoint x="881" y="2141"/>    
+    <bendpoint x="881" y="1309"/>    
+    <bendpoint x="881" y="891"/>    
+    <end type="SOURCE" refId="10" navigable="true">      
+      <attribute id="169" name="payrollPreparation"/>      
+      <multiplicity id="170" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true">      
+      <attribute id="171" name="expenseList"/>      
+      <multiplicity id="172" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="173">    
+    <end type="SOURCE" refId="21" navigable="true">      
+      <attribute id="174" name="leaveLineList"/>      
+      <multiplicity id="175" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true">      
+      <attribute id="176" name="employee"/>      
+      <multiplicity id="177" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="178">    
+    <end type="SOURCE" refId="21" navigable="true">      
+      <attribute id="179" name="lunchVoucherAdvanceList"/>      
+      <multiplicity id="180" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true">      
+      <attribute id="181" name="employee"/>      
+      <multiplicity id="182" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="183">    
+    <end type="SOURCE" refId="7" navigable="true">      
+      <attribute id="184" name="lunchVoucherMgtLineList"/>      
+      <multiplicity id="185" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true">      
+      <attribute id="186" name="lunchVoucherMgt"/>      
+      <multiplicity id="187" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="188">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="189" name="employeeSet"/>      
+      <multiplicity id="190" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="191">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="192" name="employmentContractTemplate"/>      
+      <multiplicity id="193" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="194">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="195" name="contractType"/>      
+      <multiplicity id="196" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="197">    
+    <end type="SOURCE" refId="36" navigable="true">      
+      <attribute id="198" name="kilometricAllowanceRateList"/>      
+      <multiplicity id="199" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true">      
+      <attribute id="200" name="hrConfig"/>      
+      <multiplicity id="201" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="202">    
+    <bendpoint x="2022" y="2141"/>    
+    <bendpoint x="2080" y="2721"/>    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="203" name="kilometricAllowParam"/>      
+      <multiplicity id="204" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="205">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="206" name="publicHolidayPlann"/>      
+      <multiplicity id="207" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="208">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="209" name="leaveRequest"/>      
+      <multiplicity id="210" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="211">    
+    <end type="SOURCE" refId="18" navigable="true">      
+      <attribute id="212" name="lunchVoucherMgtLineList"/>      
+      <multiplicity id="213" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true">      
+      <attribute id="214" name="payrollPreparation"/>      
+      <multiplicity id="215" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="216">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="217" name="employee"/>      
+      <multiplicity id="218" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="219">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="220" name="imposedDayPlanning"/>      
+      <multiplicity id="221" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="222">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="223" name="publicHolidayPlanning"/>      
+      <multiplicity id="224" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="225">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="226" name="leaveReason"/>      
+      <multiplicity id="227" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="228">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="229" name="leaveLine"/>      
+      <multiplicity id="230" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="231">    
+    <bendpoint x="2370" y="2721"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="232" name="kilometricAllowParam"/>      
+      <multiplicity id="233" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="33" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="false" multiplicity="true"/>
+</class-diagram>

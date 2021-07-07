@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.0" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.axelor.apps.supplychain.db.Subscription" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/Subscription.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="162" width="171" x="225" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.axelor.apps.supplychain.db.SupplychainBatch" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/SupplychainBatch.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="162" width="144" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.axelor.apps.supplychain.db.MrpForecast" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/MrpForecast.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="198" width="144" x="1097" y="347"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.axelor.apps.supplychain.db.MrpFamily" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/MrpFamily.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="126" width="144" x="659" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.axelor.apps.supplychain.db.MrpLine" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/MrpLine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="324" width="214" x="843" y="347"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.axelor.apps.supplychain.db.MrpLineType" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/MrpLineType.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="216" width="144" x="843" y="711"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.axelor.apps.supplychain.db.MrpLineOrigin" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/MrpLineOrigin.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="126" width="144" x="843" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.axelor.apps.supplychain.db.Timetable" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/Timetable.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="270" width="183" x="436" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.axelor.apps.supplychain.db.Mrp" project="axelor-supplychain" 
+    file="/axelor-supplychain/build/src-gen/com/axelor/apps/supplychain/db/Mrp.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="234" width="241" x="1027" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <association id="10">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="11" name="mrpLineType"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="13">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="14" name="mrpForecastSet"/>      
+      <multiplicity id="15" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="5" navigable="true">      
+      <attribute id="17" name="mrp"/>      
+      <multiplicity id="18" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true">      
+      <attribute id="19" name="mrpLineList"/>      
+      <multiplicity id="20" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="21">    
+    <end type="SOURCE" refId="5" navigable="true">      
+      <attribute id="22" name="mrpLineOriginList"/>      
+      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true">      
+      <attribute id="24" name="mrpLine"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="false" multiplicity="true"/>
+</class-diagram>
