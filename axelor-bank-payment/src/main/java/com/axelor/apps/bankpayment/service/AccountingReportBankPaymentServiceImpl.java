@@ -21,6 +21,7 @@ import com.axelor.apps.ReportFactory;
 import com.axelor.apps.account.db.AccountingReport;
 import com.axelor.apps.account.db.repo.AccountRepository;
 import com.axelor.apps.account.db.repo.AccountingReportRepository;
+import com.axelor.apps.account.service.AccountingReportMoveLineService;
 import com.axelor.apps.account.service.AccountingReportServiceImpl;
 import com.axelor.apps.account.service.app.AppAccountService;
 import com.axelor.apps.bankpayment.report.IReport;
@@ -37,8 +38,9 @@ public class AccountingReportBankPaymentServiceImpl extends AccountingReportServ
   public AccountingReportBankPaymentServiceImpl(
       AppAccountService appBaseService,
       AccountingReportRepository accountingReportRepo,
-      AccountRepository accountRepo) {
-    super(appBaseService, accountingReportRepo, accountRepo);
+      AccountRepository accountRepo,
+      AccountingReportMoveLineService accountingReportMoveLineService) {
+    super(appBaseService, accountingReportRepo, accountRepo, accountingReportMoveLineService);
   }
 
   @Override

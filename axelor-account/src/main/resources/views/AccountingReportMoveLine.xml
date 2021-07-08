@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+    
+<!--     ACCOUNTING REPORT MOVE LINE-->
+
+	<grid name="accounting-report-move-line-grid" title="Accounting report move lines" model="com.axelor.apps.account.db.AccountingReportMoveLine">
+		<hilite color="danger" if="excludeFromDas2Report"/>
+		<field name="excludeFromDas2Report"/>
+		<field name="exported"/>
+	</grid>
+
+	<form name="accounting-report-move-line-form" title="Accounting report move line" model="com.axelor.apps.account.db.AccountingReport">
+		<panel name="mainPanel" readonly="true">
+		   <field name="taxPaymentMoveLine" form-view="tax-payment-move-line-form" grid-view="tax-payment-move-line-grid"/>
+		   <field name="excludeFromDas2Report"/>
+		   <field name="exported"/>
+		   <field name="accountingReport" form-view="accounting-report-form"/>
+		   <field name="accountingExport" form-view="accounting-report-export-form"/>
+		</panel>
+
+	</form>
+	
+</object-views>

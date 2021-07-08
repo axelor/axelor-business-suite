@@ -27,6 +27,9 @@
 				<button name="payerQualityProcessBtn" title="Compute payers quality" colSpan="2" onClick="action-app-account-method-payer-quality-process"/>
 				<field name="payerQualityConfigLineList" colSpan="12" grid-view="payer-quality-config-line-grid" form-view="payer-quality-config-line-form"/>
 			</panel>
+			<panel name="das2Panel" title="DAS2" colSpan="12">
+				<field name="defaultServiceTypeTypology" form-view="service-type-form" grid-view="service-type-grid"/>
+			</panel>
 		</panel-tabs>
 		<panel-mail name="mailPanel">
 			<mail-messages limit="4"/>

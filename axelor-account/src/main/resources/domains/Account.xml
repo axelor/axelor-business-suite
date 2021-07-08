@@ -29,6 +29,7 @@
         <boolean name="isTaxAuthorizedOnMoveLine" title="Tax authorized on move line" massUpdate="true"/>
     	<boolean name="isTaxRequiredOnMoveLine" title="Tax required on move line" massUpdate="true"/>
    	   	<many-to-many name="batchSet" ref="com.axelor.apps.base.db.Batch" title="Batchs"/>
+   	   	<many-to-one name="serviceType" ref="ServiceType" title="Service type" massUpdate="true" help="Field exported in DAS2 declaration. If this field is empty, this account won't appear in DAS2 reports and exports."/>
    	   	
    	   	<unique-constraint columns="code,company"/>
 

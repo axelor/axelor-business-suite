@@ -101,6 +101,7 @@
 		<field name="mainAddress" />
 		<field name="companyStr"
 			if="__config__.app.getApp('base').getEnableMultiCompany()" />
+		<field name="das2Activity" hidden="true" if="__config__.app.isApp('account')"/>
 		<button name="scheduleEventBtn" title="Schedule Event" icon="fa-group"
 			onClick="action-partner-view-schedule-event" if-module="axelor-crm"
 			if="__config__.app.isApp('crm')" />

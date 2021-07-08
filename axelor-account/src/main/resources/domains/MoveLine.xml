@@ -72,6 +72,13 @@
 	
 	<date name="originDate" title="Origin date" initParam="true"/>
 	
+	<!-- DAS2 -->
+	<many-to-one name="serviceType" ref="ServiceType" title="Service type" readonly="true"/>
+    <string name="serviceTypeCode" title="Service type code" readonly="true"/>
+    <many-to-one name="das2Activity" ref="com.axelor.apps.account.db.Das2Activity" title="DAS2 activity" readonly="true"/>
+    <string name="das2ActivityName" title="DAS2 activity name" readonly="true"/>
+    <boolean name="excludeFromDas2Report" title="Exclude from DAS2 report" default="false" readonly="true"/>
+	
     <string name="name" title="Name" namecolumn="true">
     	<![CDATA[
     	if (move != null && move.getReference() != null){

@@ -35,9 +35,12 @@ import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.meta.schema.actions.ActionView.ActionViewBuilder;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.google.common.base.Joiner;
 import com.google.inject.Singleton;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,23 +61,55 @@ public class AccountingReportController {
     try {
       accountingReport = Beans.get(AccountingReportRepository.class).find(accountingReport.getId());
 
-      String query = accountingReportService.getMoveLineList(accountingReport);
-      BigDecimal debitBalance = accountingReportService.getDebitBalance();
-      BigDecimal creditBalance = accountingReportService.getCreditBalance();
+      if (accountingReport.getReportType().getTypeSelect()
+              == AccountingReportRepository.REPORT_FEES_DECLARATION_PREPERATORY_PROCESS
+          || accountingReport.getReportType().getTypeSelect()
+              == AccountingReportRepository.REPORT_FEES_DECLARATION_SUPPORT) {
 
-      response.setValue("totalDebit", debitBalance);
-      response.setValue("totalCredit", creditBalance);
-      response.setValue("balance", debitBalance.subtract(creditBalance));
+        if (accountingReportService.isThereAlreadyDraftReportInPeriod(accountingReport)) {
+          response.setError(
+              I18n.get(
+                  "There is already an ongoing accounting report of this type in draft status for this same period."));
+        }
+        if (accountingReportService.isThereAlreadyOngoingDas2ExportInPeriod(accountingReport)) {
+          response.setAlert(
+              I18n.get(
+                  "There is already an ongoing DAS2 export for this period that has not been exported yet. Do you want to proceed ?"));
+        }
 
-      ActionViewBuilder actionViewBuilder =
-          ActionView.define(I18n.get(IExceptionMessage.ACCOUNTING_REPORT_3));
-      actionViewBuilder.model(MoveLine.class.getName());
-      actionViewBuilder.add("grid", "move-line-grid");
-      actionViewBuilder.add("form", "move-line-form");
-      actionViewBuilder.param("search-filters", "move-line-filters");
-      actionViewBuilder.domain(query);
+        List<BigInteger> moveLineIdList =
+            accountingReportService.getAccountingReportDas2Pieces(accountingReport, true);
+        ActionViewBuilder actionViewBuilder =
+            ActionView.define(I18n.get(IExceptionMessage.ACCOUNTING_REPORT_3));
+        actionViewBuilder.model(MoveLine.class.getName());
+        actionViewBuilder.add("grid", "move-line-das2-grid");
+        actionViewBuilder.add("form", "move-line-form");
+        actionViewBuilder.param("search-filters", "move-line-filters");
+        actionViewBuilder.domain("self.id in (" + Joiner.on(",").join(moveLineIdList) + ")");
 
-      response.setView(actionViewBuilder.map());
+        response.setReload(true);
+        response.setView(actionViewBuilder.map());
+
+      } else {
+        String query = accountingReportService.getMoveLineList(accountingReport);
+        BigDecimal debitBalance = accountingReportService.getDebitBalance();
+        BigDecimal creditBalance = accountingReportService.getCreditBalance();
+
+        response.setValue("totalDebit", debitBalance);
+        response.setValue("totalCredit", creditBalance);
+        response.setValue("balance", debitBalance.subtract(creditBalance));
+
+        ActionViewBuilder actionViewBuilder =
+            ActionView.define(I18n.get(IExceptionMessage.ACCOUNTING_REPORT_3));
+        actionViewBuilder.model(MoveLine.class.getName());
+        actionViewBuilder.add("grid", "move-line-grid");
+        actionViewBuilder.add("form", "move-line-form");
+        actionViewBuilder.param("search-filters", "move-line-filters");
+        actionViewBuilder.domain(query);
+
+        response.setView(actionViewBuilder.map());
+      }
+
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }
@@ -174,6 +209,25 @@ public class AccountingReportController {
 
       logger.debug("Type selected : {}", typeSelect);
 
+      if (accountingReport.getReportType().getTypeSelect()
+              == AccountingReportRepository.REPORT_FEES_DECLARATION_PREPERATORY_PROCESS
+          || accountingReport.getReportType().getTypeSelect()
+              == AccountingReportRepository.REPORT_FEES_DECLARATION_SUPPORT) {
+
+        if (accountingReportService.isThereAlreadyDraftReportInPeriod(accountingReport)) {
+          response.setError(
+              I18n.get(
+                  "There is already an ongoing accounting report of this type in draft status for this same period."));
+        }
+        if (accountingReportService.isThereAlreadyOngoingDas2ExportInPeriod(accountingReport)) {
+          response.setAlert(
+              I18n.get(
+                  "There is already an ongoing DAS2 export for this period that has not been exported yet. Do you want to proceed ?"));
+        }
+
+        accountingReportService.processAccountingReportMoveLines(accountingReport);
+      }
+
       if ((typeSelect >= AccountingReportRepository.EXPORT_ADMINISTRATION
           && typeSelect < AccountingReportRepository.REPORT_ANALYTIC_BALANCE)) {
         MoveLineExportService moveLineExportService = Beans.get(MoveLineExportService.class);
@@ -206,6 +260,31 @@ public class AccountingReportController {
 
         accountingReportService.setStatus(accountingReport);
       }
+    } catch (Exception e) {
+      TraceBackService.trace(response, e);
+    }
+  }
+
+  public void createExportFromReport(ActionRequest request, ActionResponse response) {
+
+    AccountingReport accountingReport = request.getContext().asType(AccountingReport.class);
+    accountingReport = Beans.get(AccountingReportRepository.class).find(accountingReport.getId());
+
+    AccountingReportService accountingReportService = Beans.get(AccountingReportService.class);
+    try {
+      AccountingReport accountingExport =
+          accountingReportService.createAccountingExportFromReport(
+              accountingReport, AccountingReportRepository.EXPORT_N4DS);
+
+      response.setView(
+          ActionView.define(I18n.get(IExceptionMessage.ACCOUNTING_REPORT_8))
+              .model(AccountingReport.class.getName())
+              .add("form", "accounting-report-export-form")
+              .add("grid", "accounting-report-export-grid")
+              .domain("self.reportType.typeSelect >= 1000 and self.reportType.typeSelect < 2000")
+              .param("forceEdit", "true")
+              .context("_showRecord", String.valueOf(accountingExport.getId()))
+              .map());
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }

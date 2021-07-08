@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+	
+    <grid name="das2-activity-grid" title="DAS2 activities" model="com.axelor.apps.account.db.Das2Activity" orderBy="name">
+    	<field name="code"/>
+        <field name="name"/>
+    </grid>
+    
+    <form name="das2-activity-form" title="DAS2 activity" model="com.axelor.apps.account.db.Das2Activity">
+        <panel name="mainPanel">
+        	<field name="code"/>
+        	<field name="name"/>
+        </panel>
+    </form>
+</object-views>

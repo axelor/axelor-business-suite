@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+  
+  <module name="account" package="com.axelor.apps.account.db"/>
+  
+  <entity name="AccountingReportMoveLine" lang="java">
+       <many-to-one ref="com.axelor.apps.account.db.TaxPaymentMoveLine" name="taxPaymentMoveLine" initParam="true" title="Tax payment move line"/>
+       <boolean name="excludeFromDas2Report" title="Exclude from DAS2 report" default="false"/>
+       <boolean name="exported" title="Exported" default="false"/>
+       <many-to-one ref="com.axelor.apps.account.db.AccountingReport" name="accountingReport" title ="Accounting report" initParam="true"/>
+       <many-to-one ref="com.axelor.apps.account.db.AccountingReport" name="accountingExport" title ="Accounting export"/>
+  </entity>
+</domain-models>

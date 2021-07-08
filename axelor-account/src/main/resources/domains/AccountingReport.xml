@@ -47,6 +47,9 @@
     <boolean name="displayNameAccountColumnOnPrinting" title="Display column with accounting name"/>
     <boolean name="displayMoveLineSequenceOnPrinting" title="Display moveline sequence"/>
     
+    <!-- Report 1011 -->
+    <boolean name="exported" title="Exported" default="false"/>
+    
     <!-- Analytic report -->
     <many-to-one name="analyticJournal" ref="com.axelor.apps.account.db.AnalyticJournal" title="Analytic Journal"/>
     <many-to-many name="analyticAxisSet" ref="com.axelor.apps.account.db.AnalyticAxis" title="Analytic axis"/>
@@ -57,6 +60,11 @@
     
     <boolean name="subtotalByAnalyticDistribution" title="Subtotal by analytic distribution"/>
     <boolean name="displaySimulatedMove" title="Show simulated moves"/>
+    
+    <!-- Report 19 & 20 DAS2  -->
+    <decimal name="minAmountExcl" title="Min. amount (€)" 
+    help="Field used to filter the results by ignoring from the report or the query any data retrieved that is less than this amount."/>
+    <one-to-many name="accountingReportMoveLineList" mappedBy="accountingReport" ref="com.axelor.apps.account.db.AccountingReportMoveLine" title="Tax payment move lines"/>  
 
 	<unique-constraint columns="ref,company"/>
     
@@ -80,6 +88,8 @@
 		public static final int REPORT_ANALYTIC_GENERAL_LEDGER = 2001;
 		public static final int REPORT_ACQUISITIONS = 16;
 		public static final int REPORT_GROSS_VALUES_AND_DEPRECIATION = 17;
+		public static final int REPORT_FEES_DECLARATION_PREPERATORY_PROCESS = 19;
+		public static final int REPORT_FEES_DECLARATION_SUPPORT = 20;
 		public static final int REPORT_CUSTOM_STATE = 3000;
 
 		// EXPORT TYPE SELECT
@@ -90,6 +100,7 @@
 		public static final int EXPORT_TREASURY = 1008;
 		public static final int EXPORT_PURCHASES = 1009;
 		public static final int EXPORT_GENERAL_BALANCE = 1010;
+		public static final int EXPORT_N4DS = 1011;
 	
 		// STATUS SELECT
 		public static final int STATUS_DRAFT = 1;

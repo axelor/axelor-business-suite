@@ -27,6 +27,8 @@
         
         <boolean name="activatePassedForPayment" title="Activate passed for payment"/>
         
+        <many-to-one name="defaultServiceTypeTypology" ref="com.axelor.apps.account.db.ServiceType" title="Default service type" />
+        
 		<extra-code><![CDATA[
 	
 	   

@@ -247,4 +247,18 @@ public class MoveLineController {
       TraceBackService.trace(response, e);
     }
   }
+
+  public void excludeMoveLineFromDas2(ActionRequest request, ActionResponse response) {
+
+    MoveLine moveLine = request.getContext().asType(MoveLine.class);
+    Beans.get(MoveService.class).updateMoveInclusionInDas2Report(moveLine, true);
+    response.setReload(true);
+  }
+
+  public void includeMoveLineInDas2(ActionRequest request, ActionResponse response) {
+
+    MoveLine moveLine = request.getContext().asType(MoveLine.class);
+    Beans.get(MoveService.class).updateMoveInclusionInDas2Report(moveLine, false);
+    response.setReload(true);
+  }
 }

@@ -30,6 +30,8 @@
 		<boolean name="isFactor" title="Factor" />
 		<boolean name="factorizedCustomer" />
 		<string name="sellerCode" />
+		<many-to-one name="das2Activity" ref="com.axelor.apps.account.db.Das2Activity" title="DAS2 activity" 
+		help="Field exported in Supplier label of DAS2 declaration. If this field is empty, this supplier won't be visible in DAS2 reports and exports."/>
 		
 		<boolean name="hasBlockedAccount" title="Account blocked" />
 		<boolean name="hasManuallyBlockedAccount" title="Account manually blocked" />

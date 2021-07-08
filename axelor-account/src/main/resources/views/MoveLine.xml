@@ -110,7 +110,29 @@
         <field name="description"/>
         <field name="analyticMoveLineList" hidden="true"/>
     </grid>
-
+    
+    <grid name="move-line-das2-grid" orderBy="-date,-name" title="Move lines"
+		model="com.axelor.apps.account.db.MoveLine" canArchive="false"
+		canDelete="false" canNew="false">
+		<toolbar>
+			<button name="calculateBtn" title="Calculation of totals"
+				onClick="action-account-move-line-method-calculate-balance" />
+		</toolbar>
+		<hilite color="danger" if="excludeFromDas2Report"/>
+		<field name="excludeFromDas2Report" hidden="true"/>
+		<field name="partner" form-view="partner-form" grid-view="partner-grid" />
+		<field name="move.journal"/>
+		<field name="name"/>
+		<field name="date"/>
+		<field name="account.code" title="Account" form-view="account-form" grid-view="account-grid"/>
+		<field name="serviceType" form-view="service-type-form" grid-view="service-type-grid" />
+		<field name="debit"/>
+		<field name="credit"/>
+		<field name="amountRemaining"/>
+		<button onClick="action-account-move-line-method-exclude-move-line-from-das2" icon="fa-times" help="Exclude move line from DAS2 report" name="excludeMoveLineFromDas2Btn" readonlyIf="excludeFromDas2Report"/>
+		<button onClick="action-account-move-line-method-include-move-line-in-das2" icon="fa-check" help="Include move line in DAS2 report" name="includeMoveLineInDas2Btn" readonlyIf="!excludeFromDas2Report"/>
+	</grid>
+	
     <form name="incl-analytic-distribution-move-line-form" model="com.axelor.apps.account.db.MoveLine" title="Move line" canArchive="false">
     	<panel name="analyticDistributionPanel" title="Analytic distribution" if="__config__.app.isApp('account') &amp;&amp; __config__.app.getApp('account').getManageAnalyticAccounting()" showIf="account.analyticDistributionAuthorized">
 			<field name="analyticDistributionTemplate" grid-view="analytic-distribution-template-grid" form-view="analytic-distribution-template-form" onChange="action-move-line-method-create-analytic-distribution" onSelect="action-move-line-attrs-set-domain-analytic-distribution-template" readonlyIf="!account.analyticDistributionAuthorized"
@@ -161,6 +183,8 @@
 			<field name="description" colSpan="12"/>
 			<field name="taxAmount" hidden="true"/>
 			<field name="account.reconcileOk" hidden="true" />
+			<field name="serviceType" form-view="service-type-form" grid-view="service-type-grid"/>
+			<field name="das2Activity" form-view="das2-activity-form" grid-view="das2-activity-grid"/>
 		</panel>
 		<panel-tabs name="mainPanelTab">
 			<panel-related name="debitReconcileListPanel" showIf="id &amp;&amp; (account.reconcileOk &amp;&amp; (move.statusSelect == 2 || move.statusSelect == 3)) &amp;&amp; $number(debit) &gt; 0.00" field="debitReconcileList" form-view="reconcile-form" grid-view="move-line-reconcile-grid" canNew="false" canRemove="false"/>
@@ -259,8 +283,10 @@
 			<field name="credit" onChange="action-group-account-moveline-debitcredit-onchange" readonlyIf="debit &gt; 0 || amountPaid &gt; 0 || reconcileGroup != null" css="label-bold bold" colSpan="3"/>
 			<field name="amountRemaining" colSpan="3"/>
 			<field name="amountPaid" colSpan="3" hideIf="!account.reconcileOk || move.statusSelect == 1 || move.statusSelect == 4"/>
-			<field name="origin" colSpan="12"/>
-			<field name="description" colSpan="12" requiredIf="$isDescriptionRequired"/>
+			<field name="origin" colSpan="6"/>
+			<field name="serviceType" form-view="service-type-form" grid-view="service-type-grid" colSpan="3"/>
+			<field name="das2Activity" form-view="das2-activity-form" grid-view="das2-activity-grid" colSpan="3"/>
+			<field name="description" colSpan="6" requiredIf="$isDescriptionRequired"/>
 			<field name="$isDescriptionRequired" type="boolean" hidden="true"/>
 			<field name="taxAmount" hidden="true"/>
 			<field name="move.statusSelect" hidden="true"/>
@@ -386,6 +412,14 @@
     <action-method name="action-account-move-line-method-calculate-balance">
       <call class="com.axelor.apps.account.web.MoveLineController" method="showCalculatedBalance"/>
     </action-method>
+    
+    <action-method name="action-account-move-line-method-exclude-move-line-from-das2">
+		<call class="com.axelor.apps.account.web.MoveLineController" method="excludeMoveLineFromDas2"/>
+	</action-method>
+	
+	<action-method name="action-account-move-line-method-include-move-line-in-das2">
+		<call class="com.axelor.apps.account.web.MoveLineController" method="includeMoveLineInDas2"/>
+	</action-method>
 	
 	<action-attrs name="action-move-line-attrs-readonly">
 		<attribute name="readonly" for="informationsPanel" expr="eval: move?.statusSelect == 3 || move?.statusSelect == 4"/>

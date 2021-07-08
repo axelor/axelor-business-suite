@@ -393,7 +393,7 @@
 		<view type="grid" name="accounting-report-type-grid"/>
 		<view type="form" name="accounting-report-type-form"/>
 	</action-view>
-	
+
 	<menuitem name="account-root-budget-management" parent="account-root"  if="__config__.app.isApp('budget')"
 		title="Budget Preparation" order="25"/>
 	
@@ -556,6 +556,15 @@
 		<view type="grid" name="tax-grid"/>
 		<view type="form" name="tax-form"/>
 		<view-param name="search-filters" value="tax-filters"/>
+	</action-view>
+	
+	<menuitem name="account-conf-financial-service-types" parent="account-conf-financial"
+						title="Service types" action="account.conf.financial.service.types"/>
+
+	<action-view name="account.conf.financial.service.types"
+							 title="Service types" model="com.axelor.apps.account.db.ServiceType">
+		<view type="grid" name="service-type-grid"/>
+		<view type="form" name="service-type-form"/>
 	</action-view>
 	
 	<menuitem name="account-conf-analytic" parent="account-conf"
@@ -834,5 +843,17 @@
 		<view type="form" name="payment-delay-reason-form"/>
 	</action-view>
 	
+	
+	<!-- Conf Referential -->
+	
+	<menuitem name="referential-conf-das2-activity" parent="referential-conf"
+		title="DAS2 activities"
+		action="account.referential.conf.das2.activity" />
+
+	<action-view name="account.referential.conf.das2.activity"
+							 title="DAS2 activities" model="com.axelor.apps.account.db.Das2Activity">
+		<view type="grid" name="das2-activity-grid"/>
+		<view type="form" name="das2-activity-form"/>
+	</action-view>
 		
 </object-views>

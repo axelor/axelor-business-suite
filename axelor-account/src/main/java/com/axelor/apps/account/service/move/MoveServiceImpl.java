@@ -645,4 +645,15 @@ public class MoveServiceImpl implements MoveService {
     }
     return move;
   }
+
+  @Transactional
+  @Override
+  public void updateMoveInclusionInDas2Report(MoveLine moveLine, boolean state) {
+
+    Move move = moveLine.getMove();
+    for (MoveLine mvl : move.getMoveLineList()) {
+      mvl.setExcludeFromDas2Report(state);
+    }
+    moveRepository.save(move);
+  }
 }
