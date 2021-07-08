@@ -8,7 +8,7 @@
   <entity name="ProductCategory" lang="java" cacheable="true">
 
     <string name="code" title="Code" required="true" unique="true"/>
-    <string name="name" title="Name" unique="true" required="true" namecolumn="true"/>
+    <string name="name" title="Name" required="true" namecolumn="true"/>
     <many-to-one name="parentProductCategory" ref="ProductCategory" title="Parent category"/>
 
   </entity>
