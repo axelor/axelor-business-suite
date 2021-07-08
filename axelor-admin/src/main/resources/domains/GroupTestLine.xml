@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="base" package="com.axelor.apps.base.db"/>
+
+  	<entity name="GroupTestLine" lang="java" cacheable="true">
+	  
+	  <many-to-one name="unitTest" title="Unit test" ref="com.axelor.apps.base.db.UnitTest"/>
+	  <many-to-one name="groupTest" title="Group test" ref="com.axelor.apps.base.db.GroupTest"/>
+	  <integer name="sequence" title="Sequence"/>
+
+  	</entity>
+  	
+  	
+
+</domain-models>

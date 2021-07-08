@@ -50,5 +50,20 @@
 		<option value="4">DELETE</option>
 		<option value="5">EXPORT</option>
 	</selection>
+	
+	<selection name="unit.test.line.action.type.select">
+		<option value="select">Select</option>
+		<option value="assign">Assign</option>
+		<option value="create">Create</option>
+		<option value="call_action">Call Action</option>
+		<option value="call_service">Call Service</option>
+		<option value="assert">Assert</option>
+		<option value="add">Add</option>
+	</selection>
+	
+	<selection name="unit.test.line.assert.type.select">
+		<option value="==">Equals</option>
+		<option value="!=">Not equals</option>
+	</selection>
 
 </object-views>

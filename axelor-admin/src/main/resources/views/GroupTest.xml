@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+	<grid name="group-test-grid" title="Group tests" model="com.axelor.apps.base.db.GroupTest">
+		<field name="name" />
+	</grid>
+	
+	<form name="group-test-form" title="Group test" model="com.axelor.apps.base.db.GroupTest" width="large">
+		<panel name="mainPanel">
+			<field name="name" colSpan="6"/>
+			<field name="$unitTestSet" title="Select tests" colSpan="9" type="many-to-many" target="com.axelor.apps.base.db.UnitTest" widget="TagSelect" 
+					onSelect="action-group-test-unit-tests-attrs-on-select" canNew="false" />
+			<button name="addUnitTestBtn" title="Add tests" onClick="save,action-group-test-method-add-unit-tests" colSpan="3"/>		
+			<panel-related field="groupTestLineList" grid-view="group-test-line-grid" form-view="group-test-line-form" colSpan="12" canNew="false"/>
+		</panel>
+		<panel name="actionsPanel">
+			<button name="generateBtn" title="Generate" onClick="save,action-group-test-method-generate"/>
+			<button name="executeBtn" title="Execute" onClick="save,action-group-test-method-execute,save"/>
+		</panel>
+		<panel name="outputPanel">
+			<field name="testResult" widget="html" colSpan="12"/>
+		</panel>
+	</form>
+			
+	<action-method name="action-group-test-method-generate">
+		<call class="com.axelor.apps.base.web.GroupTestController" method="generate"/>
+	</action-method>
+	
+	<action-method name="action-group-test-method-execute">
+		<call class="com.axelor.apps.base.web.GroupTestController" method="execute"/>
+	</action-method>
+		
+	<action-method name="action-group-test-method-add-unit-tests">
+		<call class="com.axelor.apps.base.web.GroupTestController" method="addUnitTests"/>
+	</action-method>
+	
+	<action-attrs name="action-group-test-unit-tests-attrs-on-select">
+		<attribute name="domain" for="$unitTestSet" expr="eval:&quot;self.id not in (${(groupTestLineList?.unitTest.collect{it.id}+[0]).join(',')})&quot;"/>
+	</action-attrs>
+	
+</object-views>

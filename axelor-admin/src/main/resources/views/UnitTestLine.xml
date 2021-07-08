@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+	<grid name="unit-test-line-grid" title="Unit test lines" model="com.axelor.apps.base.db.UnitTestLine" canMove="true" orderBy="sequence">
+		<field name="target"/>
+		<field name="actionTypeSelect"/>
+		<field name="value"/>
+		<field name="input"/>
+	</grid>
+	
+	<form name="unit-test-line-form" title="Unit test line" model="com.axelor.apps.base.db.UnitTestLine">
+		<panel name="mainPanel">
+			<field name="target" onChange="action-unit-test-line-method-validate-onchange"/>
+			<field name="actionTypeSelect" onChange="action-unit-test-line-method-validate-onchange" colSpan="3"/>
+			<field name="isIncludedInContext" hideIf="['assert','add'].includes(actionTypeSelect)" colSpan="3"/>
+			<field name="value" onChange="action-unit-test-line-method-validate-onchange" colSpan="12"/>
+			<panel name="inputPanel" showIf="['select','call_action','call_service'].includes(actionTypeSelect)" colSpan="12" itemSpan="6">			
+				<field name="input"/>
+				<spacer name="inputSpacer"/>
+			</panel>
+			<field name="assertTypeSelect" showIf="'assert' == actionTypeSelect" requiredIf="'assert' == actionTypeSelect"/>			
+		</panel>
+	</form>
+		
+	<action-method name="action-unit-test-line-method-validate-onchange">
+		<call class="com.axelor.apps.base.web.UnitTestLineController" method="validateOnChange"/>
+	</action-method>
+		
+</object-views>
