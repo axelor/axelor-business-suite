@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">odaURL</property>
@@ -2300,17 +2300,43 @@ order by StockMoveLine.sequence]]></xml-property>
                     <text id="3426">
                         <property name="fontWeight">bold</property>
                         <property name="marginLeft">2pt</property>
+                        <property name="dataSet">TranslateDS</property>
+                        <list-property name="paramBindings">
+                            <structure>
+                                <property name="paramName">param_1</property>
+                                <simple-property-list name="expression">
+                                    <value type="javascript">if(row["title_select"] == "1"){'M.'}
+else if(row["title_select"] == "2"){'Ms.'}
+else if(row["title_select"] == "3"){'Dr'}
+else if(row["title_select"] == "4"){'Prof.'}</value>
+                                </simple-property-list>
+                            </structure>
+                        </list-property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">message_key</property>
+                                <text-property name="displayName">message_key</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">translation</property>
+                                <text-property name="displayName">translation</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
                         <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<VALUE-OF>if(row["partner_type_select"] != "1"){
-	if(row["title_select"]== "1"){"M."}
-	else if(row["title_select"]=="2"){"Mme"}
-	else if(row["title_select"]=="3"){"Mlle"}
-	else if(row["title_select"]=="4"){"Dr"}
-	else if(row["title_select"]=="5"){"Prof."}
+                        <text-property name="content"><![CDATA[<VALUE-OF>if(row._outer["partner_type_select"] != "1"){
+			if(params["Locale"].value != 'en') {
+				row["translation"]
+			} else {
+				row["message_key"]
+			}
 }</VALUE-OF> 
-<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>row["name"]</VALUE-OF>
-<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>if(row["partner_type_select"] != "1"){
-row["first_name"]
+<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>row._outer["name"]</VALUE-OF>
+<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>if(row._outer["partner_type_select"] != "1"){
+row._outer["first_name"]
 }</VALUE-OF>]]></text-property>
                     </text>
                     <text id="3670">
@@ -3108,9 +3134,9 @@ rowNumD=0;]]></method>
                                         <property name="borderTopWidth">thin</property>
                                         <property name="textAlign">center</property>
                                         <image id="4110">
+                                            <expression name="altText">""</expression>
                                             <property name="source">file</property>
                                             <expression name="uri" type="javascript">params["AttachmentPath"].value+row["barcode_picture"]</expression>
-                                            <expression name="altText">""</expression>
                                         </image>
                                     </cell>
                                     <cell id="3807">
@@ -3996,9 +4022,9 @@ rowNumD=0;]]></method>
                                     <property name="borderTopWidth">thin</property>
                                     <property name="textAlign">center</property>
                                     <image id="4375">
+                                        <expression name="altText">""</expression>
                                         <property name="source">file</property>
                                         <expression name="uri" type="javascript">params["AttachmentPath"].value+row["barcode_picture"]</expression>
-                                        <expression name="altText">""</expression>
                                     </image>
                                 </cell>
                                 <cell id="4290">

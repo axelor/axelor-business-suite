@@ -3071,17 +3071,43 @@ from base_app_base]]></xml-property>
                         <property name="fontSize">12pt</property>
                         <property name="fontWeight">bold</property>
                         <property name="marginLeft">0pt</property>
+                        <property name="dataSet">TranslateDS</property>
+                        <list-property name="paramBindings">
+                            <structure>
+                                <property name="paramName">param_1</property>
+                                <simple-property-list name="expression">
+                                    <value type="javascript">if(row["ClientTitle"] == "1"){'M.'}
+else if(row["ClientTitle"] == "2"){'Ms.'}
+else if(row["ClientTitle"] == "3"){'Dr'}
+else if(row["ClientTitle"] == "4"){'Prof.'}</value>
+                                </simple-property-list>
+                            </structure>
+                        </list-property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">message_key</property>
+                                <text-property name="displayName">message_key</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">translation</property>
+                                <text-property name="displayName">translation</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
                         <property name="contentType">html</property>
-                        <text-property name="content"><![CDATA[<VALUE-OF>if(row["partner_type_select"] != "1"){
-	if(row["ClientTitle"] == "1"){"M."}
-	else if(row["ClientTitle"]=="2"){"Mme"}
-	else if(row["ClientTitle"]=="3"){"Mlle"}
-	else if(row["ClientTitle"]=="4"){"Dr"}
-	else if(row["ClientTitle"]=="5"){"Prof."}
+                        <text-property name="content"><![CDATA[<VALUE-OF>if(row._outer["partner_type_select"] != "1"){
+			if(params["Locale"].value != 'en') {
+				row["translation"]
+			} else {
+				row["message_key"]
+			}
 }</VALUE-OF> 
-<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>row["ClientPartName"]</VALUE-OF>
-<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>if(row["partner_type_select"] != "1"){
-row["ClientPartFirstName"]
+<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>row._outer["ClientPartName"]</VALUE-OF>
+<VALUE-OF format="^">"  "</VALUE-OF><VALUE-OF>if(row._outer["partner_type_select"] != "1"){
+row._outer["ClientPartFirstName"]
 }</VALUE-OF>]]></text-property>
                     </text>
                     <text id="3662">
