@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+
+    <form name="group-form" id="stock-group-form" title="Group" model="com.axelor.auth.db.Group" extension="true">
+		<extend target="//field[@name='isSupplier']">
+			<insert position="after">
+				 <field name="isStockLocationConnection" colSpan="4" title="Stock location connection"/>
+			</insert>
+		</extend>
+    </form>
+
+</object-views>

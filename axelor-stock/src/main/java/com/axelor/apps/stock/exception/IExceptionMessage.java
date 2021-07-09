@@ -216,4 +216,7 @@ public interface IExceptionMessage {
 
   public static final String INVENTORY_PRODUCT_TRACKING_NUMBER_ERROR = /*$$(*/
       "There is more than one line for same product with same tracking number." /*)*/;
+
+  public static final String USER_LOGIN_WITH_STOCK_LOCATION_WRONG_SERIAL_NUMBER = /*$$(*/
+      "No stock location with this serial number" /*)*/;
 }

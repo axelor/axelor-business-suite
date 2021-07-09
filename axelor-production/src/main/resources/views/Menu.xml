@@ -81,8 +81,11 @@
 		<view type="grid" name="manuf-order-grid" />
 		<view type="form" name="manuf-order-form" />
 		<view-param name="search-filters" value="manuf-order-filters"/>
-		<domain>self.typeSelect = 1</domain>
+		<domain>self.typeSelect = 1 and( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
 		<context name="_todayDateTime" expr="eval:__config__.app.getTodayDateTime()"/>
+		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>	
 
 	<menuitem name="manufacturing-root-operation-order" parent="manufacturing-root"
@@ -351,9 +354,12 @@
 		<view type="grid" name="manuf-order-grid" />
 		<view type="form" name="manuf-order-form" />
 		<view-param name="search-filters" value="manuf-order-filters"/>
-		<domain>self.typeSelect = 2</domain>
+		<domain>self.typeSelect = 2 and( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
 		<context name="_todayDateTime" expr="eval:__config__.app.getTodayDateTime()"/>
 		<context name="_createPermanent" expr="eval: true"/>
+		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>
 
 	<menuitem name="manufacturing-conf-configurators" parent="manufacturing-conf"
@@ -513,7 +519,11 @@
 		<view type="grid" name="manuf-order-grid" />
 		<view type="form" name="manuf-order-form" />
 		<view-param name="search-filters" value="manuf-order-filters" />
+		<domain>( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
 		<context name="_todayDateTime" expr="eval:__config__.app.getTodayDateTime()" />
+		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>
 
 	<menuitem name="top-manufacturing-operation-order" parent="top-manufacturing"

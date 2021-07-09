@@ -65,6 +65,8 @@ import com.axelor.apps.stock.service.StockRulesService;
 import com.axelor.apps.stock.service.StockRulesServiceImpl;
 import com.axelor.apps.stock.service.TrackingNumberConfigurationService;
 import com.axelor.apps.stock.service.TrackingNumberConfigurationServiceImpl;
+import com.axelor.apps.stock.service.UserServiceStock;
+import com.axelor.apps.stock.service.UserServiceStockImpl;
 import com.axelor.apps.stock.service.WeightedAveragePriceService;
 import com.axelor.apps.stock.service.WeightedAveragePriceServiceImpl;
 import com.axelor.apps.stock.service.app.AppStockService;
@@ -75,6 +77,7 @@ import com.axelor.apps.stock.service.stockmove.print.PickingStockMovePrintServic
 import com.axelor.apps.stock.service.stockmove.print.PickingStockMovePrintServiceimpl;
 import com.axelor.apps.stock.service.stockmove.print.StockMovePrintService;
 import com.axelor.apps.stock.service.stockmove.print.StockMovePrintServiceImpl;
+import com.axelor.events.StockLoginObserver;
 
 public class StockModule extends AxelorModule {
 
@@ -109,5 +112,8 @@ public class StockModule extends AxelorModule {
     bind(StockHistoryService.class).to(StockHistoryServiceImpl.class);
     bind(StockCorrectionRepository.class).to(StockCorrectionStockRepository.class);
     bind(TrackingNumberConfigurationService.class).to(TrackingNumberConfigurationServiceImpl.class);
+    bind(TrackingNumberConfigurationService.class).to(TrackingNumberConfigurationServiceImpl.class);
+    bind(StockLoginObserver.class);
+    bind(UserServiceStock.class).to(UserServiceStockImpl.class);
   }
 }

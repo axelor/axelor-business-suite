@@ -405,5 +405,13 @@
 		<view type="grid" name="stock-correction-reason-grid"/>
 		<view type="form" name="stock-correction-reason-form"/>
 	</action-view>
+	
+    <menuitem name="action-open-user-login-to-cell-form" if="__user__.group.name = 'BlockedTempGroupToLoginCell'" hidden="true" title="Please log in to your cell" action="action.open.user.login.to.cell.form"/>
+  
+	<action-view name="action.open.user.login.to.cell.form" title="Please log in to your cell" model="com.axelor.auth.db.User">
+	 	<view type="form" name="stock-user-login-to-cell-form"/>
+	 	<view-param name="show-toolbar" value="false"/>
+	 	<view-param name="show-confirm" value="false" />
+	</action-view>
 
 </object-views>

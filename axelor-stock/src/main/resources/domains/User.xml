@@ -7,6 +7,14 @@
 
   <entity name="User" sequential="true" lang="java">
     <boolean name="useSignatureForStock" title="Use signature for certificate of conformity"/>
+    
+    <many-to-one name="activeStockLocation" ref="com.axelor.apps.stock.db.StockLocation" title="Active stock location"/>
+    
+    <many-to-one name="savedGroup" ref="com.axelor.auth.db.Group"/>
+    <string name="savedHomeAction"/>
+    
+    
+    
     <track>
 	   <field name="useSignatureForStock"/>
     </track>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+    <module name="auth" package="com.axelor.auth.db"/>
+
+    <entity name="Group" cacheable="true">
+
+        <boolean name="isStockLocationConnection" default="false" title="Stock location connection" help="Indicate if this group needs to connect to a stock location to operate."/>
+
+    </entity>
+
+</domain-models>

@@ -1,0 +1,8 @@
+---
+title: "STOCK-PRODUCTION : add login with stock location"
+type: feature
+description: |
+	Add boolean to group for activate the feature.
+	Add active stock location on user.
+	Add new view after connection for scanning in order to login with stock location.
+	Add filters with the active stock location on all manuf order view.

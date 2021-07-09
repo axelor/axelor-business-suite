@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+
+    <form name="user-preferences-form" id="stock-user-preferences-form" title="Preferences" model="com.axelor.auth.db.User" 
+        onSave="com.axelor.apps.base.web.UserController:validate" onNew="action-user-attrs" onLoad="action-user-attrs" extension="true">
+			<extend target="//field[@name='activeCompany']">
+			<insert position="after">
+				 <field name="activeStockLocation" title="Active stock location" readonly="true"/>
+			</insert>
+		</extend>
+			
+	</form>
+	
+	<form name="stock-user-login-to-cell-form" model="com.axelor.apps.base.db.Wizard" onNew="action-stock-move-user-login-with-stock-location-group-on-new" canSave="false" canNew="false" canCopy="false" title="Please log in to your cell" >
+		<panel name="mainPanel" title="Please log in to your cell" >
+			<field name="$serialNumber" title="Scan your cell" type="string" colSpan="12"/>
+			<button onClick="action-stock-user-login-with-stock-location" name="validateBtn" title="OK" colSpan="3" colOffset="9"/>	
+		</panel>
+	</form>
+	
+	<action-method name="action-stock-user-login-with-stock-location">
+		<call class="com.axelor.apps.stock.web.UserStockController" method="loginWithStockLocation"/>
+	</action-method>
+	
+	<action-group name="action-stock-move-user-login-with-stock-location-group-on-new">
+		<action name="close"  if="__user__.group.code != 'BlockedTempGroupToLoginCell'"/>
+	</action-group>
+
+</object-views>

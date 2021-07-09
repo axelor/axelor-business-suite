@@ -17,23 +17,32 @@
 		model="com.axelor.apps.production.db.ManufOrder">
 		<view type="grid" name="manuf-order-grid"/>
 		<view type="form" name="manuf-order-form"/>
-		 <domain>self.plannedStartDateT &gt;= :_today</domain>
+		 <domain>self.plannedStartDateT &gt;= :_today and( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
   		<context name="_today" expr="eval: __datetime__" />
+  		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>
 	
 	<action-view name="manufacturing.dashboard.current.production.orders" title="All Current Manufacturing Orders"
 		model="com.axelor.apps.production.db.ManufOrder">
 		<view type="grid" name="manuf-order-grid"/>
 		<view type="form" name="manuf-order-form"/>
-  		<domain>self.realStartDateT &lt;= :_today and (self.realEndDateT is null OR self.realEndDateT >= :_today)</domain>
+  		<domain>self.realStartDateT &lt;= :_today and (self.realEndDateT is null OR self.realEndDateT >= :_today) and( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
  		<context name="_today" expr="eval: __datetime__" />
+ 		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>
 	
 	<action-view name="manufacturing.dashboard.standby.manuf.orders" title="Manufacturing orders on StandBy"
 		model="com.axelor.apps.production.db.ManufOrder">
 		<view type="grid" name="manuf-order-grid"/>
 		<view type="form" name="manuf-order-form"/>
-		<domain>self.statusSelect = 5</domain>
+		<domain>self.statusSelect = 5 and( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
+		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>
 	
 	<action-view name="manufacturing.dashboard.hr.assigned.manuf.orders" title="Human Ressources Assigned per Manufacturing order"
@@ -58,7 +67,10 @@
 		model="com.axelor.apps.production.db.ManufOrder">
 		<view type="grid" name="manuf-order-time-tracking-grid"/>
 		<view type="form" name="manuf-order-form"/>
-		<domain>self.statusSelect = 6</domain>
+		<domain>self.statusSelect = 6 and( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
+		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>
 
 </object-views>

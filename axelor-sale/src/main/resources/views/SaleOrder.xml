@@ -1451,7 +1451,10 @@
 	<action-view name="action-sale-order-view-manuf-orders" title="Manufacturing Orders" model="com.axelor.apps.production.db.ManufOrder">
 		<view type="grid" name="manuf-order-grid"/>
 		<view type="form" name="manuf-order-form"/>
-		<domain>:id member of self.saleOrderSet</domain>
+		<domain>:id member of self.saleOrderSet and( (self.workshopStockLocation is null and (:_isStockLocationConnection is null or  :_isStockLocationConnection = false)) or (:_group is not null and self.workshopStockLocation is not null and :_isStockLocationConnection = true and (:_activeStockLocation is null or :_activeStockLocation = self.workshopStockLocation.id)))</domain>
+		<context name="_group" expr="eval: __user__.group"/>
+		<context name="_isStockLocationConnection" expr="eval: __user__.group?.isStockLocationConnection"/>
+		<context name="_activeStockLocation" expr="eval: __user__.activeStockLocation?.id"/>
 	</action-view>
 
 	<action-view name="action-sale-order-view-show-generated-po" title="Generated purchase orders" model="com.axelor.apps.purchase.db.PurchaseOrder">
