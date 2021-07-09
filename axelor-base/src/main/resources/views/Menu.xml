@@ -674,6 +674,15 @@
 		<view type="form" name="mail-batch-form"/>
 		<view-param name="search-filters" value="mail-batch-filters"/>
 	</action-view>
+	
+	<menuitem name="admin-root-batch-password-change" parent="admin-root-batch"
+		title="Password change batch" action="admin.root.batch.password.change" />
+
+	<action-view name="admin.root.batch.password.change" title="Password change batch"
+		model="com.axelor.apps.base.db.PasswordChangeBatch" >
+		<view type="grid" name="password-change-batch-grid"/>
+		<view type="form" name="password-change-batch-form"/>
+	</action-view>
 
 	<menuitem id="bas-mail-conf" name="mail-conf" parent="admin-root"
 		if="__config__.app.isApp('base')" title="Message" order="40" />

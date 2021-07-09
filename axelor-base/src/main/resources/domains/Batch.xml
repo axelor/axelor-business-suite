@@ -11,6 +11,7 @@
   	<many-to-one name="alarmEngineBatch" ref="com.axelor.apps.base.db.AlarmEngineBatch" />
   	<many-to-one name="baseBatch" ref="com.axelor.apps.base.db.BaseBatch" />
   	<many-to-one name="mailBatch" ref="com.axelor.apps.base.db.MailBatch"/>
+  	<many-to-one name="passwordChangeBatch" ref="com.axelor.apps.base.db.PasswordChangeBatch"/>
 
   	<!-- HEADER -->
     <datetime name="startDate" title="Start Date" readonly="true" tz="true" />
