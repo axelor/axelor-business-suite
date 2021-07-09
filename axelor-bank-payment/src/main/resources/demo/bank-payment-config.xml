@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csv-inputs xmlns="http://axelor.com/xml/ns/data-import"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<csv-inputs xmlns="http://axelor.com/xml/ns/data-import" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://axelor.com/xml/ns/data-import http://axelor.com/xml/ns/data-import/data-import_5.4.xsd">
-  	
-	<input file="bankpayment_bankOrderEconomicReason.csv" separator=";" type="com.axelor.apps.bankpayment.db.BankOrderEconomicReason" >
-		<bind to="name" eval="label != null &amp;&amp; label != '' ? code + ' - ' + label : code"/>
-	</input>
 
-	<input file="bankpayment_bankPaymentConfig.csv" separator=";" type="com.axelor.apps.bankpayment.db.BankPaymentConfig" search="self.importId = :importId"/>
+  <input file="bankpayment_bankOrderEconomicReason.csv" separator=";" type="com.axelor.apps.bankpayment.db.BankOrderEconomicReason">
+    <bind to="name" eval="label != null &amp;&amp; label != '' ? code + ' - ' + label : code" />
+  </input>
 
-	<input file="account_accountingBatch.csv" separator=";" type="com.axelor.apps.account.db.AccountingBatch" search="self.code = :code" >
-		<bind to="dueDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(dueDate)" column="dueDate"/>
-		<bind to="startDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(startDate)" column="startDate"/>
-		<bind to="endDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(endDate)" column="endDate"/>
-	</input>
-	
-	<input file="base_sequence.csv" separator=";" type="com.axelor.apps.base.db.Sequence" search="self.importId = :importId" call="com.axelor.csv.script.SequenceScript:computeFullname">
-    	<bind to="yearlyResetOk" column="yearlyResetOk" eval="yearlyResetOk == '1' ? true : false"/>
-    	<bind to="nextNum" column="nextNum" eval="nextNum?.empty ? '1' : nextNum"/>
-    	<bind to="padding" column="padding" eval="padding?.empty ? '1' : padding"/>
-    	<bind to="toBeAdded" column="toBeAdded" eval="toBeAdded?.empty ? '1' : toBeAdded"/>
-    </input>
+  <input file="bankpayment_bankPaymentConfig.csv" separator=";" type="com.axelor.apps.bankpayment.db.BankPaymentConfig" search="self.importId = :importId" />
+
+  <input file="account_accountingBatch.csv" separator=";" type="com.axelor.apps.account.db.AccountingBatch" search="self.code = :code">
+    <bind to="dueDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(dueDate)" column="dueDate" />
+    <bind to="startDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(startDate)" column="startDate" />
+    <bind to="endDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(endDate)" column="endDate" />
+  </input>
+
+  <input file="base_sequence.csv" separator=";" type="com.axelor.apps.base.db.Sequence" search="self.importId = :importId" call="com.axelor.csv.script.SequenceScript:computeFullname">
+    <bind to="yearlyResetOk" column="yearlyResetOk" eval="yearlyResetOk == '1' ? true : false" />
+    <bind to="nextNum" column="nextNum" eval="nextNum?.empty ? '1' : nextNum" />
+    <bind to="padding" column="padding" eval="padding?.empty ? '1' : padding" />
+    <bind to="toBeAdded" column="toBeAdded" eval="toBeAdded?.empty ? '1' : toBeAdded" />
+  </input>
+  
+  <input file="bankpayment_bankStatementQuery.csv" separator=";" type="com.axelor.apps.account.db.BankStatementQuery" search="self.importId = :importId" />
+
+  <input file="bankpayment_bankStatementRule.csv" separator=";" type="com.axelor.apps.account.db.BankStatementRule" search="self.importId = :importId" />
 
 </csv-inputs>

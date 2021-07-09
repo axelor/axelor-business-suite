@@ -21,6 +21,8 @@ import com.axelor.apps.account.db.MoveLine;
 import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.bankpayment.db.BankReconciliationLine;
 import com.axelor.apps.bankpayment.db.BankStatementLine;
+import com.axelor.apps.bankpayment.db.repo.BankReconciliationLineRepository;
+import com.axelor.common.ObjectUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -45,9 +47,17 @@ public class BankReconciliationLineService {
     bankReconciliationLine.setName(name);
     bankReconciliationLine.setReference(reference);
     bankReconciliationLine.setBankStatementLine(bankStatementLine);
-    bankReconciliationLine.setMoveLine(moveLine);
     bankReconciliationLine.setIsPosted(false);
-
+    if (debit.compareTo(BigDecimal.ZERO) == 0) {
+    	bankReconciliationLine.setTypeSelect(BankReconciliationLineRepository.TYPE_SELECT_CUSTOMER);
+    } else {
+    	bankReconciliationLine.setTypeSelect(BankReconciliationLineRepository.TYPE_SELECT_SUPPLIER);
+    }
+    if (ObjectUtils.notEmpty(moveLine)) {
+      bankReconciliationLine.setMoveLine(moveLine);
+      bankReconciliationLine.setPartner(moveLine.getPartner());
+      bankReconciliationLine.setAccount(moveLine.getAccount());
+    }
     return bankReconciliationLine;
   }
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+  <grid model="com.axelor.apps.bankpayment.db.BankStatementRule" title="Bank statement rules" name="bank-statement-rule-grid">
+    <field name="accountManagement" />
+    <field name="counterpartAccount" />
+    <field name="partner" />
+    <field name="ruleType" />
+  </grid>
+
+  <form model="com.axelor.apps.bankpayment.db.BankStatementRule" title="Bank statement rule" name="bank-statement-rule-form">
+    <panel name="bankStatementMainPanel">
+      <field name="accountManagement" grid-view="account-management-grid" form-view="account-management-form" onChange="account-bank-statement-rule-record-set-temp-company" domain="self.typeSelect = 3"/>
+      <field name="ruleType" readonlyIf="!accountManagement" requiredIf="ruleType = 0"/>
+      <field name="partner" requiredIf="counterpartAccount.useForPartnerBalance &amp;&amp; ruleType = 0" domain="self.partnerTypeSelect = 1" readonlyIf="!accountManagement" grid-view="partner-grid" form-view="partner-form"/>
+      <field name="counterpartAccount" requiredIf="ruleType == 0" readonlyIf="!accountManagement" domain="self.company = :company"/>
+      <field name="searchLabel" readonlyIf="!accountManagement"/>
+      <field name="bankStatementQuery" readonlyIf="!accountManagement" domain="self.ruleType = :ruleType" grid-view="bank-statement-query-grid" form-view="bank-statement-query-form"/>
+      <field name="$company" type="many-to-one" target="com.axelor.apps.base.db.Company" hidden="true"/>
+    </panel>
+  </form>
+  
+  <action-record name="account-bank-statement-rule-record-set-temp-company" model="com.axelor.apps.bankpayment.db.BankStatementRule">
+    <field name="$company" expr="eval: accountManagement.company"/>
+  </action-record>
+  
+</object-views>

@@ -1,109 +1,118 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
-  
-     <grid name="bank-statement-grid" title="Bank Statements" model="com.axelor.apps.bankpayment.db.BankStatement"  orderBy="-toDate,name">
-			<toolbar>
-				<button name="showBankStatementLinesBtn" title="See bank statement lines" onClick="account-bank-statement-view-bank-statement-lines" />
-			</toolbar>
-			<field name="id" hidden="false" width="120"/>
-		  	<field name="ebicsPartner.ebicsBank" width="250" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule"/>
-		  	<field name="ebicsPartner" width="150" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule"/>
-		  	<field name="bankStatementFileFormat" />
-		  	<field name="fromDate" width="120"/>
-		  	<field name="toDate" width="120"/>
-		  	<field name="statusSelect" title="Status" width="120"/>
-     </grid>
-  	
-  	
-  	<form name="bank-statement-form" title="Bank Statement" model="com.axelor.apps.bankpayment.db.BankStatement" width="large">
-        <toolbar>
-            <button name="printBtn" title="Print" icon="fa-print" readonlyIf="statusSelect &lt; 2"
-                onClick="action-bank-statement-method-print" />
-            <button name="generateBankReconciliationBtn" title="Run bank reconciliation" readonlyIf="statusSelect &lt; 2"
-                onClick="action-bank-statement-method-run-bank-reconciliation" />    
-        </toolbar>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
-        <panel name="bankStatementPanel" colSpan="12" readonlyIf="statusSelect == 2">
-            <panel name="detailPanel" colSpan="12">
-                <panel name="mainPanel" colSpan="8">
-                    <field name="name"/>
-                    <field name="bankStatementFile" widget="binary-link" canNew="true"/>
-                    <field name="fromDate"/>
-                    <field name="toDate"/>
-                    <field name="ebicsPartner" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule"/>
-                    <field name="ebicsPartner.ebicsBank" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule"/>
-                    <field name="bankStatementFileFormat"/>
-                    <field name="bankStatementFileFormat.statementFileFormatSelect" hidden="true"/>
-                </panel>
-                <panel colSpan="4" name="actionsPanel">
-                    <field name="createdBy"/>
-                    <field name="statusSelect" title="Status"/>
-                    <button name="runImportBtn" title="BankStatement.Import" onClick="save,action-bank-statement-method-run-import" readonlyIf="!bankStatementFile"  hideIf="statusSelect == 2"/>
-                </panel>
-            </panel>
-            <panel-dashlet name="bankStatementLinesPanel" action="action-bank-statement-view-bank-statement-lines" colSpan="12" height="500" canSearch="true" hideIf="bankStatementFileFormat.statementFileFormatSelect.indexOf(&quot;camt.xxx.cfonb120&quot;) == 0"/>
-            <panel-dashlet name="bankStatementLinesAfb120Panel" action="action-bank-statement-view-bank-statement-lines-afb-120" colSpan="12" height="500" canSearch="true" showIf="bankStatementFileFormat.statementFileFormatSelect.indexOf(&quot;camt.xxx.cfonb120&quot;) == 0"/>
-		    <label name="infoLabel" title="Initial balance" colSpan="12" css="btn-info"/>
-		    <label name="primaryLabel" title="Final balance" colSpan="12" css="btn-primary"/>
-		    <label name="sucessLabel" title="Reconciled bank statement line" colSpan="12" css="btn-success"/>
-		    <label name="warningLabel" title="Partially reconciled bank statement line" colSpan="12" css="btn-warning"/>
-		    <label name="dangerLabel" title="Unreconciled bank statement line" colSpan="12" css="btn-danger"/>        
-		</panel>
-		
-		<panel-dashlet name="moveLinePanel" action="action-bank-statement-view-move-lines" canAttach="false"/>
-	</form>
-	
-	<action-view name="account-bank-statement-view-bank-statement-lines"
-		title="Bank statement lines" model="com.axelor.apps.bankpayment.db.BankStatementLine" >
-		<view type="grid" name="bank-statement-line-grid" />
-		<view type="form" name="bank-statement-line-form" />
-	</action-view>
+  <grid name="bank-statement-grid" title="Bank Statements" model="com.axelor.apps.bankpayment.db.BankStatement" orderBy="-toDate,name">
+    <toolbar>
+      <button name="showBankStatementLinesBtn" title="See bank statement lines" onClick="account-bank-statement-view-bank-statement-lines" />
+    </toolbar>
+    <field name="id" hidden="false" width="120" />
+    <field name="ebicsPartner.ebicsBank" width="250" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule" />
+    <field name="ebicsPartner" width="150" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule" />
+    <field name="bankStatementFileFormat" />
+    <field name="fromDate" width="120" />
+    <field name="toDate" width="120" />
+    <field name="statusSelect" title="Status" width="120" />
+  </grid>
 
-	<action-method name="action-bank-statement-method-run-import">
-		<call class="com.axelor.apps.bankpayment.web.BankStatementController" method="runImport"/>
-	</action-method>
 
- 	<action-view name="action-bank-statement-view-bank-statement-lines" title="Bank statement lines" model="com.axelor.apps.bankpayment.db.BankStatementLine">
- 		<view type="grid" name="bank-statement-line-bank-statement-grid"/>
- 		<view type="form" name="bank-statement-line-form"/>
-		<view-param name="limit" value="200"/>
- 		<domain>self.bankStatement.id = :_id</domain>
-		<context name="_id" expr="eval: id"/>
- 	</action-view>
-    
-	<action-view name="action-bank-statement-view-bank-statement-lines-afb-120" title="Bank statement lines" model="com.axelor.apps.bankpayment.db.BankStatementLineAFB120">
- 		<view type="grid" name="bank-statement-line-afb-120-grid-dashlet"/>
- 		<view type="form" name="bank-statement-line-afb-120-form"/>
-		<view-param name="limit" value="200"/>
- 		<domain>self.bankStatement.id = :_id</domain>
- 		<context name="_id" expr="eval: id"/>
- 	</action-view>
+  <form name="bank-statement-form" title="Bank Statement" model="com.axelor.apps.bankpayment.db.BankStatement" width="large">
+    <toolbar>
+      <button name="printBtn" title="Print" icon="fa-print" readonlyIf="statusSelect &lt; 2" onClick="action-bank-statement-method-print" />
+      <button name="generateBankReconciliationBtn" title="Run bank reconciliation" readonlyIf="statusSelect &lt; 2" onClick="action-bank-statement-method-run-bank-reconciliation" />
+      <button name="generateMovesFromBankStatement" title="Generate moves" onClick="action-bank-statement-method-generate-moves-from-bank-statement" />
+    </toolbar>
 
-	<action-view name="action-bank-statement-view-move-lines" title="Move lines" model="com.axelor.apps.account.db.MoveLine">
-		<view type="grid" name="move-line-grid"/>
-		<view type="form" name="move-line-form"/>
- 		<domain>self.id IN 
+    <panel name="bankStatementPanel" colSpan="12" readonlyIf="statusSelect == 2">
+      <panel name="detailPanel" colSpan="12">
+        <panel name="mainPanel" colSpan="8">
+          <field name="name" />
+          <field name="bankStatementFile" widget="binary-link" canNew="true" />
+          <field name="fromDate" />
+          <field name="toDate" />
+          <field name="ebicsPartner" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule" />
+          <field name="ebicsPartner.ebicsBank" if="eval: __config__.app.getApp('bank-payment').enableEbicsModule" />
+          <field name="bankStatementFileFormat" />
+          <field name="bankStatementFileFormat.statementFileFormatSelect" hidden="true" />
+        </panel>
+        <panel colSpan="4" name="actionsPanel">
+          <field name="createdBy" />
+          <field name="statusSelect" title="Status" />
+          <button name="runImportBtn" title="BankStatement.Import" onClick="save,action-bank-statement-method-run-import" readonlyIf="!bankStatementFile" hideIf="statusSelect == 2" />
+        </panel>
+      </panel>
+      <panel-dashlet name="bankStatementLinesPanel" action="action-bank-statement-view-bank-statement-lines" colSpan="12" height="500" canSearch="true"
+        hideIf="bankStatementFileFormat.statementFileFormatSelect.indexOf(&quot;camt.xxx.cfonb120&quot;) == 0" />
+      <panel-dashlet name="bankStatementLinesAfb120Panel" action="action-bank-statement-view-bank-statement-lines-afb-120" colSpan="12" height="500" canSearch="true"
+        showIf="bankStatementFileFormat.statementFileFormatSelect.indexOf(&quot;camt.xxx.cfonb120&quot;) == 0" />
+      <label name="infoLabel" title="Initial balance" colSpan="12" css="btn-info" />
+      <label name="primaryLabel" title="Final balance" colSpan="12" css="btn-primary" />
+      <label name="sucessLabel" title="Reconciled bank statement line" colSpan="12" css="btn-success" />
+      <label name="warningLabel" title="Partially reconciled bank statement line" colSpan="12" css="btn-warning" />
+      <label name="dangerLabel" title="Unreconciled bank statement line" colSpan="12" css="btn-danger" />
+    </panel>
+
+    <panel-dashlet name="moveLinePanel" action="action-bank-statement-view-move-lines" canAttach="false" />
+  </form>
+
+  <!-- ACTION VIEW -->
+
+  <action-view name="account-bank-statement-view-bank-statement-lines" title="Bank statement lines" model="com.axelor.apps.bankpayment.db.BankStatementLine">
+    <view type="grid" name="bank-statement-line-grid" />
+    <view type="form" name="bank-statement-line-form" />
+  </action-view>
+
+  <action-view name="action-bank-statement-view-bank-statement-lines" title="Bank statement lines" model="com.axelor.apps.bankpayment.db.BankStatementLine">
+    <view type="grid" name="bank-statement-line-bank-statement-grid" />
+    <view type="form" name="bank-statement-line-form" />
+    <view-param name="limit" value="200" />
+    <domain>self.bankStatement.id = :_id</domain>
+    <context name="_id" expr="eval: id" />
+  </action-view>
+
+  <action-view name="action-bank-statement-view-bank-statement-lines-afb-120" title="Bank statement lines" model="com.axelor.apps.bankpayment.db.BankStatementLineAFB120">
+    <view type="grid" name="bank-statement-line-afb-120-grid-dashlet" />
+    <view type="form" name="bank-statement-line-afb-120-form" />
+    <view-param name="limit" value="200" />
+    <domain>self.bankStatement.id = :_id</domain>
+    <context name="_id" expr="eval: id" />
+  </action-view>
+
+  <action-view name="action-bank-statement-view-move-lines" title="Move lines" model="com.axelor.apps.account.db.MoveLine">
+    <view type="grid" name="move-line-grid" />
+    <view type="form" name="move-line-form" />
+    <domain>self.id IN 
  		(SELECT brl.moveLine
  		FROM BankReconciliationLine AS brl
  		JOIN BankReconciliation as br
  		ON brl.bankReconciliation = br.id
  		WHERE br.bankStatement = :_id)</domain>
- 		<context name="_id" expr="eval: id"/>
-	</action-view>
+    <context name="_id" expr="eval: id" />
+  </action-view>
 
-    <action-method name="action-bank-statement-method-print">
-        <call class="com.axelor.apps.bankpayment.web.BankStatementController" method="print"/>
-    </action-method>
-    
-    <action-method name="action-bank-statement-method-run-bank-reconciliation">
-    	<call class="com.axelor.apps.bankpayment.web.BankStatementController" method="runBankReconciliation"/>	
-    </action-method>
+  <!-- ACTION METHOD -->
 
-	<search-filters name="bank-statement-filters" model="com.axelor.apps.bankpayment.db.BankStatement" title="Bank Statement filters">
-        <field name="ebicsPartner.ebicsBank" hidden="true" if="eval: !__config__.app.getApp('bank-payment').enableEbicsModule"/>
-		<field name="ebicsPartner" hidden="true" if="eval: !__config__.app.getApp('bank-payment').enableEbicsModule"/>
-    </search-filters>
-    
+  <action-method name="action-bank-statement-method-run-import">
+    <call class="com.axelor.apps.bankpayment.web.BankStatementController" method="runImport" />
+  </action-method>
+
+  <action-method name="action-bank-statement-method-print">
+    <call class="com.axelor.apps.bankpayment.web.BankStatementController" method="print" />
+  </action-method>
+
+  <action-method name="action-bank-statement-method-run-bank-reconciliation">
+    <call class="com.axelor.apps.bankpayment.web.BankStatementController" method="runBankReconciliation" />
+  </action-method>
+
+  <action-method name="action-bank-statement-method-generate-moves-from-bank-statement">
+    <call class="com.axelor.apps.bankpayment.web.BankStatementController" method="generateMovesFromBankStatement" />
+  </action-method>
+  
+  <!-- SEARCH FILTERS -->
+
+  <search-filters name="bank-statement-filters" model="com.axelor.apps.bankpayment.db.BankStatement" title="Bank Statement filters">
+    <field name="ebicsPartner.ebicsBank" hidden="true" if="eval: !__config__.app.getApp('bank-payment').enableEbicsModule" />
+    <field name="ebicsPartner" hidden="true" if="eval: !__config__.app.getApp('bank-payment').enableEbicsModule" />
+  </search-filters>
+
 </object-views>

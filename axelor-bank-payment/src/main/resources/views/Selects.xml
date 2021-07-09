@@ -247,5 +247,16 @@
    	  <option value="interbankPaymentOrder">Interbank payment order</option> <!-- seems to be unused. If delete, also do it for corresponding constant in view ExceptionOrigin.xml -->
    	  <option value="bankStatement">Bank Statement</option>
 	</selection>
+  
+    <selection name="bank.payment.bank.statement.rule.rule.type.select">
+        <option value="0">Accounting auto</option>
+        <option value="1">Reconciliation auto</option>
+    </selection>
+    
+    <selection name="bank.payment.bank.statement.query.confidence.index.select">
+      <option value="1">Green</option>
+      <option value="2">Orange</option>
+      <option value="3">Red</option>
+    </selection>
 
 </object-views>

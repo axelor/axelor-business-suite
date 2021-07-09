@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models xmlns="http://axelor.com/xml/ns/domain-models" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
-  
-  <module name="bank-payment" package="com.axelor.apps.bankpayment.db"/>
+
+  <module name="bank-payment" package="com.axelor.apps.bankpayment.db" />
 
   <entity name="BankStatementLineAFB120" lang="java" extends="BankStatementLine" persistable="true">
-  
-  	<integer name="unavailabilityIndexSelect" title="Unavailability index" selection="bankpayment.bank.statement.line.afb.120.unavailability.index.select"/>
-  	<integer name="commissionExemptionIndexSelect" title="Commission exemption index" selection="bankpayment.bank.statement.line.afb.120.commission.exemption.index.select"/>
-  	
-  	<integer name="lineTypeSelect" title="Line type" selection="bankpayment.bank.statement.line.afb.120.line.type.select"/>
 
-    <index columns="currency" name="idx_bankpayment_bsl_afb120_bsl_currency"/>
-    <index columns="bank_details" name="idx_bankpayment_bsl_afb120_bsl_bank_details"/>
-    <index columns="operation_interbank_code_line" name="idx_bankpayment_bsl_afb120_bsl_opt_icl"/>
-    <index columns="reject_interbank_code_line" name="idx_bankpayment_bsl_afb120_bsl_rej_icl"/>
-    <index columns="bank_statement" name="idx_bankpayment_bsl_afb120_bsl_bank_statement"/>
-	<extra-code><![CDATA[
+    <integer name="unavailabilityIndexSelect" title="Unavailability index" selection="bankpayment.bank.statement.line.afb.120.unavailability.index.select" />
+    <integer name="commissionExemptionIndexSelect" title="Commission exemption index" selection="bankpayment.bank.statement.line.afb.120.commission.exemption.index.select" />
+
+    <integer name="lineTypeSelect" title="Line type" selection="bankpayment.bank.statement.line.afb.120.line.type.select" />
+
+    <index columns="currency" name="idx_bankpayment_bsl_afb120_bsl_currency" />
+    <index columns="bank_details" name="idx_bankpayment_bsl_afb120_bsl_bank_details" />
+    <index columns="operation_interbank_code_line" name="idx_bankpayment_bsl_afb120_bsl_opt_icl" />
+    <index columns="reject_interbank_code_line" name="idx_bankpayment_bsl_afb120_bsl_rej_icl" />
+    <index columns="bank_statement" name="idx_bankpayment_bsl_afb120_bsl_bank_statement" />
+
+    
+    <extra-code><![CDATA[
 		public static final int LINE_TYPE_INITIAL_BALANCE = 1;
 		public static final int LINE_TYPE_MOVEMENT = 2;
 		public static final int LINE_TYPE_FINAL_BALANCE = 3;
@@ -31,6 +32,6 @@
 	]]></extra-code>
 
   </entity>
-  
+
 </domain-models>
 

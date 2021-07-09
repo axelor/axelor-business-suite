@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
    
     <grid name="bank-reconciliation-line-grid" title="Bank reconciliation Lines" model="com.axelor.apps.bankpayment.db.BankReconciliationLine" canDelete="false" editable="false" canNew="false">
+        <field name="postedNbr"/>
+        <field name="bankStatementQuery"/>
         <field name="effectDate"/>
         <field name="name"/>
         <field name="reference"/>

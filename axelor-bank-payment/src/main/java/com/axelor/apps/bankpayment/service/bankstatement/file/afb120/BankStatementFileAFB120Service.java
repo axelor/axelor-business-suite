@@ -29,6 +29,7 @@ import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.repo.BankDetailsRepository;
 import com.axelor.apps.base.db.repo.CurrencyRepository;
 import com.axelor.apps.tool.file.FileTool;
+import com.axelor.common.ObjectUtils;
 import com.axelor.db.JPA;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.ExceptionOriginRepository;
@@ -90,7 +91,6 @@ public class BankStatementFileAFB120Service extends BankStatementFileService {
     findBankStatement();
 
     for (Map<String, Object> structuredContentLine : structuredContentFile) {
-
       try {
         createBankStatementLine(structuredContentLine, sequence++);
       } catch (Exception e) {
@@ -114,6 +114,9 @@ public class BankStatementFileAFB120Service extends BankStatementFileService {
       Map<String, Object> structuredContentLine, int sequence) {
 
     String description = (String) structuredContentLine.get("description");
+    LocalDate operationDate = (LocalDate) structuredContentLine.get("operationDate");
+    LocalDate valueDate = (LocalDate) structuredContentLine.get("valueDate");
+    int lineType = (int) structuredContentLine.get("lineType");
 
     if (structuredContentLine.containsKey("additionalInformation")
         && structuredContentLine.get("additionalInformation") != null) {
@@ -161,15 +164,31 @@ public class BankStatementFileAFB120Service extends BankStatementFileService {
             (BigDecimal) structuredContentLine.get("credit"),
             currency,
             description,
-            (LocalDate) structuredContentLine.get("operationDate"),
-            (LocalDate) structuredContentLine.get("valueDate"),
+            operationDate,
+            valueDate,
             operationInterbankCodeLine,
             rejectInterbankCodeLine,
             (String) structuredContentLine.get("origin"),
             (String) structuredContentLine.get("reference"),
-            (int) structuredContentLine.get("lineType"),
+            lineType,
             (String) structuredContentLine.get("unavailabilityIndexSelect"),
             (String) structuredContentLine.get("commissionExemptionIndexSelect"));
+    if (ObjectUtils.notEmpty(operationDate)) {
+      if (ObjectUtils.notEmpty(bankStatement.getFromDate())
+          && lineType == BankStatementLineAFB120Repository.LINE_TYPE_INITIAL_BALANCE) {
+        if (operationDate.isBefore(bankStatement.getFromDate()))
+          bankStatement.setFromDate(operationDate);
+      } else {
+        bankStatement.setFromDate(operationDate);
+      }
+      if (ObjectUtils.notEmpty(bankStatement.getToDate())
+          && lineType == BankStatementLineAFB120Repository.LINE_TYPE_FINAL_BALANCE) {
+        if (operationDate.isAfter(bankStatement.getToDate()))
+          bankStatement.setToDate(operationDate);
+      } else {
+        bankStatement.setToDate(operationDate);
+      }
+    }
 
     return bankStatementLineAFB120Repository.save(bankStatementLineAFB120);
   }
@@ -181,7 +200,6 @@ public class BankStatementFileAFB120Service extends BankStatementFileService {
     List<String> fileContent = FileTool.reader(file.getPath());
 
     for (String lineContent : fileContent) {
-
       log.info("Read line : {}", lineContent);
       String lineData = null;
       int i = 0;
@@ -902,9 +920,6 @@ public class BankStatementFileAFB120Service extends BankStatementFileService {
   }
 
   protected InterbankCodeLine getInterbankCodeLine(String code) {
-
-    //		return interbankCodeLineRepository.findByCode(code);
-    // TODO Manage reject and operation code
-    return null;
+    return interbankCodeLineRepository.findByCode(code);
   }
 }

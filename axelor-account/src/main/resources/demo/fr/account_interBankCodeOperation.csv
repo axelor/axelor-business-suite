@@ -1,101 +1,101 @@
-"code_fichier";"description_operation";"date_fin";"nom_fichier";"code_operation";"libelle_operation";"description_operation";"operation_technique";"virement";"prelevement";"prelevement_sepa";"lcr_bor";"cheque"
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"01";"Chèques payés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"02";"Remises de chèques";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"03";"Chèques impayés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"04";"Versements espèces";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"05";"Virements reçus";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"06";"Virements émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"07";"LCR/BOR domiciliés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"08";"Prélèvements, TIP et Télérèglements domiciliés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"09";"Prélèvements, TIP et Télérèglements émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"10";"Prélèvements, TIP et Télérèglements rejetés/impayés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"11";"Factures cartes de paiement/DAB-GAB";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"12";"Rejets/retours de virement";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"13";"Virements de trésorerie reçus";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"14";"Virements de trésorerie émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"15";"Remises de chèques sur caisse";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"18";"Autres virements reçus";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"21";"Autres virements émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"22";"TIP domiciliés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"24";"TIP émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"26";"TIP rejetés/impayés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"27";"Prélèvements rejetés/impayés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"28";"Factures cartes payées";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"29";"Retraits DAB-GAB";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"30";"Factures cartes remises";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"31";"Remises d'effets à l'encaissement";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"32";"Remises à l'escompte (papier commercial/chèque)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"33";"Effets impayés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"34";"Incidents sur effets";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"35";"Remises de LCR/BOR à l'encaissement";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"36";"Remises de facture CB crédit";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"37";"Remises de LCR/BOR à l'escompte";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"38";"Factures CB impayée / rejetée";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"39";"Virements d’origine extérieure (VOE) reçus";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"41";"Transferts vers/en provenance de l'étranger";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"42";"Achats/ventes de devises";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"43";"Autres opérations avec l'étranger";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"44";"Virements internationaux émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"45";"Virements internationaux reçus";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"46";"Achats de devises au comptant";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"47";"Ventes de devises au comptant";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"48";"Levées sur achat à terme";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"49";"Livraisons sur vente à terme";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"51";"Achats et ventes de titres";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"52";"Diverses opérations sur titres";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"53";"Achats/souscriptions VM/BF (Valeurs mobilières/ Bourses Françaises)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"54";"Ventes de VM/BF (Valeurs mobilières/ Bourses Françaises) ";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"55";"Solde de liquidation – BF (Bourses Françaises)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"56";"Achats OPCVM";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"57";"Ventes OPCVM";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"58";"Achats TCN";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"59";"Ventes TCN";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"61";"Agios";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"62";"Commissions et frais divers, dont intérêts compensatoires";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"63";"Produits financiers";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"64";"Commissions y compris taxes";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"65";"Commissions hors taxes";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"66";"Commissions non taxables";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"67";"Taxes";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"68";"Autres opérations avec l'étranger - Débit";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"69";"Autres opérations avec l'étranger - Crédit";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"70";"Charges financières";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"71";"Tirage de crédits";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"72";"Echéance crédits";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"73";"Emission de valeurs mobilières";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"74";"Emission de titres de créances";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"75";"Remboursement";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"76";"Dépôt à terme";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"77";"Echéance dépôt à terme";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"80";"Achats autres TC";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"81";"Ventes autres TC";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"82";"Contrats";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"83";"Options";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"84";"Achats BE (Bourses étrangères)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"85";"Ventes BE (Bourses étrangères)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"86";"Opérations sur titres";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"87";"Revenus sur titres";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"88";"Commissions et droits de garde";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"89";"Remboursement impôts étrangers";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"90";"Facture Acceptée à Echéance émise";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"91";"Opérations diverses";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"92";"Centralisation de recettes";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"93";"Centralisation de dépenses";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"94";"Centralisation de trésorerie - Crédit";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"95";"Centralisation de trésorerie - Débit";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"96";"Télérèglements domiciliés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"97";"Télérèglements émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"98";"Télérèglements rejetés/impayés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"99";"Annulations et régularisations";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A1";"Prélèvements SEPA émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A2";"Prélèvements SEPA interentreprises émis";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A3";"Prélèvements SEPA rejetés/impayés émis (par le débiteur ou sa banque - « R-transaction »)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A4";"Prélèvements SEPA interentreprises rejetés/impayés émis (par le débiteur ou sa banque -« R-transaction »)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A5";"Prélèvements SEPA – reversements émis (par le créancier ou sa banque « R-transaction »)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A6";"Prélèvements SEPA interentreprises – reversements émis (par le créancier ou sa banque « R-transaction »)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B1";"Prélèvements SEPA domiciliés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B2";"Prélèvements SEPA interentreprises domiciliés";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B3";"Prélèvements SEPA rejetés/impayés reçus (par le créancier - « R-transaction »)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B4";"Prélèvements SEPA interentreprises rejetés/impayés reçus (par le créancier - « R-transaction »)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B5";"Prélèvements SEPA – reversements reçus (par le débiteur - « R-transaction »)";;;;;;;
-"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B6";"Prélèvements SEPA interentreprises – reversements reçus (par le débiteur - « R-transaction »)";;;;;;;
+"code_fichier";"description_operation";"date_fin";"nom_fichier";"code_operation";"libelle_operation";"description_operation";"operation_technique";"virement";"prelevement";"prelevement_sepa";"lcr_bor";"cheque";"importId"
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";01;"Chèques payés";;;;;;;;1
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";02;"Remises de chèques";;;;;;;;2
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";03;"Chèques impayés";;;;;;;;3
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";04;"Versements espèces";;;;;;;;4
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";05;"Virements reçus";;;;;;;;5
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";06;"Virements émis";;;;;;;;6
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";07;"LCR/BOR domiciliés";;;;;;;;7
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";08;"Prélèvements, TIP et Télérèglements domiciliés";;;;;;;;8
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";09;"Prélèvements, TIP et Télérèglements émis";;;;;;;;9
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";10;"Prélèvements, TIP et Télérèglements rejetés/impayés";;;;;;;;10
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";11;"Factures cartes de paiement/DAB-GAB";;;;;;;;11
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";12;"Rejets/retours de virement";;;;;;;;12
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";13;"Virements de trésorerie reçus";;;;;;;;13
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";14;"Virements de trésorerie émis";;;;;;;;14
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";15;"Remises de chèques sur caisse";;;;;;;;15
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";18;"Autres virements reçus";;;;;;;;16
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";21;"Autres virements émis";;;;;;;;17
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";22;"TIP domiciliés";;;;;;;;18
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";24;"TIP émis";;;;;;;;19
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";26;"TIP rejetés/impayés";;;;;;;;20
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";27;"Prélèvements rejetés/impayés";;;;;;;;21
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";28;"Factures cartes payées";;;;;;;;22
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";29;"Retraits DAB-GAB";;;;;;;;23
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";30;"Factures cartes remises";;;;;;;;24
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";31;"Remises d'effets à l'encaissement";;;;;;;;25
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";32;"Remises à l'escompte (papier commercial/chèque)";;;;;;;;26
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";33;"Effets impayés";;;;;;;;27
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";34;"Incidents sur effets";;;;;;;;28
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";35;"Remises de LCR/BOR à l'encaissement";;;;;;;;29
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";36;"Remises de facture CB crédit";;;;;;;;30
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";37;"Remises de LCR/BOR à l'escompte";;;;;;;;31
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";38;"Factures CB impayée / rejetée";;;;;;;;32
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";39;"Virements d’origine extérieure (VOE) reçus";;;;;;;;33
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";41;"Transferts vers/en provenance de l'étranger";;;;;;;;34
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";42;"Achats/ventes de devises";;;;;;;;35
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";43;"Autres opérations avec l'étranger";;;;;;;;36
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";44;"Virements internationaux émis";;;;;;;;37
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";45;"Virements internationaux reçus";;;;;;;;38
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";46;"Achats de devises au comptant";;;;;;;;39
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";47;"Ventes de devises au comptant";;;;;;;;40
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";48;"Levées sur achat à terme";;;;;;;;41
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";49;"Livraisons sur vente à terme";;;;;;;;42
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";51;"Achats et ventes de titres";;;;;;;;43
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";52;"Diverses opérations sur titres";;;;;;;;44
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";53;"Achats/souscriptions VM/BF (Valeurs mobilières/ Bourses Françaises)";;;;;;;;45
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";54;"Ventes de VM/BF (Valeurs mobilières/ Bourses Françaises) ";;;;;;;;46
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";55;"Solde de liquidation – BF (Bourses Françaises)";;;;;;;;47
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";56;"Achats OPCVM";;;;;;;;48
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";57;"Ventes OPCVM";;;;;;;;49
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";58;"Achats TCN";;;;;;;;50
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";59;"Ventes TCN";;;;;;;;51
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";61;"Agios";;;;;;;;52
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";62;"Commissions et frais divers, dont intérêts compensatoires";;;;;;;;53
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";63;"Produits financiers";;;;;;;;54
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";64;"Commissions y compris taxes";;;;;;;;55
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";65;"Commissions hors taxes";;;;;;;;56
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";66;"Commissions non taxables";;;;;;;;57
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";67;"Taxes";;;;;;;;58
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";68;"Autres opérations avec l'étranger - Débit";;;;;;;;59
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";69;"Autres opérations avec l'étranger - Crédit";;;;;;;;60
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";70;"Charges financières";;;;;;;;61
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";71;"Tirage de crédits";;;;;;;;62
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";72;"Echéance crédits";;;;;;;;63
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";73;"Emission de valeurs mobilières";;;;;;;;64
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";74;"Emission de titres de créances";;;;;;;;65
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";75;"Remboursement";;;;;;;;66
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";76;"Dépôt à terme";;;;;;;;67
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";77;"Echéance dépôt à terme";;;;;;;;68
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";80;"Achats autres TC";;;;;;;;69
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";81;"Ventes autres TC";;;;;;;;70
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";82;"Contrats";;;;;;;;71
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";83;"Options";;;;;;;;72
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";84;"Achats BE (Bourses étrangères)";;;;;;;;73
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";85;"Ventes BE (Bourses étrangères)";;;;;;;;74
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";86;"Opérations sur titres";;;;;;;;75
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";87;"Revenus sur titres";;;;;;;;76
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";88;"Commissions et droits de garde";;;;;;;;77
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";89;"Remboursement impôts étrangers";;;;;;;;78
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";90;"Facture Acceptée à Echéance émise";;;;;;;;79
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";91;"Opérations diverses";;;;;;;;80
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";92;"Centralisation de recettes";;;;;;;;81
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";93;"Centralisation de dépenses";;;;;;;;82
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";94;"Centralisation de trésorerie - Crédit";;;;;;;;83
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";95;"Centralisation de trésorerie - Débit";;;;;;;;84
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";96;"Télérèglements domiciliés";;;;;;;;85
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";97;"Télérèglements émis";;;;;;;;86
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";98;"Télérèglements rejetés/impayés";;;;;;;;87
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";99;"Annulations et régularisations";;;;;;;;88
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A1";"Prélèvements SEPA émis";;;;;;;;89
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A2";"Prélèvements SEPA interentreprises émis";;;;;;;;90
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A3";"Prélèvements SEPA rejetés/impayés émis (par le débiteur ou sa banque - « R-transaction »)";;;;;;;;91
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A4";"Prélèvements SEPA interentreprises rejetés/impayés émis (par le débiteur ou sa banque -« R-transaction »)";;;;;;;;92
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A5";"Prélèvements SEPA – reversements émis (par le créancier ou sa banque « R-transaction »)";;;;;;;;93
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"A6";"Prélèvements SEPA interentreprises – reversements émis (par le créancier ou sa banque « R-transaction »)";;;;;;;;94
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B1";"Prélèvements SEPA domiciliés";;;;;;;;95
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B2";"Prélèvements SEPA interentreprises domiciliés";;;;;;;;96
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B3";"Prélèvements SEPA rejetés/impayés reçus (par le créancier - « R-transaction »)";;;;;;;;97
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B4";"Prélèvements SEPA interentreprises rejetés/impayés reçus (par le créancier - « R-transaction »)";;;;;;;;98
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B5";"Prélèvements SEPA – reversements reçus (par le débiteur - « R-transaction »)";;;;;;;;99
+"OPERATION";"Codes opérations restitués dans les relevés de compte.";;"Opérations CFONB";"B6";"Prélèvements SEPA interentreprises – reversements reçus (par le débiteur - « R-transaction »)";;;;;;;;100

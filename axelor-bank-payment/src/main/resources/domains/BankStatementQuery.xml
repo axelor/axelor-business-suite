@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+  <module name="bank-payment" package="com.axelor.apps.bankpayment.db"/>
+
+  <entity name="BankStatementQuery">
+
+    <string name="name" required="true" title="Name" />
+    <string name="query" title="Test function" required="true" large="true"/>
+    <integer name="ruleType" title="Rule type" selection="bank.payment.bank.statement.rule.rule.type.select" default="0" required="true" />
+    <integer name="confidenceIndex" title="Confidence index" selection="bank.payment.bank.statement.query.confidence.index.select" default="1"/>
+    <integer name="sequence" title="Sequence"/>
+
+  <finder-method name="findBySequenceAndRuleType" using="sequence,ruleType"/>
+  <extra-code><![CDATA[
+  // CONFIDENCE INDEX
+  public static final int CONFIDENCE_INDEX_GREEN = 1;
+  public static final int CONFIDENCE_INDEX_ORANGE = 2;
+  public static final int CONFIDENCE_INDEX_RED = 3;
+  
+  ]]></extra-code>
+  </entity>
+</domain-models>

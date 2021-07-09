@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models xmlns="http://axelor.com/xml/ns/domain-models" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
-  
-  <module name="account" package="com.axelor.apps.account.db"/>
-  
-  <entity name="AccountManagement" lang="java">
-	
-	<many-to-one name="purchaseAccount" ref="com.axelor.apps.account.db.Account" title="Purchase account"/>
-	<many-to-one name="saleAccount" ref="com.axelor.apps.account.db.Account" title="Sale account"/>
-	<many-to-one name="cashAccount" ref="com.axelor.apps.account.db.Account" title="Payment account"/>
-	<many-to-one name="purchFixedAssetsAccount" ref="com.axelor.apps.account.db.Account" title="Account of purchase fixed assets"/>
 
-    <many-to-one  name="paymentMode" ref="com.axelor.apps.account.db.PaymentMode" title="Payment mode"/>
-    <many-to-one name="journal" ref="com.axelor.apps.account.db.Journal" title="Journal"/>
-   	<many-to-one name="sequence" ref="com.axelor.apps.base.db.Sequence" title="Sequence"/>
-   	<many-to-one name="bankDetails" ref="com.axelor.apps.base.db.BankDetails" title="Bank details"/>
-   	
-   	<many-to-one name="analyticDistributionTemplate" title="Analytic distribution template" ref="com.axelor.apps.account.db.AnalyticDistributionTemplate"/>
-    
-	<many-to-one name="fixedAssetCategory" ref="com.axelor.apps.account.db.FixedAssetCategory" title="Fixed asset category"/>
-	
+  <module name="account" package="com.axelor.apps.account.db" />
+
+  <entity name="AccountManagement" lang="java">
+
+    <many-to-one name="purchaseAccount" ref="com.axelor.apps.account.db.Account" title="Purchase account" />
+    <many-to-one name="saleAccount" ref="com.axelor.apps.account.db.Account" title="Sale account" />
+    <many-to-one name="cashAccount" ref="com.axelor.apps.account.db.Account" title="Payment account" />
+    <many-to-one name="purchFixedAssetsAccount" ref="com.axelor.apps.account.db.Account" title="Account of purchase fixed assets" />
+
+    <many-to-one name="paymentMode" ref="com.axelor.apps.account.db.PaymentMode" title="Payment mode" />
+    <many-to-one name="journal" ref="com.axelor.apps.account.db.Journal" title="Journal" />
+    <many-to-one name="sequence" ref="com.axelor.apps.base.db.Sequence" title="Sequence" />
+    <many-to-one name="bankDetails" ref="com.axelor.apps.base.db.BankDetails" title="Bank details" />
+
+    <many-to-one name="analyticDistributionTemplate" title="Analytic distribution template" ref="com.axelor.apps.account.db.AnalyticDistributionTemplate" />
+
+    <many-to-one name="fixedAssetCategory" ref="com.axelor.apps.account.db.FixedAssetCategory" title="Fixed asset category" />
+
+    <many-to-one name="interbankCodeLine" ref="com.axelor.apps.account.db.InterbankCodeLine" title="Interbank code" />
+
+    <unique-constraint columns="interbankCodeLine,bankDetails,paymentMode"/>
   </entity>
-  
+
 </domain-models>

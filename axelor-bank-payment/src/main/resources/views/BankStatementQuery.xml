@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+  <grid model="com.axelor.apps.bankpayment.db.BankStatementQuery" title="Bank statement queries" name="bank-statement-query-grid">
+    <field name="name" />
+    <field name="ruleType" />
+  </grid>
+
+  <form model="com.axelor.apps.bankpayment.db.BankStatementQuery" title="Bank statement queries" name="bank-statement-query-form" onSave="action-bank-payment-method-check-sequence-unicity">
+    <panel>
+      <field name="name" required="true" />
+      <field name="ruleType" required="true"/>
+      <field name="sequence" requiredIf="ruleType == 1" showIf="ruleType == 1"/>
+      <field name="confidenceIndex" requiredIf="ruleType == 1" showIf="ruleType == 1"/>
+      <field name="query" widget="code-editor" x-code-syntax="groovy" x-code-theme="groovy" colSpan="12" />
+    </panel>
+  </form>
+  
+  <action-method name="action-bank-payment-method-check-sequence-unicity">
+    <call class="com.axelor.apps.bankpayment.web.BankStatementQueryController" method="checkSequenceUnicity"/>
+  </action-method>
+</object-views>

@@ -27,7 +27,21 @@
 	<boolean name="includeOtherBankStatements" title="Include other bank statements"/>
     <many-to-one name="validatedByUser" title="Validated By" ref="com.axelor.auth.db.User" readonly="true"/>
     <date name="validatedDate" title="Validated On" readonly="true"/>
+    
+    <!-- Balances -->
 
+    <integer name="statementReconciledLineBalance" title="Statement reconciled line balance"/>
+    <integer name="movesReconciledLineBalance" title="Moves reconciled line balance"/>
+    <integer name="statementUnreconciledLineBalance" title="Statement unrereconciled line balance"/>
+    <integer name="movesUnreconciledLineBalance" title="Moves unreconciled line balance"/>
+    <integer name="statementOngoingReconciledBalance" title="Statement ongoing reconciled balance"/>
+    <integer name="movesOngoingReconciledBalance" title="Moves ongoing reconciled balance"/>
+    <integer name="statementAmountRemainingToReconcile" title="Statement amount remaining to reconcile"/>
+    <integer name="movesAmountRemainingToReconcile" title="Moves amount remaining to reconcile"/>
+    <integer name="statementTheoreticalBalance" title="Statement theoretical balance"/>
+    <integer name="movesTheoreticalBalance" title="Moves theoretical balance"/>
+    
+    
 	<extra-code><![CDATA[
 	
 	   	// Status select

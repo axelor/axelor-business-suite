@@ -1,49 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
-	<grid name="bank-payment-config-grid" title="Bank payment configurations" model="com.axelor.apps.bankpayment.db.BankPaymentConfig">
-    <field name="company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-	</grid>
+  <grid name="bank-payment-config-grid" title="Bank payment configurations" model="com.axelor.apps.bankpayment.db.BankPaymentConfig">
+    <field name="company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()" />
+  </grid>
 
-    <form name="bank-payment-config-form" title="Bank payment configuration" model="com.axelor.apps.bankpayment.db.BankPaymentConfig" onNew="action-bank-payment-config-record-default" width="large">
-        <panel name="bankOrderDetailsPanel" title="Bank Order">
-            <panel name="mainPanel">
-				<field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid"/>
-            </panel>
-            <panel colSpan="12" name="detailsPanel">
-                <field name="generateMoveOnBankOrderValidation"/>
-                <field name="icsNumber" if="__config__.app.getApp('bank-payment')?.manageDirectDebitPayment"/>
-                <field name="internalBankToBankAccount" domain="self.company = :company" grid-view="account-grid" form-view="account-form"/>
-                <field name="externalBankToBankAccount" domain="self.company = :company" grid-view="account-grid" form-view="account-form"/>
-            </panel>
-            <panel name="creditTransferBankOrderSequencesPanel" title="Credit transfer bank orders sequences" colSpan="4" if="eval: __config__.app.getApp('bank-payment').manageCreditTransferPayment">
-                <field name="sepaCreditTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid" canNew="true" canEdit="true"/>
-                <field name="intCreditTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid" canNew="true" canEdit="true"/>
-            </panel>
-            <panel name="directDebitBankOrderSequencesPanel" title="Direct debit bank orders sequences" colSpan="4" if="eval: __config__.app.getApp('bank-payment').manageDirectDebitPayment">
-                <field name="sepaDirectDebitSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid" canNew="true" canEdit="true"/>
-                <field name="intDirectDebitSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid" canNew="true" canEdit="true"/>
-            </panel>
-            <panel name="treasuryTransferBankOrderSequencesPanel" title="Treasury transfer Bank orders sequences" colSpan="4" if="eval: __config__.app.getApp('bank-payment').manageBankToBankTransferPayment">
-                <field name="natTreasuryTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid" canNew="true" canEdit="true"/>
-                <field name="intTreasuryTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid" canNew="true" canEdit="true"/>
-            </panel>
-            <panel name="otherPanel" title="Other" colSpan="12">
-                <field name="otherBankOrderSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid" canNew="true" canEdit="true"/>
-            </panel>
-        </panel>
-       
-        <panel-mail name="mailPanel">
-        	<mail-messages limit="4"/>
-        	<mail-followers/>
-        </panel-mail>
-    </form>
+  <form name="bank-payment-config-form" title="Bank payment configuration" model="com.axelor.apps.bankpayment.db.BankPaymentConfig" onNew="action-bank-payment-config-record-default" width="large">
+    <panel name="bankOrderDetailsPanel" title="Bank Order">
+      <panel name="mainPanel">
+        <field name="company" canEdit="false" widget="SuggestBox" form-view="company-form" grid-view="company-grid" />
+      </panel>
+      <panel colSpan="12" name="detailsPanel">
+        <field name="generateMoveOnBankOrderValidation" />
+        <field name="icsNumber" if="__config__.app.getApp('bank-payment')?.manageDirectDebitPayment" />
+        <field name="internalBankToBankAccount" domain="self.company = :company" grid-view="account-grid" form-view="account-form" />
+        <field name="externalBankToBankAccount" domain="self.company = :company" grid-view="account-grid" form-view="account-form" />
+      </panel>
+      <panel name="creditTransferBankOrderSequencesPanel" title="Credit transfer bank orders sequences" colSpan="4" if="eval: __config__.app.getApp('bank-payment').manageCreditTransferPayment">
+        <field name="sepaCreditTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid"
+          canNew="true" canEdit="true" />
+        <field name="intCreditTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid"
+          canNew="true" canEdit="true" />
+      </panel>
+      <panel name="directDebitBankOrderSequencesPanel" title="Direct debit bank orders sequences" colSpan="4" if="eval: __config__.app.getApp('bank-payment').manageDirectDebitPayment">
+        <field name="sepaDirectDebitSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid"
+          canNew="true" canEdit="true" />
+        <field name="intDirectDebitSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid"
+          canNew="true" canEdit="true" />
+      </panel>
+      <panel name="treasuryTransferBankOrderSequencesPanel" title="Treasury transfer Bank orders sequences" colSpan="4" if="eval: __config__.app.getApp('bank-payment').manageBankToBankTransferPayment">
+        <field name="natTreasuryTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid"
+          canNew="true" canEdit="true" />
+        <field name="intTreasuryTransSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid"
+          canNew="true" canEdit="true" />
+      </panel>
+      <panel name="otherPanel" title="Other" colSpan="12">
+        <field name="otherBankOrderSequence" colSpan="12" domain="self.codeSelect = 'bankOrder' and (self.company = :company or self.company is null)" form-view="sequence-form" grid-view="sequence-grid"
+          canNew="true" canEdit="true" />
+      </panel>
+      <panel name="bankStatementPanel" title="Bank statement">
+        <field name="hasAutomaticReconciliation" widget="boolean-switch" />
+      </panel>
+    </panel>
 
-    <action-record name="action-bank-payment-config-record-default" model="com.axelor.apps.bankpayment.db.BankPaymentConfig">
-        <field name="company" expr="eval: _company" if="_company != null"/>
-        <field name="company"  expr="eval:__user__.activeCompany" if="_company == null &amp;&amp; __user__.activeCompany != null"/>
-        <field name="company"  expr="eval:__repo__(Company).all().fetchOne()" if="_company == null  &amp;&amp; __user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1"/>
-    </action-record>
+    <panel-mail name="mailPanel">
+      <mail-messages limit="4" />
+      <mail-followers />
+    </panel-mail>
+  </form>
+
+  <action-record name="action-bank-payment-config-record-default" model="com.axelor.apps.bankpayment.db.BankPaymentConfig">
+    <field name="company" expr="eval: _company" if="_company != null" />
+    <field name="company" expr="eval:__user__.activeCompany" if="_company == null &amp;&amp; __user__.activeCompany != null" />
+    <field name="company" expr="eval:__repo__(Company).all().fetchOne()" if="_company == null  &amp;&amp; __user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1" />
+  </action-record>
 </object-views>

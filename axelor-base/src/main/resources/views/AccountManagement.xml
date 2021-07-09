@@ -1,221 +1,156 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
-	<grid name="account-management-grid" title="Account management list"
-		model="com.axelor.apps.account.db.AccountManagement">
-		<field name="typeSelect" />
-		<field name="company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-		<field name="saleAccount" if-module="axelor-account" form-view="account-form" canEdit="false"
-			grid-view="account-grid" if="__config__.app.isApp('account')" />
-		<field name="purchaseAccount" if-module="axelor-account"
-			form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false"/>
-		<field name="cashAccount" if-module="axelor-account" form-view="account-form"
-			grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false"/>
-		<field name="analyticDistributionTemplate" if-module="axelor-account"
-			if="__config__.app.isApp('account')" canNew="true"/>
-	</grid>
-
-	<grid name="account-management-product-grid" title="Account managements"
-		model="com.axelor.apps.account.db.AccountManagement" editable="true"
-		onNew="action-account-management-record-default, action-account-management-attrs-type, action-account-management-attrs-hide-type">
-		<field name="typeSelect" hidden="true"/>
-		<field name="company" form-view="company-form" grid-view="company-grid"
-			onChange="action-group-account-account-management-onchange-common" canEdit="false"
-			if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-		<field name="fixedAssetCategory" if-module="axelor-account"
-			if="__config__.app.isApp('account')" domain="self.company = :company"
-			form-view="fixed-asset-category-form" grid-view="fixed-asset-category-grid"
-			canEdit="false" />
-		<field name="purchaseAccount" if-module="axelor-account"
-			form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false"
-			domain="self.company = :company AND (self.accountType.technicalTypeSelect = 'charge' OR self.accountType.technicalTypeSelect = 'debt' OR self.accountType.technicalTypeSelect = 'immobilisation')"/>
-		<field name="purchaseTax" form-view="tax-form" grid-view="tax-grid" canEdit="false"/>
-		<field name="purchFixedAssetsAccount"
-			domain="self.company = :company AND self.accountType.technicalTypeSelect = 'immobilisation'" canEdit="false"/>
-		<field name="saleAccount" if-module="axelor-account" form-view="account-form"
-			grid-view="account-grid" if="__config__.app.isApp('account')"
-			domain="self.company = :company AND self.accountType.technicalTypeSelect = 'income'" canEdit="false"/>
-		<field name="saleTax" form-view="tax-form" grid-view="tax-grid" />
-		<field name="analyticDistributionTemplate" if-module="axelor-account"
-			if="__config__.app.isApp('account')" canNew="true"/>
-	</grid>
+  <grid name="account-management-grid" title="Account management list" model="com.axelor.apps.account.db.AccountManagement">
+    <field name="typeSelect" />
+    <field name="company" form-view="company-form" grid-view="company-grid" if="__config__.app.getApp('base').getEnableMultiCompany()" />
+    <field name="saleAccount" if-module="axelor-account" form-view="account-form" canEdit="false" grid-view="account-grid" if="__config__.app.isApp('account')" />
+    <field name="purchaseAccount" if-module="axelor-account" form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false" />
+    <field name="cashAccount" if-module="axelor-account" form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false" />
+    <field name="analyticDistributionTemplate" if-module="axelor-account" if="__config__.app.isApp('account')" canNew="true" />
+  </grid>
+  
+  <grid name="account-management-product-grid" title="Account managements" model="com.axelor.apps.account.db.AccountManagement" editable="true"
+    onNew="action-account-management-record-default, action-account-management-attrs-type, action-account-management-attrs-hide-type">
+    <field name="typeSelect" hidden="true" />
+    <field name="company" form-view="company-form" grid-view="company-grid" onChange="action-group-account-account-management-onchange-common" canEdit="false"
+      if="__config__.app.getApp('base').getEnableMultiCompany()" />
+    <field name="fixedAssetCategory" if-module="axelor-account" if="__config__.app.isApp('account')" domain="self.company = :company" form-view="fixed-asset-category-form" grid-view="fixed-asset-category-grid"
+      canEdit="false" />
+    <field name="purchaseAccount" if-module="axelor-account" form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false"
+      domain="self.company = :company AND (self.accountType.technicalTypeSelect = 'charge' OR self.accountType.technicalTypeSelect = 'debt' OR self.accountType.technicalTypeSelect = 'immobilisation')" />
+    <field name="purchaseTax" form-view="tax-form" grid-view="tax-grid" canEdit="false" />
+    <field name="purchFixedAssetsAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'immobilisation'" canEdit="false" />
+    <field name="saleAccount" if-module="axelor-account" form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')"
+      domain="self.company = :company AND self.accountType.technicalTypeSelect = 'income'" canEdit="false" />
+    <field name="saleTax" form-view="tax-form" grid-view="tax-grid" />
+    <field name="analyticDistributionTemplate" if-module="axelor-account" if="__config__.app.isApp('account')" canNew="true" />
+  </grid>
 
 
-	<form name="account-management-form" title="Account management"
-		model="com.axelor.apps.account.db.AccountManagement"
-		onNew="action-account-management-group-onNew"
-		onLoad="action-account-management-attrs-display-product-fields, action-account-management-attrs-hide-type"
-		width="large">
-		<panel name="mainAccountManagementPanel">
-			<panel name="mainPanel" colSpan="12">
-				<field name="typeSelect" onChange="action-account-management-attrs-display-product-fields" />
-				<field name="company" widget="SuggestBox"
-					onChange="action-group-account-account-management-onchange-common"
-					form-view="company-form" grid-view="company-grid" canEdit="false"/>
-				<field name="product" canEdit="false" form-view="product-form" grid-view="product-grid"
-							 domain="self.dtype = 'Product'" requiredIf="typeSelect==1 &amp;&amp; !productFamily"/>
-				<field name="productFamily" canEdit="false" form-view="product-family-form" grid-view="product-family-grid"
-							 requiredIf="typeSelect==1 &amp;&amp; !product" showIf="typeSelect == 1"/>
-			</panel>
+  <form name="account-management-form" title="Account management" model="com.axelor.apps.account.db.AccountManagement" onNew="action-account-management-group-onNew"
+    onLoad="action-account-management-attrs-display-product-fields, action-account-management-attrs-hide-type" width="large">
+    <panel name="mainAccountManagementPanel">
+      <panel name="mainPanel" colSpan="12">
+        <field name="typeSelect" onChange="action-account-management-attrs-display-product-fields" />
+        <field name="company" widget="SuggestBox" onChange="action-group-account-account-management-onchange-common" form-view="company-form" grid-view="company-grid" canEdit="false" />
+        <field name="product" canEdit="false" form-view="product-form" grid-view="product-grid" domain="self.dtype = 'Product'" requiredIf="typeSelect==1 &amp;&amp; !productFamily" />
+        <field name="productFamily" canEdit="false" form-view="product-family-form" grid-view="product-family-grid" requiredIf="typeSelect==1 &amp;&amp; !product" showIf="typeSelect == 1" />
+      </panel>
 
-			<!-- PRODUCT -->
-			<panel name="purchaseConfig1Panel" title="Purchases" colSpan="12"
-				showIf="typeSelect == 1">
-				<field name="purchaseAccount"
-					domain="self.company = :company AND (self.accountType.technicalTypeSelect = 'charge' OR self.accountType.technicalTypeSelect = 'debt')"
-					if-module="axelor-account" form-view="account-form" grid-view="account-grid"
-					if="__config__.app.isApp('account')" canEdit="false"/>
-				<field name="purchaseTax" form-view="tax-form" grid-view="tax-grid" canEdit="false"/>
-			</panel>
+      <!-- PRODUCT -->
+      <panel name="purchaseConfig1Panel" title="Purchases" colSpan="12" showIf="typeSelect == 1">
+        <field name="purchaseAccount" domain="self.company = :company AND (self.accountType.technicalTypeSelect = 'charge' OR self.accountType.technicalTypeSelect = 'debt')" if-module="axelor-account"
+          form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false" />
+        <field name="purchaseTax" form-view="tax-form" grid-view="tax-grid" canEdit="false" />
+      </panel>
 
-			<panel name="fixedAssetsConfig1Panel" title="Purchase of fixed assets"
-				colSpan="12" showIf="typeSelect == 1">
-				<field name="fixedAssetCategory" if-module="axelor-account"
-					if="__config__.app.isApp('account')" domain="self.company = :company"
-					form-view="fixed-asset-category-form" grid-view="fixed-asset-category-grid"
-					canEdit="false" />
-				<field name="purchFixedAssetsAccount"
-					domain="self.company = :company AND self.accountType.technicalTypeSelect = 'immobilisation'"
-					if-module="axelor-account" form-view="account-form" grid-view="account-grid"
-					if="__config__.app.isApp('account')" canEdit="false"/>
-			</panel>
+      <panel name="fixedAssetsConfig1Panel" title="Purchase of fixed assets" colSpan="12" showIf="typeSelect == 1">
+        <field name="fixedAssetCategory" if-module="axelor-account" if="__config__.app.isApp('account')" domain="self.company = :company" form-view="fixed-asset-category-form" grid-view="fixed-asset-category-grid"
+          canEdit="false" />
+        <field name="purchFixedAssetsAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'immobilisation'" if-module="axelor-account" form-view="account-form"
+          grid-view="account-grid" if="__config__.app.isApp('account')" canEdit="false" />
+      </panel>
 
-			<panel name="saleConfig1Panel" title="Sale" colSpan="12"
-				showIf="typeSelect == 1">
-				<field name="saleAccount"
-					domain="self.company = :company AND self.accountType.technicalTypeSelect = 'income'"
-					if-module="axelor-account" form-view="account-form" grid-view="account-grid"
-					if="__config__.app.isApp('account')" canEdit="false"/>
-				<field name="saleTax" form-view="tax-form" grid-view="tax-grid" canEdit="false"/>
-			</panel>
+      <panel name="saleConfig1Panel" title="Sale" colSpan="12" showIf="typeSelect == 1">
+        <field name="saleAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'income'" if-module="axelor-account" form-view="account-form" grid-view="account-grid"
+          if="__config__.app.isApp('account')" canEdit="false" />
+        <field name="saleTax" form-view="tax-form" grid-view="tax-grid" canEdit="false" />
+      </panel>
 
-			<!-- TAX -->
-			<panel name="purchaseConfig2Panel" title="Purchases" colSpan="12"
-				showIf="typeSelect == 2">
-				<field name="purchaseAccount"
-					domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'"
-					if-module="axelor-account" form-view="account-form" grid-view="account-grid"
-					if="__config__.app.isApp('account')" canEdit="false"/>
-			</panel>
+      <!-- TAX -->
+      <panel name="purchaseConfig2Panel" title="Purchases" colSpan="12" showIf="typeSelect == 2">
+        <field name="purchaseAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" if-module="axelor-account" form-view="account-form" grid-view="account-grid"
+          if="__config__.app.isApp('account')" canEdit="false" />
+      </panel>
 
-			<panel name="fixedAssetsConfig2Panel" title="Purchase of fixed assets"
-				colSpan="12" showIf="typeSelect == 2">
-				<field name="purchFixedAssetsAccount"
-					domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'"
-					if-module="axelor-account" form-view="account-form" grid-view="account-grid"
-					if="__config__.app.isApp('account')" canEdit="false"/>
-			</panel>
+      <panel name="fixedAssetsConfig2Panel" title="Purchase of fixed assets" colSpan="12" showIf="typeSelect == 2">
+        <field name="purchFixedAssetsAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" if-module="axelor-account" form-view="account-form" grid-view="account-grid"
+          if="__config__.app.isApp('account')" canEdit="false" />
+      </panel>
 
-			<panel name="saleConfig2Panel" title="Sale" colSpan="12"
-				showIf="typeSelect == 2">
-				<field name="saleAccount"
-					domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'"
-					if-module="axelor-account" form-view="account-form" grid-view="account-grid"
-					if="__config__.app.isApp('account')" canEdit="false"/>
-			</panel>
+      <panel name="saleConfig2Panel" title="Sale" colSpan="12" showIf="typeSelect == 2">
+        <field name="saleAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" if-module="axelor-account" form-view="account-form" grid-view="account-grid"
+          if="__config__.app.isApp('account')" canEdit="false" />
+      </panel>
 
-			<!-- PAYMENT -->
-			<panel name="paymentConfigPanel" title="Payment" colSpan="12"
-				showIf="typeSelect == 3">
-				<field name="cashAccount"
-					domain="self.company = :company AND self.accountType.technicalTypeSelect = 'cash'"
-					if-module="axelor-account" form-view="account-form" grid-view="account-grid"
-					if="__config__.app.isApp('account')" canEdit="false" requiredIf="typeSelect == 3"/>
-				<field name="paymentMode" form-view="payment-mode-form"
-					grid-view="payment-mode-grid" canEdit="false" requiredIf="typeSelect == 3"/>
-				<field name="journal"
-					domain="self.company = :company AND self.statusSelect = 1"
-					form-view="journal-form" grid-view="journal-grid" canEdit="false" requiredIf="typeSelect == 3"/>
-				<field name="bankDetails" form-view="bank-details-form"
-					grid-view="bank-details-grid" onSelect="action-account-management-attrs-bank-details-domain" onChange="action-account-management-attrs-bank-details-on-change" requiredIf="typeSelect == 3"/>
-				<field name="sequence" domain="self.company = :company  AND self.codeSelect='paymentVoucher'"
-					canNew="true" form-view="sequence-form" grid-view="sequence-grid" requiredIf="typeSelect == 3"/>
-			</panel>
+      <!-- PAYMENT -->
+      <panel name="paymentConfigPanel" title="Payment" colSpan="12" showIf="typeSelect == 3">
+        <field name="cashAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'cash'" if-module="axelor-account" form-view="account-form" grid-view="account-grid"
+          if="__config__.app.isApp('account')" canEdit="false" requiredIf="typeSelect == 3" />
+        <field name="paymentMode" form-view="payment-mode-form" grid-view="payment-mode-grid" canEdit="false" requiredIf="typeSelect == 3" />
+        <field name="journal" domain="self.company = :company AND self.statusSelect = 1" form-view="journal-form" grid-view="journal-grid" canEdit="false" requiredIf="typeSelect == 3" />
+        <field name="bankDetails" form-view="bank-details-form" grid-view="bank-details-grid" onSelect="action-account-management-attrs-bank-details-domain"
+          onChange="action-account-management-attrs-bank-details-on-change" requiredIf="typeSelect == 3" />
+        <field name="sequence" domain="self.company = :company  AND self.codeSelect='paymentVoucher'" canNew="true" form-view="sequence-form" grid-view="sequence-grid" requiredIf="typeSelect == 3" />
+        <field name="interbankCodeLine" domain="self.interbankCode.typeSelect = 1" grid-view="interbank-code-line-grid" form-view="interbank-code-line-form"/>
+      </panel>
 
-			<panel name="analyticsPanel" title="Analytics" colSpan="12"
-				showIf="typeSelect != 2">
-				<field name="analyticDistributionTemplate" canNew="true"
-					if-module="axelor-account" if="__config__.app.isApp('account')" />
-			</panel>
-			<panel name="taxPanel" title="Tax" showIf="typeSelect == 2"  colSpan="12">
-      			<field name="tax" form-view="tax-form" grid-view="tax-grid" requiredIf="typeSelect == 2"/>
-    		</panel>
+      <panel name="analyticsPanel" title="Analytics" colSpan="12" showIf="typeSelect != 2">
+        <field name="analyticDistributionTemplate" canNew="true" if-module="axelor-account" if="__config__.app.isApp('account')" />
+      </panel>
+      <panel name="taxPanel" title="Tax" showIf="typeSelect == 2" colSpan="12">
+        <field name="tax" form-view="tax-form" grid-view="tax-grid" requiredIf="typeSelect == 2" />
+      </panel>
 
-		</panel>
-	</form>
+    </panel>
+  </form>
 
 
-	<!-- ACTION RECORD -->
-	<action-record name="action-account-management-record-default"
-		model="com.axelor.apps.account.db.AccountManagement">
-		<field name="company" expr="eval:__user__.activeCompany" if="__user__.activeCompany != null" />
-		<field name="company" expr="eval:__repo__(Company).all().fetchOne()"
-			if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1" />
-	</action-record>
+  <!-- ACTION RECORD -->
+  <action-record name="action-account-management-record-default" model="com.axelor.apps.account.db.AccountManagement">
+    <field name="company" expr="eval:__user__.activeCompany" if="__user__.activeCompany != null" />
+    <field name="company" expr="eval:__repo__(Company).all().fetchOne()" if="__user__.activeCompany == null &amp;&amp; __repo__(Company).all().fetch().size == 1" />
+  </action-record>
 
-	<action-attrs name="action-account-management-attrs-hide-sale">
-		<attribute name="hidden" for="saleAccount"
-			expr="eval: !__parent__?.sellable || __parent__?.expense" if="__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
-		<attribute name="hidden" for="saleTax"
-			expr="eval: !__parent__?.sellable || __parent__?.expense" if="__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
-		<attribute name="hidden" for="saleAccount"
-			expr="eval: !__parent__?.__parent__?.sellable || __parent__?.__parent__?.expense"
-			if="!__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
-		<attribute name="hidden" for="saleTax"
-			expr="eval: !__parent__?.__parent__?.sellable || __parent__?.__parent__?.expense"
-			if="!__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
-	</action-attrs>
+  <action-attrs name="action-account-management-attrs-hide-sale">
+    <attribute name="hidden" for="saleAccount" expr="eval: !__parent__?.sellable || __parent__?.expense" if="__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
+    <attribute name="hidden" for="saleTax" expr="eval: !__parent__?.sellable || __parent__?.expense" if="__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
+    <attribute name="hidden" for="saleAccount" expr="eval: !__parent__?.__parent__?.sellable || __parent__?.__parent__?.expense" if="!__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
+    <attribute name="hidden" for="saleTax" expr="eval: !__parent__?.__parent__?.sellable || __parent__?.__parent__?.expense" if="!__parent__?._model == 'com.axelor.apps.base.db.Partner'" />
+  </action-attrs>
 
-	<action-attrs name="action-account-management-attrs-bank-details-domain">
-		<attribute name="domain"
-			expr="eval: &quot;self.id IN (${company?.bankDetailsList?.collect{it.id}.join(',')},${company?.defaultBankDetails?.id}) AND self.active = true&quot;"
-			for="bankDetails" if="company?.bankDetailsList ?: false" />
-		<attribute name="domain"
-			expr="eval: &quot;self.id = ${company?.defaultBankDetails?.id} AND self.active = true&quot;"
-			for="bankDetails" if="!company?.bankDetailsList" />
-	</action-attrs>
+  <action-attrs name="action-account-management-attrs-bank-details-domain">
+    <attribute name="domain" expr="eval: &quot;self.id IN (${company?.bankDetailsList?.collect{it.id}.join(',')},${company?.defaultBankDetails?.id}) AND self.active = true&quot;" for="bankDetails"
+      if="company?.bankDetailsList ?: false" />
+    <attribute name="domain" expr="eval: &quot;self.id = ${company?.defaultBankDetails?.id} AND self.active = true&quot;" for="bankDetails" if="!company?.bankDetailsList" />
+  </action-attrs>
 
-	<action-attrs name="action-account-management-attrs-type">
-		<attribute name="value" for="typeSelect" expr="eval: 1"
-			if="eval: __parent__?._model == 'com.axelor.apps.base.db.Product' || __parent__?._model == 'com.axelor.apps.base.db.ProductFamily'" />
-		<attribute name="value" for="typeSelect" expr="eval: 2"
-			if="eval: __parent__?._model == 'com.axelor.apps.account.db.Tax'" />
-		<attribute name="value" for="typeSelect" expr="eval: 3"
-			if="eval: __parent__?._model == 'com.axelor.apps.account.db.PaymentMode'" />
-	</action-attrs>
-	
-	<action-attrs name="action-account-management-attrs-hide-type">
-		<attribute name="hidden" for="typeSelect" expr="eval: true"
-			if="eval: __parent__?._model == 'com.axelor.apps.account.db.Tax' || __parent__?._model == 'com.axelor.apps.base.db.Product' || __parent__?._model == 'com.axelor.apps.base.db.ProductFamily' || __parent__?._model == 'com.axelor.apps.account.db.PaymentMode'" />
-	</action-attrs>
+  <action-attrs name="action-account-management-attrs-type">
+    <attribute name="value" for="typeSelect" expr="eval: 1" if="eval: __parent__?._model == 'com.axelor.apps.base.db.Product' || __parent__?._model == 'com.axelor.apps.base.db.ProductFamily'" />
+    <attribute name="value" for="typeSelect" expr="eval: 2" if="eval: __parent__?._model == 'com.axelor.apps.account.db.Tax'" />
+    <attribute name="value" for="typeSelect" expr="eval: 3" if="eval: __parent__?._model == 'com.axelor.apps.account.db.PaymentMode'" />
+  </action-attrs>
 
-	<action-attrs name="action-account-management-attrs-bank-details-on-change">
-		<attribute name="value" for="cashAccount" expr="eval: bankDetails?.bankAccount"/>
-		<attribute name="value" for="journal" expr="eval: bankDetails?.journal"/>
-	</action-attrs>
-<search-filters name="account-management-filters" model="com.axelor.apps.account.db.AccountManagement" title="Account management filters">
-		<field name="company" hidden="true" if="!__config__.app.getApp('base').getEnableMultiCompany()"/>
-		<field name="saleAccount" hidden="true" if="!__config__.app.isApp('account')" />
-		<field name="purchaseAccount" hidden="true" if="!__config__.app.isApp('account')"/>
-		<field name="cashAccount" hidden="true" if="!__config__.app.isApp('account')"/>
-		<field name="analyticDistributionTemplate" hidden="true" if="!__config__.app.isApp('account')"/>
-		<field name="fixedAssetCategory" hidden="true" if="!__config__.app.isApp('account')"/>
-		<field name="purchFixedAssetsAccount" hidden="true" if="!__config__.app.isApp('account')"/>
-	</search-filters>
+  <action-attrs name="action-account-management-attrs-hide-type">
+    <attribute name="hidden" for="typeSelect" expr="eval: true"
+      if="eval: __parent__?._model == 'com.axelor.apps.account.db.Tax' || __parent__?._model == 'com.axelor.apps.base.db.Product' || __parent__?._model == 'com.axelor.apps.base.db.ProductFamily' || __parent__?._model == 'com.axelor.apps.account.db.PaymentMode'" />
+  </action-attrs>
 
-	<action-group name="action-account-management-group-onNew">
-		<action name="action-account-management-record-default"/>
-		<action name="action-account-management-attrs-type"/>
-		<action name="action-account-management-attrs-display-product-fields"/>
-		<action name="action-account-management-attrs-hide-type"/>
-	</action-group>
+  <action-attrs name="action-account-management-attrs-bank-details-on-change">
+    <attribute name="value" for="cashAccount" expr="eval: bankDetails?.bankAccount" />
+    <attribute name="value" for="journal" expr="eval: bankDetails?.journal" />
+  </action-attrs>
+  <search-filters name="account-management-filters" model="com.axelor.apps.account.db.AccountManagement" title="Account management filters">
+    <field name="company" hidden="true" if="!__config__.app.getApp('base').getEnableMultiCompany()" />
+    <field name="saleAccount" hidden="true" if="!__config__.app.isApp('account')" />
+    <field name="purchaseAccount" hidden="true" if="!__config__.app.isApp('account')" />
+    <field name="cashAccount" hidden="true" if="!__config__.app.isApp('account')" />
+    <field name="analyticDistributionTemplate" hidden="true" if="!__config__.app.isApp('account')" />
+    <field name="fixedAssetCategory" hidden="true" if="!__config__.app.isApp('account')" />
+    <field name="purchFixedAssetsAccount" hidden="true" if="!__config__.app.isApp('account')" />
+  </search-filters>
 
-	<action-attrs name="action-account-management-attrs-display-product-fields">
-		<attribute name="hidden"  expr="eval:__parent__?._model == 'com.axelor.apps.base.db.Product' || typeSelect != 1"
-							 for="productFamily"/>
-		<attribute name="hidden"  expr="eval:__parent__?._model == 'com.axelor.apps.base.db.ProductFamily' || typeSelect != 1"
-							 for="product"/>
-	</action-attrs>
+  <action-group name="action-account-management-group-onNew">
+    <action name="action-account-management-record-default" />
+    <action name="action-account-management-attrs-type" />
+    <action name="action-account-management-attrs-display-product-fields" />
+    <action name="action-account-management-attrs-hide-type" />
+  </action-group>
+
+  <action-attrs name="action-account-management-attrs-display-product-fields">
+    <attribute name="hidden" expr="eval:__parent__?._model == 'com.axelor.apps.base.db.Product' || typeSelect != 1" for="productFamily" />
+    <attribute name="hidden" expr="eval:__parent__?._model == 'com.axelor.apps.base.db.ProductFamily' || typeSelect != 1" for="product" />
+  </action-attrs>
 </object-views>

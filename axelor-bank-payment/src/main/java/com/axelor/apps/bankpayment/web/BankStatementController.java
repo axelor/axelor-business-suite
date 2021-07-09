@@ -29,18 +29,30 @@ import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.common.base.Joiner;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
 
 @Singleton
 public class BankStatementController {
 
-  public void runImport(ActionRequest request, ActionResponse response) {
+  protected BankStatementService bankStatementService;
+  protected BankStatementRepository bankStatementRepo;
 
+  @Inject
+  public BankStatementController(
+      BankStatementService bankStatementService, BankStatementRepository bankStatementRepo) {
+
+    this.bankStatementService = bankStatementService;
+    this.bankStatementRepo = bankStatementRepo;
+  }
+
+  public void runImport(ActionRequest request, ActionResponse response) {
     try {
       BankStatement bankStatement = request.getContext().asType(BankStatement.class);
-      bankStatement = Beans.get(BankStatementRepository.class).find(bankStatement.getId());
-      Beans.get(BankStatementService.class).runImport(bankStatement, true);
+      bankStatement = bankStatementRepo.find(bankStatement.getId());
+      bankStatementService.runImport(bankStatement, true);
+      bankStatementService.generateMoves(bankStatement);
 
     } catch (Exception e) {
       TraceBackService.trace(response, e);
@@ -51,7 +63,7 @@ public class BankStatementController {
   public void print(ActionRequest request, ActionResponse response) {
     try {
       BankStatement bankStatement = request.getContext().asType(BankStatement.class);
-      bankStatement = Beans.get(BankStatementRepository.class).find(bankStatement.getId());
+      bankStatement = bankStatementRepo.find(bankStatement.getId());
       String name = bankStatement.getName();
       String fileLink = Beans.get(BankStatementService.class).print(bankStatement);
       response.setView(ActionView.define(name).add("html", fileLink).map());
@@ -67,7 +79,7 @@ public class BankStatementController {
 
     try {
       BankStatement bankStatement = request.getContext().asType(BankStatement.class);
-      bankStatement = Beans.get(BankStatementRepository.class).find(bankStatement.getId());
+      bankStatement = bankStatementRepo.find(bankStatement.getId());
       List<BankReconciliation> bankReconciliationList =
           Beans.get(BankReconciliationCreateService.class)
               .createAllFromBankStatement(bankStatement);
@@ -93,5 +105,11 @@ public class BankStatementController {
       TraceBackService.trace(response, e);
     }
     response.setReload(true);
+  }
+
+  public void generateMovesFromBankStatement(ActionRequest request, ActionResponse response) {
+    BankStatement bankStatement =
+        bankStatementRepo.find(request.getContext().asType(BankStatement.class).getId());
+    bankStatementService.generateMoves(bankStatement);
   }
 }

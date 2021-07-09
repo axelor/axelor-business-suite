@@ -1,57 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
-    
-	<grid name="account-management-payment-mode-grid" title="Account Managements" model="com.axelor.apps.account.db.AccountManagement" editable="true"
-	   onNew="action-account-management-record-default, action-account-management-attrs-type">
-		<field name="typeSelect" hidden="true"/>
-		<field name="company" form-view="company-form" grid-view="company-grid" onChange="action-group-account-account-management-onchange-common"
-		    canEdit="false" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-    <field name="cashAccount" form-view="account-form" grid-view="account-grid" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'cash'"
-        canEdit="false"/>
-    <field name="journal" form-view="journal-form" grid-view="journal-grid" canEdit="false" domain="self.company = :company AND self.statusSelect = 1"/>
-    <field name="bankDetails" form-view="bank-details-form" grid-view="bank-details-grid" canEdit="false" onSelect="action-account-management-attrs-bank-details-domain" onChange="action-account-management-attrs-bank-details-on-change"/>
-    <field name="sequence" domain="self.company = :company  AND self.codeSelect ='paymentVoucher'" form-view="sequence-form" grid-view="sequence-grid"/>
-  </grid>
- 
-	<grid name="account-management-tax-grid" title="Account management list" model="com.axelor.apps.account.db.AccountManagement" editable="true"
-		  onNew="action-account-management-record-default, action-account-management-attrs-type">
-		<field name="typeSelect" hidden="true"/>
-		<field name="company" form-view="company-form" grid-view="company-grid"
-			onChange="action-group-account-account-management-onchange-common" canEdit="false" if="__config__.app.getApp('base').getEnableMultiCompany()"/>
-		<field name="purchaseAccount" if-module="axelor-account"
-			form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')"
-			domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" canEdit="false"/>
-		<field name="purchFixedAssetsAccount" if-module="axelor-account"
-			form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')"
-			domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" canEdit="false"/>
-		<field name="saleAccount" if-module="axelor-account" form-view="account-form"
-			grid-view="account-grid" if="__config__.app.isApp('account')"
-			domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" canEdit="false"/>
-	</grid>
-	
-    <action-group name="action-group-account-account-management-onchange-common">
-    	<action name="action-account-management-clean-company"/>
-    	<action name="action-account-management-product-validate"/>
-    </action-group>
-    
-    <!-- ACTION RECORD -->
-    <action-validate name="action-account-management-product-validate">
-     	<error message="The sale account or the purchase account are associated to another company. Please make sure to select the right account in the company chart before changing the company." if="saleAccount != null &amp;&amp; company != null &amp;&amp; saleAccount?.company?.id != company?.id"/>
-    	<error message="The sale account or the purchase account are associated to another company. Please make sure to select the right account in the company chart before changing the company." if="purchaseAccount != null &amp;&amp; company != null &amp;&amp; purchaseAccount?.company?.id != company?.id"/>
-    	<error message="The sale account or the purchase account or the cash account are associated to another company. Please make sure to select the right account in the company chart before changing the company." if="cashAccount != null &amp;&amp; company != null &amp;&amp; cashAccount?.company?.id != company?.id"/>
-    </action-validate>
-    
-    <action-record name="action-account-management-clean-company" model="com.axelor.apps.account.db.AccountManagement">
-        <field name="company"  expr="eval:null" if="saleAccount != null &amp;&amp; company != null &amp;&amp; saleAccount?.company?.id != company?.id"/>
-        <field name="company"  expr="eval:null" if="purchaseAccount != null &amp;&amp; company != null &amp;&amp; purchaseAccount?.company?.id != company?.id"/>
-        <field name="company"  expr="eval:null" if="cashAccount != null &amp;&amp; company != null &amp;&amp; cashAccount?.company?.id != company?.id"/>
-    </action-record>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
-	<action-attrs name="action-account-management-fill-default-bank-details">
-        <attribute for="bankDetails" name="value" expr="null"/>
-		<attribute for="bankDetails" name="value" expr="eval: company?.defaultBankDetails" if="company?.defaultBankDetails?.active"/>
-	</action-attrs>
+  <grid name="account-management-payment-mode-grid" title="Account Managements" model="com.axelor.apps.account.db.AccountManagement" editable="true"
+    onNew="action-account-management-record-default, action-account-management-attrs-type">
+    <field name="typeSelect" hidden="true" />
+    <field name="company" form-view="company-form" grid-view="company-grid" onChange="action-group-account-account-management-onchange-common" canEdit="false"
+      if="__config__.app.getApp('base').getEnableMultiCompany()" />
+    <field name="cashAccount" form-view="account-form" grid-view="account-grid" domain="self.company = :company AND self.accountType.technicalTypeSelect = 'cash'" canEdit="false" />
+    <field name="journal" form-view="journal-form" grid-view="journal-grid" canEdit="false" domain="self.company = :company AND self.statusSelect = 1" />
+    <field name="bankDetails" form-view="bank-details-form" grid-view="bank-details-grid" canEdit="false" onSelect="action-account-management-attrs-bank-details-domain"
+      onChange="action-account-management-attrs-bank-details-on-change" />
+    <field name="sequence" domain="self.company = :company  AND self.codeSelect ='paymentVoucher'" form-view="sequence-form" grid-view="sequence-grid" />
+  </grid>
+
+  <grid name="account-management-tax-grid" title="Account management list" model="com.axelor.apps.account.db.AccountManagement" editable="true"
+    onNew="action-account-management-record-default, action-account-management-attrs-type">
+    <field name="typeSelect" hidden="true" />
+    <field name="company" form-view="company-form" grid-view="company-grid" onChange="action-group-account-account-management-onchange-common" canEdit="false"
+      if="__config__.app.getApp('base').getEnableMultiCompany()" />
+    <field name="purchaseAccount" if-module="axelor-account" form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')"
+      domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" canEdit="false" />
+    <field name="purchFixedAssetsAccount" if-module="axelor-account" form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')"
+      domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" canEdit="false" />
+    <field name="saleAccount" if-module="axelor-account" form-view="account-form" grid-view="account-grid" if="__config__.app.isApp('account')"
+      domain="self.company = :company AND self.accountType.technicalTypeSelect = 'tax'" canEdit="false" />
+  </grid>
+
+  <grid name="account-management-editable-grid" title="Account management list" model="com.axelor.apps.account.db.AccountManagement" editable="true" groupBy="company,bankDetails">
+    <field name="company" />
+    <field name="bankDetails" />
+    <field name="journal" />
+    <field name="interbankCodeLine" domain="self.interbankCode.typeSelect = 1"/>
+    <field name="paymentMode" />
+  </grid>
+
+  <action-group name="action-group-account-account-management-onchange-common">
+    <action name="action-account-management-clean-company" />
+    <action name="action-account-management-product-validate" />
+  </action-group>
+
+  <!-- ACTION RECORD -->
+  <action-validate name="action-account-management-product-validate">
+    <error message="The sale account or the purchase account are associated to another company. Please make sure to select the right account in the company chart before changing the company."
+      if="saleAccount != null &amp;&amp; company != null &amp;&amp; saleAccount?.company?.id != company?.id" />
+    <error message="The sale account or the purchase account are associated to another company. Please make sure to select the right account in the company chart before changing the company."
+      if="purchaseAccount != null &amp;&amp; company != null &amp;&amp; purchaseAccount?.company?.id != company?.id" />
+    <error message="The sale account or the purchase account or the cash account are associated to another company. Please make sure to select the right account in the company chart before changing the company."
+      if="cashAccount != null &amp;&amp; company != null &amp;&amp; cashAccount?.company?.id != company?.id" />
+  </action-validate>
+
+  <action-record name="action-account-management-clean-company" model="com.axelor.apps.account.db.AccountManagement">
+    <field name="company" expr="eval:null" if="saleAccount != null &amp;&amp; company != null &amp;&amp; saleAccount?.company?.id != company?.id" />
+    <field name="company" expr="eval:null" if="purchaseAccount != null &amp;&amp; company != null &amp;&amp; purchaseAccount?.company?.id != company?.id" />
+    <field name="company" expr="eval:null" if="cashAccount != null &amp;&amp; company != null &amp;&amp; cashAccount?.company?.id != company?.id" />
+  </action-record>
+
+  <action-attrs name="action-account-management-fill-default-bank-details">
+    <attribute for="bankDetails" name="value" expr="null" />
+    <attribute for="bankDetails" name="value" expr="eval: company?.defaultBankDetails" if="company?.defaultBankDetails?.active" />
+  </action-attrs>
 
 </object-views>

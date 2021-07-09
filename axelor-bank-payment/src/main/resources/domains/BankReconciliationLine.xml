@@ -19,8 +19,18 @@
     <many-to-one name="bankStatementLine" ref="com.axelor.apps.bankpayment.db.BankStatementLine" title="Bank Statement detail" />
     <many-to-one name="moveLine" ref="com.axelor.apps.account.db.MoveLine" title="Move Line" />
     <boolean name="isPosted" title="Is posted" readonly="true"/>
+    <integer name="postedNbr" title="Posted number"/>
+    <many-to-one name="bankStatementQuery" ref="com.axelor.apps.bankpayment.db.BankStatementQuery" title="Bank accounting / reconciliation rule"/>
+    <integer name="confidenceIndex" title="Confidence index"/>
     
+    <extra-code><![CDATA[
     
+    // TYPE SELECT
+    public static final int TYPE_SELECT_GENERAL = 1;
+    public static final int TYPE_SELECT_CUSTOMER = 2;
+    public static final int TYPE_SELECT_SUPPLIER = 3;
+    
+    ]]></extra-code>
   </entity>
   
 </domain-models>

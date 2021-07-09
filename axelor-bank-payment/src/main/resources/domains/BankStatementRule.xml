@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+  <module name="bank-payment" package="com.axelor.apps.bankpayment.db" />
+
+  <entity name="BankStatementRule">
+    
+    <many-to-one ref="com.axelor.apps.account.db.AccountManagement" name="accountManagement" title="Payment account management" required="true"/>
+    <many-to-one ref="com.axelor.apps.account.db.Account" name="counterpartAccount" title="Counterpart account"/>
+    <many-to-one ref="com.axelor.apps.base.db.Partner" name="partner" title="Partner"/>
+    <many-to-one ref="com.axelor.apps.bankpayment.db.BankStatementQuery" name="bankStatementQuery" title="Query"/>
+    
+    <integer name="ruleType" title="Rule type" selection="bank.payment.bank.statement.rule.rule.type.select" default="0" required="true"/>
+    
+    <string name="searchLabel" title="Searched label" multiline="true" large="true"/>
+    
+    <extra-code><![CDATA[
+    
+    // RULE TYPE
+    public static final int RULE_TYPE_ACCOUNTING_AUTO = 0;
+    public static final int RULE_TYPE_RECONCILIATION_AUTO = 1;
+    
+    ]]></extra-code>
+    
+  </entity>
+</domain-models>
