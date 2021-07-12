@@ -272,6 +272,7 @@ public class InventoryService {
         inventoryLine.setDescription(description);
         inventoryLine.setTrackingNumber(
             this.getTrackingNumber(trackingNumberSeq, product, realQty));
+        inventoryLineService.compute(inventoryLine, inventory);
         inventoryLineList.add(inventoryLine);
       }
     }
