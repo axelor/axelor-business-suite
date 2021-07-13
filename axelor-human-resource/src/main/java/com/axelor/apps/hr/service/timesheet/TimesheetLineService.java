@@ -21,6 +21,7 @@ import com.axelor.apps.base.db.Product;
 import com.axelor.apps.hr.db.Timesheet;
 import com.axelor.apps.hr.db.TimesheetLine;
 import com.axelor.apps.project.db.Project;
+import com.axelor.apps.project.db.ProjectTask;
 import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import java.math.BigDecimal;
@@ -61,6 +62,7 @@ public interface TimesheetLineService {
    * Creates a timesheet line.
    *
    * @param project
+   * @param task
    * @param product
    * @param user
    * @param date
@@ -71,6 +73,7 @@ public interface TimesheetLineService {
    */
   TimesheetLine createTimesheetLine(
       Project project,
+      ProjectTask task,
       Product product,
       User user,
       LocalDate date,
@@ -95,6 +98,7 @@ public interface TimesheetLineService {
   TimesheetLine updateTimesheetLine(
       TimesheetLine timesheetLine,
       Project project,
+      ProjectTask task,
       Product product,
       User user,
       LocalDate date,

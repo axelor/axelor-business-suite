@@ -27,6 +27,7 @@ import com.axelor.apps.hr.db.repo.TimesheetHRRepository;
 import com.axelor.apps.hr.db.repo.TimesheetRepository;
 import com.axelor.apps.hr.exception.IExceptionMessage;
 import com.axelor.apps.project.db.Project;
+import com.axelor.apps.project.db.ProjectTask;
 import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
@@ -161,6 +162,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
   @Override
   public TimesheetLine createTimesheetLine(
       Project project,
+      ProjectTask task,
       Product product,
       User user,
       LocalDate date,
@@ -174,6 +176,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
     timesheetLine.setComments(comments);
     timesheetLine.setProduct(product);
     timesheetLine.setProject(project);
+    timesheetLine.setProjectTask(task);
     timesheetLine.setUser(user);
     timesheetLine.setHoursDuration(hours);
     try {
@@ -190,13 +193,14 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
   @Override
   public TimesheetLine createTimesheetLine(
       User user, LocalDate date, Timesheet timesheet, BigDecimal hours, String comments) {
-    return createTimesheetLine(null, null, user, date, timesheet, hours, comments);
+    return createTimesheetLine(null, null, null, user, date, timesheet, hours, comments);
   }
 
   @Override
   public TimesheetLine updateTimesheetLine(
       TimesheetLine timesheetLine,
       Project project,
+      ProjectTask task,
       Product product,
       User user,
       LocalDate date,
@@ -208,6 +212,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
     timesheetLine.setComments(comments);
     timesheetLine.setProduct(product);
     timesheetLine.setProject(project);
+    timesheetLine.setProjectTask(task);
     timesheetLine.setUser(user);
     timesheetLine.setHoursDuration(hours);
     try {

@@ -49,7 +49,9 @@ import com.axelor.apps.hr.service.leave.LeaveService;
 import com.axelor.apps.hr.service.timesheet.TimesheetLineService;
 import com.axelor.apps.hr.service.timesheet.TimesheetService;
 import com.axelor.apps.project.db.Project;
+import com.axelor.apps.project.db.ProjectTask;
 import com.axelor.apps.project.db.repo.ProjectRepository;
+import com.axelor.apps.project.db.repo.ProjectTaskRepository;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.exception.AxelorException;
@@ -358,13 +360,14 @@ public class HumanResourceMobileController {
    * Content-Type: application/json
    *
    * URL: com.axelor.apps.hr.mobile.HumanResourceMobileController:insertOrUpdateTSLine
-   * fields: (id,) project, activity, date, duration, comments
+   * fields: (id,) project, task, activity, date, duration, comments
    *
    * payload:
    * { "data": {
    * 		"action": "com.axelor.apps.hr.mobile.HumanResourceMobileController:insertOrUpdateTSLine",
    *        "id": 1,
    * 		"project": 1,
+   *    "task": 1,
    * 		"activity": 2,
    * 		"date": "2018-02-22",
    * 		"duration": 10,
@@ -380,6 +383,9 @@ public class HumanResourceMobileController {
       Project project =
           Beans.get(ProjectRepository.class)
               .find(new Long(request.getData().get("project").toString()));
+      ProjectTask task =
+          Beans.get(ProjectTaskRepository.class)
+              .find(new Long(request.getData().get("task").toString()));
       Product product =
           Beans.get(ProductRepository.class)
               .find(new Long(request.getData().get("activity").toString()));
@@ -408,6 +414,7 @@ public class HumanResourceMobileController {
               timesheetLineService.updateTimesheetLine(
                   Beans.get(TimesheetLineRepository.class).find(Long.valueOf(idO.toString())),
                   project,
+                  task,
                   product,
                   user,
                   date,
@@ -418,6 +425,7 @@ public class HumanResourceMobileController {
           line =
               timesheetLineService.createTimesheetLine(
                   project,
+                  task,
                   product,
                   user,
                   date,

@@ -65,6 +65,7 @@ public class TimesheetLineProjectServiceImpl extends TimesheetLineServiceImpl
   @Override
   public TimesheetLine createTimesheetLine(
       Project project,
+      ProjectTask task,
       Product product,
       User user,
       LocalDate date,
@@ -72,7 +73,7 @@ public class TimesheetLineProjectServiceImpl extends TimesheetLineServiceImpl
       BigDecimal hours,
       String comments) {
     TimesheetLine timesheetLine =
-        super.createTimesheetLine(project, product, user, date, timesheet, hours, comments);
+        super.createTimesheetLine(project, task, product, user, date, timesheet, hours, comments);
 
     if (Beans.get(AppBusinessProjectService.class).isApp("business-project")
         && project != null
