@@ -297,7 +297,7 @@ public class SaleOrderController {
 
   @SuppressWarnings("unchecked")
   public void createSaleOrder(ActionRequest request, ActionResponse response)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
     SaleOrder origin =
         Beans.get(SaleOrderRepository.class)
             .find(Long.parseLong(request.getContext().get("_idCopy").toString()));
@@ -701,12 +701,11 @@ public class SaleOrderController {
     response.setAttr("priceList", "domain", domain);
   }
 
-  public void updateSaleOrderLineTax(ActionRequest request, ActionResponse response)
-      throws AxelorException {
+  public void updateSaleOrderLineList(ActionRequest request, ActionResponse response)
+      throws AxelorException, ClassNotFoundException {
+
     SaleOrder saleOrder = request.getContext().asType(SaleOrder.class);
-
     Beans.get(SaleOrderCreateService.class).updateSaleOrderLineList(saleOrder);
-
     response.setValue("saleOrderLineList", saleOrder.getSaleOrderLineList());
   }
 

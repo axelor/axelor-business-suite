@@ -89,9 +89,10 @@ public interface SaleOrderService {
    *
    * @param saleOrder
    * @return
+   * @throws ClassNotFoundException
    */
   public List<SaleOrderLine> handleComplementaryProducts(SaleOrder saleOrder)
-      throws AxelorException;
+      throws AxelorException, ClassNotFoundException;
 
   /**
    * Blocks if the given sale order has line with a discount superior to the max authorized
@@ -116,8 +117,10 @@ public interface SaleOrderService {
    *
    * @param saleOrder
    * @throws AxelorException
+   * @throws ClassNotFoundException
    */
-  public void manageComplementaryProductSOLines(SaleOrder saleOrder) throws AxelorException;
+  public void manageComplementaryProductSOLines(SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException;
 
   SaleOrder seperateInNewQuotation(
       SaleOrder saleOrder, ArrayList<LinkedHashMap<String, Object>> saleOrderLines)

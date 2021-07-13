@@ -423,6 +423,8 @@
 	    <field name="amountInvoiced" hidden="true"/>
 	    <button if="__config__.app.getApp('sale').getEnableConfigurator()" name="addLineFromConfiguratorBtn" title="Add Line from Configurator" showIf="statusSelect == 1" onClick="save,action-sale-order-view-generate-line"/>
 	    <button name="seperateInNewQuotationBtn" title="Separate in a new quotation" showIf="statusSelect == 1" onClick="save,action-sale-order-method-seperate-in-new-quotation"/>
+		<button onClick="action-sale-order-method-update-sale-order-line-list"
+			name="computeBtn" title="Compute lines with pricing scale" />
 	  </panel>
 	  <panel name="inTaxTotalPanel" readonly="true" hideIf="clientPartner == null" colSpan="4" sidebar="true">
 	    <separator/>
@@ -1074,7 +1076,7 @@
 		<action name="action-supplychain-sale-order-method-get-stock-location"
 				if="__config__.app.isApp('supplychain') &amp;&amp; (tradingName?.shippingDefaultStockLocation == null || stockLocation == null)"/>
 		<action name="action-partner-attrs-hide-contact-partner"/>
-		<action name="action-sale-order-method-change-sale-order-line-tax" if="template"/>
+		<action name="action-sale-order-method-update-sale-order-line-list" if="template"/>
 		<action name="action-sale-order-method-compute" if="template"/>
 		<action name="action-sale-order-attrs-set-is-ispm-required"
 				if="__config__.app.isApp('supplychain')"/>
@@ -1580,8 +1582,8 @@
 		<call class="com.axelor.apps.sale.web.SaleOrderController" method="generateSaleOrderWizard"/>
 	</action-method>
 
-	<action-method name="action-sale-order-method-change-sale-order-line-tax">
-		<call class="com.axelor.apps.sale.web.SaleOrderController" method="updateSaleOrderLineTax"/>
+	<action-method name="action-sale-order-method-update-sale-order-line-list">
+		<call class="com.axelor.apps.sale.web.SaleOrderController" method="updateSaleOrderLineList"/>
 	</action-method>
 
 	<action-attrs name="action-sale-order-attrs-template-deafult-currency">

@@ -55,4 +55,22 @@
 		<bind to="mailTemplateAssociationList" column="model" search="self.model.name = :model" if="model != null &amp;&amp; !model.empty"/>
 	</input>
 
+	<input file="base_pricingRule.csv" separator=";"
+		type="com.axelor.apps.base.db.PricingRule" search="self.importId = :importId">
+		<bind column="concernedModel" to="concernedModel" search="self.name = :concernedModel" />
+		<bind column="fieldToPopulate" to="fieldToPopulate"
+			search="(self.metaModel.name = :concernedModel) AND (self.name = :fieldToPopulate)"
+			if="fieldToPopulate" />
+	</input>
+
+	<input file="base_pricing.csv" separator=";"
+		type="com.axelor.apps.base.db.Pricing" search="self.importId = :importId">
+		<bind to="startDate"
+			eval="call:com.axelor.csv.script.ImportDateTime:importDate(startDate)"
+			column="startDate" />
+	</input>
+
+	<input file="base_pricingLine.csv" separator=";"
+		type="com.axelor.apps.base.db.PricingLine" search="self.importId = :importId" />
+
 </csv-inputs>

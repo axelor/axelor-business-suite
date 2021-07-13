@@ -187,7 +187,7 @@ public class ConfiguratorServiceImpl implements ConfiguratorService {
       SaleOrder saleOrder,
       JsonContext jsonAttributes,
       JsonContext jsonIndicators)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
 
     SaleOrderLine saleOrderLine;
     if (configurator.getConfiguratorCreator().getGenerateProduct()) {
@@ -223,8 +223,10 @@ public class ConfiguratorServiceImpl implements ConfiguratorService {
    * Fill fields of sale order line from its product
    *
    * @param saleOrderLine
+   * @throws ClassNotFoundException
    */
-  protected void fillSaleOrderWithProduct(SaleOrderLine saleOrderLine) throws AxelorException {
+  protected void fillSaleOrderWithProduct(SaleOrderLine saleOrderLine)
+      throws AxelorException, ClassNotFoundException {
     SaleOrderLineService saleOrderLineService = Beans.get(SaleOrderLineService.class);
     if (saleOrderLine.getProduct() != null) {
       saleOrderLineService.computeProductInformation(saleOrderLine, saleOrderLine.getSaleOrder());
@@ -321,13 +323,14 @@ public class ConfiguratorServiceImpl implements ConfiguratorService {
    * @param jsonIndicators
    * @param saleOrder
    * @return
+   * @throws ClassNotFoundException
    */
   protected SaleOrderLine generateSaleOrderLine(
       Configurator configurator,
       JsonContext jsonAttributes,
       JsonContext jsonIndicators,
       SaleOrder saleOrder)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
     cleanIndicators(jsonIndicators);
     SaleOrderLine saleOrderLine = Mapper.toBean(SaleOrderLine.class, jsonIndicators);
     saleOrderLine.setSaleOrder(saleOrder);

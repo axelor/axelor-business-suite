@@ -325,7 +325,7 @@ public class SaleOrderLineController {
   }
 
   private void compute(ActionResponse response, SaleOrder saleOrder, SaleOrderLine orderLine)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
 
     Map<String, BigDecimal> map =
         Beans.get(SaleOrderLineService.class).computeValues(saleOrder, orderLine);

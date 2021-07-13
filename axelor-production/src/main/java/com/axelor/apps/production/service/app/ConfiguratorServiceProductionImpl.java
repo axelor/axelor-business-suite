@@ -61,14 +61,18 @@ public class ConfiguratorServiceProductionImpl extends ConfiguratorServiceImpl {
     }
   }
 
-  /** In this implementation, we also create a bill of material. */
+  /**
+   * In this implementation, we also create a bill of material.
+   *
+   * @throws ClassNotFoundException
+   */
   @Override
   protected SaleOrderLine generateSaleOrderLine(
       Configurator configurator,
       JsonContext jsonAttributes,
       JsonContext jsonIndicators,
       SaleOrder saleOrder)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
 
     SaleOrderLine saleOrderLine =
         super.generateSaleOrderLine(configurator, jsonAttributes, jsonIndicators, saleOrder);

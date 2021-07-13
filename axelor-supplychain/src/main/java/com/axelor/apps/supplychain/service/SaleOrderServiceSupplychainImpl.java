@@ -243,7 +243,8 @@ public class SaleOrderServiceSupplychainImpl extends SaleOrderServiceImpl
   }
 
   @Override
-  public String createShipmentCostLine(SaleOrder saleOrder) throws AxelorException {
+  public String createShipmentCostLine(SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException {
     List<SaleOrderLine> saleOrderLines = saleOrder.getSaleOrderLineList();
     Partner client = saleOrder.getClientPartner();
     ShipmentMode shipmentMode = saleOrder.getShipmentMode();
@@ -303,7 +304,7 @@ public class SaleOrderServiceSupplychainImpl extends SaleOrderServiceImpl
 
   @Override
   public SaleOrderLine createShippingCostLine(SaleOrder saleOrder, Product shippingCostProduct)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
     SaleOrderLine shippingCostLine = new SaleOrderLine();
     shippingCostLine.setSaleOrder(saleOrder);
     shippingCostLine.setProduct(shippingCostProduct);

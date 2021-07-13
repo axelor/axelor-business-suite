@@ -24,9 +24,13 @@ import com.axelor.apps.account.db.TaxLine;
 import com.axelor.apps.base.db.Currency;
 import com.axelor.apps.base.db.PriceList;
 import com.axelor.apps.base.db.PriceListLine;
+import com.axelor.apps.base.db.Pricing;
+import com.axelor.apps.base.db.PricingLine;
+import com.axelor.apps.base.db.PricingRule;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.base.db.Unit;
 import com.axelor.apps.base.db.repo.PriceListLineRepository;
+import com.axelor.apps.base.db.repo.PricingRepository;
 import com.axelor.apps.base.service.CurrencyService;
 import com.axelor.apps.base.service.PriceListService;
 import com.axelor.apps.base.service.ProductCategoryService;
@@ -48,6 +52,8 @@ import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.sale.service.app.AppSaleService;
 import com.axelor.apps.sale.translation.ITranslation;
 import com.axelor.common.ObjectUtils;
+import com.axelor.db.EntityHelper;
+import com.axelor.db.mapper.Mapper;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
@@ -55,17 +61,21 @@ import com.axelor.inject.Beans;
 import com.axelor.meta.loader.ModuleManager;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
+import com.axelor.script.GroovyScriptHelper;
 import com.google.inject.Inject;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,12 +110,16 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
   }
 
   @Inject protected ProductCategoryService productCategoryService;
-
+  @Inject protected PricingRepository pricingRepository;
   @Inject protected ProductCompanyService productCompanyService;
 
   @Override
   public void computeProductInformation(SaleOrderLine saleOrderLine, SaleOrder saleOrder)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
+
+    // Reset fields which are going to recalculate in this method
+    resetProductInformation(saleOrderLine);
+
     if (!saleOrderLine.getEnableFreezeFields()) {
       saleOrderLine.setProductName(saleOrderLine.getProduct().getName());
     }
@@ -120,7 +134,12 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
   }
 
   @Override
-  public void fillPrice(SaleOrderLine saleOrderLine, SaleOrder saleOrder) throws AxelorException {
+  public void fillPrice(SaleOrderLine saleOrderLine, SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException {
+
+    // Populate fields from pricing scale before starting process of fillPrice
+    computePricingScale(saleOrder, saleOrderLine);
+
     fillTaxInformation(saleOrderLine, saleOrder);
     saleOrderLine.setCompanyCostPrice(this.getCompanyCostPrice(saleOrder, saleOrderLine));
     BigDecimal exTaxPrice;
@@ -369,8 +388,14 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
 
     Boolean productInAti =
         (Boolean) productCompanyService.get(product, "inAti", saleOrder.getCompany());
-    BigDecimal productSalePrice =
-        (BigDecimal) productCompanyService.get(product, "salePrice", saleOrder.getCompany());
+
+    // Consider price if already computed from pricing scale else get it from product
+    BigDecimal productSalePrice = saleOrderLine.getPrice();
+
+    if (productSalePrice.compareTo(BigDecimal.ZERO) == 0) {
+      productSalePrice =
+          (BigDecimal) productCompanyService.get(product, "salePrice", saleOrder.getCompany());
+    }
 
     BigDecimal price =
         (productInAti == resultInAti)
@@ -954,7 +979,7 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
   @Override
   public List<SaleOrderLine> manageComplementaryProductSaleOrderLine(
       ComplementaryProduct complementaryProduct, SaleOrder saleOrder, SaleOrderLine saleOrderLine)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
 
     List<SaleOrderLine> newComplementarySOLines = new ArrayList<>();
     if (saleOrderLine.getMainSaleOrderLine() != null) {
@@ -997,5 +1022,155 @@ public class SaleOrderLineServiceImpl implements SaleOrderLineService {
       newComplementarySOLines.add(complementarySOLine);
     }
     return complementarySOLine;
+  }
+
+  @Override
+  public void computePricingScale(SaleOrder saleOrder, SaleOrderLine orderLine)
+      throws ClassNotFoundException {
+
+    if (orderLine.getProduct() == null) {
+      return;
+    }
+
+    // (1) Get the Pricing
+
+    Pricing pricing = getRelatedPricing(orderLine.getProduct(), saleOrder);
+
+    if (pricing == null
+        || pricing.getClass1PricingRule() == null
+        || pricing.getResult1PricingRule() == null) {
+      return;
+    }
+
+    // (2) Compute the classification formulas
+    // (3) Search the Pricing Line
+
+    Context scriptContext =
+        new Context(
+            Mapper.toMap(orderLine), Class.forName(pricing.getConcernedModel().getFullName()));
+
+    scriptContext.put("saleOrder", EntityHelper.getEntity(saleOrder));
+    GroovyScriptHelper scriptHelper = new GroovyScriptHelper(scriptContext);
+
+    PricingLine pricingLine =
+        searchPricingLine(
+            pricing,
+            computeClassificationFormula(scriptHelper, pricing.getClass1PricingRule()),
+            computeClassificationFormula(scriptHelper, pricing.getClass2PricingRule()),
+            computeClassificationFormula(scriptHelper, pricing.getClass3PricingRule()),
+            computeClassificationFormula(scriptHelper, pricing.getClass4PricingRule()));
+
+    if (pricingLine == null) {
+      return;
+    }
+
+    // (4) Compute the result formulas
+    // (6) Apply the results
+
+    scriptContext.put("pricingLine", EntityHelper.getEntity(pricingLine));
+    scriptHelper = new GroovyScriptHelper(scriptContext);
+
+    computeResultFormulaAndApply(scriptHelper, pricing, orderLine);
+
+    return;
+  }
+
+  public Pricing getRelatedPricing(Product product, SaleOrder saleOrder) {
+
+    StringBuilder filter = new StringBuilder();
+
+    filter.append("(self.product = :product");
+
+    if (product.getParentProduct() != null) {
+      filter.append(" OR self.product = :parentProduct");
+    }
+
+    if (product.getProductCategory() != null) {
+      filter.append(" OR self.productCategory = :productCategory");
+    }
+
+    filter.append(
+        ") AND self.previousPricing = null AND self.company = :company AND self.startDate <= :todayDate AND self.concernedModel.name = :modelName");
+
+    return pricingRepository
+        .all()
+        .filter(filter.toString())
+        .bind("product", product)
+        .bind("productCategory", product.getProductCategory())
+        .bind("parentProduct", product.getParentProduct())
+        .bind("company", saleOrder.getCompany())
+        .bind("todayDate", appBaseService.getTodayDate(saleOrder.getCompany()))
+        .bind("modelName", SaleOrderLine.class.getSimpleName())
+        .fetchOne();
+  }
+
+  public String computeClassificationFormula(
+      GroovyScriptHelper scriptHelper, PricingRule classPricingRule) {
+
+    return classPricingRule != null
+        ? (String) scriptHelper.eval(classPricingRule.getFormula())
+        : null;
+  }
+
+  public PricingLine searchPricingLine(
+      Pricing pricing,
+      String class1PricingRuleValue,
+      String class2PricingRuleValue,
+      String class3PricingRuleValue,
+      String class4PricingRuleValue) {
+
+    Stream<PricingLine> pricingLineStream =
+        Optional.ofNullable(pricing.getPricingLineList()).orElse(Collections.emptyList()).stream();
+
+    if (class4PricingRuleValue != null) {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine ->
+                  pricingLine.getClassificationParam1().equals(class1PricingRuleValue)
+                      && pricingLine.getClassificationParam2().equals(class2PricingRuleValue)
+                      && pricingLine.getClassificationParam3().equals(class3PricingRuleValue)
+                      && pricingLine.getClassificationParam4().equals(class4PricingRuleValue));
+    } else if (class3PricingRuleValue != null) {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine ->
+                  pricingLine.getClassificationParam1().equals(class1PricingRuleValue)
+                      && pricingLine.getClassificationParam2().equals(class2PricingRuleValue)
+                      && pricingLine.getClassificationParam3().equals(class3PricingRuleValue));
+    } else if (class2PricingRuleValue != null) {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine ->
+                  pricingLine.getClassificationParam1().equals(class1PricingRuleValue)
+                      && pricingLine.getClassificationParam2().equals(class2PricingRuleValue));
+    } else {
+      pricingLineStream =
+          pricingLineStream.filter(
+              pricingLine -> pricingLine.getClassificationParam1().equals(class1PricingRuleValue));
+    }
+
+    Optional<PricingLine> pricingLineValue = pricingLineStream.findFirst();
+
+    return pricingLineValue.isPresent() ? pricingLineValue.get() : null;
+  }
+
+  public void computeResultFormulaAndApply(
+      GroovyScriptHelper scriptHelper, Pricing pricing, SaleOrderLine orderLine) {
+
+    List<PricingRule> resultPricingRuleList = new ArrayList<>();
+    resultPricingRuleList.add(pricing.getResult1PricingRule());
+    resultPricingRuleList.add(pricing.getResult2PricingRule());
+    resultPricingRuleList.add(pricing.getResult3PricingRule());
+    resultPricingRuleList.add(pricing.getResult4PricingRule());
+
+    resultPricingRuleList.stream()
+        .filter(Objects::nonNull)
+        .forEach(
+            resultPricingRule ->
+                Mapper.of(SaleOrderLine.class)
+                    .set(
+                        orderLine,
+                        resultPricingRule.getFieldToPopulate().getName(),
+                        scriptHelper.eval(resultPricingRule.getFormula())));
   }
 }

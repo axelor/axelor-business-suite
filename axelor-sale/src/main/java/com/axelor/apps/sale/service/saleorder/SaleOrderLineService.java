@@ -41,9 +41,10 @@ public interface SaleOrderLineService {
    *
    * @param saleOrderLine
    * @param saleOrder
+   * @throws ClassNotFoundException
    */
   void computeProductInformation(SaleOrderLine saleOrderLine, SaleOrder saleOrder)
-      throws AxelorException;
+      throws AxelorException, ClassNotFoundException;
 
   SaleOrderLine resetProductInformation(SaleOrderLine line);
 
@@ -140,8 +141,10 @@ public interface SaleOrderLineService {
    * @param saleOrderLine
    * @param saleOrder
    * @throws AxelorException
+   * @throws ClassNotFoundException
    */
-  public void fillPrice(SaleOrderLine saleOrderLine, SaleOrder saleOrder) throws AxelorException;
+  public void fillPrice(SaleOrderLine saleOrderLine, SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException;
 
   /**
    * Fill the complementaryProductList of the saleOrderLine from the possible complementary products
@@ -305,8 +308,12 @@ public interface SaleOrderLineService {
    * @param saleOrderLine
    * @return New complementary sales order lines
    * @throws AxelorException
+   * @throws ClassNotFoundException
    */
   public List<SaleOrderLine> manageComplementaryProductSaleOrderLine(
       ComplementaryProduct complementaryProduct, SaleOrder saleOrder, SaleOrderLine saleOrderLine)
-      throws AxelorException;
+      throws AxelorException, ClassNotFoundException;
+
+  public void computePricingScale(SaleOrder saleOrder, SaleOrderLine orderLine)
+      throws ClassNotFoundException;
 }

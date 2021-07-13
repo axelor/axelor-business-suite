@@ -104,7 +104,7 @@ public class SaleOrderLineServiceSupplyChainImpl extends SaleOrderLineServiceImp
 
   @Override
   public void computeProductInformation(SaleOrderLine saleOrderLine, SaleOrder saleOrder)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
     super.computeProductInformation(saleOrderLine, saleOrder);
     saleOrderLine.setSaleSupplySelect(saleOrderLine.getProduct().getSaleSupplySelect());
 

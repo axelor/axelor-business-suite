@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+	<grid model="com.axelor.apps.base.db.Pricing" title="Pricing"
+		name="pricing-grid" orderBy="company,product,productCategory,startDate,name">
+
+		<field name="company" />
+		<field name="product" />
+		<field name="productCategory" />
+		<field name="startDate" />
+		<field name="name" />
+
+	</grid>
+
+	<form model="com.axelor.apps.base.db.Pricing" title="Pricing"
+		name="pricing-form" onLoad="action-pricing-group-attrs-pricing-line-list"
+		width="large">
+
+		<panel name="mainPanel">
+			<panel name="overviewPanel" colSpan="12">
+				<field name="name" />
+				<field name="startDate" />
+				<field name="company" onChange="action-pricing-attrs-company-onchange" />
+				<field name="concernedModel" onChange="action-pricing-attrs-concerned-model-onchange" />
+			</panel>
+			<panel name="classificationPanel" colSpan="12">
+				<field name="class1PricingRule"
+					domain="self.typeSelect = 1 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-classification-fields,action-pricing-group-attrs-pricing-line-list" />
+				<field name="class2PricingRule" showIf="class1PricingRule"
+					domain="self.typeSelect = 1 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-classification-fields,action-pricing-group-attrs-pricing-line-list" />
+				<field name="class3PricingRule" showIf="class2PricingRule"
+					domain="self.typeSelect = 1 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-classification-fields,action-pricing-group-attrs-pricing-line-list" />
+				<field name="class4PricingRule" showIf="class3PricingRule"
+					domain="self.typeSelect = 1 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-classification-fields,action-pricing-group-attrs-pricing-line-list" />
+			</panel>
+			<panel name="resultPanel" colSpan="12">
+				<field name="result1PricingRule"
+					domain="self.typeSelect = 2 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-result-fields,action-pricing-group-attrs-pricing-line-list" />
+				<field name="result2PricingRule" showIf="result1PricingRule"
+					domain="self.typeSelect = 2 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-result-fields,action-pricing-group-attrs-pricing-line-list" />
+				<field name="result3PricingRule" showIf="result2PricingRule"
+					domain="self.typeSelect = 2 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-result-fields,action-pricing-group-attrs-pricing-line-list" />
+				<field name="result4PricingRule" showIf="result3PricingRule"
+					domain="self.typeSelect = 2 AND self.concernedModel = :concernedModel AND (self.company = :company OR self.company = null)"
+					onChange="action-pricing-attrs-clear-result-fields,action-pricing-group-attrs-pricing-line-list" />
+			</panel>
+			<panel name="otherPanel" colSpan="12">
+				<field name="product" onSelect="action-pricing-attrs-set-product-domain"
+					readonlyIf="productCategory" />
+				<field name="productCategory" readonlyIf="product" />
+				<field name="previousPricing"
+					domain="self.company = :company AND self.concernedModel = :concernedModel AND self.id != :id" />
+			</panel>
+			<panel-related field="pricingLineList" name="pricingLineListPanel"
+				colSpan="12" grid-view="pricing-line-grid" form-view="pricing-line-form"
+				showIf="class1PricingRule || result1PricingRule"
+				orderBy="classificationParam1,classificationParam2,classificationParam3,classificationParam4,resultParam1,resultParam2,resultParam3,resultParam4"
+				editable="true" />
+		</panel>
+
+	</form>
+
+	<action-attrs name="action-pricing-attrs-clear-classification-fields">
+		<attribute name="value" for="class2PricingRule" expr="eval: null"
+			if="!class1PricingRule" />
+		<attribute name="value" for="class3PricingRule" expr="eval: null"
+			if="!class1PricingRule || !class2PricingRule" />
+		<attribute name="value" for="class4PricingRule" expr="eval: null"
+			if="!class1PricingRule || !class2PricingRule || !class3PricingRule" />
+	</action-attrs>
+
+	<action-attrs name="action-pricing-attrs-clear-result-fields">
+		<attribute name="value" for="result2PricingRule" expr="eval: null"
+			if="!result1PricingRule" />
+		<attribute name="value" for="result3PricingRule" expr="eval: null"
+			if="!result1PricingRule || !result2PricingRule" />
+		<attribute name="value" for="result4PricingRule" expr="eval: null"
+			if="!result1PricingRule || !result2PricingRule || !result3PricingRule" />
+	</action-attrs>
+
+	<action-attrs name="action-pricing-attrs-pricing-line-list-hide-fields">
+		<attribute name="hidden" for="pricingLineList.classificationParam1"
+			expr="eval: class1PricingRule == null" />
+		<attribute name="hidden" for="pricingLineList.classificationParam2"
+			expr="eval: class2PricingRule == null" />
+		<attribute name="hidden" for="pricingLineList.classificationParam3"
+			expr="eval: class3PricingRule == null" />
+		<attribute name="hidden" for="pricingLineList.classificationParam4"
+			expr="eval: class4PricingRule == null" />
+		<attribute name="hidden" for="pricingLineList.resultParam1"
+			expr="eval: result1PricingRule == null" />
+		<attribute name="hidden" for="pricingLineList.resultParam2"
+			expr="eval: result2PricingRule == null" />
+		<attribute name="hidden" for="pricingLineList.resultParam3"
+			expr="eval: result3PricingRule == null" />
+		<attribute name="hidden" for="pricingLineList.resultParam4"
+			expr="eval: result4PricingRule == null" />
+	</action-attrs>
+
+	<action-attrs name="action-pricing-attrs-pricing-line-list-change-titles">
+		<attribute name="title" for="pricingLineList.classificationParam1"
+			expr="eval: class1PricingRule?.name" />
+		<attribute name="title" for="pricingLineList.classificationParam2"
+			expr="eval: class2PricingRule?.name" />
+		<attribute name="title" for="pricingLineList.classificationParam3"
+			expr="eval: class3PricingRule?.name" />
+		<attribute name="title" for="pricingLineList.classificationParam4"
+			expr="eval: class4PricingRule?.name" />
+		<attribute name="title" for="pricingLineList.resultParam1"
+			expr="eval: result1PricingRule?.name" />
+		<attribute name="title" for="pricingLineList.resultParam2"
+			expr="eval: result2PricingRule?.name" />
+		<attribute name="title" for="pricingLineList.resultParam3"
+			expr="eval: result3PricingRule?.name" />
+		<attribute name="title" for="pricingLineList.resultParam4"
+			expr="eval: result4PricingRule?.name" />
+	</action-attrs>
+
+	<action-group name="action-pricing-group-attrs-pricing-line-list">
+		<action name="action-pricing-attrs-pricing-line-list-hide-fields" />
+		<action name="action-pricing-attrs-pricing-line-list-change-titles" />
+	</action-group>
+
+	<action-attrs name="action-pricing-attrs-set-product-domain">
+		<attribute name="domain" for="product"
+			expr="eval: __config__.app.getApp('base').getManageProductVariants() ? (&quot;self.dtype = 'Product'&quot;) : (&quot;self.dtype = 'Product' AND self.isModel = false&quot;) " />
+	</action-attrs>
+
+	<action-attrs name="action-pricing-attrs-concerned-model-onchange">
+		<attribute name="value"
+			for="class1PricingRule,class2PricingRule,class3PricingRule,class4PricingRule,result1PricingRule,result2PricingRule,result3PricingRule,result4PricingRule,previousPricing"
+			expr="eval: null" if="!concernedModel" />
+	</action-attrs>
+
+	<action-attrs name="action-pricing-attrs-company-onchange">
+		<attribute name="value" for="previousPricing" expr="eval: null" />
+	</action-attrs>
+
+</object-views>

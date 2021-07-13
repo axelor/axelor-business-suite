@@ -626,4 +626,9 @@
 		<option value="com.axelor.apps.account.db.PaymentCondition" data-grid="payment-condition-grid" data-form="payment-condition-form">Payment condition</option>
 	</selection>
 
+	<selection name="base.pricing.rule.type.select">
+		<option value="1">Classification</option>
+		<option value="2">Result</option>
+	</selection>
+
 </object-views>

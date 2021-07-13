@@ -130,7 +130,9 @@ public interface SaleOrderCreateService {
 
   @Transactional(rollbackOn = {Exception.class})
   public SaleOrder createSaleOrder(
-      SaleOrder context, Currency wizardCurrency, PriceList wizardPriceList) throws AxelorException;
+      SaleOrder context, Currency wizardCurrency, PriceList wizardPriceList)
+      throws AxelorException, ClassNotFoundException;
 
-  public void updateSaleOrderLineList(SaleOrder saleOrder) throws AxelorException;
+  public void updateSaleOrderLineList(SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException;
 }

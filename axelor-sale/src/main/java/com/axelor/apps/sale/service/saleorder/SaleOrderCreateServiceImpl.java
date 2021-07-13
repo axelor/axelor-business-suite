@@ -227,7 +227,7 @@ public class SaleOrderCreateServiceImpl implements SaleOrderCreateService {
   @Transactional(rollbackOn = {Exception.class})
   public SaleOrder createSaleOrder(
       SaleOrder context, Currency wizardCurrency, PriceList wizardPriceList)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
     SaleOrder copy = saleOrderRepo.copy(context, true);
     copy.setCreationDate(appSaleService.getTodayDate(context.getCompany()));
     copy.setCurrency(wizardCurrency);
@@ -245,7 +245,8 @@ public class SaleOrderCreateServiceImpl implements SaleOrderCreateService {
     return copy;
   }
 
-  public void updateSaleOrderLineList(SaleOrder saleOrder) throws AxelorException {
+  public void updateSaleOrderLineList(SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException {
     List<SaleOrderLine> saleOrderLineList = saleOrder.getSaleOrderLineList();
     if (saleOrderLineList != null) {
       for (SaleOrderLine saleOrderLine : saleOrderLineList) {

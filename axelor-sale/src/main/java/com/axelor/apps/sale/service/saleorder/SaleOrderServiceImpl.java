@@ -244,7 +244,7 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 
   @Override
   public List<SaleOrderLine> handleComplementaryProducts(SaleOrder saleOrder)
-      throws AxelorException {
+      throws AxelorException, ClassNotFoundException {
     List<SaleOrderLine> saleOrderLineList = saleOrder.getSaleOrderLineList();
     if (saleOrderLineList == null) {
       saleOrderLineList = new ArrayList<>();
@@ -407,7 +407,8 @@ public class SaleOrderServiceImpl implements SaleOrderService {
   }
 
   @Override
-  public void manageComplementaryProductSOLines(SaleOrder saleOrder) throws AxelorException {
+  public void manageComplementaryProductSOLines(SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException {
 
     List<SaleOrderLine> saleOrderLineList = saleOrder.getSaleOrderLineList();
     List<ComplementaryProduct> complementaryProducts =

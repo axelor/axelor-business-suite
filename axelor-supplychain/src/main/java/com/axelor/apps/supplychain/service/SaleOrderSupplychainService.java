@@ -27,12 +27,13 @@ public interface SaleOrderSupplychainService {
 
   public void updateToConfirmedStatus(SaleOrder saleOrder);
 
-  public String createShipmentCostLine(SaleOrder saleOrder) throws AxelorException;
+  public String createShipmentCostLine(SaleOrder saleOrder)
+      throws AxelorException, ClassNotFoundException;
 
   boolean alreadyHasShippingCostLine(SaleOrder saleOrder, Product shippingCostProduct);
 
   SaleOrderLine createShippingCostLine(SaleOrder saleOrder, Product shippingCostProduct)
-      throws AxelorException;
+      throws AxelorException, ClassNotFoundException;
 
   String removeShipmentCostLine(SaleOrder saleOrder);
 

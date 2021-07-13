@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="base" package="com.axelor.apps.base.db" />
+
+	<entity name="PricingRule" lang="java">
+
+		<string name="name" title="Name" />
+		<many-to-one name="concernedModel" ref="com.axelor.meta.db.MetaModel"
+			title="Concerned model" />
+		<integer name="typeSelect" title="Type"
+			selection="base.pricing.rule.type.select" />
+		<string name="formula" title="Formula" />
+		<many-to-one name="fieldToPopulate" ref="com.axelor.meta.db.MetaField"
+			title="Field to populate" />
+		<many-to-one name="company" ref="com.axelor.apps.base.db.Company"
+			title="Company" />
+
+		<extra-code><![CDATA[
+			//TYPE SELECT
+			public static final int PRICING_RULE_TYPE_CLASSIFICATION = 1;
+			public static final int PRICING_RULE_TYPE_RESULT = 2;
+     	]]></extra-code>
+
+	</entity>
+
+</domain-models>
