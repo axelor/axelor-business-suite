@@ -363,7 +363,7 @@
 	<action-attrs name="action-timesheet-attrs-enable-timesheet-manuforder">
 		<attribute for="$enableTimesheetManufOrder" name="value" expr="eval: __config__.app.getApp('production').getEnableTimesheetOnManufOrder()"/>
 	</action-attrs>
-
+	
 	<action-record name="action-timesheet-record-from-period-date" model="com.axelor.apps.hr.db.Timesheet">
 		<field name="fromDate" expr="eval: __repo__(Timesheet).all().filter('self.user = ?1 AND self.statusSelect != ?2 ORDER BY self.toDate DESC', __user__, TimesheetRepository.STATUS_CANCELED).fetchOne()?.toDate?.plusDays(1)"/>
 	</action-record>

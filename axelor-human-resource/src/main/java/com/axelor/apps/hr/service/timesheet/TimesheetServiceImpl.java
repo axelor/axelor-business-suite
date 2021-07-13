@@ -416,6 +416,7 @@ public class TimesheetServiceImpl extends JpaSupport implements TimesheetService
         TimesheetLine timesheetLine =
             timesheetLineService.createTimesheetLine(
                 project,
+                null,
                 product,
                 user,
                 fromDate,
@@ -964,7 +965,14 @@ public class TimesheetServiceImpl extends JpaSupport implements TimesheetService
     for (Project project : projects) {
       TimesheetLine line =
           timesheetLineService.createTimesheetLine(
-              project, product, user, timesheet.getFromDate(), timesheet, new BigDecimal(0), null);
+              project,
+              null,
+              product,
+              user,
+              timesheet.getFromDate(),
+              timesheet,
+              new BigDecimal(0),
+              null);
       lines.add(Mapper.toMap(line));
     }
 

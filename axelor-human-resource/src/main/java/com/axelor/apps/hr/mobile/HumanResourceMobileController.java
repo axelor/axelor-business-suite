@@ -60,6 +60,8 @@ import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.axelor.team.db.TeamTask;
+import com.axelor.team.db.repo.TeamTaskRepository;
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.google.inject.persist.Transactional;
@@ -357,13 +359,14 @@ public class HumanResourceMobileController {
    * Content-Type: application/json
    *
    * URL: com.axelor.apps.hr.mobile.HumanResourceMobileController:insertOrUpdateTSLine
-   * fields: (id,) project, activity, date, duration, comments
+   * fields: (id,) project, task, activity, date, duration, comments
    *
    * payload:
    * { "data": {
    * 		"action": "com.axelor.apps.hr.mobile.HumanResourceMobileController:insertOrUpdateTSLine",
    *        "id": 1,
    * 		"project": 1,
+   *    "task": 1,
    * 		"activity": 2,
    * 		"date": "2018-02-22",
    * 		"duration": 10,
@@ -379,6 +382,9 @@ public class HumanResourceMobileController {
       Project project =
           Beans.get(ProjectRepository.class)
               .find(new Long(request.getData().get("project").toString()));
+      TeamTask task =
+          Beans.get(TeamTaskRepository.class)
+              .find(new Long(request.getContext().get("task").toString()));
       Product product =
           Beans.get(ProductRepository.class)
               .find(new Long(request.getData().get("activity").toString()));
@@ -407,6 +413,7 @@ public class HumanResourceMobileController {
               timesheetLineService.updateTimesheetLine(
                   Beans.get(TimesheetLineRepository.class).find(Long.valueOf(idO.toString())),
                   project,
+                  task,
                   product,
                   user,
                   date,
@@ -417,6 +424,7 @@ public class HumanResourceMobileController {
           line =
               timesheetLineService.createTimesheetLine(
                   project,
+                  task,
                   product,
                   user,
                   date,

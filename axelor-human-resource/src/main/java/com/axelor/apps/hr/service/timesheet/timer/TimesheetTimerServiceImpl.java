@@ -90,6 +90,7 @@ public class TimesheetTimerServiceImpl implements TimesheetTimerService {
         Beans.get(TimesheetLineService.class)
             .createTimesheetLine(
                 timer.getProject(),
+                null,
                 timer.getProduct(),
                 timer.getUser(),
                 startDateTime,

@@ -33,6 +33,7 @@ import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
+import com.axelor.team.db.TeamTask;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import java.lang.invoke.MethodHandles;
@@ -161,6 +162,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
   @Override
   public TimesheetLine createTimesheetLine(
       Project project,
+      TeamTask task,
       Product product,
       User user,
       LocalDate date,
@@ -174,6 +176,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
     timesheetLine.setComments(comments);
     timesheetLine.setProduct(product);
     timesheetLine.setProject(project);
+    timesheetLine.setTeamTask(task);
     timesheetLine.setUser(user);
     timesheetLine.setHoursDuration(hours);
     try {
@@ -190,13 +193,14 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
   @Override
   public TimesheetLine createTimesheetLine(
       User user, LocalDate date, Timesheet timesheet, BigDecimal hours, String comments) {
-    return createTimesheetLine(null, null, user, date, timesheet, hours, comments);
+    return createTimesheetLine(null, null, null, user, date, timesheet, hours, comments);
   }
 
   @Override
   public TimesheetLine updateTimesheetLine(
       TimesheetLine timesheetLine,
       Project project,
+      TeamTask task,
       Product product,
       User user,
       LocalDate date,
@@ -208,6 +212,7 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
     timesheetLine.setComments(comments);
     timesheetLine.setProduct(product);
     timesheetLine.setProject(project);
+    timesheetLine.setTeamTask(task);
     timesheetLine.setUser(user);
     timesheetLine.setHoursDuration(hours);
     try {
