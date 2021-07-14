@@ -6,7 +6,7 @@
 	<grid name="partner-campaign-grid" title="Partners" model="com.axelor.apps.base.db.Partner">
 		<field name="partnerSeq"/>
 		<field name="simpleFullName"/>
-		<field name="fixedPhone"/>
+		<field name="fixedPhone" widget="phone"/>
 		<field name="emailAddress.address" title="Email"/>
 		<field name="partnerCategory" grid-view="partner-category-grid" form-view="partner-category-form"/>
 		<field name="fiscalPosition.code" title="Fiscal position"/>

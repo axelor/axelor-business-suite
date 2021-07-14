@@ -28,7 +28,7 @@
         <field name="name"/>
         <field name="firstName"/>
 		<field name="enterpriseName"/>
-        <field name="fixedPhone"/>
+        <field name="fixedPhone" widget="phone"/>
 		<field name="emailAddress.address"/>
 		<field name="contactDate"/>
 		<field name="user" form-view="user-form" grid-view="user-grid"/>
@@ -129,13 +129,13 @@
 							]]>
 						</viewer>
 					</field>
-					<field name="mobilePhone" colSpan="4" placeholder="+33100000000" onChange="action-partner-method-normalize-mobilePhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
+					<field name="mobilePhone" widget="phone" colSpan="4" placeholder="+33100000000" onChange="action-partner-method-normalize-mobilePhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
 					<field name="emailAddress" colSpan="4" canSelect="false" form-view="email-address-simple-form" x-show-icons="false">
 						<editor x-show-titles="false">
 							<field name="address" colSpan="12" placeholder="whatever@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
 						</editor>
 					</field>
-					<field name="fixedPhone" colSpan="4" placeholder="+33100000000" onChange="action-partner-method-normalize-fixedPhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
+					<field name="fixedPhone" widget="phone" colSpan="4" placeholder="+33100000000" onChange="action-partner-method-normalize-fixedPhone" pattern="^\+?([\s()-.]*\d){7,}$"/>
 					<field name="webSite" colSpan="6" placeholder="http://www.url.com" pattern="^(?:http(?:s)?://)?\S+(?:\.\S+)+$"/>
 				</panel>
 								
@@ -215,7 +215,7 @@
         <field name="name"/>
         <field name="firstName"/>
 		<field name="enterpriseName"/>
-        <field name="fixedPhone"/>
+        <field name="fixedPhone" widget="phone"/>
 		<field name="emailAddress.address"/>
 		<field name="contactDate"/>
 		<field name="user" form-view="user-form" grid-view="user-grid"/>
@@ -233,8 +233,8 @@
 		<field name="name"/>
 		<field name="firstName"/>
 		<field name="enterpriseName"/>
-		<field name="fixedPhone"/>
-		<field name="mobilePhone"/>
+		<field name="fixedPhone" widget="phone"/>
+		<field name="mobilePhone" widget="phone"/>
 		<field name="emailAddress.address"/>
 		<field name="statusSelect"/>
 		<button name="scheduleEventBtn" title="Schedule Event" icon="fa-group" onClick="action-lead-view-schedule-event"/>

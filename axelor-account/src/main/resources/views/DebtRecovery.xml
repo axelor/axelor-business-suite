@@ -63,12 +63,12 @@
                     form-view="partner-address-form">
                     <field name="address" form-view="address-form" grid-view="address-grid" />
                 </panel-related>
-                <field name="accountingSituation.partner.fixedPhone" colSpan="6" hidden="true" showIf="accountingSituation != null"/>
-                <field name="accountingSituation.partner.fax" colSpan="6" hidden="true" showIf="accountingSituation != null"/>
+                <field name="accountingSituation.partner.fixedPhone" widget="phone" colSpan="6" hidden="true" showIf="accountingSituation != null"/>
+                <field name="accountingSituation.partner.fax" widget="phone" colSpan="6" hidden="true" showIf="accountingSituation != null"/>
                 <field name="accountingSituation.partner.emailAddress" colSpan="6" hidden="true" showIf="accountingSituation != null"/>
                 <field name="accountingSituation.partner.webSite" colSpan="6" hidden="true" showIf="accountingSituation != null"/>
-                <field name="tradingNameAccountingSituation.partner.fixedPhone" colSpan="6" hidden="true" showIf="tradingNameAccountingSituation != null"/>
-                <field name="tradingNameAccountingSituation.partner.fax" colSpan="6" hidden="true" showIf="tradingNameAccountingSituation != null"/>
+                <field name="tradingNameAccountingSituation.partner.fixedPhone" widget="phone" colSpan="6" hidden="true" showIf="tradingNameAccountingSituation != null"/>
+                <field name="tradingNameAccountingSituation.partner.fax" widget="phone" colSpan="6" hidden="true" showIf="tradingNameAccountingSituation != null"/>
                 <field name="tradingNameAccountingSituation.partner.emailAddress" colSpan="6" hidden="true" showIf="tradingNameAccountingSituation != null"/>
                 <field name="tradingNameAccountingSituation.partner.webSite" colSpan="6" hidden="true" showIf="tradingNameAccountingSituation != null"/>
             </panel>

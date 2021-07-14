@@ -18,7 +18,7 @@
 	<grid name="accounting-situation-pfp-partner-grid" canNew="false" title="Suppliers" model="com.axelor.apps.account.db.AccountingSituation">
     		<field name="partner.partnerSeq"/>
     		<field name="partner.simpleFullName"/>
-		<field name="partner.fixedPhone"/>
+		<field name="partner.fixedPhone" widget="phone"/>
 		<field name="partner.emailAddress.address"/>
 		<field name="partner.mainAddress"/>
 		<field name="partner.companyStr"/>

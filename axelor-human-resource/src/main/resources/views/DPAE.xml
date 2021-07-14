@@ -15,7 +15,7 @@
       <field name="mainActivityCode" colSpan="3"/>
       <field name="company"/>
       <field name="companyAddress"/>
-      <field name="companyFixedPhone"/>
+      <field name="companyFixedPhone" widget="phone"/>
       <field name="healthService"/>
       <field name="healthServiceAddress"/>
     </panel>

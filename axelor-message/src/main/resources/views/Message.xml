@@ -57,7 +57,7 @@
 			<field name="bccEmailAddressSet" widget="TagSelect" x-create="address" form-view="email-address-form" colSpan="12" grid-view="email-address-grid" />
 		</panel>
 		<panel name="recipientPanel" title="Recipient" readonlyIf="statusSelect == 2 || statusSelect == 3" showIf="mediaTypeSelect == 5" hidden="true" colSpan="12">
-			<field name="toMobilePhone"/>
+			<field name="toMobilePhone" widget="phone"/>
 		</panel>
 		<panel name="messageDestinatedToPanel" title="Message destinated to" readonlyIf="statusSelect != 1" showIf="mediaTypeSelect == 3">
 			<field name="recipientUser" colSpan="6" showTitle="false" showIf="mediaTypeSelect == 3" requiredIf="mediaTypeSelect == 3" form-view="user-form" grid-view="user-grid"/>

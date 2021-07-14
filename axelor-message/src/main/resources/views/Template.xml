@@ -36,7 +36,7 @@
 		</panel>
 		<panel name="recipientPanel" title="Recipient" readonlyIf="statusSelect == 2 || statusSelect == 3"
 					 showIf="mediaTypeSelect == 4" hidden="true" colSpan="12">
-			<field name="toMobilePhone"/>
+			<field name="toMobilePhone" widget="phone"/>
 		</panel>
 		<panel-tabs name="mainPanelTab">
 			<panel name="subjectContentPanel" title="Content" colSpan="12">
