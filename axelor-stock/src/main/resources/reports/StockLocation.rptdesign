@@ -1107,8 +1107,12 @@ order by Product.code
                     <text id="5359">
                         <list-property name="visibility">
                             <structure>
-                                <property name="format">all</property>
+                                <property name="format">pdf</property>
                                 <expression name="valueExpr" type="javascript">row["logo_path"] == null</expression>
+                            </structure>
+                            <structure>
+                                <property name="format">xlsx</property>
+                                <expression name="valueExpr" type="javascript">true</expression>
                             </structure>
                         </list-property>
                         <structure name="toc"/>
