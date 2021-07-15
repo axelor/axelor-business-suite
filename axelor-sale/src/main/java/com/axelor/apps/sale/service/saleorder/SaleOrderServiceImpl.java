@@ -394,16 +394,53 @@ public class SaleOrderServiceImpl implements SaleOrderService {
       SaleOrderLine saleOrderLine =
           Beans.get(SaleOrderLineRepository.class)
               .find(Long.parseLong(soLine.get("id").toString()));
-      copySaleOrder.addSaleOrderLineListItem(saleOrderLine);
-      saleOrder.removeSaleOrderLineListItem(saleOrderLine);
-    }
 
+      this.moveToNewSaleOrder(saleOrder, copySaleOrder, saleOrderLine);
+    }
     copySaleOrder = Beans.get(SaleOrderComputeService.class).computeSaleOrder(copySaleOrder);
     saleOrder = Beans.get(SaleOrderComputeService.class).computeSaleOrder(saleOrder);
     Beans.get(SaleOrderRepository.class).save(saleOrder);
     Beans.get(SaleOrderRepository.class).save(copySaleOrder);
 
     return copySaleOrder;
+  }
+
+  public void moveToNewSaleOrder(
+      SaleOrder oldSaleOrder, SaleOrder newSaleOrder, SaleOrderLine saleOrderLine) {
+
+    if (!newSaleOrder.getSaleOrderLineList().contains(saleOrderLine)) {
+      this.moveSaleOrderLine(oldSaleOrder, newSaleOrder, saleOrderLine);
+    }
+
+    // ComplimentaryProducts
+    if (CollectionUtils.isNotEmpty(saleOrderLine.getComplementarySaleOrderLineList())) {
+      for (SaleOrderLine sol : saleOrderLine.getComplementarySaleOrderLineList()) {
+        this.moveSaleOrderLine(oldSaleOrder, newSaleOrder, sol);
+      }
+    }
+
+    // ComplimentaryProductSelected
+    if (saleOrderLine.getSelectedComplementaryProductList() != null) {
+      List<SaleOrderLine> compProdSOLineList =
+          saleOrderLineRepo
+              .all()
+              .filter(
+                  "self.parentId = ?1 and self.saleOrder = ?2",
+                  saleOrderLine.getManualId(),
+                  oldSaleOrder)
+              .fetch();
+      for (SaleOrderLine sol : compProdSOLineList) {
+        this.moveSaleOrderLine(oldSaleOrder, newSaleOrder, sol);
+        // Nested ComplimentaryProducts
+        this.moveToNewSaleOrder(oldSaleOrder, newSaleOrder, sol);
+      }
+    }
+  }
+
+  public void moveSaleOrderLine(
+      SaleOrder oldSaleOrder, SaleOrder newSaleOrder, SaleOrderLine saleOrderLine) {
+    newSaleOrder.addSaleOrderLineListItem(saleOrderLine);
+    oldSaleOrder.removeSaleOrderLineListItem(saleOrderLine);
   }
 
   @Override
