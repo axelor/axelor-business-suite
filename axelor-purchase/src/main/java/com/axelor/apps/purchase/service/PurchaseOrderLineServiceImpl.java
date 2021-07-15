@@ -495,6 +495,9 @@ public class PurchaseOrderLineServiceImpl implements PurchaseOrderLineService {
     if (product != null) {
       purchaseOrderLine.setProduct(product);
       fill(purchaseOrderLine, purchaseOrder);
+      if (qty != null) {
+        purchaseOrderLine.setQty(qty);
+      }
       compute(purchaseOrderLine, purchaseOrder);
     }
 
@@ -504,9 +507,6 @@ public class PurchaseOrderLineServiceImpl implements PurchaseOrderLineService {
 
     purchaseOrderLine.setIsOrdered(false);
 
-    if (qty != null) {
-      purchaseOrderLine.setQty(qty);
-    }
     purchaseOrderLine.setSequence(sequence);
     sequence++;
 
