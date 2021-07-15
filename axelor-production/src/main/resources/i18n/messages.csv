@@ -696,6 +696,7 @@
 "The bill of materials %s has been generated",,,
 "The manufacturing order was canceled.",,,
 "The merge must concern only manufacturing orders with Draft or Planned status, with the same products and same workshop stock location and with all bill of materials compatibles.",,,
+"The merge must concern only manufacturing orders with Draft or Planned status, with the same products and with all bill of materials compatibles.",,,
 "The planned end date is inferior to the actual date",,,
 "The product %s is not in the bill of materials related to this production process",,,
 "The product cost cannot be changed because the product cost type is not manual",,,

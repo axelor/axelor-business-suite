@@ -944,7 +944,10 @@ public class ManufOrderServiceImpl implements ManufOrderService {
     }
 
     Optional<LocalDateTime> minDate =
-        manufOrderList.stream().map(ManufOrder::getPlannedStartDateT).min(LocalDateTime::compareTo);
+        manufOrderList.stream()
+            .filter(mo -> mo.getPlannedStartDateT() != null)
+            .map(ManufOrder::getPlannedStartDateT)
+            .min(LocalDateTime::compareTo);
 
     minDate.ifPresent(mergedManufOrder::setPlannedStartDateT);
 

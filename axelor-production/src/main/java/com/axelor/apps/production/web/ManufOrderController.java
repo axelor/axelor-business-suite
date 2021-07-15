@@ -31,6 +31,7 @@ import com.axelor.apps.production.db.repo.ProdProductRepository;
 import com.axelor.apps.production.exceptions.IExceptionMessage;
 import com.axelor.apps.production.report.IReport;
 import com.axelor.apps.production.service.ProdProductProductionRepository;
+import com.axelor.apps.production.service.app.AppProductionService;
 import com.axelor.apps.production.service.costsheet.CostSheetService;
 import com.axelor.apps.production.service.manuforder.ManufOrderPrintService;
 import com.axelor.apps.production.service.manuforder.ManufOrderService;
@@ -517,7 +518,12 @@ public class ManufOrderController {
             if (canMerge) {
               response.setAlert(I18n.get(IExceptionMessage.MANUF_ORDER_MERGE_VALIDATION));
             } else {
-              response.setError(I18n.get(IExceptionMessage.MANUF_ORDER_MERGE_ERROR));
+              if (Beans.get(AppProductionService.class).getAppProduction().getManageWorkshop()) {
+                response.setError(I18n.get(IExceptionMessage.MANUF_ORDER_MERGE_ERROR));
+              } else {
+                response.setError(
+                    I18n.get(IExceptionMessage.MANUF_ORDER_MERGE_ERROR_MANAGE_WORKSHOP_FALSE));
+              }
             }
           }
         } else {

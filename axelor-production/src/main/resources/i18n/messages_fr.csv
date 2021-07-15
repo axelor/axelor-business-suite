@@ -696,6 +696,7 @@
 "The bill of materials %s has been generated","La nomenclature %s a été générée",,
 "The manufacturing order was canceled.","L'ordre de fabrication a été annulé.",,
 "The merge must concern only manufacturing orders with Draft or Planned status, with the same products and same workshop stock location and with all bill of materials compatibles.","Les fusions ne concernent que des produits et des ateliers identiques pour des ordres en statut brouillon ou planifié avec des gammes / nomenclatures compatibles.",,
+"The merge must concern only manufacturing orders with Draft or Planned status, with the same products and with all bill of materials compatibles.","Les fusions ne concernent que des produits identiques pour des ordres en statut brouillon ou planifié avec des gammes / nomenclatures compatibles.",,
 "The planned end date is inferior to the actual date","La date de fin prévue est inférieure à la date actuelle",,
 "The product %s is not in the bill of materials related to this production process","Le produit %s ne se trouve pas dans la nomenclature reliée à cette gamme",,
 "The product cost cannot be changed because the product cost type is not manual","Le prix de revient ne peut pas être modifié car le type de coût du produit n'est pas manuel.",,
