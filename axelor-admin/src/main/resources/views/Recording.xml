@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views  xmlns="http://axelor.com/xml/ns/object-views"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+   <grid model="com.axelor.apps.base.db.Recording" title="Recordings" name="recording-grid">
+      <field name="statusSelect"/>
+      <field name="recordingData" widget="binary-link"/>
+   </grid>
+
+   <form model="com.axelor.apps.base.db.Recording" title="Recording" name="recording-form"
+      canDelete="statusSelect != 1" canCopy="statusSelect != 1" canNew="statusSelect != 1">
+      <panel name="generalPanel" readonlyIf="statusSelect != 0">
+         <field name="statusSelect" widget="NavSelect" colSpan="12" readonly="true" showTitle="false"/>
+         <panel name="mainPanel" title="Details" canCollapse="true" collapseIf="statusSelect == 2" colSpan="12">
+            <field name="startDateTime" readonly="true"/>
+            <field name="stopDateTime" readonly="true"/>
+            <panel-related name="includeModelSetPanel" field="includeModelSet" colSpan="12" canNew="false"
+               form-view="meta-model-form" grid-view="meta-model-grid"/>
+            <panel-related name="excludeModelSetPanel" field="excludeModelSet" colSpan="12" canNew="false"
+               form-view="meta-model-form" grid-view="meta-model-grid"/>
+			<panel name="searchConfigurationSetPanel" title="Search configurations" colSpan="12">
+				<field name="searchConfigurationSet" colSpan="12" showTitle="false">
+					<editor x-viewer="true" x-show-on-new="false">
+						<field name="metaModel"/>
+						<field name="metaFieldSet" widget="TagSelect" canEdit="false" domain="self.metaModel = :metaModel"/>
+					</editor>
+				</field>
+			</panel>
+            <panel name="modelIdsPanel" title="Model data" colSpan="12" itemSpan="12" readonly="true">
+               <field name="modelIds" widget="json-raw" readonly="true" showTitle="false"/>
+            </panel>
+         </panel>
+         <panel name="dataPanel" title="Data" hidden="true" showIf="statusSelect == 2" colSpan="12">
+            <field name="recordingData" showIf="statusSelect == 2" widget="binary-link"/>
+         </panel>
+      </panel>
+      <panel name="actionsPanel" sidebar="true" itemSpan="12">
+         <button onClick="action-recording-group-startbtn-onclick" name="startBtn" title="Start" hidden="true" showIf="statusSelect == 0"/>
+         <button onClick="save,action-recording-method-stopbtn-onclick" name="stopBtn" title="Stop" hidden="true" showIf="statusSelect == 1"/>
+      </panel>
+   </form>
+
+   <action-group name="action-recording-group-startbtn-onclick">
+      <action name="save"/>
+      <action name="action-recording-record-startbtn-onclick"/>
+      <action name="save"/>
+   </action-group>
+
+   <action-record name="action-recording-record-startbtn-onclick" model="com.axelor.apps.base.db.Recording">
+      <field name="statusSelect" expr="eval: RecordingRepository.STATUS_START"/>
+      <field name="startDateTime" expr="eval: __datetime__"/>
+   </action-record>
+
+   <action-method name="action-recording-method-stopbtn-onclick">
+      <call class="com.axelor.apps.base.web.RecordingController" method="stopRecording"/>
+   </action-method>
+
+</object-views>

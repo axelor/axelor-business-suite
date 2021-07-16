@@ -51,4 +51,10 @@
 		<option value="5">EXPORT</option>
 	</selection>
 
+   <selection name="base.recording.status.select">
+      <option value="0">New</option>
+      <option value="1">Start</option>
+      <option value="2">Stop</option>
+   </selection>
+
 </object-views>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views  xmlns="http://axelor.com/xml/ns/object-views"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+	<grid model="com.axelor.apps.base.db.RecordingImport" title="Recording import" name="recording-import-grid">
+		<field name="recordingData"/>
+	</grid>
+
+	<form model="com.axelor.apps.base.db.RecordingImport" title="Recording import" name="recording-import-form">
+		<panel name="mainPanel">
+			<field name="recordingData" widget="binary-link"/>
+			<button onClick="save,action-recording-import-method-import-data,save" name="importDataBtn" title="Import recording data"
+				readonlyIf="!recordingData"/>
+			<field name="logFile" widget="binary-link" readonly="true" colSpan="12"/>
+		</panel>
+	</form>
+
+	<action-method name="action-recording-import-method-import-data">
+		<call class="com.axelor.apps.base.web.RecordingImportController" method="importRecordingData"/>
+	</action-method>
+
+</object-views>

@@ -46,4 +46,7 @@ public interface IExceptionMessages {
 
   public static final String FILE_UPLOAD_DIR_ERROR = /*$$(*/
       "File upload path not configured" /*)*/;;
+
+  public static final String RECORDING_DATA_BACKUP_MISSING = /*$$(*/
+      "Recording's data backup record not found" /*)*/;
 }
