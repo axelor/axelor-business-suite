@@ -3,6 +3,18 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
     <list-property name="propertyBindings">
         <structure>
+            <property name="name">queryText</property>
+            <property name="id">489</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">489</property>
+        </structure>
+        <structure>
+            <property name="name">rowFetchSize</property>
+            <property name="id">489</property>
+        </structure>
+        <structure>
             <property name="name">odaURL</property>
             <property name="id">209</property>
             <expression name="value" type="javascript">params["DBName"].value</expression>
@@ -16,30 +28,6 @@
             <property name="name">odaPassword</property>
             <property name="id">209</property>
             <expression name="value" type="javascript">params["Password"].value</expression>
-        </structure>
-        <structure>
-            <property name="name">odaDriverClass</property>
-            <property name="id">209</property>
-        </structure>
-        <structure>
-            <property name="name">odaAutoCommit</property>
-            <property name="id">209</property>
-        </structure>
-        <structure>
-            <property name="name">odaIsolationMode</property>
-            <property name="id">209</property>
-        </structure>
-        <structure>
-            <property name="name">odaJndiName</property>
-            <property name="id">209</property>
-        </structure>
-        <structure>
-            <property name="name">OdaConnProfileName</property>
-            <property name="id">209</property>
-        </structure>
-        <structure>
-            <property name="name">OdaConnProfileStorePath</property>
-            <property name="id">209</property>
         </structure>
     </list-property>
     <property name="units">in</property>
@@ -297,56 +285,56 @@
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">3</property>
+                    <property name="position">2</property>
                     <property name="name">partner_name</property>
                     <property name="nativeName">partner_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">3</property>
                     <property name="name">account_id</property>
                     <property name="nativeName">account_id</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                     <property name="name">account_code</property>
                     <property name="nativeName">account_code</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">5</property>
                     <property name="name">account_name</property>
                     <property name="nativeName">account_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">6</property>
                     <property name="name">parent_account_id</property>
                     <property name="nativeName">parent_account_id</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">7</property>
                     <property name="name">debit</property>
                     <property name="nativeName">debit</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">8</property>
                     <property name="name">credit</property>
                     <property name="nativeName">credit</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">2</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">9</property>
                     <property name="name">balance</property>
                     <property name="nativeName">balance</property>
                     <property name="dataType">decimal</property>
@@ -444,6 +432,12 @@ order by MoveLine.account_code]]></xml-property>
                     <text-property name="heading">logo_path</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">display_simulated_move</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">display_simulated_move</text-property>
+                    <text-property name="heading">display_simulated_move</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">period_name</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">period_name</text-property>
@@ -539,41 +533,46 @@ order by MoveLine.account_code]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
+                        <property name="name">display_simulated_move</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
                         <property name="name">period_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">journal_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">global</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">11</property>
                         <property name="name">global_by_date</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">12</property>
                         <property name="name">currency</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">13</property>
                         <property name="name">logo_height</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">logo_width</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">payment_mode</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -625,55 +624,62 @@ order by MoveLine.account_code]]></xml-property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
+                    <property name="name">display_simulated_move</property>
+                    <property name="nativeName">display_simulated_move</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-7</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
                     <property name="name">period_name</property>
                     <property name="nativeName">period_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">journal_name</property>
                     <property name="nativeName">journal_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">global</property>
                     <property name="nativeName">global</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">-7</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">11</property>
                     <property name="name">global_by_date</property>
                     <property name="nativeName">global_by_date</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">-7</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">12</property>
                     <property name="name">currency</property>
                     <property name="nativeName">currency</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
+                    <property name="position">13</property>
                     <property name="name">logo_height</property>
                     <property name="nativeName">logo_height</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">13</property>
+                    <property name="position">14</property>
                     <property name="name">logo_width</property>
                     <property name="nativeName">logo_width</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">15</property>
                     <property name="name">payment_mode</property>
                     <property name="nativeName">payment_mode</property>
                     <property name="dataType">string</property>
@@ -682,6 +688,7 @@ order by MoveLine.account_code]]></xml-property>
             </list-property>
             <xml-property name="queryText"><![CDATA[select Company.name as company_name, AccountingReport.date_from, AccountingReport.date_to, AccountingReport.date_val as report_date,
 AccountingReport.publication_date_time as report_date_edition, MetaFile.file_path as logo_path,
+AccountingReport.display_simulated_move as display_simulated_move,
 Period.name as period_name, Journal.name as journal_name, AccountingReport.global, AccountingReport.global_by_date,
 Currency.code as currency,
 Company.height as logo_height,
@@ -1134,6 +1141,13 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <expression name="expression" type="javascript">dataSetRow["payment_mode"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">display_simulated_move</property>
+                    <text-property name="displayName">display_simulated_move</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["display_simulated_move"]</expression>
+                    <property name="dataType">boolean</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="492">
                 <property name="width">1.6in</property>
@@ -1161,6 +1175,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                 <cell id="1247">
                     <property name="colSpan">7</property>
                     <property name="rowSpan">1</property>
+                    <property name="textAlign">center</property>
                     <text id="4001">
                         <property name="fontSize">14pt</property>
                         <property name="fontWeight">bold</property>
@@ -1169,12 +1184,56 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                         <property name="borderRightStyle">none</property>
                         <property name="borderTopStyle">none</property>
                         <property name="textAlign">center</property>
+                        <property name="whiteSpace">nowrap</property>
+                        <property name="display">inline</property>
                         <property name="dataSet">TranslateDS</property>
                         <list-property name="paramBindings">
                             <structure>
                                 <property name="paramName">param_1</property>
                                 <simple-property-list name="expression">
                                     <value type="javascript">'AccountingReportType6.title'</value>
+                                </simple-property-list>
+                            </structure>
+                        </list-property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">key</property>
+                                <text-property name="displayName">key</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">translation</property>
+                                <text-property name="displayName">translation</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF>]]></text-property>
+                    </text>
+                    <text id="4320">
+                        <property name="fontSize">14pt</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="borderBottomStyle">none</property>
+                        <property name="borderLeftStyle">none</property>
+                        <property name="borderRightStyle">none</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="textAlign">center</property>
+                        <property name="whiteSpace">nowrap</property>
+                        <property name="display">inline</property>
+                        <property name="dataSet">TranslateDS</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">!row._outer["display_simulated_move"]</expression>
+                            </structure>
+                        </list-property>
+                        <list-property name="paramBindings">
+                            <structure>
+                                <property name="paramName">param_1</property>
+                                <simple-property-list name="expression">
+                                    <value type="javascript">'AccountingReportType.provisional'</value>
                                 </simple-property-list>
                             </structure>
                         </list-property>

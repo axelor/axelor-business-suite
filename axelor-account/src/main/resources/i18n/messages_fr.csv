@@ -256,6 +256,7 @@
 "AccountingReport.recapByAccount","Récapitulatif par compte comptable",,
 "AccountingReport.totalCreditAccount","Total crédit par compte",,
 "AccountingReport.totalDebitAccount","Total débit par compte",,
+"AccountingReportType.provisional"," (Provisoire)",,
 "AccountingReportType1.balance","Solde",,
 "AccountingReportType1.code","Code",,
 "AccountingReportType1.company","Société",,

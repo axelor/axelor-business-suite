@@ -256,6 +256,7 @@
 "AccountingReport.recapByAccount","Recap by account",,
 "AccountingReport.totalCreditAccount","Total credit by account",,
 "AccountingReport.totalDebitAccount","Total debit by account",,
+"AccountingReportType.provisional"," (Provisional)",,
 "AccountingReportType1.balance","Balance",,
 "AccountingReportType1.code","Code",,
 "AccountingReportType1.company","Company",,

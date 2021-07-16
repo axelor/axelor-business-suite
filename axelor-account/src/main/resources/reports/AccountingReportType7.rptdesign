@@ -534,6 +534,11 @@ order by account, MoveLine.date_val, MoveLine.name]]></xml-property>
                     <text-property name="heading">display_only_not_completely_lettered_move_lines</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">display_cumulative_balance</property>
+                    <property name="alias">display_cumulative_balance</property>
+                    <property name="analysis">measure</property>
+                </structure>
+                <structure>
                     <property name="columnName">payment_mode</property>
                     <property name="alias">payment_mode</property>
                     <property name="analysis">dimension</property>
@@ -630,11 +635,16 @@ order by account, MoveLine.date_val, MoveLine.name]]></xml-property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
+                        <property name="name">display_simulated_move</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
                         <property name="name">payment_mode</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">currency</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -722,12 +732,18 @@ order by account, MoveLine.date_val, MoveLine.name]]></xml-property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
+                    <property name="name">display_simulated_move</property>
+                    <property name="nativeName">display_simulated_move</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
                     <property name="name">payment_mode</property>
                     <property name="nativeName">payment_mode</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
+                    <property name="position">16</property>
                     <property name="name">currency</property>
                     <property name="nativeName">currency</property>
                     <property name="dataType">string</property>
@@ -747,6 +763,7 @@ AccountingReport.global_by_date,
 AccountingReport.global_by_partner,
 AccountingReport.display_only_not_completely_lettered_move_lines,
 AccountingReport.display_cumulative_balance,
+AccountingReport.display_simulated_move as display_simulated_move,
 PaymentMode.name as payment_mode, 
 Currency.code as currency
 from public.account_accounting_report as AccountingReport
@@ -1182,6 +1199,13 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <expression name="expression" type="javascript">dataSetRow["display_cumulative_balance"]</expression>
                     <property name="dataType">integer</property>
                 </structure>
+                <structure>
+                    <property name="name">display_simulated_move</property>
+                    <text-property name="displayName">display_simulated_move</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["display_simulated_move"]</expression>
+                    <property name="dataType">boolean</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="492">
                 <property name="width">1.6in</property>
@@ -1209,6 +1233,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                 <cell id="1247">
                     <property name="colSpan">7</property>
                     <property name="rowSpan">1</property>
+                    <property name="textAlign">center</property>
                     <text id="4001">
                         <property name="fontSize">14pt</property>
                         <property name="fontWeight">bold</property>
@@ -1217,12 +1242,56 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                         <property name="borderRightStyle">none</property>
                         <property name="borderTopStyle">none</property>
                         <property name="textAlign">center</property>
+                        <property name="whiteSpace">nowrap</property>
+                        <property name="display">inline</property>
                         <property name="dataSet">TranslateDS</property>
                         <list-property name="paramBindings">
                             <structure>
                                 <property name="paramName">param_1</property>
                                 <simple-property-list name="expression">
                                     <value type="javascript">'AccountingReportType7.title'</value>
+                                </simple-property-list>
+                            </structure>
+                        </list-property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">key</property>
+                                <text-property name="displayName">key</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["message_key"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">translation</property>
+                                <text-property name="displayName">translation</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["translation"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[<VALUE-OF>row["translation"]</VALUE-OF>]]></text-property>
+                    </text>
+                    <text id="4308">
+                        <property name="fontSize">14pt</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="borderBottomStyle">none</property>
+                        <property name="borderLeftStyle">none</property>
+                        <property name="borderRightStyle">none</property>
+                        <property name="borderTopStyle">none</property>
+                        <property name="textAlign">center</property>
+                        <property name="whiteSpace">nowrap</property>
+                        <property name="display">inline</property>
+                        <property name="dataSet">TranslateDS</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">!row._outer["display_simulated_move"]</expression>
+                            </structure>
+                        </list-property>
+                        <list-property name="paramBindings">
+                            <structure>
+                                <property name="paramName">param_1</property>
+                                <simple-property-list name="expression">
+                                    <value type="javascript">'AccountingReportType.provisional'</value>
                                 </simple-property-list>
                             </structure>
                         </list-property>
