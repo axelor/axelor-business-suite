@@ -799,7 +799,7 @@ public class SaleOrderController {
     SaleOrder copiedSO =
         Beans.get(SaleOrderService.class).seperateInNewQuotation(saleOrder, SOLines);
     response.setView(
-        ActionView.define("Sale order")
+        ActionView.define(I18n.get("Sale order"))
             .model(SaleOrder.class.getName())
             .add("form", "sale-order-form")
             .add("grid", "sale-order-grid")
