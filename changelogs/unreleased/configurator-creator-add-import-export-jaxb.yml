@@ -1,0 +1,6 @@
+---
+title: "Configurator creator: Reworking import and export of configurators creators by using jaxb library"
+type: feature
+description: |
+ Changed export and import of configurator creators. It uses now jaxb library and can now import <configurator-bom> but xml's format changed
+ and <configurator-bom> is now located in <configurator-creator>. 

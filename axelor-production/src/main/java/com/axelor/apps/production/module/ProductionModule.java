@@ -20,6 +20,7 @@ package com.axelor.apps.production.module;
 import com.axelor.app.AxelorModule;
 import com.axelor.apps.production.db.repo.BillOfMaterialManagementRepository;
 import com.axelor.apps.production.db.repo.BillOfMaterialRepository;
+import com.axelor.apps.production.db.repo.ConfiguratorBOMRepository;
 import com.axelor.apps.production.db.repo.MachineRepository;
 import com.axelor.apps.production.db.repo.MachineToolManagementRepository;
 import com.axelor.apps.production.db.repo.ManufOrderManagementRepository;
@@ -32,6 +33,7 @@ import com.axelor.apps.production.db.repo.ProdProductRepository;
 import com.axelor.apps.production.db.repo.ProductProductionRepository;
 import com.axelor.apps.production.db.repo.ProductionBatchManagementRepository;
 import com.axelor.apps.production.db.repo.ProductionBatchRepository;
+import com.axelor.apps.production.db.repo.ProductionConfiguratorBOMRepository;
 import com.axelor.apps.production.db.repo.RawMaterialRequirementProductionRepository;
 import com.axelor.apps.production.db.repo.RawMaterialRequirementRepository;
 import com.axelor.apps.production.db.repo.StockMoveLineProductionRepository;
@@ -75,6 +77,7 @@ import com.axelor.apps.production.service.configurator.ConfiguratorProdProcessSe
 import com.axelor.apps.production.service.configurator.ConfiguratorProdProcessServiceImpl;
 import com.axelor.apps.production.service.configurator.ConfiguratorProdProductService;
 import com.axelor.apps.production.service.configurator.ConfiguratorProdProductServiceImpl;
+import com.axelor.apps.production.service.configurator.ProductionConfiguratorJaxbIEServiceImpl;
 import com.axelor.apps.production.service.costsheet.CostSheetLineService;
 import com.axelor.apps.production.service.costsheet.CostSheetLineServiceImpl;
 import com.axelor.apps.production.service.costsheet.CostSheetService;
@@ -98,6 +101,7 @@ import com.axelor.apps.production.service.productionorder.ProductionOrderService
 import com.axelor.apps.production.service.productionorder.ProductionOrderWizardService;
 import com.axelor.apps.production.service.productionorder.ProductionOrderWizardServiceImpl;
 import com.axelor.apps.sale.service.configurator.ConfiguratorCreatorImportServiceImpl;
+import com.axelor.apps.sale.service.configurator.ConfiguratorJaxbIEServiceImpl;
 import com.axelor.apps.sale.service.configurator.ConfiguratorServiceImpl;
 import com.axelor.apps.stock.db.repo.ProductStockRepository;
 import com.axelor.apps.stock.service.config.StockConfigService;
@@ -165,5 +169,7 @@ public class ProductionModule extends AxelorModule {
     bind(ManufOrderReservedQtyService.class).to(ManufOrderReservedQtyServiceImpl.class);
     bind(WorkCenterService.class).to(WorkCenterServiceImpl.class);
     bind(ConfiguratorProdProductService.class).to(ConfiguratorProdProductServiceImpl.class);
+    bind(ConfiguratorJaxbIEServiceImpl.class).to(ProductionConfiguratorJaxbIEServiceImpl.class);
+    bind(ConfiguratorBOMRepository.class).to(ProductionConfiguratorBOMRepository.class);
   }
 }

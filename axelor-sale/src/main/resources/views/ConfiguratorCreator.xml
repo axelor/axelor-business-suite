@@ -5,7 +5,7 @@
     
     <grid name="configurator-creator-grid" title="ConfiguratorCreators" model="com.axelor.apps.sale.db.ConfiguratorCreator">
 	    <toolbar>
-	    	<button name="exportCreatorsBtn" title="Export" onClick="action-configurator-creator-export"/>
+	    	<button name="exportCreatorsBtn" title="Export" onClick="action-configurator-creator-method-export-configurator"/>
 	    	<button name="importCreatorsBtn" title="Import" onClick="action-configurator-creator-view-import"/>
 	    </toolbar>
     	<field name="name"/>
@@ -177,6 +177,10 @@
     
     <action-method name="action-configurator-creator-method-update-attributes">
     	<call class="com.axelor.apps.sale.web.ConfiguratorCreatorController" method="updateAttributes"/>
+    </action-method>
+    
+    <action-method name="action-configurator-creator-method-export-configurator">
+    	<call class="com.axelor.apps.sale.web.ConfiguratorCreatorController" method="exportConfiguratorCreator"/>
     </action-method>
     
     <search-filters name="configurator-creator-filters" model="com.axelor.apps.sale.db.ConfiguratorCreator" title="Configurator creator filters">

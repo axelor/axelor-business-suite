@@ -123,6 +123,8 @@ import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.apps.base.service.app.AppBaseServiceImpl;
 import com.axelor.apps.base.service.app.AppService;
 import com.axelor.apps.base.service.app.AppServiceImpl;
+import com.axelor.apps.base.service.export.xml.IEXmlService;
+import com.axelor.apps.base.service.export.xml.IEXmlServiceImpl;
 import com.axelor.apps.base.service.imports.ConvertDemoDataFileService;
 import com.axelor.apps.base.service.imports.ConvertDemoDataFileServiceImpl;
 import com.axelor.apps.base.service.imports.ImportCityService;
@@ -233,5 +235,6 @@ public class BaseModule extends AxelorModule {
     bind(AdvancedImportRepository.class).to(AdvancedImportBaseRepository.class);
     bind(AuthPac4jUserService.class).to(BaseAuthPac4jUserService.class);
     bind(ImportConfigurationRepository.class).to(ImportConfigurationBaseRepository.class);
+    bind(IEXmlService.class).to(IEXmlServiceImpl.class);
   }
 }

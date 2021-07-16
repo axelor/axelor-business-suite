@@ -19,15 +19,20 @@ package com.axelor.apps.sale.web;
 
 import com.axelor.apps.sale.db.ConfiguratorCreator;
 import com.axelor.apps.sale.db.repo.ConfiguratorCreatorRepository;
-import com.axelor.apps.sale.service.configurator.ConfiguratorCreatorImportService;
 import com.axelor.apps.sale.service.configurator.ConfiguratorCreatorService;
+import com.axelor.apps.sale.service.configurator.ConfiguratorJaxbIEService;
 import com.axelor.exception.service.TraceBackService;
+import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
+import com.axelor.meta.db.MetaFile;
+import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Singleton;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +71,7 @@ public class ConfiguratorCreatorController {
     try {
       String pathDiff = (String) ((Map) request.getContext().get("dataFile")).get("filePath");
       String importLog =
-          Beans.get(ConfiguratorCreatorImportService.class).importConfiguratorCreators(pathDiff);
+          Beans.get(ConfiguratorJaxbIEService.class).importXMLToConfigurators(pathDiff);
       response.setValue("importLog", importLog);
     } catch (Exception e) {
       TraceBackService.trace(e);
@@ -79,6 +84,34 @@ public class ConfiguratorCreatorController {
       creator = Beans.get(ConfiguratorCreatorRepository.class).find(creator.getId());
       Beans.get(ConfiguratorCreatorService.class).updateAttributes(creator);
       response.setReload(true);
+    } catch (Exception e) {
+      TraceBackService.trace(e);
+    }
+  }
+
+  public void exportConfiguratorCreator(ActionRequest request, ActionResponse response) {
+
+    try {
+      List<Integer> ids = (List<Integer>) request.getContext().get("_ids");
+      ConfiguratorCreatorRepository ccRepository = Beans.get(ConfiguratorCreatorRepository.class);
+      List<ConfiguratorCreator> ccList =
+          ids.stream().map(id -> ccRepository.find(id.longValue())).collect(Collectors.toList());
+
+      MetaFile dataFile =
+          Beans.get(ConfiguratorJaxbIEService.class).exportConfiguratorsToXML(ccList);
+
+      if (dataFile != null) {
+        response.setView(
+            ActionView.define(I18n.get("Data"))
+                .add(
+                    "html",
+                    "ws/rest/com.axelor.meta.db.MetaFile/"
+                        + dataFile.getId()
+                        + "/content/download?v="
+                        + dataFile.getVersion())
+                .param("download", "true")
+                .map());
+      }
     } catch (Exception e) {
       TraceBackService.trace(e);
     }

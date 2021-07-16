@@ -7,5 +7,5 @@
   <action-export id="production-action-configurator-creator-export" name="action-configurator-creator-export" output="${date}${time}" download="true">
     <export name="ConfiguratorCreatorExport-${__datetime__.toString().substring(0, 19)}.xml" template="data-export/export-production-configurator-creator.tmpl" engine="groovy"/>
   </action-export>
-
+  
 </object-views>
