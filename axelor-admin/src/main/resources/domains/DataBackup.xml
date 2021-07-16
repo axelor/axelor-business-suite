@@ -28,6 +28,9 @@
 				public static final int DATA_BACKUP_STATUS_RESTORE = 3;
 				public static final int DATA_BACKUP_STATUS_RESTORE_ERROR = 4;
 				public static final int DATA_BACKUP_STATUS_ERROR = 5;
+				
+				// NOT TO DELETE DATABACKUPS
+				public static final String DATA_BACKUP_RECORDING_IMPORT_ID = "9000";
 	   		]]>
 		</extra-code>
 

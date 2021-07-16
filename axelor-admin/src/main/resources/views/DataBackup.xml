@@ -12,7 +12,7 @@
 
 	<form model="com.axelor.apps.base.db.DataBackup" title="Create Backup"
 		name="data-create-backup-form" onNew="data.create.backup.load.today.date"
-		width="large">
+		width="large" readonlyIf="importId == '9000'">
 		<panel name="mainPanel">
 			<field name="statusSelect" readonly="true" widget="NavSelect"
 				selection-in="[0,1,2,5]" colSpan="12" />
@@ -37,6 +37,9 @@
 			<field name="backupDate" readonly="true" colSpan="4" />
 			<field name="logMetaFile" readonly="true" widget="binary-link" colSpan="4" />
 		</panel>
+		<panel name="hiddenPanel" hidden="true">
+			<field name="importId"/>
+		</panel>
 	</form>
 
 	<grid model="com.axelor.apps.base.db.DataBackup" title="Restore Backup"
@@ -48,7 +51,7 @@
 
 	<form model="com.axelor.apps.base.db.DataBackup" title="Restore Backup"
 		name="data-restore-backup-form" width="mid"
-		onNew="data.restore.backup.load.today.date">
+		onNew="data.restore.backup.load.today.date" readonlyIf="importId == '9001'">
 		<panel>
 			<field name="statusSelect" selection-in="[0,1,3,4]" readonly="true"
 				widget="NavSelect" colSpan="12" />
@@ -61,6 +64,9 @@
 			<field name="restoreDate" readonly="true" colSpan="3" />
 			<field name="logMetaFile" readonly="true" widget="binary-link"
 				colSpan="3" />
+		</panel>
+		<panel name="hiddenPanel" hidden="true">
+			<field name="importId"/>
 		</panel>
 	</form>
 
