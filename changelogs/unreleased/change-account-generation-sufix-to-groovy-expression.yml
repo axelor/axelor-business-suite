@@ -1,0 +1,6 @@
+---
+title: Account's code generation changes
+type: feature
+description: |
+  Changed account's suffix fields to groovy expression,
+  it's not an expression for the suffix anymore but all the code instead.

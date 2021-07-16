@@ -40,11 +40,17 @@ import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.customizers.ImportCustomizer;
 
 public class AccountingSituationServiceImpl implements AccountingSituationService {
+
+  private static final char TEMPLATE_DELIMITER = '$';
 
   protected AccountConfigService accountConfigService;
   protected SequenceService sequenceService;
@@ -186,7 +192,15 @@ public class AccountingSituationServiceImpl implements AccountingSituationServic
             I18n.get(IExceptionMessage.ACCOUNTING_SITUATION_1),
             situation.getCompany().getName());
       }
-      accountCode = getPrefixedAccountCode(prefix, partner);
+      CompilerConfiguration conf = new CompilerConfiguration();
+      ImportCustomizer customizer = new ImportCustomizer();
+      customizer.addStaticStars("java.lang.Math");
+      conf.addCompilationCustomizers(customizer);
+      Binding binding = new Binding();
+      binding.setVariable("partner", partner);
+      GroovyShell shell = new GroovyShell(binding, conf);
+      accountCode = shell.evaluate(prefix).toString();
+
     } else if (creationMode == AccountConfigRepository.AUTOMATIC_ACCOUNT_CREATION_SEQUENCE) {
       final Sequence sequence = accountConfig.getCustomerAccountSequence();
       if (sequence == null) {
@@ -242,7 +256,14 @@ public class AccountingSituationServiceImpl implements AccountingSituationServic
             I18n.get(IExceptionMessage.ACCOUNTING_SITUATION_4),
             situation.getCompany().getName());
       }
-      accountCode = getPrefixedAccountCode(prefix, partner);
+      CompilerConfiguration conf = new CompilerConfiguration();
+      ImportCustomizer customizer = new ImportCustomizer();
+      customizer.addStaticStars("java.lang.Math");
+      conf.addCompilationCustomizers(customizer);
+      Binding binding = new Binding();
+      binding.setVariable("partner", partner);
+      GroovyShell shell = new GroovyShell(binding, conf);
+      accountCode = shell.evaluate(prefix).toString();
 
     } else if (creationMode == AccountConfigRepository.AUTOMATIC_ACCOUNT_CREATION_SEQUENCE) {
       final Sequence sequence = accountConfig.getSupplierAccountSequence();

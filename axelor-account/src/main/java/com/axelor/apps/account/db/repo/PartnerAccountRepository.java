@@ -47,8 +47,7 @@ public class PartnerAccountRepository extends PartnerBaseRepository {
   @Override
   public Partner save(Partner partner) {
     try {
-
-      if (partner.getId() == null) {
+      if (partner.getId() == null || partner.getPartnerSeq() == null) {
         partner = super.save(partner);
       }
 

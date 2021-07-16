@@ -246,9 +246,9 @@ public class ReconcileServiceImpl implements ReconcileService {
           I18n.get(com.axelor.apps.base.exceptions.IExceptionMessage.EXCEPTION),
           reconcile.getReconcileSeq(),
           debitMoveLine.getName(),
-          debitMoveLine.getAccount().getLabel(),
+          debitMoveLine.getAccount().getCode(),
           creditMoveLine.getName(),
-          creditMoveLine.getAccount().getLabel());
+          creditMoveLine.getAccount().getCode());
     }
 
     if ((reconcile
@@ -266,10 +266,10 @@ public class ReconcileServiceImpl implements ReconcileService {
           reconcile.getReconcileSeq(),
           reconcile.getAmount(),
           debitMoveLine.getName(),
-          debitMoveLine.getAccount().getLabel(),
+          debitMoveLine.getAccount().getCode(),
           debitMoveLine.getDebit().subtract(debitMoveLine.getAmountPaid()),
           creditMoveLine.getName(),
-          creditMoveLine.getAccount().getLabel(),
+          creditMoveLine.getAccount().getCode(),
           creditMoveLine.getCredit().subtract(creditMoveLine.getAmountPaid()));
     }
   }

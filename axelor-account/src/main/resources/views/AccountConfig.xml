@@ -32,7 +32,7 @@
 						<field name="irrecoverableAccount" domain="self.company = :company" grid-view="account-grid" form-view="account-form"/>
 						<field name="doubtfulCustomerAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect ='receivable'" grid-view="account-grid" form-view="account-form"/>
 						<field name="advancePaymentAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect ='receivable'" grid-view="account-grid" form-view="account-form"/>
-						<field name="customerAccountPrefix" help="Prefix to be prepended on customer accounts' codes, the code will be [prefix]PARTNERNAME"
+						<field name="customerAccountPrefix" help="Groovy expression to be used to generate customer accounts' codes. Available variable : partner"
 							   showIf="partnerAccountGenerationModeSelect == 1" requiredIf="partnerAccountGenerationModeSelect == 1"/>
 						<field name="customerAccountSequence" help="Sequence to be used to generate customer accounts' codes" canNew="true" canEdit="true"
                                showIf="partnerAccountGenerationModeSelect == 2" requiredIf="partnerAccountGenerationModeSelect == 2" domain="self.codeSelect = 'partnerAccount' and self.company = :company"/>
@@ -40,7 +40,7 @@
 					<panel title="AccountConfig.Suppliers" colSpan="12">
 						<field name="supplierAccount" domain="self.company = :company AND self.accountType.technicalTypeSelect ='payable'" grid-view="account-grid" form-view="account-form"
 							   help="Select the default supplier account to be used in purchase invoices. It will also be used as parent account if automatic account creation is enabled."/>
-						<field name="supplierAccountPrefix" help="Prefix to be prepended on supplier accounts' codes, the code will be [prefix]PARTNERNAME"
+						<field name="supplierAccountPrefix" help="Groovy expression to be used to generate supplier accounts' codes. Available variable : partner"
 							   showIf="partnerAccountGenerationModeSelect == 1" requiredIf="partnerAccountGenerationModeSelect == 1"/>
 						<field name="supplierAccountSequence" help="Sequence to be used to generate supplier accounts' codes" canNew="true" canEdit="true"
                                showIf="partnerAccountGenerationModeSelect == 2" requiredIf="partnerAccountGenerationModeSelect == 2" domain="self.codeSelect = 'partnerAccount' and self.company = :company"/>

@@ -8,21 +8,13 @@
     <entity name="Account" lang="java" cacheable="true">
 
         <string name="name" title="Name" required="true"/>
-        <string name="code" title="Code" required="true" hashKey="true"/>
+        <string name="code" title="Code" required="true" hashKey="true" namecolumn="true"/>
         <many-to-one name="parentAccount" ref="Account" title="Parent Account" massUpdate="true"/>
         <many-to-one name="accountType" ref="AccountType" massUpdate="true" title="Account Type"/>
         <boolean name="reconcileOk" massUpdate="true" title="Reconcilable"/>
         <many-to-one name="company" ref="com.axelor.apps.base.db.Company" title="Company"/>
         <many-to-many name="compatibleAccountSet" ref="com.axelor.apps.account.db.Account" title="Compatible Accounts"/>
         <boolean name="useForPartnerBalance" title="Use for partner balance" massUpdate="true"/>
-        <string name="label" namecolumn="true" search="code,name,company" title="Full name">
-            <![CDATA[
-	    if(company != null)
-	    	return code+"_"+ company.getCode() + " - " + name;    
-    	else
-    		return code+" - " + name;
-	    ]]>
-        </string>
         <boolean name="analyticDistributionRequiredOnInvoiceLines" title="Analytic distribution required on invoice lines" massUpdate="true"/>
         <boolean name="analyticDistributionRequiredOnMoveLines" title="Analytic distribution required on move lines" massUpdate="true"/>
         <boolean name="analyticDistributionAuthorized" title="Analytic distribution authorized" massUpdate="true"/>
