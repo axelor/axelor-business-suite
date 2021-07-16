@@ -10,6 +10,8 @@
 
       <string name="modelIds" title="Model and ids" json="true"/>
 
+      <boolean name="isIgnoreRecordsHavingIssues" title="Ignore records having issues"/>
+
       <datetime name="startDateTime" title="Start time"/>
       <datetime name="stopDateTime" title="Stop time"/>
 

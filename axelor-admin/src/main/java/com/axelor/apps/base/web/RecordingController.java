@@ -20,6 +20,7 @@ package com.axelor.apps.base.web;
 import com.axelor.apps.base.db.Recording;
 import com.axelor.apps.base.db.repo.RecordingRepository;
 import com.axelor.apps.base.service.RecordingService;
+import com.axelor.common.StringUtils;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.ResponseMessageType;
 import com.axelor.exception.service.TraceBackService;
@@ -39,7 +40,10 @@ public class RecordingController {
               .find(request.getContext().asType(Recording.class).getId());
 
       if (recording != null) {
-        Beans.get(RecordingService.class).stopRecording(recording);
+        String warning = Beans.get(RecordingService.class).stopRecording(recording);
+        if (StringUtils.notBlank(warning)) {
+          response.setNotify(warning);
+        }
         response.setReload(true);
       }
     } catch (JSONException | InterruptedException | IOException | AxelorException e) {

@@ -49,4 +49,6 @@ public interface IExceptionMessages {
 
   public static final String RECORDING_DATA_BACKUP_MISSING = /*$$(*/
       "Recording's data backup record not found" /*)*/;
+  public static final String RECORDING_SEARCH_CONFIGURATION_WARNING = /*$$(*/
+      "Search configurations is not specified for following metaModels :\n%s" /*)*/;
 }

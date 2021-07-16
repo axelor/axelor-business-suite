@@ -11,7 +11,8 @@
    <form model="com.axelor.apps.base.db.Recording" title="Recording" name="recording-form"
       canDelete="statusSelect != 1" canCopy="statusSelect != 1" canNew="statusSelect != 1">
       <panel name="generalPanel" readonlyIf="statusSelect != 0">
-         <field name="statusSelect" widget="NavSelect" colSpan="12" readonly="true" showTitle="false"/>
+         <field name="statusSelect" widget="NavSelect" colSpan="8" readonly="true" showTitle="false"/>
+         <field name="isIgnoreRecordsHavingIssues" widget="boolean-switch" colSpan="4"/>
          <panel name="mainPanel" title="Details" canCollapse="true" collapseIf="statusSelect == 2" colSpan="12">
             <field name="startDateTime" readonly="true"/>
             <field name="stopDateTime" readonly="true"/>
@@ -23,7 +24,7 @@
 				<field name="searchConfigurationSet" colSpan="12" showTitle="false">
 					<editor x-viewer="true" x-show-on-new="false">
 						<field name="metaModel"/>
-						<field name="metaFieldSet" widget="TagSelect" canEdit="false" domain="self.metaModel = :metaModel"/>
+						<field name="metaFieldSet" widget="TagSelect" canEdit="false" domain="self.metaModel = :metaModel AND self.json != true AND (self.relationship IS NULL OR self.relationship NOT IN ('ManyToMany','OneToMany'))"/>
 					</editor>
 				</field>
 			</panel>

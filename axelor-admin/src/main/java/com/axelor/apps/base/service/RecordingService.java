@@ -27,6 +27,6 @@ public interface RecordingService {
 
   public void addModelIdLog(Recording recording, MetaModel metaModel, Long recordId);
 
-  public void stopRecording(Recording recording)
+  public String stopRecording(Recording recording)
       throws JSONException, InterruptedException, IOException, AxelorException;
 }

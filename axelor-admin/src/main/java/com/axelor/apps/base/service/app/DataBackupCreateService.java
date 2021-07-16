@@ -22,6 +22,7 @@ import com.axelor.apps.base.db.DataBackup;
 import com.axelor.apps.base.db.repo.DataBackupRepository;
 import com.axelor.apps.tool.date.DateTool;
 import com.axelor.auth.db.AuditableModel;
+import com.axelor.common.ObjectUtils;
 import com.axelor.common.StringUtils;
 import com.axelor.data.csv.CSVBind;
 import com.axelor.data.csv.CSVConfig;
@@ -126,7 +127,10 @@ public class DataBackupCreateService {
 
   /* Generate csv Files for each individual MetaModel and single config file */
   public DataBackup create(
-      DataBackup dataBackup, Boolean isBackUp, Map<MetaModel, String> metaModelIdListMap)
+      DataBackup dataBackup,
+      Boolean isBackUp,
+      Map<MetaModel, String> metaModelIdListMap,
+      Map<String, String> metaModelSearchConfigMap)
       throws InterruptedException {
     File tempDir = Files.createTempDir();
     String tempDirectoryPath = tempDir.getAbsolutePath();
@@ -167,6 +171,11 @@ public class DataBackupCreateService {
           notNullReferenceFlag = false;
           referenceFlag = false;
 
+          String search = null;
+          if (ObjectUtils.notEmpty(metaModelSearchConfigMap)
+              && metaModelSearchConfigMap.containsKey(metaModel.getFullName())) {
+            search = metaModelSearchConfigMap.get(metaModel.getFullName());
+          }
           CSVWriter csvWriter =
               new CSVWriter(
                   new FileWriter(new File(tempDirectoryPath, metaModel.getName() + ".csv")),
@@ -181,7 +190,8 @@ public class DataBackupCreateService {
                   subClasses,
                   tempDirectoryPath,
                   isBackUp,
-                  metaModelIdListMap);
+                  metaModelIdListMap,
+                  search);
           csvWriter.close();
 
           if (notNullReferenceFlag) {
@@ -196,15 +206,21 @@ public class DataBackupCreateService {
               temcsv.setBindings(new ArrayList<>());
               getCsvInputForDateorDateTime(metaModel, temcsv);
             }
-            if (AutoImportModelMap.containsKey(csvInput.getTypeName())) {
-              temcsv.setSearch(AutoImportModelMap.get(csvInput.getTypeName()).toString());
-            }
-            if (Class.forName(metaModel.getFullName()).getSuperclass() == App.class) {
-              temcsv.setSearch("self.code = :code");
-            }
-            if (!AutoImportModelMap.containsKey(csvInput.getTypeName())
-                && !((Class.forName(metaModel.getFullName()).getSuperclass()).equals(App.class))) {
-              temcsv.setSearch("self.importId = :importId");
+
+            if (StringUtils.notBlank(search)) {
+              temcsv.setSearch(search);
+            } else {
+              if (AutoImportModelMap.containsKey(csvInput.getTypeName())) {
+                temcsv.setSearch(AutoImportModelMap.get(csvInput.getTypeName()).toString());
+              }
+              if (Class.forName(metaModel.getFullName()).getSuperclass() == App.class) {
+                temcsv.setSearch("self.code = :code");
+              }
+              if (!AutoImportModelMap.containsKey(csvInput.getTypeName())
+                  && !((Class.forName(metaModel.getFullName()).getSuperclass())
+                      .equals(App.class))) {
+                temcsv.setSearch("self.importId = :importId");
+              }
             }
             simpleCsvs.add(temcsv);
           } else {
@@ -423,7 +439,8 @@ public class DataBackupCreateService {
       List<String> subClasses,
       String dirPath,
       Boolean isBackup,
-      Map<MetaModel, String> metaModelIdListMap) {
+      Map<MetaModel, String> metaModelIdListMap,
+      String search) {
 
     CSVInput csvInput = new CSVInput();
     boolean headerFlag = true;
@@ -498,12 +515,16 @@ public class DataBackupCreateService {
         csvWriter.writeNext(headerArr.toArray(new String[headerArr.size()]), true);
       }
 
-      if (AutoImportModelMap.containsKey(csvInput.getTypeName())) {
-        csvInput.setSearch(AutoImportModelMap.get(csvInput.getTypeName()).toString());
-      } else if (Class.forName(metaModel.getFullName()).getSuperclass() == App.class) {
-        csvInput.setSearch("self.code = :code");
+      if (StringUtils.notBlank(search)) {
+        csvInput.setSearch(search);
       } else {
-        csvInput.setSearch("self.importId = :importId");
+        if (AutoImportModelMap.containsKey(csvInput.getTypeName())) {
+          csvInput.setSearch(AutoImportModelMap.get(csvInput.getTypeName()).toString());
+        } else if (Class.forName(metaModel.getFullName()).getSuperclass() == App.class) {
+          csvInput.setSearch("self.code = :code");
+        } else {
+          csvInput.setSearch("self.importId = :importId");
+        }
       }
     } catch (ClassNotFoundException e) {
     }
@@ -838,7 +859,7 @@ public class DataBackupCreateService {
                   SEPARATOR,
                   QUOTE_CHAR);
           writeCSVData(
-              metaModel, csvWriter, dataBackup, 1, subClasses, tempDirectoryPath, true, null);
+              metaModel, csvWriter, dataBackup, 1, subClasses, tempDirectoryPath, true, null, null);
           csvWriter.close();
         }
       } catch (ClassNotFoundException e) {
