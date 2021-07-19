@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+	<grid name="group-test-line-grid" title="Group test lines" model="com.axelor.apps.base.db.GroupTestLine" canMove="true" orderBy="sequence">
+		<field name="unitTest"  form-view="unit-test-form" grid-view="unit-test-grid"/>
+	</grid>
+	
+	<form name="group-test-line-form" title="Group test line" model="com.axelor.apps.base.db.GroupTestLine">
+		<panel name="mainPanel">
+			<field name="unitTest" colSpan="12" showTitle="false" canSelect="false" canRemove="false" canView="false">
+				<editor x-viewer="true">
+					<panel name="mainPanel" colSpan="12">
+						<field name="name" colSpan="6"/>
+						<field name="testLineList" showTitle="false" grid-view="unit-test-line-grid" form-view="unit-test-line-form" colSpan="12"/>
+					</panel>
+					<panel name="actionsPanel" colSpan="12">
+						<button name="generateBtn" title="Generate" onClick="save,action-unit-test-method-generate,save"/>
+						<button name="executeBtn" title="Execute" onClick="save,action-unit-test-method-execute,save"/>
+					</panel>
+					<panel name="outputPanel" colSpan="12">
+						<field name="testScript" widget="CodeEditor" x-code-syntax="groovy" colSpan="12"/>
+						<field name="testResult" widget="html" colSpan="12"/>
+						<field name="testRunOn"/>
+					</panel>
+				</editor>				
+			</field>
+		</panel>
+	</form>
+	
+		
+</object-views>

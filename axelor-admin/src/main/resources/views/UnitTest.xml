@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+	<grid name="unit-test-grid" title="Unit tests" model="com.axelor.apps.base.db.UnitTest">
+	    <toolbar>
+	    	<button onClick="action-unit-test-open-import-wizard" name="importBtn" title="Import"/>
+	    	<button onClick="action-unit-test-method-export" name="exportBtn" title="Export"/>
+	    </toolbar>
+		<field name="name" />
+		<field name="testRunOn"/>
+	</grid>
+	
+	<form name="unit-test-form" title="Unit test" model="com.axelor.apps.base.db.UnitTest" width="large">
+		<panel name="mainPanel">
+			<field name="name" colSpan="6"/>
+			<panel-related field="testLineList" grid-view="unit-test-line-grid" form-view="unit-test-line-form" colSpan="12"/>
+		</panel>
+		<panel name="actionsPanel">
+			<button name="generateBtn" title="Generate" onClick="save,action-unit-test-method-generate,save"/>
+			<button name="executeBtn" title="Execute" onClick="save,action-unit-test-method-execute,save"/>
+		</panel>
+		<panel name="outputPanel">
+			<field name="testScript" widget="CodeEditor" x-code-syntax="groovy" colSpan="12"/>
+			<field name="testResult" widget="html" colSpan="12"/>
+			<field name="testRunOn"/>
+		</panel>
+	</form>
+	
+	<form model="com.axelor.apps.base.db.Wizard" title="Import wizard" name="unit-test-import-wizard-form">
+		<panel name="wizardPanel">
+			<field type="many-to-one" name="metaFile" title="File" widget="binary-link" target="com.axelor.meta.db.MetaFile"/>
+			<button name="importAccessBtn" title="Import" colSpan="4" onClick="action-unit-test-method-import" readonlyIf="metaFile == null"/>
+		</panel>
+	</form>
+	
+	<action-method name="action-unit-test-method-generate">
+		<call class="com.axelor.apps.base.web.UnitTestController" method="generate"/>
+	</action-method>
+	
+	<action-method name="action-unit-test-method-execute">
+		<call class="com.axelor.apps.base.web.UnitTestController" method="execute"/>
+	</action-method>
+	
+	<action-view name="action-unit-test-open-import-wizard" title="Import wizard" model="com.axelor.apps.base.db.Wizard">
+		<view name="unit-test-import-wizard-form" type="form"/>
+	 	<view-param name="show-toolbar" value="false"/>
+		<view-param name="popup" value="true" />  
+		<view-param name="popup-save" value="false" />
+		<view-param name="show-confirm" value="false" />
+	</action-view>
+	
+	<action-method name="action-unit-test-method-import">
+		<call class="com.axelor.apps.base.web.UnitTestController" method="importTests"/>
+	</action-method>
+	
+	<action-method name="action-unit-test-method-export">
+		<call class="com.axelor.apps.base.web.UnitTestController" method="exportTests"/>
+	</action-method>
+	
+</object-views>

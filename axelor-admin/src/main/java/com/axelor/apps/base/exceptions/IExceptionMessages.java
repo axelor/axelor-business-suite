@@ -42,8 +42,43 @@ public interface IExceptionMessages {
 
   public static final String ROLE_IMPORT_SUCCESS = /*$$(*/ "Roles imported successfully" /*)*/;
 
-  public static final String DATA_EXPORT_DIR_ERROR = /*$$(*/ "Export path not configured" /*)*/;;
+  public static final String DATA_EXPORT_DIR_ERROR = /*$$(*/ "Export path not configured" /*)*/;
 
   public static final String FILE_UPLOAD_DIR_ERROR = /*$$(*/
-      "File upload path not configured" /*)*/;;
+      "File upload path not configured" /*)*/;
+
+  public static final String UNIT_TEST_IMPORT_SUCCESS = /*$$(*/ "Import Successfull" /*)*/;
+
+  public static final String UNIT_TEST_EXPORT_RECORD_NOT_SPECIFIED = /*$$(*/
+      "Please select atleast one record to export" /*)*/;
+
+  public static final String UNIT_TEST_IMPORT_NAME_NOT_SPECIFIED = /*$$(*/
+      "Please specify unit test name" /*)*/;
+
+  public static final String UNIT_TEST_TARGET_VAR_NOT_SPECIFIED = /*$$(*/
+      "Target variable is undefined" /*)*/;
+
+  public static final String UNIT_TEST_INVALID_ACTION_NAME = /*$$(*/
+      "Action name is invalid no such action found" /*)*/;
+
+  public static final String UNIT_TEST_INVALID_TARGET_FOR_ADD = /*$$(*/
+      "Target must be reference field" /*)*/;
+
+  public static final String UNIT_TEST_INVALID_MODEL_NAME = /*$$(*/
+      "%s is not valid model name" /*)*/;
+
+  public static final String UNIT_TEST_INVALID_SELECT_FORMAT = /*$$(*/
+      "Format should be ModelName : jpql-filter with valid model name" /*)*/;
+
+  public static final String UNIT_TEST_ACTION_SOMETHING_WRONG = /*$$(*/
+      "Something went wrong in action %s" /*)*/;
+
+  public static final String UNIT_TEST_ERROR_FROM_ACTION = /*$$(*/
+      "Error in action <b>%s</b><br/><li>%s</li>" /*)*/;
+
+  public static final String UNIT_TEST_ALERT_FROM_ACTION = /*$$(*/
+      "Alert from action <b>%s</b><br/><li>%s</li>" /*)*/;
+
+  public static final String UNIT_TEST_FLASH_FROM_ACTION = /*$$(*/
+      "Message from action <b>%s</b><br/><li>%s</li>" /*)*/;
 }

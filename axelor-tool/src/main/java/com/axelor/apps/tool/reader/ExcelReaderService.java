@@ -121,6 +121,6 @@ public class ExcelReaderService implements DataReaderService {
       return 0;
     }
 
-    return book.getSheet(sheetName).getPhysicalNumberOfRows();
+    return book.getSheet(sheetName).getLastRowNum() + 1;
   }
 }

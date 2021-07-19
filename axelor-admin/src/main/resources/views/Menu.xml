@@ -77,4 +77,25 @@
 	<domain>self.restoreDate != null</domain>
   </action-view>
   
+  
+  <menuitem title="Unit testing" name="admin-root-unit-testing" parent="admin-root" order="60"/>
+  
+   <menuitem name="admin-root-unit-testing-unit-test" parent="admin-root-unit-testing"
+   title="Unit tests"  action="admin.root.unit.testing.unit.test"/>
+  
+  <action-view name="admin.root.unit.testing.unit.test" title="Unit tests"
+  	model="com.axelor.apps.base.db.UnitTest" >
+	<view type="grid" name="unit-test-grid"/>
+	<view type="form" name="unit-test-form"/>
+  </action-view>
+  
+    <menuitem name="admin-root-unit-testing-group-test" parent="admin-root-unit-testing"
+   title="Group tests" action="admin.root.unit.testing.group.test"/>
+  
+  <action-view name="admin.root.unit.testing.group.test" title="Group tests"
+  	model="com.axelor.apps.base.db.GroupTest" >
+	<view type="grid" name="group-test-grid"/>
+	<view type="form" name="group-test-form"/>
+  </action-view>
+  
 </object-views>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="base" package="com.axelor.apps.base.db"/>
+
+  	<entity name="UnitTestLine" lang="java" cacheable="true">
+	  
+	  <string name="target" title="Target" namecolumn="true"/>	
+	  <string name="actionTypeSelect" title="Action type" selection="unit.test.line.action.type.select" default="assign" required="true"/>
+	  <string name="assertTypeSelect" title="Comparison" selection="unit.test.line.assert.type.select" default="=="/>
+	  <string name="value" title="Value" required="true"/>
+	  <string name="input" title="Input"/>
+	  <boolean name="isIncludedInContext" title="Include in action context" default="false"/>
+	  <many-to-one name="unitTest" title="Unit test" ref="com.axelor.apps.base.db.UnitTest"/>
+	  <integer name="sequence" title="Sequence"/>
+	  
+	  <extra-code><![CDATA[
+ 		
+ 		// ACTION TYPE SELECT
+		public static final String ACTION_TYPE_SELECT_SELECT = "select";
+		public static final String ACTION_TYPE_SELECT_ASSIGN = "assign";
+		public static final String ACTION_TYPE_SELECT_CREATE = "create";
+		public static final String ACTION_TYPE_SELECT_CALL_ACTION = "call_action";
+		public static final String ACTION_TYPE_SELECT_CALL_SERVICE = "call_service";
+		public static final String ACTION_TYPE_SELECT_ASSERT = "assert";
+		public static final String ACTION_TYPE_SELECT_ADD = "add";
+	  	
+	  ]]></extra-code>
+
+  	</entity>
+  	
+  	
+
+</domain-models>

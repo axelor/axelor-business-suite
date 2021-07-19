@@ -32,6 +32,18 @@ import com.axelor.apps.base.service.app.AppService;
 import com.axelor.apps.base.service.app.AppServiceImpl;
 import com.axelor.apps.base.service.app.DataBackupService;
 import com.axelor.apps.base.service.app.DataBackupServiceImpl;
+import com.axelor.apps.base.service.unit.testing.GroupTestLineService;
+import com.axelor.apps.base.service.unit.testing.GroupTestLineServiceImpl;
+import com.axelor.apps.base.service.unit.testing.GroupTestService;
+import com.axelor.apps.base.service.unit.testing.GroupTestServiceImpl;
+import com.axelor.apps.base.service.unit.testing.UnitTestExporterService;
+import com.axelor.apps.base.service.unit.testing.UnitTestExporterServiceImpl;
+import com.axelor.apps.base.service.unit.testing.UnitTestImporterService;
+import com.axelor.apps.base.service.unit.testing.UnitTestImporterServiceImpl;
+import com.axelor.apps.base.service.unit.testing.UnitTestLineService;
+import com.axelor.apps.base.service.unit.testing.UnitTestLineServiceImpl;
+import com.axelor.apps.base.service.unit.testing.UnitTestService;
+import com.axelor.apps.base.service.unit.testing.UnitTestServiceImpl;
 
 public class AdminModule extends AxelorModule {
 
@@ -45,5 +57,11 @@ public class AdminModule extends AxelorModule {
     bind(DataBackupService.class).to(DataBackupServiceImpl.class);
     bind(ObjectDataConfigExportRepository.class)
         .to(ObjectDataConfigExportManagementRepository.class);
+    bind(UnitTestService.class).to(UnitTestServiceImpl.class);
+    bind(UnitTestLineService.class).to(UnitTestLineServiceImpl.class);
+    bind(GroupTestService.class).to(GroupTestServiceImpl.class);
+    bind(GroupTestLineService.class).to(GroupTestLineServiceImpl.class);
+    bind(UnitTestImporterService.class).to(UnitTestImporterServiceImpl.class);
+    bind(UnitTestExporterService.class).to(UnitTestExporterServiceImpl.class);
   }
 }
