@@ -15,6 +15,7 @@
 	  	<!-- OTHERS INFORMATION -->
 	  	<string name="description" title="Description" large="true" />
 	    <one-to-many name="batchList" ref="com.axelor.apps.base.db.Batch" mappedBy="bankPaymentBatch" title="Batchs" />
+	    <integer name="batchFetchLimit" title="Batch fetch limit" min="0" />
 
 	  	<many-to-one name="template" ref="com.axelor.apps.message.db.Template" title="Template"/>
 	  	<integer name="daysNbr" title="Number of days to take into account to alert"/>

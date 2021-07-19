@@ -16,6 +16,7 @@
     <!-- OTHERS INFORMATION -->
     <string name="description" title="Description" large="true" />
     <one-to-many name="batchList" ref="com.axelor.apps.base.db.Batch" mappedBy="mailBatch" title="Batchs"/>
+    <integer name="batchFetchLimit" title="Batch fetch limit" min="0" />
     
     <!-- EMAIL INFORMATION -->
     <string name="subject" title="Subject" initParam="true"/>

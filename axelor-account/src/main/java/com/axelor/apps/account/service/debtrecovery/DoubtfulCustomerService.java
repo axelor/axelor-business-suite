@@ -377,7 +377,12 @@ public class DoubtfulCustomerService {
    * @param company La société
    * @return Les écritures de facture à transférer sur le compte client douteux
    */
-  public List<Move> getMove(int rule, Account doubtfulCustomerAccount, Company company) {
+  public List<Move> getMove(
+      int rule,
+      Account doubtfulCustomerAccount,
+      Company company,
+      Integer fetchLimit,
+      Integer position) {
 
     LocalDate date = null;
 
@@ -420,6 +425,10 @@ public class DoubtfulCustomerService {
 
     Query query = JPA.em().createQuery(request);
 
+    if (fetchLimit != null && position != null) {
+      query.setMaxResults(fetchLimit);
+      query.setFirstResult(position);
+    }
     @SuppressWarnings("unchecked")
     List<Move> moveList = query.getResultList();
 
@@ -441,7 +450,7 @@ public class DoubtfulCustomerService {
    * @return Les lignes d'écriture de rejet de facture à transférer sur le comtpe client douteux
    */
   public List<? extends MoveLine> getRejectMoveLine(
-      int rule, Account doubtfulCustomerAccount, Company company) {
+      int rule, Account doubtfulCustomerAccount, Company company, int fetchLimit, int position) {
 
     LocalDate date = null;
     List<? extends MoveLine> moveLineList = null;
@@ -466,7 +475,7 @@ public class DoubtfulCustomerService {
                     date,
                     doubtfulCustomerAccount,
                     InvoiceRepository.OPERATION_TYPE_CLIENT_SALE)
-                .fetch();
+                .fetch(fetchLimit, position);
         break;
 
         // Créance de + 3 mois
@@ -487,7 +496,7 @@ public class DoubtfulCustomerService {
                     date,
                     doubtfulCustomerAccount,
                     InvoiceRepository.OPERATION_TYPE_CLIENT_SALE)
-                .fetch();
+                .fetch(fetchLimit, position);
         break;
 
       default:

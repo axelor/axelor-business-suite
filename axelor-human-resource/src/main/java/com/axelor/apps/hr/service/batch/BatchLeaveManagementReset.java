@@ -25,6 +25,7 @@ import com.axelor.apps.hr.db.repo.LeaveManagementRepository;
 import com.axelor.apps.hr.service.leave.management.LeaveManagementService;
 import com.axelor.auth.AuthUtils;
 import com.axelor.db.JPA;
+import com.axelor.db.Query;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.ExceptionOriginRepository;
 import com.axelor.exception.db.repo.TraceBackRepository;
@@ -45,8 +46,14 @@ public class BatchLeaveManagementReset extends BatchLeaveManagement {
 
   @Override
   protected void process() {
-    List<Employee> employeeList = getEmployees(batch.getHrBatch());
-    resetLeaveManagementLines(employeeList);
+    List<Employee> employeeList = null;
+    int fetchLimit = getFetchLimit();
+    Query<Employee> query = getEmployees(batch.getHrBatch());
+    int offset = 0;
+    while (!(employeeList = query.fetch(fetchLimit, offset)).isEmpty()) {
+      resetLeaveManagementLines(employeeList);
+      offset += employeeList.size();
+    }
   }
 
   public void resetLeaveManagementLines(List<Employee> employeeList) {

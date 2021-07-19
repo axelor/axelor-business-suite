@@ -24,6 +24,7 @@ import com.axelor.apps.hr.db.repo.HrBatchRepository;
 import com.axelor.apps.hr.exception.IExceptionMessage;
 import com.axelor.apps.hr.service.EmploymentContractService;
 import com.axelor.apps.tool.file.CsvTool;
+import com.axelor.db.Query;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
@@ -54,19 +55,24 @@ public class BatchEmploymentContractExport extends BatchStrategy {
   @Override
   protected void process() {
 
-    List<EmploymentContract> employmentContractList =
+    List<EmploymentContract> employmentContractList = null;
+    int fetchLimit = getFetchLimit();
+    Query<EmploymentContract> query =
         Beans.get(EmploymentContractRepository.class)
             .all()
             .filter(
                 "self.payCompany = ?1 AND self.status = ?2",
                 hrBatch.getCompany(),
-                EmploymentContractRepository.STATUS_ACTIVE)
-            .fetch();
+                EmploymentContractRepository.STATUS_ACTIVE);
 
     switch (hrBatch.getEmploymentContractExportTypeSelect()) {
       case HrBatchRepository.EMPLOYMENT_CONTRACT_EXPORT_TYPE_SILAE:
         try {
-          batch.setMetaFile(employmentContractExportSilae(employmentContractList));
+          int offset = 0;
+          while (!(employmentContractList = query.fetch(fetchLimit, offset)).isEmpty()) {
+            batch.setMetaFile(employmentContractExportSilae(employmentContractList));
+            offset += employmentContractList.size();
+          }
         } catch (IOException e) {
           incrementAnomaly();
           TraceBackService.trace(e);

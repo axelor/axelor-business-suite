@@ -27,6 +27,7 @@ import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.db.JPA;
+import com.axelor.db.Query;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
@@ -51,6 +52,8 @@ public class BatchRealizeFixedAssetLine extends AbstractBatch {
 
   @Override
   protected void process() {
+    int fetchLimit = getFetchLimit();
+
     String query = "self.statusSelect = :statusSelect";
     LocalDate startDate = batch.getAccountingBatch().getStartDate();
     LocalDate endDate = batch.getAccountingBatch().getEndDate();
@@ -62,7 +65,8 @@ public class BatchRealizeFixedAssetLine extends AbstractBatch {
     } else {
       query += " AND self.depreciationDate < :dateNow";
     }
-    List<FixedAssetLine> fixedAssetLineList =
+    List<FixedAssetLine> fixedAssetLineList = null;
+    Query<FixedAssetLine> fixedAssetLineQuery =
         Beans.get(FixedAssetLineRepository.class)
             .all()
             .filter(query)
@@ -76,21 +80,25 @@ public class BatchRealizeFixedAssetLine extends AbstractBatch {
                         ? batch.getAccountingBatch().getCompany()
                         : Optional.ofNullable(AuthUtils.getUser())
                             .map(User::getActiveCompany)
-                            .orElse(null)))
-            .fetch();
+                            .orElse(null)));
 
-    for (FixedAssetLine fixedAssetLine : fixedAssetLineList) {
-      try {
-        fixedAssetLine = fixedAssetLineRepo.find(fixedAssetLine.getId());
-        if (fixedAssetLine.getFixedAsset().getStatusSelect() > FixedAssetRepository.STATUS_DRAFT) {
-          fixedAssetLineService.realize(fixedAssetLine);
-          incrementDone();
+    int offset = 0;
+    while (!(fixedAssetLineList = fixedAssetLineQuery.fetch(fetchLimit, offset)).isEmpty()) {
+      for (FixedAssetLine fixedAssetLine : fixedAssetLineList) {
+        try {
+          ++offset;
+          fixedAssetLine = fixedAssetLineRepo.find(fixedAssetLine.getId());
+          if (fixedAssetLine.getFixedAsset().getStatusSelect()
+              > FixedAssetRepository.STATUS_DRAFT) {
+            fixedAssetLineService.realize(fixedAssetLine);
+            incrementDone();
+          }
+        } catch (Exception e) {
+          incrementAnomaly();
+          TraceBackService.trace(e);
         }
-      } catch (Exception e) {
-        incrementAnomaly();
-        TraceBackService.trace(e);
+        JPA.clear();
       }
-      JPA.clear();
     }
   }
 

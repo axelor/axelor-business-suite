@@ -15,6 +15,7 @@
     <!-- OTHERS INFORMATION -->
     <string name="description" title="Description" large="true" />
     <one-to-many name="batchList" ref="com.axelor.apps.base.db.Batch" mappedBy="baseBatch" title="Batchs" />
+    <integer name="batchFetchLimit" title="Batch fetch limit" min="0" />
 
 	<!-- CALENDAR BATCH  -->
 	<integer name="synchronizationDuration" min="0" title="Synchronization duration (week)"/>

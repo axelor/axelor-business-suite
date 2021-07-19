@@ -87,15 +87,17 @@ public class BatchMoveLineExport extends BatchStrategy {
 
     if (!stop) {
       try {
-        Company company = batch.getAccountingBatch().getCompany();
-        LocalDate startDate = batch.getAccountingBatch().getStartDate();
-        LocalDate endDate = batch.getAccountingBatch().getEndDate();
-        int exportTypeSelect = batch.getAccountingBatch().getMoveLineExportTypeSelect();
+        AccountingBatch accountingBatch = batch.getAccountingBatch();
+        Company company = accountingBatch.getCompany();
+        LocalDate startDate = accountingBatch.getStartDate();
+        LocalDate endDate = accountingBatch.getEndDate();
+        int exportTypeSelect = accountingBatch.getMoveLineExportTypeSelect();
+        int fetchLimit = getFetchLimit();
 
         AccountingReport accountingReport =
             moveLineExportService.createAccountingReport(
                 company, exportTypeSelect, startDate, endDate);
-        moveLineExportService.exportMoveLine(accountingReport);
+        moveLineExportService.exportMoveLine(accountingReport, fetchLimit);
 
         JPA.clear();
 

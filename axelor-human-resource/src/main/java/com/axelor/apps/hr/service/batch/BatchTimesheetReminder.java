@@ -17,8 +17,8 @@
  */
 package com.axelor.apps.hr.service.batch;
 
-import com.axelor.apps.base.db.Company;
 import com.axelor.apps.hr.db.Employee;
+import com.axelor.apps.hr.db.HrBatch;
 import com.axelor.apps.hr.db.Timesheet;
 import com.axelor.apps.hr.db.repo.TimesheetRepository;
 import com.axelor.apps.hr.exception.IExceptionMessage;
@@ -30,6 +30,7 @@ import com.axelor.apps.message.service.MessageService;
 import com.axelor.apps.message.service.TemplateMessageService;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
+import com.axelor.db.Query;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.exception.service.TraceBackService;
@@ -65,15 +66,37 @@ public class BatchTimesheetReminder extends BatchStrategy {
 
   @Override
   protected void process() {
-    Template template = batch.getHrBatch().getTemplate();
+    HrBatch hrBatch = batch.getHrBatch();
+    int fetchLimit = getFetchLimit();
+
+    Template template = hrBatch.getTemplate();
     MetaModel metaModel = template.getMetaModel();
+    List<Employee> employees = null;
+    Query<Employee> query =
+        employeeRepository
+            .all()
+            .filter(
+                "self.timesheetReminder = 't' AND self.mainEmploymentContract.payCompany = :companyId")
+            .bind("companyId", batch.getHrBatch().getCompany().getId());
+    int offset = 0;
     try {
       if (metaModel != null) {
-        if (metaModel.getName().equals(Employee.class.getSimpleName())) {
-          sendReminderUsingEmployees(template);
-
-        } else if (metaModel.getName().equals(Timesheet.class.getSimpleName())) {
-          sendReminderUsingTimesheets(template);
+        while (!(employees = query.fetch(fetchLimit, offset)).isEmpty()) {
+          offset += employees.size();
+          employees.removeIf(
+              employee ->
+                  hasRecentTimesheet(
+                      appBaseService.getTodayDate(
+                          Optional.ofNullable(AuthUtils.getUser())
+                              .map(User::getActiveCompany)
+                              .orElse(null)),
+                      hrBatch.getDaysBeforeReminder().longValue(),
+                      employee));
+          if (metaModel.getName().equals(Employee.class.getSimpleName())) {
+            sendReminderUsingEmployees(employees, template);
+          } else if (metaModel.getName().equals(Timesheet.class.getSimpleName())) {
+            sendReminderUsingTimesheets(employees, template);
+          }
         }
       }
     } catch (Exception e) {
@@ -94,60 +117,38 @@ public class BatchTimesheetReminder extends BatchStrategy {
     super.stop();
   }
 
-  private List<Employee> getEmployeesWithoutRecentTimesheet(Company company) {
-    LocalDate now = appBaseService.getTodayDate(company);
-    long daysBeforeReminder = batch.getHrBatch().getDaysBeforeReminder().longValue();
-
-    List<Employee> employees =
-        employeeRepository
-            .all()
-            .filter(
-                "self.timesheetReminder = 't' AND self.mainEmploymentContract.payCompany = :companyId")
-            .bind("companyId", batch.getHrBatch().getCompany().getId())
-            .fetch();
-
-    employees.removeIf(employee -> hasRecentTimesheet(now, daysBeforeReminder, employee));
-    return employees;
-  }
-
   private boolean hasRecentTimesheet(LocalDate now, long daysBeforeReminder, Employee employee) {
     Timesheet timesheet = getRecentEmployeeTimesheet(employee);
     return timesheet != null && timesheet.getToDate().plusDays(daysBeforeReminder).isAfter(now);
   }
 
   protected Timesheet getRecentEmployeeTimesheet(Employee employee) {
-    Timesheet timesheet =
-        timesheetRepo
-            .all()
-            .filter(
-                "self.user.id = :userId AND self.statusSelect IN (:confirmed, :validated) AND self.company = :companyId")
-            .bind("userId", employee.getUser().getId())
-            .bind("confirmed", TimesheetRepository.STATUS_CONFIRMED)
-            .bind("validated", TimesheetRepository.STATUS_VALIDATED)
-            .bind("companyId", batch.getHrBatch().getCompany().getId())
-            .order("-toDate")
-            .fetchOne();
-    return timesheet;
+    return timesheetRepo
+        .all()
+        .filter(
+            "self.user.id = :userId AND self.statusSelect IN (:confirmed, :validated) AND self.company = :companyId")
+        .bind("userId", employee.getUser().getId())
+        .bind("confirmed", TimesheetRepository.STATUS_CONFIRMED)
+        .bind("validated", TimesheetRepository.STATUS_VALIDATED)
+        .bind("companyId", batch.getHrBatch().getCompany().getId())
+        .order("-toDate")
+        .fetchOne();
   }
 
-  protected void sendReminderUsingEmployees(Template template)
+  protected void sendReminderUsingEmployees(List<Employee> employees, Template template)
       throws AxelorException, MessagingException, IOException, ClassNotFoundException,
           InstantiationException, IllegalAccessException {
-    for (Employee employee :
-        getEmployeesWithoutRecentTimesheet(
-            Optional.ofNullable(AuthUtils.getUser()).map(User::getActiveCompany).orElse(null))) {
+    for (Employee employee : employees) {
       Message message = templateMessageService.generateMessage(employee, template);
       messageService.sendByEmail(message);
       incrementDone();
     }
   }
 
-  protected void sendReminderUsingTimesheets(Template template)
+  protected void sendReminderUsingTimesheets(List<Employee> employees, Template template)
       throws AxelorException, MessagingException, IOException, ClassNotFoundException,
           InstantiationException, IllegalAccessException {
-    for (Employee employee :
-        getEmployeesWithoutRecentTimesheet(
-            Optional.ofNullable(AuthUtils.getUser()).map(User::getActiveCompany).orElse(null))) {
+    for (Employee employee : employees) {
       Timesheet timeSheet = getRecentEmployeeTimesheet(employee);
       if (timeSheet != null) {
         Message message = templateMessageService.generateMessage(timeSheet, template);

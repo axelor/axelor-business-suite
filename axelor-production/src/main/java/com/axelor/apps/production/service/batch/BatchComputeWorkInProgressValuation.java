@@ -56,6 +56,7 @@ public class BatchComputeWorkInProgressValuation extends AbstractBatch {
   @Override
   protected void process() {
     ProductionBatch productionBatch = batch.getProductionBatch();
+    int fetchLimit = getFetchLimit();
     Company company = productionBatch.getCompany();
     StockLocation workshopStockLocation = productionBatch.getWorkshopStockLocation();
 
@@ -90,7 +91,7 @@ public class BatchComputeWorkInProgressValuation extends AbstractBatch {
 
     int offset = 0;
 
-    while (!(manufOrderList = manufOrderQuery.order("id").fetch(FETCH_LIMIT, offset)).isEmpty()) {
+    while (!(manufOrderList = manufOrderQuery.order("id").fetch(fetchLimit, offset)).isEmpty()) {
 
       for (ManufOrder manufOrder : manufOrderList) {
         ++offset;
@@ -122,5 +123,12 @@ public class BatchComputeWorkInProgressValuation extends AbstractBatch {
 
     addComment(comment);
     super.stop();
+  }
+
+  @Override
+  public int getFetchLimit() {
+    return batch.getProductionBatch().getBatchFetchLimit() > 0
+        ? batch.getProductionBatch().getBatchFetchLimit()
+        : super.getFetchLimit();
   }
 }

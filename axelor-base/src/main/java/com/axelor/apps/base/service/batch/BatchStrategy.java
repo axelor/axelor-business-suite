@@ -19,4 +19,19 @@ package com.axelor.apps.base.service.batch;
 
 import com.axelor.apps.base.service.administration.AbstractBatch;
 
-public abstract class BatchStrategy extends AbstractBatch {}
+public abstract class BatchStrategy extends AbstractBatch {
+
+  @Override
+  public int getFetchLimit() {
+    int limit = 0;
+    if (batch.getBaseBatch() != null) {
+      limit = batch.getBaseBatch().getBatchFetchLimit();
+    } else if (batch.getMailBatch() != null) {
+      limit = batch.getMailBatch().getBatchFetchLimit();
+    }
+    if (limit == 0) {
+      limit = super.getFetchLimit();
+    }
+    return limit;
+  }
+}

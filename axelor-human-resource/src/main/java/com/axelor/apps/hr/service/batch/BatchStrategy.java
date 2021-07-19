@@ -47,4 +47,11 @@ public abstract class BatchStrategy extends AbstractBatch {
 
     incrementDone();
   }
+
+  @Override
+  public int getFetchLimit() {
+    return batch.getHrBatch().getBatchFetchLimit() > 0
+        ? batch.getHrBatch().getBatchFetchLimit()
+        : super.getFetchLimit();
+  }
 }

@@ -1,7 +1,7 @@
 /*
  * Axelor Business Solutions
  *
- * Copyright (C) 2021 Axelor (<http://axelor.com>).
+ * Copyright (C) 2020 Axelor (<http://axelor.com>).
  *
  * This program is free software: you can redistribute it and/or  modify
  * it under the terms of the GNU Affero General Public License, version 3,
@@ -15,19 +15,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.axelor.apps.supplychain.service.invoice;
+package com.axelor.apps.businessproject.service.batch;
 
-import com.axelor.apps.account.db.Invoice;
-import com.axelor.apps.sale.db.SaleOrder;
-import com.axelor.db.Query;
-import com.axelor.exception.AxelorException;
-import java.util.List;
+import com.axelor.apps.base.service.administration.AbstractBatch;
 
-public interface SubscriptionInvoiceService {
+public abstract class BatchStrategy extends AbstractBatch {
 
-  public List<Invoice> generateSubscriptionInvoices() throws AxelorException;
-
-  public Query<SaleOrder> getSubscriptionOrders();
-
-  public Invoice generateSubscriptionInvoice(SaleOrder saleOrder) throws AxelorException;
+  @Override
+  public int getFetchLimit() {
+    return batch.getProjectInvoicingAssistantBatch().getBatchFetchLimit() > 0
+        ? batch.getProjectInvoicingAssistantBatch().getBatchFetchLimit()
+        : super.getFetchLimit();
+  }
 }

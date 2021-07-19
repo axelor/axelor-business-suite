@@ -26,26 +26,29 @@ import java.time.LocalDate;
 
 public interface MoveLineExportService {
 
-  public MetaFile exportMoveLine(AccountingReport accountingReport)
+  public MetaFile exportMoveLine(AccountingReport accountingReport, int fetchLimit)
       throws AxelorException, IOException;
 
-  public void replayExportMoveLine(AccountingReport accountingReport)
+  public void replayExportMoveLine(AccountingReport accountingReport, int fetchLimit)
       throws AxelorException, IOException;
 
   public AccountingReport createAccountingReport(
       Company company, int exportTypeSelect, LocalDate startDate, LocalDate endDate)
       throws AxelorException;
 
-  public void exportMoveLineTypeSelect1006(AccountingReport mlr, boolean replay)
+  public void exportMoveLineTypeSelect1006(AccountingReport mlr, boolean replay, int fetchLimit)
       throws AxelorException, IOException;
 
-  public void exportMoveLineTypeSelect1007(AccountingReport accountingReport, boolean replay)
+  public void exportMoveLineTypeSelect1007(
+      AccountingReport accountingReport, boolean replay, int fetchLimit)
       throws AxelorException, IOException;
 
-  public void exportMoveLineTypeSelect1008(AccountingReport accountingReport, boolean replay)
+  public void exportMoveLineTypeSelect1008(
+      AccountingReport accountingReport, boolean replay, int fetchLimit)
       throws AxelorException, IOException;
 
-  public void exportMoveLineTypeSelect1009(AccountingReport accountingReport, boolean replay)
+  public void exportMoveLineTypeSelect1009(
+      AccountingReport accountingReport, boolean replay, int fetchLimit)
       throws AxelorException, IOException;
 
   /**
@@ -56,6 +59,6 @@ public interface MoveLineExportService {
    * @throws AxelorException
    * @throws IOException
    */
-  void exportMoveLineTypeSelect1010(AccountingReport accountingReport)
+  void exportMoveLineTypeSelect1010(AccountingReport accountingReport, int fetchLimit)
       throws AxelorException, IOException;
 }

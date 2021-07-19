@@ -44,7 +44,8 @@ public interface AccountingCloseAnnualService {
       boolean allocatePerPartner)
       throws AxelorException;
 
-  public List<Long> getAllAccountOfYear(Set<Account> accountSet, Year year);
+  public List<Long> getAllAccountOfYear(
+      Set<Account> accountSet, Year year, int fetchLimit, int position);
 
   public List<Pair<Long, Long>> assignPartner(
       List<Long> accountIdList, Year year, boolean allocatePerPartner);

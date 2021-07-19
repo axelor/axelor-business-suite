@@ -17,6 +17,7 @@
 		    <field name="actionSelect" onChange="action-base-batch-attrs-action-select"/>
 		    <field name="code" x-bind="{{code|unaccent|uppercase}}" onChange="action-base-batch-condition-check-unique-code"/>
 		    <field name="company" widget="SuggestBox" form-view="company-form" grid-view="company-grid"/>
+		    <field name="batchFetchLimit"/>
 		    <field name="consolidatePhaseSelect" showIf="actionSelect == 2" validIf="actionSelect != 2 || consolidatePhaseSelect"/>
 		</panel>
     	<panel name="informationPanel" title="Information">
