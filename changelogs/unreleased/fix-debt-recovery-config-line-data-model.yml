@@ -1,0 +1,3 @@
+---
+title: "DebRecoveryConfigLine : Fixed error in data model where there was a reference to AccountConfig"
+type: fix
