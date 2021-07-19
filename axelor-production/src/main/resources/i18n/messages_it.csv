@@ -21,7 +21,7 @@
 "Automatic email was not sent because no default email account and/or no valid email account was found : please create one.",,,
 "Automatically plan the manuf. orders generated from sale order","Pianificare automaticamente gli ordini di produzione generati dall'ordine di vendita",,
 "Available stock","Disponibile a magazzino",,
-"Average Price","Prezzo medio",,
+"Average Price","Prezzo medio ponderato",,
 "BOM","DISTINTA BASE",,
 "BOM.billOfMaterialList","Sintesi dei componenti",,
 "BOM.company","L'azienda",,

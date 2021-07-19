@@ -1,0 +1,5 @@
+---
+title: "Anomaly 14352 WAP : Weighted average price"
+type: fix
+description: |
+  change of avg Price to WAP in all translates (stock, base and production)

@@ -21,7 +21,7 @@
 "Automatic email was not sent because no default email account and/or no valid email account was found : please create one.",,,
 "Automatically plan the manuf. orders generated from sale order","Автоматически планировать заказы мануфактуры, полученные из заказов на продажу.",,
 "Available stock","Имеющиеся в наличии запасы",,
-"Average Price","Средняя цена",,
+"Average Price","Средневзвешенная цена",,
 "BOM","СПЕЦИФИКАЦИЯ",,
 "BOM.billOfMaterialList","Компоненты Резюме",,
 "BOM.company","Компания",,
