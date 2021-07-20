@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+    <grid name="report-query-builder-grid" model="com.axelor.apps.base.db.ReportQueryBuilder" title="Report query builders">
+        <field name="var"/>
+        <field name="queryText"/>
+    </grid>
+
+    <form name="report-query-builder-form" model="com.axelor.apps.base.db.ReportQueryBuilder" title="Report query builder">
+        <panel name="mainPanel">
+            <field name="var" required="true"/>
+            <field name="queryText" widget="text"/>
+            <field name="metaModel" title="Model"/>
+            <field name="reportQueryBuilderParamsList" colSpan="12" form-view="report-query-builder-params-form" grid-view="report-query-builder-params-grid"/>       
+        </panel>       
+    </form>
+
+</object-views>

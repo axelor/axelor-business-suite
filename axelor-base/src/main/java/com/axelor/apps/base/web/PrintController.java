@@ -25,6 +25,7 @@ import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import java.io.IOException;
 
 public class PrintController {
 
@@ -32,8 +33,8 @@ public class PrintController {
     Print print = request.getContext().asType(Print.class);
 
     try {
-      response.setView(Beans.get(PrintService.class).generatePDF(print));
-    } catch (AxelorException e) {
+      response.setView(Beans.get(PrintService.class).getStringTemplateView(print));
+    } catch (AxelorException | IOException e) {
       TraceBackService.trace(response, e, ResponseMessageType.ERROR);
     }
   }

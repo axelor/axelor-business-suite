@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -118,8 +119,8 @@ public class ConvertDemoDataFileServiceImpl implements ConvertDemoDataFileServic
     if (fileNameRow != null) {
       Cell fileNameCell = fileNameRow.getCell(0);
       if (fileNameCell != null
-          && fileNameCell.getCellType() != Cell.CELL_TYPE_BLANK
-          && fileNameCell.getCellType() == Cell.CELL_TYPE_STRING) {
+          && fileNameCell.getCellType() != CellType.BLANK
+          && fileNameCell.getCellType() == CellType.STRING) {
 
         fileName = fileNameCell.getStringCellValue() + ".csv";
       } else {

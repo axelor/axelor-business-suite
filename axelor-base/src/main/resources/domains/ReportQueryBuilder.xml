@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+  
+  <module name="base" package="com.axelor.apps.base.db"/>
+
+  <entity name="ReportQueryBuilder">
+
+	<string name="var" title="Variable"/>
+	<string name="queryText" title="Query" large="true"/>
+	<many-to-one name="metaModel" title="Model" ref="com.axelor.meta.db.MetaModel"/>
+	<one-to-many name="reportQueryBuilderParamsList" title="Report query builder params" ref="com.axelor.apps.base.db.ReportQueryBuilderParams"/>
+	
+  </entity>
+
+</domain-models>

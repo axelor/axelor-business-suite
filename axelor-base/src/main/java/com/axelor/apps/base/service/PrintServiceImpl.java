@@ -31,9 +31,11 @@ import com.axelor.db.mapper.Mapper;
 import com.axelor.db.mapper.Property;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
+import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
+import com.axelor.meta.db.repo.MetaFileRepository;
 import com.axelor.meta.schema.actions.ActionView;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
@@ -65,19 +67,22 @@ public class PrintServiceImpl implements PrintService {
   protected static final String FILE_EXTENSION_PDF = ".pdf";
 
   protected PrintRepository printRepo;
+  protected MetaFileRepository metaFileRepo;
   protected MetaFiles metaFiles;
   protected String attachmentPath;
 
   @Inject
-  PrintServiceImpl(PrintRepository printRepo, MetaFiles metaFiles) throws AxelorException {
+  PrintServiceImpl(PrintRepository printRepo, MetaFileRepository metaFileRepo, MetaFiles metaFiles)
+      throws AxelorException {
     this.printRepo = printRepo;
+    this.metaFileRepo = metaFileRepo;
     this.metaFiles = metaFiles;
     this.attachmentPath = AppService.getFileUploadDir();
   }
 
   @Override
   @Transactional
-  public Map<String, Object> generatePDF(Print print) throws AxelorException {
+  public File generatePDF(Print print) throws AxelorException {
     try {
       print = printRepo.find(print.getId());
       String html = generateHtml(print);
@@ -109,10 +114,6 @@ public class PrintServiceImpl implements PrintService {
       MetaFile metaFile = metaFiles.upload(pdfInputStream, documentName);
       File file = MetaFiles.getPath(metaFile).toFile();
 
-      String fileLink =
-          PdfTool.getFileLinkFromPdfFile(
-              PdfTool.printCopiesToFile(file, 1), metaFile.getFileName());
-
       if (ObjectUtils.notEmpty(file)
           && file.exists()
           && (print.getAttach() || StringUtils.notEmpty(print.getMetaFileField()))) {
@@ -136,10 +137,27 @@ public class PrintServiceImpl implements PrintService {
           generatePDF(subPrint);
         }
       }
-      return ActionView.define(documentName).add("html", fileLink).map();
+      return file;
     } catch (IOException | ClassNotFoundException e) {
       throw new AxelorException(e, TraceBackRepository.CATEGORY_INCONSISTENCY);
     }
+  }
+
+  @Override
+  public Map<String, Object> getStringTemplateView(Print print)
+      throws AxelorException, IOException {
+    File pdfFile = this.generatePDF(print);
+    MetaFile metaFile =
+        metaFileRepo.all().filter("self.filePath = ?1", pdfFile.getName()).fetchOne();
+    String fileLink =
+        PdfTool.getFileLinkFromPdfFile(
+            PdfTool.printCopiesToFile(pdfFile, 1), metaFile.getFileName());
+    String documentName =
+        (StringUtils.notEmpty(print.getDocumentName()) ? print.getDocumentName() : "")
+            + "-"
+            + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+            + FILE_EXTENSION_PDF;
+    return ActionView.define(I18n.get(documentName)).add("html", fileLink).map();
   }
 
   protected void saveMetaFileInModel(
@@ -155,7 +173,8 @@ public class PrintServiceImpl implements PrintService {
     }
   }
 
-  protected String generateHtml(Print print) {
+  @Override
+  public String generateHtml(Print print) {
     StringBuilder htmlBuilder = new StringBuilder();
 
     htmlBuilder.append("<!DOCTYPE html>");

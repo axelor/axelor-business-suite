@@ -31,6 +31,10 @@
 		<string name="footerFontColor" title="Font Color" selection="base.print.settings.footer.font.color.select"/>
 		<string name="headerContentWidth" title="Header Content Width"/>
 		<string name="logoWidth" title="Company Logo Width"/>
+		<decimal name="headerHeight" title="Header height"/>
+  		<decimal name="footerHeight" title="Footer height"/>
+  		<one-to-many name="reportQueryBuilderList" title="Report query builders" ref="com.axelor.apps.base.db.ReportQueryBuilder"/>
+  		<string name="watermarkText" multiline="true" large="true" title="Watermark text"/>
 		        
         <extra-code><![CDATA[
         

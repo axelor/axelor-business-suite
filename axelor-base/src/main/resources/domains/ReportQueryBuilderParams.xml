@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+  
+  <module name="base" package="com.axelor.apps.base.db"/>
+
+  <entity name="ReportQueryBuilderParams">
+
+	<string name="name" title="Name"/>
+	<string name="value" title="Value" large="true"/>
+	
+  </entity>
+
+</domain-models>

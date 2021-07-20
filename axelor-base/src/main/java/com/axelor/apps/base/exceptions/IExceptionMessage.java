@@ -423,6 +423,7 @@ public interface IExceptionMessage {
       "Configuration error: the product category %s is an ancestor of himself." /*)*/;
   public static final String PRODUCT_CATEGORY_CHILDREN_CIRCULAR_DEPENDENCY = /*$$(*/
       "Configuration error: the product category %s is among its descendants." /*)*/;
+
   /* Print template */
   public static final String PRINT_TEMPLATE_CONDITION_MUST_BE_BOOLEAN = /*$$(*/
       "The groovy condition result must be a boolean" /*)*/;
@@ -432,6 +433,19 @@ public interface IExceptionMessage {
       "Error in print template line with sequence %s and title %s." /*)*/;
   public static final String PRINT_TEMPLATE_LINE_TEST_REFRESH = /*$$(*/
       "Refresh page to reflect changes in selection" /*)*/;
+  public static final String NO_SUCH_FIELD = /*$$(*/ "No such field like :" /*)*/;
+  public static final String FONT_NOT_SUPPORTED = /*$$(*/ "Font not supported :" /*)*/;
+  public static final String NO_TEMPLATE_SHEET_FOUND = /*$$(*/ "No template sheet found" /*)*/;
+  public static final String INVALID_CONDITION_FORMAT = /*$$(*/ "Invalid condition format :" /*)*/;
+  public static final String NO_EXCEL_TEMPLATE_FILE = /*$$(*/
+      "No excel template file selected" /*)*/;
+  public static final String ONLY_XLSX_FILE_FORMAT = /*$$(*/
+      "Only XLSX file format is allowed" /*)*/;
+  public static final String SELECT_OUTPUT_FORMAT = /*$$(*/
+      "Please select an output format type" /*)*/;
+  public static final String WORKBOOK_NULL = /*$$(*/ "Workbook is null" /*)*/;
+  public static final String UNKNOWN_WORKBOOK = /*$$(*/ "Unknown workbook type:" /*)*/;
+  public static final String READING_STANDARD_CSS = /*$$(*/ "Reading standard css" /*)*/;
 
   /* Scheduler */
   public static final String QUARTZ_SCHEDULER_ENABLED = /*$$(*/

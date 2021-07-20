@@ -8,6 +8,7 @@
   <entity name="Template" lang="java">
   	
   	<many-to-many name="birtTemplateSet" ref="com.axelor.apps.base.db.BirtTemplate" title="Birt Template"/>
+  	<many-to-many name="printTemplateSet" ref="com.axelor.apps.base.db.PrintTemplate" title="Print Template"/>
     <many-to-one name="language" ref="com.axelor.apps.base.db.Language" title="Language"/>
     
   </entity>

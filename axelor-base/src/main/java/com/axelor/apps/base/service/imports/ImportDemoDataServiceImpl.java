@@ -40,6 +40,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -195,7 +196,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
       for (int cell = 1; cell < headerRow.getLastCellNum(); cell++) {
         Cell headerCell = headerRow.getCell(cell);
 
-        if (headerCell == null || headerCell.getCellType() != Cell.CELL_TYPE_STRING) {
+        if (headerCell == null || headerCell.getCellType() != CellType.STRING) {
           errorList.append("\n" + I18n.get(IExceptionMessage.INVALID_HEADER));
           flag = false;
         }
@@ -219,7 +220,7 @@ public class ImportDemoDataServiceImpl implements ImportDemoDataService {
   private boolean validateCell(Cell cell, StringBuilder errorList, String cellName)
       throws IOException {
 
-    if (cell == null || cell.getCellType() != Cell.CELL_TYPE_STRING) {
+    if (cell == null || cell.getCellType() != CellType.STRING) {
       errorList.append(String.format("\n" + I18n.get(IExceptionMessage.CELL_NOT_VALID), cellName));
       return false;
     }

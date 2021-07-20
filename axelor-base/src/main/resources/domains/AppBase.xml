@@ -103,6 +103,11 @@
 		<boolean name="manageSubsidiaryPartner" title="Manage subsidiaries on partners" default="false"/>
 
 	   	<string name="customAppStyle" title="Custom style" large="true" help="Custom css to personnalize web user interface."/>
+
+		<!-- Print template configuration -->
+	   	<integer name="bigdecimalScale" title="Bigdecimal scale" default="2"/>
+		<integer name="maxRows" title="Max rows to read" default="100"/>
+		<integer name="maxColumns" title="Max columns to read" default="100"/>
 		<extra-code>
 	   		<![CDATA[
 	   			public static final int DISCOUNT_SEPARATE = 1;

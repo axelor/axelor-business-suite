@@ -60,6 +60,11 @@
                     <field name="regroupProductsLabelProducts" showIf="isRegroupProductsOnPrintings &amp;&amp; regroupProductsLevelSelect == 'global' &amp;&amp; regroupProductsTypeSelect.indexOf('products') !== -1" colspan="6" />
 				</panel>
 				<panel-related field="companySpecificProductFieldsSet" domain="self.metaModel.fullName = 'com.axelor.apps.base.db.Product'" canNew="false" canEdit="false" grid-view="meta-field-details-grid" form-view="meta-field-form"/>
+				<panel name="printTemplateConfiguration" title="Print template configuration">
+					<field name="bigdecimalScale"/>
+					<field name="maxRows" default="100"/>
+					<field name="maxColumns" default="100"/>
+				</panel>
 				<panel itemSpan="12" colSpan="6">
                 	<field name="defaultMailMessageTemplate"/>
                 	<panel-related field="mailTemplateAssociationList" grid-view="mail-template-association-grid" form-view="mail-template-association-form"/>

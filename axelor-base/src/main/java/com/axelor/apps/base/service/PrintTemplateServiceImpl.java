@@ -27,9 +27,11 @@ import com.axelor.apps.base.db.PrintTemplate;
 import com.axelor.apps.base.db.PrintTemplateLine;
 import com.axelor.apps.base.db.repo.PrintRepository;
 import com.axelor.apps.base.exceptions.IExceptionMessage;
+import com.axelor.apps.base.service.excelreport.ExcelReportService;
 import com.axelor.apps.base.service.message.TemplateMessageServiceBaseImpl;
 import com.axelor.apps.message.db.TemplateContext;
 import com.axelor.apps.message.service.TemplateContextService;
+import com.axelor.apps.tool.file.PdfTool;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.common.ObjectUtils;
@@ -42,20 +44,28 @@ import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.meta.db.MetaModel;
+import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.Context;
 import com.axelor.tool.template.TemplateMaker;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import javax.script.ScriptException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 public class PrintTemplateServiceImpl implements PrintTemplateService {
 
@@ -68,6 +78,7 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
   protected PrintService printService;
   protected TemplateMessageServiceBaseImpl templateMessageService;
   protected TemplateContextService templateContextService;
+  protected ExcelReportService excelReportService;
   protected int rank;
 
   @Inject
@@ -75,17 +86,51 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
       PrintRepository printRepo,
       PrintService printService,
       TemplateMessageServiceBaseImpl templateMessageService,
-      TemplateContextService templateContextService) {
+      TemplateContextService templateContextService,
+      ExcelReportService excelReportService) {
     this.printRepo = printRepo;
     this.printService = printService;
     this.templateMessageService = templateMessageService;
     this.templateContextService = templateContextService;
+    this.excelReportService = excelReportService;
   }
 
   @SuppressWarnings("unchecked")
   @Override
   @Transactional(rollbackOn = {AxelorException.class, Exception.class})
-  public Print generatePrint(Long objectId, PrintTemplate printTemplate)
+  public Map<String, Object> generatePrintTemplate(Long objectId, PrintTemplate printTemplate)
+      throws AxelorException, IOException, ClassNotFoundException, ScriptException,
+          ParserConfigurationException, SAXException {
+
+    Map<String, Object> output = null;
+    Integer inputTypeSelect = printTemplate.getInputTypeSelect();
+    if (inputTypeSelect == 1) {
+      output = this.createStringTemplate(objectId, printTemplate);
+    } else if (inputTypeSelect == 2) {
+      output = this.createExcelReportTemplate(objectId, printTemplate);
+    }
+    return output;
+  }
+
+  @Override // Note: this method will ignore isEditable feature when generating StringTemplate
+  @Transactional(rollbackOn = {AxelorException.class, Exception.class})
+  public File generatePrintTemplateFile(Long objectId, PrintTemplate printTemplate)
+      throws AxelorException, IOException, ClassNotFoundException, ScriptException,
+          ParserConfigurationException, SAXException {
+
+    File outputFile = null;
+    Integer inputTypeSelect = printTemplate.getInputTypeSelect();
+    if (inputTypeSelect == 1) {
+      Print print = this.getTemplatePrint(objectId, printTemplate);
+      outputFile = printService.generatePDF(print);
+    } else if (inputTypeSelect == 2) {
+      outputFile = excelReportService.createReport(Arrays.asList(objectId), printTemplate);
+    }
+    return outputFile;
+  }
+
+  @Override
+  public Print getTemplatePrint(Long objectId, PrintTemplate printTemplate)
       throws AxelorException, IOException, ClassNotFoundException {
     MetaModel metaModel = printTemplate.getMetaModel();
     if (metaModel == null) {
@@ -123,6 +168,8 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
     print.setIsEditable(printTemplate.getIsEditable());
     print.setAttach(printTemplate.getAttach());
     print.setMetaFileField(printTemplate.getMetaFileField());
+    print.setHeaderHeight(printTemplate.getHeaderHeight());
+    print.setFooterHeight(printTemplate.getFooterHeight());
 
     if (!printTemplate.getHidePrintSettings()) {
       if (StringUtils.notEmpty(printTemplate.getPrintTemplatePdfHeader())) {
@@ -143,6 +190,10 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
       print.setLogoPositionSelect(printTemplate.getLogoPositionSelect());
       print.setLogoWidth(printTemplate.getLogoWidth());
       print.setHeaderContentWidth(printTemplate.getHeaderContentWidth());
+      if (StringUtils.notEmpty(printTemplate.getWatermarkText())) {
+        maker.setTemplate(printTemplate.getWatermarkText());
+        print.setWatermarkText(maker.make());
+      }
     }
 
     Context scriptContext = null;
@@ -174,7 +225,7 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
           subObjectId = (Long) Mapper.of(subModelClass).get(subMetaModelObject, "id");
         }
 
-        Print subPrint = generatePrint(subObjectId, subPrintTemplate);
+        Print subPrint = getTemplatePrint(subObjectId, subPrintTemplate);
         print.addPrintSetItem(subPrint);
       }
     }
@@ -183,6 +234,49 @@ public class PrintTemplateServiceImpl implements PrintTemplateService {
     printService.attachMetaFiles(print, getMetaFiles(maker, printTemplate));
 
     return print;
+  }
+
+  private Map<String, Object> createStringTemplate(Long objectId, PrintTemplate printTemplate)
+      throws ClassNotFoundException, AxelorException, IOException {
+    Print print = this.getTemplatePrint(objectId, printTemplate);
+    if (print.getIsEditable()) {
+      return ActionView.define(I18n.get("Create print"))
+          .model(Print.class.getName())
+          .add("form", "print-form")
+          .param("forceEdit", "true")
+          .context("_showRecord", print.getId().toString())
+          .map();
+    } else {
+      return printService.getStringTemplateView(print);
+    }
+  }
+
+  private Map<String, Object> createExcelReportTemplate(Long objectId, PrintTemplate printTemplate)
+      throws AxelorException, ClassNotFoundException, IOException, ScriptException,
+          ParserConfigurationException, SAXException {
+    if (ObjectUtils.isEmpty(printTemplate.getExcelTemplate())) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.NO_EXCEL_TEMPLATE_FILE));
+    }
+    if (!"xlsx"
+        .equals(FilenameUtils.getExtension(printTemplate.getExcelTemplate().getFileName()))) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.ONLY_XLSX_FILE_FORMAT));
+    }
+    if (StringUtils.isEmpty(printTemplate.getFormatSelect())) {
+      throw new AxelorException(
+          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+          I18n.get(IExceptionMessage.SELECT_OUTPUT_FORMAT));
+    }
+
+    File outputFile = excelReportService.createReport(Arrays.asList(objectId), printTemplate);
+    String fileLink = PdfTool.getFileLinkFromPdfFile(outputFile, outputFile.getName());
+
+    return ActionView.define(I18n.get(printTemplate.getMetaModel().getName()))
+        .add("html", fileLink)
+        .map();
   }
 
   private void processPrintTemplateLineList(

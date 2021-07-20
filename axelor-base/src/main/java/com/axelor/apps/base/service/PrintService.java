@@ -20,11 +20,17 @@ package com.axelor.apps.base.service;
 import com.axelor.apps.base.db.Print;
 import com.axelor.exception.AxelorException;
 import com.axelor.meta.db.MetaFile;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
 public interface PrintService {
-  public Map<String, Object> generatePDF(Print print) throws AxelorException;
+  public File generatePDF(Print print) throws AxelorException;
 
   public void attachMetaFiles(Print print, Set<MetaFile> metaFiles);
+
+  public String generateHtml(Print print);
+
+  public Map<String, Object> getStringTemplateView(Print print) throws AxelorException, IOException;
 }

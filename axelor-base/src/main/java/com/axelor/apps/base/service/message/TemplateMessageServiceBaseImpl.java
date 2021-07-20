@@ -20,12 +20,15 @@ package com.axelor.apps.base.service.message;
 import com.axelor.apps.ReportFactory;
 import com.axelor.apps.base.db.BirtTemplate;
 import com.axelor.apps.base.db.BirtTemplateParameter;
+import com.axelor.apps.base.db.PrintTemplate;
 import com.axelor.apps.base.exceptions.IExceptionMessage;
+import com.axelor.apps.base.service.PrintTemplateService;
 import com.axelor.apps.message.db.Template;
 import com.axelor.apps.message.service.MessageService;
 import com.axelor.apps.message.service.TemplateContextService;
 import com.axelor.apps.message.service.TemplateMessageServiceImpl;
 import com.axelor.apps.report.engine.ReportSettings;
+import com.axelor.db.Model;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
@@ -34,6 +37,7 @@ import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.text.Templates;
 import com.axelor.tool.template.TemplateMaker;
+import com.google.common.io.Files;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,16 +49,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.script.ScriptException;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 public class TemplateMessageServiceBaseImpl extends TemplateMessageServiceImpl {
 
   private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+  @Inject protected PrintTemplateService printTemplateService;
+  @Inject protected MetaFiles metaFilesGlobal;
 
   @Inject
   public TemplateMessageServiceBaseImpl(
@@ -69,16 +79,23 @@ public class TemplateMessageServiceBaseImpl extends TemplateMessageServiceImpl {
 
     Set<MetaFile> metaFiles = super.getMetaFiles(template, templates, templatesContext);
     Set<BirtTemplate> birtTemplates = template.getBirtTemplateSet();
-    if (CollectionUtils.isEmpty(birtTemplates)) {
-      return metaFiles;
+    if (CollectionUtils.isNotEmpty(birtTemplates)) {
+      for (BirtTemplate birtTemplate : birtTemplates) {
+        metaFiles.add(
+            createMetaFileUsingBirtTemplate(null, birtTemplate, templates, templatesContext));
+      }
     }
 
-    for (BirtTemplate birtTemplate : birtTemplates) {
-      metaFiles.add(
-          createMetaFileUsingBirtTemplate(null, birtTemplate, templates, templatesContext));
+    Set<PrintTemplate> printTemplates = template.getPrintTemplateSet();
+    if (CollectionUtils.isNotEmpty(printTemplates)) {
+      for (PrintTemplate printTemplate : printTemplates) {
+        metaFiles.add(createMetaFileUsingPrintTemplate(template, printTemplate, templatesContext));
+      }
     }
 
-    logger.debug("Metafile to attach: {}", metaFiles);
+    if (!metaFiles.isEmpty()) {
+      logger.debug("Metafile to attach: {}", metaFiles);
+    }
 
     return metaFiles;
   }
@@ -108,6 +125,34 @@ public class TemplateMessageServiceBaseImpl extends TemplateMessageServiceImpl {
 
     try (InputStream is = new FileInputStream(file)) {
       return Beans.get(MetaFiles.class).upload(is, fileName + "." + birtTemplate.getFormat());
+    }
+  }
+
+  public MetaFile createMetaFileUsingPrintTemplate(
+      Template template, PrintTemplate printTemplate, Map<String, Object> templatesContext)
+      throws AxelorException, IOException {
+
+    logger.debug("Generate print metafile: {}", printTemplate.getName());
+
+    String fileName =
+        printTemplate.getName()
+            + "-"
+            + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
+    Model model = (Model) templatesContext.get(template.getMetaModel().getName());
+
+    File file = null;
+
+    try {
+      file = printTemplateService.generatePrintTemplateFile(model.getId(), printTemplate);
+    } catch (ClassNotFoundException
+        | ScriptException
+        | ParserConfigurationException
+        | SAXException e) {
+      e.printStackTrace();
+    }
+    try (InputStream is = new FileInputStream(file)) {
+      return metaFilesGlobal.upload(is, fileName + "." + Files.getFileExtension(file.getName()));
     }
   }
 

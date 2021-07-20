@@ -18,6 +18,8 @@ libs.itextpdf = 'com.itextpdf:itextpdf:5.5.13.1'
 libs.itext7_core = 'com.itextpdf:itext7-core:7.0.4'
 libs.html2pdf = 'com.itextpdf:html2pdf:2.0.0'
 libs.flying_saucer_pdf = 'org.xhtmlrenderer:flying-saucer-pdf:9.1.4'
+libs.open_html_pdf_core = 'com.openhtmltopdf:openhtmltopdf-core:1.0.0'
+libs.open_html_pdf_pdfbox = 'com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.0'
 
 libs.iban4j = 'org.iban4j:iban4j:3.2.1'
 
@@ -27,7 +29,7 @@ libs.ical4j_extensions = 'org.mnode.ical4j:ical4j-extensions:1.0.3'
 
 libs.jsch = 'com.jcraft:jsch:0.1.55'
 
-libs.jsoup = 'org.jsoup:jsoup:1.10.2'
+libs.jsoup = 'org.jsoup:jsoup:1.13.1'
 
 libs.lutung = 'com.mandrillapp.wrapper.lutung:lutung:0.0.7'
 
@@ -55,3 +57,8 @@ libs.google_api_services_people = dependencies.create('com.google.apis:google-ap
 libs.mockito = 'org.mockito:mockito-core:3.3.3'
 
 libs.pac4j_core = "org.pac4j:pac4j-core:3.8.3"
+
+libs.poi = 'org.apache.poi:poi:4.1.1'
+libs.poi_ooxml = 'org.apache.poi:poi-ooxml:4.1.1'
+libs.poi_scratchpad = 'org.apache.poi:poi-scratchpad:4.1.1'
+libs.jericho_html = 'net.htmlparser.jericho:jericho-html:3.4'

@@ -34,6 +34,18 @@
 		<string name="headerContentWidth" title="Header Content Width"/>
 		<string name="logoWidth" title="Company Logo Width"/>
 		
+		<integer name="inputTypeSelect" title="Input type" selection="base.print.template.input.type.select" required="true" default="1"/>
+		<many-to-one name="excelTemplate" ref="com.axelor.meta.db.MetaFile" title="Excel template"/>  		
+  		<decimal name="dataSizeModification" title="Data size modification" min="50" max="300" default="100"/>		
+  		<decimal name="headerHeight" title="Header height" default="125" min="125"/>
+  		<decimal name="footerHeight" title="Footer height" default="125" min="125"/>  		
+  		<one-to-many name="reportQueryBuilderList" title="Report query builders" ref="com.axelor.apps.base.db.ReportQueryBuilder"/>
+  		<string name="watermarkText" multiline="true" large="true" title="Watermark text"/>
+  		<integer name="watermarkAngle" title="Watermark angle" min="0" max="360" default="45"/>
+  		<integer name="watermarkTopMargin" title="Watermark top margin" min="0" default="0"/>
+  		<integer name="watermarkLeftMargin" title="Watermark left margin" min="0" default="0"/>
+  		<decimal name="opacity" title="Opacity" min="0" max="1" default="0.3"/>
+		
     </entity>
 
 </domain-models>

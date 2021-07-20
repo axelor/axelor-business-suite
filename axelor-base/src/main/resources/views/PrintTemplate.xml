@@ -13,37 +13,58 @@
         <field name="language"/>
     </grid>
 
-    <form name="print-template-form" title="Print template" model="com.axelor.apps.base.db.PrintTemplate" width="large">
+    <form name="print-template-form" title="Print template" model="com.axelor.apps.base.db.PrintTemplate" width="large" onNew="action-attrs-print-template-set-format-select" onLoad="action-attrs-print-template-set-format-select">
         <panel>
             <field name="name"/>
+            <field name="inputTypeSelect" onChange="action-attrs-print-template-set-format-select"/>
             <field name="metaModel" grid-view="meta-model-grid" form-view="meta-model-form"/>
+            <field name="formatSelect"/>
             <field name="metaModelDefaultPath"/>
             <field name="company" grid-view="company-grid" form-view="company-form"/>            
             <field name="language" grid-view="language-grid" form-view="language-form"/>
-            <field name="hidePrintSettings" widget="boolean-switch"/>
-            <field name="formatSelect"/>
-            <field name="displayTypeSelect"/>
-            <field name="documentName"/>
-            <field name="metaFileField" help="Name of the field in the model where to save the file"/>
-            <field name="isEditable"/>
+            <field name="displayTypeSelect" hideIf="inputTypeSelect == 2 &amp;&amp; formatSelect != 'PDF'"/>
             <field name="attach" help="By activating this option, then all related printed document will automatically be attached on dms"/>
+            
+            <panel name="stringTemplateTypePanel" showIf="inputTypeSelect == 1" colSpan="12">
+            	<field name="metaModelDefaultPath"/>            	
+            	<field name="hidePrintSettings" widget="boolean-switch"/>
+            	<field name="documentName"/>
+            	<field name="metaFileField" help="Name of the field in the model where to save the file"/>
+            	<field name="isEditable"/>
+
+            	<panel-related name="printTemplateLineListPanel" field="printTemplateLineList" grid-view="print-template-line-grid" form-view="print-template-line-form" colSpan="12" orderBy="sequence" canMove="true"/>
+            	<field name="birtTemplateSet" widget="TagSelect" grid-view="birt-template-grid" form-view="birt-template-form" colSpan="12"/>
+            	<panel-related name="printTemplateSetPanel" field="printTemplateSet" grid-view="print-template-grid" form-view="print-template-form" colSpan="12"/>
+            </panel>
+            
             <panel name="headerSettingsPanel" title="Pdf Header Settings" showIf="!hidePrintSettings" colSpan="12">
             	<field name="printTemplatePdfHeader" showTitle="false" widget="html" colSpan="12"/>
             	<field name="logoPositionSelect" onChange="action-print-hide-logo-header-width-field" colSpan="4"/>
             	<field name="logoWidth" hideIf="logoPositionSelect == 0 || logoPositionSelect == 2" help="in percantage or pixel like (50%, 50px)" colSpan="4"/>
+            	<field name="headerHeight" colSpan="4"/>
             	<field name="headerContentWidth" hideIf="logoPositionSelect == 0 || logoPositionSelect == 2" help="in percantage or pixel like (50%, 50px)" colSpan="4"/>
             </panel>
             <panel name="footerSettingsPanel" title="Pdf Footer Settings" showIf="!hidePrintSettings" colSpan="12">
             	<field name="printTemplatePdfFooter" colSpan="12"/>
             	<field name="footerFontType" colSpan="4"/>
                 <field name="footerTextAlignment" colSpan="4"/>
+                <field name="footerHeight" colSpan="4"/>
             	<field name="footerFontSize" colSpan="4"/>
                 <field name="footerFontColor" colSpan="4"/>
-                 <field name="isFooterUnderLine" colSpan="4"/>
+                <field name="isFooterUnderLine" colSpan="4"/>
             </panel>
-            <panel-related name="printTemplateLineListPanel" field="printTemplateLineList" grid-view="print-template-line-grid" form-view="print-template-line-form" colSpan="12" orderBy="sequence" canMove="true"/>
-            <field name="birtTemplateSet" widget="TagSelect" grid-view="birt-template-grid" form-view="birt-template-form" colSpan="12"/>
-            <panel-related name="printTemplateSetPanel" field="printTemplateSet" grid-view="print-template-grid" form-view="print-template-form" colSpan="12"/>
+            <panel name="excelTypePanel" showIf="inputTypeSelect == 2" colSpan="12">
+            	<field name="excelTemplate" widget="binary-link" colSpan="4"/>           	
+            	<field name="dataSizeModification" showIf="formatSelect == 'PDF'" colSpan="4"/>
+            	<field name="reportQueryBuilderList"/>
+            	<panel name="watermarkConfigurationPanel" title="Watermark configuration" showIf="formatSelect == 'PDF'" colSpan="12">
+            		<field name="watermarkAngle" colSpan="4"/>
+            		<field name="watermarkLeftMargin" colSpan="4"/>
+            		<field name="watermarkTopMargin" colSpan="4" />
+            		<field name="watermarkText" colSpan="4"/>
+            		<field name="opacity" colSpan="4" />           		
+            	</panel>
+            </panel>
         </panel>
     </form>
 
@@ -79,6 +100,11 @@
     <action-attrs name="action-print-hide-logo-header-width-field">
     	<attribute name="hidden" for="logoWidth" expr="eval: logoPositionSelect == 0 || logoPositionSelect == 2"/>
     	<attribute name="hidden" for="headerContentWidth" expr="eval: logoPositionSelect == 0 || logoPositionSelect == 2"/>
+    </action-attrs>
+    
+    <action-attrs name="action-attrs-print-template-set-format-select">
+    	<attribute name="selection-in" for="formatSelect" if="inputTypeSelect == 1" expr="eval:  ['PDF','WORD','ODT']"/>
+    	<attribute name="selection-in" for="formatSelect" if="inputTypeSelect == 2" expr="eval:  ['PDF','XLSX']"/>
     </action-attrs>
 
     <action-method name="action-print-template-wizard-method-generate-print">

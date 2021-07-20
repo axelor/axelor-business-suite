@@ -65,6 +65,8 @@
 				<panel name="attachedFilesPanel" title="Attached files" colSpan="12">
 					<field name="birtTemplateSet" colSpan="12" widget="TagSelect" canEdit="false"
 						form-view="birt-template-form" grid-view="birt-template-grid" />
+					<field name="printTemplateSet" colSpan="12" widget="TagSelect" canEdit="false" canNew="false"
+						form-view="print-template-form" grid-view="print-template-grid" domain="self.metaModel = :metaModel"/>	
 				</panel>
 			</panel>
 			<panel title="Configuration" name="configurationPanel">

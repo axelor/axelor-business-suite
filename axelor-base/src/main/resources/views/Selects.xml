@@ -551,6 +551,7 @@
        <option value="PDF">PDF</option>
        <option value="WORD">WORD</option>
        <option value="ODT">ODT</option>
+       <option value="XLSX">XLSX</option>
     </selection>
 
     <selection name="base.print.display.type.select">
@@ -624,6 +625,11 @@
 		<option value="com.axelor.apps.account.db.Tax" data-grid="tax-grid" data-form="tax-form">Tax</option>
 		<option value="com.axelor.apps.account.db.PaymentMode" data-grid="payment-mode-grid" data-form="payment-mode-form">Payment mode</option>
 		<option value="com.axelor.apps.account.db.PaymentCondition" data-grid="payment-condition-grid" data-form="payment-condition-form">Payment condition</option>
+	</selection>
+	
+	<selection name="base.print.template.input.type.select">
+		<option value="1">String Template</option>
+		<option value="2">Excel</option>
 	</selection>
 
 </object-views>

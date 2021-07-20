@@ -21,12 +21,14 @@
             	<field name="printPdfHeader" showTitle="false" widget="html" colSpan="12"/>
             	<field name="logoPositionSelect" onChange="action-print-hide-logo-header-width-field" colSpan="4"/>
             	<field name="logoWidth" hideIf="logoPositionSelect == 0 || logoPositionSelect == 2" help="in percantage or pixel like (50%, 50px)" colSpan="4"/>
+            	<field name="headerHeight" colSpan="4"/>
             	<field name="headerContentWidth" hideIf="logoPositionSelect == 0 || logoPositionSelect == 2" help="in percantage or pixel like (50%, 50px)" colSpan="4"/>
             </panel>
             <panel name="footerSettingsPanel" title="Pdf Footer Settings" showIf="!hidePrintSettings" colSpan="12">
             	<field name="printPdfFooter" colSpan="12"/>
             	<field name="footerFontType" colSpan="4"/>
                 <field name="footerTextAlignment" colSpan="4"/>
+                <field name="footerHeight" colSpan="4"/>
             	<field name="footerFontSize" colSpan="4"/>
                 <field name="footerFontColor" colSpan="4"/>
                 <field name="isFooterUnderLine" colSpan="4"/>

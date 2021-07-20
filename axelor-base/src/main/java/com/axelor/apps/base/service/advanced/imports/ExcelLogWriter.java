@@ -86,7 +86,7 @@ public class ExcelLogWriter {
   private CellStyle setStyle() {
     CellStyle cellStyle = workbook.createCellStyle();
     Font font = workbook.createFont();
-    font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+    font.setBold(true);
     cellStyle.setFont(font);
     return cellStyle;
   }

@@ -20,10 +20,23 @@ package com.axelor.apps.base.service;
 import com.axelor.apps.base.db.Print;
 import com.axelor.apps.base.db.PrintTemplate;
 import com.axelor.exception.AxelorException;
+import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import javax.script.ScriptException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 public interface PrintTemplateService {
 
-  public Print generatePrint(Long objectId, PrintTemplate printTemplate)
+  public Map<String, Object> generatePrintTemplate(Long objectId, PrintTemplate printTemplate)
+      throws AxelorException, IOException, ClassNotFoundException, ScriptException,
+          ParserConfigurationException, SAXException;
+
+  public File generatePrintTemplateFile(Long objectId, PrintTemplate printTemplate)
+      throws AxelorException, IOException, ClassNotFoundException, ScriptException,
+          ParserConfigurationException, SAXException;
+
+  public Print getTemplatePrint(Long objectId, PrintTemplate printTemplate)
       throws AxelorException, IOException, ClassNotFoundException;
 }
