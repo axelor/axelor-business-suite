@@ -259,6 +259,7 @@ public class InvoicePrintServiceImpl implements InvoicePrintService {
         .addParam("HeaderHeight", invoice.getPrintingSettings().getPdfHeaderHeight())
         .addParam("Watermark", watermark)
         .addParam("FooterHeight", invoice.getPrintingSettings().getPdfFooterHeight())
+        .addParam("AddressPositionSelect", invoice.getPrintingSettings().getAddressPositionSelect())
         .addFormat(format);
   }
 }

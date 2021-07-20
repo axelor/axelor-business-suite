@@ -118,6 +118,8 @@ public class PurchaseOrderPrintServiceImpl implements PurchaseOrderPrintService 
         .addParam("GroupProductServiceTitle", appBase.getRegroupProductsLabelServices())
         .addParam("HeaderHeight", purchaseOrder.getPrintingSettings().getPdfHeaderHeight())
         .addParam("FooterHeight", purchaseOrder.getPrintingSettings().getPdfFooterHeight())
+        .addParam(
+            "AddressPositionSelect", purchaseOrder.getPrintingSettings().getAddressPositionSelect())
         .addFormat(formatPdf);
   }
 

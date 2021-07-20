@@ -126,6 +126,8 @@ public class SaleOrderServiceImpl implements SaleOrderService {
             saleOrder.getCompany() != null ? saleOrder.getCompany().getTimezone() : null)
         .addParam("SaleOrderId", saleOrder.getId())
         .addParam("ProformaInvoice", proforma)
+        .addParam(
+            "AddressPositionSelect", saleOrder.getPrintingSettings().getAddressPositionSelect())
         .addFormat(format)
         .generate()
         .getFileLink();

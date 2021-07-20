@@ -109,6 +109,8 @@ public class StockMovePrintServiceImpl implements StockMovePrintService {
         .addParam("GroupProductServiceTitle", appBase.getRegroupProductsLabelServices())
         .addParam("HeaderHeight", stockMove.getPrintingSettings().getPdfHeaderHeight())
         .addParam("FooterHeight", stockMove.getPrintingSettings().getPdfFooterHeight())
+        .addParam(
+            "AddressPositionSelect", stockMove.getPrintingSettings().getAddressPositionSelect())
         .addFormat(format);
   }
 

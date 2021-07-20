@@ -625,5 +625,10 @@
 		<option value="com.axelor.apps.account.db.PaymentMode" data-grid="payment-mode-grid" data-form="payment-mode-form">Payment mode</option>
 		<option value="com.axelor.apps.account.db.PaymentCondition" data-grid="payment-condition-grid" data-form="payment-condition-form">Payment condition</option>
 	</selection>
+	
+	<selection name="printing.setting.address.position">
+		<option value="0">Right</option>
+		<option value="1">Left</option>
+	</selection>
 
 </object-views>

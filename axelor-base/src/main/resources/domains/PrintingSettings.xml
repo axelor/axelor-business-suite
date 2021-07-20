@@ -15,6 +15,7 @@
 		<many-to-one name="company" ref="com.axelor.apps.base.db.Company" title="Company"/>
         <decimal name="pdfHeaderHeight" title="Company Header Height(in cm)"/>
         <decimal name="pdfFooterHeight" title="Company Footer Height(in cm)"/>
+        <integer name="addressPositionSelect" title="Address position" selection="printing.setting.address.position"/>
  	</entity>
 
 </domain-models>
