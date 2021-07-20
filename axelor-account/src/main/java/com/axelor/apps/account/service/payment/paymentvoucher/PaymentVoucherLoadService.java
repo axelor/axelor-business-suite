@@ -256,14 +256,6 @@ public class PaymentVoucherLoadService {
     return payVoucherElementToPay;
   }
 
-  @Transactional(rollbackOn = {Exception.class})
-  public void resetImputation(PaymentVoucher paymentVoucher) throws AxelorException {
-
-    paymentVoucher.getPayVoucherElementToPayList().clear();
-
-    this.searchDueElements(paymentVoucher);
-  }
-
   /**
    * Fonction vérifiant si l'ensemble des lignes à payer ont le même compte et que ce compte est le
    * même que celui du trop-perçu

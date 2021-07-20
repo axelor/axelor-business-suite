@@ -27,7 +27,7 @@
 			 <field name="user" colSpan="4" form-view="user-form" grid-view="user-grid" canNew="false" canEdit="false" canView="false"/>
 			 <field name="paymentDate" colSpan="4" required="true"/>
 			 <field name="company" canEdit="false" widget="SuggestBox" colSpan="4" form-view="company-form" grid-view="company-grid" onChange="action-payment-voucher-method-fill-bank-details"/>
-			 <field name="tradingName" colSpan="4" form-view="trading-name-form" grid-view="trading-name-grid" onSelect="action-payment-voucher-set-trading-name-domain" onChange="action-group-payment-voucher-reset-imputation"/>
+			 <field name="tradingName" colSpan="4" form-view="trading-name-form" grid-view="trading-name-grid" onSelect="action-payment-voucher-set-trading-name-domain" onChange="action-group-payment-voucher-load-move-lines"/>
 			 <field name="hasAutoInput" colSpan="4" hidden="true"/>
 		</panel>
 		
@@ -59,12 +59,12 @@
 		</panel>
 		
 		<panel name="loadMoveLinesInfoPanel" colSpan="12" showIf="statusSelect == 1">
-			<button name="loadMoveLinesBtn" title="Search elements to pay" onClick="save,com.axelor.apps.account.web.PaymentVoucherController:loadMoveLines,save" colSpan="6"/>
+			<button name="loadMoveLinesBtn" title="Search elements to pay" onClick="action-group-payment-voucher-load-move-lines" colSpan="6"/>
 		</panel>
 		
 		<panel name="paymentInfoPanel" readonlyIf="statusSelect == 3" colSpan="12">
-		 	<field name="paidAmount" colSpan="4" onChange="action-group-payment-voucher-reset-imputation" />
-			<field name="currency" canEdit="false" colSpan="4" form-view="currency-form" grid-view="currency-grid" onChange="action-group-payment-voucher-reset-imputation" />
+		 	<field name="paidAmount" colSpan="4"/>
+			<field name="currency" canEdit="false" colSpan="4" form-view="currency-form" grid-view="currency-grid"/>
 			<field name="remainingAmount" readonly="true" colSpan="4"/>
             <field name="moveLine" onChange="action-record-fill-paidAmount-fromMoveLine,action-pv-moveLine-attrs"
                 onSelect="action-pv-moveLine-domain" colSpan="4" showIf="operationTypeSelect == 3 || operationTypeSelect == 4"
@@ -243,14 +243,14 @@
         <call class="com.axelor.apps.account.web.PaymentVoucherController" method="initFromInvoice"/>
     </action-method>
 
-	<action-group name="action-group-payment-voucher-reset-imputation" model="com.axelor.apps.account.db.PaymentVoucher">
+	<action-group name="action-group-payment-voucher-load-move-lines" model="com.axelor.apps.account.db.PaymentVoucher">
 		<action name="save" if="payVoucherElementToPayList"/>
-		<action name="action-payment-voucher-reset-imputation" if="payVoucherElementToPayList"/>
+		<action name="action-payment-voucher-load-move-lines" if="payVoucherElementToPayList"/>
 		<action name="save" if="payVoucherElementToPayList"/>
 	</action-group>
 
-	<action-method name="action-payment-voucher-reset-imputation">
-		<call class="com.axelor.apps.account.web.PaymentVoucherController" method="resetImputation"/>
+	<action-method name="action-payment-voucher-load-move-lines">
+		<call class="com.axelor.apps.account.web.PaymentVoucherController" method="loadMoveLines"/>
 	</action-method>
 	
 	<action-attrs name="action-payment-voucher-set-trading-name-domain">
