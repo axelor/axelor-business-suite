@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+	
+	<action-group id="crm-action-group-base-message-onnew" name="action-group-base-message-onnew">
+    	<action name="action-message-record-default" if="_message == null"/>
+    	<action name="action-message-record-active-company" if="_message == null"/>
+    	<action name="action-message-record-mail-account" if="_message == null"/>
+    	<action name="action-message-record-get-signature" if="_message == null"/>
+    	<action name="action-message-record-default-media-type" if="_message == null"/>
+    	<action name="action-message-method-values-from-message" if="_message != null"/>
+    </action-group>
+		
+   	<action-method name="action-message-method-values-from-message">
+		<call class="com.axelor.apps.crm.web.MessageController" method="setValues"/>
+	</action-method>
+    
+</object-views>

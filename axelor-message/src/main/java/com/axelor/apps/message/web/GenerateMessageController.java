@@ -62,7 +62,6 @@ public class GenerateMessageController {
             .all()
             .filter("self.metaModel.fullName = ?1 AND self.isSystem != true", model);
     try {
-
       long templateNumber = templateQuery.count();
 
       LOG.debug("Template number : {} ", templateNumber);
@@ -71,11 +70,11 @@ public class GenerateMessageController {
         ActionViewBuilder builder =
             getActionView(templateNumber, context, model, simpleModel, null);
         response.setView(builder.map());
+
       } else {
         response.setView(
             generateMessage(context.getId(), model, simpleModel, templateQuery.fetchOne()));
       }
-
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }
@@ -116,7 +115,8 @@ public class GenerateMessageController {
     Message message = null;
     if (template != null) {
       message =
-          Beans.get(TemplateMessageService.class).generateMessage(objectId, model, tag, template);
+          Beans.get(TemplateMessageService.class)
+              .generateMessage(objectId, model, tag, template, false);
     } else {
       message =
           Beans.get(MessageService.class)
@@ -134,7 +134,8 @@ public class GenerateMessageController {
                   null,
                   MessageRepository.MEDIA_TYPE_EMAIL,
                   null,
-                  null);
+                  null,
+                  false);
     }
 
     ActionViewBuilder builder = getActionView(1, null, model, null, message);
@@ -167,7 +168,7 @@ public class GenerateMessageController {
             .context("_objectId", context.getId().toString());
 
       } else {
-        builder.context("_showRecord", message.getId().toString());
+        builder.context("_showRecord", message.getId() != null ? message.getId().toString() : null);
       }
       return builder;
     }
