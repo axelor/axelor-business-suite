@@ -6,7 +6,7 @@
   <module name="account" package="com.axelor.apps.account.db"/>
 
   <entity name="PayVoucherDueElement" sequential="true" lang="java">
-  
+  	<integer name="sequence" title="Seq." />
   	<many-to-one name="paymentVoucher" ref="com.axelor.apps.account.db.PaymentVoucher" title="Payment" readonly="true"/>
   
     <many-to-one name="moveLine" ref="com.axelor.apps.account.db.MoveLine" title="Move Line" readonly="true"/>

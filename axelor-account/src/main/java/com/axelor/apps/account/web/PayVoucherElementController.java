@@ -53,6 +53,8 @@ public class PayVoucherElementController {
     }
     if (amountToPayCurrency != null) {
       elementToPay.setAmountToPayCurrency(amountToPayCurrency);
+      elementToPay.setRemainingAmountAfterPayment(
+          elementToPay.getRemainingAmount().subtract(elementToPay.getAmountToPay()));
       Beans.get(PayVoucherElementToPayRepository.class).save(elementToPay);
       response.setReload(true);
     }

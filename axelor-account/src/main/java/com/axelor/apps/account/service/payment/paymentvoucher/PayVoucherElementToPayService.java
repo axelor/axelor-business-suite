@@ -38,24 +38,24 @@ public class PayVoucherElementToPayService {
    * @return
    */
   public PayVoucherElementToPay createPayVoucherElementToPay(
-      PaymentVoucher paymentVoucher,
+      PaymentVoucher pv,
       int seq,
       Invoice invoice,
-      MoveLine moveLine,
+      MoveLine ml,
       BigDecimal totalAmount,
       BigDecimal remainingAmount,
       BigDecimal amountToPay) {
 
     log.debug("In  createPayVoucherElementToPay....");
 
-    if (paymentVoucher != null && moveLine != null) {
+    if (pv != null && ml != null) {
       PayVoucherElementToPay piToPay = new PayVoucherElementToPay();
       piToPay.setSequence(seq);
-      piToPay.setMoveLine(moveLine);
+      piToPay.setMoveLine(ml);
       piToPay.setTotalAmount(totalAmount);
       piToPay.setRemainingAmount(remainingAmount);
       piToPay.setAmountToPay(amountToPay);
-      piToPay.setPaymentVoucher(paymentVoucher);
+      piToPay.setPaymentVoucher(pv);
 
       log.debug("End createPayVoucherElementToPay IF.");
 

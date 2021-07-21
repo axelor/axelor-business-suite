@@ -13,6 +13,7 @@
     </grid>
     <form name="pay-voucher-due-element-form" title="Invoices to pay" model="com.axelor.apps.account.db.PayVoucherDueElement"  >
         <panel name="mainPanel" >
+            <field name="sequence"/>
         	<field name="moveLine" form-view="move-line-form" grid-view="move-line-grid"/>
 	        <field name="moveLine.move.invoice"  grid-view="invoice-grid" form-view="invoice-form"/>
 	        <field name="moveLine.dueDate"/>

@@ -72,12 +72,12 @@
 		</panel>
 		
 		<panel-stack name="otherDetailsPanel" readonlyIf="statusSelect >= 2">
-			<panel-related name="payVoucherDueElementListPanel" colSpan="12" field="payVoucherDueElementList"  form-view="pay-voucher-due-element-form" grid-view="pay-voucher-due-element-grid" showIf="statusSelect == 1"/>
+			<panel-related name="payVoucherDueElementListPanel" orderBy="sequence" canMove="true" colSpan="12" field="payVoucherDueElementList"  form-view="pay-voucher-due-element-form" grid-view="pay-voucher-due-element-grid" showIf="statusSelect == 1"/>
 			<panel name="loadLinesPanel" colSpan="12" showIf="statusSelect == 1" >
 				<button name="loadSelectedLinesBtn" title="Load selected lines" onClick="save,com.axelor.apps.account.web.PaymentVoucherController:loadSelectedLines,save" colSpan="6"/>
 				<button name="resetImputationBtn" title="Reset imputation" onClick="save,com.axelor.apps.account.web.PaymentVoucherController:resetImputation,save" colSpan="6"/>
 			</panel>
-			<panel-related name="payVoucherElementToPayListPanel" colSpan="12" field="payVoucherElementToPayList" form-view="pay-voucher-element-to-pay-form" grid-view="pay-voucher-element-to-pay-grid"/>
+			<panel-related name="payVoucherElementToPayListPanel" orderBy="sequence" colSpan="12" field="payVoucherElementToPayList" form-view="pay-voucher-element-to-pay-form" grid-view="pay-voucher-element-to-pay-grid"/>
 		</panel-stack>
 		
 	</form>
