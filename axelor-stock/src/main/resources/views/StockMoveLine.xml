@@ -39,7 +39,8 @@
 		<button name="deallocate"  if="__config__.app.getApp('supplychain')?.manageStockReservation" hidden="true" title="Deallocate" icon="fa-minus-square" readonlyIf="$get('stockMove.statusSelect') != 2 || $number(reservedQty) == 0" onClick="save,action-supplychain-stock-move-line-deallocate-all"/>
 		<field name="qtyInvoiced" readonly="true" x-scale="2"/>
         <field name="unitPriceUntaxed" x-scale="2" width="120px"
-            readonlyIf="lineTypeSelect == 1 || (($get('stockMove.statusSelect') == 2 &amp;&amp; $get('stockMove.pickingIsEdited')) || $get('stockMove.statusSelect') == 3)"/>
+            readonlyIf="lineTypeSelect == 1 || (($get('stockMove.statusSelect') == 2 &amp;&amp; $get('stockMove.pickingIsEdited')) || $get('stockMove.statusSelect') == 3)"
+			   onChange="action-record-set-company-purchase-price"/>
         <field name="unitPriceTaxed" x-scale="2" hidden="true"/>
         <field name="unit" form-view="unit-form" grid-view="unit-grid"
             width="70px"
@@ -636,5 +637,9 @@
 		<field name="productModel" hidden="true" if="!__config__.app.getApp('base').getManageProductVariants()"/>
 		<field name="isQtyRequested" hidden="true" if="!__config__.app.isApp('supplychain')"/>
     </search-filters>
+
+	<action-record name="action-record-set-company-purchase-price" model="com.axelor.apps.stock.db.StockMoveLine">
+		<field name="companyPurchasePrice" expr="eval: unitPriceUntaxed"/>
+	</action-record>
 
 </object-views>
