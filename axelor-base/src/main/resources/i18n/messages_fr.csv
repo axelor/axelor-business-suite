@@ -82,6 +82,7 @@
 "<a class='fa fa-linkedin' href='http://www.linkedin.com' target='_blank' />",,,
 "<a class='fa fa-twitter' href='http://www.twitter.com' target='_blank' />",,,
 "<a class='fa fa-youtube' href='http://www.youtube.com' target='_blank' />",,,
+"<br/>Example:<br/>Start unit : m3<br/>End unit : kg<br/><strong>$Product.netMass$ / $Product.articleVolume$</strong><br/>","<br/>Exemple:<br/> Unité source : m3<br/>  Unité cible : kg<br/><strong>$Product.netMass$ / $Product.articleVolume$</strong><br/>",,
 "<span class='label label-warning'>Invalid IBAN</span>","<span class='label label-warning'>IBAN invalide</span>",,
 "<span class='label label-warning'>Please add an invoice address and a delivery address by default.</span>","<span class='label label-warning'>Veuillez renseigner une adresse de facturation et de livraison par défaut.</span>",,
 "<span class='label label-warning'>There is already a partner with this name.</span>","<span class='label label-warning'>Il y a déjà un tiers avec ce nom.</span>",,

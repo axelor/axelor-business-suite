@@ -24,6 +24,11 @@
 				<field name="endUnit" colSpan="3" form-view="unit-form" grid-view="unit-grid"/>
 			</panel>
 			<panel name="formulaPanel" colSpan="12" showIf="typeSelect == 2">
+				<help>
+					<![CDATA[
+					<br/>Example:<br/>Start unit : m3<br/>End unit : kg<br/><strong>$Product.netMass$ / $Product.articleVolume$</strong><br/>
+  					]]>
+				</help>
 				<field name="startUnit" colSpan="2" form-view="unit-form" grid-view="unit-grid"/>
 				<label name="equalTo2Label" title="=" colSpan="1"/>
 				<field name="formula" colSpan="6" widget="CodeEditor" x-code-syntax="groovy"/>
