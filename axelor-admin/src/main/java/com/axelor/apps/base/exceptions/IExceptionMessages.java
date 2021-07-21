@@ -46,4 +46,9 @@ public interface IExceptionMessages {
 
   public static final String FILE_UPLOAD_DIR_ERROR = /*$$(*/
       "File upload path not configured" /*)*/;;
+
+  public static final String RECORDING_DATA_BACKUP_MISSING = /*$$(*/
+      "Recording's data backup record not found" /*)*/;
+  public static final String RECORDING_SEARCH_CONFIGURATION_WARNING = /*$$(*/
+      "Search configurations is not specified for following metaModels :\n%s" /*)*/;
 }

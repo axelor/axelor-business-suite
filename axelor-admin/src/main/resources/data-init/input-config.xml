@@ -13,5 +13,10 @@
     
     <input file="meta_metaMenu.csv" separator=";" type="com.axelor.meta.db.MetaMenu" search="self.name = :name and self.module = 'axelor-admin'" update="true" />
     
+    <input file="base_dataBackup.csv" separator=";" type="com.axelor.apps.base.db.DataBackup" search="self.importId = :importId" update="false">
+		<bind to="backupDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(backupDate)" column="backupDate" if="backupDate"/>
+		<bind to="restoreDate" eval="call:com.axelor.csv.script.ImportDateTime:importDate(restoreDate)" column="restoreDate" if="restoreDate"/>
+    </input>
+    
 </csv-inputs>
 	

@@ -54,7 +54,22 @@
 	<view type="grid" name="object-data-config-grid"/>
 	<view type="form" name="object-data-config-form"/>
   </action-view>
-  
+
+   <menuitem title="Recordings" name="admin-root-recording" parent="admin-root-maintenance" action="admin.root.recording" order="10"/>
+   <action-view name="admin.root.recording" title="Recordings" model="com.axelor.apps.base.db.Recording">
+      <view type="grid" name="recording-grid"/>
+      <view type="form" name="recording-form"/>
+      <context name="_showRecord" expr="eval: __repo__(Recording).findByStatus(RecordingRepository.STATUS_START)?.id"
+         if="__repo__(Recording).findByStatus(RecordingRepository.STATUS_START) != null"/>
+   </action-view>
+
+	<menuitem title="Recording import" name="admin-root-recording-import" parent="admin-root-maintenance" action="admin.root.recording.import"
+		order="10"/>
+	<action-view name="admin.root.recording.import" title="Recording import" model="com.axelor.apps.base.db.RecordingImport">
+	   <view type="grid" name="recording-import-grid"/>
+	   <view type="form" name="recording-import-form"/>
+	</action-view>
+
    <menuitem name="admin-root-data-backup" parent="admin-root-maintenance" title="Backup" order="11"/>
   
   <menuitem name="admin-root-data-create-backup" parent="admin-root-data-backup"

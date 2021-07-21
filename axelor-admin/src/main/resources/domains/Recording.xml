@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+   <module name="base" package="com.axelor.apps.base.db"/>
+   
+   <entity name="Recording">
+      <integer name="statusSelect" title="Status" selection="base.recording.status.select" default="0"/>
+
+      <string name="modelIds" title="Model and ids" json="true"/>
+
+      <boolean name="isIgnoreRecordsHavingIssues" title="Ignore records having issues"/>
+
+      <datetime name="startDateTime" title="Start time"/>
+      <datetime name="stopDateTime" title="Stop time"/>
+
+      <many-to-many name="excludeModelSet" ref="com.axelor.meta.db.MetaModel" title="Exclude models"/>
+      <many-to-many name="includeModelSet" ref="com.axelor.meta.db.MetaModel" title="Include models"/>
+      <many-to-many name="searchConfigurationSet" ref="com.axelor.apps.base.db.SearchConfiguration" title="Search configurations"/>
+
+      <many-to-one name="recordingData" ref="com.axelor.meta.db.MetaFile" title="Recording data"/>
+
+      <finder-method name="findByStatus" using="statusSelect"/>
+
+      <extra-code>
+         <![CDATA[
+            //status select
+            public static final int STATUS_NEW = 0;
+            public static final int STATUS_START = 1;
+            public static final int STATUS_STOP = 2;
+         ]]>
+      </extra-code>
+   </entity>
+
+</domain-models>

@@ -18,12 +18,19 @@
 package com.axelor.apps.base.module;
 
 import com.axelor.app.AxelorModule;
+import com.axelor.apps.base.db.repo.DataBackupBaseRepository;
+import com.axelor.apps.base.db.repo.DataBackupRepository;
 import com.axelor.apps.base.db.repo.ObjectDataConfigExportManagementRepository;
 import com.axelor.apps.base.db.repo.ObjectDataConfigExportRepository;
+import com.axelor.apps.base.db.repo.RecordingBaseRepository;
+import com.axelor.apps.base.db.repo.RecordingRepository;
+import com.axelor.apps.base.recording.RecordingListener;
 import com.axelor.apps.base.service.ObjectDataAnonymizeService;
 import com.axelor.apps.base.service.ObjectDataAnonymizeServiceImpl;
 import com.axelor.apps.base.service.ObjectDataExportService;
 import com.axelor.apps.base.service.ObjectDataExportServiceImpl;
+import com.axelor.apps.base.service.RecordingService;
+import com.axelor.apps.base.service.RecordingServiceImpl;
 import com.axelor.apps.base.service.app.AccessConfigImportService;
 import com.axelor.apps.base.service.app.AccessConfigImportServiceImpl;
 import com.axelor.apps.base.service.app.AccessTemplateService;
@@ -45,5 +52,9 @@ public class AdminModule extends AxelorModule {
     bind(DataBackupService.class).to(DataBackupServiceImpl.class);
     bind(ObjectDataConfigExportRepository.class)
         .to(ObjectDataConfigExportManagementRepository.class);
+    bind(RecordingListener.class);
+    bind(RecordingService.class).to(RecordingServiceImpl.class);
+    bind(RecordingRepository.class).to(RecordingBaseRepository.class);
+    bind(DataBackupRepository.class).to(DataBackupBaseRepository.class);
   }
 }
