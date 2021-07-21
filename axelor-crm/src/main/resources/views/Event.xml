@@ -271,11 +271,11 @@
     </action-group>
     
     <action-attrs name="action-event-hide-private">
-    	<attribute name="hidden" for="meetingGeneralPanel" expr="eval: (__user__ != user &amp;&amp; !internalGuestSet?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
-    	<attribute name="hidden" for="meetingAttributesPanel" expr="eval: (__user__ != user &amp;&amp; !internalGuestSet?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
-    	<attribute name="hidden" for="meetingGuests" expr="eval: (__user__ != user &amp;&amp; !internalGuestSet?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
-    	<attribute name="hidden" for="meetingLinkedPanel" expr="eval: (__user__ != user &amp;&amp; !internalGuestSet?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
-    	<attribute name="hidden" for="panelMail" expr="eval: (__user__ != user &amp;&amp; !internalGuestSet?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
+    	<attribute name="hidden" for="meetingGeneralPanel" expr="eval: (__user__ != user &amp;&amp; !attendees?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
+    	<attribute name="hidden" for="meetingAttributesPanel" expr="eval: (__user__ != user &amp;&amp; !attendees?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
+    	<attribute name="hidden" for="meetingGuests" expr="eval: (__user__ != user &amp;&amp; !attendees?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
+    	<attribute name="hidden" for="meetingLinkedPanel" expr="eval: (__user__ != user &amp;&amp; !attendees?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
+    	<attribute name="hidden" for="panelMail" expr="eval: (__user__ != user &amp;&amp; !attendees?.contains(__user__)) &amp;&amp; visibilitySelect == 2"/>
     </action-attrs>
 
     <action-group name="action-group-crm-task-start-click">
