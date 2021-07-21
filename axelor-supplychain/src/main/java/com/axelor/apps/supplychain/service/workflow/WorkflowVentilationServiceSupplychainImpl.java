@@ -282,22 +282,25 @@ public class WorkflowVentilationServiceSupplychainImpl extends WorkflowVentilati
         continue;
       }
       if (isStockMoveInvoicingPartiallyActivated(invoice, stockMoveLine)) {
-        BigDecimal qty = stockMoveLine.getQtyInvoiced();
+        BigDecimal invoicedQty =
+            stockMoveLine
+                .getQtyInvoiced(); // Check if in this stockMoveLine, there is products already
+        // invoiced
         StockMove stockMove = stockMoveLine.getStockMove();
 
         if (stockMoveInvoiceService.isInvoiceRefundingStockMove(stockMove, invoice)) {
-          qty = qty.subtract(invoiceLine.getQty());
+          invoicedQty = invoicedQty.subtract(invoiceLine.getQty());
         } else {
-          qty = qty.add(invoiceLine.getQty());
+          invoicedQty = invoicedQty.add(invoiceLine.getQty());
         }
-
-        BigDecimal qtyToCompare = qty;
+        BigDecimal unitConversionQty =
+            invoicedQty; // Quantity used to compare invoiced Qty and unit conversion Qty
 
         Unit movUnit = stockMoveLine.getUnit(), invUnit = invoiceLine.getUnit();
         try {
-          qtyToCompare =
+          unitConversionQty =
               unitConversionService.convert(
-                  invUnit, movUnit, qty, appBaseService.getNbDecimalDigitForQty(), null);
+                  invUnit, movUnit, invoicedQty, appBaseService.getNbDecimalDigitForQty(), null);
         } catch (AxelorException e) {
           throw new AxelorException(
               TraceBackRepository.CATEGORY_INCONSISTENCY,
@@ -306,8 +309,8 @@ public class WorkflowVentilationServiceSupplychainImpl extends WorkflowVentilati
                   + e.getMessage());
         }
 
-        if (stockMoveLine.getRealQty().compareTo(qtyToCompare) >= 0) {
-          stockMoveLine.setQtyInvoiced(qty);
+        if (stockMoveLine.getRealQty().compareTo(unitConversionQty) >= 0) {
+          stockMoveLine.setQtyInvoiced(invoicedQty);
         } else {
           throw new AxelorException(
               TraceBackRepository.CATEGORY_INCONSISTENCY,

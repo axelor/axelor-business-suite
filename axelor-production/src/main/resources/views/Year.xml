@@ -5,7 +5,7 @@
     
     <form name="year-manuf-order-form" title="Manufacturing period" model="com.axelor.apps.base.db.Year" 
     	onSave="action-year-check-date" onNew="action-year-manuf-order-group-onnew" onLoad="action-year-manuf-order-group-onload">
-		<panel-include view="year-account-form"/>
+		<panel-include view="year-form"/>
 	</form>
 	
 	<action-group name="action-year-manuf-order-group-onnew">

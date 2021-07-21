@@ -1,0 +1,4 @@
+Anomaly #33927 YEAR : Impossible to save Manufacturing period
+type: fix
+description: |
+  In production - year, the form view related was account-year and not year from base
