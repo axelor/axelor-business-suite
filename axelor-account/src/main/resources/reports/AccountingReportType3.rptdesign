@@ -141,87 +141,108 @@ row["amount_remaining"]/row["countmoveline"]
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">MoveLineName</property>
+                    <property name="alias">MoveLineName</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">MoveLineName</text-property>
                     <text-property name="heading">MoveLineName</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">partner_name</property>
+                    <property name="alias">partner_name</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">partner_name</text-property>
                     <text-property name="heading">partner_name</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">partner_seq</property>
+                    <property name="alias">partner_seq</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">partner_seq</text-property>
                     <text-property name="heading">partner_seq</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">ref</property>
+                    <property name="alias">ref</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">ref</text-property>
                     <text-property name="heading">ref</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">credit</property>
+                    <property name="alias">credit</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">credit</text-property>
                     <text-property name="heading">credit</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">debit</property>
+                    <property name="alias">debit</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">debit</text-property>
                     <text-property name="heading">debit</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">invoice_name</property>
+                    <property name="alias">invoice_name</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">invoice_name</text-property>
                     <text-property name="heading">invoice_name</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">invoice_reconciled_name</property>
+                    <property name="alias">invoice_reconciled_name</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">invoice_reconciled_name</text-property>
                     <text-property name="heading">invoice_reconciled_name</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">ReportedBalanceAmount</property>
+                    <property name="alias">ReportedBalanceAmount</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">ReportedBalanceAmount</text-property>
                     <text-property name="heading">ReportedBalanceAmount</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">reported_balance_date</property>
+                    <property name="alias">reported_balance_date</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">reported_balance_date</text-property>
                     <text-property name="heading">reported_balance_date</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">date_from</property>
+                    <property name="alias">date_from</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">date_from</text-property>
                     <text-property name="heading">date_from</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">amountreconciled</property>
+                    <property name="alias">amountreconciled</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">amountreconciled</text-property>
                     <text-property name="heading">amountreconciled</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">amount_remaining</property>
+                    <property name="alias">amount_remaining</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">amount_remaining</text-property>
                     <text-property name="heading">amount_remaining</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">countmoveline</property>
+                    <property name="alias">countmoveline</property>
                     <property name="analysis">measure</property>
                     <text-property name="displayName">countmoveline</text-property>
                     <text-property name="heading">countmoveline</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">seqn</property>
+                    <property name="alias">seqn</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">seqn</text-property>
+                    <text-property name="heading">seqn</text-property>
                 </structure>
             </list-property>
             <list-property name="filter"/>
@@ -312,16 +333,26 @@ row["amount_remaining"]/row["countmoveline"]
                     </structure>
                     <structure>
                         <property name="position">15</property>
-                        <property name="name">Invoice</property>
+                        <property name="name">seq_prefixe</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">16</property>
+                        <property name="name">seqn</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">Invoice</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
                         <property name="name">credit_to_use</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">19</property>
                         <property name="name">excess_payment</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -428,12 +459,25 @@ row["amount_remaining"]/row["countmoveline"]
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">seq_prefixe</property>
+                    <property name="nativeName">seq_prefixe</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">seqn</property>
+                    <property name="nativeName">seqn</property>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
             <xml-property name="queryText"><![CDATA[Select MoveLine.name as "MoveLineName", MoveLine.partner_full_name as partner_name, MoveLine.partner_seq,
 AccountingReport.ref, MoveLine.credit, MoveLine.debit,
 Invoice.invoice_id as invoice_name, InvoiceReconciled.invoice_id as "invoice_reconciled_name",  
 ReportedBalanceLine.amount as "ReportedBalanceAmount", YYear.reported_balance_date, 
-AccountingReport.date_from, Reconcile.amount as amountReconciled, MoveLine.amount_remaining, count(Reconcile.id) as countMoveLine   
+AccountingReport.date_from, Reconcile.amount as amountReconciled, MoveLine.amount_remaining, count(Reconcile.id) as countMoveLine, Seq.prefixe as seq_prefixe,
+CASE WHEN Seq.sequence_type_select = 'NUMBERS' THEN CAST(SUBSTRING(Invoice.invoice_id, LENGTH(REPLACE(Seq.prefixe,'%',''))+1, CASE WHEN POSITION(Seq.suffixe IN Invoice.invoice_id) != 0 THEN LENGTH(Invoice.invoice_id)-POSITION(REPLACE(Seq.suffixe,'%','') IN Invoice.invoice_id)+1 ELSE LENGTH(Invoice.invoice_id) END) AS INT) END as seqn
 from public.account_accounting_report as AccountingReport 
 left outer join public.account_move_line as MoveLine on (AccountingReport.id = ?)
 left outer join public.account_move as Move on (MoveLine.move = Move.id)
@@ -453,6 +497,7 @@ left outer join public.account_reconcile as Reconcile on (Reconcile.credit_move_
 left outer join public.account_move_line as MoveLineReconciled on (Reconcile.debit_move_line = MoveLineReconciled.id)
 left outer join public.account_move as MoveReconciled on (MoveLineReconciled.move = MoveReconciled.id)
 left outer join public.account_invoice as InvoiceReconciled on (MoveReconciled.invoice = InvoiceReconciled.id)
+join base_sequence as Seq on Seq.id = (select case when Invoice.operation_type_select = 1 then supp_inv_sequence when Invoice.operation_type_select = 2 then supp_ref_sequence when Invoice.operation_type_select = 3 then cust_inv_sequence when Invoice.operation_type_select = 4 then cust_ref_sequence end from account_account_config where company = Invoice.company)
 where 
 (AccountingReport.currency = Move.company_currency) AND
 (AccountingReport.date_from IS NULL OR MoveLine.date_val >= AccountingReport.date_from) AND 
@@ -470,7 +515,7 @@ AND (AccountingReport.display_opening_accounting_moves is true
 	OR(AccountingReport.display_opening_accounting_moves is false 
 		AND (Move.functional_origin_select IS NULL OR Move.functional_origin_select != 1)))
 group by MoveLine.name,MoveLine.partner_full_name,MoveLine.partner_seq,AccountingReport.ref,MoveLine.credit,MoveLine.debit,Invoice.invoice_id,
-InvoiceReconciled.invoice_id,ReportedBalanceLine.amount,YYear.reported_balance_date,AccountingReport.date_from,Reconcile.amount,MoveLine.amount_remaining]]></xml-property>
+InvoiceReconciled.invoice_id,ReportedBalanceLine.amount,YYear.reported_balance_date,AccountingReport.date_from,Reconcile.amount,MoveLine.amount_remaining,seqn,seq_prefixe]]></xml-property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="AccountingReportDS" id="489">
             <property name="nullsOrdering">nulls lowest</property>
@@ -3229,6 +3274,18 @@ dataSetRow["invoice_reconciled_name"]
                                 <expression name="expression" type="javascript">dataSetRow["partner_seq"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
+                            <structure>
+                                <property name="name">seqn</property>
+                                <text-property name="displayName">seqn</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["seqn"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                            <structure>
+                                <property name="name">seq_prefixe</property>
+                                <text-property name="displayName">seq_prefixe</text-property>
+                                <expression name="expression" type="javascript">dataSetRow["seq_prefixe"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
                         </list-property>
                         <property name="pageBreakInterval">0</property>
                         <column id="1446">
@@ -3793,6 +3850,21 @@ dataSetRow["invoice_reconciled_name"]
                             <property name="repeatHeader">false</property>
                             <property name="hideDetail">false</property>
                             <list-property name="sort">
+                                <structure>
+                                    <expression name="key" type="javascript">row["seq_prefixe"]</expression>
+                                    <property name="direction">asc</property>
+                                    <property name="strength">-1</property>
+                                </structure>
+                                <structure>
+                                    <expression name="key" type="javascript">row["seqn"]</expression>
+                                    <property name="direction">asc</property>
+                                    <property name="strength">-1</property>
+                                </structure>
+                                <structure>
+                                    <expression name="key" type="javascript">row["Invoice"]</expression>
+                                    <property name="direction">asc</property>
+                                    <property name="strength">-1</property>
+                                </structure>
                                 <structure>
                                     <expression name="key" type="javascript">row["partner_name"]+row["partner_seq"]</expression>
                                     <property name="direction">asc</property>
