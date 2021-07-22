@@ -31,12 +31,13 @@ import com.axelor.apps.tool.ThrowConsumer;
 import com.axelor.apps.tool.file.PdfTool;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
+import com.axelor.dms.db.DMSFile;
+import com.axelor.dms.db.repo.DMSFileRepository;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.TraceBackRepository;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.MetaFiles;
-import com.axelor.meta.db.MetaFile;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -137,22 +138,24 @@ public class InvoicePrintServiceImpl implements InvoicePrintService {
       throws AxelorException {
 
     ReportSettings reportSettings = prepareReportSettings(invoice, reportType, format, locale);
-    MetaFile metaFile;
 
     reportSettings.toAttach(invoice);
-    File file = reportSettings.generate().getFile();
-
-    try {
-      MetaFiles metaFiles = Beans.get(MetaFiles.class);
-      metaFile = metaFiles.upload(file);
-      metaFile.setFileName(String.format("%s.%s", reportSettings.getOutputName(), format));
-      invoice.setPrintedPDF(metaFile);
-      return MetaFiles.getPath(metaFile).toFile();
-    } catch (IOException e) {
-      throw new AxelorException(
-          TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
-          I18n.get(IExceptionMessage.INVOICE_PRINTING_IO_ERROR) + " " + e.getLocalizedMessage());
+    reportSettings.generate();
+    DMSFile dmsFile =
+        Beans.get(DMSFileRepository.class)
+            .all()
+            .filter(
+                "self.relatedId = :invoiceId AND self.relatedModel = 'com.axelor.apps.account.db.Invoice' AND self.isDirectory = false")
+            .bind("invoiceId", invoice.getId())
+            .order("-id")
+            .fetchOne();
+    if (dmsFile != null) {
+      invoice.setPrintedPDF(dmsFile.getMetaFile());
+      return MetaFiles.getPath(dmsFile.getMetaFile()).toFile();
     }
+    throw new AxelorException(
+        TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
+        I18n.get(IExceptionMessage.INVOICE_PRINTING_IO_ERROR));
   }
 
   @Override
