@@ -108,33 +108,42 @@
                         ]]>
                     </viewer>
             </field>
-			<field name="$totalLines" title="Total lines" type="integer" colSpan="3" readonly="true">
+			<field name="$totalLines" title="Total lines" type="integer" colSpan="1" readonly="true">
 				<viewer>
 					<![CDATA[
 						<h3>{{$fmt('$totalLines')}}</h3>
 					]]>
 				</viewer>				
 			</field>
+			<field name="$totalCurrency" title="Total Currency" type="integer" colSpan="3" readonly="true" showIf="currency.id != companyCurrency.id">
+				<viewer>
+					<![CDATA[
+						<h3>{{$fmt('$totalCurrency')+' '+$fmt('currencyCode')}}</h3>
+					]]>
+				</viewer>				
+			</field>
 	   		<field name="$totalDebit" title="Total debit" type="decimal" colSpan="3" readonly="true">
 				<viewer>
 					<![CDATA[
-						<h3>{{$fmt('$totalDebit')}}</h3>
+						<h3>
+							{{$fmt('$totalDebit')+' '+$fmt('companyCurrency.code')}}
+						</h3>
 					]]>
 				</viewer>				
 			</field>
 	   		<field name="$totalCredit" title="Total credit" type="decimal" colSpan="3" readonly="true">
 				<viewer>
 					<![CDATA[
-						<h3>{{$fmt('$totalCredit')}}</h3>
+						<h3>{{$fmt('$totalCredit')+' '+$fmt('companyCurrency.code')}}</h3>
 					]]>
 				</viewer>				
 			</field>
-	   		<field name="$difference" title="Difference" type="decimal" colSpan="3" readonly="true">
+	   		<field name="$difference" title="Difference" type="decimal" colSpan="2" readonly="true">
 				<viewer>
 					<![CDATA[
 						<h3>
-							<span ng-show="record.$difference == 0">{{$fmt('$difference')}}</span>
-							<span style="color:#d9534f;" ng-show="record.$difference != 0">{{$fmt('$difference')}}</span>
+							<span ng-show="record.$difference == 0">{{$fmt('$difference')+' '+$fmt('companyCurrency.code')}}</span>
+							<span style="color:#d9534f;" ng-show="record.$difference != 0">{{$fmt('$difference')+' '+$fmt('companyCurrency.code')}}</span>
 						</h3>
 					]]>
 				</viewer>
@@ -190,6 +199,13 @@
     	</panel>
     </form>
 
+	<action-attrs name="action-attrs-on-load-currencies">
+		<attribute name="colSpan" for="$totalLines" expr="eval: 3" if="currency.id == companyCurrency.id"/>
+		<attribute name="colSpan" for="$totalLines" expr="eval: 1" if="currency.id != companyCurrency.id"/>
+		<attribute name="colSpan" for="$difference" expr="eval: 3" if="currency.id == companyCurrency.id"/>
+		<attribute name="colSpan" for="$difference" expr="eval: 2" if="currency.id != companyCurrency.id"/>
+	</action-attrs>
+
     <action-record name="action-move-record-set-date-of-revision" model="com.axelor.apps.account.db.Move">
         <field name="dateOfReversion" expr="eval: __config__.date" if="dateOfReversionSelect == 1"/>
         <field name="dateOfReversion" expr="eval: _moveDate" if="dateOfReversionSelect == 2"/>
@@ -217,6 +233,7 @@
 		<action name="action-move-is-hidden-move-line-list-viewer-attrs-method"/>
 		<action name="action-attrs-move-hide-trading-name"/>
 		<action name="action-move-attrs-hide-move-line-reconcile-group-in-draft-cancel-status"/>
+		<action name="action-attrs-on-load-currencies"/>
 	</action-group>
 
     <action-group name="action-group-account-move-validate-click">

@@ -561,6 +561,12 @@ public class MoveServiceImpl implements MoveService {
     }
     values.put("$totalLines", move.getMoveLineList().size());
 
+    BigDecimal totalCurrency =
+        move.getMoveLineList().stream()
+            .map(MoveLine::getCurrencyAmount)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    values.put("$totalCurrency", totalCurrency.divide(BigDecimal.ONE.add(BigDecimal.ONE)));
+
     BigDecimal totalDebit =
         move.getMoveLineList().stream()
             .map(MoveLine::getDebit)
