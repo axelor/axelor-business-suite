@@ -115,7 +115,7 @@
 	</action-view>
 
 	<menuitem name="admin-root-general-currency" parent="admin-root-general"
-		title="Currencies" action="admin.root.general.currency" />
+		title="Currencies" action="admin.root.general.currency" order="10"/>
 
 	<action-view name="admin.root.general.currency" title="Currencies"
 		model="com.axelor.apps.base.db.Currency">
@@ -134,7 +134,7 @@
 	</action-view>
 
 	<menuitem name="admin-root-general-year" parent="admin-root-general"
-		title="Years" action="admin.root.general.year" />
+		title="Years" action="admin.root.general.year" order="20"/>
 
 	<action-view name="admin.root.general.year" title="Years"
 		model="com.axelor.apps.base.db.Year">
@@ -145,7 +145,7 @@
 	</action-view>
 
 	<menuitem name="admin-root-general-sequence-generic" parent="admin-root-general"
-		title="Sequences" action="admin.root.general.sequence.generic" />
+		title="Sequences" action="admin.root.general.sequence.generic" order="30"/>
 
 	<action-view name="admin.root.general.sequence.generic"
 		title="Sequences" model="com.axelor.apps.base.db.Sequence" >
@@ -153,9 +153,18 @@
 		<view type="form" name="sequence-form"/>
 		<view-param name="search-filters" value="sequence-filters"/>
 	</action-view>
+	
+	<menuitem name="admin-root-general-main-activity" parent="admin-root-general"
+		title="Main Activities" action="admin.root.general.main.activity" order="35"/>
+
+	<action-view name="admin.root.general.main.activity" title="Main Activities"
+		model="com.axelor.apps.base.db.MainActivity">
+		<view type="grid" name="main-activity-grid" />
+		<view type="form" name="main-activity-form" />
+	</action-view>
 
 	<menuitem name="admin-root-general-barcode" parent="admin-root-general"
-		title="Barcode type configurations" action="admin.root.general.barcode" />
+		title="Barcode type configurations" action="admin.root.general.barcode" order="40"/>
 
 	<action-view name="admin.root.general.barcode" title="Barcode type configurations"
 		model="com.axelor.apps.base.db.BarcodeTypeConfig">
@@ -164,7 +173,7 @@
 	</action-view>
 
 	<menuitem name="admin-root-general-language" parent="admin-root-general"
-		title="Languages" action="admin.root.general.language" />
+		title="Languages" action="admin.root.general.language" order="50"/>
 
 	<action-view name="admin.root.general.language" title="Languages"
 		model="com.axelor.apps.base.db.Language">
@@ -173,7 +182,7 @@
 	</action-view>
 
 	<menuitem name="admin-root-general-import-export-interface" parent="admin-root-general"
-						title="Import/Export interfaces" action="admin.root.general.import.export.interface"/>
+						title="Import/Export interfaces" action="admin.root.general.import.export.interface" order="60"/>
 
 	<action-view name="admin.root.general.import.export.interface" title="Import/Export interfaces"
 							 model="com.axelor.apps.base.db.ImportExportInterface">

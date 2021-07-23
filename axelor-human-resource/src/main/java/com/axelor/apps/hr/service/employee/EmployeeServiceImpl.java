@@ -227,7 +227,9 @@ public class EmployeeServiceImpl extends UserServiceImpl implements EmployeeServ
 
     // Employer
     newDPAE.setRegistrationCode(employer.getRegistrationCode());
-    newDPAE.setMainActivityCode(employer.getMainActivityCode());
+    if (employer.getMainActivity() != null && employer.getMainActivity().getFullName() != null) {
+      newDPAE.setMainActivityCode(employer.getMainActivity().getFullName());
+    }
     newDPAE.setCompany(payCompany);
     newDPAE.setCompanyAddress(employer.getMainAddress());
     newDPAE.setCompanyFixedPhone(employer.getFixedPhone());

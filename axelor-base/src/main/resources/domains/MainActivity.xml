@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models
+	xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.4.xsd">
+
+	<module name="base" package="com.axelor.apps.base.db" />
+
+	<entity name="MainActivity" lang="java">
+
+		<string name="code" title="Code" required="true" />
+		<string name="shortName" title="Short name" required="true" />
+		<string name="longName" title="Long name" />
+		<string name="fullName" title="Full name" namecolumn="true" readonly="true"/>
+		<many-to-one ref="com.axelor.apps.base.db.MainActivity"
+			name="parentMainActivity" title="Parent" />
+		<many-to-one ref="com.axelor.apps.base.db.Country"
+			name="country" title="Country" />
+		<boolean name="isFinal" title="Is final" />
+		<entity-listener class="com.axelor.apps.base.db.repo.MainActivityListener"/>
+	</entity>
+
+
+</domain-models>

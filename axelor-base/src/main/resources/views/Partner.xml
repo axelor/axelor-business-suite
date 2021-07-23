@@ -350,7 +350,7 @@
 				<field name="nic" hideIf="partnerTypeSelect== 2" colSpan="4" readonly="true" />
 				<field name="saleTurnover" hideIf="partnerTypeSelect== 2" />
 				<field name="nbrEmployees" hideIf="partnerTypeSelect== 2" />
-				<field name="mainActivityCode" hideIf="partnerTypeSelect== 2" />
+				<field name="mainActivity" hideIf="partnerTypeSelect== 2" domain="self.isFinal = true" form-view="main-activity-form"/>
 				<field name="taxNbr" hideIf="partnerTypeSelect== 2" />
 				<field name="paymentDelay" if-module="axelor-cash-management"
 					if="__config__.app.isApp('cash-management')" />

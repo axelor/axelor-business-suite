@@ -70,7 +70,7 @@
 	<integer name="nbrEmployees" title="Employees (Nbr)" min="0"/>
 	<integer name="saleTurnover" title="Turnover"/>
 	<string name="registrationCode" title="Registration code"/>
-    <string name="mainActivityCode" title="Main activity code"/>
+    <many-to-one name="mainActivity" title="Main Activity" ref="com.axelor.apps.base.db.MainActivity"/>
 	<string name="taxNbr" title="Tax N°"/>
 	<string name="siren" title="N° Siren"/>
 	<string name="nic" title="Internal Classification Number"/>
