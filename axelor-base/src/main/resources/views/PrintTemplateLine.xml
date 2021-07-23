@@ -27,5 +27,34 @@
    			<field name="parent" hidden="true"/>
         </panel>
     </form>
+    
+    <form name="print-template-line-test-form" title="Print template line test" model="com.axelor.apps.base.db.PrintTemplateLine"
+		onNew="action-print-template-line-test-attrs-onnew">
+		<panel name="mainPanel">
+			<field name="$reference" colSpan="6" title="Model" widget="RefSelect" selection="print.template.line.test.reference.select" x-related="$referenceId" />
+			<field name="$referenceId" hidden="true"/>
+			<field name="$contentResult" title="Content result" colSpan="12" widget="html" />
+			<button name="checkBtn" title="Check" showIf="$referenceId" colSpan="4" onClick="save,action-print-template-line-method-check-expression" />
+		</panel>
+	</form>
+
+	<action-method name="action-print-template-line-method-check-expression">
+		<call class="com.axelor.apps.base.web.PrintTemplateLineController" method="checkTemplateLineExpression" />
+	</action-method>
+
+	<action-attrs name="action-print-template-line-test-attrs-onnew">
+		<attribute if="_metaModel != null" name="value" expr="eval:_metaModel" for="$reference" />
+	</action-attrs>
+
+	<action-view name="action-print-template-line-view-open-test-line" title="Print Test" model="com.axelor.apps.base.db.PrintTemplateLine">
+		<view type="form" name="print-template-line-test-form" />
+		<view-param name="popup" value="reload" />
+		<view-param name="popup-save" value="false" />
+		<view-param name="show-toolbar" value="false" />
+		<view-param name="show-confirm" value="false" />
+		<view-param name="forceEdit" value="true" />
+		<context name="_metaModel" expr="eval:__repo__(MetaModel).find(__parent__.metaModel.id).fullName" if="__parent__.metaModel!=null"/>
+		<context name="_printTemplateLine" expr="eval: __self__" />
+	</action-view>    
 
 </object-views>

@@ -13,6 +13,9 @@
 	<form id="template-form-base" name="template-form" title="Template"
 		model="com.axelor.apps.message.db.Template" onSave="action-template-check-receptor"
 		onNew="action-template-record-new">
+		<toolbar>
+			<button name="testTemplateBtn" title="Test template" onClick="save,action-template-view-test-template" readonlyIf="metaModel == null"/>
+		</toolbar>
 		<panel name="mainPanel" colSpan="12">
 			<field name="name" showTitle="false" colSpan="12">
 				<viewer depends="name"><![CDATA[

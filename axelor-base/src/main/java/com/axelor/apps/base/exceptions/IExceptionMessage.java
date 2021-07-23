@@ -430,8 +430,6 @@ public interface IExceptionMessage {
       "Error in print. Please check report configuration and print settings." /*)*/;
   public static final String PRINT_TEMPLATE_ERROR_ON_LINE_WITH_SEQUENCE_AND_TITLE = /*$$(*/
       "Error in print template line with sequence %s and title %s." /*)*/;
-  public static final String PRINT_TEMPLATE_LINE_TEST_REFRESH = /*$$(*/
-      "Refresh page to reflect changes in selection" /*)*/;
 
   /* Scheduler */
   public static final String QUARTZ_SCHEDULER_ENABLED = /*$$(*/
