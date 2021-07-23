@@ -78,6 +78,7 @@
 	</form>
     
 	<action-group name="action-group-message-message-onnew">
+		<action name="action-message-method-display-generate-message" if="_message != null"/>
 		<action name="action-message-record-default"/>
 		<action name="action-message-record-mail-account"/>
 		<action name="action-message-record-get-signature"/>
@@ -98,7 +99,7 @@
 	</action-group>
     
 	<action-record name="action-message-record-default-media-type" model="com.axelor.apps.message.db.Message">
-		<field name="mediaTypeSelect" expr="eval:defaultMediaType"/>
+		<field name="mediaTypeSelect" expr="eval:defaultMediaType" if="defaultMediaType"/>
 		<field name="mediaTypeSelect" expr="eval: _mediaTypeSelect" if="_mediaTypeSelect"/>
 	</action-record>
 
@@ -133,6 +134,10 @@
 
 	<action-method name="action-message-method-regenerate-messages">
 		<call class="com.axelor.apps.message.web.MessageController" method="regenerateMessages"/>
+	</action-method>
+
+	<action-method name="action-message-method-display-generate-message">
+		<call class="com.axelor.apps.message.web.MessageController" method="displayDraftMessage" />
 	</action-method>
 
     <!-- 	Common action for all messages sent by email using a template and the context -->

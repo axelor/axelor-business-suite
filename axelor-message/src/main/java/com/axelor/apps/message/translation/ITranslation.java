@@ -15,16 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.axelor.apps.base.service;
+package com.axelor.apps.message.translation;
 
-import com.axelor.apps.base.db.PrintTemplateLine;
-import com.axelor.exception.AxelorException;
-import com.axelor.meta.db.MetaModel;
-import java.io.IOException;
+public interface ITranslation {
 
-public interface PrintTemplateLineService {
-
-  public String checkExpression(
-      Long objectId, MetaModel metaModel, PrintTemplateLine printTemplateLine)
-      throws AxelorException, IOException, ClassNotFoundException;
+  public static final String MESSAGE_TEST_TEMPLATE = /*$$(*/ "Test template"; /*)*/
 }

@@ -91,4 +91,8 @@ public class MessageController {
       TraceBackService.trace(response, e);
     }
   }
+
+  public void displayDraftMessage(ActionRequest request, ActionResponse response) {
+    response.setValues(request.getContext().get("_message"));
+  }
 }

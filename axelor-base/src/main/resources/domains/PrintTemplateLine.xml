@@ -17,7 +17,6 @@
         <many-to-one name="parent" title="Parent" ref="com.axelor.apps.base.db.PrintTemplateLine"/>
         <one-to-many name="printTemplateLineList" title="Content lines" ref="com.axelor.apps.base.db.PrintTemplateLine" mappedBy="parent" orderBy="sequence"/>
         <boolean name="ignoreTheLine" title="Ignore the line"/>
-        <one-to-one name="printTemplateLineTest" ref="com.axelor.apps.base.db.PrintTemplateLineTest" title="Print template line test"/>
         <boolean name="isWithPageBreakAfter" title="With page break"/>
         <integer name="nbColumns" title="Nb columns"/>
         <boolean name="isSignature" title="Signature"/>

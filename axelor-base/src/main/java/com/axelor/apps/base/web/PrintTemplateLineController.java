@@ -17,13 +17,11 @@
  */
 package com.axelor.apps.base.web;
 
-import com.axelor.apps.base.db.PrintTemplateLineTest;
-import com.axelor.apps.base.db.repo.PrintTemplateLineTestRepository;
-import com.axelor.apps.base.exceptions.IExceptionMessage;
+import com.axelor.apps.base.db.PrintTemplateLine;
+import com.axelor.apps.base.db.repo.PrintTemplateLineRepository;
 import com.axelor.apps.base.service.PrintTemplateLineService;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.service.TraceBackService;
-import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaModel;
 import com.axelor.meta.db.repo.MetaModelRepository;
@@ -31,44 +29,34 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 public class PrintTemplateLineController {
 
+  @SuppressWarnings("unchecked")
   public void checkTemplateLineExpression(ActionRequest request, ActionResponse response) {
 
     Context context = request.getContext();
-    PrintTemplateLineTest printTemplateLineTest = context.asType(PrintTemplateLineTest.class);
-    printTemplateLineTest =
-        Beans.get(PrintTemplateLineTestRepository.class).find(printTemplateLineTest.getId());
+    HashMap<String, Object> printTemplateLineMap =
+        (HashMap<String, Object>) context.get("_printTemplateLine");
+    PrintTemplateLine printTemplateLine =
+        Beans.get(PrintTemplateLineRepository.class)
+            .find(Long.valueOf(printTemplateLineMap.get("id").toString()));
     MetaModel metaModel =
         Beans.get(MetaModelRepository.class)
             .all()
-            .filter("self.fullName = ?", printTemplateLineTest.getReference())
+            .filter("self.fullName = ?", context.get("reference"))
             .fetchOne();
     try {
-      Beans.get(PrintTemplateLineService.class)
-          .checkExpression(
-              Long.valueOf(printTemplateLineTest.getReferenceId().toString()),
-              metaModel,
-              printTemplateLineTest.getPrintTemplateLine());
+      String result =
+          Beans.get(PrintTemplateLineService.class)
+              .checkExpression(
+                  Long.valueOf(context.get("referenceId").toString()),
+                  metaModel,
+                  printTemplateLine);
+      response.setValue("$contentResult", result);
     } catch (NumberFormatException | ClassNotFoundException | AxelorException | IOException e) {
       TraceBackService.trace(response, e);
     }
-
-    response.setReload(true);
-  }
-
-  @SuppressWarnings("unchecked")
-  public void addItemToReferenceSelection(ActionRequest request, ActionResponse response) {
-    LinkedHashMap<String, Object> metaModelMap =
-        (LinkedHashMap<String, Object>) request.getContext().get("metaModel");
-    if (metaModelMap == null) {
-      return;
-    }
-    Long metaModelId = Long.parseLong(metaModelMap.get("id").toString());
-    MetaModel metaModel = Beans.get(MetaModelRepository.class).find(metaModelId);
-    Beans.get(PrintTemplateLineService.class).addItemToReferenceSelection(metaModel);
-    response.setNotify(I18n.get(IExceptionMessage.PRINT_TEMPLATE_LINE_TEST_REFRESH));
   }
 }

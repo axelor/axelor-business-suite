@@ -12,6 +12,9 @@
     
 	<form name="template-form" title="Template" model="com.axelor.apps.message.db.Template"
 				onNew="action-template-record-new" width="large">
+		<toolbar>
+			<button name="testTemplateBtn" title="Test template" onClick="save,action-template-view-test-template" readonlyIf="metaModel == null"/>
+		</toolbar>
 		<panel name="mainPanel" colSpan="12">
 			<field name="name" colSpan="4"/>
 			<field name="mediaTypeSelect" colSpan="4"/>
@@ -53,6 +56,33 @@
 		</panel-tabs>
 		<panel-related name="templateContextPanel" field="templateContextList" colSpan="12"/>
 	</form>
+
+	<form name="template-test-wizard-form" title="Test template" model="com.axelor.apps.message.db.Template" onLoad="action-template-test-attrs-onload">
+		<panel name="mainPanel">
+			<field name="$reference" colSpan="6" title="Reference" widget="RefSelect" selection="print.template.line.test.reference.select" x-related="$referenceId" />
+			<button name="generateMsgBtn" title="Generate Message" showIf="$referenceId" colSpan="4" onClick="save,action-template-method-generate-message,close" />
+			<field name="$referenceId" hidden="true"/>
+		</panel>
+	</form>
+	
+	<action-view name="action-template-view-test-template" title="Test template" model="com.axelor.apps.message.db.Template">
+		<view type="form" name="template-test-wizard-form" />
+		<view-param name="popup" value="reload" />
+		<view-param name="popup-save" value="true" />
+		<view-param name="show-toolbar" value="false" />
+		<view-param name="show-confirm" value="false" />
+		<view-param name="forceEdit" value="true" />
+		<context name="_metaModel" expr="eval:__repo__(MetaModel).find(metaModel.id).fullName" if="metaModel!=null"/>
+		<context name="_showRecord" expr="eval: __self__.id"/>
+	</action-view>
+	
+	<action-attrs name="action-template-test-attrs-onload">
+		<attribute if="_metaModel != null" name="value" expr="eval:_metaModel" for="$reference" />
+	</action-attrs>
+	
+	<action-method name="action-template-method-generate-message">
+		<call class="com.axelor.apps.message.web.TemplateController" method="generateDraftMessage" />
+	</action-method>
 
 	<action-record name="action-template-record-new" model="com.axelor.apps.message.db.Template">
 		<field name="metaModel" expr="eval: __parent__?.targetSelect == 1 ? __repo__(MetaModel).all().filter('self.name = \'Partner\'').fetchOne() : (__parent__?.targetSelect == 2 ? __repo__(MetaModel).all().filter('self.name = \'Lead\'').fetchOne() : null)" if="__parent__?.targetSelect"/>
